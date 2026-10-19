@@ -29,3 +29,6 @@ site/dist/
 site/.astro/
 site/.vercel/
 .vercel/
+
+# Cópias de trabalho temporárias de agentes do Claude Code (git worktree): nunca versionar
+.claude/worktrees/
