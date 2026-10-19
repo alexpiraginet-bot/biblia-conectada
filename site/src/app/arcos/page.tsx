@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { SiteHeader } from "@/components/header/SiteHeader";
 import { skyInitial } from "@/components/sky/initial";
 import { INTRO_SCRIPT } from "@/components/sky/poster";
 import { Sky } from "@/components/sky/Sky";
@@ -7,8 +6,8 @@ import { formatInt } from "@/lib/canon/text";
 import { summary } from "@/lib/data";
 import styles from "./page.module.css";
 
-// /arcos: the sky of links (design/README.md §1, §6, §7). Outside the (site) group on purpose: the header floats over
-// the night ground (SiteHeader overlay), so the first screen is the sky in both themes. Every number below comes from
+// /arcos: the sky of links (design/README.md §1, §6, §7). Outside the (site) group (it once floated the header over
+// the sky); the shell comes from the root layout. Every number below comes from
 // src/data/generated/summary.json and public/data/sky.json (scripts/build-data.ts); scripts/check-dist.ts checks them
 // in the built HTML.
 const c = summary.counts;
@@ -24,7 +23,6 @@ export default async function Arcos() {
 
   return (
     <>
-      <SiteHeader overlay />
       <main id="conteudo" className={styles.main}>
         <script dangerouslySetInnerHTML={{ __html: INTRO_SCRIPT }} />
         <Sky

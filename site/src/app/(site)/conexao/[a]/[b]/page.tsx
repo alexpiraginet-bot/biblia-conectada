@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import { NOT_FOUND_TITLE } from "@/lib/missing";
-import { scripture } from "@/components/explore/fonts";
 import { Scripture } from "@/components/reader/Scripture";
 import { formatInt } from "@/lib/canon/text";
 import { compareSides, conexaoPath, parseSide, sideSegment, type Side } from "@/lib/conexao";
@@ -129,7 +128,7 @@ export default async function ConexaoPage({ params }: PageProps<"/conexao/[a]/[b
   };
 
   return (
-    <main id="conteudo" className={`${styles.page} ${scripture.variable}`}>
+    <main id="conteudo" className={styles.page}>
       <p className="kicker">Lado a lado</p>
       <h1 className={styles.title}>
         {x.label} <span className={styles.arrow} aria-hidden="true">↔</span>

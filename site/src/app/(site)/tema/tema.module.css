@@ -1,14 +1,14 @@
-/* Temas and Palavras: index lists and detail pages. "Tema" is the green layer (--accent-theme). */
+/* Temas and Palavras: index lists and detail pages. "Tema" is the green layer (--cat-tema). */
 
 .main {
   width: 100%;
   max-width: var(--page-max);
   margin: 0 auto;
-  padding: var(--space-4) var(--space-2) var(--space-5);
+  padding: var(--space-7) var(--space-4) var(--space-8);
 }
 
 .head {
-  margin-bottom: var(--space-3);
+  margin-bottom: var(--space-5);
 }
 
 .crumbs {
@@ -16,8 +16,8 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 0 0.5rem;
-  margin: 0 0 var(--space-1);
-  font-size: var(--step-small);
+  margin: 0 0 var(--space-2);
+  font-size: var(--fs-meta);
   color: var(--ink-2);
 }
 
@@ -28,13 +28,13 @@
 }
 
 .title {
-  font-family: var(--font-title);
+  font-family: var(--font-display);
   font-weight: 440;
   font-synthesis: none;
   letter-spacing: -0.015em;
-  font-size: var(--step-display);
+  font-size: var(--fs-display);
   line-height: 1.05;
-  margin: 0 0 var(--space-2);
+  margin: 0 0 var(--space-4);
   overflow-wrap: anywhere;
 }
 
@@ -46,9 +46,9 @@
 
 .rule {
   max-width: var(--column);
-  margin: 0 0 var(--space-4);
-  padding: var(--space-2) 0 var(--space-2) var(--space-2);
-  border-left: 1px solid var(--accent-theme);
+  margin: 0 0 var(--space-7);
+  padding: var(--space-4) 0 var(--space-4) var(--space-4);
+  border-left: 1px solid var(--cat-tema);
   color: var(--ink-2);
 }
 
@@ -57,7 +57,7 @@
 }
 
 .ruleTitle {
-  font-size: var(--step-ui);
+  font-size: var(--fs-ui);
   font-weight: 600;
   color: var(--ink);
   margin: 0 0 0.25rem;
@@ -68,7 +68,7 @@
   margin: 0;
   padding: 0;
   columns: 16rem auto;
-  column-gap: var(--space-4);
+  column-gap: var(--space-7);
 }
 
 .list li {
@@ -80,16 +80,16 @@
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: 0 var(--space-2);
+  gap: 0 var(--space-4);
   min-height: 2.75rem;
   padding: 0.5rem 0;
   color: var(--ink);
   text-decoration: none;
-  border-bottom: 1px solid color-mix(in srgb, var(--hairline) 55%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 55%, transparent);
 }
 
 .item:hover .label {
-  color: var(--accent-theme);
+  color: var(--cat-tema);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
@@ -108,7 +108,7 @@
   width: 0.625rem;
   height: 0.625rem;
   border-radius: 50%;
-  background: var(--accent-theme);
+  background: var(--cat-tema);
 }
 
 .passages,
@@ -118,20 +118,20 @@
 
 .meta {
   color: var(--ink-2);
-  font-size: var(--step-small);
+  font-size: var(--fs-meta);
 }
 
 .source,
 .note {
   max-width: var(--column);
   color: var(--ink-2);
-  font-size: var(--step-small);
-  margin: var(--space-3) 0 0;
+  font-size: var(--fs-meta);
+  margin: var(--space-5) 0 0;
 }
 
 .layout {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-7);
 }
 
 .primary {
@@ -140,12 +140,12 @@
 
 .aside {
   min-width: 0;
-  font-size: var(--step-ui);
+  font-size: var(--fs-ui);
   color: var(--ink-2);
 }
 
 .aside p {
-  margin: 0 0 var(--space-2);
+  margin: 0 0 var(--space-4);
 }
 
 /* a link alone on its line gets a 44 px target; links inside a sentence stay inline */
@@ -156,17 +156,17 @@
 }
 
 .asideTitle {
-  font-family: var(--font-title);
+  font-family: var(--font-display);
   font-weight: 440;
   font-synthesis: none;
-  font-size: var(--step-title);
+  font-size: var(--fs-title);
   line-height: 1.2;
   color: var(--ink);
-  margin: 0 0 var(--space-2);
+  margin: 0 0 var(--space-4);
 }
 
 .events {
-  margin: 0 0 var(--space-2);
+  margin: 0 0 var(--space-4);
   padding-left: 1.1rem;
 }
 
@@ -174,15 +174,15 @@
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 0 var(--space-2);
-  font-family: var(--font-title);
+  gap: 0 var(--space-4);
+  font-family: var(--font-display);
   font-weight: 440;
   font-synthesis: none;
-  font-size: var(--step-title);
+  font-size: var(--fs-title);
   line-height: 1.2;
-  margin: var(--space-4) 0 var(--space-2);
-  padding-bottom: var(--space-1);
-  border-bottom: 1px solid var(--hairline);
+  margin: var(--space-7) 0 var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--line);
 }
 
 .sectionTitle:first-child {
@@ -190,8 +190,8 @@
 }
 
 .count {
-  font-family: var(--font-grotesk), system-ui, sans-serif;
-  font-size: var(--step-small);
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: var(--fs-meta);
   color: var(--ink-2);
 }
 
@@ -202,8 +202,8 @@
 }
 
 .passage {
-  padding: var(--space-2) 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--hairline) 55%, transparent);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 55%, transparent);
 }
 
 .passageHead {
@@ -211,9 +211,9 @@
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: 0 var(--space-2);
+  gap: 0 var(--space-4);
   margin: 0;
-  max-width: calc(var(--scripture-column) + 2.5rem);
+  max-width: calc(var(--column) + 2.5rem);
 }
 
 .passageHead a {
@@ -227,7 +227,7 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  max-width: calc(var(--scripture-column) + 2.5rem);
+  max-width: calc(var(--column) + 2.5rem);
 }
 
 .verses li {
@@ -238,8 +238,8 @@
 
 .num {
   padding-top: 0.3rem;
-  color: var(--accent-text);
-  font-size: var(--step-small);
+  color: var(--accent);
+  font-size: var(--fs-meta);
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
@@ -254,8 +254,8 @@
 }
 
 .scripture {
-  font-family: var(--font-scripture), Georgia, serif;
-  font-size: var(--step-scripture);
+  font-family: var(--font-reading), Georgia, serif;
+  font-size: var(--fs-scripture);
   line-height: 1.7;
   font-weight: 430;
   font-variation-settings: "wght" 430;
@@ -265,12 +265,12 @@
 
 .refs {
   list-style: none;
-  margin: var(--space-1) 0 0;
+  margin: var(--space-2) 0 0;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 0 var(--space-2);
-  font-size: var(--step-ui);
+  gap: 0 var(--space-4);
+  font-size: var(--fs-ui);
 }
 
 .refs a {
@@ -290,8 +290,8 @@
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: 0 var(--space-2);
-  border-bottom: 1px solid color-mix(in srgb, var(--hairline) 55%, transparent);
+  gap: 0 var(--space-4);
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 55%, transparent);
 }
 
 .links a {
@@ -309,8 +309,8 @@
 
   .aside {
     position: sticky;
-    top: calc(var(--header-h) + var(--space-3));
-    padding-left: var(--space-3);
-    border-left: 1px solid var(--hairline);
+    top: calc(var(--bar-h) + var(--space-5));
+    padding-left: var(--space-5);
+    border-left: 1px solid var(--line);
   }
 }

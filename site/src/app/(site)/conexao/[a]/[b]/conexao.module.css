@@ -4,12 +4,12 @@
   width: 100%;
   max-width: var(--page-max);
   margin: 0 auto;
-  padding: var(--space-4) var(--space-2) var(--space-5);
+  padding: var(--space-7) var(--space-4) var(--space-8);
 }
 
 .title {
-  margin: 0 0 var(--space-1);
-  font-family: var(--font-title);
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-display);
   font-weight: 440;
   font-synthesis: none;
   font-size: clamp(2rem, 5vw, 3.25rem);
@@ -19,23 +19,23 @@
 }
 
 .arrow {
-  font-family: var(--font-grotesk), system-ui, sans-serif;
+  font-family: var(--font-ui), system-ui, sans-serif;
   font-weight: 300;
-  color: var(--accent-text);
+  color: var(--accent);
 }
 
 .meta {
   margin: 0;
   color: var(--ink-2);
-  font-size: var(--step-ui);
+  font-size: var(--fs-ui);
 }
 
 .links {
   display: flex;
   flex-wrap: wrap;
-  column-gap: var(--space-2);
-  margin: var(--space-1) 0 var(--space-3);
-  font-size: var(--step-ui);
+  column-gap: var(--space-4);
+  margin: var(--space-2) 0 var(--space-5);
+  font-size: var(--fs-ui);
 }
 
 .links a {
@@ -46,7 +46,7 @@
 
 .pairs {
   max-width: 46rem;
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-7);
 }
 
 .pairsTitle {
@@ -56,14 +56,14 @@
   column-gap: 0.75rem;
   margin: 0;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--hairline);
-  font-size: var(--step-ui);
+  border-bottom: 1px solid var(--line);
+  font-size: var(--fs-ui);
   font-weight: 600;
 }
 
 .pairsTitle span {
   color: var(--ink-2);
-  font-size: var(--step-small);
+  font-size: var(--fs-meta);
   font-weight: 400;
 }
 
@@ -78,8 +78,8 @@
   flex-wrap: wrap;
   align-items: center;
   column-gap: 0.5rem;
-  border-bottom: 1px solid color-mix(in srgb, var(--hairline) 60%, transparent);
-  font-size: var(--step-ui);
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
+  font-size: var(--fs-ui);
 }
 
 .pairRows a {
@@ -91,24 +91,24 @@
 }
 
 .pairRows a:hover {
-  color: var(--accent-text);
+  color: var(--accent);
 }
 
 .votes {
   margin-left: auto;
   color: var(--ink-2);
-  font-size: var(--step-small);
+  font-size: var(--fs-meta);
 }
 
 .cols {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-7);
 }
 
 @media (min-width: 64rem) {
   .cols {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    column-gap: var(--space-5);
+    column-gap: var(--space-8);
     align-items: start;
   }
 }
@@ -116,20 +116,20 @@
 @media (min-width: 64rem) {
   .colTitle {
     position: sticky;
-    top: var(--header-h);
+    top: var(--bar-h);
     z-index: 1;
   }
 }
 
 .colTitle {
-  margin: 0 0 var(--space-1);
+  margin: 0 0 var(--space-2);
   padding: 0.5rem 0;
   background: var(--ground);
-  border-bottom: 1px solid var(--hairline);
-  font-family: var(--font-title);
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-display);
   font-weight: 440;
   font-synthesis: none;
-  font-size: var(--step-title);
+  font-size: var(--fs-title);
   line-height: 1.15;
 }
 
@@ -139,7 +139,7 @@
 }
 
 .colTitle a:hover {
-  color: var(--accent-text);
+  color: var(--accent);
 }
 
 .verses {
@@ -155,7 +155,7 @@
   margin: 0 -0.625rem;
   padding: 0.5rem 0.625rem;
   border-radius: 0.625rem;
-  scroll-margin-top: calc(var(--header-h) + 4rem);
+  scroll-margin-top: calc(var(--bar-h) + 4rem);
 }
 
 .verse[data-linked] {
@@ -163,7 +163,7 @@
 }
 
 .verse:target {
-  outline: 2px solid var(--accent-text);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
@@ -182,9 +182,9 @@
 
 .vtext {
   margin: 0;
-  max-width: var(--scripture-column);
-  font-family: var(--font-scripture), Georgia, serif;
-  font-size: var(--step-scripture);
+  max-width: var(--column);
+  font-family: var(--font-reading), Georgia, serif;
+  font-size: var(--fs-scripture);
   line-height: 1.7;
   font-weight: 430;
   font-variation-settings: "wght" 430;
@@ -200,9 +200,9 @@
   grid-column: 2;
   display: flex;
   flex-wrap: wrap;
-  column-gap: var(--space-2);
+  column-gap: var(--space-4);
   margin: 0;
-  font-size: var(--step-small);
+  font-size: var(--fs-meta);
 }
 
 .vlinks a {
@@ -211,11 +211,11 @@
   gap: 0.25rem;
   min-height: 2.75rem;
   color: var(--ink);
-  text-decoration-color: var(--accent-text);
+  text-decoration-color: var(--accent);
 }
 
 .source {
-  margin: var(--space-4) 0 0;
+  margin: var(--space-7) 0 0;
   color: var(--ink-2);
-  font-size: var(--step-small);
+  font-size: var(--fs-meta);
 }

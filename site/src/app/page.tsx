@@ -2,10 +2,8 @@ import localFont from "next/font/local";
 import Link from "next/link";
 import { ConnectionPanel } from "@/components/explore/ConnectionPanel";
 import { Explorer } from "@/components/explore/Explorer";
-import { scripture } from "@/components/explore/fonts";
 import { NeighbourList } from "@/components/explore/NeighbourList";
 import explore from "@/components/explore/explore.module.css";
-import { SiteHeader } from "@/components/header/SiteHeader";
 import { HeroCover } from "@/components/home/HeroCover";
 import { arcStrength } from "@/lib/arc-style";
 import { formatInt } from "@/lib/canon/text";
@@ -49,8 +47,7 @@ export default async function Home() {
 
   return (
     <>
-      <SiteHeader overlay />
-      <main id="conteudo" className={`${quoteFace.variable} ${scripture.variable}`}>
+      <main id="conteudo" className={quoteFace.variable}>
         <HeroCover
           titleTop="Toda passagem"
           titleBottom="abre um mundo"

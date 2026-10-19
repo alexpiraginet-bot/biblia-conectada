@@ -7,7 +7,6 @@ import { DeviceNote } from "@/components/community/DeviceNote";
 import { MarkVisited } from "@/components/community/TrailSky";
 import styles from "@/components/community/community.module.css";
 import { NOT_FOUND_TITLE } from "@/lib/missing";
-import { scripture } from "@/components/community/scripture-font";
 import { ChevronLeft, ChevronRight } from "@/components/icons";
 import { formatInt } from "@/lib/canon/text";
 import { conexaoPath } from "@/lib/conexao";
@@ -46,7 +45,7 @@ export default async function TrailStepPage({ params }: PageProps<"/trilha/antes
   const others = trail.steps.filter((o) => o.step !== s.step);
   const both = conexaoPath({ book: a.book.index, slug: a.book.slug, chapter: a.chapter }, { book: b.book.index, slug: b.book.slug, chapter: b.chapter });
   return (
-    <main id="conteudo" className={`${styles.page} ${scripture.variable}`}>
+    <main id="conteudo" className={styles.page}>
       <MarkVisited slug={trail.slug} step={s.step} />
       <div className={styles.column}>
         <p className="kicker">

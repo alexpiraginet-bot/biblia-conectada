@@ -1,93 +1,5 @@
-/* Tokens from design/README.md §3, after Alex's three reference images (HANDOFF §3.8): Noite is navy and gold,
-   Dia is parchment with bronze, burgundy and green. Contrast of every text pair is computed in design §3.
-   The sky (canvas views, arc strips) always paints the Noite ground, in both themes.
-   Old names (--bg, --text, --text-2, --gold) stay as aliases while the components move to the new ones.
-   Each theme spells out every value, aliases included, with no var() between tokens: on an iPhone (Alex's screenshot,
-   19/10) text that inherited a token alias kept the other theme's colour after a theme switch, dark on dark. */
-:root {
-  --ground: #051219;
-  --surface: #051017;
-  --raised: #111e25;
-  --ink: #f2ebdd;
-  --ink-2: #d2c8c1;
-  --ink-3: #909494;
-  /* text and lines of the "Texto bíblico" layer, kickers, active navigation, selection, focus */
-  --accent-text: #e7c588;
-  /* "Interpretação" (dashed), "Tema" (green), "História" (teal) */
-  --accent-interp: #ba6f71;
-  --accent-theme: #5c927c;
-  --link-history: #599392;
-  --hairline: #252d33;
-  --control-border: #576a78;
-  --highlight: #172d2e;
-  /* label on a filled accent (Tema, História, Interpretação): the Noite accents are mid-tones, so the label is dark */
-  --on-fill: #051219;
-  --on-gold: #051219;
-  --quote: #ffe2aa;
-  --focus: #e7c588;
-  --sky: #060d1a;
-  --sky-text: #f2ebdd;
-  --sky-text-2: #a9b4c8;
-  --sky-gold: #ffcc6b;
-
-  --bg: #051219;
-  --text: #f2ebdd;
-  --text-2: #d2c8c1;
-  --gold: #e7c588;
-
-  /* text column in rem, so blocks with smaller type (footer) share the same edges as the body text.
-     37rem at 17px Space Grotesk is ~71 average BLIVRE characters per line (average advance 0.492em). */
-  --column: 37rem;
-  /* Bible text column: 34rem at 18px Literata is ~63 average characters per line (average advance 0.478em) */
-  --scripture-column: 34rem;
-
-  --space-1: 0.5rem;
-  --space-2: 1rem;
-  --space-3: 1.5rem;
-  --space-4: 2.5rem;
-  --space-5: 4rem;
-
-  /* type scale, five steps (design §4); titles use the display serif (Newsreader, one weight: 440) */
-  --step-small: 0.8125rem;
-  --step-ui: 0.9375rem;
-  --step-scripture: 1.125rem;
-  --step-title: clamp(1.5rem, 4vw, 2rem);
-  --step-display: clamp(2.5rem, 1.2rem + 5.2vw, 4.5rem);
-  --font-title: var(--font-display), Georgia, "Times New Roman", serif;
-
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
-
-  --header-h: 3.5rem;
-  /* outer width of every page (header, reading grid, book index), padding included */
-  --page-max: 84rem;
-  color-scheme: dark;
-}
-
-[data-theme="dia"] {
-  --ground: #f8f4ed;
-  --surface: #f5f2e9;
-  --raised: #eee6d9;
-  --ink: #0e1e1a;
-  --ink-2: #403e3c;
-  --ink-3: #676867;
-  --accent-text: #8a5e2c;
-  --accent-interp: #6a3335;
-  --accent-theme: #2b453a;
-  --link-history: #436f6f;
-  --hairline: #ddd9d2;
-  --control-border: #838480;
-  --highlight: #dbddcc;
-  --on-fill: #ffffff;
-  --on-gold: #ffffff;
-  --quote: #0e1e1a;
-  --focus: #8a5e2c;
-  --bg: #f8f4ed;
-  --text: #0e1e1a;
-  --text-2: #403e3c;
-  --gold: #8a5e2c;
-  color-scheme: light;
-}
+/* Base styles. The tokens are in src/styles/tokens.css (generated from src/styles/tokens.json, the "Atlas" design
+   system) and the components in src/styles/ds.css; both load before this file (src/app/layout.tsx). */
 
 *,
 *::before,
@@ -98,39 +10,27 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  scrollbar-color: var(--hairline) var(--bg);
-  scroll-padding-top: calc(var(--header-h) + var(--space-2));
+  scrollbar-color: var(--line-strong) var(--ground);
+  scroll-padding-top: calc(var(--bar-h) + var(--space-4));
+  background: var(--ground);
 }
 
+/* the body is also .bc-root (font, colour, ground: src/styles/ds.css) */
 body {
   margin: 0;
   min-height: 100dvh;
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--font-grotesk), system-ui, sans-serif;
-  font-size: 1.0625rem;
-  line-height: 1.6;
-  font-variant-numeric: tabular-nums;
-  -webkit-font-smoothing: antialiased;
-  display: flex;
-  flex-direction: column;
-  caret-color: var(--gold);
-  accent-color: var(--gold);
+  caret-color: var(--accent);
+  accent-color: var(--accent);
 }
 
 ::selection {
-  background: var(--gold);
-  color: var(--on-gold);
-}
-
-[data-theme="dia"] ::selection {
   background: var(--highlight);
   color: var(--ink);
 }
 
 /* page titles in the display serif; the instance has a single weight, so no bold is synthesised */
 .display {
-  font-family: var(--font-title);
+  font-family: var(--font-display);
   font-weight: 440;
   letter-spacing: -0.015em;
   font-synthesis: none;
@@ -138,16 +38,16 @@ body {
 
 /* one kicker per panel: letter-spaced caps in the accent (design §4) */
 .kicker {
-  margin: 0 0 var(--space-1);
-  font-size: var(--step-small);
+  margin: 0 0 var(--space-2);
+  font-size: var(--fs-meta);
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--accent-text);
+  color: var(--accent);
 }
 
 a {
-  color: var(--gold);
+  color: var(--accent);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
   touch-action: manipulation;
@@ -171,16 +71,246 @@ input {
 
 .skip-link {
   position: absolute;
-  left: var(--space-2);
+  left: var(--space-4);
   top: -100%;
-  padding: var(--space-1) var(--space-2);
-  background: var(--surface);
-  color: var(--text);
   z-index: 50;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--overlay);
+  color: var(--ink);
 }
 
 .skip-link:focus {
-  top: var(--space-2);
+  top: var(--space-4);
+}
+
+/* ---- shell (src/app/layout.tsx): the section rail from 64rem; the column with the top bar (sticky inside it), the
+   page and the footer; the tab bar fixed at the bottom on phones. Whatever a page fixes to the bottom sits above the
+   tab bar with --tabbar-h. */
+
+:root {
+  --tabbar-h: calc(var(--bar-h) + env(safe-area-inset-bottom, 0px));
+}
+
+.site-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.site-column {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 100dvh;
+  padding-bottom: var(--tabbar-h);
+}
+
+.site-topbar {
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-left: max(var(--space-4), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--space-2), env(safe-area-inset-right, 0px));
+}
+
+/* the footer goes to the bottom of short pages */
+.site-column > .site-footer {
+  margin-top: auto;
+}
+
+.site-rail {
+  display: none;
+}
+
+.site-tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding-left: max(var(--space-2), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--space-2), env(safe-area-inset-right, 0px));
+}
+
+.site-topbar__search {
+  display: none;
+}
+
+/* phones: the brand on the left, the search icon and the appearance on the right */
+.site-topbar .bc-brand {
+  margin-right: auto;
+}
+
+@media (min-width: 40rem) {
+  .site-topbar__search {
+    display: flex;
+  }
+
+  .site-topbar__search-icon {
+    display: none;
+  }
+
+  .site-topbar .bc-brand {
+    margin-right: 0;
+  }
+
+  .site-topbar .appearance {
+    margin-left: auto;
+  }
+}
+
+@media (min-width: 64rem) {
+  :root {
+    --tabbar-h: 0px;
+  }
+
+  .site-shell {
+    grid-template-columns: var(--rail-w) minmax(0, 1fr);
+  }
+
+  .site-rail {
+    display: flex;
+    position: sticky;
+    top: 0;
+    height: 100dvh;
+    overflow-y: auto;
+  }
+
+  .site-tabbar {
+    display: none;
+  }
+
+  .site-topbar {
+    padding-left: var(--space-6);
+    padding-right: var(--space-4);
+  }
+}
+
+/* the page column of a simple page (titles, lede, lists); pages with their own grid bring their own */
+.site-page {
+  width: 100%;
+  max-width: calc(var(--page-max) - var(--rail-w));
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4) var(--space-8);
+}
+
+.site-page > .bc-lede {
+  max-width: 38rem;
+  margin: var(--space-3) 0 var(--space-6);
+}
+
+@media (min-width: 64rem) {
+  .site-page {
+    padding: var(--space-7) var(--space-6) var(--space-9);
+  }
+}
+
+.site-footer p:last-child a {
+  display: inline-block;
+  padding-block: 0.6rem;
+}
+
+/* appearance menu (src/components/header/Appearance.tsx) */
+.appearance {
+  position: relative;
+}
+
+.appearance__menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + var(--space-2));
+  z-index: 40;
+  display: grid;
+  gap: var(--space-3);
+  width: max-content;
+  max-width: calc(100vw - 2 * var(--space-4));
+  padding: var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--overlay);
+  color: var(--ink);
+  box-shadow: var(--shadow-float);
+}
+
+.appearance__menu[hidden] {
+  display: none;
+}
+
+.appearance__title {
+  margin: 0;
+  font: 600 var(--fs-ui) / var(--lh-ui) var(--font-ui);
+}
+
+.appearance__note {
+  margin: 0;
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--ink-2);
+}
+
+/* search: the palette is a modal <dialog> over the veil; the box is ds.css .bc-search */
+.site-search {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 12vh var(--space-4) var(--space-4);
+  border: 0;
+  background: var(--scrim);
+  color: var(--ink);
+  overscroll-behavior: contain;
+}
+
+.site-search[open] {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.site-search::backdrop {
+  background: transparent;
+}
+
+.site-search__message {
+  margin: 0;
+  padding: var(--space-3) var(--space-4) 0;
+  color: var(--ink);
+}
+
+.site-search__start {
+  padding: 0 0 var(--space-4);
+}
+
+.site-search__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4) 0;
+}
+
+.site-search__box--page {
+  width: 100%;
+  max-width: 44rem;
+  max-height: none;
+  box-shadow: none;
+}
+
+@media (max-width: 47.99rem) {
+  .site-search {
+    padding: 0;
+  }
+
+  .site-search[open] {
+    align-items: stretch;
+  }
+
+  .site-search__box--page {
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+  }
+
+  .site-search .bc-search__foot {
+    display: none;
+  }
 }
 
 /* Icons repeated many times on a page (one per verse or per link), drawn by CSS so the markup stays small.
@@ -248,56 +378,56 @@ input {
    list, like /ler (design §10: no grid of cards). */
 .not-found {
   width: 100%;
-  max-width: calc(var(--column) + 2 * var(--space-2));
+  max-width: calc(var(--column) + 2 * var(--space-4));
   margin: 0 auto;
-  padding: var(--space-5) var(--space-2);
+  padding: var(--space-8) var(--space-4);
 }
 
 .not-found__mark {
   display: block;
   width: 7.5rem;
   height: auto;
-  margin: 0 0 var(--space-3);
+  margin: 0 0 var(--space-5);
   overflow: visible;
 }
 
 .not-found__arc {
   fill: none;
-  stroke: var(--accent-text);
+  stroke: var(--accent);
   stroke-width: 2;
   stroke-linecap: round;
 }
 
 .not-found__from {
-  fill: var(--accent-text);
+  fill: var(--accent);
 }
 
 .not-found__to {
   fill: none;
-  stroke: var(--control-border);
+  stroke: var(--line-strong);
   stroke-width: 1.5;
 }
 
 .not-found__base {
-  stroke: var(--hairline);
+  stroke: var(--line);
   stroke-width: 1.5;
   stroke-linecap: round;
 }
 
 .not-found__title {
-  font-family: var(--font-title);
+  font-family: var(--font-display);
   font-weight: 440;
   font-synthesis: none;
   letter-spacing: -0.015em;
   font-size: clamp(2rem, 6vw, 3rem);
   line-height: 1.1;
-  margin: 0 0 var(--space-2);
+  margin: 0 0 var(--space-4);
   text-wrap: balance;
 }
 
 .not-found__lede {
-  color: var(--text-2);
-  margin: 0 0 var(--space-3);
+  color: var(--ink-2);
+  margin: 0 0 var(--space-5);
   text-wrap: pretty;
 }
 
@@ -305,7 +435,7 @@ input {
   list-style: none;
   margin: 0;
   padding: 0;
-  border-top: 1px solid var(--hairline);
+  border-top: 1px solid var(--line);
 }
 
 .not-found__way {
@@ -315,14 +445,14 @@ input {
   gap: 0.1rem;
   min-height: 2.75rem;
   padding: 0.7rem 0;
-  color: var(--text);
+  color: var(--ink);
   text-decoration: none;
-  border-bottom: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--line);
 }
 
 .not-found__name {
   font-weight: 600;
-  color: var(--accent-text);
+  color: var(--accent);
 }
 
 .not-found__way:hover .not-found__name {
@@ -331,8 +461,8 @@ input {
 }
 
 .not-found__note {
-  font-size: var(--step-ui);
-  color: var(--text-2);
+  font-size: var(--fs-ui);
+  color: var(--ink-2);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,24 +1,19 @@
 import Link from "next/link";
-import "./header.css";
-import { NavLinks } from "@/components/shell/NavLinks";
+import { SearchButton } from "@/components/search/SearchButton";
+import { Appearance } from "./Appearance";
 import { ArcMark } from "./ArcMark";
-import { RefSearch } from "./RefSearch";
-import { ThemeToggle } from "./ThemeToggle";
 
-export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
+// The top bar (ds.css .bc-topbar): the brand, the search box (an icon on phones) and the appearance menu. The sections
+// are in the rail and the tab bar (src/components/shell/NavLinks.tsx).
+export function SiteHeader() {
   return (
-    <header className={overlay ? "site-header site-header--overlay" : "site-header"}>
-      <div className="site-header__inner">
-        <Link href="/" className="brand">
-          <ArcMark />
-          <span>Bíblia Conectada</span>
-        </Link>
-        <RefSearch />
-        <nav aria-label="Principal" className="site-nav">
-          <NavLinks variant="top" />
-        </nav>
-        <ThemeToggle />
-      </div>
+    <header className="bc-topbar site-topbar">
+      <Link href="/" className="bc-brand">
+        <ArcMark />
+        <span>Bíblia Conectada</span>
+      </Link>
+      <SearchButton />
+      <Appearance />
     </header>
   );
 }

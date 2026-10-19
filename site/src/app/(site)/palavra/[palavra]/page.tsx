@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { NOT_FOUND_TITLE } from "@/lib/missing";
 import { VerseRows } from "@/components/passage/Passage";
-import { literata } from "@/components/passage/literata";
 import { formatInt } from "@/lib/canon/text";
 import { conexaoPath } from "@/lib/conexao";
 import { verseRef } from "@/lib/reading";
@@ -52,7 +51,7 @@ export default async function PalavraPage({ params }: PageProps<"/palavra/[palav
   const rest = ordered.slice(WITH_TEXT).sort((a, b) => a - b);
   const restShown = rest.slice(0, MORE_REFS);
   return (
-    <main id="conteudo" className={`${styles.main} ${literata.variable}`}>
+    <main id="conteudo" className={styles.main}>
       <header className={styles.head}>
         <nav aria-label="Trilha" className={styles.crumbs}>
           <Link href="/palavra">Palavras</Link>

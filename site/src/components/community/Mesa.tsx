@@ -372,7 +372,7 @@ function MesaTable({ passage, table }: { passage: Passage; table: Table }) {
           ))}
         </ol>
         {shown < data.links.length && (
-          <button type="button" className={styles.buttonQuiet} style={{ marginTop: "var(--space-2)" }} onClick={() => setShown((s) => s + PAGE)}>
+          <button type="button" className={styles.buttonQuiet} style={{ marginTop: "var(--space-4)" }} onClick={() => setShown((s) => s + PAGE)}>
             Mostrar mais {formatInt(Math.min(PAGE, data.links.length - shown))}
           </button>
         )}

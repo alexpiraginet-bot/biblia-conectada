@@ -2,7 +2,6 @@ import Link from "next/link";
 import { ChevronRight } from "@/components/icons";
 import { ChapterPager, ChapterRail } from "@/components/reader/ChapterNav";
 import { ChapterText } from "@/components/reader/ChapterText";
-import { literata } from "@/components/reader/literata";
 import { SelectionScope } from "@/components/reader/SelectionBar";
 import { VerseFocus } from "@/components/reader/VerseFocus";
 import styles from "@/components/reader/reader.module.css";
@@ -31,7 +30,7 @@ export default async function ChapterLayout({ params, children }: LayoutProps<"/
   const pairs = chapterPairs(book, chapter);
 
   return (
-    <div className={`${styles.reader} ${literata.variable}`}>
+    <div className={styles.reader}>
       <ChapterRail book={book} chapter={chapter} />
 
       <main id="conteudo" className={styles.main}>

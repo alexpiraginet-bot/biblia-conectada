@@ -5,7 +5,6 @@ import { DeviceNote } from "@/components/community/DeviceNote";
 import { NOT_FOUND_TITLE } from "@/lib/missing";
 import { PontePlayer } from "@/components/community/PontePlayer";
 import styles from "@/components/community/community.module.css";
-import { scripture } from "@/components/community/scripture-font";
 import { ponteBuilt, verseInfo } from "@/lib/community/data";
 
 export const ensureStatic = "navigation";
@@ -34,7 +33,7 @@ export default async function PonteArchivePage({ params }: PageProps<"/ponte/[n]
   const b = await resolve(params);
   if (!b) notFound();
   return (
-    <main id="conteudo" className={`${styles.page} ${scripture.variable}`}>
+    <main id="conteudo" className={styles.page}>
       <div className={styles.column}>
         <h1 className={styles.title}>Ponte nº {b.n}</h1>
         <PontePlayer intro={b} builtThrough={ponteBuilt.builtThrough} />

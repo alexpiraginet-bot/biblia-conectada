@@ -2,22 +2,45 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { currentItem, NAV } from "./nav";
+import { Icon } from "@/components/icons";
+import { openSearch } from "@/components/search/events";
+import { currentItem, NAV, type NavItem } from "./nav";
 
-// Links of the main navigation with aria-current on the section of the page (design §5).
-export function NavLinks({ variant }: { variant: "top" | "bar" }) {
-  const current = currentItem(usePathname());
-  const items = variant === "bar" ? NAV.filter((n) => n.bar) : NAV;
+// The sections with aria-current on the page's own: a rail on the left from 1024px, a tab bar at the bottom on phones
+// (globals.css shows one or the other, so only one "Seções" landmark is ever exposed).
+function Item({ n, current, className }: { n: NavItem; current: string | null; className: string }) {
   return (
-    <ul className={`nav-list nav-list--${variant}`}>
-      {items.map((n) => (
-        <li key={n.href}>
-          <Link href={n.href} aria-current={current === n.href ? "page" : undefined}>
-            {variant === "bar" && <span className={`i ${n.icon}`} aria-hidden="true" />}
-            <span>{n.label}</span>
-          </Link>
-        </li>
+    <Link
+      href={n.href}
+      className={className}
+      aria-current={current === n.href ? "page" : undefined}
+      // "Buscar" opens the search over the page; without JavaScript it is the /buscar page
+      onClick={n.href === "/buscar" ? (e) => openSearch() && e.preventDefault() : undefined}
+    >
+      <Icon name={n.icon} />
+      <span>{n.label}</span>
+    </Link>
+  );
+}
+
+export function SectionRail() {
+  const current = currentItem(usePathname());
+  return (
+    <nav className="bc-rail site-rail" aria-label="Seções">
+      {NAV.filter((n) => n.rail).map((n) => (
+        <Item key={n.href} n={n} current={current} className="bc-rail__item" />
       ))}
-    </ul>
+    </nav>
+  );
+}
+
+export function TabBar() {
+  const current = currentItem(usePathname());
+  return (
+    <nav className="bc-tabbar site-tabbar" aria-label="Seções">
+      {NAV.filter((n) => n.tab).map((n) => (
+        <Item key={n.href} n={n} current={current} className="bc-tabbar__item" />
+      ))}
+    </nav>
   );
 }

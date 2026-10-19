@@ -2,45 +2,45 @@
   width: 100%;
   max-width: var(--page-max);
   margin: 0 auto;
-  padding: var(--space-4) var(--space-2) var(--space-5);
+  padding: var(--space-7) var(--space-4) var(--space-8);
 }
 
 .title {
-  font-size: var(--step-display);
-  font-family: var(--font-title);
+  font-size: var(--fs-display);
+  font-family: var(--font-display);
   font-weight: 440;
   font-synthesis: none;
   letter-spacing: -0.015em;
   line-height: 1.05;
-  margin: 0 0 var(--space-2);
+  margin: 0 0 var(--space-4);
 }
 
 .lede {
   max-width: var(--column);
-  color: var(--text-2);
-  margin: 0 0 var(--space-4);
+  color: var(--ink-2);
+  margin: 0 0 var(--space-7);
 }
 
 .group + .group {
-  margin-top: var(--space-4);
+  margin-top: var(--space-7);
 }
 
 .groupTitle {
   display: flex;
   align-items: baseline;
-  gap: var(--space-2);
-  font-size: var(--step-title);
+  gap: var(--space-4);
+  font-size: var(--fs-title);
   font-weight: 600;
   letter-spacing: -0.01em;
-  margin: 0 0 var(--space-2);
-  padding-bottom: var(--space-1);
-  border-bottom: 1px solid var(--hairline);
+  margin: 0 0 var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--line);
 }
 
 .count {
-  font-size: var(--step-small);
+  font-size: var(--fs-meta);
   font-weight: 400;
-  color: var(--text-2);
+  color: var(--ink-2);
   letter-spacing: 0;
 }
 
@@ -49,7 +49,7 @@
   margin: 0;
   padding: 0;
   columns: 15rem auto;
-  column-gap: var(--space-4);
+  column-gap: var(--space-7);
 }
 
 .list li {
@@ -60,16 +60,16 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: var(--space-2);
+  gap: var(--space-4);
   min-height: 2.75rem;
   padding: 0.6rem 0;
-  color: var(--text);
+  color: var(--ink);
   text-decoration: none;
-  border-bottom: 1px solid color-mix(in srgb, var(--hairline) 55%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 55%, transparent);
 }
 
 .book:hover .name {
-  color: var(--gold);
+  color: var(--accent);
 }
 
 .name {
@@ -77,6 +77,6 @@
 }
 
 .meta {
-  color: var(--text-2);
-  font-size: var(--step-small);
+  color: var(--ink-2);
+  font-size: var(--fs-meta);
 }

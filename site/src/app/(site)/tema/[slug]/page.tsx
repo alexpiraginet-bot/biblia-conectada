@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BlivreText } from "@/components/passage/Passage";
 import { NOT_FOUND_TITLE } from "@/lib/missing";
-import { literata } from "@/components/passage/literata";
 import { formatInt } from "@/lib/canon/text";
 import { conexaoPath } from "@/lib/conexao";
 import { formatRuns } from "@/lib/passage";
@@ -55,7 +54,7 @@ export default async function TemaPage({ params }: PageProps<"/tema/[slug]">) {
   );
   const withTheme = events.filter((e) => e.themes.some((x) => x.slug === t.slug));
   return (
-    <main id="conteudo" className={`${styles.main} ${literata.variable}`}>
+    <main id="conteudo" className={styles.main}>
       <header className={styles.head}>
         <nav aria-label="Trilha" className={styles.crumbs}>
           <Link href="/tema">Temas</Link>

@@ -2,14 +2,14 @@
    list below it follows the theme. Glow lives only inside the canvas and the poster; the interface has none. */
 
 .root {
-  --gutter: max(var(--space-2), env(safe-area-inset-left));
+  --gutter: max(var(--space-4), env(safe-area-inset-left));
   /* width of the band: full bleed on phones; from 48rem it also fits the viewport height */
   --band-w: 100%;
 }
 
 @media (min-width: 48rem) {
   .root {
-    --gutter: var(--space-4);
+    --gutter: var(--space-7);
     --band-w: clamp(36rem, (100svh - 17rem) * 1.6, min(100% - 2 * var(--gutter), 80rem));
   }
 }
@@ -17,30 +17,30 @@
 /* ------------------------------------------------------------------ hero (night) */
 
 .hero {
-  --text: var(--sky-text);
-  --text-2: var(--sky-text-2);
-  --gold: var(--sky-gold);
+  --ink: var(--sky-ink);
+  --ink-2: var(--sky-ink-2);
+  --accent: var(--sky-gold);
   --focus: var(--sky-gold);
   --surface: #0c1a2e;
   --raised: #15253d;
-  --hairline: #2a3b57;
-  --control-border: #62779a;
+  --line: #2a3b57;
+  --line-strong: #62779a;
   color-scheme: dark;
   background: var(--sky);
-  color: var(--text);
+  color: var(--ink);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
     "heading"
     "stage"
     "panel";
-  row-gap: var(--space-3);
-  padding: calc(6rem + env(safe-area-inset-top) + var(--space-2)) 0 var(--space-4);
+  row-gap: var(--space-5);
+  padding: calc(6rem + env(safe-area-inset-top) + var(--space-4)) 0 var(--space-7);
 }
 
 @media (min-width: 56rem) {
   .hero {
-    padding-top: calc(var(--header-h) + var(--space-4));
+    padding-top: calc(var(--bar-h) + var(--space-7));
   }
 }
 
@@ -53,8 +53,8 @@
 }
 
 .heading h1 {
-  margin: 0 0 var(--space-2);
-  font-size: var(--step-display);
+  margin: 0 0 var(--space-4);
+  font-size: var(--fs-display);
   font-weight: 700;
   line-height: 1.02;
   letter-spacing: -0.02em;
@@ -83,7 +83,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-1) var(--space-2);
+  gap: var(--space-2) var(--space-4);
 }
 
 .panel > * {
@@ -100,19 +100,19 @@
 /* Desktop: a text column aligned with the header's container, the band filling the rest of the row. */
 @media (min-width: 75rem) {
   .root {
-    --edge: max(var(--space-2), (100% - 72rem) / 2);
+    --edge: max(var(--space-4), (100% - 72rem) / 2);
   }
   .hero {
     grid-template-columns:
-      var(--edge) 19rem var(--space-5)
-      minmax(0, min(80rem, (100svh - var(--header-h) - 5.5rem) * 1.6))
-      minmax(var(--space-4), 1fr);
+      var(--edge) 19rem var(--space-8)
+      minmax(0, min(80rem, (100svh - var(--bar-h) - 5.5rem) * 1.6))
+      minmax(var(--space-7), 1fr);
     grid-template-rows: auto 1fr;
     grid-template-areas:
       ". heading . stage ."
       ". panel . stage .";
-    row-gap: var(--space-4);
-    padding-top: calc(var(--header-h) + var(--space-3));
+    row-gap: var(--space-7);
+    padding-top: calc(var(--bar-h) + var(--space-5));
   }
   .heading,
   .panel {
@@ -123,7 +123,7 @@
     align-self: end;
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--space-2);
+    gap: var(--space-4);
   }
   .stage {
     align-self: start;
@@ -233,15 +233,15 @@
 }
 
 .scrubName {
-  font-size: var(--step-title);
+  font-size: var(--fs-title);
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: var(--gold);
+  color: var(--accent);
 }
 
 .scrubCount {
-  font-size: var(--step-ui);
-  color: var(--text);
+  font-size: var(--fs-ui);
+  color: var(--ink);
 }
 
 /* ------------------------------------------------------------------ readout and controls */
@@ -249,7 +249,7 @@
 .readout {
   flex: 1 1 100%;
   margin: 0;
-  font-size: var(--step-title);
+  font-size: var(--fs-title);
   font-weight: 600;
   letter-spacing: -0.015em;
   line-height: 1.2;
@@ -262,12 +262,12 @@
   column-gap: 0.3em;
   min-height: 2.75rem;
   padding-block: 0.25rem;
-  color: var(--text);
+  color: var(--ink);
   text-decoration: none;
 }
 
 .readoutName {
-  color: var(--gold);
+  color: var(--accent);
 }
 
 .readoutCount {
@@ -278,7 +278,7 @@
 }
 
 .arrow {
-  color: var(--text-2);
+  color: var(--ink-2);
   transition: transform 200ms var(--ease-out);
 }
 
@@ -290,7 +290,7 @@
 
 .readoutLink:hover .arrow {
   transform: translateX(3px);
-  color: var(--text);
+  color: var(--ink);
 }
 
 /* in the desktop column the name takes its own line and the count sits under it */
@@ -340,10 +340,10 @@
   place-items: center;
   width: 2.75rem;
   height: 2.75rem;
-  border: 1px solid var(--control-border);
+  border: 1px solid var(--line-strong);
   border-radius: 0.625rem;
   background: transparent;
-  color: var(--text);
+  color: var(--ink);
   cursor: pointer;
   touch-action: manipulation;
 }
@@ -353,8 +353,8 @@
 }
 
 .step:disabled {
-  color: var(--text-2);
-  border-color: var(--hairline);
+  color: var(--ink-2);
+  border-color: var(--line);
   cursor: default;
 }
 
@@ -362,12 +362,12 @@
   height: 2.75rem;
   min-width: 0;
   padding: 0 2.25rem 0 0.875rem;
-  border: 1px solid var(--control-border);
+  border: 1px solid var(--line-strong);
   border-radius: 0.625rem;
   background: var(--surface)
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6' fill='none' stroke='%23a9b4c8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
     no-repeat right 0.75rem center;
-  color: var(--text);
+  color: var(--ink);
   font: inherit;
   font-size: 1rem;
   appearance: none;
@@ -375,7 +375,7 @@
 }
 
 .select:hover {
-  border-color: var(--text-2);
+  border-color: var(--ink-2);
 }
 
 .selectChapter {
@@ -386,11 +386,11 @@
 .quiet {
   min-height: 2.75rem;
   padding: 0 1rem;
-  border: 1px solid var(--control-border);
+  border: 1px solid var(--line-strong);
   border-radius: 0.625rem;
   background: transparent;
-  color: var(--text);
-  font-size: var(--step-ui);
+  color: var(--ink);
+  font-size: var(--fs-ui);
   text-align: left;
   cursor: pointer;
   touch-action: manipulation;
@@ -403,8 +403,8 @@
 .hint {
   flex: 1 1 100%;
   margin: 0;
-  color: var(--text-2);
-  font-size: var(--step-small);
+  color: var(--ink-2);
+  font-size: var(--fs-meta);
   line-height: 1.5;
 }
 
@@ -427,7 +427,7 @@
   width: var(--band-w);
   max-width: calc(100% - 2 * var(--gutter));
   margin: 0 auto;
-  padding: var(--space-4) 0 var(--space-5);
+  padding: var(--space-7) 0 var(--space-8);
 }
 
 @media (min-width: 75rem) {
@@ -435,13 +435,13 @@
     width: auto;
     max-width: none;
     margin: 0;
-    padding-inline: var(--edge) var(--space-4);
+    padding-inline: var(--edge) var(--space-7);
   }
 }
 
 .listTitle {
-  margin: 0 0 var(--space-2);
-  font-size: var(--step-title);
+  margin: 0 0 var(--space-4);
+  font-size: var(--fs-title);
   font-weight: 600;
   letter-spacing: -0.015em;
   line-height: 1.2;
@@ -449,12 +449,12 @@
 
 .list {
   max-width: 42rem;
-  margin: 0 0 var(--space-3);
+  margin: 0 0 var(--space-5);
   padding: 0;
   list-style: none;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  column-gap: var(--space-5);
+  column-gap: var(--space-8);
 }
 
 @media (min-width: 48rem) {
@@ -469,7 +469,7 @@
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  gap: var(--space-2);
+  gap: var(--space-4);
   min-height: 2.75rem;
   padding-block: 0.6rem;
   text-decoration: none;
@@ -481,15 +481,15 @@
 }
 
 .listCount {
-  color: var(--text-2);
-  font-size: var(--step-ui);
+  color: var(--ink-2);
+  font-size: var(--fs-ui);
   white-space: nowrap;
 }
 
 .note {
   max-width: 34rem;
-  margin: 0 0 var(--space-2);
-  color: var(--text-2);
-  font-size: var(--step-ui);
+  margin: 0 0 var(--space-4);
+  color: var(--ink-2);
+  font-size: var(--fs-ui);
   line-height: 1.6;
 }

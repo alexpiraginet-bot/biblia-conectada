@@ -2,7 +2,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "@/components/icons";
 import { Explorer } from "@/components/explore/Explorer";
-import { scripture } from "@/components/explore/fonts";
 import { NeighbourList } from "@/components/explore/NeighbourList";
 import styles from "@/components/explore/explore.module.css";
 import { formatInt } from "@/lib/canon/text";
@@ -28,7 +27,7 @@ export default async function ExploreLayout({ params, children }: LayoutProps<"/
   const label = data.centre.label;
 
   return (
-    <main id="conteudo" className={`${styles.page} ${scripture.variable}`}>
+    <main id="conteudo" className={styles.page}>
       <div className={styles.head}>
         <div>
           <h1 className={styles.title}>{label}</h1>

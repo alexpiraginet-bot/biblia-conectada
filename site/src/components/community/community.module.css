@@ -5,7 +5,7 @@
   width: 100%;
   max-width: var(--page-max);
   margin: 0 auto;
-  padding: var(--space-4) var(--space-2) var(--space-5);
+  padding: var(--space-7) var(--space-4) var(--space-8);
 }
 
 .column {
@@ -13,45 +13,45 @@
 }
 
 .title {
-  font-family: var(--font-title);
+  font-family: var(--font-display);
   font-weight: 440;
   font-synthesis: none;
   font-size: clamp(2rem, 6vw, 3rem);
   letter-spacing: -0.015em;
   line-height: 1.1;
-  margin: 0 0 var(--space-2);
+  margin: 0 0 var(--space-4);
   text-wrap: balance;
 }
 
 .h2 {
-  font-family: var(--font-title);
+  font-family: var(--font-display);
   font-weight: 440;
   font-synthesis: none;
-  font-size: var(--step-title);
+  font-size: var(--fs-title);
   letter-spacing: -0.01em;
   line-height: 1.2;
-  margin: 0 0 var(--space-2);
+  margin: 0 0 var(--space-4);
 }
 
 .lede {
   max-width: var(--column);
-  margin: 0 0 var(--space-3);
+  margin: 0 0 var(--space-5);
   color: var(--ink-2);
   text-wrap: pretty;
 }
 
 .meta {
-  margin: 0 0 var(--space-3);
+  margin: 0 0 var(--space-5);
   color: var(--ink-2);
-  font-size: var(--step-ui);
+  font-size: var(--fs-ui);
 }
 
 .section {
-  margin-top: var(--space-4);
+  margin-top: var(--space-7);
 }
 
 .small {
-  font-size: var(--step-small);
+  font-size: var(--fs-meta);
   color: var(--ink-2);
 }
 
@@ -66,7 +66,7 @@
   min-height: 2.75rem;
   padding: 0 1.1rem;
   border-radius: 0.625rem;
-  font-size: var(--step-ui);
+  font-size: var(--fs-ui);
   font-weight: 500;
   line-height: 1.2;
   text-decoration: none;
@@ -88,7 +88,7 @@
 }
 
 .buttonQuiet {
-  border: 1px solid var(--control-border);
+  border: 1px solid var(--line-strong);
   background: transparent;
   color: var(--ink);
 }
@@ -107,8 +107,8 @@
 .actions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-1);
-  margin: var(--space-3) 0;
+  gap: var(--space-2);
+  margin: var(--space-5) 0;
 }
 
 .linkButton {
@@ -118,8 +118,8 @@
   padding: 0;
   border: 0;
   background: none;
-  color: var(--accent-text);
-  font-size: var(--step-ui);
+  color: var(--accent);
+  font-size: var(--fs-ui);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
@@ -130,14 +130,14 @@
 
 .pair {
   display: grid;
-  gap: var(--space-3);
-  margin: 0 0 var(--space-3);
+  gap: var(--space-5);
+  margin: 0 0 var(--space-5);
 }
 
 @media (min-width: 48rem) {
   .pair {
     grid-template-columns: 1fr 1fr;
-    gap: var(--space-4);
+    gap: var(--space-7);
   }
 }
 
@@ -151,15 +151,15 @@
   align-items: center;
   min-height: 2.75rem;
   margin: 0;
-  font-size: var(--step-ui);
+  font-size: var(--fs-ui);
   font-weight: 600;
-  color: var(--accent-text);
+  color: var(--accent);
 }
 
 .verseText {
   margin: 0;
-  font-family: var(--font-scripture), Georgia, serif;
-  font-size: var(--step-scripture);
+  font-family: var(--font-reading), Georgia, serif;
+  font-size: var(--fs-scripture);
   line-height: 1.6;
   color: var(--ink);
   text-wrap: pretty;
@@ -167,14 +167,14 @@
 
 .verseLabel {
   margin: 0;
-  font-size: var(--step-small);
+  font-size: var(--fs-meta);
   color: var(--ink-2);
 }
 
 /* ---- sky window */
 
 .sky {
-  margin: 0 0 var(--space-3);
+  margin: 0 0 var(--space-5);
 }
 
 .skyWindow {
@@ -182,7 +182,7 @@
   padding: var(--sky-pad-top, 0.75rem) 0.75rem 1.5rem;
   border-radius: 0.75rem;
   background: var(--sky);
-  border: 1px solid color-mix(in srgb, var(--sky-text-2) 18%, transparent);
+  border: 1px solid color-mix(in srgb, var(--sky-ink-2) 18%, transparent);
 }
 
 .skySvg {
@@ -203,7 +203,7 @@
 }
 
 .skyStar {
-  fill: var(--sky-text-2);
+  fill: var(--sky-ink-2);
 }
 
 .skyStarGold {
@@ -216,7 +216,7 @@
   right: 0.75rem;
   bottom: 0.3rem;
   height: 1rem;
-  color: var(--sky-text-2);
+  color: var(--sky-ink-2);
   font-size: 0.75rem;
   line-height: 1rem;
   letter-spacing: 0.02em;
@@ -244,7 +244,7 @@
   padding: 0 0.25rem;
   border-radius: 0.25rem;
   background: var(--sky);
-  color: var(--sky-text);
+  color: var(--sky-ink);
   font-size: 0.75rem;
   font-weight: 500;
   line-height: 1.1rem;
@@ -258,7 +258,7 @@
 .skyCaption {
   margin: 0.5rem 0 0;
   color: var(--ink-2);
-  font-size: var(--step-small);
+  font-size: var(--fs-meta);
   line-height: 1.5;
   max-width: var(--column);
 }
@@ -269,18 +269,18 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  border-top: 1px solid var(--hairline);
+  border-top: 1px solid var(--line);
 }
 
 .list > li {
-  border-bottom: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--line);
 }
 
 .row {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  column-gap: var(--space-2);
+  column-gap: var(--space-4);
   row-gap: 0.15rem;
   padding: 0.6rem 0;
   min-height: 2.75rem;
@@ -290,7 +290,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  column-gap: var(--space-2);
+  column-gap: var(--space-4);
   row-gap: 0.15rem;
   padding: 0.6rem 0;
   min-height: 2.75rem;
@@ -313,14 +313,14 @@
   flex: 0 0 auto;
   min-width: 3.25rem;
   color: var(--ink-2);
-  font-size: var(--step-small);
+  font-size: var(--fs-meta);
 }
 
 .rowCount {
   flex: 0 0 auto;
   margin-left: auto;
   color: var(--ink-2);
-  font-size: var(--step-small);
+  font-size: var(--fs-meta);
   text-align: right;
 }
 
@@ -330,12 +330,12 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  column-gap: var(--space-2);
-  margin: var(--space-4) 0 0;
-  padding-top: var(--space-2);
-  border-top: 1px solid var(--hairline);
+  column-gap: var(--space-4);
+  margin: var(--space-7) 0 0;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
   color: var(--ink-2);
-  font-size: var(--step-small);
+  font-size: var(--fs-meta);
 }
 
 .device p {
@@ -346,32 +346,32 @@
   min-height: 1.5em;
   margin: 0;
   color: var(--ink-2);
-  font-size: var(--step-small);
+  font-size: var(--fs-meta);
 }
 
 /* ---- card */
 
 .card {
-  margin: var(--space-4) 0 0;
-  padding-top: var(--space-3);
-  border-top: 1px solid var(--hairline);
+  margin: var(--space-7) 0 0;
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--line);
 }
 
 .cardPreview {
   display: block;
   width: min(100%, 22rem);
   height: auto;
-  margin: var(--space-2) 0 0;
+  margin: var(--space-4) 0 0;
   border-radius: 0.5rem;
-  border: 1px solid var(--hairline);
+  border: 1px solid var(--line);
 }
 
 .pager {
   display: flex;
   justify-content: space-between;
-  gap: var(--space-2);
-  margin: var(--space-4) 0 0;
-  font-size: var(--step-ui);
+  gap: var(--space-4);
+  margin: var(--space-7) 0 0;
+  font-size: var(--fs-ui);
 }
 
 .pager a {

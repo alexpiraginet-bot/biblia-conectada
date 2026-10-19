@@ -8,7 +8,7 @@
   width: 100%;
   overflow-x: clip;
   background: var(--sky);
-  color: var(--sky-text);
+  color: var(--sky-ink);
   color-scheme: dark;
 }
 
@@ -63,7 +63,7 @@
   font-style: italic;
   font-weight: 500;
   font-size: clamp(2.5rem, 7vw, 6.25rem);
-  color: var(--sky-text);
+  color: var(--sky-ink);
   transform: translateY(calc(-220% * var(--k-title, 0)));
   opacity: calc(1 - var(--k-title, 0));
   animation: rise-top 1.2s var(--ease-out) 0.35s backwards;
@@ -92,7 +92,7 @@
 
 @supports not (-webkit-text-stroke: 1px black) {
   .bottom {
-    color: var(--sky-text);
+    color: var(--sky-ink);
   }
 }
 
@@ -283,12 +283,12 @@
   align-items: center;
   justify-content: center;
   min-height: 80svh;
-  padding: var(--space-5) var(--space-2);
+  padding: var(--space-8) var(--space-4);
   text-align: center;
 }
 
 .notesLabel {
-  margin: 0 0 var(--space-4);
+  margin: 0 0 var(--space-7);
   padding-left: 0.45em;
   font-size: 0.6875rem;
   letter-spacing: 0.45em;

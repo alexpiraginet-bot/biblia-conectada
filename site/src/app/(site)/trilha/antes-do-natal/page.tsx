@@ -3,7 +3,6 @@ import Link from "next/link";
 import { DeviceNote } from "@/components/community/DeviceNote";
 import { TrailSky } from "@/components/community/TrailSky";
 import styles from "@/components/community/community.module.css";
-import { scripture } from "@/components/community/scripture-font";
 import { formatInt } from "@/lib/canon/text";
 import { trail, verseInfo } from "@/lib/community/data";
 import { formatDateBR } from "@/lib/community/ponte";
@@ -23,7 +22,7 @@ export default function TrailPage() {
   const steps = trail.steps.map((s) => ({ ...s, a: verseInfo(s.ot.gv), b: verseInfo(s.nt.gv) }));
   const isaias = steps[steps.length - 1];
   return (
-    <main id="conteudo" className={`${styles.page} ${scripture.variable}`}>
+    <main id="conteudo" className={styles.page}>
       <div className={styles.column}>
         <p className="kicker">Trilha</p>
         <h1 className={styles.title}>{trail.title}</h1>

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { DeviceNote } from "@/components/community/DeviceNote";
 import { Mesa } from "@/components/community/Mesa";
 import styles from "@/components/community/community.module.css";
-import { scripture } from "@/components/community/scripture-font";
 
 export const ensureStatic = "navigation";
 
@@ -15,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function MesaPage() {
   return (
-    <main id="conteudo" className={`${styles.page} ${scripture.variable}`}>
+    <main id="conteudo" className={styles.page}>
       <div className={styles.column}>
         <p className="kicker">Para grupos</p>
         <h1 className={styles.title}>Mesa da semana</h1>

@@ -1,23 +1,36 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { SiteFooter } from "@/components/SiteFooter";
-import { THEME_SCRIPT } from "@/components/header/ThemeToggle";
-import { NavLinks } from "@/components/shell/NavLinks";
+import { SiteHeader } from "@/components/header/SiteHeader";
+import { THEME_COLOR, THEME_SCRIPT } from "@/components/header/theme";
+import { SearchHost } from "@/components/search/SearchHost";
+import { SectionRail, TabBar } from "@/components/shell/NavLinks";
+import "@/styles/tokens.css";
+import "@/styles/ds.css";
 import "./globals.css";
 
-// OFL fonts, subset to Latin (scripts/subset-fonts.sh; licences in src/fonts/OFL-*.txt).
-// Only the interface face lives in the root layout; faces used by one route are declared there (design/README.md §4).
-const grotesk = localFont({
+// The three voices of the design system (design/README.md, "Tipografia"), OFL and served by the site
+// (scripts/subset-fonts.sh; licences in src/fonts/OFL-*.txt). Their variables feed --font-ui, --font-display and
+// --font-reading in src/styles/tokens.css.
+const ui = localFont({
   src: "../fonts/SpaceGrotesk-VF.woff2",
-  variable: "--font-grotesk",
+  variable: "--nf-ui",
   weight: "300 700",
   display: "swap",
 });
-// Newsreader, one static instance (optical size 72, weight 440): page titles on every route (design §4)
+// Newsreader, one static instance (optical size 72, weight 440): page titles
 const display = localFont({
   src: "../fonts/Newsreader-Display.woff2",
-  variable: "--font-display",
+  variable: "--nf-display",
   weight: "440",
+  display: "swap",
+  adjustFontFallback: "Times New Roman",
+});
+// Literata: the Bible text, on every page with a verse and in the search results
+const reading = localFont({
+  src: "../fonts/Literata-wght-latin.woff2",
+  variable: "--nf-reading",
+  weight: "200 900",
   display: "swap",
   adjustFontFallback: "Times New Roman",
 });
@@ -29,25 +42,35 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#051219",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: THEME_COLOR.dia },
+    { media: "(prefers-color-scheme: dark)", color: THEME_COLOR.noite },
+  ],
   viewportFit: "cover",
 };
 
+// The shell (globals.css .site-shell): the section rail on the left from 1024px; the column with the top bar, the
+// page and its footer; the tab bar on phones. The search palette loads on first use (SearchHost).
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="pt-BR" className={`${grotesk.variable} ${display.variable}`} suppressHydrationWarning>
+    <html lang="pt-BR" className={`${ui.variable} ${display.variable} ${reading.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>
-      <body>
+      <body className="bc-root">
         <a className="skip-link" href="#conteudo">
           Pular para o conteúdo
         </a>
-        {children}
-        <SiteFooter />
-        <nav aria-label="Atalhos" className="bottom-bar">
-          <NavLinks variant="bar" />
-        </nav>
+        <div className="site-shell">
+          <SectionRail />
+          <div className="site-column">
+            <SiteHeader />
+            {children}
+            <SiteFooter />
+          </div>
+          <TabBar />
+        </div>
+        <SearchHost />
       </body>
     </html>
   );

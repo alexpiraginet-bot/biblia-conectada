@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { NOT_FOUND_TITLE } from "@/lib/missing";
 import { PassageText } from "@/components/passage/Passage";
-import { literata } from "@/components/passage/literata";
 import { EraAxis, type AxisLane } from "@/components/timeline/EraAxis";
 import tl from "@/components/timeline/timeline.module.css";
 import { formatInt } from "@/lib/canon/text";
@@ -86,7 +85,7 @@ export default async function EventPage({ params }: PageProps<"/linha-do-tempo/[
   }
 
   return (
-    <main id="conteudo" className={`${styles.main} ${literata.variable}`}>
+    <main id="conteudo" className={styles.main}>
       <header className={styles.head}>
         <nav aria-label="Trilha" className={styles.crumbs}>
           <Link href="/linha-do-tempo">Linha do tempo</Link>

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { literata } from "@/components/reader/literata";
 import { SavedList } from "@/components/salvos/SavedList";
 import styles from "@/components/salvos/salvos.module.css";
 
@@ -12,7 +11,7 @@ export const metadata: Metadata = {
 // Static shell; the list is read from this browser's localStorage after the page loads (lib/salvos.ts).
 export default function SalvosPage() {
   return (
-    <main id="conteudo" className={`${styles.main} ${literata.variable}`}>
+    <main id="conteudo" className={styles.main}>
       <h1 className={styles.title}>Salvos</h1>
       <p className={styles.device}>
         Ficam só neste aparelho, guardados pelo navegador. Nada é enviado a um servidor, e limpar os dados do site apaga

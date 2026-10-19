@@ -58,9 +58,10 @@ describe("reserved segments", () => {
 });
 
 describe("navigation", () => {
-  it("lists the sections in the planned order: four in the phone bar, all of them in the header", () => {
-    expect(NAV.map((n) => n.href)).toEqual(["/explorar", "/ler", "/linha-do-tempo", "/arcos", "/ponte", "/dados"]);
-    expect(NAV.filter((n) => n.bar).map((n) => n.label)).toEqual(["Explorar", "Ler", "Arcos", "Ponte"]);
+  it("lists the sections in the planned order: seven in the rail, five tabs on phones", () => {
+    expect(NAV.map((n) => n.href)).toEqual(["/explorar", "/ler", "/buscar", "/linha-do-tempo", "/arcos", "/ponte", "/salvos", "/dados"]);
+    expect(NAV.filter((n) => n.rail).map((n) => n.label)).toEqual(["Explorar", "Ler", "Linha do tempo", "Arcos", "Ponte", "Salvos", "Dados"]);
+    expect(NAV.filter((n) => n.tab).map((n) => n.label)).toEqual(["Explorar", "Ler", "Buscar", "Arcos", "Ponte"]);
   });
 
   it("leads every item to a page, following the redirects of next.config.ts (/explorar opens Isaías 9)", async () => {
@@ -123,10 +124,11 @@ describe("current navigation item", () => {
     ["/ponte", "/ponte"],
     ["/ponte/1", "/ponte"],
     ["/dados", "/dados"],
+    ["/buscar", "/buscar"],
+    ["/salvos", "/salvos"],
     // pages outside the navigation
     ["/sobre", null],
     ["/conexao/isaias-9/lucas-2", null],
-    ["/salvos", null],
     ["/trilha/antes-do-natal/3", null],
     ["/mesa", null],
     ["/tema/luz", null],
@@ -149,6 +151,7 @@ describe("current navigation item", () => {
     ["/ler/x", null],
     ["/arcos/x", null],
     ["/dados/x", null],
+    ["/buscar/x", null],
     ["/genesis/50/26", "/ler"],
   ])("%s -> %s", (path, item) => expect(currentItem(path)).toBe(item));
 });

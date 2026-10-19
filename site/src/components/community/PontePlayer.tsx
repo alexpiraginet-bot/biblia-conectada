@@ -213,7 +213,7 @@ function PathList({ path, votes, gold }: { path: number[]; votes: number[]; gold
         <li key={`${gv}-${i}`}>
           <Link href={versePath(BASE, gv)} className={styles.rowLink}>
             <span className={styles.rowLead}>{i === 0 ? "início" : `${i}º salto`}</span>
-            <span className={styles.rowMain} style={gold && i > 0 ? { color: "var(--accent-text)" } : undefined}>
+            <span className={styles.rowMain} style={gold && i > 0 ? { color: "var(--accent)" } : undefined}>
               {longRef(BASE, gv)}
             </span>
             {i > 0 && <span className={styles.rowCount}>{formatInt(votes[i - 1])} votos</span>}

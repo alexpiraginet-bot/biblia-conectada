@@ -2,12 +2,12 @@
 
 .passage {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-5);
 }
 
 .chapterTitle {
-  margin: 0 0 var(--space-1);
-  font-size: var(--step-small);
+  margin: 0 0 var(--space-2);
+  font-size: var(--fs-meta);
   font-weight: 500;
   letter-spacing: 0.01em;
 }
@@ -22,7 +22,7 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  max-width: var(--scripture-column);
+  max-width: var(--column);
 }
 
 .verse {
@@ -34,16 +34,16 @@
 
 .num {
   padding-top: 0.3rem;
-  color: var(--accent-text);
-  font-size: var(--step-small);
+  color: var(--accent);
+  font-size: var(--fs-meta);
   font-variant-numeric: tabular-nums;
   text-align: right;
 }
 
 .scripture {
   margin: 0;
-  font-family: var(--font-scripture), Georgia, serif;
-  font-size: var(--step-scripture);
+  font-family: var(--font-reading), Georgia, serif;
+  font-size: var(--fs-scripture);
   line-height: 1.7;
   font-weight: 430;
   font-variation-settings: "wght" 430;
@@ -60,12 +60,12 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  max-width: calc(var(--scripture-column) + 4rem);
+  max-width: calc(var(--column) + 4rem);
 }
 
 .row {
-  padding: var(--space-2) 0;
-  border-top: 1px solid var(--hairline);
+  padding: var(--space-4) 0;
+  border-top: 1px solid var(--line);
 }
 
 .row:first-child {
@@ -78,9 +78,9 @@
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: 0 var(--space-2);
+  gap: 0 var(--space-4);
   margin: 0 0 0.25rem;
-  font-size: var(--step-ui);
+  font-size: var(--fs-ui);
 }
 
 .rowHead a {
@@ -92,5 +92,5 @@
 
 .rowMeta {
   color: var(--ink-2);
-  font-size: var(--step-small);
+  font-size: var(--fs-meta);
 }

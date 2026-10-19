@@ -45,8 +45,8 @@ export function CardMaker({
       const here = ref.current ?? root;
       const blob = await drawCard(spec, {
         title: css(root, "--font-display") || "Georgia, serif",
-        ui: css(root, "--font-grotesk") || "system-ui, sans-serif",
-        scripture: css(here, "--font-scripture") || "Georgia, serif",
+        ui: css(root, "--font-ui") || "system-ui, sans-serif",
+        scripture: css(here, "--font-reading") || "Georgia, serif",
       });
       setMade({ url: URL.createObjectURL(blob), file: new File([blob], fileName, { type: "image/png" }) });
     } catch {

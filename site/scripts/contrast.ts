@@ -1,8 +1,8 @@
-// WCAG 2.2 contrast of the colour tokens in src/app/globals.css (design/README.md §3).
+// WCAG 2.2 contrast of the colour tokens of the design system (src/styles/tokens.json; design/README.md, "Cor").
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-const CSS = join(import.meta.dirname, "..", "src", "app", "globals.css");
+const TOKENS = join(import.meta.dirname, "..", "src", "styles", "tokens.json");
 
 function luminance(hex: string): number {
   const [r, g, b] = [1, 3, 5].map((i) => {
@@ -17,23 +17,33 @@ export function contrast(a: string, b: string): number {
   return (hi + 0.05) / (lo + 0.05);
 }
 
-/** hex tokens of a CSS block; `var(--x)` resolves against the same block, then against `base` */
-function block(css: string, selector: string, base: Record<string, string> = {}): Record<string, string> {
-  const start = css.indexOf(`${selector} {`);
-  if (start < 0) throw new Error(`no ${selector} block in globals.css`);
-  const body = css.slice(start, css.indexOf("}", start));
-  const raw = Object.fromEntries([...body.matchAll(/(--[\w-]+):\s*([^;]+);/g)].map((m) => [m[1], m[2].trim()]));
-  const out: Record<string, string> = { ...base };
-  const resolve = (v: string, depth = 0): string => {
-    const ref = /^var\((--[\w-]+)\)$/.exec(v);
-    if (!ref || depth > 5) return v.toLowerCase();
-    return resolve(raw[ref[1]] ?? base[ref[1]] ?? v, depth + 1);
-  };
-  for (const [k, v] of Object.entries(raw)) out[k] = resolve(v);
-  return out;
+type Entry = { name: string; value: string | Record<string, string> };
+
+/** The colour tokens of each theme, keyed "--name", lowercase ("#rrggbb", or rgba() for the veil) */
+export function themeTokens(json = readFileSync(TOKENS, "utf8")): Record<"noite" | "dia", Record<string, string>> {
+  const tokens = (JSON.parse(json) as { color: { tokens: Entry[] } }).color.tokens;
+  const of = (theme: "noite" | "dia") =>
+    Object.fromEntries(
+      tokens.map((e) => [`--${e.name}`, (typeof e.value === "string" ? e.value : (e.value[theme] ?? e.value.noite)).toLowerCase()]),
+    );
+  return { noite: of("noite"), dia: of("dia") };
 }
 
-export function themeTokens(css = readFileSync(CSS, "utf8")): Record<"noite" | "dia", Record<string, string>> {
-  const noite = block(css, ":root");
-  return { noite, dia: block(css, '[data-theme="dia"]', noite) };
-}
+/** The contrast rules of design/README.md ("Contraste medido"): [text tokens, grounds, minimum ratio] */
+export const SURFACES = ["--ground", "--surface", "--raised", "--overlay"];
+export const POLICY: [what: string, fg: string[], bg: string[], min: number][] = [
+  ["texto e Escritura", ["--ink", "--ink-reading", "--ink-2"], [...SURFACES, "--highlight"], 7],
+  ["notas", ["--ink-3"], SURFACES, 5],
+  [
+    "acento e categorias como texto",
+    ["--accent", "--accent-strong", "--lit", "--cat-texto", "--cat-interp", "--cat-tema", "--cat-historia", "--danger"],
+    SURFACES,
+    4.5,
+  ],
+  ["rótulo sobre o botão principal", ["--on-action"], ["--action-fill"], 7],
+  ["rótulo sobre o acento", ["--on-accent"], ["--accent-fill"], 7],
+  ["bordas de controle e anel de foco", ["--line-strong", "--focus"], SURFACES, 3],
+  ["texto do céu", ["--sky-ink"], ["--sky"], 7],
+  ["texto secundário do céu", ["--sky-ink-2"], ["--sky"], 4.5],
+  ["ouro do céu", ["--sky-gold"], ["--sky"], 3],
+];

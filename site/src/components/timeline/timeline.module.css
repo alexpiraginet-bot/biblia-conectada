@@ -4,15 +4,15 @@
 .axis {
   --lane-label: 8rem;
   margin: 0;
-  padding: var(--space-3) 0 var(--space-2);
-  border-top: 1px solid var(--hairline);
-  border-bottom: 1px solid var(--hairline);
+  padding: var(--space-5) 0 var(--space-4);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }
 
 .axisCaption {
-  margin: 0 0 var(--space-2);
+  margin: 0 0 var(--space-4);
   color: var(--ink-2);
-  font-size: var(--step-small);
+  font-size: var(--fs-meta);
   max-width: var(--column);
 }
 
@@ -21,15 +21,15 @@
   margin: 0;
   padding: 0;
   display: grid;
-  gap: var(--space-1);
+  gap: var(--space-2);
 }
 
 .era {
   display: grid;
   grid-template-columns: minmax(0, 9rem) minmax(0, 1fr);
-  column-gap: var(--space-2);
-  padding: var(--space-1) 0;
-  border-top: 1px solid color-mix(in srgb, var(--hairline) 60%, transparent);
+  column-gap: var(--space-4);
+  padding: var(--space-2) 0;
+  border-top: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
 }
 
 .era:first-child {
@@ -38,7 +38,7 @@
 
 .eraName {
   margin: 0;
-  font-family: var(--font-title);
+  font-family: var(--font-display);
   font-weight: 440;
   font-synthesis: none;
   font-size: 1.125rem;
@@ -48,7 +48,7 @@
 .eraSpan {
   margin: 0;
   color: var(--ink-3);
-  font-size: var(--step-small);
+  font-size: var(--fs-meta);
   align-self: center;
 }
 
@@ -58,7 +58,7 @@
   margin: 0.125rem 0 0;
   padding: 0;
   color: var(--ink-2);
-  font-size: var(--step-small);
+  font-size: var(--fs-meta);
 }
 
 .eraCounts:empty {
@@ -79,7 +79,7 @@
 }
 
 .lanes {
-  margin-top: var(--space-2);
+  margin-top: var(--space-4);
 }
 
 .lane {
@@ -92,7 +92,7 @@
 
 .laneLabel {
   margin: 0;
-  font-size: var(--step-small);
+  font-size: var(--fs-meta);
   color: var(--ink-2);
 }
 
@@ -103,7 +103,7 @@
 .trackEmpty {
   margin: 0.25rem 0 0;
   color: var(--ink-2);
-  font-size: var(--step-small);
+  font-size: var(--fs-meta);
   max-width: var(--column);
 }
 
@@ -113,7 +113,7 @@
 }
 
 .history {
-  background: var(--link-history);
+  background: var(--cat-historia);
 }
 
 .work {
@@ -121,7 +121,7 @@
 }
 
 .here {
-  background: var(--accent-text);
+  background: var(--accent);
 }
 
 @media (min-width: 48rem) {
@@ -129,14 +129,14 @@
   .eras {
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 0;
-    margin-left: calc(var(--lane-label) + var(--space-2));
+    margin-left: calc(var(--lane-label) + var(--space-4));
   }
 
   .era {
     display: block;
-    padding: 0 var(--space-1) var(--space-1);
+    padding: 0 var(--space-2) var(--space-2);
     border-top: 0;
-    border-left: 1px solid var(--hairline);
+    border-left: 1px solid var(--line);
   }
 
   .eraSpan {
@@ -153,7 +153,7 @@
     display: grid;
     grid-template-columns: var(--lane-label) minmax(0, 1fr);
     align-items: center;
-    column-gap: var(--space-2);
+    column-gap: var(--space-4);
     min-height: 2.25rem;
   }
 
@@ -163,7 +163,7 @@
 
   .track {
     height: 2rem;
-    border-bottom: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--line);
   }
 
   .lane[data-empty] .track {
@@ -179,7 +179,7 @@
   /* the sentence of a lane without a source sits over the eras after the Antiguidade */
   .trackEmpty {
     margin: 0;
-    padding: 0.35rem 0 0.35rem calc(100% / 5 + var(--space-1));
+    padding: 0.35rem 0 0.35rem calc(100% / 5 + var(--space-2));
     max-width: none;
   }
 
@@ -189,7 +189,7 @@
     top: 0;
     bottom: 0;
     width: 1px;
-    background: var(--hairline);
+    background: var(--line);
   }
 
   .mark {
@@ -216,7 +216,7 @@
     height: 0.75rem;
     margin: -0.375rem 0 0 -0.375rem;
     opacity: 1;
-    box-shadow: 0 0 0 2px var(--ground), 0 0 0 3px var(--accent-text);
+    box-shadow: 0 0 0 2px var(--ground), 0 0 0 3px var(--accent);
   }
 }
 
@@ -226,7 +226,7 @@
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-4);
 }
 
 .medallion {
@@ -235,10 +235,10 @@
   width: 5.5rem;
   height: 5.5rem;
   border-radius: 50%;
-  border: 2px solid var(--link-history);
+  border: 2px solid var(--cat-historia);
   background: var(--surface);
   color: var(--ink);
-  font-family: var(--font-title);
+  font-family: var(--font-display);
   font-weight: 440;
   font-synthesis: none;
   font-size: 1.75rem;
@@ -254,10 +254,10 @@
 .branches {
   list-style: none;
   margin: 0;
-  padding: 0 0 0 var(--space-3);
-  border-left: 1px solid var(--accent-theme);
+  padding: 0 0 0 var(--space-5);
+  border-left: 1px solid var(--cat-tema);
   display: grid;
-  gap: var(--space-1);
+  gap: var(--space-2);
 }
 
 .branches li {
@@ -267,10 +267,10 @@
 .branches li::before {
   content: "";
   position: absolute;
-  left: calc(-1 * var(--space-3));
+  left: calc(-1 * var(--space-5));
   top: 50%;
-  width: calc(var(--space-3) - 0.25rem);
-  border-top: 1px solid var(--accent-theme);
+  width: calc(var(--space-5) - 0.25rem);
+  border-top: 1px solid var(--cat-tema);
 }
 
 .themeNode {
@@ -280,14 +280,14 @@
   min-height: 2.75rem;
   padding: 0 1.1rem;
   border-radius: 999px;
-  background: var(--accent-theme);
-  color: var(--on-fill);
+  background: var(--cat-tema);
+  color: var(--on-action);
   text-decoration: none;
   font-weight: 500;
 }
 
 [data-theme="noite"] .themeNode {
-  box-shadow: 0 0 0 2px var(--accent-theme);
+  box-shadow: 0 0 0 2px var(--cat-tema);
 }
 
 .themeNode:hover {
@@ -297,6 +297,6 @@
 
 .themeMeta {
   color: var(--ink-2);
-  font-size: var(--step-small);
+  font-size: var(--fs-meta);
   margin-left: 0.5rem;
 }
