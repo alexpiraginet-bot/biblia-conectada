@@ -27,7 +27,8 @@ for (const f of html) {
   const text = textOf(raw);
   if (!text.includes(credits.blivreCredit)) failures.push(`${f}: BLIVRE credit missing`);
   if (!text.includes("Referências cruzadas: OpenBible.info")) failures.push(`${f}: OpenBible.info credit missing`);
-  if (!raw.includes('<html lang="pt-BR"')) failures.push(`${f}: lang="pt-BR" missing`);
+  // the attribute order on <html> is not fixed: on Vercel, Next.js puts data-dpl-id (skew protection) before lang
+  if (!/<html\b[^>]*\slang="pt-BR"/.test(raw)) failures.push(`${f}: lang="pt-BR" missing`);
 }
 const sobre = textOf(page("sobre.html"));
 for (const s of ["Biblica® Open Nova Bíblia Viva™ Copyright © 2007, 2010 by Biblica, Inc.", "Theographic Bible Metadata, Viz.Bible", "OpenBible.info"]) {
