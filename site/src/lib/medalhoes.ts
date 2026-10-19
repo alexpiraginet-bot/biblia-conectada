@@ -1,8 +1,10 @@
 // Medallion illustrations (HANDOFF §3.8, design/README.md §11): one small set by category, generated and reviewed one
 // by one, labelled "Ilustração". src/data/medalhoes.json is written by `npx tsx scripts/medallions.ts manifest`; when a
 // book, place type or kind has no group, callers draw the plain ring with the book abbreviation.
-// Weight: the JSON also carries the provenance (prompt, model, date, sha256), about 6.7 KB gzip; import this module from
-// server components so it stays out of the client bundle.
+// Weight: the JSON also carries the provenance (prompt, model, date, sha256), about 6.7 KB gzip. "server-only" makes
+// the build fail if a client component imports this module; client code gets the image paths as props instead.
+// check-dist also checks that no provenance reached the browser bundles.
+import "server-only";
 import data from "@/data/medalhoes.json";
 
 export type MedalhaoKind = "livro" | "lugar" | "pessoa" | "povo" | "evento";

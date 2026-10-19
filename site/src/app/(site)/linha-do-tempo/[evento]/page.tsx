@@ -178,6 +178,15 @@ export default async function EventPage({ params }: PageProps<"/linha-do-tempo/[
                 <span className={styles.year}>{e.approximate ? "c. " : ""}{yearLabel(e.year)}</span>
                 <br />
                 {formatInt(e.verses.length)} {e.verses.length === 1 ? "versículo" : "versículos"}
+                {medal && (
+                  <>
+                    <br />
+                    <span className={styles.illustration}>
+                      Ilustração do grupo {medal.category}: {medal.label.charAt(0).toLowerCase()}
+                      {medal.label.slice(1)}
+                    </span>
+                  </>
+                )}
               </span>
             </div>
             {e.themes.length > 0 ? (

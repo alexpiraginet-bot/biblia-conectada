@@ -140,6 +140,17 @@ for (const f of shipped) {
   for (const leak of findLeaks(readFileSync(f, "utf8"), runs)) failures.push(`${relative(SITE, f)}: protected text ${leak}`);
 }
 
+// the medallion manifest stays on the server (src/lib/medalhoes.ts is server-only): none of its provenance (model,
+// prompts) may reach a browser bundle; pages get only the image paths
+type MedalManifest = { groups: Record<string, { model: string; prompt: string }> };
+const medalManifest = JSON.parse(readFileSync(join(SITE, "src/data/medalhoes.json"), "utf8")) as MedalManifest;
+const provenance = [...new Set(Object.values(medalManifest.groups).flatMap((g) => [g.model, g.prompt.slice(0, 60)]))];
+const browserFiles = textFiles(join(SITE, ".next/static"));
+for (const f of browserFiles) {
+  const text = readFileSync(f, "utf8");
+  if (provenance.some((p) => text.includes(p))) failures.push(`${relative(SITE, f)}: medallion manifest in a browser bundle`);
+}
+
 if (failures.length) {
   console.error(failures.join("\n"));
   process.exit(1);
@@ -151,5 +162,6 @@ console.log(
     `Explorar and /conexao show the explore data (${explore.checked} rows checked); ` +
     `trail (${community.trailSteps} steps) and Ponte (${community.pontePages} pages) match the community data; ` +
     `${reading}; ` +
-    `${shipped.length} shipped text files hold none of the ${new Set(runs.values()).size} protected quotes`,
+    `${shipped.length} shipped text files hold none of the ${new Set(runs.values()).size} protected quotes; ` +
+    `${browserFiles.length} browser files hold no medallion provenance`,
 );

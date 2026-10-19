@@ -115,8 +115,14 @@ export function ExploreGraph({ data, fixed, footer }: { data: Explore; fixed?: s
   );
 }
 
-/** "Ilustração" labels for the legend when a shown medallion is an illustration (none until the set exists). */
-export function illustrationsShown(data: Explore): string[] {
+/**
+ * What the rings of the canvas show (the centre and the 11 medallions), for the legend, which lists only what is drawn:
+ * the illustrations by book group ("Profetas (ramo de amendoeira)", marked "Ilustração", HANDOFF §3.8), and whether
+ * any ring falls back to the book abbreviation.
+ */
+export function ringsShown(data: Explore): { illustrations: string[]; plain: boolean } {
   const books = [data.centre.book, ...data.neighbours.slice(0, 11).map((n) => n.ref.book)];
-  return [...new Set(books.map((b) => medalhaoForBook(b.osis)?.label).filter((l): l is string => Boolean(l)))];
+  const medals = books.map((b) => medalhaoForBook(b.osis));
+  const named = medals.filter((m) => m !== null).map((m) => `${m.category} (${m.label.charAt(0).toLowerCase()}${m.label.slice(1)})`);
+  return { illustrations: [...new Set(named)], plain: medals.some((m) => m === null) };
 }

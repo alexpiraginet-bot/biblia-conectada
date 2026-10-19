@@ -8,9 +8,12 @@ import type { Book } from "../../src/lib/canon/types";
 import { EXPLORE_HOME, EXPLORE_HOME_PATH } from "../../src/lib/explore/home";
 import { pairsText, partnersText, votesText } from "../../src/lib/explore/text";
 import type { ExploreFile } from "../../src/lib/explore/types";
-import { OUT } from "../data/sources";
+import { OUT, SITE } from "../data/sources";
 
 type BookFile = { chapters: { t: string; l: [number, number, number][] }[][] };
+type Medals = { groups: Record<string, { src96: string; src192: string; category: string }>; bookGroup: Record<string, string> };
+/** rings drawn on the desktop canvas: the centre and the 6 labelled + 5 unlabelled medallions (src/lib/explore/layout.ts) */
+const RINGS = 11;
 const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 /** `read` returns the prerendered HTML of a page by its path relative to the app ("explorar/isaias/9.html"), or null. */
@@ -78,6 +81,31 @@ export function checkExplore(read: (rel: string) => string | null, textOf: (html
     for (const s of [here[hv - 1].t, there[tv - 1].t]) if (!text.includes(s)) fail(`panel lacks the BLIVRE text "${s.slice(0, 40)}…"`);
     for (const v of hereVerses) if (!raw.includes(`href="/${centreBook.slug}/${EXPLORE_HOME.chapter}/${v}"`)) fail(`panel lacks the verse ${centre}:${v}`);
     for (const v of thereVerses) if (!raw.includes(`href="/${partner.book.slug}/${partner.chapter}/${v}"`)) fail(`panel lacks the verse ${partner.label}:${v}`);
+  }
+
+  // medallions (src/data/medalhoes.json, read here directly because src/lib/medalhoes.ts is server-only): the centre and
+  // the 11 nearest partners show the illustration of their book group, and the legend names every group drawn
+  const medals = JSON.parse(readFileSync(join(SITE, "src/data/medalhoes.json"), "utf8")) as Medals;
+  const medal = (b: Book) => (medals.bookGroup[b.osis] ? medals.groups[medals.bookGroup[b.osis]] : undefined);
+  for (const page of pages.slice(0, 3)) {
+    const raw = read(page) ?? "";
+    const inner = (attr: string) => new RegExp(`<(\\w+)[^>]*\\s${escapeRe(attr)}[^>]*>([\\s\\S]*?)</\\1>`).exec(raw)?.[2] ?? "";
+    const groups = new Set<string>();
+    const c = medal(centreBook);
+    if (c) {
+      groups.add(c.category);
+      if (!inner(`data-node="${centreBook.slug}-${EXPLORE_HOME.chapter}"`).includes(`src="${c.src192}"`)) failures.push(`${page}: the centre lacks ${c.src192}`);
+    }
+    for (const [ci] of ch.top.slice(0, RINGS)) {
+      checked++;
+      const m = medal(names[ci].book);
+      if (!m) continue;
+      groups.add(m.category);
+      if (!inner(`data-node="${key(ci)}"`).includes(`src="${m.src96}"`)) failures.push(`${page}: ${names[ci].label} lacks ${m.src96}`);
+    }
+    const legend = textOf(inner('data-illustrations=""'));
+    for (const g of groups) if (!legend.includes(g)) failures.push(`${page}: the legend does not name the illustration of ${g}`);
+    if (groups.size > 0 && !legend.startsWith("Ilustração")) failures.push(`${page}: the medallions are not marked "Ilustração"`);
   }
 
   const explorar = textOf(read(pages[1]) ?? "");

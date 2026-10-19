@@ -160,6 +160,12 @@
   white-space: nowrap;
 }
 
+/* the medallion is a generated illustration of the book group, and says so (HANDOFF §3.8) */
+.illustration {
+  color: var(--ink-3);
+  font-size: var(--step-small);
+}
+
 .ref {
   display: inline-flex;
   align-items: center;

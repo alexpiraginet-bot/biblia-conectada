@@ -1,11 +1,11 @@
 import type { Explore } from "@/lib/explore/data";
-import { ExploreGraph, illustrationsShown } from "./ExploreGraph";
+import { ExploreGraph, ringsShown } from "./ExploreGraph";
 import styles from "./explore.module.css";
 
 // Graph + legend on the left, the connection panel on the right (stacked below 75rem). Shared by the home and the
 // /explorar pages; the legend lists only what the canvas draws.
 export function Explorer({ data, panel, fixed }: { data: Explore; panel: React.ReactNode; fixed?: string }) {
-  const illustrations = illustrationsShown(data);
+  const rings = ringsShown(data);
   const legend = (
     <ul className={styles.legend} aria-label="Legenda do grafo">
       <li>
@@ -16,14 +16,16 @@ export function Explorer({ data, panel, fixed }: { data: Explore; panel: React.R
         <span className={styles.swSel} aria-hidden="true" />
         Conexão selecionada
       </li>
-      <li>
-        <span className={styles.swRing} aria-hidden="true" />
-        Capítulo, com a abreviatura do livro
-      </li>
-      {illustrations.length > 0 && (
+      {rings.plain && (
         <li>
+          <span className={styles.swRing} aria-hidden="true" />
+          Capítulo, com a abreviatura do livro
+        </li>
+      )}
+      {rings.illustrations.length > 0 && (
+        <li data-illustrations="">
           <span className={styles.swIll} aria-hidden="true" />
-          Ilustração: {illustrations.join(", ")}
+          Ilustração por grupo de livros: {rings.illustrations.join(", ")}
         </li>
       )}
     </ul>
