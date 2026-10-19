@@ -70,6 +70,14 @@ Tudo o que está marcado como "conferido" foi rodado ou lido em 19/10. O que é 
 7. **Licença** (decisão do Alex em 19/10): MIT no código (`LICENSE`) e CC BY-SA 4.0 nos dados derivados (`LICENSE-DATA.md`).
    - Mídia dos estudos e textos do site continuam sem licença definida.
    - Assumption: o titular no `LICENSE` ficou "Alex Piragine Teixeira". Corrija se o titular for outro (pessoa ou empresa).
+8. **Direção visual do Explorar** (decisões do Alex em 19/10, numa rodada de perguntas sobre uma imagem de referência que ele mandou):
+   - A imagem é a cara do **site inteiro**. Ela mostra um grafo local centrado numa passagem, com nós em medalhões ilustrados, ligações em ouro e o painel "Conexão selecionada" à direita. A home vira esse Explorar; o céu de arcos dos vídeos vai para `/arcos`; leitura e livros ganham a mesma tipografia e as mesmas cores.
+   - O nome continua **Bíblia Conectada**. O "ATLAS" da imagem foi só inspiração.
+   - Os medalhões são **ilustrações geradas** com gpt-image na chave OpenAI do Alex: um conjunto pequeno por categoria, em WebP leve, marcadas como ilustração, sem rostos, conferidas uma a uma.
+   - **Camadas:**
+     - "Texto bíblico" (ligações da OpenBible com votos) e "História" (lugares, pessoas e eventos de bases livres) entram já.
+     - "Interpretação" (frases como "o tema do princípio aproxima as duas passagens") vem do assistente da Fase 2b, marcada como gerada por IA e citando os versículos.
+     - "Arte e cultura" espera uma base livre conferida.
 
 ---
 
