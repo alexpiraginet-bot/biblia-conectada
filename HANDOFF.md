@@ -383,7 +383,6 @@ npx -y skills add leonxlnx/taste-skill --skill design-taste-frontend --agent cla
      - O import criou o projeto com a raiz do repo e o preset Python (a lista de pastas do import vem do `main`, que ainda não tem `site/`). Todo deploy falha com `PYTHON_ENTRYPOINT_NOT_FOUND`. Falta pôr Root Directory `site` em Settings → Build and Deployment: a primeira tentativa do Alex não gravou (o deploy de 0e45733, às 17:26 UTC, ainda buildou a raiz). Com `site` gravado, o preset Python do painel não importa, porque `site/vercel.json` fixa `framework: nextjs`.
      - Um segundo projeto, `estudos` (raiz em `estudos/`), foi criado por engano no import e apagado pelo Alex.
      - O conector da Vercel desta sessão lê projetos, deploys e logs, mas recebe 403 ao alterar o projeto: mudanças de configuração ficam com o Alex.
-     - "Redeploy" de um deploy antigo reaproveita as configurações daquele deploy; para testar uma mudança de configuração, vale um push novo.
 3. URLs: produção `alexpiraginet-bot-biblia-conectada.vercel.app` (serve o `main`; só mostra o site depois do merge do PR #1). Prévia da branch do PR: `alexpiraginet-bot-biblia-conectada-git-claud-bf2a0a-lexprojects.vercel.app`, protegida por login da Vercel (Vercel Authentication do time).
 4. **Caminhos para criar e deployar o projeto:**
    - Integração Git, onde todo push no `main` gera produção.
@@ -481,7 +480,7 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
   - Fundação comum, antes das telas novas: cores novas (Noite `#051219` e ouro; Dia em pergaminho liso com bronze, vinho e verde), Newsreader nos títulos, kicker, navegação única (topo no desktop, barra de baixo no celular) e lista de rotas reservadas com teste. Registro em `design/README.md` §3–§5 e §13 (v3).
   - O pergaminho saiu da lista do "app devocional genérico" (A1), porque as referências do Alex usam pergaminho no Dia. Continua proibido como textura ou moldura.
   - Novo teste de contraste dos tokens (`site/tests/tokens.test.ts`); ele achou um par ruim antes de qualquer tela usar (rótulo claro sobre o verde no Noite, 3,02:1), já corrigido.
-  - A navegação já aponta para Explorar, Linha do tempo e Ponte, que chegam na onda B; até lá esses links dão 404.
+  - A navegação lista só seções com página (hoje Ler, Arcos e Dados; um teste confere). Explorar, Linha do tempo e Ponte entram quando as páginas da onda B chegarem.
 - **19/10, manhã (outra sessão, direto no `main`):**
   - Vídeo 3, "Os versículos de vocês" (`estudos/biblia-comentarios/`): resposta aos comentários do vídeo 1, 19 mapas com @.
   - **Padrão novo do Alex: todo vídeo tem narração, sempre com o mesmo narrador (Andre).** O sotaque foi tratado com
