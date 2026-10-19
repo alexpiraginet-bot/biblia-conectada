@@ -15,12 +15,22 @@ export const NAV: readonly NavItem[] = [
   { href: "/dados", label: "Dados", icon: "i-data", bar: false },
 ];
 
-const BOOKS = new Set((booksJson as { slug: string }[]).map((b) => b.slug));
+/** verses per chapter of each book, by slug */
+const BOOKS = new Map((booksJson as { slug: string; verses: number[] }[]).map((b) => [b.slug, b.verses]));
+/** "9" -> 9 when it is a number from 1 to `max` written as the site writes it (no leading zero), else 0 */
+const within = (raw: string, max: number) => (/^[1-9]\d{0,2}$/.test(raw) && Number(raw) <= max ? Number(raw) : 0);
 
-/** The navigation item a path belongs to: its own section, "Ler" for a book, chapter or verse page, else none (the
- *  home page, pages outside the navigation such as /sobre, /conexao or /salvos, and the 404 page). */
+/** The navigation item a path belongs to: its own section, "Ler" for a book, chapter or verse that exists, else none
+ *  (the home page, pages outside the navigation such as /sobre, /conexao or /salvos, and the 404 page, also the one
+ *  of an address like /genesis/51 under a real book). */
 export function currentItem(pathname: string): string | null {
   const own = NAV.find((n) => pathname === n.href || pathname.startsWith(`${n.href}/`));
   if (own) return own.href;
-  return BOOKS.has(pathname.split("/")[1]) ? "/ler" : null;
+  const [, slug, cap, vers, ...rest] = pathname.split("/");
+  const verses = BOOKS.get(slug);
+  if (!verses || rest.length > 0) return null;
+  if (cap === undefined) return "/ler";
+  const chapter = within(cap, verses.length);
+  if (!chapter) return null;
+  return vers === undefined || within(vers, verses[chapter - 1]) ? "/ler" : null;
 }

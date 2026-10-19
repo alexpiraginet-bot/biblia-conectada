@@ -131,8 +131,16 @@ describe("current navigation item", () => {
     ["/mesa", null],
     ["/tema/luz", null],
     ["/palavra/luz", null],
-    // a 404 is in no section
+    // a 404 is in no section, also under a real book
     ["/x", null],
     ["/explorador", null],
+    ["/genesis/50", "/ler"],
+    ["/genesis/51", null],
+    ["/genesis/1/31", "/ler"],
+    ["/genesis/1/32", null],
+    ["/genesis/01", null],
+    ["/genesis/1/1/1", null],
+    ["/judas/1/25", "/ler"],
+    ["/judas/2", null],
   ])("%s -> %s", (path, item) => expect(currentItem(path)).toBe(item));
 });
