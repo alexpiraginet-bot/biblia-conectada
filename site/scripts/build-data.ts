@@ -1,0 +1,229 @@
+// Builds every data file the site reads, from fontes/ and estudos/*/data/ only. Throws (and fails the build) when
+// a source disagrees with the numbers already published by the videos (stats.json, natal-stats.json, xref.npz).
+//   npm run data
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { join, relative } from "node:path";
+import { loadBlivre, loadCanon } from "./data/canon";
+import { chapterGraph, LAYOUT } from "./data/chapter-graph";
+import { buildPairs, linksPerVerse, parseCrossRefs } from "./data/crossrefs";
+import { natalPair, natalStudy } from "./data/natal";
+import { CROSSREFS_SHA256, OUT, REPO, SITE, SRC, readJson, sha256 } from "./data/sources";
+import { createGrid } from "../src/lib/canon/grid";
+
+const t0 = Date.now();
+const log = (msg: string) => console.log(`[data] ${msg} (${((Date.now() - t0) / 1000).toFixed(1)}s)`);
+function check(cond: unknown, msg: string): asserts cond {
+  if (!cond) throw new Error(`[data] check failed: ${msg}`);
+}
+function eq(actual: unknown, expected: unknown, what: string) {
+  check(JSON.stringify(actual) === JSON.stringify(expected), `${what}: got ${JSON.stringify(actual)}, expected ${JSON.stringify(expected)}`);
+}
+
+// ---- grid + text
+const canon = loadCanon();
+const blivre = loadBlivre(canon);
+const grid = createGrid(canon.books);
+eq(grid.verseCount, canon.verseCount, "verse count (grid vs npz)");
+eq(canon.stats.stats.verses, canon.verseCount, "verse count (stats.json)");
+eq(canon.stats.stats.chapters, canon.chapterVerses.length, "chapter count (stats.json)");
+eq(canon.stats.stats.books, canon.books.length, "book count (stats.json)");
+log(`grid: ${canon.books.length} books, ${canon.chapterVerses.length} chapters, ${canon.verseCount} verses; BLIVRE fits`);
+
+// ---- cross references
+eq(sha256(SRC.crossrefsTxt), CROSSREFS_SHA256, "cross-reference file SHA-256");
+const xr = parseCrossRefs(SRC.crossrefsTxt, canon);
+const pairs = buildPairs(xr);
+const st = canon.stats.stats as Record<string, number>;
+eq(xr.rowCount, st.rows_total, "rows (stats.json rows_total)");
+eq(pairs.a.length, st.unique_verse_pairs, "unique pairs (stats.json)");
+const selfPairs = pairs.a.reduce((n, a, i) => n + (a === pairs.b[i] ? 1 : 0), 0);
+eq(selfPairs, st.self_pairs, "self pairs (stats.json)");
+for (const k of ["a", "b", "votes", "vmax"] as const) {
+  const ref = canon.npz[k].data;
+  eq(ref.length, pairs[k].length, `xref.npz ${k} length`);
+  for (let i = 0; i < ref.length; i++) if (ref[i] !== pairs[k][i]) throw new Error(`[data] xref.npz ${k}[${i}] = ${ref[i]}, recomputed ${pairs[k][i]}`);
+}
+const touched = new Uint8Array(canon.verseCount);
+for (let i = 0; i < pairs.a.length; i++) touched[pairs.a[i]] = touched[pairs.b[i]] = 1;
+const versesWithAnyRef = touched.reduce((n, t) => n + t, 0);
+eq(versesWithAnyRef, st.verses_with_any_ref, "verses with any reference (stats.json)");
+const links = linksPerVerse(pairs, canon.verseCount);
+const versesWithLinks = links.reduce((n, l) => n + (l.length > 0 ? 1 : 0), 0);
+log(`cross references: ${xr.rowCount} rows, ${pairs.a.length} pairs (${selfPairs} self), identical to xref.npz`);
+
+// ---- study: Antes do Natal
+const natal = natalStudy(canon, xr);
+type NatalRef = { pairs_all: number; pairs_maxvote_gt0: number; ot_verses_all: number; ot_verses_pos: number; ot_books_all: number;
+  ot_books_pos: number; nt_verses_linked_pos: number; birth_chapter_verses: number; ot_books_missing: string[];
+  top40: { ot: string; nt: string; max: number; sum: number; ot_to_nt: number[]; nt_to_ot: number[] }[] };
+const nref = readJson<NatalRef>(SRC.natalStatsJson);
+eq(natal.pairsAll, nref.pairs_all, "natal pairs_all");
+eq(natal.pairsMaxVoteGt0, nref.pairs_maxvote_gt0, "natal pairs_maxvote_gt0");
+eq(natal.otVersesAll, nref.ot_verses_all, "natal ot_verses_all");
+eq(natal.otVersesPos, nref.ot_verses_pos, "natal ot_verses_pos");
+eq(natal.otBooksAll, nref.ot_books_all, "natal ot_books_all");
+eq(natal.otBooksPos, nref.ot_books_pos, "natal ot_books_pos");
+eq(natal.ntVersesLinkedPos, nref.nt_verses_linked_pos, "natal nt_verses_linked_pos");
+eq(natal.birthChapterVerses, nref.birth_chapter_verses, "natal birth_chapter_verses");
+eq(natal.otBooksMissing, nref.ot_books_missing, "natal ot_books_missing");
+eq(
+  natal.pairs.slice(0, 40).map((p) => [p.ot, p.nt, p.max, p.sum, p.otToNt, p.ntToOt]),
+  nref.top40.map((p) => [p.ot, p.nt, p.max, p.sum, p.ot_to_nt, p.nt_to_ot]),
+  "natal top40",
+);
+log(`natal: ${natal.pairsAll} pairs, ${natal.otVersesAll} OT verses in ${natal.otBooksAll} books, identical to natal-stats.json`);
+
+// ---- chapter graph
+const graph = chapterGraph(canon, pairs);
+log(`chapter graph: ${graph.nodes.length} nodes, ${graph.edges.i.length} edges, ForceAtlas2 ${LAYOUT.iterations} it.`);
+
+// ---- write outputs (both output folders are generated only; wipe them first so nothing stale survives)
+for (const dir of [OUT.generated, OUT.publicData]) {
+  rmSync(dir, { recursive: true, force: true });
+  mkdirSync(dir, { recursive: true });
+}
+const written: Record<string, string> = {};
+function write(path: string, data: string | Uint8Array) {
+  mkdirSync(join(path, ".."), { recursive: true });
+  writeFileSync(path, data);
+  written[relative(SITE, path)] = createHash("sha256").update(data).digest("hex");
+}
+const json = (v: unknown) => JSON.stringify(v);
+
+write(join(OUT.generated, "books.json"), json(canon.books));
+
+// one file per book: text (BLIVRE, unchanged) + links per verse [partner global index, votes, direction 1 out|2 in|3 both]
+for (const book of canon.books) {
+  const chapters = book.verses.map((n, c) => {
+    const first = canon.chapterFirst[book.firstChapter + c];
+    return Array.from({ length: n }, (_, v) => ({ t: blivre.text[first + v], l: links[first + v] }));
+  });
+  write(join(OUT.generated, "books", `${book.slug}.json`), json({ osis: book.osis, chapters }));
+}
+
+// top verses by unique partners (self excluded), ties in canonical order
+const ranked = links.map((l, gv) => [gv, l.length] as const).sort((x, y) => y[1] - x[1] || x[0] - y[0]);
+const topVerses = ranked.slice(0, 12).map(([gv, n]) => {
+  const loc = grid.locate(gv);
+  return { gv, ref: `${loc.book.name} ${loc.chapter}:${loc.verse}`, path: `/${loc.book.slug}/${loc.chapter}/${loc.verse}`, links: n };
+});
+
+// arcs.bin: struct of arrays, little endian: uint16 a[N] | uint16 b[N] | int16 votes[N]; self-pairs removed;
+// sorted by votes desc, then a, then b, so a client can draw the first K bytes of each array as a level of detail.
+const arcIdx: number[] = [];
+for (let i = 0; i < pairs.a.length; i++) if (pairs.a[i] !== pairs.b[i]) arcIdx.push(i);
+arcIdx.sort((x, y) => pairs.votes[y] - pairs.votes[x] || pairs.a[x] - pairs.a[y] || pairs.b[x] - pairs.b[y]);
+const N = arcIdx.length;
+const arcs = new ArrayBuffer(N * 6);
+const av = new DataView(arcs);
+arcIdx.forEach((i, k) => {
+  check(pairs.b[i] <= 0xffff && pairs.votes[i] >= -0x8000 && pairs.votes[i] <= 0x7fff, "arc fits uint16/int16");
+  av.setUint16(k * 2, pairs.a[i], true);
+  av.setUint16(N * 2 + k * 2, pairs.b[i], true);
+  av.setInt16(N * 4 + k * 2, pairs.votes[i], true);
+});
+const arcsBytes = new Uint8Array(arcs);
+write(join(OUT.publicData, "arcs.bin"), arcsBytes);
+write(join(OUT.publicData, "arcs.json"), json({
+  format: "biblia-conectada/arcs@1",
+  count: N,
+  bytes: arcsBytes.byteLength,
+  endianness: "little",
+  arrays: [
+    { name: "a", type: "uint16", offset: 0, note: "global verse index, lower of the pair" },
+    { name: "b", type: "uint16", offset: N * 2, note: "global verse index, higher of the pair" },
+    { name: "votes", type: "int16", offset: N * 4, note: "sum of the votes of both directions" },
+  ],
+  sortedBy: "votes desc, a asc, b asc",
+  excluded: { selfPairs },
+  source: "OpenBible.info cross references (CC BY)",
+  license: "CC BY-SA 4.0 (derived data of this project); source: OpenBible.info, CC BY",
+}));
+
+// chapter graph: nodes JSON + edges binary (uint16 i | uint16 j | uint32 pairs | int32 votes, struct of arrays)
+const E = graph.edges.i.length;
+const edgesBuf = new Uint8Array(E * 12);
+edgesBuf.set(new Uint8Array(graph.edges.i.buffer), 0);
+edgesBuf.set(new Uint8Array(graph.edges.j.buffer), E * 2);
+edgesBuf.set(new Uint8Array(graph.edges.pairs.buffer), E * 4);
+edgesBuf.set(new Uint8Array(graph.edges.votes.buffer), E * 8);
+check(new Uint8Array(new Uint16Array([1]).buffer)[0] === 1, "little-endian host for typed-array dump");
+write(join(OUT.publicData, "chapter-edges.bin"), edgesBuf);
+write(join(OUT.publicData, "chapter-graph.json"), json({
+  format: "biblia-conectada/chapter-graph@1",
+  layout: { algorithm: "ForceAtlas2 (graphology-layout-forceatlas2, inferred settings + Barnes-Hut)", ...LAYOUT },
+  nodes: graph.nodes.map((nd, ci) => {
+    const { book, chapter } = grid.locateChapter(ci);
+    return { ...nd, book: book.index, chapter };
+  }),
+  edges: {
+    file: "chapter-edges.bin",
+    count: E,
+    endianness: "little",
+    arrays: [
+      { name: "i", type: "uint16", offset: 0 },
+      { name: "j", type: "uint16", offset: E * 2 },
+      { name: "pairs", type: "uint32", offset: E * 4 },
+      { name: "votes", type: "int32", offset: E * 8 },
+    ],
+    sortedBy: "pairs desc, i asc, j asc",
+  },
+  license: "CC BY-SA 4.0 (derived data of this project); source: OpenBible.info, CC BY",
+}));
+
+// study numbers
+const keyPairs = [["Isaías 7:14", "Mateus 1:23"], ["Miqueias 5:2", "Mateus 2:6"]] as const;
+write(join(OUT.generated, "studies", "natal.json"), json({
+  birthChapters: "Mateus 1–2, Lucas 1–2",
+  birthChapterVerses: natal.birthChapterVerses,
+  pairsAll: natal.pairsAll,
+  pairsMaxVoteGt0: natal.pairsMaxVoteGt0,
+  otVersesAll: natal.otVersesAll,
+  otBooksAll: natal.otBooksAll,
+  otBooksMissing: natal.otBooksMissing,
+  keyPairs: keyPairs.map(([ot, nt]) => {
+    const p = natalPair(natal, ot, nt);
+    check(p, `natal key pair ${ot} ~ ${nt}`);
+    return { ot, nt, votes: p.sum };
+  }),
+  top40: natal.pairs.slice(0, 40),
+}));
+
+// credits: ATTRIBUTION.md verbatim (rendered on /sobre) + the BLIVRE credit line (footer)
+const attribution = readFileSync(SRC.attribution, "utf8");
+const blivreCredit = /^> (Todas as Escrituras.*)$/m.exec(attribution)?.[1];
+check(blivreCredit, "BLIVRE credit line in ATTRIBUTION.md");
+const aboutText = blivre.about.replace(/<[^>]*>/g, "").replace(/\s+/g, " ");
+check(aboutText.includes(blivreCredit), "ATTRIBUTION.md BLIVRE credit matches the zip's about page");
+write(join(OUT.generated, "credits.json"), json({ attributionMarkdown: attribution, blivreCredit }));
+
+const summary = {
+  counts: {
+    books: canon.books.length,
+    booksOT: canon.books.filter((b) => b.testament === "AT").length,
+    booksNT: canon.books.filter((b) => b.testament === "NT").length,
+    chapters: canon.chapterVerses.length,
+    verses: canon.verseCount,
+    crossrefRows: xr.rowCount,
+    pairs: pairs.a.length,
+    selfPairs,
+    arcs: N,
+    versesWithAnyRef,
+    versesWithLinks,
+    chapterEdges: E,
+  },
+  topVerses,
+  definitions: {
+    links: "parceiros únicos de um versículo, com qualquer voto, sem contar o próprio versículo",
+    pairVotes: "soma dos votos das duas direções",
+  },
+};
+write(join(OUT.generated, "summary.json"), json(summary));
+
+const inputs = Object.fromEntries(
+  [SRC.blivreZip, SRC.crossrefsTxt, SRC.xrefNpz, SRC.statsJson, SRC.natalStatsJson, SRC.attribution].map((p) => [relative(REPO, p), sha256(p)]),
+);
+writeFileSync(join(OUT.generated, "manifest.json"), JSON.stringify({ inputs, outputs: written }, null, 1));
+log(`wrote ${Object.keys(written).length} files`);
+console.log(JSON.stringify(summary.counts));

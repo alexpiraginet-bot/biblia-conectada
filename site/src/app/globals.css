@@ -1,0 +1,108 @@
+/* Tokens from design/README.md §3. Noite is the default theme; Dia applies with [data-theme="dia"]. */
+:root {
+  --bg: #060d1a;
+  --surface: #0c1a2e;
+  --raised: #15253d;
+  --text: #f2ebdd;
+  --text-2: #a9b4c8;
+  --gold: #ffcc6b;
+  --quote: #ffe2aa;
+  --hairline: #2a3b57;
+  --focus: var(--gold);
+  /* text column in rem, so blocks with smaller type (footer) share the same edges as the body text */
+  --column: 43rem;
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2.5rem;
+  --space-5: 4rem;
+  color-scheme: dark;
+}
+
+[data-theme="dia"] {
+  --bg: #eef2f7;
+  --surface: #ffffff;
+  --raised: #e2e8f1;
+  --text: #0e1733;
+  --text-2: #46526b;
+  --gold: #8a5a00;
+  --quote: var(--text);
+  --hairline: #aeb9ca;
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-grotesk), system-ui, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--bg);
+}
+
+a {
+  color: var(--gold);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  touch-action: manipulation;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+html {
+  scrollbar-color: var(--hairline) var(--bg);
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--space-2);
+  top: -100%;
+  padding: var(--space-1) var(--space-2);
+  background: var(--surface);
+  color: var(--text);
+  z-index: 10;
+}
+
+.skip-link:focus {
+  top: var(--space-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

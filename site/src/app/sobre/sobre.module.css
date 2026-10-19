@@ -1,0 +1,62 @@
+.main {
+  width: 100%;
+  max-width: calc(var(--column) + 2 * var(--space-2));
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-2) var(--space-4);
+}
+
+.prose {
+  overflow-wrap: anywhere;
+}
+
+.prose h1 {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(2.25rem, 7vw, 3.5rem);
+  line-height: 1.1;
+  margin: 0 0 var(--space-3);
+}
+
+.prose h2,
+.prose h3 {
+  line-height: 1.25;
+  margin: var(--space-4) 0 var(--space-1);
+}
+
+.prose h2 {
+  font-size: 1.5rem;
+}
+
+.prose h3 {
+  font-size: 1.1875rem;
+}
+
+.prose blockquote {
+  margin: var(--space-2) 0;
+  padding-left: var(--space-2);
+  border-left: 1px solid var(--gold);
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: 1.25rem;
+  color: var(--quote);
+}
+
+.prose code {
+  font-size: 0.875em;
+  color: var(--text-2);
+}
+
+.prose table {
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  margin: var(--space-2) 0;
+}
+
+.prose th,
+.prose td {
+  text-align: left;
+  vertical-align: top;
+  padding: var(--space-1);
+  border-bottom: 1px solid var(--hairline);
+}

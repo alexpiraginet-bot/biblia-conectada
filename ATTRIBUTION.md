@@ -45,7 +45,7 @@ Licença: Creative Commons Atribuição 4.0 Brasil. Crédito sugerido pelos auto
 
 ## Fontes tipográficas
 
-Space Grotesk, Space Mono e Cormorant, sob a SIL Open Font License 1.1. Os textos da licença estão em `estudos/*/assets/fonts/OFL-*.txt`.
+Space Grotesk, Space Mono e Cormorant, sob a SIL Open Font License 1.1. Os textos da licença estão em `estudos/*/assets/fonts/OFL-*.txt` e, junto das cópias WOFF2 usadas pelo site, em `site/src/fonts/OFL-*.txt`.
 
 ## Mídia gerada pelo projeto
 
@@ -55,6 +55,8 @@ Space Grotesk, Space Mono e Cormorant, sob a SIL Open Font License 1.1. Os texto
 - Sem rostos de pessoas.
 - Prompts e ids dos jobs: `estudos/biblia-natal/source/PROMPTS.md`.
 
-## Código e textos deste repositório
+## Código e dados deste repositório
 
-Ainda sem licença definida, o que por padrão significa todos os direitos reservados. Decisão pendente do Alex (ver `HANDOFF.md` §8).
+- **Código-fonte** (`site/`, `scripts/` e o código Python de `estudos/`): licença MIT, ver `LICENSE`.
+- **Dados derivados** gerados pelo projeto (`site/src/data/generated/`, `site/public/data/`): CC BY-SA 4.0, ver `LICENSE-DATA.md`. Quem reutilizar mantém os créditos das fontes listados acima.
+- **Mídia dos estudos e textos do site:** ainda sem licença definida, o que por padrão significa todos os direitos reservados.

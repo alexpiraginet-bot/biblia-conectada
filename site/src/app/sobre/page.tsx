@@ -1,0 +1,19 @@
+import type { Metadata } from "next";
+import { marked } from "marked";
+import { credits } from "@/lib/data";
+import styles from "./sobre.module.css";
+
+export const metadata: Metadata = {
+  title: "Sobre e créditos",
+  description: "Fontes, licenças e créditos da Bíblia Conectada.",
+};
+
+// ATTRIBUTION.md rendered verbatim at build time (trusted repository file; no client JavaScript).
+export default function Sobre() {
+  const html = marked.parse(credits.attributionMarkdown, { async: false });
+  return (
+    <main id="conteudo" className={styles.main}>
+      <article className={styles.prose} dangerouslySetInnerHTML={{ __html: html }} />
+    </main>
+  );
+}

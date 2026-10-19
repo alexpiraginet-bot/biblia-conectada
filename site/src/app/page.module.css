@@ -1,0 +1,50 @@
+.main {
+  width: 100%;
+  max-width: calc(var(--column) + 2 * var(--space-2));
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-2) var(--space-4);
+}
+
+.title {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin: 0 0 var(--space-3);
+  color: var(--text);
+}
+
+.lede {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: var(--text);
+  margin: 0 0 var(--space-4);
+}
+
+.verse {
+  margin: var(--space-3) 0;
+  padding: 0;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(1.375rem, 4.5vw, 1.75rem);
+  line-height: 1.45;
+  color: var(--quote);
+}
+
+.verse p {
+  margin: 0 0 var(--space-1);
+  text-wrap: pretty;
+}
+
+.verse footer {
+  font-family: var(--font-grotesk), system-ui, sans-serif;
+  font-size: 0.875rem;
+  color: var(--gold);
+}
+
+.note {
+  color: var(--text-2);
+  font-size: 0.9375rem;
+  margin-bottom: var(--space-4);
+}
