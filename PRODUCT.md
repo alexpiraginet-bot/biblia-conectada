@@ -23,7 +23,7 @@ Abrir qualquer versículo e seguir as ligações dele (referências cruzadas, de
 
 ## Positioning
 
-Os arcos dos vídeos viram algo que se toca: as 301.584 ligações entre versículos, navegáveis, em português, montadas só com fontes livres e com todo número calculado por código a partir delas.
+Os arcos dos vídeos viram algo que se toca: os 301.539 pares de versículos ligados, navegáveis, em português, montadas só com fontes livres e com todo número calculado por código a partir delas.
 
 ## Operating Context
 

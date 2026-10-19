@@ -1,0 +1,580 @@
+/* Reading surface (design §5–§6): text column + margin of links; links panel as a column (desktop) or a sheet (phone). */
+
+.reader {
+  width: 100%;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 0 var(--space-2);
+}
+
+.rail {
+  display: none;
+}
+
+.main {
+  display: block;
+}
+
+@media (min-width: 64rem) {
+  .main {
+    display: grid;
+    grid-template-columns: minmax(0, calc(var(--scripture-column) + 5rem)) minmax(18rem, 24rem);
+    column-gap: var(--space-5);
+    align-items: start;
+  }
+}
+
+@media (min-width: 84rem) {
+  .reader {
+    display: grid;
+    grid-template-columns: 11rem minmax(0, 1fr);
+    column-gap: var(--space-4);
+  }
+
+  .rail {
+    display: block;
+    position: sticky;
+    top: calc(var(--header-h) + var(--space-3));
+    padding-top: var(--space-4);
+    align-self: start;
+    font-size: var(--step-small);
+  }
+}
+
+.railTitle {
+  margin: 0 0 var(--space-1);
+  font-weight: 600;
+}
+
+.railTitle a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.railGrid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.25rem;
+}
+
+.railGrid a {
+  display: grid;
+  place-items: center;
+  height: 1.75rem;
+  border-radius: 0.375rem;
+  color: var(--text-2);
+  text-decoration: none;
+}
+
+.railGrid a:hover {
+  color: var(--text);
+  background: var(--raised);
+}
+
+.railGrid a[aria-current] {
+  color: var(--on-gold);
+  background: var(--gold);
+}
+
+.railAll {
+  margin: var(--space-2) 0 0;
+}
+
+.railAll a {
+  color: var(--text-2);
+}
+
+/* ---- text */
+
+.text {
+  padding: var(--space-3) 0 var(--space-4);
+}
+
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  align-items: center;
+  min-height: 2.75rem;
+  color: var(--text-2);
+  font-size: var(--step-small);
+}
+
+.crumbs a {
+  color: var(--text-2);
+}
+
+.crumbs [aria-current] {
+  color: var(--text);
+}
+
+.title {
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin: var(--space-1) 0 var(--space-1);
+}
+
+.meta {
+  color: var(--text-2);
+  font-size: var(--step-small);
+  margin: 0 0 var(--space-2);
+}
+
+.pager {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin: var(--space-1) 0 var(--space-3);
+  font-size: var(--step-small);
+}
+
+.pager a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 2.75rem;
+  color: var(--text-2);
+  text-decoration: none;
+}
+
+.pager a:hover {
+  color: var(--gold);
+}
+
+.verses {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.verse {
+  display: grid;
+  grid-template-columns: 1.75rem minmax(0, 1fr);
+  column-gap: 0.5rem;
+  padding: 0.5rem 0.625rem;
+  margin: 0 -0.625rem;
+  border-radius: 0.625rem;
+  scroll-margin-top: calc(var(--header-h) + var(--space-3));
+  transition: background-color 200ms var(--ease-out);
+}
+
+.vnum {
+  font-size: 0.75rem;
+  line-height: 2.4;
+  color: var(--text-2);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.vtext {
+  font-family: var(--font-scripture), Georgia, serif;
+  font-size: var(--step-scripture);
+  line-height: 1.7;
+  font-weight: 430;
+  font-variation-settings: "wght" 430;
+  text-wrap: pretty;
+  hyphens: manual;
+}
+
+[data-theme="dia"] .vtext {
+  font-weight: 400;
+  font-variation-settings: "wght" 400;
+}
+
+.supplied {
+  color: var(--text-2);
+}
+
+.vcount {
+  grid-column: 2;
+  justify-self: start;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.125rem;
+  padding: 0.125rem 0.5rem 0.125rem 0.375rem;
+  border-radius: 999px;
+  color: var(--text-2);
+  font-size: var(--step-small);
+  text-decoration: none;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 44 px touch target without changing the line height */
+.vcount::after {
+  content: "";
+  position: absolute;
+  inset: -0.6rem -0.25rem;
+}
+
+.vcount:hover {
+  color: var(--text);
+}
+
+.vcount[data-zero] {
+  opacity: 0.7;
+}
+
+.vcountIcon {
+  flex: none;
+}
+
+@media (min-width: 64rem) {
+  .verse {
+    grid-template-columns: 1.75rem minmax(0, 1fr) 4.5rem;
+  }
+
+  .vcount {
+    grid-column: 3;
+    justify-self: end;
+    align-self: start;
+    margin-top: 0.25rem;
+  }
+
+  .vcountWord {
+    display: none;
+  }
+
+  .verse:hover .vcount {
+    color: var(--text);
+  }
+}
+
+.verse[aria-current] {
+  background: var(--raised);
+}
+
+.verse[aria-current] .vcount {
+  color: var(--gold);
+}
+
+
+/* ---- panel: column on desktop, sheet on phones */
+
+.panel,
+.chapterAside {
+  font-size: var(--step-ui);
+}
+
+.chapterAside {
+  padding: var(--space-3) 0 var(--space-4);
+  border-top: 1px solid var(--hairline);
+}
+
+@media (min-width: 64rem) {
+  .chapterAside,
+  .panel {
+    position: sticky;
+    top: calc(var(--header-h) + var(--space-3));
+    max-height: calc(100dvh - var(--header-h) - var(--space-4));
+    overflow: auto;
+    overscroll-behavior: contain;
+    margin-top: var(--space-4);
+    padding: 0 0 var(--space-3);
+    border-top: 0;
+    scrollbar-width: thin;
+  }
+
+  .backdrop,
+  .sheetBar {
+    display: none;
+  }
+}
+
+@media (max-width: 63.99rem) {
+  .panel {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgb(2 6 14 / 0.55);
+  }
+
+  .sheet {
+    position: relative;
+    max-height: 82dvh;
+    overflow: auto;
+    overscroll-behavior: contain;
+    background: var(--surface);
+    border-radius: 1rem 1rem 0 0;
+    box-shadow: 0 -12px 40px rgb(0 0 0 / 0.35);
+    padding: 0 var(--space-2) calc(var(--space-3) + env(safe-area-inset-bottom));
+    animation: sheet-in 250ms var(--ease-out);
+  }
+
+  .sheetBar {
+    position: sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.75rem;
+    background: var(--surface);
+    z-index: 1;
+  }
+
+  .grip {
+    width: 2.5rem;
+    height: 0.25rem;
+    border-radius: 999px;
+    background: var(--hairline);
+  }
+
+  .close {
+    position: absolute;
+    right: -0.5rem;
+    top: 0;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    color: var(--text-2);
+  }
+}
+
+@keyframes sheet-in {
+  from {
+    transform: translateY(24px);
+    opacity: 0.6;
+  }
+}
+
+.panelTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 0 var(--space-1);
+  outline: none;
+}
+
+.panelMeta,
+.hint,
+.empty,
+.source {
+  color: var(--text-2);
+  font-size: var(--step-small);
+}
+
+.panelMeta {
+  margin: 0 0 var(--space-2);
+}
+
+.listTitle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.5rem;
+  margin: var(--space-3) 0 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--hairline);
+  font-size: var(--step-ui);
+  font-weight: 600;
+}
+
+.listTitle span {
+  color: var(--text-2);
+  font-size: var(--step-small);
+  font-weight: 400;
+}
+
+.hint {
+  margin-top: var(--space-3);
+}
+
+/* ---- the verse's arcs (video 1 look), always on the night ground */
+
+.arcs {
+  margin: 0 0 var(--space-2);
+}
+
+.arcsSky {
+  position: relative;
+  padding: 0.75rem 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  background: var(--sky);
+  border: 1px solid color-mix(in srgb, var(--sky-text-2) 18%, transparent);
+}
+
+.arcsSvg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* additive light, as in the video: each group of arcs brightens what is under it */
+.arcsLinks > path {
+  mix-blend-mode: screen;
+}
+
+.arcsTicks {
+  stroke: rgb(242 224 189 / 0.45);
+  stroke-width: 1;
+  fill: none;
+}
+
+.arcsGlow {
+  fill: var(--sky-gold);
+  opacity: 0.22;
+}
+
+.arcsStar {
+  fill: var(--sky-gold);
+}
+
+.arcsScale {
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: 0.3rem;
+  height: 1rem;
+  color: var(--sky-text-2);
+  font-size: 0.6875rem;
+  letter-spacing: 0.02em;
+}
+
+.arcsScale span {
+  position: absolute;
+  top: 0;
+  text-align: center;
+}
+
+.arcsCaption {
+  margin: 0.5rem 0 0;
+  color: var(--text-2);
+  font-size: var(--step-small);
+  line-height: 1.5;
+}
+
+.focusVerse {
+  margin: 0 0 var(--space-2);
+  padding-left: 0.875rem;
+  border-left: 1px solid var(--hairline);
+  font-family: var(--font-scripture), Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.strong {
+  list-style: none;
+  margin: 0 0 var(--space-2);
+  padding: 0;
+}
+
+.strong > li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--hairline) 60%, transparent);
+}
+
+.strongHead,
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.strongHead a,
+.row a {
+  color: var(--text);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.strongHead a:hover,
+.row a:hover {
+  color: var(--gold);
+  text-decoration: underline;
+}
+
+.row a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+.dir {
+  display: inline-flex;
+  color: var(--text-2);
+}
+
+.votes {
+  margin-left: auto;
+  color: var(--text-2);
+  font-size: var(--step-small);
+  white-space: nowrap;
+}
+
+.excerpt {
+  margin: 0.25rem 0 0;
+  font-family: var(--font-scripture), Georgia, serif;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rows > li {
+  border-bottom: 1px solid color-mix(in srgb, var(--hairline) 45%, transparent);
+}
+
+.more summary {
+  display: flex;
+  align-items: center;
+  min-height: 2.75rem;
+  color: var(--gold);
+  cursor: pointer;
+}
+
+.source {
+  margin-top: var(--space-3);
+  line-height: 1.7;
+}
+
+.source svg {
+  vertical-align: -0.2em;
+}
+
+.preview {
+  position: fixed;
+  z-index: 45;
+  width: 21.25rem;
+  padding: 0.75rem 0.875rem;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 0.625rem;
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.3);
+}
+
+.previewRef {
+  margin: 0 0 0.25rem;
+  font-size: var(--step-small);
+  font-weight: 600;
+}
+
+.previewText {
+  margin: 0;
+  font-family: var(--font-scripture), Georgia, serif;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}

@@ -179,6 +179,27 @@ write(join(OUT.publicData, "sky.json"), json({
   license: "CC BY-SA 4.0 (derived data of this project); source: OpenBible.info, CC BY",
 }));
 
+// reading pages: for each chapter, the chapters most linked to it (distinct verse pairs between them), ties kept
+const PARTNER_CHAPTERS = 8;
+const byChapter: Array<Array<[number, number]>> = Array.from({ length: canon.chapterVerses.length }, () => []);
+for (let k = 0; k < graph.edges.i.length; k++) {
+  byChapter[graph.edges.i[k]].push([graph.edges.j[k], graph.edges.pairs[k]]);
+  byChapter[graph.edges.j[k]].push([graph.edges.i[k], graph.edges.pairs[k]]);
+}
+write(join(OUT.generated, "chapter-links.json"), json(byChapter.map((list) => {
+  list.sort((x, y) => y[1] - x[1] || x[0] - y[0]);
+  const cut = list[Math.min(PARTNER_CHAPTERS, list.length) - 1]?.[1] ?? 0;
+  return list.filter(([, n], idx) => idx < PARTNER_CHAPTERS || n === cut);
+})));
+// distinct verse pairs touching each chapter (self excluded), for the book pages
+write(join(OUT.generated, "chapter-pairs.json"), json(chapterPairs));
+// verse pages prerendered at build time: the most linked verses (the rest render on first request and are cached)
+const VERSE_PAGES = 200;
+write(join(OUT.generated, "verse-pages.json"), json(ranked.slice(0, VERSE_PAGES).map(([gv]) => {
+  const loc = grid.locate(gv);
+  return [loc.book.slug, loc.chapter, loc.verse];
+})));
+
 // verse texts per chapter (BLIVRE, unchanged), fetched by the hover preview of a linked verse
 for (const book of canon.books) {
   book.verses.forEach((n, c) => {
@@ -244,6 +265,20 @@ check(blivreCredit, "BLIVRE credit line in ATTRIBUTION.md");
 const aboutText = blivre.about.replace(/<[^>]*>/g, "").replace(/\s+/g, " ");
 check(aboutText.includes(blivreCredit), "ATTRIBUTION.md BLIVRE credit matches the zip's about page");
 write(join(OUT.generated, "credits.json"), json({ attributionMarkdown: attribution, blivreCredit }));
+// licence note served next to the public data files (LICENSE-DATA.md has the full terms)
+write(join(OUT.publicData, "LICENSE.txt"), [
+  "Bíblia Conectada: dados públicos",
+  "",
+  "text/: texto da Bíblia Livre (BLIVRE), sem alterações, sob a licença dela (CC BY 4.0 Brasil).",
+  blivreCredit,
+  "",
+  "Os demais arquivos (ligações, votos, posições, grafos) são dados derivados deste projeto, sob CC BY-SA 4.0:",
+  "https://creativecommons.org/licenses/by-sa/4.0/deed.pt-br",
+  "Referências cruzadas: OpenBible.info (CC BY), https://www.openbible.info/labs/cross-references/",
+  "",
+  "Termos completos e créditos: LICENSE-DATA.md e ATTRIBUTION.md em https://github.com/alexpiraginet-bot/biblia-conectada",
+  "",
+].join("\n"));
 
 const summary = {
   counts: {

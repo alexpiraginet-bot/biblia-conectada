@@ -8,7 +8,9 @@ export function SiteFooter() {
   return (
     <footer className={styles.footer}>
       <p>{credits.blivreCredit}</p>
-      <p>Referências cruzadas: OpenBible.info</p>
+      <p>
+        Referências cruzadas: <a href="https://www.openbible.info/labs/cross-references/">OpenBible.info</a> (CC BY)
+      </p>
       <p>
         <Link href="/sobre">Sobre e créditos completos</Link>
         {" · "}

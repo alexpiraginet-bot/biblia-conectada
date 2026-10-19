@@ -14,7 +14,7 @@ RANGE="U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0300-03
 mkdir -p "$OUT"
 # Cormorant roman is not used on the site (design/README.md §4): only the italic is subset.
 for f in Cormorant-Italic-VF SpaceGrotesk-VF SpaceMono-Regular SpaceMono-Bold; do
-  "$PY" -m fontTools.subset "$SRC/$f.ttf" --unicodes="$RANGE" --layout-features='*' \
+  "$PY" -m fontTools.subset "$SRC/$f.ttf" --unicodes="$RANGE" --layout-features='*' --name-IDs='*' --name-languages='*' \
     --flavor=woff2 --output-file="$OUT/$f.woff2"
 done
 cp "$SRC"/OFL-*.txt "$OUT/"

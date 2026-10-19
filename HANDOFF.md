@@ -43,9 +43,9 @@ Tudo o que está marcado como "conferido" foi rodado ou lido em 19/10. O que é 
   - Conclusão: o `main` sozinho já renderiza, e os intermediários só poupam tempo.
 
 **Site (sessão de 19/10, Fases 0 e 1, branch `claude/site-phase-0-1`, PR #1):**
-- `site/` existe: Next.js 16.4.2 + React 19.3.1, páginas estáticas `/` (provisória) e `/sobre`, créditos no rodapé.
-- Pipeline `site/scripts/build-data.ts` + 82 testes (vitest). Detalhes em §5.5.
-- `npm run build` passa (dados → testes → `next build` → créditos conferidos no HTML).
+- `site/` existe: Next.js 16.4.2 + React 19.3.1. Páginas: `/` (provisória até o céu entrar), `/sobre`, `/ler`, os 66 livros, os 1.189 capítulos e os versículos (os 200 mais ligados saem no build; os outros na primeira visita, e ficam guardados).
+- Pipeline `site/scripts/build-data.ts` + 137 testes (vitest). Detalhes em §5.5.
+- `npm run build` passa: dados → testes → `next build` → `check-dist` (créditos e `lang` nas 1.458 páginas geradas, números da home iguais ao `summary.json`, nenhum trecho das citações ACF/AA em 11.588 arquivos entregues).
 - **Projeto da Vercel: não criado.** O conector da Vercel desta sessão recebeu 403 ao criar projeto, nas duas rotas (`create_project` e `create_git_project`). O Alex é OWNER do time "Lex Technology projects"; falta permissão do conector, não do time. Passo a passo em §9.
 
 **Bloqueios desta sessão (políticas, não erros do repo):** a sessão na nuvem não podia criar repositório (403 em `/user/repos`) nem criar Release (403). Por isso o repo foi criado pelo Alex e os intermediários foram para uma branch órfã.
@@ -58,7 +58,7 @@ Tudo o que está marcado como "conferido" foi rodado ou lido em 19/10. O que é 
    - O Alex pediu "Mantenha tudo! A Bíblia não pode ter direitos autorais!". O texto original é de domínio público, mas tradução moderna é obra protegida.
    - Base legal: Lei 9.610/98, art. 7º, XI (traduções são obras protegidas), art. 14 (quem traduz obra em domínio público tem direito sobre a própria tradução) e art. 41 (70 anos após a morte do autor).
    - Publicar o texto completo da ACF, NVI ou AA num repo público pode tirar repo e site do ar.
-   - **Ficam:** citações curtas com a fonte (art. 46, III), como as 22 de `verses.json` e as dos vídeos.
+   - **Ficam:** citações curtas com a fonte (art. 46, III), como as de `verses.json` (só os versículos dos vídeos) e as dos vídeos.
    - **Vão no lugar:** todas as traduções livres achadas (seção 4).
 2. **Texto principal do site: Bíblia Livre (BLIVRE, CC BY 4.0).** É a única tradução livre completa com numeração idêntica à da base de referências (0 diferenças em 1.189 capítulos).
 3. **Repo leve:** heavy media fora do `main`. Clone raso e deploy da Vercel não baixam a branch `film-intermediates`.
@@ -164,7 +164,7 @@ Toda nota tem:
 
 1. **Ler:** livro → capítulo com texto BLIVRE e painel de ligações.
 2. **Grafo:** 1.189 capítulos como estrelas, livros como constelações. O zoom chega aos versículos.
-3. **Arcos:** as 301.584 ligações, interativas.
+3. **Arcos:** os 301.539 pares de versículos ligados, interativos.
 4. **Mapa:** lugares com relevo noturno e as rotas dos estudos.
 5. **Linha do tempo:** eventos (fase 2).
 6. **Busca ⌘K.**
@@ -249,15 +249,25 @@ Saídas (fora do git; a Vercel gera de novo) e o que ficou para depois estão em
 - Créditos presentes no HTML.
 - Nenhum arquivo de tradução protegida em `fontes/` ou `public/`.
 
-**Testes feitos (todos passam, 82):** os seis acima, mais o parser de referências, os caminhos de URL e a tabela de livros (64 testes em `site/tests/reference.test.ts`), a simetria das ligações, `arcs.bin` decodificado igual ao `xref.npz`, o grafo de capítulos somando todos os pares, listas do topo sem cortar empate, as citações ACF/AA dos vídeos ausentes das saídas (exceto onde a BLIVRE tem as mesmas palavras) e o SHA-256 de cada saída. Os créditos e os números da home no HTML são conferidos por `site/scripts/check-dist.ts`, no fim do build.
+**Testes feitos (todos passam, 137 em 19/10):**
+- os seis acima;
+- o parser de referências, os caminhos de URL, os atalhos `/is/9/6` e a tabela de livros (`site/tests/reference.test.ts`);
+- a simetria das ligações, `arcs.bin` decodificado igual ao `xref.npz`, o grafo de capítulos somando todos os pares, listas do topo sem cortar empate e o SHA-256 de cada saída;
+- os capítulos ligados que as páginas calculam na hora iguais ao `chapter-links.json` e ao `chapter-pairs.json` nos 1.189 capítulos; a paleta e o peso dos arcos iguais ao `film.py`/`arcs.py` (`site/tests/reading.test.ts`);
+- trava contra tradução protegida: sequências de 6 palavras das citações ACF/AA que a BLIVRE não tem não aparecem nas saídas nem em `src/` (`site/scripts/data/leak-guard.ts`).
+
+No fim do build, `site/scripts/check-dist.ts` confere créditos e `lang` em todas as páginas geradas, os números da home, e passa a mesma trava em tudo o que o servidor e o navegador recebem (`.next/server`, `.next/static`, `public/`).
 
 ### 5.6 Orçamento e qualidade
 
 - **Desempenho:**
   - Página de leitura com até cerca de 100 KB de JS (gzip). **Não cabe no Next.js** (medido em 19/10 com `npm run budget`): a home provisória, sem nenhum componente de cliente, já manda 135,1 KB gzip (navegador moderno; os polyfills `noModule` ficam fora). Desligar `cacheComponents`/`partialPrefetching` deu 134,7 KB.
-    - Proposta (decisão do Alex): orçamento = runtime medido + até 30 KB gzip de ilhas próprias na leitura, conferido por `npm run budget` a cada fase.
+    - Proposta (decisão do Alex): orçamento = runtime medido + até 25 KiB gzip de JS próprio (total ≤ 165 KiB), conferido por `npm run budget` a cada fase.
+    - Medido em 19/10 nas páginas de leitura: versículo 145,3 KiB, capítulo 143,8, livro 142,9 (runtime + 10,2 KiB próprios no pior caso). HTML gzip: no máximo 43,3 KB (Salmos 119, 176 versículos), Isaías 9:6 27 KB.
     - O HTML chega pronto: o texto aparece sem esperar o JS. O custo do runtime cai na hidratação (interatividade), não na primeira pintura.
   - LCP < 2,5 s em 4G simulado e CLS < 0,1.
+    - Lighthouse 13.5.0, celular simulado, servidor local (19/10): Isaías 9 LCP 2,4 s; Isaías 9:6 3,2 s; Salmos 119 2,6 s; livro Isaías 2,4 s. CLS 0 em todas. **Isaías 9:6 e Salmos 119 passam da meta.**
+    - Causa achada: o manifesto de fontes do Turbopack pré-carrega fontes fora da rota que as usa (a Cormorant da home em todas as páginas; a Literata também nas páginas de livro), e elas disputam banda com o CSS. A Cormorant sai com a home nova (o céu não a usa). A Literata nas páginas de livro fica como pendência: mover a declaração para um módulo próprio não mudou o manifesto.
   - Visões WebGL carregadas sob demanda.
 - **Acessibilidade:** checklist em `design/README.md` §8, incluindo alternativa em lista para grafo, arcos e mapa.
 - **Telas a conferir:** 375 px e 1440 px, temas Noite e Dia, e `prefers-reduced-motion`.
@@ -266,13 +276,24 @@ Saídas (fora do git; a Vercel gera de novo) e o que ficou para depois estão em
 
 ## 6. Plano em fases (cada uma termina com evidência)
 
-**Andamento (19/10):** Fase 0 feita, menos o projeto da Vercel e a URL de preview (bloqueio em §9). Fase 1 feita: testes verdes, contagens batendo, nenhum número escrito à mão no site.
+**Andamento (19/10):**
+- Fase 0 feita, menos o projeto da Vercel e a URL de preview (bloqueio em §9).
+- Fase 1 feita: testes verdes, contagens batendo, nenhum número escrito à mão no site.
+- Fase 2 (leitura) feita, exceto a prévia na Vercel:
+  - livro, capítulo e versículo com o texto BLIVRE; contagem de ligações na margem; painel (coluna no desktop, folha no celular); prévia no hover; deep link `/livro/cap/vers`; atalhos `/is/9/6`;
+  - arcos do versículo, do capítulo e do livro desenhados como no vídeo 1 (SVG feito no servidor);
+  - telas em 375 e 1440 px, Noite e Dia, conferidas;
+  - teclado e folha testados: foco no título, fundo inerte, Esc fecha e devolve o foco ao contador;
+  - Lighthouse acessibilidade 100 nas 6 páginas, celular e desktop (13.5.0, 19/10);
+  - detector do impeccable sem achados.
+- Fase 4 (céu na home) em andamento.
 
 | Fase | Entrega | Critério de aceite |
 |---|---|---|
 | 0. Arranque | Skills instaladas (§7). `site/` criado (stack decidida e registrada aqui). Projeto Vercel `biblia-conectada` ligado ao repo, com Root Directory `site` | `npm run build` passa. Preview `*.vercel.app` responde 200. Comandos documentados no `CLAUDE.md` |
 | 1. Dados | `build-data` + testes da §5.5. Tabela de livros PT com abreviações e parser de referência ("Is 9:6", "isaías 9 6", "Mq 5,2", "1 Co 13") | Testes verdes. Contagens batendo. Nenhum número escrito à mão |
 | 2. Leitura | Páginas de livro e capítulo (BLIVRE). Painel de ligações com votos. Backlinks. Prévia. Deep link de versículo. Créditos no rodapé e em `/sobre` | Screenshot 375/1440 nos dois temas. Navegação por teclado. Lighthouse acessibilidade ≥ 95 |
+| 2b. Assistente de estudo (IA) | Perguntas sobre um versículo ou tema, respondidas só com o que o site tem: texto BLIVRE e ligações. Plano abaixo da tabela | Toda resposta cita versículos com link e nada fora deles. Teste com perguntas que pedem invenção (deve recusar). Limite por visitante e de tamanho funcionando. Chave só no servidor |
 | 3. Busca ⌘K | Referências, livros, texto, lugares e pessoas, com os recentes | Casos de teste do parser. Busca de texto carregando sob demanda |
 | 4. Arcos + Grafo | Céu de ligações na home, `/arcos` e `/grafo` | 60 fps no desktop e fluido no celular médio (com LOD). Alternativa em lista. Movimento reduzido respeitado |
 | 5. Mapa + Pessoas/Lugares | Base unida (§4.3), nomes PT revisados nos ~150 principais, notas de lugar e pessoa, mapa com relevo e rotas dos estudos | Nomes PT tirados do texto. Lista de incertos registrada |
@@ -280,6 +301,13 @@ Saídas (fora do git; a Vercel gera de novo) e o que ficou para depois estão em
 | 7. Polimento e produção | `/impeccable audit` → `polish`. OG. Performance. Deploy de produção | Checklists da §5.6. URL de produção enviada ao Alex |
 
 **Pare e mostre ao Alex ao fim das Fases 0, 2 e 4.** Mostre screenshots e a URL de preview.
+
+**Plano da Fase 2b (assistente), pedido pelo Alex em 19/10:**
+- **Base:** responde só com o texto citado. O servidor junta o versículo ou capítulo em foco, as ligações dele (OpenBible.info) e o texto BLIVRE desses versículos, e manda isso ao modelo. Cada afirmação aponta o versículo com link (`/isaias/9/6`). Não inventa citação, não usa tradução protegida (§3), não cita o que não veio no contexto.
+- **Tom:** humilde, de estudo. Quando cristãos leem de jeitos diferentes, mostra as leituras sem escolher uma. Não substitui pastor nem igreja. Diz "não sei" quando o texto não responde.
+- **Custo:** teto de US$ 20 por mês que o Alex define no console da Anthropic (limite de gasto da organização). No site: limite de perguntas por visitante (por IP, janela de tempo) e limite de tamanho da resposta (`max_tokens`). Se o teto bater, a página diz que o assistente voltou a dormir até o mês seguinte.
+- **Chave:** só na variável de ambiente `ANTHROPIC_API_KEY` da Vercel (criptografada, lado do servidor), colada pelo Alex no painel. Nunca no repositório, em log ou no navegador.
+- **Antes de começar:** o Alex precisa revogar a chave que colou no chat de 19/10 e gerar outra (§8). Ao implementar, consultar a skill `claude-api` para modelo e preço do momento.
 
 ---
 
@@ -313,8 +341,9 @@ npx -y skills add leonxlnx/taste-skill --skill design-taste-frontend --agent cla
 2. **Plano da Vercel.** O Hobby é para uso pessoal não comercial. Se o site for divulgar negócio (perfil comercial, venda), conferir os termos e talvez ir pro Pro.
 3. **Domínio próprio:** só se ele quiser e aprovar a compra.
 4. ~~Stack~~: Next.js, decidido em 19/10 (§3.6).
-6. **Orçamento de JS** com Next.js (§5.6): aceitar "runtime medido + 30 KB de ilhas" ou outra regra.
+6. **Orçamento de JS** com Next.js (§5.6): aceitar "runtime medido + até 25 KiB de JS próprio (total ≤ 165 KiB)" ou outra regra.
 7. **Projeto da Vercel** (§9): criar no painel ou dar ao conector permissão de criar projetos.
+8. **Chave da Anthropic (urgente):** a chave colada no chat em 19/10 deve ser revogada em console.anthropic.com e trocada por outra, que vai só para a variável `ANTHROPIC_API_KEY` da Vercel. Definir no console o teto de US$ 20/mês (Fase 2b).
 5. **Tom do texto** do site. Proposta: claro, de estudo, sem jargão, sem "maior do mundo" sem prova.
 
 ---
@@ -394,3 +423,14 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
   - Verificação adversarial independente (recontagem em Python, fuzz do parser, fidelidade ao `analyze.py`, auditoria das regras). Achados corrigidos: a home usava 301.584 (com os 45 auto-pares) como "pares ligados"; a lista dos mais ligados e o top 40 do Natal cortavam empates; a convenção de trechos não estava dita.
   - Achados: empate em 5º lugar (§4.2) e runtime do Next acima do orçamento de JS (§5.6).
   - Vercel bloqueada por permissão do conector (§9).
+- **19/10, mesma sessão, leitura e céu:**
+  - O Alex pediu mais cuidado ("tá muito amador"), o céu da home + as páginas de leitura agora, e o assistente de IA logo depois (Fase 2b), só com o texto citado e teto de US$ 20/mês. Ele colou uma chave da Anthropic no chat: não foi gravada em lugar nenhum; precisa ser revogada (§8).
+  - Fase 2 feita (ver andamento em §6). Arcos do vídeo 1 nas páginas de versículo, capítulo e livro.
+  - Segunda verificação adversarial. Achados corrigidos:
+    - o parser caía em outro livro ("Jo 2:28" abria Joel 2:28; "Jó 1:23" abria João 1:23);
+    - `/sobre` dizia "22 versículos" da ACF/AA (são 21, mais uma lista de nomes de livros);
+    - a licença dos dados não separava o texto BLIVRE (CC BY 4.0);
+    - as fontes perdiam os campos de licença no subset;
+    - faltava o link da OpenBible.info no rodapé.
+  - Novo: trava contra vazamento de tradução protegida. Sequências de 6 palavras das citações ACF/AA que a BLIVRE não tem são procuradas nos testes e em tudo o que o build entrega; testado com um vazamento de propósito.
+  - O céu está sendo feito em paralelo (worktree separada) e entra depois de revisado.

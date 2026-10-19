@@ -27,7 +27,7 @@ Licença: Creative Commons Atribuição 4.0 Brasil. Crédito sugerido pelos auto
 
 ### Citações curtas da ACF e da AA (só nos estudos)
 
-- `estudos/biblia-natal/data/verses.json` tem 22 versículos de cada uma, os que aparecem nos vídeos.
+- `estudos/biblia-natal/data/verses.json` guarda de cada uma só os versículos que aparecem nos vídeos (e uma lista de nomes de livros).
 - Os vídeos mostram trechos com a referência na tela.
 - Base legal: citação para fins de estudo, com a fonte indicada (Lei 9.610/98, art. 46, III).
 - **Os textos completos dessas traduções e de outras protegidas (NVI, ARA etc.) não entram no repositório nem no site.** Tradução é obra protegida (art. 7º, XI). Quem traduz obra em domínio público tem direito sobre a própria tradução (art. 14).
@@ -36,7 +36,7 @@ Licença: Creative Commons Atribuição 4.0 Brasil. Crédito sugerido pelos auto
 
 | Base | Licença | Crédito |
 |---|---|---|
-| Referências cruzadas (OpenBible.info) | CC BY | "Referências cruzadas: OpenBible.info". A base é derivada principalmente do Treasury of Scripture Knowledge |
+| Referências cruzadas (OpenBible.info) | CC BY | "Referências cruzadas: OpenBible.info". A base é derivada principalmente do Treasury of Scripture Knowledge. Fonte: https://www.openbible.info/labs/cross-references/ (o cabeçalho do arquivo diz `CC-BY`, sem versão) |
 | Bible Geocoding Data (OpenBible.info) | CC BY 4.0 | "Geocodificação: OpenBible.info" |
 | Theographic Bible Metadata (Viz.Bible) | CC BY-SA 4.0 | "Theographic Bible Metadata, Viz.Bible". O projeto pede também crédito às fontes originais dele. **Dados derivados saem sob CC BY-SA 4.0** |
 | STEPBible Data (TIPNR) | CC BY 4.0 | "STEP Bible", com link para www.STEPBible.org: "Data created by www.STEPBible.org based on work at Tyndale House Cambridge" |

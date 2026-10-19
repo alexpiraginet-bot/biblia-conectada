@@ -4,9 +4,13 @@ import { readdirSync, readFileSync, statSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { join, relative } from "node:path";
 import { describe, expect, it } from "vitest";
-import { createReferenceParser } from "../src/lib/canon/reference";
+import { findLeaks, loadProtectedQuotes, NGRAM, protectedRuns, textFiles } from "../scripts/data/leak-guard";
 import { OUT, SITE, SRC } from "../scripts/data/sources";
 import { bookFile, books } from "./generated";
+
+function* blivreTexts() {
+  for (const b of books()) for (const ch of bookFile(b.slug).chapters) for (const v of ch) yield v.t;
+}
 
 function walk(dir: string): string[] {
   return readdirSync(dir).flatMap((name) => {
@@ -50,27 +54,30 @@ describe("generated data and public/", () => {
     }
   });
 
-  it("does not contain the ACF/AA quotes of the videos, unless BLIVRE has the very same words", () => {
-    const quotes = JSON.parse(readFileSync(SRC.natalVersesJson, "utf8")) as Record<string, Record<string, unknown>>;
-    const parse = createReferenceParser(books());
-    const blivreOf = (ref: string) => {
-      const r = parse(ref);
-      if (!r.ok || r.ref.verse === undefined) throw new Error(`cannot parse ${ref}`);
-      return bookFile(r.ref.book.slug).chapters[r.ref.chapter - 1][r.ref.verse - 1].t;
-    };
-    const texts = outputs.filter((f) => !f.endsWith(".bin")).map((f) => readFileSync(f, "utf8"));
-    let checked = 0;
-    for (const [translation, verses] of Object.entries(quotes)) {
-      expect(["ACF", "AA"]).toContain(translation);
-      for (const [ref, quote] of Object.entries(verses)) {
-        if (ref.startsWith("_")) continue; // metadata such as _books_sample
-        if (typeof quote !== "string") throw new Error(`${translation} ${ref} is not a string`);
-        if (quote === blivreOf(ref)) continue;
-        const needle = JSON.stringify(quote).slice(1, -1); // as it would appear inside JSON
-        for (const t of texts) expect(t.includes(needle) || t.includes(quote), `${translation} ${ref}`).toBe(false);
-        checked++;
-      }
-    }
-    expect(checked).toBeGreaterThan(30);
+  it("does not contain the ACF/AA quotes of the videos, not even in part (runs BLIVRE also has excepted)", () => {
+    const runs = protectedRuns(loadProtectedQuotes(SRC.natalVersesJson), blivreTexts());
+    const quoted = new Set(runs.values());
+    expect(quoted.size, "quotes that differ from BLIVRE").toBeGreaterThan(30);
+    const files = [...outputs, ...textFiles(join(SITE, "src"))].filter((f) => !f.endsWith(".bin") && !f.endsWith(".woff2"));
+    for (const f of files) expect(findLeaks(readFileSync(f, "utf8"), runs), relative(SITE, f)).toEqual([]);
+  });
+});
+
+describe("leak guard", () => {
+  const quotes = loadProtectedQuotes(SRC.natalVersesJson);
+  const runs = protectedRuns(quotes, blivreTexts());
+
+  it("catches a run of a protected quote inside HTML and inside escaped JSON", () => {
+    const [run, label] = [...runs][0];
+    const asHtml = `<p>Texto do site</p><p>${run.split(" ").join("<!-- --> ")}</p><p>mais texto</p>`;
+    const asJson = JSON.stringify({ t: `antes ${run} depois` }).replace(/[^\x00-\x7f]/g, (c) => `\\u${c.charCodeAt(0).toString(16).padStart(4, "0")}`);
+    expect(run.split(" ")).toHaveLength(NGRAM);
+    expect(findLeaks(asHtml, runs)).toEqual([`${label}: "${run}"`]);
+    expect(findLeaks(asJson, runs)).toEqual([`${label}: "${run}"`]);
+  });
+
+  it("lets BLIVRE through", () => {
+    const leaks = [...blivreTexts()].flatMap((t) => findLeaks(t, runs));
+    expect(leaks).toEqual([]);
   });
 });

@@ -23,10 +23,11 @@ export type Book = {
   firstVerse: number;
 };
 
-/** A parsed reference. `verse`/`verseEnd` are absent for a whole chapter. */
+/** A parsed reference. `verse`/`verseEnd` are absent for a whole chapter; `chapterEnd` marks a chapter range. */
 export type Ref = {
   book: Book;
   chapter: number;
+  chapterEnd?: number;
   verse?: number;
   verseEnd?: number;
 };

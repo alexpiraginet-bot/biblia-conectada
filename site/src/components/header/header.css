@@ -30,7 +30,8 @@
     "search search search";
   align-items: center;
   column-gap: var(--space-1);
-  max-width: 72rem;
+  /* the header sits inside its own side padding, so its content lines up with pages of width --page-max */
+  max-width: calc(var(--page-max) - 2 * var(--space-2));
   margin: 0 auto;
   padding-bottom: var(--space-1);
 }
