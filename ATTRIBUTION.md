@@ -66,6 +66,7 @@ Space Grotesk, Space Mono e Cormorant (as três dos vídeos), Literata (texto b�
 - **Trilha:** sintetizada por código (`score.py`).
 - Sem rostos de pessoas.
 - Prompts e ids dos jobs: `estudos/biblia-natal/source/PROMPTS.md`.
+- **Medalhões do Explorar:** ilustrações geradas por IA (OpenAI `gpt-image-2.5-sunburst-2026-09-08`), conferidas uma a uma e marcadas como "Ilustração" no site. Prompts e revisão: `site/scripts/data/medallions-review.json`.
 
 ## Código e dados deste repositório
 
