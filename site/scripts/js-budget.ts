@@ -19,7 +19,7 @@ const kind = (page: string) => {
   const depth = page.split(sep).length;
   if (depth === 3) return "versículo";
   if (depth === 2) return "capítulo";
-  return ["index.html", "sobre.html", "ler.html"].includes(page) ? page.replace(".html", "") : "livro";
+  return ["index.html", "sobre.html", "ler.html", "arcos.html", "dados.html"].includes(page) ? page.replace(".html", "") : "livro";
 };
 
 const gzCache = new Map<string, number>();

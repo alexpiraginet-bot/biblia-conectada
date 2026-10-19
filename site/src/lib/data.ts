@@ -20,7 +20,8 @@ export type Summary = {
 };
 export const summary = summaryJson as Summary;
 
-export const credits = creditsJson as { attributionMarkdown: string; blivreCredit: string };
+/** ATTRIBUTION.md and its exact credit lines for the BLIVRE text and the OpenBible.info cross references */
+export const credits = creditsJson as { attributionMarkdown: string; blivreCredit: string; openBibleCredit: string };
 
 /** Text of one verse, read from the per-book file (build time). */
 export async function verseText(slug: string, chapter: number, verse: number): Promise<string> {

@@ -51,3 +51,9 @@ export const DirBoth = ({ size = 16, className }: P) => (
     <path d="M4 9h14M15 6l3 3-3 3M20 15H6M9 12l-3 3 3 3" />
   </svg>
 );
+/** a file to save (Lucide "download") */
+export const DownloadIcon = ({ size = 18, className }: P) => (
+  <svg {...base(size)} className={className}>
+    <path d="M12 15V3M7 10l5 5 5-5M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+  </svg>
+);

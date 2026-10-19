@@ -1,0 +1,47 @@
+# Como citar os dados da Bíblia Conectada (Citation File Format 1.2.0). Documentação dos dados: DADOS.md.
+# Assumption registrada no HANDOFF.md §3.7: o titular é "Alex Piragine Teixeira", como no LICENSE.
+# Corrija aqui, no LICENSE e no datapackage.json (site/scripts/data/open-data.ts) se o titular for outro.
+# A licença abaixo é a dos dados derivados. O texto bíblico (texto/) segue CC BY 4.0 Brasil e o código, MIT.
+cff-version: 1.2.0
+message: >-
+  Se usar estes dados, cite o projeto como abaixo e mantenha os créditos das fontes:
+  "Referências cruzadas: OpenBible.info" e, se usar o texto bíblico, a linha de crédito
+  da Bíblia Livre (BLIVRE) que está em ATTRIBUTION.md.
+type: dataset
+title: Bíblia Conectada
+abstract: >-
+  Ligações entre os versículos da Bíblia (referências cruzadas da OpenBible.info, com
+  votos), o texto da Bíblia Livre (BLIVRE) e o grafo dos capítulos, em português, gerados
+  por código a partir de fontes livres e publicados como pacote de dados abertos
+  (Frictionless Data Package v2).
+authors:
+  - given-names: Alex
+    family-names: Piragine Teixeira
+repository-code: https://github.com/alexpiraginet-bot/biblia-conectada
+license: CC-BY-SA-4.0
+version: 1.0.0
+keywords:
+  - Bíblia
+  - referências cruzadas
+  - grafo
+  - dados abertos
+  - português
+references:
+  - type: data
+    title: Cross References
+    authors:
+      - name: OpenBible.info
+    url: https://www.openbible.info/labs/cross-references/
+    notes: Licença CC BY. Derivadas principalmente do Treasury of Scripture Knowledge.
+  - type: book
+    title: Bíblia Livre (BLIVRE)
+    authors:
+      - given-names: Diego
+        family-names: Santos
+      - given-names: Mario
+        family-names: Sérgio
+      - given-names: Marco
+        family-names: Teles
+    url: http://sites.google.com/site/biblialivre/
+    license: CC-BY-4.0
+    notes: Licença Creative Commons Atribuição 4.0 Brasil, fevereiro de 2018. Texto reproduzido sem alterações.

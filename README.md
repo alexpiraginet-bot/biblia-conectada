@@ -14,6 +14,9 @@ Mapa navegável das ligações da Bíblia, no estilo Obsidian: livros, capítulo
 | `fontes/` | Cópias exatas das bases abertas: traduções livres em português, referências de lugares, pessoas, eventos e nomes próprios. Cada arquivo tem SHA-256 |
 | `design/` | Direção visual do site (tokens com contraste conferido, layout, interação) e referências |
 | `site/` | O site (Next.js) e o pipeline que gera os dados dele a partir de `fontes/` e `estudos/*/data/`. Comandos em `site/README.md` |
+| [`DADOS.md`](DADOS.md) | Os dados abertos do projeto (ligações, texto BLIVRE, grafo dos capítulos) em CSV e JSON: cada arquivo, campo e convenção, como gerar e como usar |
+| `exemplos/` | Scripts em Python e em JavaScript, sem dependências, que leem os dados abertos |
+| `CITATION.cff` | Como citar os dados |
 | `scripts/fetch_sources.sh` | Baixa as fontes de novo e confere com as cópias |
 | branch `film-intermediates` | Masters e mixagens dos vídeos (cerca de 530 MB). Fica fora do `main` pra o clone continuar leve |
 
@@ -24,6 +27,10 @@ Mapa navegável das ligações da Bíblia, no estilo Obsidian: livros, capítulo
 - 30.303 versículos têm pelo menos uma ligação.
 - O versículo mais ligado é **Isaías 9:6**, com 212. Depois vêm 1 Pedro 2:9 (194), Mateus 28:20 (169) e Tito 2:14 (157). Em quinto há um empate em 156: Isaías 41:10, Apocalipse 5:9 e Apocalipse 11:15.
 - "Ligações" de um versículo são os outros versículos ligados a ele, contados uma vez cada, com qualquer voto. Os testes em `site/tests/` conferem todos esses números.
+
+## Dados abertos
+
+Quer criar algo com estes dados? As ligações entre os versículos, o texto da Bíblia Livre e o grafo dos capítulos saem em arquivos documentados (CSV e JSON, com esquema Frictionless Data Package v2), na página `/dados` do site e em `site/public/dados/v1/` depois de `cd site && npm ci && npm run data`. Tudo está explicado em **[DADOS.md](DADOS.md)**, com exemplos em Python e JavaScript.
 
 ## Créditos
 

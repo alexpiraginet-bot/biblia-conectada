@@ -33,6 +33,12 @@ export type Pairs = {
   vmax: Int32Array;
   /** 1 = listed lo->hi, 2 = listed hi->lo, 3 = both */
   dir: Uint8Array;
+  /** votes summed over the rows listed lo->hi (a self-pair row counts here) and hi->lo; 0 when there is none */
+  votesAB: Int32Array;
+  votesBA: Int32Array;
+  /** how many rows were listed lo->hi and hi->lo */
+  rowsAB: Int32Array;
+  rowsBA: Int32Array;
 };
 
 export function parseCrossRefs(path: string, canon: Canon): CrossRefs {
@@ -98,26 +104,42 @@ export function parseCrossRefs(path: string, canon: Canon): CrossRefs {
 }
 
 export function buildPairs(x: CrossRefs): Pairs {
-  const acc = new Map<number, { votes: number; vmax: number; dir: number }>();
+  type Acc = { votes: number; vmax: number; dir: number; ab: number; ba: number; nab: number; nba: number };
+  const acc = new Map<number, Acc>();
   for (let i = 0; i < x.rowCount; i++) {
     const f = x.fgv[i], t = x.tgv[i];
     const lo = Math.min(f, t), hi = Math.max(f, t);
     const key = lo * KEY + hi;
-    const e = acc.get(key);
+    let e = acc.get(key);
     const d = f === t ? 3 : f < t ? 1 : 2;
     if (e) {
       e.votes += x.votes[i];
       e.vmax = Math.max(e.vmax, x.votes[i]);
       e.dir |= d;
-    } else acc.set(key, { votes: x.votes[i], vmax: x.votes[i], dir: d });
+    } else {
+      e = { votes: x.votes[i], vmax: x.votes[i], dir: d, ab: 0, ba: 0, nab: 0, nba: 0 };
+      acc.set(key, e);
+    }
+    if (f <= t) {
+      e.ab += x.votes[i];
+      e.nab++;
+    } else {
+      e.ba += x.votes[i];
+      e.nba++;
+    }
   }
   const keys = [...acc.keys()].sort((p, q) => p - q);
+  const n = keys.length;
   const out: Pairs = {
-    a: new Int32Array(keys.length),
-    b: new Int32Array(keys.length),
-    votes: new Int32Array(keys.length),
-    vmax: new Int32Array(keys.length),
-    dir: new Uint8Array(keys.length),
+    a: new Int32Array(n),
+    b: new Int32Array(n),
+    votes: new Int32Array(n),
+    vmax: new Int32Array(n),
+    dir: new Uint8Array(n),
+    votesAB: new Int32Array(n),
+    votesBA: new Int32Array(n),
+    rowsAB: new Int32Array(n),
+    rowsBA: new Int32Array(n),
   };
   keys.forEach((k, i) => {
     const e = acc.get(k)!;
@@ -126,6 +148,10 @@ export function buildPairs(x: CrossRefs): Pairs {
     out.votes[i] = e.votes;
     out.vmax[i] = e.vmax;
     out.dir[i] = e.dir;
+    out.votesAB[i] = e.ab;
+    out.votesBA[i] = e.ba;
+    out.rowsAB[i] = e.nab;
+    out.rowsBA[i] = e.nba;
   });
   return out;
 }

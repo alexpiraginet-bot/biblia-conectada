@@ -5,7 +5,7 @@ import { ABBREVIATIONS } from "./aliases";
 import { slugify } from "./text";
 import type { Book } from "./types";
 
-export const RESERVED = ["ler", "sobre", "arcos", "sky", "data", "_next", "api", "icon.svg"];
+export const RESERVED = ["ler", "sobre", "arcos", "dados", "sky", "data", "_next", "api", "icon.svg"];
 
 export function abbreviationRedirects(books: readonly Pick<Book, "osis" | "name" | "slug">[]) {
   const owners = new Map<string, Set<string>>();

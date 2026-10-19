@@ -5,11 +5,12 @@ Os dados que este projeto gera a partir das fontes abertas saem sob a **Creative
 ## O que entra
 
 - O que `site/scripts/build-data.ts` calcula e escreve em `site/src/data/generated/` e `site/public/data/`: contagens, ligações, votos, posições e grafos (por exemplo `arcs.bin`, `sky-head.bin`, `chapter-graph.json`, `chapter-edges.bin`, `chapter-links.json`, `summary.json`).
+- O pacote de dados abertos em `site/public/dados/v1/`, servido em `/dados/v1/` e descrito em `DADOS.md` (`livros.json`, `versiculos.csv`, `ligacoes.csv`, `capitulos.csv`, `capitulos-arestas.csv`, `estudos/natal.json`, `datapackage.json` e o zip com tudo).
 - Qualquer outro conjunto de dados que o projeto derive de `fontes/` ou de `estudos/*/data/`.
 
 Dentro desses mesmos arquivos há partes que **não** mudam de licença:
 
-- **O texto bíblico** (o campo `t` de `books/*.json` e os arquivos de `public/data/text/`) é a Bíblia Livre sem alterações e continua sob a licença dela, CC BY 4.0 Brasil, com o crédito exato do `ATTRIBUTION.md`.
+- **O texto bíblico** (o campo `t` de `books/*.json`, os arquivos de `public/data/text/` e os de `public/dados/v1/texto/`) é a Bíblia Livre sem alterações e continua sob a licença dela, CC BY 4.0 Brasil, com o crédito exato do `ATTRIBUTION.md`.
 - **`credits.json`** reproduz o `ATTRIBUTION.md`: cada crédito segue a licença da fonte que ele descreve.
 
 ## Créditos que acompanham os dados

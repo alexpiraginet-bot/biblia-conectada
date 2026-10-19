@@ -45,3 +45,7 @@ next-env.d.ts
 /public/data/
 /src/data/generated.staging/
 /public/data.staging/
+
+# generated open data bundle (scripts/data/open-data.ts, served at /dados/v1/)
+/public/dados/
+/public/dados.staging/

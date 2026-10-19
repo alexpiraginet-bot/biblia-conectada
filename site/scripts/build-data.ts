@@ -8,6 +8,7 @@ import { loadBlivre, loadCanon } from "./data/canon";
 import { chapterGraph, LAYOUT } from "./data/chapter-graph";
 import { buildPairs, linksPerVerse, parseCrossRefs } from "./data/crossrefs";
 import { natalPair, natalStudy } from "./data/natal";
+import { buildOpenData, type NatalOut } from "./data/open-data";
 import { CROSSREFS_SHA256, OUT, REPO, SITE, SRC, readJson, sha256 } from "./data/sources";
 import { createGrid } from "../src/lib/canon/grid";
 
@@ -81,7 +82,7 @@ log(`chapter graph: ${graph.nodes.length} nodes, ${graph.edges.i.length} edges, 
 // ---- write outputs into staging folders; they replace the real ones only after every check below has passed,
 // so a failed run never leaves a half-written data set behind (both folders are generated only).
 const STAGE = ".staging";
-const OUTPUT_DIRS = [OUT.generated, OUT.publicData];
+const OUTPUT_DIRS = [OUT.generated, OUT.publicData, OUT.publicDados];
 for (const dir of OUTPUT_DIRS) {
   rmSync(dir + STAGE, { recursive: true, force: true });
   mkdirSync(dir + STAGE, { recursive: true });
@@ -239,9 +240,9 @@ write(join(OUT.publicData, "chapter-graph.json"), json({
   license: "CC BY-SA 4.0 (derived data of this project); source: OpenBible.info, CC BY",
 }));
 
-// study numbers
+// study numbers (the same object feeds the open data bundle below)
 const keyPairs = [["Isaías 7:14", "Mateus 1:23"], ["Miqueias 5:2", "Mateus 2:6"]] as const;
-write(join(OUT.generated, "studies", "natal.json"), json({
+const natalOut: NatalOut = {
   birthChapters: "Mateus 1–2, Lucas 1–2",
   birthChapterVerses: natal.birthChapterVerses,
   pairsAll: natal.pairsAll,
@@ -256,15 +257,18 @@ write(join(OUT.generated, "studies", "natal.json"), json({
   }),
   // the 40 strongest pairs of the video (estudos natal-stats.json top40) plus every pair tied with the 40th
   top: natal.pairs.filter((p) => p.max >= natal.pairs[39].max),
-}));
+};
+write(join(OUT.generated, "studies", "natal.json"), json(natalOut));
 
-// credits: ATTRIBUTION.md verbatim (rendered on /sobre) + the BLIVRE credit line (footer)
+// credits: ATTRIBUTION.md verbatim (rendered on /sobre) + the BLIVRE and OpenBible.info credit lines (footer, /dados)
 const attribution = readFileSync(SRC.attribution, "utf8");
 const blivreCredit = /^> (Todas as Escrituras.*)$/m.exec(attribution)?.[1];
 check(blivreCredit, "BLIVRE credit line in ATTRIBUTION.md");
 const aboutText = blivre.about.replace(/<[^>]*>/g, "").replace(/\s+/g, " ");
 check(aboutText.includes(blivreCredit), "ATTRIBUTION.md BLIVRE credit matches the zip's about page");
-write(join(OUT.generated, "credits.json"), json({ attributionMarkdown: attribution, blivreCredit }));
+const openBibleCredit = /"(Referências cruzadas: OpenBible\.info)"/.exec(attribution)?.[1];
+check(openBibleCredit, "OpenBible.info credit line in ATTRIBUTION.md");
+write(join(OUT.generated, "credits.json"), json({ attributionMarkdown: attribution, blivreCredit, openBibleCredit }));
 // licence note served next to the public data files (LICENSE-DATA.md has the full terms)
 write(join(OUT.publicData, "LICENSE.txt"), [
   "Bíblia Conectada: dados públicos",
@@ -305,6 +309,23 @@ const summary = {
   },
 };
 write(join(OUT.generated, "summary.json"), json(summary));
+
+// open data bundle for people who build on the data (/dados/v1/, documented in DADOS.md), plus a copy of its
+// manifest for the /dados page, which reads it at build time
+const dados = buildOpenData({
+  canon,
+  text: blivre.text,
+  pairs,
+  links,
+  graph,
+  natal: natalOut,
+  credits: { blivre: blivreCredit, openBible: openBibleCredit },
+  sources: { crossrefsSha256: CROSSREFS_SHA256, crossrefsHeader: xr.header, blivreZipSha256: sha256(SRC.blivreZip) },
+  counts: { crossrefRows: xr.rowCount, pairs: pairs.a.length, selfPairs, arcs: N, versesWithLinks },
+});
+for (const f of dados.files) write(join(OUT.publicDados, "v1", f.path), f.data);
+write(join(OUT.generated, "dados-manifest.json"), JSON.stringify(dados.manifest, null, 2) + "\n");
+log(`open data: ${dados.files.length} files in public/dados/v1 (${(dados.files.reduce((s, f) => s + f.data.byteLength, 0) / 1e6).toFixed(1)} MB)`);
 
 const inputs = Object.fromEntries(
   [SRC.blivreZip, SRC.crossrefsTxt, SRC.xrefNpz, SRC.statsJson, SRC.natalStatsJson, SRC.attribution].map((p) => [relative(REPO, p), sha256(p)]),
