@@ -1,0 +1,122 @@
+/* Mesa da semana: an app screen inside a Read page (design §1.1): one field, the arcs, the lists. */
+
+.form {
+  max-width: 32rem;
+  margin: 0 0 var(--space-2);
+}
+
+.label {
+  display: block;
+  margin: 0 0 0.375rem;
+  font-size: var(--step-ui);
+  font-weight: 500;
+}
+
+.formRow {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  height: 2.75rem;
+  padding: 0 var(--space-2);
+  border: 1px solid var(--control-border);
+  border-radius: 0.625rem;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+.input::placeholder {
+  color: var(--ink-2);
+}
+
+.input:focus-visible {
+  border-color: var(--accent-text);
+}
+
+.recent {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+  margin: 0 0 var(--space-2);
+}
+
+/* the open passage: accent text and weight, never a gold border (design §3) */
+.recent a[aria-current="true"] {
+  color: var(--accent-text);
+  font-weight: 600;
+  background: var(--raised);
+}
+
+/* arcs answer the pointer on their stroke; a wide invisible stroke makes them easier to hit */
+.svg {
+  touch-action: manipulation;
+}
+
+.arc {
+  cursor: pointer;
+}
+
+.hit {
+  stroke: transparent;
+  stroke-width: 14px;
+  pointer-events: stroke;
+}
+
+.arc path:not(.hit) {
+  pointer-events: none;
+}
+
+.detail {
+  margin: 0 0 var(--space-3);
+  padding: var(--space-2) var(--space-2) 0;
+  border: 1px solid var(--hairline);
+  border-radius: 0.75rem;
+  background: var(--surface);
+}
+
+.turn {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  margin: 0 0 var(--space-2);
+}
+
+.turn p {
+  margin: 0;
+}
+
+.item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--space-2);
+  row-gap: 0.15rem;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.6rem 0.25rem;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: var(--step-ui);
+  text-align: left;
+  cursor: pointer;
+}
+
+.item:hover {
+  background: var(--raised);
+}
+
+.item[aria-pressed="true"] {
+  background: var(--highlight);
+}
+
+.gold {
+  align-self: center;
+  color: var(--accent-text);
+}

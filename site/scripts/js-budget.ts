@@ -21,6 +21,9 @@ const kind = (page: string) => {
   const top = page.split(sep)[0].replace(/\.html$/, "");
   if (SECTIONS.includes(top)) return page.includes(sep) ? `${top}/[…]` : top;
   if (top === "explorar" || top === "conexao") return top;
+  // community pages (trail, Ponte, Mesa) are reported apart from the reading pages
+  const community = /^(trilha|ponte|mesa)(?=[./\\]|$)/.exec(page);
+  if (community) return page.split(sep).length > (community[1] === "trilha" ? 2 : 1) ? `${community[1]}/[n]` : page.replace(".html", "");
   const depth = page.split(sep).length;
   if (depth === 3) return "versículo";
   if (depth === 2) return "capítulo";

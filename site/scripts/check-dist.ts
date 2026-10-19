@@ -6,6 +6,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { formatInt } from "../src/lib/canon/text";
 import { formatBytes, type DadosManifest } from "../src/lib/dados";
+import { checkCommunity } from "./checks/community";
 import { checkExplore } from "./checks/explore";
 import { notFoundPage, prerenderedPages } from "./checks/pages";
 import { checkTimeline } from "./checks/timeline";
@@ -114,6 +115,9 @@ const timeline = checkTimeline({ html, page, textOf, failures });
 const explore = checkExplore((rel) => (pages.has(rel) ? page(rel) : null), textOf);
 failures.push(...explore.failures);
 
+// community pages (trail, Ponte, Mesa): pairs, votes and dates are the pipeline's; no bridge before its day
+const community = checkCommunity({ html, page, textOf, failures });
+
 // rule 1: no run of the ACF/AA quotes in anything the server or the browser receives
 type BookFile = { chapters: { t: string }[][] };
 const books = JSON.parse(readFileSync(join(OUT.generated, "books.json"), "utf8")) as { slug: string }[];
@@ -141,5 +145,6 @@ console.log(
     `/dados shows the size and count of the ${manifest.arquivos.length} files of the open data manifest; ` +
     `linha do tempo (${timeline.events} events), ${timeline.themes} themes and their words match the generated data; ` +
     `Explorar and /conexao show the explore data (${explore.checked} rows checked); ` +
+    `trail (${community.trailSteps} steps) and Ponte (${community.pontePages} pages) match the community data; ` +
     `${shipped.length} shipped text files hold none of the ${new Set(runs.values()).size} protected quotes`,
 );

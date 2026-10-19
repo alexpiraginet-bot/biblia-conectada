@@ -6,8 +6,9 @@ import { createHash } from "node:crypto";
 import { join, relative } from "node:path";
 import { loadBlivre, loadCanon } from "./data/canon";
 import { chapterGraph, LAYOUT } from "./data/chapter-graph";
-import { buildExplore } from "./data/explore";
+import { buildCommunity } from "./data/community";
 import { buildPairs, linksPerVerse, parseCrossRefs } from "./data/crossrefs";
+import { buildExplore } from "./data/explore";
 import { natalPair, natalStudy } from "./data/natal";
 import { buildOpenData, type NatalOut } from "./data/open-data";
 import { buildReception } from "./data/reception";
@@ -340,6 +341,9 @@ const dados = buildOpenData({
 for (const f of dados.files) write(join(OUT.publicDados, "v1", f.path), f.data);
 write(join(OUT.generated, "dados-manifest.json"), JSON.stringify(dados.manifest, null, 2) + "\n");
 log(`open data: ${dados.files.length} files in public/dados/v1 (${(dados.files.reduce((s, f) => s + f.data.byteLength, 0) / 1e6).toFixed(1)} MB)`);
+
+// community pages: trail "Antes do Natal", Ponte nº N calendar, links per chapter (scripts/data/community.ts)
+buildCommunity({ canon, text: blivre.text, links }, write, log);
 
 const inputs = Object.fromEntries(
   [SRC.blivreZip, SRC.crossrefsTxt, SRC.xrefNpz, SRC.statsJson, SRC.natalStatsJson, SRC.attribution].map((p) => [relative(REPO, p), sha256(p)]),

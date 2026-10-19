@@ -40,6 +40,9 @@ divergir do que os vídeos publicaram (`stats.json`, `natal-stats.json`, `xref.n
 | `src/data/generated/linha-do-tempo/place-names.json` | Nome em português de cada lugar do Theographic, lido do texto da BLIVRE (`scripts/data/place-names.ts`); os sem nome claro ficam em `unnamed` |
 | `src/data/generated/temas.json` | Temas da OpenBible.info Topics com rótulo da BLIVRE, passagens e ligações entre elas (`scripts/data/themes.ts`) |
 | `src/data/generated/recepcao.json` | Piloto de recepção: pinturas do Wikidata sobre o bom samaritano e a criação (`scripts/data/reception.ts`) |
+| `src/data/generated/community/trilha-antes-do-natal.json` | Trilha "Antes do Natal": 26 pares (o mais votado de cada livro do AT com Mt 1–2 / Lc 1–2), datas sugeridas (`scripts/data/trilha.ts`) |
+| `src/data/generated/community/ponte-built.json`, `public/data/ponte/calendar.json`, `public/data/ponte/<n>.json` | Ponte nº N: calendário de um ano (fuso de São Paulo), mínimo de saltos, rotas mínimas, rota mais forte e mapa de distâncias por ponte (`scripts/data/ponte.ts`); páginas só até a ponte do dia do build |
+| `public/data/verse-links/<slug>/<cap>.json` | Ligações de cada versículo do capítulo `[parceiro, votos, …]`, lidas pela faixa da Ponte e pela Mesa da semana |
 
 ## Páginas
 
@@ -49,6 +52,11 @@ divergir do que os vídeos publicaram (`stats.json`, `natal-stats.json`, `xref.n
 - `/dados`: os dados abertos, com tamanhos e registros lidos do manifesto do pacote (conferidos por `check-dist`). Os arquivos de `/dados/v1/` respondem com `Access-Control-Allow-Origin: *` (`next.config.ts`).
 - `/is/9/6` e outras abreviações redirecionam para o livro (`src/lib/canon/redirects.ts`); abreviação que serve a dois livros sem acento ("jo") fica de fora.
 - Arcos da leitura: `src/components/reader/Arcs.tsx` (SVG no servidor, estilo do vídeo 1, `src/lib/arc-style.ts`).
+- Comunidade sem conta (tudo fica no aparelho, em `localStorage`; código em `src/components/community/` e `src/lib/community/`):
+  `/trilha/antes-do-natal` e os 26 passos `/trilha/antes-do-natal/<n>` (com o cartão de ligação desenhado no aparelho),
+  `/ponte` (a ponte de hoje, escolhida no aparelho pela data de São Paulo) e `/ponte/<n>` (arquivo até o dia do build),
+  e `/mesa` (Mesa da semana num aparelho só). A faixa da Ponte (`PonteStrip`) fica no layout `(site)` e só carrega o
+  código dela quando há uma ponte em andamento. `PONTE_LAUNCH` (`src/lib/community/ponte.ts`) marca o dia da Ponte nº 1.
 
 Licença dos dados derivados: CC BY-SA 4.0, exceto o texto BLIVRE, que segue CC BY 4.0 Brasil (`../LICENSE-DATA.md`). Código: MIT (`../LICENSE`).
 
