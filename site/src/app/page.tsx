@@ -87,6 +87,11 @@ export default async function Home() {
               {topInCentre ? `, o capítulo de ${top.ref},` : ""} está ligado a {formatInt(ex.partners)} capítulos; o grafo
               mostra os {formatInt(ex.neighbours.length)} com mais votos. Escolha um para ver a conexão.
             </p>
+            <p className={styles.note}>
+              &ldquo;Ligações&rdquo; de um versículo são os outros versículos que a base OpenBible.info relaciona a ele,
+              contados uma vez cada, com qualquer número de votos: as {formatInt(top.links)} de {top.ref} na capa. Quando a
+              referência aponta um trecho (como Mt 5:3–12), conta o primeiro versículo, como nos vídeos.
+            </p>
             <p className={explore.homeLinks}>
               <Link href={EXPLORE_HOME_PATH}>Abrir {centre.label} no Explorar</Link>
               <Link href="/sobre">Fontes e créditos</Link>

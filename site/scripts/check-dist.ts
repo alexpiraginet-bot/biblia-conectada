@@ -59,6 +59,10 @@ const homeNumbers = [
   `${summary.topVerses[0].ref}, com ${formatInt(summary.topVerses[0].links)}`,
 ];
 for (const s of homeNumbers) if (!home.includes(s)) failures.push(`index.html: "${s}" missing`);
+// and says what "ligações" means next to that number (HANDOFF §4.2: the convention goes with the number)
+for (const s of [`as ${formatInt(summary.topVerses[0].links)} de ${summary.topVerses[0].ref} na capa`, "conta o primeiro versículo"]) {
+  if (!home.includes(s)) failures.push(`index.html: definition of "ligações" ("${s}") missing`);
+}
 if (home.includes(formatInt(summary.counts.pairs))) failures.push("index.html: shows the pair count with the 45 self-pairs");
 // /arcos (the sky of links) states the same numbers in its first screen, from the same pipeline
 const arcos = textOf(page("arcos.html"));

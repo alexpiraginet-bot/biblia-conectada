@@ -1,3 +1,12 @@
+/* the definition of "ligações" next to the number, in the Explorar section below the cover (HANDOFF §4.2) */
+.note {
+  max-width: 46rem;
+  margin: 0 0 var(--space-1);
+  color: var(--ink-2);
+  font-size: var(--step-ui);
+  line-height: 1.5;
+}
+
 /* actions under the cover paragraph, on the night ground */
 .actions {
   display: flex;
