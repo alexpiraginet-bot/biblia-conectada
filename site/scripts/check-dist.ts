@@ -3,22 +3,18 @@
 // the build (rule 1).
 //   runs at the end of `npm run build`
 import { existsSync, readFileSync } from "node:fs";
-import { join, relative, sep } from "node:path";
+import { join, relative } from "node:path";
 import { formatInt } from "../src/lib/canon/text";
 import { formatBytes, type DadosManifest } from "../src/lib/dados";
+import { prerenderedPages } from "./checks/pages";
 import { findLeaks, loadProtectedQuotes, protectedRuns, textFiles } from "./data/leak-guard";
 import { OUT, SITE, SRC } from "./data/sources";
 
 const credits = JSON.parse(readFileSync(join(OUT.generated, "credits.json"), "utf8")) as { blivreCredit: string; openBibleCredit: string };
-const appDir = join(SITE, ".next/server/app");
-if (!existsSync(appDir)) throw new Error("no .next/server/app: run `next build` first");
-
-// every prerendered page, at any depth; "_not-found" and the like are framework pages, and a "[param]" file is the
-// fallback shell of a dynamic route, filled in at request time
-const html = textFiles(appDir)
-  .filter((f) => f.endsWith(".html"))
-  .map((f) => relative(appDir, f))
-  .filter((f) => !f.split(sep).some((part) => part.startsWith("_") || part.includes("[")));
+// every prerendered page, at any depth, wherever the build put it (scripts/checks/pages.ts)
+const pages = prerenderedPages(SITE);
+const page = (rel: string) => readFileSync(pages.get(rel) ?? join(SITE, ".next/server/app", rel), "utf8");
+const html = [...pages.keys()];
 const required = ["index.html", "sobre.html", "arcos.html", "ler.html", "dados.html", "isaias.html", join("isaias", "9.html"), join("isaias", "9", "6.html")];
 for (const r of required) if (!html.includes(r)) throw new Error(`[check-dist] ${r} was not prerendered`);
 
@@ -27,20 +23,21 @@ const decode = (s: string) => s.replace(/&quot;/g, '"').replace(/&#x27;/g, "'").
 const textOf = (s: string) => decode(s).replace(/<[^>]*>/g, "");
 const failures: string[] = [];
 for (const f of html) {
-  const raw = readFileSync(join(appDir, f), "utf8");
+  const raw = page(f);
   const text = textOf(raw);
   if (!text.includes(credits.blivreCredit)) failures.push(`${f}: BLIVRE credit missing`);
   if (!text.includes("Referências cruzadas: OpenBible.info")) failures.push(`${f}: OpenBible.info credit missing`);
-  if (!raw.includes('<html lang="pt-BR"')) failures.push(`${f}: lang="pt-BR" missing`);
+  // the attribute order on <html> is not fixed: on Vercel, Next.js puts data-dpl-id (skew protection) before lang
+  if (!/<html\b[^>]*\slang="pt-BR"/.test(raw)) failures.push(`${f}: lang="pt-BR" missing`);
 }
-const sobre = textOf(readFileSync(join(appDir, "sobre.html"), "utf8"));
+const sobre = textOf(page("sobre.html"));
 for (const s of ["Biblica® Open Nova Bíblia Viva™ Copyright © 2007, 2010 by Biblica, Inc.", "Theographic Bible Metadata, Viz.Bible", "OpenBible.info"]) {
   if (!sobre.includes(s)) failures.push(`sobre.html: "${s}" missing`);
 }
 // rule 3: the numbers on the home page are the pipeline's numbers, rendered with pt-BR grouping
 type Summary = { counts: Record<string, number>; topVerses: { ref: string; links: number }[] };
 const summary = JSON.parse(readFileSync(join(OUT.generated, "summary.json"), "utf8")) as Summary;
-const home = textOf(readFileSync(join(appDir, "index.html"), "utf8"));
+const home = textOf(page("index.html"));
 const homeNumbers = [
   `${formatInt(summary.counts.verses)} versículos`,
   `${formatInt(summary.counts.crossrefRows)} referências cruzadas`,
@@ -50,13 +47,13 @@ const homeNumbers = [
 for (const s of homeNumbers) if (!home.includes(s)) failures.push(`index.html: "${s}" missing`);
 if (home.includes(formatInt(summary.counts.pairs))) failures.push("index.html: shows the pair count with the 45 self-pairs");
 // /arcos (the sky of links) states the same numbers in its first screen, from the same pipeline
-const arcos = textOf(readFileSync(join(appDir, "arcos.html"), "utf8"));
+const arcos = textOf(page("arcos.html"));
 for (const s of homeNumbers) if (!arcos.includes(s)) failures.push(`arcos.html: "${s}" missing`);
 if (arcos.includes(formatInt(summary.counts.pairs))) failures.push("arcos.html: shows the pair count with the 45 self-pairs");
 
 // /dados (open data): every size, record count and total on the page is the bundle manifest's
 const manifest = JSON.parse(readFileSync(join(OUT.publicDados, "v1", "manifest.json"), "utf8")) as DadosManifest;
-const dadosRaw = readFileSync(join(appDir, "dados.html"), "utf8");
+const dadosRaw = page("dados.html");
 const dados = textOf(dadosRaw);
 const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 /** inner HTML of the element carrying the attribute `attr` (a leaf of the download list) */
@@ -108,7 +105,10 @@ function* blivre() {
   }
 }
 const runs = protectedRuns(loadProtectedQuotes(SRC.natalVersesJson), blivre());
-const shipped = [join(SITE, ".next/server"), join(SITE, ".next/static"), join(SITE, "public")].flatMap((d) => textFiles(d));
+// .next/output is what the Vercel adapter deploys (Build Output API); it exists only in builds made there
+const shipped = [join(SITE, ".next/server"), join(SITE, ".next/static"), join(SITE, ".next/output"), join(SITE, "public")]
+  .filter((d) => existsSync(d))
+  .flatMap((d) => textFiles(d));
 for (const f of shipped) {
   for (const leak of findLeaks(readFileSync(f, "utf8"), runs)) failures.push(`${relative(SITE, f)}: protected text ${leak}`);
 }
