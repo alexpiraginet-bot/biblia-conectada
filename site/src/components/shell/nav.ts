@@ -11,7 +11,7 @@ export const NAV: readonly NavItem[] = [
 ];
 
 /** Top-level pages that are not in the navigation (no item is current there). */
-const OUTSIDE = ["/sobre", "/dados", "/trilha", "/mesa", "/conexao", "/tema", "/palavra", "/privacidade"];
+const OUTSIDE = ["/sobre", "/dados", "/trilha", "/mesa", "/conexao", "/tema", "/palavra", "/salvos", "/buscar", "/privacidade"];
 
 /** The navigation item a path belongs to: its own section, or "Ler" for any book, chapter or verse page. */
 export function currentItem(pathname: string): string | null {
