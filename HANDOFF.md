@@ -442,3 +442,15 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
     - faltava o link da OpenBible.info no rodapé.
   - Novo: trava contra vazamento de tradução protegida. Sequências de 6 palavras das citações ACF/AA que a BLIVRE não tem são procuradas nos testes e em tudo o que o build entrega; testado com um vazamento de propósito.
   - O céu está sendo feito em paralelo (worktree separada) e entra depois de revisado.
+- **19/10, mesma sessão, direção visual, céu e capa:**
+  - O Alex mandou três imagens de referência e decidiu (§3.8): site inteiro nesse estilo, nome Bíblia Conectada, home vira o Explorar, céu em `/arcos`, medalhões gerados, camadas texto + história agora.
+  - Céu de ligações (WebGL2, pôsteres AVIF/WebP, seleção por arraste e teclado) entrou em `/arcos` (merge `f05b788`).
+  - Capa da home a partir do componente "Aurelia" (21st.dev) que o Alex mandou. Sem GSAP e sem Tailwind:
+    - o site não usa Tailwind nem shadcn; tem CSS modules e tokens próprios;
+    - GSAP 3.15.0 + ScrollTrigger medem 46.266 B gzip, acima do orçamento de JS próprio (§5.6);
+    - a licença do GSAP ("Standard no-charge") não é de código aberto.
+  - A luz do horizonte é Isaías 9:6, com os 212 arcos subindo atrás das colinas, como na cena final do vídeo 1.
+  - Desempenho:
+    - A primeira versão redesenhava a paisagem a cada quadro: TBT 6,7 s no Lighthouse celular.
+    - Agora o canvas é desenhado uma vez, em três camadas, e os arcos nascem por recorte CSS: celular 94–97 (TBT 160–250 ms, LCP 2,0–2,3 s, CLS 0), desktop 100, acessibilidade 100.
+  - O Alex mandou também o "Atlas Design Kit v2". Ele foi lido e não adotado como direção, porque diz que a direção ainda não fora escolhida e as imagens do Alex já escolhem. Aproveitado: as quatro categorias de ligação com padrão de linha, a regra de fonte e estado editorial, as regras do grafo e as fontes Newsreader e Instrument Sans como candidatas (análise em andamento).

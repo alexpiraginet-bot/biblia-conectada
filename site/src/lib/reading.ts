@@ -53,6 +53,12 @@ export async function verseText(gv: number): Promise<string> {
   return f.chapters[loc.chapter - 1][loc.verse - 1].t;
 }
 
+/** Position of a verse on the arc baseline of video 1: 0 at Gênesis 1:1, 1 at Apocalipse 22:21, chapters equally spaced. */
+export function verseX(gv: number): number {
+  const { book, chapter, verse } = grid.locate(gv);
+  return (book.firstChapter + chapter - 1 + (verse - 0.5) / book.verses[chapter - 1]) / grid.chapterCount;
+}
+
 export type VerseRef = { gv: number; book: Book; chapter: number; verse: number; label: string; path: string };
 export function verseRef(gv: number): VerseRef {
   const { book, chapter, verse } = grid.locate(gv);

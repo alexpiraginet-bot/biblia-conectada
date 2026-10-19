@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 import { arcStrength as strength, arcTone as tone } from "@/lib/arc-style";
 import { formatInt } from "@/lib/canon/text";
 import { books } from "@/lib/data";
-import { type ChapterPartner, grid, type Link } from "@/lib/reading";
+import { type ChapterPartner, grid, type Link, verseX } from "@/lib/reading";
 import styles from "./reader.module.css";
 
 const W = 1000;
@@ -17,11 +17,7 @@ const FLATTEN = (BASE - TOP) / (W / 2);
 const r1 = (n: number) => Math.round(n * 10) / 10;
 
 /** x of a verse on the baseline, in [0, W] */
-function xOfVerse(gv: number): number {
-  const { book, chapter, verse } = grid.locate(gv);
-  const ci = book.firstChapter + chapter - 1;
-  return ((ci + (verse - 0.5) / book.verses[chapter - 1]) / grid.chapterCount) * W;
-}
+const xOfVerse = (gv: number) => verseX(gv) * W;
 /** x of the middle of a chapter */
 function xOfChapter(ci: number): number {
   return ((ci + 0.5) / grid.chapterCount) * W;
