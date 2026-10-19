@@ -45,7 +45,7 @@ Licença: Creative Commons Atribuição 4.0 Brasil. Crédito sugerido pelos auto
 
 ## Fontes tipográficas
 
-Space Grotesk, Space Mono e Cormorant, sob a SIL Open Font License 1.1. Os textos da licença estão em `estudos/*/assets/fonts/OFL-*.txt` e, junto das cópias WOFF2 usadas pelo site, em `site/src/fonts/OFL-*.txt`.
+Space Grotesk, Space Mono e Cormorant (as três dos vídeos), Literata (texto bíblico do site) e Newsreader (títulos do site), sob a SIL Open Font License 1.1. Os textos da licença estão em `estudos/*/assets/fonts/OFL-*.txt` e, junto das cópias WOFF2 usadas pelo site, em `site/src/fonts/OFL-*.txt`. As cópias do site são recortes gerados por `site/scripts/subset-fonts.sh`; a da Newsreader é uma instância fixa (tamanho óptico 72, peso 440) da fonte variável.
 
 ## Mídia gerada pelo projeto
 

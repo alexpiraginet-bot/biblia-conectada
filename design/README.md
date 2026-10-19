@@ -1,6 +1,6 @@
 # Direção de design: Bíblia Conectada
 
-Status: revisada em 19/10/2026 com o design system do ui-ux-pro-max, `/impeccable shape` e a skill taste, depois da rodada de perguntas com o Alex. O que mudou e por quê está em §13; o que falta decidir, em §14.
+Status: revisada em 19/10/2026 com o design system do ui-ux-pro-max, `/impeccable shape` e a skill taste, depois da rodada de perguntas com o Alex. Revista de novo no mesmo dia (v3) com as três imagens de referência do Alex (`HANDOFF.md` §3.8): Noite azul-marinho e ouro, Dia em pergaminho, títulos em serifa. O que mudou e por quê está em §13; o que falta decidir, em §14.
 
 Todo número deste documento foi calculado por código nesta revisão (contrastes WCAG, métricas das fontes, tamanhos de arquivo, contagens do `xref.npz` e dos dados gerados em `site/`). Número que for para o site sai do pipeline, não daqui (regra 3 do `CLAUDE.md`).
 
@@ -16,7 +16,7 @@ Todo número deste documento foi calculado por código nesta revisão (contraste
 
 | | Anti-objetivo | Exemplos |
 |---|---|---|
-| A1 | App devocional genérico | Fundo creme ou pergaminho, ornamentos, "versículo do dia", tom de pregação |
+| A1 | App devocional genérico | Ornamentos, "versículo do dia", tom de pregação. (O fundo pergaminho saiu desta lista na v3: as referências do Alex usam pergaminho no tema Dia; o que continua proibido é o pergaminho como textura ou moldura, ver §3) |
 | A2 | Dashboard tech frio | Neon, brilho, grade de cards, cara de ferramenta de dev, texto bíblico perdendo espaço para a interface |
 | A3 | Perder a cara dos vídeos | Quem vem do Reels não reconhece o ouro, o céu noturno e os arcos |
 | A4 | Lento ou pesado no celular | Grafo ou arcos travando, ou gastando 4G antes de o texto aparecer |
@@ -56,32 +56,43 @@ O modo diz o que é sucesso para quem está na tela (impeccable). O tipo diz qua
 
 ## 3. Tokens (contraste WCAG calculado por código em 19/10)
 
-**Cena, não categoria:** quem chega de um Reel de fundo noturno, no navegador do Instagram, no celular, precisa reconhecer o vídeo na hora: **Noite**. Quem lê capítulos longos num lugar claro escolhe **Dia** (céu de manhã, não "papel creme"), e a escolha fica lembrada.
+**Cena, não categoria:** quem chega de um Reel de fundo noturno, no navegador do Instagram, no celular, precisa reconhecer o vídeo na hora: **Noite** (azul-marinho e ouro). Quem lê capítulos longos num lugar claro escolhe **Dia**, em pergaminho liso, com bronze, vinho e verde (as referências do Alex, v3), e a escolha fica lembrada.
 
-| Token | Noite | Dia | Uso | Contraste em bg / surface / raised (Noite · Dia) |
-|---|---|---|---|---|
-| `--bg` | `#060D1A` | `#EEF2F7` | página | |
-| `--surface` | `#0C1A2E` | `#FFFFFF` | painéis, sheet, prévia | |
-| `--raised` | `#15253D` | `#E2E8F1` | só hover e selecionado, nunca painel inteiro | |
-| `--text` | `#F2EBDD` | `#0E1733` | texto principal | 16,39 / 14,72 / 12,98 · 15,71 / 17,66 / 14,34 |
-| `--text-2` | `#A9B4C8` | `#46526B` | secundário, contagens | 9,30 / 8,35 / 7,37 · 6,97 / 7,84 / 6,36 |
-| `--gold` | `#FFCC6B` | `#8A5A00` | luz: seleção, ligação acesa, foco | 13,05 / 11,72 / 10,34 · 5,27 / 5,93 / 4,81 |
-| `--quote` | `#FFE2AA` | (usa `--text`) | só a citação grande da home e dos estudos | 15,47 / 13,89 / 12,25 |
-| `--control-border` | `#62779A` | `#6F7C93` | borda de input, botão secundário, filtro | 4,28 / 3,84 / 3,39 · 3,75 / 4,22 / 3,42 |
-| `--hairline` | `#2A3B57` | `#AEB9CA` | linha estrutural de 1 px, só em telas de app | 1,72 / 1,55 / 1,36 · 1,76 / 1,98 / 1,61 |
+Valores em `site/src/app/globals.css`. A tabela é impressa por `npx tsx scripts/contrast-table.ts` (em `site/`), e `site/tests/tokens.test.ts` falha se algum texto ficar abaixo de 4,5:1 em ground, surface ou raised, ou uma borda de controle abaixo de 3:1. Os nomes antigos (`--bg`, `--text`, `--text-2`, `--gold`) seguem como apelidos de `--ground`, `--ink`, `--ink-2` e `--accent-text` enquanto os componentes migram.
+
+| Token | Noite | Dia | Contraste em ground / surface / raised (Noite · Dia) |
+|---|---|---|---|
+| `--ground` | `#051219` | `#F8F4ED` | |
+| `--surface` | `#051017` | `#F5F2E9` | |
+| `--raised` | `#111E25` | `#EEE6D9` | |
+| `--ink` | `#F2EBDD` | `#0E1E1A` | 15,99 / 16,20 / 14,32 · 15,71 / 15,39 / 13,91 |
+| `--ink-2` | `#D2C8C1` | `#403E3C` | 11,54 / 11,69 / 10,33 · 9,71 / 9,51 / 8,60 |
+| `--ink-3` | `#909494` | `#676867` | 6,19 / 6,27 / 5,54 · 5,10 / 5,00 / 4,52 |
+| `--accent-text` | `#E7C588` | `#8A5E2C` | 11,51 / 11,66 / 10,31 · 5,15 / 5,05 / 4,56 |
+| `--accent-interp` | `#BA6F71` | `#6A3335` | 5,06 / 5,12 / 4,53 · 8,96 / 8,78 / 7,93 |
+| `--accent-theme` | `#5C927C` | `#2B453A` | 5,29 / 5,36 / 4,74 · 9,51 / 9,31 / 8,41 |
+| `--link-history` | `#599392` | `#436F6F` | 5,43 / 5,50 / 4,86 · 5,12 / 5,01 / 4,53 |
+| `--control-border` | `#576A78` | `#838480` | 3,38 / 3,42 / 3,02 · 3,43 / 3,36 / 3,04 |
+| `--hairline` | `#252D33` | `#DDD9D2` | 1,36 / 1,37 / 1,21 · 1,28 / 1,26 / 1,14 |
+| `--ink` sobre `--highlight` | | | texto sobre a faixa de destaque: 12,20 · 12,49 |
+| `--on-gold` sobre `--accent-text` | | | rótulo de botão preenchido com o acento: 11,51 · 5,65 |
+| `--on-fill` sobre `--accent-theme` | | | rótulo sobre o verde de Tema: 5,29 · 10,42 |
+| `--sky-gold` sobre `--sky` | | | ouro do céu (todos os temas): 13,05 |
+
+Papéis: `--ink` texto principal; `--ink-2` secundário e contagens; `--ink-3` só rótulo de eixo e legenda; `--accent-text` camada "Texto bíblico" (ligação, seleção, foco, item atual da navegação, kicker); `--accent-interp` "Interpretação"; `--accent-theme` "Tema"; `--link-history` "História"; `--highlight` faixa do versículo marcado; `--on-gold` e `--on-fill` rótulo sobre preenchimento.
 
 Regras:
-- **O céu é sempre Noite.** Céu da home, arcos, grafo, mapa e o grafo local do painel pintam o próprio chão `#060D1A`, também no tema Dia (no Dia, o grafo local vira uma "janela de céu" dentro do painel claro). Motivo: no Dia, `#FF801F` dá 2,23:1 e `#FFD15C` dá 1,29:1 sobre `--bg`; no Noite, sobre `--surface`, o `#2442FF` cai para 2,74:1. Sobre `--bg` Noite os seis tons vão de 3,05 a 13,45 (de 3,28 a 14,44 sobre o `#010101` do vídeo 1). (A3)
+- **O céu é sempre Noite.** Céu da home, arcos, grafo, mapa e as faixas de arcos da leitura pintam o próprio chão `--sky` (`#060D1A`), também no tema Dia (no Dia, a faixa vira uma "janela de céu" dentro do painel claro). Motivo: o vitral perde contraste em fundo claro (no Dia antigo, `#FF801F` dava 2,23:1 e `#FFD15C`, 1,29:1). O cabeçalho que flutua sobre o céu (home, `/arcos`) usa os tokens do céu nos dois temas; a barra de baixo segue o tema escolhido, porque continua visível nas seções claras abaixo do céu. (A3)
 - **O vitral é escala de dado, não cor de interface.** Ele codifica a distância do arco e só existe dentro do canvas, com legenda "curta → longa" feita da própria rampa. Nunca em texto, botão, etiqueta ou ícone: `#2442FF` (3,05) e `#8C33FF` (3,73) ficam abaixo de 4,5:1 mesmo no Noite. Na seleção, as ligações acesas ficam em ouro e o vitral recua. (A2)
-- **Ouro é luz.** Só o versículo selecionado, as ligações acesas (texto, lista, canvas) e o anel de foco. Nunca em títulos, ícones de navegação, bordas ou fundos; o ouro ocupa menos de 5% de qualquer tela. O botão principal é preenchido com `--text` e rótulo em `--bg` (16,39:1). (A2)
+- **Ouro é luz.** O versículo selecionado, as ligações acesas (texto, lista, canvas), o anel de foco, o item atual da navegação e o kicker (um por painel, como nas referências do Alex). Nunca em títulos, bordas ou fundos de página; o ouro ocupa menos de 5% de qualquer tela. Na capa, o botão principal é preenchido com `--sky-gold` e rótulo `#060D1A` (13,05:1), porque fica sobre o céu. (A2)
 - **Foco** = contorno ouro de 2 px com `outline-offset: 2px`, para o vão mostrar o fundo; assim o anel não some sobre um item já ouro. Seleção nunca só por cor: ouro mais peso ou ícone, mais `aria-selected`/`aria-current`.
 - **Cor nunca sozinha:** o número de ligações ou de votos sempre aparece em texto ao lado da cor.
 - **`--quote` é raro:** tem 1,06:1 contra `--text` (mesma luminosidade); usado em todo lugar, vira um segundo branco.
 - **Exceção de marca registrada: o azul-marinho.** O fundo vem do vídeo 2 e fica. Para não virar dashboard "slate", painéis grandes usam `--surface` e o `--raised` só aparece em hover e seleção. (A2, A3)
 - **Brilho só dentro do canvas.** Mistura aditiva no WebGL mostra densidade, como no vídeo 1. Na interface, nada de glow, bloom, halo, `text-shadow` ou `box-shadow` luminoso. (A2)
-- **Superfícies do navegador no tema:** `::selection` (Noite: `--bg` sobre `--gold`, 13,05:1; Dia: `--text` sobre `#FFE2AA`, 14,05:1), `caret-color` e `accent-color` em `--gold`, scrollbar em `--hairline`, sublinhado com `text-underline-offset`.
+- **Superfícies do navegador no tema:** `::selection` (Noite: `--ground` sobre `--accent-text`; Dia: `--ink` sobre `--highlight`), `caret-color` e `accent-color` no acento, scrollbar em `--hairline`, sublinhado com `text-underline-offset`. `theme-color` acompanha o chão: `#051219` no Noite, `#F8F4ED` no Dia.
 - **Aplicação do tema:** Noite na primeira visita (pendente, §14). A escolha fica salva no aparelho e é aplicada antes da primeira pintura por um script inline no `<head>`; `color-scheme` e `theme-color` acompanham o tema. As páginas são estáticas, então o tema não pode vir de cookie no servidor.
-- Os contrastes acima viram teste do site (`site/tests/`) quando os tokens saírem do CSS provisório (Fase 2).
+- Pergaminho é cor lisa: sem textura de papel, mancha, borda rasgada ou ornamento (A1).
 
 ## 4. Tipografia
 
@@ -89,15 +100,17 @@ Regras:
 |---|---|---|---|
 | Texto bíblico (Read) | **Literata** (OFL, eixo wght, latino), 17–19 px, `line-height` ≈ 1,6, `text-wrap: pretty` | Leitura, notas, prévia, sheet, ⌘K | Altura-x 0,507 em, contra 0,386 em da Cormorant: Cormorant a 20 px tem a altura-x da Literata a 15,2 px. Traço fino da Cormorant fica abaixo de meio pixel no texto claro sobre escuro |
 | Citação em destaque | **Cormorant Itálica** 500, `--quote` | Home, estudos, OG, abertura da nota do versículo | É o único papel da Cormorant nos vídeos. A romana sai do site: os vídeos nunca a usam e o "í" dela (Bíblia, Príncipe) fica com o acento deslocado no render de 19/10; na itálica, não |
-| Interface e títulos | **Space Grotesk** 600–700 em títulos, tracking de −0,01 a −0,03 em, caixa normal nas páginas Read | Tudo que não é Escritura | Papel de manchete dos vídeos; tem `tnum` (conferido) |
+| Títulos de página (v3) | **Newsreader** numa instância fixa (tamanho óptico 72, peso 440), `--font-title`, sem negrito sintético | `h1` e títulos de seção da leitura, do índice de livros, de Créditos e das páginas novas | As três referências do Alex usam serifa de display nos títulos ("No princípio.", "Linha do tempo"). Uma instância só, recortada para o latim, tem 22.200 B; a variável inteira teria os dois eixos à toa |
+| Interface | **Space Grotesk** 400–600, tracking de −0,01 a −0,03 em nos títulos de painel, caixa normal | Tudo que não é Escritura nem título de página; títulos do céu (`/arcos`) | Papel de manchete dos vídeos; tem `tnum` (conferido) e, desde a v3, as setas ←→↔ no recorte |
 | Contador e referência dos estudos | **Space Mono** | Só nas páginas de estudo: odômetro da narrativa e referência em caixa-alta espaçada embaixo da citação ("MIQUEIAS 5:2") | Assinatura dos vídeos. **Pendente (§14):** a taste pede tirar a Space Mono do site |
 
 - **Escala de cinco degraus**, sem nada entre eles: pequeno 13–14 px (contagens, legendas), interface 15–16 px, Escritura 17–19 px, título 24–32 px, display só na home e nos estudos (`clamp()`). Nada abaixo de 13 px. Em tela de app, nenhum número passa de 40 px.
 - **Números:** `font-variant-numeric: tabular-nums` em toda coluna (os algarismos padrão da Space Grotesk são proporcionais). Número de versículo e contagem em Space Grotesk `--text-2`, nunca nos algarismos de estilo antigo da Cormorant.
-- **Carga de fontes por página:** a leitura carrega só Literata e Space Grotesk (52.496 B + 27.344 B em WOFF2 latino). A Cormorant Itálica (53.744 B) e a Space Mono (19.540 B por peso) entram só onde aparecem, nunca no layout raiz (fonte do layout raiz é pré-carregada em toda rota). Pré-carregar só a fonte do corpo. Serifada com `adjustFontFallback: 'Times New Roman'`. (A4)
-- `next/font/local` não faz subset: as cópias WOFF2 saem de `site/scripts/subset-fonts.sh`. A Literata ainda não está no repo: ao entrar, registrar a licença OFL no `ATTRIBUTION.md` e copiar o `OFL.txt`.
+- **Carga de fontes por página:** o layout raiz carrega Space Grotesk (27.708 B) e Newsreader (22.200 B), porque toda rota tem interface e título. A leitura soma a Literata (52.496 B). A Cormorant Itálica (54.356 B) e a Space Mono (19.908 B e 20.240 B) entram só onde aparecem. Serifadas com `adjustFontFallback: 'Times New Roman'`. (A4)
+- `next/font/local` não faz subset: as cópias WOFF2 saem de `site/scripts/subset-fonts.sh` (que confere o SHA-256 do pacote da Newsreader antes de recortar). As cinco licenças OFL estão em `site/src/fonts/` e no `ATTRIBUTION.md`.
+- **Kicker (v3):** uma linha curta em caixa-alta espaçada (0,18 em), 13 px, no acento, acima do título de um painel ("NO PRINCÍPIO", "LINHA DO TEMPO"), como nas referências. No máximo um por painel; nunca acima do `h1` da página de leitura. É a exceção à regra de não usar eyebrow, aberta pelas referências do Alex.
 - **Grego e hebraico** (nomes do TIPNR, Fase 5): nenhuma das três fontes atuais tem esses alfabetos. Definir uma fonte OFL de reserva e marcar cada trecho com `lang="grc"` ou `lang="he" dir="rtl"`.
-- **Evitar:** caixa-alta em rótulos (exceções: nomes no mapa, a referência da citação nos estudos e, se o Alex aprovar, manchetes nas aberturas da home e dos estudos), sobrescrito acima de títulos (eyebrow), destacar uma palavra só no título.
+- **Evitar:** caixa-alta em rótulos (exceções: o kicker acima, nomes no mapa, a referência da citação nos estudos e as manchetes nas aberturas da home e dos estudos), mais de um eyebrow por painel, destacar uma palavra só no título.
 
 ## 5. Layout
 
@@ -147,7 +160,8 @@ Celular (375 px): uma coluna. A contagem vai no fim do versículo, como botão; 
 - **Medida:** texto bíblico com 60–75 caracteres médios por linha. Não escrever `70ch` sem medir: o `ch` (largura do "0") é maior que o caractere médio da BLIVRE (Literata: 0,579 contra 0,478 em; Cormorant: 0,477 contra 0,391; Space Grotesk: 0,638 contra 0,492), então `70ch` em Literata dá uns 85 caracteres. Fixar `max-inline-size` pelo caractere médio e conferir com o script de medição da Fase 2.
 - **Orientação:** trilha `Isaías › 9 › 6` com cada nível como link; capítulo anterior e próximo no topo e no fim; item atual da navegação com cor, peso e `aria-current="page"`.
 - Safe area com `env(safe-area-inset-*)` na barra e no sheet, `viewport-fit=cover` na meta viewport, `scroll-padding` do tamanho do header e da barra. `min-height: 100dvh`, nunca `100vh`. Nada de rolagem horizontal. Nunca `user-scalable=no`.
-- Barra inferior: rótulo pode quebrar, nunca cortar. "Linha do tempo" não cabe na barra com esse rótulo.
+- **Navegação única (v3):** uma lista só (`site/src/components/shell/nav.ts`) alimenta o topo e a barra de baixo. Seções: Explorar, Ler, Linha do tempo, Arcos, Ponte. No desktop (≥ 56 rem) ficam no cabeçalho, com o item atual sublinhado no acento e `aria-current="page"`. No celular o cabeçalho guarda marca, tema e busca, e a barra de baixo mostra quatro itens com ícone e rótulo (Explorar, Ler, Arcos, Ponte); "Linha do tempo" não cabe na barra e entra pela página Explorar. Rótulo pode quebrar, nunca cortar. A barra respeita `safe-area-inset-bottom` e o `body` reserva a altura dela.
+- **Rotas reservadas:** todo segmento de topo do app (e pasta de `public/`) está em `RESERVED` (`site/src/lib/canon/redirects.ts`), para nenhum atalho de livro (`/is/9/6`) sequestrar uma página; `site/tests/routes.test.ts` confere.
 
 ## 6. Interação
 
@@ -221,7 +235,7 @@ Celular (375 px): uma coluna. A contagem vai no fim do versículo, como botão; 
 | Monoespaçada fora dos estudos; vitral fora do canvas | A2 |
 | Texto em gradiente, vidro ou blur decorativo, borda esquerda colorida acima de 1 px | A2 |
 | Citação bíblica solta num card, como "versículo do dia" ou imagem de post: toda citação aparece ligada ao dado que a conecta (contagem, arco ou par) | A1 |
-| Fundo creme ou pergaminho, ornamentos, carrossel de depoimentos | A1 |
+| Pergaminho como textura ou moldura (papel envelhecido, mancha, borda rasgada), ornamentos, carrossel de depoimentos | A1 |
 | Fade-and-slide em cada seção, hover animado em todo card, parallax decorativo, loop sem significado | A2, A4 |
 
 ## 11. Texto e imagens
@@ -239,7 +253,7 @@ Celular (375 px): uma coluna. A contagem vai no fim do versículo, como botão; 
 
 Em 375 e 1440 px, nos temas Noite e Dia (regra 9 do `CLAUDE.md`):
 1. Cobrindo o nome, dá para adivinhar "app devocional" ou "dashboard dark" só pela categoria? Se sim, refazer.
-2. Tem creme, ornamento, versículo solto ou tom de sermão? (A1)
+2. Tem textura de papel, ornamento, versículo solto ou tom de sermão? (A1)
 3. Tem neon, cards em grade, brilho fora do canvas, ou texto bíblico perdendo espaço para a interface? (A2)
 4. Quem viu o vídeo reconhece o ouro, o céu e os arcos na primeira tela? (A3)
 5. No 4G simulado, o texto aparece antes do céu interativo, e o `npm run budget` fica dentro do teto? (A4)
@@ -267,7 +281,9 @@ Fontes: CLI do ui-ux-pro-max (`--design-system` e domínios), `/impeccable shape
 
 | §5, §6 (19/10, leitura feita) | Arcos do vídeo 1 no versículo, capítulo e livro; `--page-max` comum; ícones repetidos em CSS; painel por rota; lista longa com "Mostrar mais" | O Alex achou o site amador: faltava a cara dos vídeos na leitura. Cabeçalho e grade não alinhavam (marca em x = 145 px, trilho em 64). O contador do versículo escolhido invadia o texto. HTML de Isaías 9:6 com 447 KB | capturas em 375/1440, Lighthouse, detector do impeccable |
 
-**O que ficou como estava:** paleta e tokens de cor dos vídeos (os nove contrastes da tabela antiga batem exatamente quando refeitos), Dia como céu de manhã e não papel creme, "cor nunca sozinha", um único momento orquestrado, layout de três colunas e bottom sheet, alternativa em lista para grafo, arcos e mapa, alvos de 44 px e ícones Lucide.
+| §1, §3, §4, §5, §10 (19/10, v3) | Tokens novos (Noite `#051219` e ouro `#E7C588`; Dia pergaminho `#F8F4ED` com bronze `#8A5E2C`, vinho e verde) com teste de contraste; Newsreader nos títulos; kicker; navegação única com barra de baixo; rotas reservadas com teste; pergaminho sai do A1 | O Alex mandou três imagens com "Estilo a se seguir" e escolheu "Site inteiro". As imagens mostram o Dia em pergaminho e títulos em serifa, o que contraria o A1 e o §4 antigos; a referência explícita dele vale mais que a resposta anterior. O teste de contraste achou um par ruim (rótulo claro sobre o verde no Noite, 3,02:1) antes de qualquer componente usar | imagens do Alex; `tests/tokens.test.ts`; capturas em 375/1440 nos dois temas |
+
+**O que ficou como estava:** paleta do céu e do vitral dos vídeos, céu sempre Noite, "cor nunca sozinha", um único momento orquestrado, layout de três colunas e bottom sheet, alternativa em lista para grafo, arcos e mapa, alvos de 44 px e ícones Lucide.
 
 ## 14. Pendências para o Alex
 

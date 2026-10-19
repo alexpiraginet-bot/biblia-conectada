@@ -5,7 +5,16 @@ import { ABBREVIATIONS } from "./aliases";
 import { slugify } from "./text";
 import type { Book } from "./types";
 
-export const RESERVED = ["ler", "sobre", "arcos", "sky", "data", "_next", "api", "icon.svg"];
+// Top-level segments that are pages, planned pages or public folders (tests/routes.test.ts keeps this list honest).
+export const RESERVED = [
+  // pages
+  "ler", "sobre", "arcos", "explorar", "conexao", "linha-do-tempo", "tema", "palavra", "ponte", "trilha", "mesa",
+  "dados", "salvos", "buscar", "privacidade",
+  // planned (design/README.md §5, HANDOFF §6)
+  "grafo", "mapa", "lugar", "pessoa", "evento", "estudo", "assistente", "og",
+  // public folders and framework paths
+  "data", "sky", "medalhoes", "img", "_next", "api", "icon.svg",
+];
 
 export function abbreviationRedirects(books: readonly Pick<Book, "osis" | "name" | "slug">[]) {
   const owners = new Map<string, Set<string>>();

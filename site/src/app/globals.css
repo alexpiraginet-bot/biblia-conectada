@@ -1,21 +1,37 @@
-/* Tokens from design/README.md §3. Noite is the default; Dia applies with [data-theme="dia"] on <html>.
-   The sky (canvas views) always paints the Noite ground, in both themes. */
+/* Tokens from design/README.md §3, after Alex's three reference images (HANDOFF §3.8): Noite is navy and gold,
+   Dia is parchment with bronze, burgundy and green. Contrast of every text pair is computed in design §3.
+   The sky (canvas views, arc strips) always paints the Noite ground, in both themes.
+   Old names (--bg, --text, --text-2, --gold) stay as aliases while the components move to the new ones. */
 :root {
-  --bg: #060d1a;
-  --surface: #0c1a2e;
-  --raised: #15253d;
-  --text: #f2ebdd;
-  --text-2: #a9b4c8;
-  --gold: #ffcc6b;
+  --ground: #051219;
+  --surface: #051017;
+  --raised: #111e25;
+  --ink: #f2ebdd;
+  --ink-2: #d2c8c1;
+  --ink-3: #909494;
+  /* text and lines of the "Texto bíblico" layer, kickers, active navigation, selection, focus */
+  --accent-text: #e7c588;
+  /* "Interpretação" (dashed), "Tema" (green), "História" (teal) */
+  --accent-interp: #ba6f71;
+  --accent-theme: #5c927c;
+  --link-history: #599392;
+  --hairline: #252d33;
+  --control-border: #576a78;
+  --highlight: #172d2e;
+  /* label on a filled accent (Tema, História, Interpretação): the Noite accents are mid-tones, so the label is dark */
+  --on-fill: #051219;
+  --on-gold: #051219;
   --quote: #ffe2aa;
-  --hairline: #2a3b57;
-  --control-border: #62779a;
-  --focus: var(--gold);
-  --on-gold: #060d1a;
+  --focus: var(--accent-text);
   --sky: #060d1a;
   --sky-text: #f2ebdd;
   --sky-text-2: #a9b4c8;
   --sky-gold: #ffcc6b;
+
+  --bg: var(--ground);
+  --text: var(--ink);
+  --text-2: var(--ink-2);
+  --gold: var(--accent-text);
 
   /* text column in rem, so blocks with smaller type (footer) share the same edges as the body text.
      37rem at 17px Space Grotesk is ~71 average BLIVRE characters per line (average advance 0.492em). */
@@ -29,12 +45,13 @@
   --space-4: 2.5rem;
   --space-5: 4rem;
 
-  /* type scale, five steps (design §4) */
+  /* type scale, five steps (design §4); titles use the display serif (Newsreader, one weight: 440) */
   --step-small: 0.8125rem;
   --step-ui: 0.9375rem;
   --step-scripture: 1.125rem;
   --step-title: clamp(1.5rem, 4vw, 2rem);
-  --step-display: clamp(2.25rem, 7vw, 3.75rem);
+  --step-display: clamp(2.5rem, 1.2rem + 5.2vw, 4.5rem);
+  --font-title: var(--font-display), Georgia, "Times New Roman", serif;
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
@@ -46,16 +63,22 @@
 }
 
 [data-theme="dia"] {
-  --bg: #eef2f7;
-  --surface: #ffffff;
-  --raised: #e2e8f1;
-  --text: #0e1733;
-  --text-2: #46526b;
-  --gold: #8a5a00;
-  --quote: var(--text);
-  --hairline: #aeb9ca;
-  --control-border: #6f7c93;
+  --ground: #f8f4ed;
+  --surface: #f5f2e9;
+  --raised: #eee6d9;
+  --ink: #0e1e1a;
+  --ink-2: #403e3c;
+  --ink-3: #676867;
+  --accent-text: #8a5e2c;
+  --accent-interp: #6a3335;
+  --accent-theme: #2b453a;
+  --link-history: #436f6f;
+  --hairline: #ddd9d2;
+  --control-border: #838480;
+  --highlight: #dbddcc;
+  --on-fill: #ffffff;
   --on-gold: #ffffff;
+  --quote: var(--ink);
   color-scheme: light;
 }
 
@@ -94,8 +117,26 @@ body {
 }
 
 [data-theme="dia"] ::selection {
-  background: #ffe2aa;
-  color: var(--text);
+  background: var(--highlight);
+  color: var(--ink);
+}
+
+/* page titles in the display serif; the instance has a single weight, so no bold is synthesised */
+.display {
+  font-family: var(--font-title);
+  font-weight: 440;
+  letter-spacing: -0.015em;
+  font-synthesis: none;
+}
+
+/* one kicker per panel: letter-spaced caps in the accent (design §4) */
+.kicker {
+  margin: 0 0 var(--space-1);
+  font-size: var(--step-small);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-text);
 }
 
 a {
@@ -161,6 +202,26 @@ input {
 
 .i-both {
   --i: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 9h14M15 6l3 3-3 3M20 15H6M9 12l-3 3 3 3'/%3E%3C/svg%3E");
+}
+
+.i-explore {
+  --i: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6.5 8.2 11 16.2M13 16.2l4.6-8.4M8.2 6.6l7.6-.5'/%3E%3Ccircle cx='6' cy='7' r='2'/%3E%3Ccircle cx='18' cy='6' r='2'/%3E%3Ccircle cx='12' cy='18' r='2'/%3E%3C/svg%3E");
+}
+
+.i-book {
+  --i: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 5.5c2.5-1 5.5-1 8 .5 2.5-1.5 5.5-1.5 8-.5V19c-2.5-1-5.5-1-8 .5-2.5-1.5-5.5-1.5-8-.5zM12 6v13.5'/%3E%3C/svg%3E");
+}
+
+.i-time {
+  --i: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 12h18M7 9v6M12 7.5v9M17 10v4'/%3E%3C/svg%3E");
+}
+
+.i-bridge {
+  --i: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 17h18M3 11.5c3 0 5-3.5 9-3.5s6 3.5 9 3.5M6 17v-4.6M18 17v-4.6M10 17V9.6M14 17V9.6'/%3E%3C/svg%3E");
+}
+
+.i-data {
+  --i: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 6c0-1.1 3.1-2 7-2s7 .9 7 2-3.1 2-7 2-7-.9-7-2zM5 6v12c0 1.1 3.1 2 7 2s7-.9 7-2V6M5 12c0 1.1 3.1 2 7 2s7-.9 7-2'/%3E%3C/svg%3E");
 }
 
 .visually-hidden {

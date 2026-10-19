@@ -351,7 +351,7 @@ npx -y skills add leonxlnx/taste-skill --skill design-taste-frontend --agent cla
 4. ~~Stack~~: Next.js, decidido em 19/10 (§3.6).
 6. **Orçamento de JS** com Next.js (§5.6): aceitar "runtime medido + até 25 KiB de JS próprio (total ≤ 165 KiB)" ou outra regra.
 7. **Projeto da Vercel** (§9): criar no painel ou dar ao conector permissão de criar projetos.
-8. **Chave da Anthropic (urgente):** a chave colada no chat em 19/10 deve ser revogada em console.anthropic.com e trocada por outra, que vai só para a variável `ANTHROPIC_API_KEY` da Vercel. Definir no console o teto de US$ 20/mês (Fase 2b).
+8. **Chaves expostas (urgente):** revogar e trocar (a) a chave da Anthropic colada no chat em 19/10, (b) a segunda chave da Anthropic, mandada num arquivo anexo no mesmo dia, e (c) a chave da OpenAI que aparece em texto puro no `SKILL.md` da skill gpt-image sincronizada nesta conta. Nenhuma delas foi gravada no repositório. A chave nova da Anthropic vai só para a variável `ANTHROPIC_API_KEY` da Vercel (criptografada). Definir no console o teto de US$ 20/mês (Fase 2b).
 5. **Tom do texto** do site. Proposta: claro, de estudo, sem jargão, sem "maior do mundo" sem prova.
 
 ---
@@ -458,3 +458,9 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
     - Sem GPU real cai na cena parada. Lighthouse: celular 94–96 (TBT 130–220 ms), desktop 100.
     - Conferido só em Chromium sem GPU, com o céu vivo forçado; não testado em GPU real (§5.6).
   - O Alex mandou também o "Atlas Design Kit v2". Ele foi lido e não adotado como direção, porque diz que a direção ainda não fora escolhida e as imagens do Alex já escolhem. Aproveitado: as quatro categorias de ligação com padrão de linha, a regra de fonte e estado editorial, as regras do grafo e as fontes Newsreader e Instrument Sans como candidatas (análise em andamento).
+- **19/10, mesma sessão, "junte tudo" (fundação, onda A):**
+  - O Alex pediu o céu "com muito Motion vivo", dados do repositório caprichados para outros criarem a partir deles, e "juntar tudo" com as melhores ideias. Ele mandou também um arquivo com outra chave da Anthropic: não foi usada nem gravada, e precisa ser revogada (§8).
+  - Fundação comum, antes das telas novas: cores novas (Noite `#051219` e ouro; Dia em pergaminho liso com bronze, vinho e verde), Newsreader nos títulos, kicker, navegação única (topo no desktop, barra de baixo no celular) e lista de rotas reservadas com teste. Registro em `design/README.md` §3–§5 e §13 (v3).
+  - O pergaminho saiu da lista do "app devocional genérico" (A1), porque as referências do Alex usam pergaminho no Dia. Continua proibido como textura ou moldura.
+  - Novo teste de contraste dos tokens (`site/tests/tokens.test.ts`); ele achou um par ruim antes de qualquer tela usar (rótulo claro sobre o verde no Noite, 3,02:1), já corrigido.
+  - A navegação já aponta para Explorar, Linha do tempo e Ponte, que chegam na onda B; até lá esses links dão 404.

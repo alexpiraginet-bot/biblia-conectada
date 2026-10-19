@@ -17,6 +17,8 @@
   --text: var(--sky-text);
   --text-2: var(--sky-text-2);
   --gold: var(--sky-gold);
+  --accent-text: var(--sky-gold);
+  --raised: rgb(255 255 255 / 0.08);
   --surface: #0c1a2e;
   --control-border: #62779a;
   color-scheme: dark;
@@ -68,19 +70,111 @@
   justify-content: flex-end;
 }
 
-.site-nav a {
+.nav-list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-list--top a {
+  position: relative;
   display: inline-flex;
   align-items: center;
   min-height: 2.75rem;
-  padding: 0 0.75rem;
+  padding: 0 0.7rem;
   color: var(--text-2);
   text-decoration: none;
   font-size: var(--step-ui);
+  white-space: nowrap;
 }
 
-.site-nav a:hover,
-.site-nav a[aria-current="page"] {
+.nav-list--top a:hover {
   color: var(--text);
+}
+
+.nav-list--top a[aria-current="page"] {
+  color: var(--text);
+}
+
+/* the current section is underlined in the accent, as in the reference images */
+.nav-list--top a[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  left: 0.7rem;
+  right: 0.7rem;
+  bottom: 0.45rem;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--accent-text);
+}
+
+/* phones: the sections live in the bottom bar; the header keeps the brand, search and theme */
+@media (max-width: 55.99rem) {
+  .site-nav {
+    display: none;
+  }
+
+  .site-header__inner {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "brand theme"
+      "search search";
+  }
+}
+
+/* ---- bottom bar (phones) */
+
+.bottom-bar {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 30;
+  padding: 0 max(0.25rem, env(safe-area-inset-right)) env(safe-area-inset-bottom) max(0.25rem, env(safe-area-inset-left));
+  background: var(--surface);
+  border-top: 1px solid var(--hairline);
+}
+
+.nav-list--bar {
+  justify-content: space-around;
+}
+
+.nav-list--bar li {
+  flex: 1;
+}
+
+.nav-list--bar a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  min-height: 3.5rem;
+  color: var(--text-2);
+  text-decoration: none;
+  font-size: 0.75rem;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.nav-list--bar .i {
+  width: 1.375rem;
+  height: 1.375rem;
+}
+
+.nav-list--bar a[aria-current="page"] {
+  color: var(--accent-text);
+}
+
+@media (min-width: 56rem) {
+  .bottom-bar {
+    display: none;
+  }
+}
+
+@media (max-width: 55.99rem) {
+  body {
+    padding-bottom: calc(3.5rem + env(safe-area-inset-bottom));
+  }
 }
 
 .theme-toggle {

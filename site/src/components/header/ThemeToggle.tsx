@@ -4,7 +4,7 @@ import { useSyncExternalStore } from "react";
 
 // Noite is the default theme; the choice is stored on the device and applied before paint by THEME_SCRIPT.
 type Theme = "noite" | "dia";
-const THEME_COLOR: Record<Theme, string> = { noite: "#060d1a", dia: "#eef2f7" };
+const THEME_COLOR: Record<Theme, string> = { noite: "#051219", dia: "#f8f4ed" };
 
 export const THEME_SCRIPT = `(function(){try{var t=localStorage.getItem("theme");if(t==="dia"||t==="noite"){document.documentElement.setAttribute("data-theme",t);var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",t==="dia"?"${THEME_COLOR.dia}":"${THEME_COLOR.noite}")}}catch(e){}})()`;
 

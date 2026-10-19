@@ -1,5 +1,6 @@
 import Link from "next/link";
 import "./header.css";
+import { NavLinks } from "@/components/shell/NavLinks";
 import { ArcMark } from "./ArcMark";
 import { RefSearch } from "./RefSearch";
 import { ThemeToggle } from "./ThemeToggle";
@@ -14,7 +15,7 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
         </Link>
         <RefSearch />
         <nav aria-label="Principal" className="site-nav">
-          <Link href="/ler">Ler</Link>
+          <NavLinks variant="top" />
         </nav>
         <ThemeToggle />
       </div>

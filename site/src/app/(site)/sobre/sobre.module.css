@@ -10,8 +10,10 @@
 }
 
 .prose h1 {
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-family: var(--font-title);
+  font-weight: 440;
+  font-synthesis: none;
+  letter-spacing: -0.015em;
   font-size: clamp(2rem, 6vw, 3rem);
   line-height: 1.1;
   margin: 0 0 var(--space-3);
