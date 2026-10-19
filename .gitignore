@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.pyc
+
+# Sistema / editores
+.DS_Store
+Thumbs.db
+*.swp
+
+# Segredos: nunca versionar
+.env
+.env.*
+!.env.example
+
+# Traduções bíblicas com direitos autorais (ACF, AA, NVI...): nunca versionar o texto completo.
+# Ver ATTRIBUTION.md. Citações curtas usadas nos vídeos ficam em data/verses.json (direito de citação).
+**/source/text/
+
+# Intermediários pesados de render: vão para o GitHub Release "film-intermediates" (ver HANDOFF.md)
+estudos/*/renders/.film/*
+!estudos/*/renders/.film/narr.json
+!estudos/*/renders/.film/keys.json
+!estudos/*/renders/.film/render.log
+estudos/*/renders/.stills/
+
+# Site
+node_modules/
+site/dist/
+site/.astro/
+site/.vercel/
+.vercel/

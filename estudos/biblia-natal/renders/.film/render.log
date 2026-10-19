@@ -1,0 +1,35 @@
+frame 0/1533 t=0.00 8s eta 11816s
+frame 48/1533 t=2.00 112s eta 3380s
+frame 96/1533 t=4.00 132s eta 1951s
+frame 144/1533 t=6.00 275s eta 2632s
+frame 192/1533 t=8.00 399s eta 2775s
+frame 240/1533 t=10.00 563s eta 3022s
+/home/claude/hf-test/videos/biblia-natal/fx.py:141: RuntimeWarning: invalid value encountered in cast
+  pts = [np.round(np.asarray(p) * 16).astype(np.int32) for p in polys if p is not None and len(p) > 1]
+frame 288/1533 t=12.00 705s eta 3038s
+frame 336/1533 t=14.00 722s eta 2564s
+frame 384/1533 t=16.00 744s eta 2221s
+frame 432/1533 t=18.00 769s eta 1956s
+frame 480/1533 t=20.00 791s eta 1732s
+frame 528/1533 t=22.00 844s eta 1604s
+frame 576/1533 t=24.00 861s eta 1429s
+frame 624/1533 t=26.00 879s eta 1278s
+frame 672/1533 t=28.00 897s eta 1147s
+frame 720/1533 t=30.00 908s eta 1023s
+frame 768/1533 t=32.00 1071s eta 1065s
+frame 816/1533 t=34.00 1173s eta 1030s
+frame 864/1533 t=36.00 1214s eta 939s
+frame 912/1533 t=38.00 1230s eta 837s
+frame 960/1533 t=40.00 1305s eta 778s
+frame 1008/1533 t=42.00 1333s eta 693s
+frame 1056/1533 t=44.00 1407s eta 635s
+frame 1104/1533 t=46.00 1430s eta 555s
+frame 1152/1533 t=48.00 1530s eta 506s
+frame 1200/1533 t=50.00 1546s eta 429s
+frame 1248/1533 t=52.00 1571s eta 358s
+frame 1296/1533 t=54.00 1597s eta 292s
+frame 1344/1533 t=56.00 1616s eta 227s
+frame 1392/1533 t=58.00 1638s eta 166s
+frame 1440/1533 t=60.00 1717s eta 111s
+frame 1488/1533 t=62.00 1839s eta 56s
+done /home/claude/hf-test/videos/biblia-natal/renders/.film/video.mp4 1954s

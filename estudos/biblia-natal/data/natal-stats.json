@@ -1,0 +1,833 @@
+{
+ "source_sha256": "2aba58d2adc91609a090f80bb05dfbc7a1518ff10ee798f6b452dfeaf01ccff8",
+ "rows_total": 344799,
+ "birth_chapters": "Mateus 1-2, Lucas 1-2",
+ "birth_chapter_verses": 180,
+ "pairs_all": 2094,
+ "pairs_maxvote_gt0": 2053,
+ "ot_verses_all": 1561,
+ "ot_verses_pos": 1545,
+ "ot_books_all": 38,
+ "ot_books_pos": 38,
+ "ot_books_pos_list": [
+  "Gênesis",
+  "Êxodo",
+  "Levítico",
+  "Números",
+  "Deuteronômio",
+  "Josué",
+  "Juízes",
+  "Rute",
+  "1 Samuel",
+  "2 Samuel",
+  "1 Reis",
+  "2 Reis",
+  "1 Crônicas",
+  "2 Crônicas",
+  "Esdras",
+  "Neemias",
+  "Ester",
+  "Jó",
+  "Salmos",
+  "Provérbios",
+  "Eclesiastes",
+  "Cânticos",
+  "Isaías",
+  "Jeremias",
+  "Lamentações",
+  "Ezequiel",
+  "Daniel",
+  "Oseias",
+  "Joel",
+  "Amós",
+  "Obadias",
+  "Miqueias",
+  "Naum",
+  "Habacuque",
+  "Sofonias",
+  "Ageu",
+  "Zacarias",
+  "Malaquias"
+ ],
+ "nt_verses_linked_pos": 164,
+ "top40": [
+  {
+   "ot": "Ezequiel 34:23",
+   "nt": "Mateus 2:6",
+   "ot_book": "Ezequiel",
+   "max": 192,
+   "sum": 192,
+   "ot_to_nt": [],
+   "nt_to_ot": [
+    192
+   ]
+  },
+  {
+   "ot": "Isaías 7:14",
+   "nt": "Mateus 1:23",
+   "ot_book": "Isaías",
+   "max": 185,
+   "sum": 333,
+   "ot_to_nt": [
+    148
+   ],
+   "nt_to_ot": [
+    185
+   ]
+  },
+  {
+   "ot": "Jeremias 32:27",
+   "nt": "Lucas 1:37",
+   "ot_book": "Jeremias",
+   "max": 184,
+   "sum": 184,
+   "ot_to_nt": [],
+   "nt_to_ot": [
+    184
+   ]
+  },
+  {
+   "ot": "Isaías 9:6",
+   "nt": "Lucas 2:11",
+   "ot_book": "Isaías",
+   "max": 179,
+   "sum": 228,
+   "ot_to_nt": [
+    179
+   ],
+   "nt_to_ot": [
+    49
+   ]
+  },
+  {
+   "ot": "Miqueias 5:2",
+   "nt": "Mateus 2:6",
+   "ot_book": "Miqueias",
+   "max": 150,
+   "sum": 226,
+   "ot_to_nt": [
+    76
+   ],
+   "nt_to_ot": [
+    150
+   ]
+  },
+  {
+   "ot": "Jeremias 32:17",
+   "nt": "Lucas 1:37",
+   "ot_book": "Jeremias",
+   "max": 141,
+   "sum": 241,
+   "ot_to_nt": [
+    100
+   ],
+   "nt_to_ot": [
+    141
+   ]
+  },
+  {
+   "ot": "Gênesis 18:14",
+   "nt": "Lucas 1:37",
+   "ot_book": "Gênesis",
+   "max": 109,
+   "sum": 208,
+   "ot_to_nt": [
+    99
+   ],
+   "nt_to_ot": [
+    109
+   ]
+  },
+  {
+   "ot": "Isaías 41:10",
+   "nt": "Lucas 1:30",
+   "ot_book": "Isaías",
+   "max": 108,
+   "sum": 123,
+   "ot_to_nt": [
+    108
+   ],
+   "nt_to_ot": [
+    15
+   ]
+  },
+  {
+   "ot": "Isaías 41:10",
+   "nt": "Lucas 2:10",
+   "ot_book": "Isaías",
+   "max": 104,
+   "sum": 104,
+   "ot_to_nt": [
+    104
+   ],
+   "nt_to_ot": []
+  },
+  {
+   "ot": "Jeremias 31:15",
+   "nt": "Mateus 2:18",
+   "ot_book": "Jeremias",
+   "max": 96,
+   "sum": 96,
+   "ot_to_nt": [],
+   "nt_to_ot": [
+    96
+   ]
+  },
+  {
+   "ot": "Isaías 41:10",
+   "nt": "Lucas 1:13",
+   "ot_book": "Isaías",
+   "max": 93,
+   "sum": 93,
+   "ot_to_nt": [
+    93
+   ],
+   "nt_to_ot": []
+  },
+  {
+   "ot": "Números 11:23",
+   "nt": "Lucas 1:37",
+   "ot_book": "Números",
+   "max": 85,
+   "sum": 107,
+   "ot_to_nt": [
+    22
+   ],
+   "nt_to_ot": [
+    85
+   ]
+  },
+  {
+   "ot": "Oseias 11:1",
+   "nt": "Mateus 2:15",
+   "ot_book": "Oseias",
+   "max": 85,
+   "sum": 104,
+   "ot_to_nt": [
+    19
+   ],
+   "nt_to_ot": [
+    85
+   ]
+  },
+  {
+   "ot": "Isaías 9:6",
+   "nt": "Mateus 1:23",
+   "ot_book": "Isaías",
+   "max": 81,
+   "sum": 153,
+   "ot_to_nt": [
+    81
+   ],
+   "nt_to_ot": [
+    72
+   ]
+  },
+  {
+   "ot": "Lamentações 3:22",
+   "nt": "Lucas 1:50",
+   "ot_book": "Lamentações",
+   "max": 72,
+   "sum": 72,
+   "ot_to_nt": [
+    72
+   ],
+   "nt_to_ot": []
+  },
+  {
+   "ot": "Salmos 23:4",
+   "nt": "Lucas 1:79",
+   "ot_book": "Salmos",
+   "max": 68,
+   "sum": 76,
+   "ot_to_nt": [
+    68
+   ],
+   "nt_to_ot": [
+    8
+   ]
+  },
+  {
+   "ot": "Deuteronômio 16:16",
+   "nt": "Mateus 2:11",
+   "ot_book": "Deuteronômio",
+   "max": 67,
+   "sum": 67,
+   "ot_to_nt": [
+    67
+   ],
+   "nt_to_ot": []
+  },
+  {
+   "ot": "Provérbios 3:3",
+   "nt": "Lucas 2:52",
+   "ot_book": "Provérbios",
+   "max": 55,
+   "sum": 55,
+   "ot_to_nt": [],
+   "nt_to_ot": [
+    55
+   ]
+  },
+  {
+   "ot": "Isaías 40:3",
+   "nt": "Lucas 1:16",
+   "ot_book": "Isaías",
+   "max": 54,
+   "sum": 60,
+   "ot_to_nt": [
+    54
+   ],
+   "nt_to_ot": [
+    6
+   ]
+  },
+  {
+   "ot": "Isaías 40:3",
+   "nt": "Lucas 1:76",
+   "ot_book": "Isaías",
+   "max": 53,
+   "sum": 63,
+   "ot_to_nt": [
+    53
+   ],
+   "nt_to_ot": [
+    10
+   ]
+  },
+  {
+   "ot": "Isaías 7:14",
+   "nt": "Lucas 1:31",
+   "ot_book": "Isaías",
+   "max": 51,
+   "sum": 81,
+   "ot_to_nt": [
+    51
+   ],
+   "nt_to_ot": [
+    30
+   ]
+  },
+  {
+   "ot": "Zacarias 8:6",
+   "nt": "Lucas 1:37",
+   "ot_book": "Zacarias",
+   "max": 50,
+   "sum": 55,
+   "ot_to_nt": [
+    5
+   ],
+   "nt_to_ot": [
+    50
+   ]
+  },
+  {
+   "ot": "Malaquias 4:5",
+   "nt": "Lucas 1:17",
+   "ot_book": "Malaquias",
+   "max": 50,
+   "sum": 79,
+   "ot_to_nt": [
+    29
+   ],
+   "nt_to_ot": [
+    50
+   ]
+  },
+  {
+   "ot": "1 Samuel 2:26",
+   "nt": "Lucas 2:52",
+   "ot_book": "1 Samuel",
+   "max": 47,
+   "sum": 71,
+   "ot_to_nt": [
+    24
+   ],
+   "nt_to_ot": [
+    47
+   ]
+  },
+  {
+   "ot": "Malaquias 4:6",
+   "nt": "Lucas 1:16",
+   "ot_book": "Malaquias",
+   "max": 47,
+   "sum": 47,
+   "ot_to_nt": [
+    47
+   ],
+   "nt_to_ot": []
+  },
+  {
+   "ot": "Jó 13:2",
+   "nt": "Lucas 1:37",
+   "ot_book": "Jó",
+   "max": 46,
+   "sum": 46,
+   "ot_to_nt": [],
+   "nt_to_ot": [
+    46
+   ]
+  },
+  {
+   "ot": "Isaías 60:1",
+   "nt": "Lucas 1:78",
+   "ot_book": "Isaías",
+   "max": 45,
+   "sum": 45,
+   "ot_to_nt": [
+    45
+   ],
+   "nt_to_ot": []
+  },
+  {
+   "ot": "Isaías 9:7",
+   "nt": "Lucas 1:32",
+   "ot_book": "Isaías",
+   "max": 41,
+   "sum": 41,
+   "ot_to_nt": [
+    41
+   ],
+   "nt_to_ot": []
+  },
+  {
+   "ot": "Salmos 23:4",
+   "nt": "Mateus 1:23",
+   "ot_book": "Salmos",
+   "max": 40,
+   "sum": 40,
+   "ot_to_nt": [
+    40
+   ],
+   "nt_to_ot": []
+  },
+  {
+   "ot": "Salmos 34:3",
+   "nt": "Lucas 1:46",
+   "ot_book": "Salmos",
+   "max": 40,
+   "sum": 40,
+   "ot_to_nt": [
+    40
+   ],
+   "nt_to_ot": []
+  },
+  {
+   "ot": "Números 24:17",
+   "nt": "Mateus 2:2",
+   "ot_book": "Números",
+   "max": 38,
+   "sum": 47,
+   "ot_to_nt": [
+    9
+   ],
+   "nt_to_ot": [
+    38
+   ]
+  },
+  {
+   "ot": "Eclesiastes 12:13",
+   "nt": "Lucas 1:50",
+   "ot_book": "Eclesiastes",
+   "max": 38,
+   "sum": 38,
+   "ot_to_nt": [
+    38
+   ],
+   "nt_to_ot": []
+  },
+  {
+   "ot": "Isaías 9:2",
+   "nt": "Lucas 1:78",
+   "ot_book": "Isaías",
+   "max": 38,
+   "sum": 38,
+   "ot_to_nt": [
+    38
+   ],
+   "nt_to_ot": []
+  },
+  {
+   "ot": "Isaías 60:6",
+   "nt": "Mateus 2:11",
+   "ot_book": "Isaías",
+   "max": 37,
+   "sum": 51,
+   "ot_to_nt": [
+    14
+   ],
+   "nt_to_ot": [
+    37
+   ]
+  },
+  {
+   "ot": "Malaquias 4:2",
+   "nt": "Lucas 1:78",
+   "ot_book": "Malaquias",
+   "max": 37,
+   "sum": 53,
+   "ot_to_nt": [
+    37
+   ],
+   "nt_to_ot": [
+    16
+   ]
+  },
+  {
+   "ot": "Isaías 9:2",
+   "nt": "Lucas 1:79",
+   "ot_book": "Isaías",
+   "max": 36,
+   "sum": 36,
+   "ot_to_nt": [],
+   "nt_to_ot": [
+    36
+   ]
+  },
+  {
+   "ot": "Isaías 49:6",
+   "nt": "Lucas 2:32",
+   "ot_book": "Isaías",
+   "max": 35,
+   "sum": 48,
+   "ot_to_nt": [
+    35
+   ],
+   "nt_to_ot": [
+    13
+   ]
+  },
+  {
+   "ot": "Salmos 46:11",
+   "nt": "Mateus 1:23",
+   "ot_book": "Salmos",
+   "max": 35,
+   "sum": 35,
+   "ot_to_nt": [],
+   "nt_to_ot": [
+    35
+   ]
+  },
+  {
+   "ot": "Miqueias 5:2",
+   "nt": "Mateus 2:1",
+   "ot_book": "Miqueias",
+   "max": 35,
+   "sum": 35,
+   "ot_to_nt": [],
+   "nt_to_ot": [
+    35
+   ]
+  },
+  {
+   "ot": "Provérbios 3:4",
+   "nt": "Lucas 2:52",
+   "ot_book": "Provérbios",
+   "max": 34,
+   "sum": 34,
+   "ot_to_nt": [
+    34
+   ],
+   "nt_to_ot": []
+  }
+ ],
+ "top10_by_sum": [
+  [
+   "Isaías 7:14",
+   "Mateus 1:23",
+   333
+  ],
+  [
+   "Jeremias 32:17",
+   "Lucas 1:37",
+   241
+  ],
+  [
+   "Isaías 9:6",
+   "Lucas 2:11",
+   228
+  ],
+  [
+   "Miqueias 5:2",
+   "Mateus 2:6",
+   226
+  ],
+  [
+   "Gênesis 18:14",
+   "Lucas 1:37",
+   208
+  ],
+  [
+   "Ezequiel 34:23",
+   "Mateus 2:6",
+   192
+  ],
+  [
+   "Jeremias 32:27",
+   "Lucas 1:37",
+   184
+  ],
+  [
+   "Isaías 9:6",
+   "Mateus 1:23",
+   153
+  ],
+  [
+   "Isaías 41:10",
+   "Lucas 1:30",
+   123
+  ],
+  [
+   "Números 11:23",
+   "Lucas 1:37",
+   107
+  ]
+ ],
+ "nt_most_linked": [
+  [
+   "Lucas 1:6",
+   50
+  ],
+  [
+   "Mateus 1:23",
+   48
+  ],
+  [
+   "Lucas 1:51",
+   46
+  ],
+  [
+   "Lucas 1:32",
+   45
+  ],
+  [
+   "Mateus 2:16",
+   44
+  ],
+  [
+   "Lucas 1:72",
+   43
+  ],
+  [
+   "Mateus 1:21",
+   39
+  ],
+  [
+   "Lucas 2:10",
+   35
+  ],
+  [
+   "Lucas 1:50",
+   35
+  ],
+  [
+   "Lucas 1:69",
+   33
+  ],
+  [
+   "Lucas 1:68",
+   32
+  ],
+  [
+   "Mateus 1:20",
+   32
+  ]
+ ],
+ "key_pairs": {
+  "Isaías 7:14 -> Mateus 1:23": {
+   "ot": "Isaías 7:14",
+   "nt": "Mateus 1:23",
+   "ot_book": "Isaías",
+   "max": 185,
+   "sum": 333,
+   "ot_to_nt": [
+    148
+   ],
+   "nt_to_ot": [
+    185
+   ]
+  },
+  "Miqueias 5:2 -> Mateus 2:6": {
+   "ot": "Miqueias 5:2",
+   "nt": "Mateus 2:6",
+   "ot_book": "Miqueias",
+   "max": 150,
+   "sum": 226,
+   "ot_to_nt": [
+    76
+   ],
+   "nt_to_ot": [
+    150
+   ]
+  },
+  "Oseias 11:1 -> Mateus 2:15": {
+   "ot": "Oseias 11:1",
+   "nt": "Mateus 2:15",
+   "ot_book": "Oseias",
+   "max": 85,
+   "sum": 104,
+   "ot_to_nt": [
+    19
+   ],
+   "nt_to_ot": [
+    85
+   ]
+  },
+  "Jeremias 31:15 -> Mateus 2:18": {
+   "ot": "Jeremias 31:15",
+   "nt": "Mateus 2:18",
+   "ot_book": "Jeremias",
+   "max": 96,
+   "sum": 96,
+   "ot_to_nt": [],
+   "nt_to_ot": [
+    96
+   ]
+  },
+  "Números 24:17 -> Mateus 2:2": {
+   "ot": "Números 24:17",
+   "nt": "Mateus 2:2",
+   "ot_book": "Números",
+   "max": 38,
+   "sum": 47,
+   "ot_to_nt": [
+    9
+   ],
+   "nt_to_ot": [
+    38
+   ]
+  },
+  "Isaías 9:6 -> Lucas 2:11": {
+   "ot": "Isaías 9:6",
+   "nt": "Lucas 2:11",
+   "ot_book": "Isaías",
+   "max": 179,
+   "sum": 228,
+   "ot_to_nt": [
+    179
+   ],
+   "nt_to_ot": [
+    49
+   ]
+  },
+  "Jeremias 32:17 -> Lucas 1:37": {
+   "ot": "Jeremias 32:17",
+   "nt": "Lucas 1:37",
+   "ot_book": "Jeremias",
+   "max": 141,
+   "sum": 241,
+   "ot_to_nt": [
+    100
+   ],
+   "nt_to_ot": [
+    141
+   ]
+  },
+  "Isaías 60:6 -> Mateus 2:11": {
+   "ot": "Isaías 60:6",
+   "nt": "Mateus 2:11",
+   "ot_book": "Isaías",
+   "max": 37,
+   "sum": 51,
+   "ot_to_nt": [
+    14
+   ],
+   "nt_to_ot": [
+    37
+   ]
+  },
+  "Salmos 72:10 -> Mateus 2:11": {
+   "ot": "Salmos 72:10",
+   "nt": "Mateus 2:11",
+   "ot_book": "Salmos",
+   "max": 27,
+   "sum": 29,
+   "ot_to_nt": [
+    2
+   ],
+   "nt_to_ot": [
+    27
+   ]
+  },
+  "Isaías 40:3 -> Lucas 1:76": {
+   "ot": "Isaías 40:3",
+   "nt": "Lucas 1:76",
+   "ot_book": "Isaías",
+   "max": 53,
+   "sum": 63,
+   "ot_to_nt": [
+    53
+   ],
+   "nt_to_ot": [
+    10
+   ]
+  },
+  "Malaquias 4:5 -> Lucas 1:17": {
+   "ot": "Malaquias 4:5",
+   "nt": "Lucas 1:17",
+   "ot_book": "Malaquias",
+   "max": 50,
+   "sum": 79,
+   "ot_to_nt": [
+    29
+   ],
+   "nt_to_ot": [
+    50
+   ]
+  },
+  "Isaías 11:1 -> Mateus 2:23": null,
+  "Gênesis 3:15 -> Lucas 1:31": {
+   "ot": "Gênesis 3:15",
+   "nt": "Lucas 1:31",
+   "ot_book": "Gênesis",
+   "max": 12,
+   "sum": 12,
+   "ot_to_nt": [
+    12
+   ],
+   "nt_to_ot": []
+  },
+  "Isaías 9:7 -> Lucas 1:32": {
+   "ot": "Isaías 9:7",
+   "nt": "Lucas 1:32",
+   "ot_book": "Isaías",
+   "max": 41,
+   "sum": 41,
+   "ot_to_nt": [
+    41
+   ],
+   "nt_to_ot": []
+  },
+  "2 Samuel 7:12 -> Lucas 1:32": null,
+  "Isaías 42:6 -> Lucas 2:32": {
+   "ot": "Isaías 42:6",
+   "nt": "Lucas 2:32",
+   "ot_book": "Isaías",
+   "max": 30,
+   "sum": 39,
+   "ot_to_nt": [
+    30
+   ],
+   "nt_to_ot": [
+    9
+   ]
+  },
+  "Isaías 49:6 -> Lucas 2:32": {
+   "ot": "Isaías 49:6",
+   "nt": "Lucas 2:32",
+   "ot_book": "Isaías",
+   "max": 35,
+   "sum": 48,
+   "ot_to_nt": [
+    35
+   ],
+   "nt_to_ot": [
+    13
+   ]
+  }
+ },
+ "ot_books_missing": [
+  "Jonas"
+ ]
+}

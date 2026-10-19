@@ -1,0 +1,116 @@
+{
+ "Bethlehem 1": [
+  {
+   "lat": 31.70431,
+   "lon": 35.20764,
+   "style": "#landpoint"
+  }
+ ],
+ "Bethlehem 1__desc": "",
+ "Nazareth": [
+  {
+   "lat": 32.70214,
+   "lon": 35.29769,
+   "style": "#landpoint"
+  }
+ ],
+ "Nazareth__desc": "",
+ "Jerusalem": [
+  {
+   "lat": 31.77667,
+   "lon": 35.23417,
+   "style": "#landpoint"
+  }
+ ],
+ "Jerusalem__desc": "",
+ "Egypt": [
+  {
+   "lat": 30.12944,
+   "lon": 31.3075,
+   "style": "#landrepresentativepoint"
+  }
+ ],
+ "Egypt__desc": "",
+ "Ramah 1 / Al Ram": [
+  {
+   "lat": 31.85434,
+   "lon": 35.23161,
+   "style": "#landpoint"
+  }
+ ],
+ "Ramah 1 / Al Ram__desc": "",
+ "Ramah 1 / Ramallah": [
+  {
+   "lat": 31.89694,
+   "lon": 35.20167,
+   "style": "#landpoint"
+  }
+ ],
+ "Ramah 1 / Ramallah__desc": "",
+ "Ramah 1 / Ramat Rahel": [
+  {
+   "lat": 31.7399,
+   "lon": 35.2169,
+   "style": "#landpoint"
+  }
+ ],
+ "Ramah 1 / Ramat Rahel__desc": "",
+ "Galilee 1": [
+  {
+   "lat": 32.76,
+   "lon": 35.527,
+   "style": "#landrepresentativepoint"
+  }
+ ],
+ "Galilee 1__desc": "",
+ "Judea 1 / Judea 1": [
+  {
+   "lat": 31.77667,
+   "lon": 35.23417,
+   "style": "#landrepresentativepoint"
+  }
+ ],
+ "Judea 1 / Judea 1__desc": "",
+ "Sea of Galilee": [
+  {
+   "lat": 32.81891,
+   "lon": 35.59003,
+   "style": "#waterrepresentativepoint"
+  }
+ ],
+ "Sea of Galilee__desc": "",
+ "_points": {
+  "Nazareth": [
+   32.70214,
+   35.29769
+  ],
+  "Bethlehem": [
+   31.70431,
+   35.20764
+  ],
+  "Jerusalem": [
+   31.77667,
+   35.23417
+  ],
+  "Ramah": [
+   31.85434,
+   35.23161
+  ],
+  "Egypt": [
+   30.12944,
+   31.3075
+  ],
+  "Sea of Galilee": [
+   32.81891,
+   35.59003
+  ]
+ },
+ "_distances_km": {
+  "Nazareth-Bethlehem": 111.28,
+  "Bethlehem-Jerusalem": 8.43,
+  "Ramah-Bethlehem": 16.84,
+  "Bethlehem-Egypt": 411.17,
+  "Egypt-Nazareth": 474.49,
+  "Nazareth-Jerusalem": 103.08
+ }
+}
