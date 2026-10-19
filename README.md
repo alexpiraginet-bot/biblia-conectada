@@ -2,7 +2,7 @@
 
 Branch órfã, sem histórico em comum com `main`. Guarda os intermediários de render dos dois estudos, que são grandes demais para ficar no `main`. Um clone raso do `main` (`--depth 1`) e os deploys da Vercel não baixam esta branch.
 
-**O que tem:** são 84 arquivos, cerca de 530 MB.
+**O que tem:** 91 arquivos (3 estudos), cerca de 750 MB.
 - `video.mp4`: o master sem áudio (CRF 16). Re-renderizar leva cerca de 33 min em 2 CPUs e precisa de OpenGL via EGL.
 - Mixagens: `score.wav`, `mix.wav`, `narr.wav` e as falas cortadas (`line*.wav`).
 - Arrays: `*.npy`.
@@ -17,9 +17,9 @@ Os arquivos com mais de 45 MB foram divididos em partes (`*.part-aa`, `*.part-ab
 ```bash
 git clone --branch film-intermediates --single-branch https://github.com/alexpiraginet-bot/biblia-conectada film-intermediates
 cd film-intermediates
-for d in biblia-natal biblia-referencias; do
+for d in biblia-natal biblia-referencias biblia-comentarios; do
   for p in $d/*.part-aa; do [ -e "$p" ] || continue; f=${p%.part-aa}; cat "$f".part-* > "$f" && rm "$f".part-*; done
 done
 sha256sum -c SHA256SUMS            # todos devem dar OK
-# depois copie biblia-natal/* para estudos/biblia-natal/renders/.film/ (idem biblia-referencias) no clone do main
+# depois copie biblia-natal/* para estudos/biblia-natal/renders/.film/ (idem biblia-referencias e biblia-comentarios) no clone do main
 ```
