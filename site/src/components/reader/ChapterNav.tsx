@@ -68,7 +68,7 @@ export function ChapterPager({
             <ol className={styles.pickerGrid}>
               {book.verses.map((_, i) => (
                 <li key={i}>
-                  <Link href={`/${book.slug}/${i + 1}`} aria-label={`Capítulo ${i + 1}`} aria-current={i + 1 === chapter ? "page" : undefined}>
+                  <Link href={`/${book.slug}/${i + 1}`} aria-current={i + 1 === chapter ? "page" : undefined}>
                     {i + 1}
                   </Link>
                 </li>

@@ -8,6 +8,7 @@ import styles from "./reader.module.css";
 // One verse per block, number at the start, the link count in the margin (design §5 "margem de ligações").
 // The BLIVRE text of each verse sits alone in its [data-scripture] span: the selection bar reads the selected text
 // from there, and the number, the hidden "Versículo N:" label and the count are left out of a copy (user-select).
+// The hidden label is absolutely positioned, so it takes no cell of the verse grid.
 export function ChapterText({ book, chapter, verses }: { book: Book; chapter: number; verses: VerseData[] }) {
   return (
     <ol className={styles.verses}>
@@ -19,11 +20,9 @@ export function ChapterText({ book, chapter, verses }: { book: Book; chapter: nu
             <span className={styles.vnum} aria-hidden="true">
               {v.n}
             </span>
-            <span className={styles.vtext}>
-              <span className={`visually-hidden ${styles.vlabel}`}>Versículo {v.n}: </span>
-              <span data-scripture="">
-                <Scripture text={v.text} />
-              </span>
+            <span className="visually-hidden">Versículo {v.n}: </span>
+            <span className={styles.vtext} data-scripture="">
+              <Scripture text={v.text} />
             </span>
             <Link
               href={`/${book.slug}/${chapter}/${v.n}`}

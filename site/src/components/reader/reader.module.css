@@ -385,7 +385,7 @@
   user-select: none;
 }
 
-.vlabel {
+.verse > :global(.visually-hidden) {
   user-select: none;
 }
 
@@ -660,6 +660,7 @@
   fill: none;
   stroke: var(--accent-text);
   stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
 }
 
 .miniCentre,
@@ -675,6 +676,8 @@
 }
 
 .miniCentre {
+  left: 50%;
+  top: 50%;
   padding: 0.6rem 1rem;
   background: var(--ink);
   color: var(--ground);

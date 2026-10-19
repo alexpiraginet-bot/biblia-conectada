@@ -57,19 +57,18 @@ export function MiniGraph({
   return (
     <figure className={styles.mini}>
       <div className={styles.miniBox} aria-hidden="true">
-        <svg className={styles.miniSvg} viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false">
+        <svg className={styles.miniSvg} viewBox="0 0 100 100" preserveAspectRatio="none">
           {edges.map((e) => (
             <path
               key={e.key}
               d={e.d}
               className={e.top ? styles.miniTopEdge : styles.miniEdge}
-              strokeWidth={(1.25 + 2.75 * e.s).toFixed(2)}
+              strokeWidth={(1.25 + 2.75 * e.s).toFixed(1)}
               strokeOpacity={e.top ? 1 : (0.35 + 0.5 * e.s).toFixed(2)}
-              vectorEffect="non-scaling-stroke"
             />
           ))}
         </svg>
-        <span className={styles.miniCentre} style={{ left: "50%", top: "50%" }}>
+        <span className={styles.miniCentre}>
           {centre}
         </span>
         {ring.map((n, i) => (
