@@ -3,7 +3,7 @@
 import { readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { NAV } from "../src/components/shell/nav";
+import { currentItem, NAV } from "../src/components/shell/nav";
 import { RESERVED } from "../src/lib/canon/redirects";
 import { SITE } from "../scripts/data/sources";
 import { books } from "./generated";
@@ -35,4 +35,19 @@ describe("reserved segments", () => {
   it("never take a book slug", () => {
     for (const b of books()) expect(RESERVED).not.toContain(b.slug);
   });
+});
+
+describe("current navigation item", () => {
+  it.each([
+    ["/", null],
+    ["/ler", "/ler"],
+    ["/isaias", "/ler"],
+    ["/isaias/9/6", "/ler"],
+    ["/arcos", "/arcos"],
+    ["/dados", "/dados"],
+    ["/sobre", null],
+    // a 404 is in no section
+    ["/x", null],
+    ["/explorar", null],
+  ])("%s -> %s", (path, item) => expect(currentItem(path)).toBe(item));
 });

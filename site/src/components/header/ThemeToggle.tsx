@@ -1,6 +1,6 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 
 // Noite is the default theme; the choice is stored on the device and applied before paint by THEME_SCRIPT.
 type Theme = "noite" | "dia";
@@ -8,6 +8,10 @@ const THEME_COLOR: Record<Theme, string> = { noite: "#051219", dia: "#f8f4ed" };
 
 export const THEME_SCRIPT = `(function(){try{var t=localStorage.getItem("theme");if(t==="dia"||t==="noite"){document.documentElement.setAttribute("data-theme",t);var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",t==="dia"?"${THEME_COLOR.dia}":"${THEME_COLOR.noite}")}}catch(e){}})()`;
 
+function apply(t: Theme) {
+  document.documentElement.setAttribute("data-theme", t);
+  document.querySelector('meta[name="theme-color"]')?.setAttribute("content", THEME_COLOR[t]);
+}
 function read(): Theme {
   return document.documentElement.getAttribute("data-theme") === "dia" ? "dia" : "noite";
 }
@@ -20,14 +24,21 @@ function subscribe(cb: () => void) {
 export function ThemeToggle() {
   const theme = useSyncExternalStore<Theme>(subscribe, read, () => "noite");
   const next: Theme = theme === "noite" ? "dia" : "noite";
+  // A document rendered on the client never ran THEME_SCRIPT: Next.js sends the 404 of a reading route ("/x") as an
+  // empty shell that the browser fills in. Apply the stored choice there too.
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("theme");
+      if ((stored === "dia" || stored === "noite") && stored !== read()) apply(stored);
+    } catch {}
+  }, []);
   return (
     <button
       type="button"
       className="theme-toggle"
       aria-label={theme === "noite" ? "Tema Noite. Mudar para Dia" : "Tema Dia. Mudar para Noite"}
       onClick={() => {
-        document.documentElement.setAttribute("data-theme", next);
-        document.querySelector('meta[name="theme-color"]')?.setAttribute("content", THEME_COLOR[next]);
+        apply(next);
         try {
           localStorage.setItem("theme", next);
         } catch {}

@@ -488,3 +488,10 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
     números por extenso, frase de aquecimento e escolha de tomada por métrica (`tools/takes.py`).
   - O Alex pediu "o estudo mais completo existente" dentro do GitHub: entraram as bases abertas de hebraico/grego,
     léxicos e traduções em domínio público (ver `fontes/README.md` e `fontes/catalogo.json`).
+- **19/10, tarde, 404 no ar:**
+  - O Alex abriu o site pelo navegador do Instagram e caiu na 404 padrão do Next.js: branca, em inglês, com "Ler" aceso na barra. Não deu para saber o endereço: a Vercel não mostra os acessos (sem logs de função nem observabilidade). Um rastreio do site no ar (1.264 páginas, 32.364 links) não achou link quebrado, e a navegação no celular funciona.
+  - Correção:
+    - Página 404 própria, em português e nos temas Noite e Dia, com caminhos de volta.
+    - Endereço "solto" vai para a página certa (redirect 307), desde que a referência exista: `/Isaías/9/6`, `/isaias/9/6)` (pontuação colada pelo app de mensagem), `/Is 9:6`, `/1-co-13`, `/judas/3` (`site/src/lib/canon/loose.ts`).
+    - "Ler" só fica aceso em página de livro.
+  - Achado do Next 16: `notFound()` numa rota de leitura com PPR devolve um documento vazio (`__next_error__`) que o navegador monta. O script do tema não roda nesse caso, e por isso o `ThemeToggle` reaplica o tema salvo ao montar. O `check-dist` agora confere a 404 nos dois formatos de build.

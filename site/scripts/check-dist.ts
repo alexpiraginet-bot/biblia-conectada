@@ -6,7 +6,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { formatInt } from "../src/lib/canon/text";
 import { formatBytes, type DadosManifest } from "../src/lib/dados";
-import { prerenderedPages } from "./checks/pages";
+import { notFoundPage, prerenderedPages } from "./checks/pages";
 import { findLeaks, loadProtectedQuotes, protectedRuns, textFiles } from "./data/leak-guard";
 import { OUT, SITE, SRC } from "./data/sources";
 
@@ -29,6 +29,16 @@ for (const f of html) {
   if (!text.includes("Referências cruzadas: OpenBible.info")) failures.push(`${f}: OpenBible.info credit missing`);
   // the attribute order on <html> is not fixed: on Vercel, Next.js puts data-dpl-id (skew protection) before lang
   if (!/<html\b[^>]*\slang="pt-BR"/.test(raw)) failures.push(`${f}: lang="pt-BR" missing`);
+}
+// the 404 page (src/app/not-found.tsx) carries the credits too, in Portuguese, not the framework's English default
+const missing = notFoundPage(SITE);
+if (!missing) failures.push("_not-found.html was not prerendered");
+else {
+  const raw = readFileSync(missing, "utf8");
+  const text = textOf(raw);
+  if (!text.includes(credits.blivreCredit)) failures.push("_not-found.html: BLIVRE credit missing");
+  if (!text.includes("Esta página não existe")) failures.push("_not-found.html: the site's 404 page is not the one built");
+  if (!/<html\b[^>]*\slang="pt-BR"/.test(raw)) failures.push(`_not-found.html: lang="pt-BR" missing`);
 }
 const sobre = textOf(page("sobre.html"));
 for (const s of ["Biblica® Open Nova Bíblia Viva™ Copyright © 2007, 2010 by Biblica, Inc.", "Theographic Bible Metadata, Viz.Bible", "OpenBible.info"]) {
@@ -118,7 +128,7 @@ if (failures.length) {
   process.exit(1);
 }
 console.log(
-  `[check-dist] credits and lang in ${html.length} prerendered pages; home and /arcos numbers match summary.json; ` +
+  `[check-dist] credits and lang in ${html.length} prerendered pages and the 404 page; home and /arcos numbers match summary.json; ` +
     `/dados shows the size and count of the ${manifest.arquivos.length} files of the open data manifest; ` +
     `${shipped.length} shipped text files hold none of the ${new Set(runs.values()).size} protected quotes`,
 );

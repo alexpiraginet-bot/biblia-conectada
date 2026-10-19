@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "@/components/icons";
+import { NOT_FOUND_TITLE } from "@/components/NotFoundBody";
 import { ChapterArcs } from "@/components/reader/Arcs";
 import readerStyles from "@/components/reader/reader.module.css";
 import { formatInt } from "@/lib/canon/text";
 import { books } from "@/lib/data";
+import { missingPage } from "@/lib/missing";
 import { bookBySlug, bookPartners, chapterPairs } from "@/lib/reading";
 import styles from "./livro.module.css";
 
@@ -17,12 +18,13 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps<"/[livro]">): Promise<Metadata> {
   const book = bookBySlug((await params).livro);
-  return book ? { title: book.name, alternates: { canonical: `/${book.slug}` } } : {};
+  return book ? { title: book.name, alternates: { canonical: `/${book.slug}` } } : { title: NOT_FOUND_TITLE };
 }
 
 export default async function LivroPage({ params }: PageProps<"/[livro]">) {
-  const book = bookBySlug((await params).livro);
-  if (!book) notFound();
+  const { livro } = await params;
+  const book = bookBySlug(livro);
+  if (!book) missingPage([livro]);
   const verses = book.verses.reduce((a, b) => a + b, 0);
   const ranked = book.verses
     .map((_, i) => ({ chapter: i + 1, pairs: chapterPairs(book, i + 1) }))
