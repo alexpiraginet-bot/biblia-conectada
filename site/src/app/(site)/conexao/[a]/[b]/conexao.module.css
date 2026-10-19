@@ -1,0 +1,221 @@
+/* /conexao: two passages side by side (stacked on phones), the linking pairs marked. Follows the theme. */
+
+.page {
+  width: 100%;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-2) var(--space-5);
+}
+
+.title {
+  margin: 0 0 var(--space-1);
+  font-family: var(--font-title);
+  font-weight: 440;
+  font-synthesis: none;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.arrow {
+  font-family: var(--font-grotesk), system-ui, sans-serif;
+  font-weight: 300;
+  color: var(--accent-text);
+}
+
+.meta {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: var(--step-ui);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--space-2);
+  margin: var(--space-1) 0 var(--space-3);
+  font-size: var(--step-ui);
+}
+
+.links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+.pairs {
+  max-width: 46rem;
+  margin-bottom: var(--space-4);
+}
+
+.pairsTitle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.75rem;
+  margin: 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--hairline);
+  font-size: var(--step-ui);
+  font-weight: 600;
+}
+
+.pairsTitle span {
+  color: var(--ink-2);
+  font-size: var(--step-small);
+  font-weight: 400;
+}
+
+.pairRows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pairRows li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 0.5rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--hairline) 60%, transparent);
+  font-size: var(--step-ui);
+}
+
+.pairRows a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.pairRows a:hover {
+  color: var(--accent-text);
+}
+
+.votes {
+  margin-left: auto;
+  color: var(--ink-2);
+  font-size: var(--step-small);
+}
+
+.cols {
+  display: grid;
+  gap: var(--space-4);
+}
+
+@media (min-width: 64rem) {
+  .cols {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: var(--space-5);
+    align-items: start;
+  }
+}
+
+@media (min-width: 64rem) {
+  .colTitle {
+    position: sticky;
+    top: var(--header-h);
+    z-index: 1;
+  }
+}
+
+.colTitle {
+  margin: 0 0 var(--space-1);
+  padding: 0.5rem 0;
+  background: var(--ground);
+  border-bottom: 1px solid var(--hairline);
+  font-family: var(--font-title);
+  font-weight: 440;
+  font-synthesis: none;
+  font-size: var(--step-title);
+  line-height: 1.15;
+}
+
+.colTitle a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.colTitle a:hover {
+  color: var(--accent-text);
+}
+
+.verses {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.verse {
+  display: grid;
+  grid-template-columns: 1.75rem minmax(0, 1fr);
+  column-gap: 0.5rem;
+  margin: 0 -0.625rem;
+  padding: 0.5rem 0.625rem;
+  border-radius: 0.625rem;
+  scroll-margin-top: calc(var(--header-h) + 4rem);
+}
+
+.verse[data-linked] {
+  background: var(--highlight);
+}
+
+.verse:target {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 2px;
+}
+
+.vnum {
+  font-size: 0.75rem;
+  line-height: 2.4;
+  color: var(--ink-2);
+  text-align: right;
+}
+
+/* on the highlight band the text pair is --ink on --highlight (design §3), so the marks there use the ink */
+.verse[data-linked] .vnum {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.vtext {
+  margin: 0;
+  max-width: var(--scripture-column);
+  font-family: var(--font-scripture), Georgia, serif;
+  font-size: var(--step-scripture);
+  line-height: 1.7;
+  font-weight: 430;
+  font-variation-settings: "wght" 430;
+  text-wrap: pretty;
+}
+
+[data-theme="dia"] .vtext {
+  font-weight: 400;
+  font-variation-settings: "wght" 400;
+}
+
+.vlinks {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--space-2);
+  margin: 0;
+  font-size: var(--step-small);
+}
+
+.vlinks a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 2.75rem;
+  color: var(--ink);
+  text-decoration-color: var(--accent-text);
+}
+
+.source {
+  margin: var(--space-4) 0 0;
+  color: var(--ink-2);
+  font-size: var(--step-small);
+}

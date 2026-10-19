@@ -20,6 +20,7 @@ const SECTIONS = ["linha-do-tempo", "tema", "palavra"];
 const kind = (page: string) => {
   const top = page.split(sep)[0].replace(/\.html$/, "");
   if (SECTIONS.includes(top)) return page.includes(sep) ? `${top}/[…]` : top;
+  if (top === "explorar" || top === "conexao") return top;
   const depth = page.split(sep).length;
   if (depth === 3) return "versículo";
   if (depth === 2) return "capítulo";

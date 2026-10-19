@@ -6,6 +6,7 @@ import { createHash } from "node:crypto";
 import { join, relative } from "node:path";
 import { loadBlivre, loadCanon } from "./data/canon";
 import { chapterGraph, LAYOUT } from "./data/chapter-graph";
+import { buildExplore } from "./data/explore";
 import { buildPairs, linksPerVerse, parseCrossRefs } from "./data/crossrefs";
 import { natalPair, natalStudy } from "./data/natal";
 import { buildOpenData, type NatalOut } from "./data/open-data";
@@ -242,6 +243,9 @@ write(join(OUT.publicData, "chapter-graph.json"), json({
   },
   license: "CC BY-SA 4.0 (derived data of this project); source: OpenBible.info, CC BY",
 }));
+
+// Explorar: per chapter, the partner chapters with the most votes and the faint network among them (one file per book)
+buildExplore(canon, pairs, graph.edges).forEach((f, b) => write(join(OUT.generated, "explore", `${canon.books[b].slug}.json`), json(f)));
 
 // study numbers (the same object feeds the open data bundle below)
 const keyPairs = [["Isaías 7:14", "Mateus 1:23"], ["Miqueias 5:2", "Mateus 2:6"]] as const;
