@@ -290,6 +290,9 @@ npx -y skills add leonxlnx/taste-skill --skill design-taste-frontend --agent cla
    - CLI: `npx vercel` em `site/`, com login na máquina.
    - Conector da Vercel (MCP), se a sessão tiver.
 5. Nunca guardar token no repo.
+6. **Tamanho:** o `main` tem cerca de 366 MB (471 arquivos), por causa da mídia dos estudos e das fontes. O maior arquivo tem 35,5 MB.
+   - Configure o "Ignored Build Step" para não buildar quando só mudar `estudos/`.
+   - Se o clone pesar no tempo de build, dá pra decidir depois tirar a mídia dos estudos do `main`.
 
 ---
 
