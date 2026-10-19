@@ -102,9 +102,11 @@ for (const book of canon.books) {
   write(join(OUT.generated, "books", `${book.slug}.json`), json({ osis: book.osis, chapters }));
 }
 
-// top verses by unique partners (self excluded), ties in canonical order
+// top verses by unique partners (self excluded), canonical order inside a tie. The list never cuts through a tie:
+// it holds every verse with at least as many links as the 12th.
 const ranked = links.map((l, gv) => [gv, l.length] as const).sort((x, y) => y[1] - x[1] || x[0] - y[0]);
-const topVerses = ranked.slice(0, 12).map(([gv, n]) => {
+const topCut = ranked[11][1];
+const topVerses = ranked.filter(([, n]) => n >= topCut).map(([gv, n]) => {
   const loc = grid.locate(gv);
   return { gv, ref: `${loc.book.name} ${loc.chapter}:${loc.verse}`, path: `/${loc.book.slug}/${loc.chapter}/${loc.verse}`, links: n };
 });
@@ -187,7 +189,8 @@ write(join(OUT.generated, "studies", "natal.json"), json({
     check(p, `natal key pair ${ot} ~ ${nt}`);
     return { ot, nt, votes: p.sum };
   }),
-  top40: natal.pairs.slice(0, 40),
+  // the 40 strongest pairs of the video (estudos natal-stats.json top40) plus every pair tied with the 40th
+  top: natal.pairs.filter((p) => p.max >= natal.pairs[39].max),
 }));
 
 // credits: ATTRIBUTION.md verbatim (rendered on /sobre) + the BLIVRE credit line (footer)
@@ -215,7 +218,10 @@ const summary = {
   },
   topVerses,
   definitions: {
-    links: "parceiros únicos de um versículo, com qualquer voto, sem contar o próprio versículo",
+    links:
+      "parceiros únicos de um versículo, com qualquer voto, sem contar o próprio versículo; um trecho (ex.: Mt 5:3–12) conta pelo primeiro versículo, como nos vídeos",
+    pairs: `pares únicos De/Para da base; ${selfPairs} deles ligam um versículo a um trecho que começa nele mesmo e não viram arco`,
+    arcs: `pares de versículos diferentes (pares menos os ${selfPairs} de um versículo com ele mesmo)`,
     pairVotes: "soma dos votos das duas direções",
   },
 };

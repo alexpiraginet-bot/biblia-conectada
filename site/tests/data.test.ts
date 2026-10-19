@@ -68,6 +68,18 @@ describe("cross references", () => {
     expect(top[7][1]).toBeLessThan(156);
   });
 
+  it("never cuts the top list through a tie (12th place: Zacarias 13:7 and Gálatas 5:22, 145 each)", () => {
+    const counts: number[] = [];
+    for (const book of books()) for (const c of bookFile(book.slug).chapters) for (const v of c) counts.push(v.l.length);
+    counts.sort((x, y) => y - x);
+    const cut = counts[11];
+    const top = summary().topVerses;
+    expect(top.length).toBe(counts.filter((n) => n >= cut).length);
+    expect(top[top.length - 1].links).toBe(cut);
+    expect(counts[top.length]).toBeLessThan(cut);
+    expect(top.filter((v) => v.links === 145).map((v) => v.ref)).toEqual(["Zacarias 13:7", "Gálatas 5:22"]);
+  });
+
   it("stores links symmetrically, sorted by votes, without self-links", () => {
     const b = books();
     const grid = createGrid(b);
@@ -128,7 +140,7 @@ describe("arcs.bin", () => {
 
 describe("Antes do Natal study", () => {
   type Natal = { pairsAll: number; pairsMaxVoteGt0: number; otVersesAll: number; otBooksAll: number; otBooksMissing: string[];
-    birthChapterVerses: number; keyPairs: { ot: string; nt: string; votes: number }[] };
+    birthChapterVerses: number; keyPairs: { ot: string; nt: string; votes: number }[]; top: { max: number }[] };
   it("finds 2,094 OT pairs with Mt 1–2 and Lc 1–2 (180 verses)", () => {
     const n = generated<Natal>("studies/natal.json");
     expect(n.birthChapterVerses).toBe(180);
@@ -141,6 +153,14 @@ describe("Antes do Natal study", () => {
       { ot: "Isaías 7:14", nt: "Mateus 1:23", votes: 333 },
       { ot: "Miqueias 5:2", nt: "Mateus 2:6", votes: 226 },
     ]);
+  });
+
+  it("keeps every pair tied with the 40th strongest (the video's top 40 plus ties)", () => {
+    const n = generated<Natal>("studies/natal.json");
+    const cut = n.top[39].max;
+    expect(n.top.length).toBe(42);
+    expect(n.top.every((p) => p.max >= cut)).toBe(true);
+    expect(n.top.filter((p) => p.max === cut).length).toBe(3);
   });
 });
 

@@ -44,7 +44,7 @@ Tudo o que está marcado como "conferido" foi rodado ou lido em 19/10. O que é 
 
 **Site (sessão de 19/10, Fases 0 e 1, branch `claude/site-phase-0-1`, PR #1):**
 - `site/` existe: Next.js 16.4.2 + React 19.3.1, páginas estáticas `/` (provisória) e `/sobre`, créditos no rodapé.
-- Pipeline `site/scripts/build-data.ts` + 80 testes (vitest). Detalhes em §5.5.
+- Pipeline `site/scripts/build-data.ts` + 82 testes (vitest). Detalhes em §5.5.
 - `npm run build` passa (dados → testes → `next build` → créditos conferidos no HTML).
 - **Projeto da Vercel: não criado.** O conector da Vercel desta sessão recebeu 403 ao criar projeto, nas duas rotas (`create_project` e `create_git_project`). O Alex é OWNER do time "Lex Technology projects"; falta permissão do conector, não do time. Passo a passo em §9.
 
@@ -111,6 +111,8 @@ Arquivo `estudos/biblia-referencias/data/xref.npz`, construído por `tools/analy
   - Os mais ligados: Is 9:6 (212), 1Pe 2:9 (194), Mt 28:20 (169) e Tt 2:14 (157). **Em 5º há empate em 156:** Is 41:10, Ap 5:9 e Ap 11:15.
     - Correção de 19/10: a versão anterior listava só Ap 11:15 em 5º. O empate saiu do pipeline do site e está no teste `site/tests/data.test.ts`.
   - Os 30.303 versículos com alguma referência são os mesmos 30.303 com ao menos um parceiro diferente deles mesmos (os 45 auto-pares não criam versículo isolado).
+  - **Os 45 auto-pares** são linhas em que um versículo aponta um trecho que começa nele mesmo (ex.: `Matt.5.3 → Matt.5.3-Matt.5.12`). Não viram arco: **arcos = 301.539**. No site, "pares de versículos ligados" usa 301.539; os 301.584 "pares únicos" ficam como o número da base/dos vídeos.
+  - **Trechos contam pelo primeiro versículo** (como nos vídeos). 88.150 das 344.799 linhas apontam um trecho no "To". Se cada trecho fosse expandido versículo a versículo, Is 9:6 teria 251 parceiros e não seria o mais ligado (Gn 35:22 teria 436, Lc 24:44 409, At 4:27 343; conferido por código em 19/10). Por isso o site sempre diz a convenção junto do número (`summary.json` → `definitions`).
 - **Estudo do Natal** (`estudos/biblia-natal/data/natal-stats.json`):
   - 2.094 pares AT ↔ Mt 1–2 e Lc 1–2 (180 versículos). São 2.053 com voto > 0.
   - Esses pares vêm de 1.561 versículos do AT, em 38 livros. Falta Jonas.
@@ -247,7 +249,7 @@ Saídas (fora do git; a Vercel gera de novo) e o que ficou para depois estão em
 - Créditos presentes no HTML.
 - Nenhum arquivo de tradução protegida em `fontes/` ou `public/`.
 
-**Testes feitos (todos passam):** os seis acima, mais o parser de referências, os caminhos de URL e a tabela de livros (64 testes em `site/tests/reference.test.ts`), a simetria das ligações, `arcs.bin` decodificado igual ao `xref.npz`, o grafo de capítulos somando todos os pares, as citações ACF/AA dos vídeos ausentes das saídas (exceto onde a BLIVRE tem as mesmas palavras) e o SHA-256 de cada saída. Os créditos no HTML são conferidos por `site/scripts/check-dist.ts`, no fim do build.
+**Testes feitos (todos passam, 82):** os seis acima, mais o parser de referências, os caminhos de URL e a tabela de livros (64 testes em `site/tests/reference.test.ts`), a simetria das ligações, `arcs.bin` decodificado igual ao `xref.npz`, o grafo de capítulos somando todos os pares, listas do topo sem cortar empate, as citações ACF/AA dos vídeos ausentes das saídas (exceto onde a BLIVRE tem as mesmas palavras) e o SHA-256 de cada saída. Os créditos e os números da home no HTML são conferidos por `site/scripts/check-dist.ts`, no fim do build.
 
 ### 5.6 Orçamento e qualidade
 
@@ -388,6 +390,7 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
 - **19/10, sessão das Fases 0 e 1:**
   - Skills do §7 instaladas e conferidas. Design system do ui-ux-pro-max e `/impeccable shape` rodados; revisão registrada em `design/README.md` §10.
   - O Alex escolheu Next.js e a licença MIT + CC BY-SA 4.0, e listou o que faria o site parecer errado: app devocional genérico, dashboard tech frio, perder a cara dos vídeos, lento no celular.
-  - `site/` criado com pipeline de dados, parser de referências e 80 testes. PR #1 em rascunho.
+  - `site/` criado com pipeline de dados, parser de referências e 82 testes. PR #1 em rascunho.
+  - Verificação adversarial independente (recontagem em Python, fuzz do parser, fidelidade ao `analyze.py`, auditoria das regras). Achados corrigidos: a home usava 301.584 (com os 45 auto-pares) como "pares ligados"; a lista dos mais ligados e o top 40 do Natal cortavam empates; a convenção de trechos não estava dita.
   - Achados: empate em 5º lugar (§4.2) e runtime do Next acima do orçamento de JS (§5.6).
   - Vercel bloqueada por permissão do conector (§9).

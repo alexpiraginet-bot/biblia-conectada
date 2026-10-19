@@ -30,8 +30,9 @@ export default async function Home() {
       </p>
 
       <p>
-        São {formatInt(c.verses)} versículos e {formatInt(c.pairs)} pares de versículos ligados por referências cruzadas. O
-        versículo com mais ligações é {top.ref}, com {formatInt(top.links)}:
+        São {formatInt(c.verses)} versículos e {formatInt(c.crossrefRows)} referências cruzadas entre eles, que ligam{" "}
+        {formatInt(c.arcs)} pares de versículos diferentes. O versículo com mais ligações é {top.ref}, com{" "}
+        {formatInt(top.links)}:
       </p>
       <blockquote className={`${styles.verse} ${quoteFace.className}`}>
         <p>{text}</p>
@@ -41,7 +42,8 @@ export default async function Home() {
       </blockquote>
       <p className={styles.note}>
         &ldquo;Ligações&rdquo; aqui são os outros versículos que a base OpenBible.info relaciona a este, contados uma vez
-        cada, com qualquer número de votos.
+        cada, com qualquer número de votos. Quando a referência aponta um trecho (como Mt 5:3–12), conta o primeiro
+        versículo, como nos vídeos.
       </p>
 
       <p>
