@@ -3,6 +3,7 @@
 import { readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { NAV } from "../src/components/shell/nav";
 import { RESERVED } from "../src/lib/canon/redirects";
 import { SITE } from "../scripts/data/sources";
 import { books } from "./generated";
@@ -24,6 +25,11 @@ describe("reserved segments", () => {
   it("cover every top-level page and public folder", () => {
     const pub = readdirSync(join(SITE, "public")).filter((n) => isDir(join(SITE, "public", n)));
     for (const s of [...segments(app), ...pub]) expect(RESERVED, s).toContain(s);
+  });
+
+  it("include every navigation section, so no menu item leads to a missing page", () => {
+    const pages = segments(app);
+    for (const n of NAV) expect(pages, n.href).toContain(n.href.slice(1).split("/")[0]);
   });
 
   it("never take a book slug", () => {
