@@ -6,6 +6,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join, relative, sep } from "node:path";
 import { formatInt } from "../src/lib/canon/text";
 import { formatBytes, type DadosManifest } from "../src/lib/dados";
+import { checkCommunity } from "./checks/community";
 import { findLeaks, loadProtectedQuotes, protectedRuns, textFiles } from "./data/leak-guard";
 import { OUT, SITE, SRC } from "./data/sources";
 
@@ -98,6 +99,9 @@ const dadosNumbers = [
 for (const s of dadosNumbers) if (!dados.includes(s)) failures.push(`dados.html: "${s}" missing`);
 if (!dados.includes(credits.openBibleCredit)) failures.push("dados.html: OpenBible.info credit line missing");
 
+// community pages (trail, Ponte, Mesa): pairs, votes and dates are the pipeline's; no bridge before its day
+const community = checkCommunity({ appDir, html, textOf, failures });
+
 // rule 1: no run of the ACF/AA quotes in anything the server or the browser receives
 type BookFile = { chapters: { t: string }[][] };
 const books = JSON.parse(readFileSync(join(OUT.generated, "books.json"), "utf8")) as { slug: string }[];
@@ -120,5 +124,6 @@ if (failures.length) {
 console.log(
   `[check-dist] credits and lang in ${html.length} prerendered pages; home and /arcos numbers match summary.json; ` +
     `/dados shows the size and count of the ${manifest.arquivos.length} files of the open data manifest; ` +
+    `trail (${community.trailSteps} steps) and Ponte (${community.pontePages} pages) match the community data; ` +
     `${shipped.length} shipped text files hold none of the ${new Set(runs.values()).size} protected quotes`,
 );

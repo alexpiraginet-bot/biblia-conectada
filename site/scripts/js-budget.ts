@@ -16,6 +16,9 @@ const pages = textFiles(appDir)
   .filter((f) => !f.split(sep).some((part) => part.startsWith("_") || part.includes("[")));
 
 const kind = (page: string) => {
+  // community pages (trail, Ponte, Mesa) are reported apart from the reading pages
+  const community = /^(trilha|ponte|mesa)(?=[./\\]|$)/.exec(page);
+  if (community) return page.split(sep).length > (community[1] === "trilha" ? 2 : 1) ? `${community[1]}/[n]` : page.replace(".html", "");
   const depth = page.split(sep).length;
   if (depth === 3) return "versículo";
   if (depth === 2) return "capítulo";
