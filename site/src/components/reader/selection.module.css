@@ -41,6 +41,18 @@
   }
 }
 
+/* a bridge in progress (Ponte nº N) keeps its strip at the bottom, above the phone's bar
+   (community/strip.module.css, 3.75rem reserved): the selection bar sits above the strip */
+:global(html[data-ponte-faixa]) .bar:not([data-float]) {
+  bottom: calc(3.75rem + 0.75rem + env(safe-area-inset-bottom));
+}
+
+@media (max-width: 55.99rem) {
+  :global(html[data-ponte-faixa]) .bar:not([data-float]) {
+    bottom: calc(3.5rem + 3.75rem + 0.5rem + env(safe-area-inset-bottom));
+  }
+}
+
 .bar[data-float] {
   position: absolute;
   right: auto;
