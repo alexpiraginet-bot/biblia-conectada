@@ -1,0 +1,643 @@
+{
+ "source": "OpenBible.info cross references (CC BY), xref.npz; BLIVRE (CC BY 4.0 BR)",
+ "n_pairs": 301584,
+ "chapter_index": {
+  "João 3": 1000,
+  "Números 21": 138,
+  "total": 1189
+ },
+ "chapters_back": 862,
+ "links": {
+  "John.3.14": 34,
+  "John.3.15": 49,
+  "John.3.16": 80,
+  "Num.21.8": 9,
+  "Num.21.9": 13,
+  "John.12.32": 35
+ },
+ "rank_John.3.16": 318,
+ "john314_raw_top": [
+  {
+   "to": "Num.21.7-Num.21.9",
+   "votes": 81
+  },
+  {
+   "to": "John.8.28",
+   "votes": 38
+  },
+  {
+   "to": "John.12.32-John.12.34",
+   "votes": 25
+  },
+  {
+   "to": "Luke.24.26-Luke.24.27",
+   "votes": 16
+  },
+  {
+   "to": "Luke.24.44-Luke.24.46",
+   "votes": 14
+  }
+ ],
+ "pairs": {
+  "John.3.14~Num.21.7": 81,
+  "John.3.14~Num.21.8": 24,
+  "John.3.14~Num.21.9": 24,
+  "John.3.14~John.12.32": 57,
+  "John.3.15~John.3.16": 524
+ },
+ "partners": {
+  "John.3.14": [
+   {
+    "gv": 4347,
+    "ref": "Números 21:7",
+    "votes": 81
+   },
+   {
+    "gv": 26612,
+    "ref": "João 12:32",
+    "votes": 57
+   },
+   {
+    "gv": 26409,
+    "ref": "João 8:28",
+    "votes": 45
+   },
+   {
+    "gv": 29237,
+    "ref": "Efésios 2:8",
+    "votes": 39
+   },
+   {
+    "gv": 4348,
+    "ref": "Números 21:8",
+    "votes": 24
+   },
+   {
+    "gv": 4349,
+    "ref": "Números 21:9",
+    "votes": 24
+   },
+   {
+    "gv": 26035,
+    "ref": "Lucas 24:44",
+    "votes": 21
+   },
+   {
+    "gv": 26017,
+    "ref": "Lucas 24:26",
+    "votes": 16
+   },
+   {
+    "gv": 10028,
+    "ref": "2 Reis 18:4",
+    "votes": 15
+   },
+   {
+    "gv": 14220,
+    "ref": "Salmos 22:16",
+    "votes": 13
+   },
+   {
+    "gv": 26972,
+    "ref": "Atos 2:23",
+    "votes": 12
+   },
+   {
+    "gv": 27302,
+    "ref": "Atos 10:43",
+    "votes": 12
+   },
+   {
+    "gv": 29233,
+    "ref": "Efésios 2:4",
+    "votes": 12
+   },
+   {
+    "gv": 24108,
+    "ref": "Mateus 26:54",
+    "votes": 12
+   },
+   {
+    "gv": 27049,
+    "ref": "Atos 4:27",
+    "votes": 11
+   },
+   {
+    "gv": 28091,
+    "ref": "Romanos 6:23",
+    "votes": 11
+   },
+   {
+    "gv": 25719,
+    "ref": "Lucas 18:31",
+    "votes": 11
+   },
+   {
+    "gv": 26614,
+    "ref": "João 12:34",
+    "votes": 9
+   },
+   {
+    "gv": 26817,
+    "ref": "João 18:32",
+    "votes": 9
+   },
+   {
+    "gv": 17894,
+    "ref": "Isaías 11:10",
+    "votes": 8
+   },
+   {
+    "gv": 26011,
+    "ref": "Lucas 24:20",
+    "votes": 6
+   },
+   {
+    "gv": 26198,
+    "ref": "João 4:42",
+    "votes": 5
+   },
+   {
+    "gv": 28012,
+    "ref": "Romanos 3:21",
+    "votes": 5
+   },
+   {
+    "gv": 25165,
+    "ref": "Lucas 6:19",
+    "votes": 4
+   },
+   {
+    "gv": 26736,
+    "ref": "João 16:10",
+    "votes": 3
+   },
+   {
+    "gv": 28119,
+    "ref": "Romanos 8:3",
+    "votes": 3
+   },
+   {
+    "gv": 23685,
+    "ref": "Mateus 16:13",
+    "votes": 3
+   },
+   {
+    "gv": 25968,
+    "ref": "Lucas 23:33",
+    "votes": 3
+   },
+   {
+    "gv": 27845,
+    "ref": "Atos 26:22",
+    "votes": 2
+   },
+   {
+    "gv": 27904,
+    "ref": "Atos 28:5",
+    "votes": 2
+   },
+   {
+    "gv": 28019,
+    "ref": "Romanos 3:28",
+    "votes": 2
+   },
+   {
+    "gv": 28046,
+    "ref": "Romanos 4:24",
+    "votes": 2
+   },
+   {
+    "gv": 23066,
+    "ref": "Zacarias 13:7",
+    "votes": 2
+   },
+   {
+    "gv": 24569,
+    "ref": "Marcos 9:31",
+    "votes": 2
+   }
+  ],
+  "John.3.16": [
+   {
+    "gv": 28055,
+    "ref": "Romanos 5:8",
+    "votes": 1146
+   },
+   {
+    "gv": 30612,
+    "ref": "1 João 4:9",
+    "votes": 755
+   },
+   {
+    "gv": 28148,
+    "ref": "Romanos 8:32",
+    "votes": 591
+   },
+   {
+    "gv": 26135,
+    "ref": "João 3:15",
+    "votes": 524
+   },
+   {
+    "gv": 26548,
+    "ref": "João 11:25",
+    "votes": 461
+   },
+   {
+    "gv": 26297,
+    "ref": "João 6:40",
+    "votes": 401
+   },
+   {
+    "gv": 30622,
+    "ref": "1 João 4:19",
+    "votes": 400
+   },
+   {
+    "gv": 26156,
+    "ref": "João 3:36",
+    "votes": 378
+   },
+   {
+    "gv": 26509,
+    "ref": "João 10:28",
+    "votes": 321
+   },
+   {
+    "gv": 29711,
+    "ref": "1 Timóteo 1:15",
+    "votes": 318
+   },
+   {
+    "gv": 28057,
+    "ref": "Romanos 5:10",
+    "votes": 266
+   },
+   {
+    "gv": 26073,
+    "ref": "João 1:29",
+    "votes": 256
+   },
+   {
+    "gv": 29677,
+    "ref": "2 Tessalonicenses 2:16",
+    "votes": 233
+   },
+   {
+    "gv": 28896,
+    "ref": "2 Coríntios 5:19",
+    "votes": 214
+   },
+   {
+    "gv": 29233,
+    "ref": "Efésios 2:4",
+    "votes": 204
+   },
+   {
+    "gv": 23392,
+    "ref": "Mateus 9:13",
+    "votes": 190
+   },
+   {
+    "gv": 26058,
+    "ref": "João 1:14",
+    "votes": 189
+   },
+   {
+    "gv": 30702,
+    "ref": "Apocalipse 1:5",
+    "votes": 172
+   },
+   {
+    "gv": 559,
+    "ref": "Gênesis 22:12",
+    "votes": 172
+   },
+   {
+    "gv": 29927,
+    "ref": "Tito 3:4",
+    "votes": 162
+   },
+   {
+    "gv": 26062,
+    "ref": "João 1:18",
+    "votes": 157
+   },
+   {
+    "gv": 24679,
+    "ref": "Marcos 12:6",
+    "votes": 140
+   },
+   {
+    "gv": 24987,
+    "ref": "Lucas 2:14",
+    "votes": 137
+   },
+   {
+    "gv": 28403,
+    "ref": "1 Coríntios 2:9",
+    "votes": 48
+   },
+   {
+    "gv": 30580,
+    "ref": "1 João 3:1",
+    "votes": 46
+   },
+   {
+    "gv": 26166,
+    "ref": "João 4:10",
+    "votes": 45
+   },
+   {
+    "gv": 549,
+    "ref": "Gênesis 22:2",
+    "votes": 43
+   },
+   {
+    "gv": 30595,
+    "ref": "1 João 3:16",
+    "votes": 41
+   },
+   {
+    "gv": 26234,
+    "ref": "João 5:24",
+    "votes": 29
+   },
+   {
+    "gv": 17835,
+    "ref": "Isaías 9:6",
+    "votes": 23
+   },
+   {
+    "gv": 23327,
+    "ref": "Mateus 7:11",
+    "votes": 22
+   },
+   {
+    "gv": 29101,
+    "ref": "Gálatas 2:20",
+    "votes": 21
+   },
+   {
+    "gv": 30613,
+    "ref": "1 João 4:10",
+    "votes": 21
+   },
+   {
+    "gv": 28155,
+    "ref": "Romanos 8:39",
+    "votes": 19
+   },
+   {
+    "gv": 28971,
+    "ref": "2 Coríntios 9:15",
+    "votes": 19
+   },
+   {
+    "gv": 29135,
+    "ref": "Gálatas 4:4",
+    "votes": 16
+   },
+   {
+    "gv": 29480,
+    "ref": "Colossenses 1:15",
+    "votes": 16
+   },
+   {
+    "gv": 30617,
+    "ref": "1 João 4:14",
+    "votes": 16
+   },
+   {
+    "gv": 13952,
+    "ref": "Salmos 2:7",
+    "votes": 14
+   },
+   {
+    "gv": 29986,
+    "ref": "Hebreus 2:9",
+    "votes": 10
+   },
+   {
+    "gv": 26286,
+    "ref": "João 6:29",
+    "votes": 9
+   },
+   {
+    "gv": 29520,
+    "ref": "Colossenses 3:3",
+    "votes": 9
+   },
+   {
+    "gv": 26304,
+    "ref": "João 6:47",
+    "votes": 8
+   },
+   {
+    "gv": 28048,
+    "ref": "Romanos 5:1",
+    "votes": 8
+   },
+   {
+    "gv": 29965,
+    "ref": "Hebreus 1:2",
+    "votes": 8
+   },
+   {
+    "gv": 14445,
+    "ref": "Salmos 36:7",
+    "votes": 8
+   },
+   {
+    "gv": 26308,
+    "ref": "João 6:51",
+    "votes": 7
+   },
+   {
+    "gv": 28895,
+    "ref": "2 Coríntios 5:18",
+    "votes": 7
+   },
+   {
+    "gv": 26078,
+    "ref": "João 1:34",
+    "votes": 7
+   },
+   {
+    "gv": 5723,
+    "ref": "Deuteronômio 30:15",
+    "votes": 6
+   },
+   {
+    "gv": 29980,
+    "ref": "Hebreus 2:3",
+    "votes": 5
+   },
+   {
+    "gv": 16606,
+    "ref": "Provérbios 8:4",
+    "votes": 5
+   },
+   {
+    "gv": 26357,
+    "ref": "João 7:29",
+    "votes": 4
+   },
+   {
+    "gv": 26672,
+    "ref": "João 14:4",
+    "votes": 4
+   },
+   {
+    "gv": 30735,
+    "ref": "Apocalipse 2:18",
+    "votes": 4
+   },
+   {
+    "gv": 18744,
+    "ref": "Isaías 55:4",
+    "votes": 4
+   },
+   {
+    "gv": 23016,
+    "ref": "Zacarias 9:17",
+    "votes": 4
+   },
+   {
+    "gv": 23863,
+    "ref": "Mateus 21:37",
+    "votes": 4
+   },
+   {
+    "gv": 24216,
+    "ref": "Marcos 1:1",
+    "votes": 4
+   },
+   {
+    "gv": 24971,
+    "ref": "Lucas 1:78",
+    "votes": 4
+   },
+   {
+    "gv": 25792,
+    "ref": "Lucas 20:13",
+    "votes": 4
+   },
+   {
+    "gv": 26253,
+    "ref": "João 5:43",
+    "votes": 3
+   },
+   {
+    "gv": 30035,
+    "ref": "Hebreus 5:5",
+    "votes": 3
+   },
+   {
+    "gv": 21688,
+    "ref": "Ezequiel 47:9",
+    "votes": 3
+   },
+   {
+    "gv": 24226,
+    "ref": "Marcos 1:11",
+    "votes": 3
+   },
+   {
+    "gv": 24545,
+    "ref": "Marcos 9:7",
+    "votes": 3
+   },
+   {
+    "gv": 27933,
+    "ref": "Romanos 1:3",
+    "votes": 2
+   },
+   {
+    "gv": 28062,
+    "ref": "Romanos 5:15",
+    "votes": 2
+   },
+   {
+    "gv": 28819,
+    "ref": "2 Coríntios 1:19",
+    "votes": 2
+   },
+   {
+    "gv": 30634,
+    "ref": "1 João 5:10",
+    "votes": 2
+   },
+   {
+    "gv": 16626,
+    "ref": "Provérbios 8:24",
+    "votes": 2
+   },
+   {
+    "gv": 20493,
+    "ref": "Ezequiel 2:1",
+    "votes": 2
+   },
+   {
+    "gv": 23705,
+    "ref": "Mateus 17:5",
+    "votes": 2
+   },
+   {
+    "gv": 24117,
+    "ref": "Mateus 26:63",
+    "votes": 2
+   },
+   {
+    "gv": 24172,
+    "ref": "Mateus 27:43",
+    "votes": 2
+   },
+   {
+    "gv": 25336,
+    "ref": "Lucas 9:35",
+    "votes": 2
+   },
+   {
+    "gv": 29969,
+    "ref": "Hebreus 1:6",
+    "votes": 1
+   },
+   {
+    "gv": 30189,
+    "ref": "Hebreus 11:17",
+    "votes": 1
+   },
+   {
+    "gv": 14535,
+    "ref": "Salmos 40:10",
+    "votes": 1
+   },
+   {
+    "gv": 16637,
+    "ref": "Provérbios 8:35",
+    "votes": 1
+   }
+  ]
+ },
+ "x": {
+  "Num.21.7": 0.1153790700468581,
+  "Num.21.8": 0.11540309984380633,
+  "Num.21.9": 0.11542712964075452,
+  "John.3.14": 0.8405172413793104,
+  "John.3.15": 0.840540603681899,
+  "John.3.16": 0.8405639659844875,
+  "John.12.32": 0.8483010933557611
+ },
+ "blivre": {
+  "NUM 21:6": "E o SENHOR enviou entre o povo serpentes ardentes, que mordiam ao povo: e morreu muito povo de Israel.",
+  "NUM 21:8": "E o SENHOR disse a Moisés: Faze-te uma serpente ardente, e põe-a sobre a haste: e será que qualquer um que for mordido e olhar a ela, viverá.",
+  "NUM 21:9": "E Moisés fez uma serpente de bronze, e a pôs sobre a haste, e foi, que quando alguma serpente mordia a algum, olhava à serpente de bronze, e vivia.",
+  "JOH 3:14": "E como Moisés levantou a serpente no deserto, assim deve o Filho do homem ser levantado,",
+  "JOH 3:15": "Para que todo aquele que nele crer não pereça, mas tenha a vida eterna.",
+  "JOH 3:16": "Porque Deus amou ao mundo de tal maneira, que deu o seu Filho unigênito; para que todo aquele que nele crê não pereça, mas tenha a vida eterna.",
+  "JOH 12:32": "E eu, quando for levantado da terra, trarei todos a mim.",
+  "JOH 12:33": "(E isto dizia, indicando de que morte [ele] morreria.)"
+ }
+}

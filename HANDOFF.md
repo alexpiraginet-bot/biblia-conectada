@@ -24,7 +24,7 @@ Tudo o que está marcado como "conferido" foi rodado ou lido em 19/10. O que é 
 **Repo:** `alexpiraginet-bot/biblia-conectada`, público. O Alex criou e deu acesso de escrita ao app do Claude.
 
 **Branch `main`:** commits de 19/10 em cima do "Initial commit" do Alex.
-- `estudos/biblia-referencias/`, `estudos/biblia-natal/` e `estudos/biblia-comentarios/`: código, dados, fontes OFL, mídia gerada (recriações, clipes, narrações), vídeos finais e capas.
+- `estudos/biblia-referencias/`, `estudos/biblia-natal/`, `estudos/biblia-comentarios/` e `estudos/biblia-joao316/`: código, dados, fontes OFL, mídia gerada (recriações, clipes, narrações), vídeos finais e capas.
   - Cópia byte a byte das pastas de trabalho, conferida por SHA-256.
   - Exceções: os textos completos da ACF, AA e NVI (`source/text/`), os caches `__pycache__` e os logs do x264.
 - `fontes/`: traduções livres em português, OpenBible geo, Theographic e STEPBible TIPNR, com `SHA256SUMS`.
@@ -510,3 +510,7 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
     - o `<html>` não traz mais `data-theme` fixo do servidor.
   - Não verificado em Safari/iPhone. Conferido no Chromium: três trocas de tema seguidas e a folha aberta nos dois temas, com contraste mínimo de 9,7:1.
   - O Alex pediu também um design system muito superior e uma remodelagem total, com leitura e busca mais fáceis.
+- **19/10, noite, vídeo 4:**
+  - Vídeo 4, "Antes de João 3:16" (`estudos/biblia-joao316/`): remake do episódio 02 (projeto HyperFrames que o Alex
+    mandou em zip) no padrão do vídeo 1, a pedido dele: gancho no frame 0, arcos de dados reais, órgão em ré menor que
+    resolve em ré maior no 3:16, narração do Andre. Citações literais da BLIVRE. Legenda reescrita para tração.
