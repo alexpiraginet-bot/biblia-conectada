@@ -44,3 +44,39 @@ function htmlRoots(site: string): string[] {
   }
   return roots;
 }
+
+/** The routes of the app ("/", "/sobre", "/[livro]/[cap]") from the page files under src/app; route groups and private
+ *  folders are not part of a route. */
+export function appRoutes(site: string): string[] {
+  const routes: string[] = [];
+  const walk = (dir: string, segments: string[]) => {
+    for (const name of readdirSync(dir)) {
+      const p = join(dir, name);
+      if (statSync(p).isDirectory()) {
+        if (name.startsWith("_")) continue;
+        walk(p, /^\(.+\)$/.test(name) ? segments : [...segments, name]);
+      } else if (/^page\.(tsx|ts|jsx|js)$/.test(name)) routes.push(`/${segments.join("/")}`);
+    }
+  };
+  walk(join(site, "src/app"), []);
+  return routes.sort();
+}
+
+/**
+ * The route that rendered a prerendered page ("isaias/9.html" -> "/[livro]/[cap]", "index.html" -> "/"), or null:
+ * same number of segments, every static segment equal, and, as in Next.js, a static segment wins over a dynamic one at
+ * the first place where two candidates differ ("/salvos" before "/[livro]").
+ */
+export function routeOf(routes: readonly string[], page: string): string | null {
+  const parts = page.replace(/\.html$/, "").split(sep);
+  const path = parts.length === 1 && parts[0] === "index" ? [] : parts;
+  const dynamic = (s: string) => s.startsWith("[");
+  const fits = routes
+    .map((r) => r.split("/").filter(Boolean))
+    .filter((r) => r.length === path.length && r.every((s, i) => dynamic(s) || s === path[i]));
+  fits.sort((a, b) => {
+    for (let i = 0; i < a.length; i++) if (dynamic(a[i]) !== dynamic(b[i])) return dynamic(a[i]) ? 1 : -1;
+    return 0;
+  });
+  return fits.length ? `/${fits[0].join("/")}` : null;
+}

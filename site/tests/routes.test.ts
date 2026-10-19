@@ -6,6 +6,7 @@ import { describe, expect, it } from "vitest";
 import nextConfig from "../next.config";
 import { currentItem, NAV } from "../src/components/shell/nav";
 import { RESERVED } from "../src/lib/canon/redirects";
+import { appRoutes, routeOf } from "../scripts/checks/pages";
 import { SITE } from "../scripts/data/sources";
 import { books } from "./generated";
 
@@ -74,6 +75,35 @@ describe("navigation", () => {
     // the matcher itself: a section that does not exist is not taken for a book
     expect(pageFor("/grafo", app, false)).toBeNull();
     expect(pageFor("/grafo")).not.toBeNull();
+  });
+});
+
+describe("route of a prerendered page (npm run budget groups pages by it)", () => {
+  const routes = appRoutes(SITE);
+  it.each([
+    ["index.html", "/"],
+    ["ler.html", "/ler"],
+    ["salvos.html", "/salvos"],
+    ["sobre.html", "/sobre"],
+    ["mesa.html", "/mesa"],
+    ["linha-do-tempo.html", "/linha-do-tempo"],
+    ["isaias.html", "/[livro]"],
+    [join("isaias", "9.html"), "/[livro]/[cap]"],
+    [join("isaias", "9", "6.html"), "/[livro]/[cap]/[vers]"],
+    [join("explorar", "isaias", "9.html"), "/explorar/[livro]/[cap]"],
+    [join("explorar", "isaias", "9", "lucas", "2.html"), "/explorar/[livro]/[cap]/[livro2]/[cap2]"],
+    [join("conexao", "isaias-9", "lucas-2.html"), "/conexao/[a]/[b]"],
+    [join("ponte", "1.html"), "/ponte/[n]"],
+    [join("trilha", "antes-do-natal.html"), "/trilha/antes-do-natal"],
+    [join("trilha", "antes-do-natal", "3.html"), "/trilha/antes-do-natal/[n]"],
+    [join("tema", "luz.html"), "/tema/[slug]"],
+    [join("a", "b", "c", "d.html"), null],
+  ])("%s -> %s", (page, route) => expect(routeOf(routes, page)).toBe(route));
+
+  it("finds a route for every page folder of the app", () => {
+    expect(routes).toContain("/");
+    expect(routes).toContain("/salvos");
+    for (const s of segments(app)) expect(routes.some((r) => r === `/${s}` || r.startsWith(`/${s}/`)), s).toBe(true);
   });
 });
 
