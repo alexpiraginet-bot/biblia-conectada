@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { NOT_FOUND_TITLE } from "@/components/NotFoundBody";
 import { LinksPanel } from "@/components/reader/LinksPanel";
 import { PanelShell } from "@/components/reader/PanelShell";
-import { missingPage } from "@/lib/missing";
+import { missingPage, NOT_FOUND_TITLE } from "@/lib/missing";
 import { bookBySlug, chapterNumber, chapterVerses, versePages, verseNumber } from "@/lib/reading";
 
 // The most linked verses are prerendered; the others render on their first request and are kept.

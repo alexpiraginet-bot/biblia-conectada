@@ -70,7 +70,9 @@ function fit(book: Book, n: Numbers): Fit {
   return { ref };
 }
 
-export function createReferenceParser(books: readonly Book[]) {
+/** `minPrefix`: letters a partial book name needs before it counts ("ezeq" for Ezequiel). The search box uses 3; an
+ *  address bar uses more, so everyday words such as "mar" or "tia" are not taken for Marcos or Tiago. */
+export function createReferenceParser(books: readonly Book[], { minPrefix = 3 }: { minPrefix?: number } = {}) {
   const accented = new Map<string, Book[]>();
   const loose = new Map<string, Book[]>();
   const push = (map: Map<string, Book[]>, key: string, book: Book) => {
@@ -116,9 +118,9 @@ export function createReferenceParser(books: readonly Book[]) {
     // 2. exact without accents ("jo" may be Jó or João). A name that matches never falls through to other books.
     const near = loose.get(looseKey);
     if (near) return settle(near, n);
-    // 3. a name the input starts ("ezeq", "salmo", "fil"), three letters at least; "corintios" also reaches 1 and 2 Coríntios
+    // 3. a name the input starts ("ezeq", "salmo", "fil"), minPrefix letters at least; "corintios" also reaches 1 and 2 Coríntios
     const letters = looseKey.replace(/^\d/, "");
-    if (letters.length < 3) return { ok: false, error: "book" };
+    if (letters.length < minPrefix) return { ok: false, error: "book" };
     let prefix = names.filter((x) => x.key.startsWith(looseKey)).map((x) => x.book);
     if (prefix.length === 0 && !/^\d/.test(looseKey)) prefix = names.filter((x) => x.bare.startsWith(looseKey)).map((x) => x.book);
     return prefix.length ? settle(prefix, n) : { ok: false, error: "book" };

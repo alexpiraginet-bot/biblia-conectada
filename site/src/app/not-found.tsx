@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SiteHeader } from "@/components/header/SiteHeader";
-import { NOT_FOUND_TITLE, NotFoundBody } from "@/components/NotFoundBody";
+import { NotFoundBody } from "@/components/NotFoundBody";
+import { NOT_FOUND_TITLE } from "@/lib/missing";
 
 export const metadata: Metadata = { title: NOT_FOUND_TITLE };
 

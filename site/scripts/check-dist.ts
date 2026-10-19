@@ -128,7 +128,7 @@ if (failures.length) {
   process.exit(1);
 }
 console.log(
-  `[check-dist] credits and lang in ${html.length} prerendered pages and the 404 page; home and /arcos numbers match summary.json; ` +
+  `[check-dist] credits and lang in ${html.length} prerendered pages and the static 404 page; home and /arcos numbers match summary.json; ` +
     `/dados shows the size and count of the ${manifest.arquivos.length} files of the open data manifest; ` +
     `${shipped.length} shipped text files hold none of the ${new Set(runs.values()).size} protected quotes`,
 );

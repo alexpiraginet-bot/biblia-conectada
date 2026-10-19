@@ -236,6 +236,98 @@ input {
   border: 0;
 }
 
+/* 404 page (src/components/NotFoundBody.tsx). Here and not in a CSS module: Next.js sends the 404 tree with every page,
+   so a module would be preloaded everywhere. The motif's arc stops short of its second verse; the ways are a ruled
+   list, like /ler (design §10: no grid of cards). */
+.not-found {
+  width: 100%;
+  max-width: calc(var(--column) + 2 * var(--space-2));
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-2);
+}
+
+.not-found__mark {
+  display: block;
+  width: 7.5rem;
+  height: auto;
+  margin: 0 0 var(--space-3);
+  overflow: visible;
+}
+
+.not-found__arc {
+  fill: none;
+  stroke: var(--accent-text);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.not-found__from {
+  fill: var(--accent-text);
+}
+
+.not-found__to {
+  fill: none;
+  stroke: var(--control-border);
+  stroke-width: 1.5;
+}
+
+.not-found__base {
+  stroke: var(--hairline);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.not-found__title {
+  font-family: var(--font-title);
+  font-weight: 440;
+  font-synthesis: none;
+  letter-spacing: -0.015em;
+  font-size: clamp(2rem, 6vw, 3rem);
+  line-height: 1.1;
+  margin: 0 0 var(--space-2);
+  text-wrap: balance;
+}
+
+.not-found__lede {
+  color: var(--text-2);
+  margin: 0 0 var(--space-3);
+  text-wrap: pretty;
+}
+
+.not-found__ways {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.not-found__way {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.1rem;
+  min-height: 2.75rem;
+  padding: 0.7rem 0;
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.not-found__name {
+  font-weight: 600;
+  color: var(--accent-text);
+}
+
+.not-found__way:hover .not-found__name {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.not-found__note {
+  font-size: var(--step-ui);
+  color: var(--text-2);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

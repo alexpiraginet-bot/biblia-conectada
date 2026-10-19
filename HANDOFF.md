@@ -493,5 +493,10 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
   - Correção:
     - Página 404 própria, em português e nos temas Noite e Dia, com caminhos de volta.
     - Endereço "solto" vai para a página certa (redirect 307), desde que a referência exista: `/Isaías/9/6`, `/isaias/9/6)` (pontuação colada pelo app de mensagem), `/Is 9:6`, `/1-co-13`, `/judas/3` (`site/src/lib/canon/loose.ts`).
-    - "Ler" só fica aceso em página de livro.
-  - Achado do Next 16: `notFound()` numa rota de leitura com PPR devolve um documento vazio (`__next_error__`) que o navegador monta. O script do tema não roda nesse caso, e por isso o `ThemeToggle` reaplica o tema salvo ao montar. O `check-dist` agora confere a 404 nos dois formatos de build.
+    - "Ler" só fica aceso em página de leitura que existe; na 404 nenhum item fica aceso.
+  - Achado do Next 16: `notFound()` numa rota de leitura com PPR devolve um documento vazio (`__next_error__`) que o navegador monta. O script do tema não roda nesse caso, e por isso o `ThemeToggle` reaplica o tema salvo antes da primeira pintura (`useLayoutEffect`). Sem JavaScript, essa 404 fica em branco; é limite do Next, registrado aqui. O `check-dist` confere a 404 estática nos dois formatos de build.
+  - Revisão adversarial (4 frentes) antes do merge. Achados corrigidos:
+    - um link de Jó (slug `jo`) com pontuação colada ia para João (`/jo/3/16)` → `/joao/3/16`). Agora o slug exato fixa o livro, e capítulo ou versículo que não existe vira 404;
+    - palavras comuns viravam livro pelo prefixo de 3 letras (`/mar` → Marcos). No endereço, o prefixo agora precisa de 4 letras;
+    - segmentos longos faziam as expressões regulares gastarem CPU. Agora segmento acima de 64 caracteres não é analisado;
+    - o CSS da 404 carregava em toda página. Foi para o `globals.css`, e os caminhos viraram lista com fio, como em `/ler` (design §10), sem animação (§7).

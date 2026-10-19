@@ -12,12 +12,25 @@ export const NAV: readonly NavItem[] = [
   { href: "/dados", label: "Dados", icon: "i-data", bar: true },
 ];
 
-const BOOKS = new Set((booksJson as { slug: string }[]).map((b) => b.slug));
+/** verses per chapter of each book, by slug */
+const GRID = new Map((booksJson as { slug: string; verses: number[] }[]).map((b) => [b.slug, b.verses]));
+const NUMBER = /^[1-9]\d{0,2}$/;
+
+/** "/isaias", "/isaias/9", "/isaias/9/6": a book, chapter or verse that exists (the rules of chapterNumber and
+ *  verseNumber in src/lib/reading.ts) */
+function isReadingPath(pathname: string): boolean {
+  const [slug, cap, vers, ...more] = pathname.split("/").filter(Boolean);
+  const verses = slug ? GRID.get(slug) : undefined;
+  if (!verses || more.length > 0) return false;
+  if (cap === undefined) return true;
+  if (!NUMBER.test(cap) || Number(cap) > verses.length) return false;
+  return vers === undefined || (NUMBER.test(vers) && Number(vers) <= verses[Number(cap) - 1]);
+}
 
 /** The navigation item a path belongs to: its own section, "Ler" for a book, chapter or verse page, else none (the
- *  home page, pages outside the navigation such as /sobre, and the 404 page). */
+ *  home page, pages outside the navigation such as /sobre, and every 404, "/genesis/51" included). */
 export function currentItem(pathname: string): string | null {
   const own = NAV.find((n) => pathname === n.href || pathname.startsWith(`${n.href}/`));
   if (own) return own.href;
-  return BOOKS.has(pathname.split("/")[1]) ? "/ler" : null;
+  return isReadingPath(pathname) ? "/ler" : null;
 }

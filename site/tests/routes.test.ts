@@ -46,8 +46,14 @@ describe("current navigation item", () => {
     ["/arcos", "/arcos"],
     ["/dados", "/dados"],
     ["/sobre", null],
-    // a 404 is in no section
+    // a 404 is in no section, also under a book
     ["/x", null],
     ["/explorar", null],
+    ["/genesis/51", null],
+    ["/genesis/1/99", null],
+    ["/genesis/0", null],
+    ["/isaias/capitulo", null],
+    ["/isaias/9/6/7", null],
+    ["/genesis/50/26", "/ler"],
   ])("%s -> %s", (path, item) => expect(currentItem(path)).toBe(item));
 });

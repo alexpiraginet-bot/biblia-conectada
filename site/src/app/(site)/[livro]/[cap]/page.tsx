@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { NOT_FOUND_TITLE } from "@/components/NotFoundBody";
 import { ChapterArcs } from "@/components/reader/Arcs";
 import styles from "@/components/reader/reader.module.css";
 import { formatInt } from "@/lib/canon/text";
 import { books } from "@/lib/data";
-import { missingPage } from "@/lib/missing";
+import { missingPage, NOT_FOUND_TITLE } from "@/lib/missing";
 import { bookBySlug, chapterNumber, chapterPartners, linkedChapters } from "@/lib/reading";
 
 export const ensureStatic = "navigation";

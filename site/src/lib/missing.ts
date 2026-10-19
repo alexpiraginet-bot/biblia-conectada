@@ -6,6 +6,9 @@ import { books } from "@/lib/data";
 
 const loosePath = createLoosePathResolver(books);
 
+/** Title of the 404 page; the reading routes' metadata uses it too when their segments name no page. */
+export const NOT_FOUND_TITLE = "Página não encontrada";
+
 export function missingPage(segments: readonly string[]): never {
   const to = loosePath(segments);
   if (to && to !== `/${segments.join("/")}`) redirect(to);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useSyncExternalStore } from "react";
+import { useLayoutEffect, useSyncExternalStore } from "react";
 
 // Noite is the default theme; the choice is stored on the device and applied before paint by THEME_SCRIPT.
 type Theme = "noite" | "dia";
@@ -25,8 +25,8 @@ export function ThemeToggle() {
   const theme = useSyncExternalStore<Theme>(subscribe, read, () => "noite");
   const next: Theme = theme === "noite" ? "dia" : "noite";
   // A document rendered on the client never ran THEME_SCRIPT: Next.js sends the 404 of a reading route ("/x") as an
-  // empty shell that the browser fills in. Apply the stored choice there too.
-  useEffect(() => {
+  // empty shell that the browser fills in. Apply the stored choice there too, before the first paint.
+  useLayoutEffect(() => {
     try {
       const stored = localStorage.getItem("theme");
       if ((stored === "dia" || stored === "noite") && stored !== read()) apply(stored);

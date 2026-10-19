@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "@/components/icons";
-import { NOT_FOUND_TITLE } from "@/components/NotFoundBody";
 import { ChapterArcs } from "@/components/reader/Arcs";
 import readerStyles from "@/components/reader/reader.module.css";
 import { formatInt } from "@/lib/canon/text";
 import { books } from "@/lib/data";
-import { missingPage } from "@/lib/missing";
+import { missingPage, NOT_FOUND_TITLE } from "@/lib/missing";
 import { bookBySlug, bookPartners, chapterPairs } from "@/lib/reading";
 import styles from "./livro.module.css";
 
