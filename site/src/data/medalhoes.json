@@ -1,6 +1,518 @@
 {
   "version": 1,
-  "note": "Filled by scripts/data/medallions.ts (wave B, medallions builder). Empty until the illustrations are generated and reviewed.",
-  "groups": {},
-  "bookGroup": {}
+  "note": "Written by `npx tsx scripts/medallions.ts manifest` from scripts/data/medallions.ts, scripts/data/medallions-review.json and public/medalhoes/. Do not edit by hand.",
+  "groups": {
+    "pentateuco": {
+      "id": "pentateuco",
+      "kind": "livro",
+      "category": "Pentateuco",
+      "label": "Rolo fechado",
+      "alt": "Ilustração: um rolo fechado, enrolado em duas varas de madeira e amarrado com um cordão.",
+      "src96": "/medalhoes/pentateuco-96.webp",
+      "src192": "/medalhoes/pentateuco-192.webp",
+      "prompt": "Subject: a closed scroll wound on two wooden rollers and tied with a cord, resting on a flat stone; rolled shut, so no writing shows.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:20:32.000Z",
+      "sha256": {
+        "96": "9d5d08d66aeaccdbd7653c31ffc9e31a46c76f900f0ca838ccaeabbda0d46fe5",
+        "192": "9aa925e8d65564f519d3686d5992c595ec97413ec7d4c20f8ba6f12b573ad189"
+      },
+      "bytes": {
+        "96": 1006,
+        "192": 2772
+      }
+    },
+    "historicos": {
+      "id": "historicos",
+      "kind": "livro",
+      "category": "Livros históricos",
+      "label": "Coroa",
+      "alt": "Ilustração: uma coroa simples de metal batido sobre um pano dobrado.",
+      "src96": "/medalhoes/historicos-96.webp",
+      "src192": "/medalhoes/historicos-192.webp",
+      "prompt": "Subject: a plain ancient royal crown, a hammered metal circlet with low points and no jewels or symbols, resting on a folded cloth on a stone ledge.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:20:26.000Z",
+      "sha256": {
+        "96": "caf905eb6076c8b25225d950ab1e092156dc9665668907895a7a19b9966d2d10",
+        "192": "f2b8ce53c982248801c8dfb6893c4f048adf6f328d3065aeac01d9a1ae2984af"
+      },
+      "bytes": {
+        "96": 1060,
+        "192": 3328
+      }
+    },
+    "poesia": {
+      "id": "poesia",
+      "kind": "livro",
+      "category": "Poesia e sabedoria",
+      "label": "Lira",
+      "alt": "Ilustração: uma lira de madeira em pé, apoiada numa pedra.",
+      "src96": "/medalhoes/poesia-96.webp",
+      "src192": "/medalhoes/poesia-192.webp",
+      "prompt": "Subject: an ancient wooden lyre with a wooden yoke and a few strings, standing upright on a stone, nobody playing it.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:20:26.000Z",
+      "sha256": {
+        "96": "8a0b06aadce30609dfc64107db6b01da1b1f825fb2e2bcf3e7dd08e6f19d3362",
+        "192": "cc6a4f2a2e2d9d871216d18fdcdd13a28fed83ecc83e30207b8f369dd616c9b0"
+      },
+      "bytes": {
+        "96": 1188,
+        "192": 3178
+      }
+    },
+    "profetas": {
+      "id": "profetas",
+      "kind": "livro",
+      "category": "Profetas",
+      "label": "Ramo de amendoeira",
+      "alt": "Ilustração: um ramo de amendoeira em flor sobre uma pedra.",
+      "src96": "/medalhoes/profetas-96.webp",
+      "src192": "/medalhoes/profetas-192.webp",
+      "prompt": "Subject: a flowering almond branch with open blossoms, buds and a few young green almonds, lying across a rough stone.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:20:26.000Z",
+      "sha256": {
+        "96": "8599cc45cb278b961562efdb8a92407fa3cc0d2ced37f0753a854594b2d19f09",
+        "192": "6d28bb70a8d7078050811026d2e1c3b310d0bc2606ac283f51fd86a802cc0910"
+      },
+      "bytes": {
+        "96": 1964,
+        "192": 5804
+      }
+    },
+    "evangelhos": {
+      "id": "evangelhos",
+      "kind": "livro",
+      "category": "Evangelhos",
+      "label": "Pães e peixes",
+      "alt": "Ilustração: um cesto de vime com pães redondos e dois peixes, sobre uma pedra.",
+      "src96": "/medalhoes/evangelhos-96.webp",
+      "src192": "/medalhoes/evangelhos-192.webp",
+      "prompt": "Subject: a woven reed basket holding five round flat barley loaves and two small fish, standing on a plain stone.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:19:20.000Z",
+      "sha256": {
+        "96": "df9d4dabc0c550dc98caccbdf039ab7c63977e53b1141354bdbf9abb47911629",
+        "192": "f7bfc868e6dd114aaf3f0c6cc13da1d1963f1f4dc89166ca1329ee043b723cfb"
+      },
+      "bytes": {
+        "96": 1716,
+        "192": 5706
+      }
+    },
+    "atos": {
+      "id": "atos",
+      "kind": "livro",
+      "category": "Atos",
+      "label": "Navio a vela",
+      "alt": "Ilustração: um navio mercante antigo, de uma vela quadrada, navegando no mar.",
+      "src96": "/medalhoes/atos-96.webp",
+      "src192": "/medalhoes/atos-192.webp",
+      "prompt": "Subject: an ancient merchant sailing ship with one large square sail, under way on a moderate sea, seen from the side, no crew visible.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:20:25.000Z",
+      "sha256": {
+        "96": "a55bab4c49b0b35a8f9659c0ab60e445e457c45bb9d36bb9ac618ec89c910cba",
+        "192": "9e44d89ca510359a449557e83245c58a71cea9a83e555ec0595351a8ae3d7885"
+      },
+      "bytes": {
+        "96": 1260,
+        "192": 4124
+      }
+    },
+    "cartas": {
+      "id": "cartas",
+      "kind": "livro",
+      "category": "Cartas",
+      "label": "Carta selada",
+      "alt": "Ilustração: uma carta de papiro enrolada, amarrada e selada com barro, ao lado de uma pena de junco e um tinteiro.",
+      "src96": "/medalhoes/cartas-96.webp",
+      "src192": "/medalhoes/cartas-192.webp",
+      "prompt": "Subject: a rolled papyrus letter tied with cord and closed with a plain unmarked clay seal, lying beside a reed pen and a small clay inkpot on a wooden table; rolled shut, so no writing shows.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:20:50.000Z",
+      "sha256": {
+        "96": "322cd8e6f145c2aa1e7c5a5f1e366b31ac3c876d624fcdfed48757e87bd6a29f",
+        "192": "f546fd5bdef513f7f2dec5743f03f3a2dd1d5e09807d1dcc88bf6d28eaf88351"
+      },
+      "bytes": {
+        "96": 1186,
+        "192": 3698
+      }
+    },
+    "apocalipse": {
+      "id": "apocalipse",
+      "kind": "livro",
+      "category": "Apocalipse",
+      "label": "Porta aberta no céu",
+      "alt": "Ilustração: uma porta antiga de tábuas, entreaberta sobre nuvens, num céu com pequenas estrelas.",
+      "src96": "/medalhoes/apocalipse-96.webp",
+      "src192": "/medalhoes/apocalipse-192.webp",
+      "prompt": "Subject: a tall, heavy ancient door of rough wooden planks with iron straps and no handle or knob, standing half open in a plain stone frame on a bank of clouds; night sky with tiny round dot stars only (no sparkles, no four-pointed stars, no moon); soft light in the gap of the doorway, no beams.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:24:18.000Z",
+      "sha256": {
+        "96": "feca5f4f4c6a33b731c64e1fbe8620f1866ddd22c4d2cf52206d8de14b868971",
+        "192": "e747a379374b7ec536053eed9ad739b5a0a9c162db626b2155cfd4b92f1204f9"
+      },
+      "bytes": {
+        "96": 1268,
+        "192": 4054
+      }
+    },
+    "cidade": {
+      "id": "cidade",
+      "kind": "lugar",
+      "category": "Cidade",
+      "label": "Cidade murada",
+      "alt": "Ilustração: uma pequena cidade murada de pedra clara no alto de um morro, vista de longe.",
+      "src96": "/medalhoes/cidade-96.webp",
+      "src192": "/medalhoes/cidade-192.webp",
+      "prompt": "Subject: a small walled hilltop town of pale limestone at dusk, flat-roofed houses, one gate, terraced olive trees on the slope, seen from a distance, empty of people.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:19:21.000Z",
+      "sha256": {
+        "96": "42953b47e67992baad1661d584dc6c68361fe7fb93900e60e3cd97f4deec71c6",
+        "192": "28f36799b2540f5e20948069bfa61a6e7ccee30365c11208a6790f06c4f0df9f"
+      },
+      "bytes": {
+        "96": 1866,
+        "192": 6188
+      }
+    },
+    "regiao": {
+      "id": "regiao",
+      "kind": "lugar",
+      "category": "Região",
+      "label": "Paisagem vista do alto",
+      "alt": "Ilustração: uma paisagem vista do alto, com morros secos até o horizonte, um rio numa planície e pequenas aldeias.",
+      "src96": "/medalhoes/regiao-96.webp",
+      "src192": "/medalhoes/regiao-192.webp",
+      "prompt": "Subject: a wide Near Eastern landscape seen from a height: dry layered hills receding to a far horizon, a river winding through a plain with date palms and fields, a few tiny villages of flat-roofed mud-brick houses; no towers, steeples, domes or temples.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:24:27.000Z",
+      "sha256": {
+        "96": "ca9498078ce07f2f9492dc6cfc591891c2570de08325a23e98d8b3eaef27e96a",
+        "192": "d45dde65c4e5608b69cbc7233f0fde3344489eb7c2443a512ad4820fdc42b877"
+      },
+      "bytes": {
+        "96": 1718,
+        "192": 5786
+      }
+    },
+    "monte": {
+      "id": "monte",
+      "kind": "lugar",
+      "category": "Monte",
+      "label": "Monte",
+      "alt": "Ilustração: um pico de montanha rochoso acima de morros mais baixos, com nuvens.",
+      "src96": "/medalhoes/monte-96.webp",
+      "src192": "/medalhoes/monte-192.webp",
+      "prompt": "Subject: a single rocky mountain peak rising above lower foothills, a few drifting clouds around the summit, calm night sky.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:20:42.000Z",
+      "sha256": {
+        "96": "65adecd6a347aa1973bd31d1c72558836cfb4969009ba372f0d14a38e046f734",
+        "192": "91305cce6aa6734364a95cd14b543012972ee6a969374dc092f758974572148f"
+      },
+      "bytes": {
+        "96": 1298,
+        "192": 4234
+      }
+    },
+    "agua": {
+      "id": "agua",
+      "kind": "lugar",
+      "category": "Água",
+      "label": "Fonte",
+      "alt": "Ilustração: uma fonte que corre de uma fenda na rocha para um tanque raso de pedra, com juncos.",
+      "src96": "/medalhoes/agua-96.webp",
+      "src192": "/medalhoes/agua-192.webp",
+      "prompt": "Subject: a spring flowing from a cleft in a rock into a shallow stone pool, reeds and grasses at the edge, ripples on the water.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:20:48.000Z",
+      "sha256": {
+        "96": "e93b981ea6ac9321781c360107594595cd096c9bb6bf87b2b7e7cbcd369c93a9",
+        "192": "6d61baa0dad25563afbd83abcba2e19d405dd4869682b5518267c85a3e104b90"
+      },
+      "bytes": {
+        "96": 1518,
+        "192": 5334
+      }
+    },
+    "vale": {
+      "id": "vale",
+      "kind": "lugar",
+      "category": "Vale e campo",
+      "label": "Vale com campo de cevada",
+      "alt": "Ilustração: um vale com um campo de cevada madura, alguns feixes e uma oliveira antiga.",
+      "src96": "/medalhoes/vale-96.webp",
+      "src192": "/medalhoes/vale-192.webp",
+      "prompt": "Subject: a gentle valley floor with a field of ripe barley, a few bound sheaves and one old olive tree, low hills on both sides.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:20:58.000Z",
+      "sha256": {
+        "96": "4bdc4fa9bdd6cdf34258e7982fce23a5db0e179d08d3e8fab9f5c0bb2ca0d6e1",
+        "192": "f5495c0615b5345236d422d86590f1966d21073736ece9dfed9640737483c7b4"
+      },
+      "bytes": {
+        "96": 1838,
+        "192": 6182
+      }
+    },
+    "construcao": {
+      "id": "construcao",
+      "kind": "lugar",
+      "category": "Construção",
+      "label": "Portão de pedra",
+      "alt": "Ilustração: um portão antigo de pedra entre duas torres, com as portas de madeira abertas.",
+      "src96": "/medalhoes/construcao-96.webp",
+      "src192": "/medalhoes/construcao-192.webp",
+      "prompt": "Subject: an ancient Near Eastern city gate of large rough-cut stone blocks: a dark gateway passage under a flat stone lintel between two square towers with flat tops (no battlements, no arch), heavy wooden doors standing open, seen close, empty street beyond.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:24:20.000Z",
+      "sha256": {
+        "96": "d05f9c44440ce70dc874907743de32d7e01dd45a85c695d81eca289a513497a2",
+        "192": "b01610b289769bc61f5bba701c2769b651c10c067a38e11272b81580b570922a"
+      },
+      "bytes": {
+        "96": 1554,
+        "192": 5012
+      }
+    },
+    "acampamento": {
+      "id": "acampamento",
+      "kind": "lugar",
+      "category": "Acampamento",
+      "label": "Tendas no deserto",
+      "alt": "Ilustração: tendas baixas de pelo de cabra numa planície de deserto, à noite.",
+      "src96": "/medalhoes/acampamento-96.webp",
+      "src192": "/medalhoes/acampamento-192.webp",
+      "prompt": "Subject: a few low black goat-hair tents pitched on a desert plain, tent ropes and pegs, low dunes; plain navy night sky with a few tiny round dot stars only (no moon, no sparkles, no four-pointed stars).\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:24:17.000Z",
+      "sha256": {
+        "96": "ac18cccf397280dad97506aa61e9a7f91fa70b1638bab8f8ee953b08b3e77c3c",
+        "192": "162c790dde4da376db15babfeae2cc3c647272b2118a1c486b65ff150d9ef587"
+      },
+      "bytes": {
+        "96": 1218,
+        "192": 3708
+      }
+    },
+    "ilha": {
+      "id": "ilha",
+      "kind": "lugar",
+      "category": "Ilha",
+      "label": "Ilha rochosa",
+      "alt": "Ilustração: uma pequena ilha rochosa num mar calmo, com algumas árvores no alto.",
+      "src96": "/medalhoes/ilha-96.webp",
+      "src192": "/medalhoes/ilha-192.webp",
+      "prompt": "Subject: a small rocky island rising from a calm sea, steep cliffs, a few trees on its top, gentle waves around it, no boats.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:21:03.000Z",
+      "sha256": {
+        "96": "8e0e5c61f81338a54f25133f8281a47f94f51a4639d64d447fb092cdc09263a5",
+        "192": "620f3e9cd76475fbfffdfc8636849dd3eab2056e20bc5737b82b1501f554dff6"
+      },
+      "bytes": {
+        "96": 1112,
+        "192": 3838
+      }
+    },
+    "caminho": {
+      "id": "caminho",
+      "kind": "lugar",
+      "category": "Caminho",
+      "label": "Estrada de pedra",
+      "alt": "Ilustração: uma estrada antiga calçada de pedras, entre morros baixos e um muro de pedra seca.",
+      "src96": "/medalhoes/caminho-96.webp",
+      "src192": "/medalhoes/caminho-192.webp",
+      "prompt": "Subject: an ancient road paved with worn stones winding away between low hills, edged by a low dry-stone wall, vanishing toward the horizon.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:21:06.000Z",
+      "sha256": {
+        "96": "cb46226db040f31e4fbc0ef7ec1077c1efcca5143afcaa2828f0a5f0b0790df7",
+        "192": "060877c7a8b65e45f6ff90284ac2e3315756a3d3c1ace1d5a4b6fccb7ac8bb1f"
+      },
+      "bytes": {
+        "96": 1540,
+        "192": 5506
+      }
+    },
+    "pessoa": {
+      "id": "pessoa",
+      "kind": "pessoa",
+      "category": "Pessoa",
+      "label": "Manto e sandálias",
+      "alt": "Ilustração: um manto de lã dobrado, um par de sandálias de couro e um odre sobre um muro baixo de pedra.",
+      "src96": "/medalhoes/pessoa-96.webp",
+      "src192": "/medalhoes/pessoa-192.webp",
+      "prompt": "Subject: a folded wool cloak, a pair of worn leather sandals and a leather water-skin resting on a low stone wall beside a dirt path; objects only.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:19:18.000Z",
+      "sha256": {
+        "96": "7f2a358155e37ddf2080f039fe8632da40ea5ba71b7d727c12f68b51033674cd",
+        "192": "03fad356cf1b7b907272be24424839285995755af0f081226b89a8b56b73a534"
+      },
+      "bytes": {
+        "96": 1742,
+        "192": 5452
+      }
+    },
+    "povo": {
+      "id": "povo",
+      "kind": "povo",
+      "category": "Povo",
+      "label": "Rebanho no curral",
+      "alt": "Ilustração: um rebanho de ovelhas reunido num curral redondo de pedras.",
+      "src96": "/medalhoes/povo-96.webp",
+      "src192": "/medalhoes/povo-192.webp",
+      "prompt": "Subject: a flock of sheep gathered inside a low round sheepfold of rough stacked stones, seen from slightly above, no shepherd.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:24:27.000Z",
+      "sha256": {
+        "96": "603996e192d5f37ed7f12345b742108fb4889f058ccf7cb56892626a50bfa2ac",
+        "192": "303797e730c1545bb8478c4d5a0781d063b7ca8927aece449de8b9e0712da178"
+      },
+      "bytes": {
+        "96": 1810,
+        "192": 5470
+      }
+    },
+    "evento": {
+      "id": "evento",
+      "kind": "evento",
+      "category": "Evento",
+      "label": "Lamparina acesa",
+      "alt": "Ilustração: uma lamparina de barro acesa sobre um degrau de pedra gasto.",
+      "src96": "/medalhoes/evento-96.webp",
+      "src192": "/medalhoes/evento-192.webp",
+      "prompt": "Subject: a clay oil lamp with a small steady flame on a worn stone step, casting a long soft shadow.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:21:15.000Z",
+      "sha256": {
+        "96": "2054deb2829ba0bd1cde33ddf19028615e9d3f3e34fcdd420e5e029feecd6143",
+        "192": "7cd26e0c5b32c1495aa2b72f9f967c9913816054807a4a14557d8ef20d955302"
+      },
+      "bytes": {
+        "96": 938,
+        "192": 2842
+      }
+    }
+  },
+  "bookGroup": {
+    "Gen": "pentateuco",
+    "Exod": "pentateuco",
+    "Lev": "pentateuco",
+    "Num": "pentateuco",
+    "Deut": "pentateuco",
+    "Josh": "historicos",
+    "Judg": "historicos",
+    "Ruth": "historicos",
+    "1Sam": "historicos",
+    "2Sam": "historicos",
+    "1Kgs": "historicos",
+    "2Kgs": "historicos",
+    "1Chr": "historicos",
+    "2Chr": "historicos",
+    "Ezra": "historicos",
+    "Neh": "historicos",
+    "Esth": "historicos",
+    "Job": "poesia",
+    "Ps": "poesia",
+    "Prov": "poesia",
+    "Eccl": "poesia",
+    "Song": "poesia",
+    "Isa": "profetas",
+    "Jer": "profetas",
+    "Lam": "poesia",
+    "Ezek": "profetas",
+    "Dan": "profetas",
+    "Hos": "profetas",
+    "Joel": "profetas",
+    "Amos": "profetas",
+    "Obad": "profetas",
+    "Jonah": "profetas",
+    "Mic": "profetas",
+    "Nah": "profetas",
+    "Hab": "profetas",
+    "Zeph": "profetas",
+    "Hag": "profetas",
+    "Zech": "profetas",
+    "Mal": "profetas",
+    "Matt": "evangelhos",
+    "Mark": "evangelhos",
+    "Luke": "evangelhos",
+    "John": "evangelhos",
+    "Acts": "atos",
+    "Rom": "cartas",
+    "1Cor": "cartas",
+    "2Cor": "cartas",
+    "Gal": "cartas",
+    "Eph": "cartas",
+    "Phil": "cartas",
+    "Col": "cartas",
+    "1Thess": "cartas",
+    "2Thess": "cartas",
+    "1Tim": "cartas",
+    "2Tim": "cartas",
+    "Titus": "cartas",
+    "Phlm": "cartas",
+    "Heb": "cartas",
+    "Jas": "cartas",
+    "1Pet": "cartas",
+    "2Pet": "cartas",
+    "1John": "cartas",
+    "2John": "cartas",
+    "3John": "cartas",
+    "Jude": "cartas",
+    "Rev": "apocalipse"
+  },
+  "placeTypeGroup": {
+    "settlement": "cidade",
+    "district in settlement": "cidade",
+    "region": "regiao",
+    "people group": "regiao",
+    "mountain": "monte",
+    "hill": "monte",
+    "mountain range": "monte",
+    "mountain ridge": "monte",
+    "mountain pass": "monte",
+    "cliff": "monte",
+    "rock": "monte",
+    "promontory": "monte",
+    "river": "agua",
+    "body of water": "agua",
+    "spring": "agua",
+    "pool": "agua",
+    "well": "agua",
+    "wadi": "agua",
+    "canal": "agua",
+    "ford": "agua",
+    "valley": "vale",
+    "natural area": "vale",
+    "field": "vale",
+    "garden": "vale",
+    "tree": "vale",
+    "forest": "vale",
+    "gate": "construcao",
+    "structure": "construcao",
+    "fortification": "construcao",
+    "altar": "construcao",
+    "hall": "construcao",
+    "room": "construcao",
+    "stone heap": "construcao",
+    "mine": "construcao",
+    "campsite": "acampamento",
+    "island": "ilha",
+    "road": "caminho"
+  },
+  "kindGroup": {
+    "pessoa": "pessoa",
+    "povo": "povo",
+    "evento": "evento"
+  }
 }
