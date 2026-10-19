@@ -46,7 +46,7 @@ Tudo o que está marcado como "conferido" foi rodado ou lido em 19/10. O que é 
 - `site/` existe: Next.js 16.4.2 + React 19.3.1. Páginas: `/` (provisória até o céu entrar), `/sobre`, `/ler`, os 66 livros, os 1.189 capítulos e os versículos (os 200 mais ligados saem no build; os outros na primeira visita, e ficam guardados).
 - Pipeline `site/scripts/build-data.ts` + 137 testes (vitest). Detalhes em §5.5.
 - `npm run build` passa: dados → testes → `next build` → `check-dist` (créditos e `lang` nas 1.458 páginas geradas, números da home iguais ao `summary.json`, nenhum trecho das citações ACF/AA em 11.588 arquivos entregues).
-- **Projeto da Vercel:** criado pelo Alex no painel em 19/10 (`alexpiraginet-bot-biblia-conectada`, time "Lex Technology projects"), ligado ao repo. Root Directory `site` salvo pelo Alex no painel; o conector desta sessão só lê (403 ao alterar). Estado e URLs em §9.
+- **Projeto da Vercel:** criado pelo Alex no painel em 19/10 (`alexpiraginet-bot-biblia-conectada`, time "Lex Technology projects"), ligado ao repo. Falta a Root Directory `site`: o deploy do commit 0e45733 (17:26 UTC) ainda buildou a raiz do repo. O conector desta sessão só lê (403 ao alterar). Estado e URLs em §9.
 
 **Bloqueios desta sessão (políticas, não erros do repo):** a sessão na nuvem não podia criar repositório (403 em `/user/repos`) nem criar Release (403). Por isso o repo foi criado pelo Alex e os intermediários foram para uma branch órfã.
 
@@ -380,7 +380,7 @@ npx -y skills add leonxlnx/taste-skill --skill design-taste-frontend --agent cla
    - Install `npm ci`, build `npm run build` e o Ignored Build Step já vêm de `site/vercel.json`; não precisa mexer no painel.
    - A opção que inclui arquivos fora da Root Directory precisa estar ligada, porque o build lê `../fontes` e `../estudos`. Confira.
    - **Estado em 19/10 (tarde):** o Alex criou o projeto `alexpiraginet-bot-biblia-conectada` (`prj_86CqaGK6jk98KjoTbUXPrlnnzCuD`, time "Lex Technology projects", `team_imSH7u74mbysZKluH23ZCgsN`, plano Pro que já era do time; nada foi contratado).
-     - O import criou o projeto com a raiz do repo e o preset Python (a lista de pastas do import vem do `main`, que ainda não tem `site/`). Todo deploy falhava com `PYTHON_ENTRYPOINT_NOT_FOUND`. O Alex pôs Root Directory `site` em Settings → Build and Deployment; o preset Python no painel não importa, porque `site/vercel.json` fixa `framework: nextjs`.
+     - O import criou o projeto com a raiz do repo e o preset Python (a lista de pastas do import vem do `main`, que ainda não tem `site/`). Todo deploy falha com `PYTHON_ENTRYPOINT_NOT_FOUND`. Falta pôr Root Directory `site` em Settings → Build and Deployment: a primeira tentativa do Alex não gravou (o deploy de 0e45733, às 17:26 UTC, ainda buildou a raiz). Com `site` gravado, o preset Python do painel não importa, porque `site/vercel.json` fixa `framework: nextjs`.
      - Um segundo projeto, `estudos` (raiz em `estudos/`), foi criado por engano no import e apagado pelo Alex.
      - O conector da Vercel desta sessão lê projetos, deploys e logs, mas recebe 403 ao alterar o projeto: mudanças de configuração ficam com o Alex.
      - "Redeploy" de um deploy antigo reaproveita as configurações daquele deploy; para testar uma mudança de configuração, vale um push novo.
