@@ -29,8 +29,21 @@ Fale com o Alex em PT-BR. Código, identificadores e mensagens de commit em ingl
 scripts/fetch_sources.sh            # confere as fontes contra fontes/SHA256SUMS (--update para atualizar)
 python3 -I grafo/build.py           # regera grafo/dados, RANKINGS.md e imagens (~1 min)
 pip install -r estudos/requirements.txt   # só para mexer nos vídeos (EGL/Linux para o mapa 3D)
-# site/ ainda não existe. Ao criar, documente aqui: npm ci / npm run dev / npm run build / npm test
+
+# site/ (Next.js 16, Node 22). Detalhes em site/README.md
+cd site
+npm ci              # instala o que está travado no package-lock.json
+npm run data        # gera src/data/generated/ e public/data/ a partir de ../fontes e ../estudos/*/data
+npm run dev         # http://localhost:3000 (rode npm run data antes, uma vez)
+npm test            # gera os dados e roda os testes (vitest)
+npm run build       # dados + testes + next build + créditos conferidos no HTML
+npm run budget      # JS por página (gzip), depois do build
+npm run typecheck   # tsc --noEmit
+npm run lint        # eslint
 ```
+
+- O Next.js 16 mudou APIs: antes de escrever código do site, leia o guia em `site/node_modules/next/dist/docs/` (ver `site/AGENTS.md`).
+- As saídas do pipeline não vão para o git; o build da Vercel gera de novo.
 
 ## Mapa do repositório
 
@@ -42,4 +55,5 @@ pip install -r estudos/requirements.txt   # só para mexer nos vídeos (EGL/Linu
 - `estudos/biblia-referencias/data/`: `xref.npz`, `stats.json` e a base de referências cruzadas.
 - `estudos/biblia-natal/data/`: `natal-stats.json`, `places.json`, `verses.json` (citações).
 - `scripts/`: utilitários.
-- `site/`: o site, a criar.
+- `site/`: o site (Next.js) e o pipeline de dados (`site/scripts/build-data.ts`).
+- `LICENSE` (MIT, código) e `LICENSE-DATA.md` (CC BY-SA 4.0, dados derivados).

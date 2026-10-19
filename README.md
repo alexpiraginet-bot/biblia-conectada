@@ -34,6 +34,10 @@
 | [`grafo/`](grafo/) | **O grafo pronto para usar:** arestas em CSV e binário, grau de cada versículo, grafo de capítulos (CSV, GEXF para Gephi, JSON), matriz livro × livro, resumo, rankings e 16 imagens. Tudo gerado por `grafo/build.py` |
 | [`fontes/`](fontes/) | **As bases abertas, cópia exata:** texto bíblico em 7 línguas, hebraico e grego com morfologia e Strong, léxicos, versificação, nomes próprios, lugares, pessoas e eventos. 123 arquivos, cada um com SHA-256 e licença conferida; índice em [`fontes/catalogo.json`](fontes/catalogo.json) |
 | [`estudos/`](estudos/) | **Os três vídeos** que deram origem ao projeto, com código, dados, mídia e o vídeo final |
+| [`site/`](site/) | **O site** (Next.js, em português) e o pipeline que gera os dados dele a partir de `fontes/` e `estudos/*/data/`, com testes que conferem cada número. Comandos em [`site/README.md`](site/README.md) |
+| [`DADOS.md`](DADOS.md) | **Os dados abertos do site** (ligações com votos por direção, versículos, livros, capítulos, texto BLIVRE) em CSV e JSON, com esquema Frictionless Data Package v2 e SHA-256; servidos em `/dados/v1/` |
+| [`exemplos/`](exemplos/) | Scripts em Python e em JavaScript, sem dependências, que leem e conferem os dados abertos |
+| [`CITATION.cff`](CITATION.cff) | Como citar os dados |
 | [`design/`](design/) | Direção visual do site: tokens com contraste calculado, layout, interação, movimento e referências |
 | [`scripts/`](scripts/) | `fetch_sources.sh` baixa todas as fontes de novo e confere com os checksums |
 | branch [`film-intermediates`](https://github.com/alexpiraginet-bot/biblia-conectada/tree/film-intermediates) | Masters e mixagens dos vídeos (cerca de 750 MB), fora do `main` para o clone continuar leve |
@@ -140,6 +144,8 @@ const votos = new Int16Array(buf, 4 * N, N);      // Gênesis 1:1 = 0 … Apocal
 
 **Hebraico e grego:** `fontes/oshb/wlc/*.xml` (OSIS, cada `<w>` com `lemma` e `morph`), `fontes/morphgnt/*-morphgnt.txt` (uma palavra por linha), `fontes/stepbible/Translators Amalgamated OT+NT/` (tabelas com Strong, morfologia e glosa).
 
+**Pacote do site:** `cd site && npm ci && npm run data` gera `site/public/dados/v1/` (o mesmo que a página `/dados` serve), descrito campo a campo em [`DADOS.md`](DADOS.md), com exemplos em [`exemplos/`](exemplos/).
+
 **Regerar tudo:** `python3 -I grafo/build.py` (cerca de 1 min) e `scripts/fetch_sources.sh` para conferir as fontes contra a origem.
 
 ---
@@ -156,4 +162,4 @@ Um site público, em português, no estilo Obsidian: cada livro, capítulo, vers
 
 ## Créditos e licenças
 
-Dados de terceiros: cada um com a própria licença, listadas em [`ATTRIBUTION.md`](ATTRIBUTION.md). O gráfico original de 2007 é de Chris Harrison e Christoph Römhild; nenhuma imagem deles é usada, todo arco aqui é desenhado a partir da base aberta. Visualizações, trilhas e código: feitos do zero neste projeto. Licença do próprio projeto: em definição (ver `HANDOFF.md` §8; o [PR #1](https://github.com/alexpiraginet-bot/biblia-conectada/pull/1) propõe MIT para o código e CC BY-SA 4.0 para os dados derivados).
+Dados de terceiros: cada um com a própria licença, listadas em [`ATTRIBUTION.md`](ATTRIBUTION.md). O gráfico original de 2007 é de Chris Harrison e Christoph Römhild; nenhuma imagem deles é usada, todo arco aqui é desenhado a partir da base aberta. Visualizações, trilhas e código: feitos do zero neste projeto. Licença do próprio projeto: código MIT ([LICENSE](LICENSE)); dados derivados gerados pelo projeto CC BY-SA 4.0 ([LICENSE-DATA.md](LICENSE-DATA.md)); o texto BLIVRE continua CC BY 4.0 e as fontes de terceiros mantêm as licenças delas.

@@ -1,0 +1,495 @@
+/* The sky of links (design/README.md §1.2, §3, §6, §7). The hero is always the night ground, in both themes; the
+   list below it follows the theme. Glow lives only inside the canvas and the poster; the interface has none. */
+
+.root {
+  --gutter: max(var(--space-2), env(safe-area-inset-left));
+  /* width of the band: full bleed on phones; from 48rem it also fits the viewport height */
+  --band-w: 100%;
+}
+
+@media (min-width: 48rem) {
+  .root {
+    --gutter: var(--space-4);
+    --band-w: clamp(36rem, (100svh - 17rem) * 1.6, min(100% - 2 * var(--gutter), 80rem));
+  }
+}
+
+/* ------------------------------------------------------------------ hero (night) */
+
+.hero {
+  --text: var(--sky-text);
+  --text-2: var(--sky-text-2);
+  --gold: var(--sky-gold);
+  --focus: var(--sky-gold);
+  --surface: #0c1a2e;
+  --raised: #15253d;
+  --hairline: #2a3b57;
+  --control-border: #62779a;
+  color-scheme: dark;
+  background: var(--sky);
+  color: var(--text);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    "heading"
+    "stage"
+    "panel";
+  row-gap: var(--space-3);
+  padding: calc(6rem + env(safe-area-inset-top) + var(--space-2)) 0 var(--space-4);
+}
+
+@media (min-width: 56rem) {
+  .hero {
+    padding-top: calc(var(--header-h) + var(--space-4));
+  }
+}
+
+.heading {
+  grid-area: heading;
+  width: var(--band-w);
+  max-width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.heading h1 {
+  margin: 0 0 var(--space-2);
+  font-size: var(--step-display);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.heading p {
+  margin: 0;
+  max-width: 34rem;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+.stage {
+  grid-area: stage;
+  min-width: 0;
+}
+
+.panel {
+  grid-area: panel;
+  width: var(--band-w);
+  max-width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+}
+
+.panel > * {
+  max-width: 100%;
+}
+
+@media (min-width: 48rem) {
+  .heading,
+  .panel {
+    padding-inline: 0;
+  }
+}
+
+/* Desktop: a text column aligned with the header's container, the band filling the rest of the row. */
+@media (min-width: 75rem) {
+  .root {
+    --edge: max(var(--space-2), (100% - 72rem) / 2);
+  }
+  .hero {
+    grid-template-columns:
+      var(--edge) 19rem var(--space-5)
+      minmax(0, min(80rem, (100svh - var(--header-h) - 5.5rem) * 1.6))
+      minmax(var(--space-4), 1fr);
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      ". heading . stage ."
+      ". panel . stage .";
+    row-gap: var(--space-4);
+    padding-top: calc(var(--header-h) + var(--space-3));
+  }
+  .heading,
+  .panel {
+    width: auto;
+    margin: 0;
+  }
+  .panel {
+    align-self: end;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+  .stage {
+    align-self: start;
+  }
+}
+
+/* ------------------------------------------------------------------ band: poster, canvas, scrub */
+
+.band {
+  position: relative;
+  width: var(--band-w);
+  max-width: 100%;
+  margin-inline: auto;
+  aspect-ratio: 8 / 5;
+  isolation: isolate;
+  background: var(--sky);
+  overflow: hidden;
+}
+
+@media (min-width: 75rem) {
+  .band {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+.poster,
+.posterGold {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.poster img,
+.posterGold img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* the gold layer adds light: same "screen" the shader uses */
+.posterGold {
+  mix-blend-mode: screen;
+}
+
+:global(:root[data-sky-intro]) .posterGold,
+.band[data-gold="off"] .posterGold,
+.band[data-canvas="overlay"] .posterGold,
+.band[data-canvas="opaque"] .posterGold {
+  visibility: hidden;
+}
+
+.canvasHost {
+  display: contents;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  visibility: hidden;
+  mix-blend-mode: screen;
+}
+
+.band[data-canvas="overlay"] .canvas {
+  visibility: visible;
+}
+
+.band[data-canvas="opaque"] .canvas {
+  visibility: visible;
+  mix-blend-mode: normal;
+}
+
+.band[data-canvas="opaque"] .poster {
+  visibility: hidden;
+}
+
+.scrub {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  cursor: crosshair;
+  /* vertical swipes still scroll the page; horizontal drags scrub along the baseline */
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.scrub:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -4px;
+  border-radius: 4px;
+}
+
+.scrubLabel {
+  position: absolute;
+  z-index: 4;
+  margin: 0;
+  display: grid;
+  padding: 0.375rem 0.625rem;
+  background: var(--sky);
+  border-radius: 0.5rem;
+  white-space: nowrap;
+  pointer-events: none;
+  line-height: 1.15;
+}
+
+.scrubName {
+  font-size: var(--step-title);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--gold);
+}
+
+.scrubCount {
+  font-size: var(--step-ui);
+  color: var(--text);
+}
+
+/* ------------------------------------------------------------------ readout and controls */
+
+.readout {
+  flex: 1 1 100%;
+  margin: 0;
+  font-size: var(--step-title);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+
+.readoutLink {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.3em;
+  min-height: 2.75rem;
+  padding-block: 0.25rem;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.readoutName {
+  color: var(--gold);
+}
+
+.readoutCount {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  white-space: nowrap;
+}
+
+.arrow {
+  color: var(--text-2);
+  transition: transform 200ms var(--ease-out);
+}
+
+.readoutLink:hover .readoutName {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.18em;
+}
+
+.readoutLink:hover .arrow {
+  transform: translateX(3px);
+  color: var(--text);
+}
+
+/* in the desktop column the name takes its own line and the count sits under it */
+@media (min-width: 75rem) {
+  .readout {
+    flex: none;
+  }
+  .readoutLink {
+    display: grid;
+    row-gap: 0.25rem;
+  }
+  .readoutName {
+    font-size: 2rem;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+  .readoutSep {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .readoutCount {
+    font-size: 1.125rem;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+}
+
+.picker {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  width: 100%;
+  max-width: 26rem;
+}
+
+.picker .select:not(.selectChapter) {
+  flex: 1 1 auto;
+}
+
+.step {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--control-border);
+  border-radius: 0.625rem;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.step:hover:not(:disabled) {
+  background: var(--raised);
+}
+
+.step:disabled {
+  color: var(--text-2);
+  border-color: var(--hairline);
+  cursor: default;
+}
+
+.select {
+  height: 2.75rem;
+  min-width: 0;
+  padding: 0 2.25rem 0 0.875rem;
+  border: 1px solid var(--control-border);
+  border-radius: 0.625rem;
+  background: var(--surface)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6' fill='none' stroke='%23a9b4c8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    no-repeat right 0.75rem center;
+  color: var(--text);
+  font: inherit;
+  font-size: 1rem;
+  appearance: none;
+  cursor: pointer;
+}
+
+.select:hover {
+  border-color: var(--text-2);
+}
+
+.selectChapter {
+  flex: none;
+  width: 5.25rem;
+}
+
+.quiet {
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  border: 1px solid var(--control-border);
+  border-radius: 0.625rem;
+  background: transparent;
+  color: var(--text);
+  font-size: var(--step-ui);
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.quiet:hover {
+  background: var(--raised);
+}
+
+.hint {
+  flex: 1 1 100%;
+  margin: 0;
+  color: var(--text-2);
+  font-size: var(--step-small);
+  line-height: 1.5;
+}
+
+.hintMouse {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hintTouch {
+    display: none;
+  }
+  .hintMouse {
+    display: inline;
+  }
+}
+
+/* ------------------------------------------------------------------ list (theme colours) */
+
+.listSection {
+  width: var(--band-w);
+  max-width: calc(100% - 2 * var(--gutter));
+  margin: 0 auto;
+  padding: var(--space-4) 0 var(--space-5);
+}
+
+@media (min-width: 75rem) {
+  .listSection {
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding-inline: var(--edge) var(--space-4);
+  }
+}
+
+.listTitle {
+  margin: 0 0 var(--space-2);
+  font-size: var(--step-title);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+
+.list {
+  max-width: 42rem;
+  margin: 0 0 var(--space-3);
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  column-gap: var(--space-5);
+}
+
+@media (min-width: 48rem) {
+  .list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(4, auto);
+    grid-auto-flow: column;
+  }
+}
+
+.listLink {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-2);
+  min-height: 2.75rem;
+  padding-block: 0.6rem;
+  text-decoration: none;
+}
+
+.listLink:hover span:first-child {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.listCount {
+  color: var(--text-2);
+  font-size: var(--step-ui);
+  white-space: nowrap;
+}
+
+.note {
+  max-width: 34rem;
+  margin: 0 0 var(--space-2);
+  color: var(--text-2);
+  font-size: var(--step-ui);
+  line-height: 1.6;
+}
