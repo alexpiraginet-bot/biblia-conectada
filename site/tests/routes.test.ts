@@ -54,6 +54,9 @@ describe("current navigation item", () => {
     ["/genesis/0", null],
     ["/isaias/capitulo", null],
     ["/isaias/9/6/7", null],
+    ["/ler/x", null],
+    ["/arcos/x", null],
+    ["/dados/x", null],
     ["/genesis/50/26", "/ler"],
   ])("%s -> %s", (path, item) => expect(currentItem(path)).toBe(item));
 });

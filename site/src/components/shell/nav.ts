@@ -4,7 +4,8 @@
 // Ponte (i-bridge) join when their pages land.
 import booksJson from "@/data/generated/books.json";
 
-export type NavItem = { href: string; label: string; icon: string; bar: boolean };
+/** `nested`: the section has pages below its own address (none yet), so those pages count as the section too */
+export type NavItem = { href: string; label: string; icon: string; bar: boolean; nested?: boolean };
 
 export const NAV: readonly NavItem[] = [
   { href: "/ler", label: "Ler", icon: "i-book", bar: true },
@@ -30,7 +31,8 @@ function isReadingPath(pathname: string): boolean {
 /** The navigation item a path belongs to: its own section, "Ler" for a book, chapter or verse page, else none (the
  *  home page, pages outside the navigation such as /sobre, and every 404, "/genesis/51" included). */
 export function currentItem(pathname: string): string | null {
-  const own = NAV.find((n) => pathname === n.href || pathname.startsWith(`${n.href}/`));
+  // "/ler/x" is a 404, not the book list: only a section with pages below it claims a longer path
+  const own = NAV.find((n) => pathname === n.href || (n.nested && pathname.startsWith(`${n.href}/`)));
   if (own) return own.href;
   return isReadingPath(pathname) ? "/ler" : null;
 }
