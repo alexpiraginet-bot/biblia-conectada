@@ -10,9 +10,9 @@
 }
 
 .prose h1 {
-  font-family: var(--font-cormorant), Georgia, serif;
-  font-weight: 600;
-  font-size: clamp(2.25rem, 7vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-size: clamp(2rem, 6vw, 3rem);
   line-height: 1.1;
   margin: 0 0 var(--space-3);
 }
@@ -34,10 +34,8 @@
 .prose blockquote {
   margin: var(--space-2) 0;
   padding-left: var(--space-2);
-  border-left: 1px solid var(--gold);
-  font-family: var(--font-cormorant), Georgia, serif;
-  font-size: 1.25rem;
-  color: var(--quote);
+  border-left: 1px solid var(--hairline);
+  color: var(--text);
 }
 
 .prose code {

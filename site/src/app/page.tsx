@@ -1,7 +1,18 @@
+import localFont from "next/font/local";
 import Link from "next/link";
 import { formatInt } from "@/lib/canon/text";
 import { summary, verseText } from "@/lib/data";
 import styles from "./page.module.css";
+
+// Cormorant Italic: the only role the serif has in the videos (highlighted quotation). Declared here, not in the
+// root layout, so other routes do not preload it.
+const quoteFace = localFont({
+  src: "../fonts/Cormorant-Italic-VF.woff2",
+  style: "italic",
+  weight: "300 700",
+  display: "swap",
+  adjustFontFallback: "Times New Roman",
+});
 
 // Phase 0 placeholder. Every number below comes from src/data/generated/summary.json (scripts/build-data.ts).
 export default async function Home() {
@@ -22,7 +33,7 @@ export default async function Home() {
         São {formatInt(c.verses)} versículos e {formatInt(c.pairs)} pares de versículos ligados por referências cruzadas. O
         versículo com mais ligações é {top.ref}, com {formatInt(top.links)}:
       </p>
-      <blockquote className={styles.verse}>
+      <blockquote className={`${styles.verse} ${quoteFace.className}`}>
         <p>{text}</p>
         <footer>
           {top.ref} · BLIVRE

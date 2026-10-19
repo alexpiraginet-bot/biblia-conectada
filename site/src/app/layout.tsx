@@ -4,15 +4,10 @@ import { SiteFooter } from "@/components/SiteFooter";
 import "./globals.css";
 
 // OFL fonts of the videos, subset to Latin by scripts/subset-fonts.sh (licences in src/fonts/OFL-*.txt).
+// Only the interface face lives in the root layout; faces used on one page are declared on that page (design/README.md §4).
 const grotesk = localFont({
   src: "../fonts/SpaceGrotesk-VF.woff2",
   variable: "--font-grotesk",
-  weight: "300 700",
-  display: "swap",
-});
-const cormorant = localFont({
-  src: "../fonts/Cormorant-VF.woff2",
-  variable: "--font-cormorant",
   weight: "300 700",
   display: "swap",
 });
@@ -30,7 +25,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="pt-BR" className={`${grotesk.variable} ${cormorant.variable}`}>
+    <html lang="pt-BR" className={grotesk.variable}>
       <body>
         <a className="skip-link" href="#conteudo">
           Pular para o conteúdo

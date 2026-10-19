@@ -42,7 +42,11 @@ Tudo o que está marcado como "conferido" foi rodado ou lido em 19/10. O que é 
   - Nesse teste o cache `full_dome.npy` foi recalculado (13,6 s) e saiu byte a byte igual ao original.
   - Conclusão: o `main` sozinho já renderiza, e os intermediários só poupam tempo.
 
-**O site ainda não existe.** Nenhum projeto da Vercel foi criado.
+**Site (sessão de 19/10, Fases 0 e 1, branch `claude/site-phase-0-1`, PR #1):**
+- `site/` existe: Next.js 16.4.2 + React 19.3.1, páginas estáticas `/` (provisória) e `/sobre`, créditos no rodapé.
+- Pipeline `site/scripts/build-data.ts` + 80 testes (vitest). Detalhes em §5.5.
+- `npm run build` passa (dados → testes → `next build` → créditos conferidos no HTML).
+- **Projeto da Vercel: não criado.** O conector da Vercel desta sessão recebeu 403 ao criar projeto, nas duas rotas (`create_project` e `create_git_project`). O Alex é OWNER do time "Lex Technology projects"; falta permissão do conector, não do time. Passo a passo em §9.
 
 **Bloqueios desta sessão (políticas, não erros do repo):** a sessão na nuvem não podia criar repositório (403 em `/user/repos`) nem criar Release (403). Por isso o repo foi criado pelo Alex e os intermediários foram para uma branch órfã.
 
@@ -60,6 +64,12 @@ Tudo o que está marcado como "conferido" foi rodado ou lido em 19/10. O que é 
 3. **Repo leve:** heavy media fora do `main`. Clone raso e deploy da Vercel não baixam a branch `film-intermediates`.
 4. **Domínio:** subdomínio gratuito `*.vercel.app`. Comprar domínio só com aprovação do Alex.
 5. **Mesma definição dos vídeos para "ligação"** (ver 4.2).
+6. **Stack: Next.js** (decisão do Alex em 19/10, numa rodada de perguntas). A recomendação era Astro.
+   - Motivo registrado: ganha OG dinâmico por versículo (`next/og`) e segue a skill taste; aceita mais JS e uso de funções.
+   - Consequência medida: o runtime do Next manda ~135 KB gzip de JS mesmo numa página sem componente de cliente (§5.6).
+7. **Licença** (decisão do Alex em 19/10): MIT no código (`LICENSE`) e CC BY-SA 4.0 nos dados derivados (`LICENSE-DATA.md`).
+   - Mídia dos estudos e textos do site continuam sem licença definida.
+   - Assumption: o titular no `LICENSE` ficou "Alex Piragine Teixeira". Corrija se o titular for outro (pessoa ou empresa).
 
 ---
 
@@ -98,7 +108,9 @@ Arquivo `estudos/biblia-referencias/data/xref.npz`, construído por `tools/analy
   - Filtros por voto positivo podem existir, mas o número mostrado precisa dizer qual definição usa.
 - **Conferido:**
   - 30.303 versículos com ao menos uma ligação.
-  - Os 5 mais ligados: Is 9:6 (212), 1Pe 2:9 (194), Mt 28:20 (169), Tt 2:14 (157) e Ap 11:15 (156).
+  - Os mais ligados: Is 9:6 (212), 1Pe 2:9 (194), Mt 28:20 (169) e Tt 2:14 (157). **Em 5º há empate em 156:** Is 41:10, Ap 5:9 e Ap 11:15.
+    - Correção de 19/10: a versão anterior listava só Ap 11:15 em 5º. O empate saiu do pipeline do site e está no teste `site/tests/data.test.ts`.
+  - Os 30.303 versículos com alguma referência são os mesmos 30.303 com ao menos um parceiro diferente deles mesmos (os 45 auto-pares não criam versículo isolado).
 - **Estudo do Natal** (`estudos/biblia-natal/data/natal-stats.json`):
   - 2.094 pares AT ↔ Mt 1–2 e Lc 1–2 (180 versículos). São 2.053 com voto > 0.
   - Esses pares vêm de 1.561 versículos do AT, em 38 livros. Falta Jonas.
@@ -156,9 +168,18 @@ Toda nota tem:
 6. **Busca ⌘K.**
 7. **Estudos.**
 
-### 5.4 Stack recomendada (decidir na Fase 0)
+### 5.4 Stack (decidida em 19/10: Next.js)
 
-**Recomendado: Astro (site estático) com ilhas interativas.**
+**Decisão do Alex: Next.js 16 (App Router) na Vercel.** O texto abaixo, até "Alternativa", era a recomendação anterior (Astro) e fica como registro do trade-off.
+
+Como o Next fica neste projeto:
+- Páginas de livro e capítulo pré-renderizadas no build (`generateStaticParams`), como Server Components. Nada de JS de cliente na leitura além do runtime.
+- Componentes de cliente só nas ilhas: sheet de ligações, prévia, ⌘K e as visões WebGL (essas com `import()` dinâmico).
+- OG: `next/og` gerado no build para livros, estudos e os ~200 versículos mais ligados.
+- `cacheComponents` e `partialPrefetching` vieram ligados no modelo do `create-next-app` 16.4.2 e ficaram. Medido: não mudam o tamanho do JS (§5.6).
+- O Next 16 tem APIs novas: o guia está em `site/node_modules/next/dist/docs/`.
+
+**Registro: a recomendação era Astro (site estático) com ilhas interativas.**
 - Ilhas em TypeScript. React só onde compensar, como a paleta ⌘K e o hover card.
 - Por quê:
   - O site é de conteúdo, e páginas estáticas aguentam um viral sem custo de função.
@@ -195,7 +216,18 @@ Confirme a versão de cada pacote no npm na hora de instalar e trave no lockfile
 
 Slugs dos livros a partir de `books_pt`, sem acento, com hífen.
 
-### 5.5 Pipeline de dados (`site/scripts/build-data.*`)
+### 5.5 Pipeline de dados (`site/scripts/build-data.ts`, feito em 19/10)
+
+**Como está:** `npm run data` (roda sozinho antes de `npm test` e de `npm run build`). Leva ~5 s. Lê só `fontes/` e `estudos/*/data/` e **falha** se:
+- a BLIVRE não encaixar na grade (livro, capítulo ou versículo a mais, a menos, repetido ou vazio);
+- o SHA-256 das referências cruzadas mudar;
+- linhas, pares, auto-pares ou versículos com referência divergirem do `stats.json`, ou os pares divergirem do `xref.npz` elemento a elemento;
+- os números do Natal (incluindo o top 40) divergirem do `natal-stats.json`;
+- a linha de crédito da BLIVRE no `ATTRIBUTION.md` divergir da página "about" dentro do zip.
+
+Saídas (fora do git; a Vercel gera de novo) e o que ficou para depois estão em `site/README.md`. Ficaram para as fases donas delas: índice de busca em pedaços (Fase 3) e lugares/pessoas (Fase 5).
+
+**Plano original:**
 
 **Entradas:** `fontes/` e `estudos/*/data/`. Hoje não tem nada gerado à mão.
 
@@ -215,10 +247,14 @@ Slugs dos livros a partir de `books_pt`, sem acento, com hífen.
 - Créditos presentes no HTML.
 - Nenhum arquivo de tradução protegida em `fontes/` ou `public/`.
 
+**Testes feitos (todos passam):** os seis acima, mais o parser de referências, os caminhos de URL e a tabela de livros (64 testes em `site/tests/reference.test.ts`), a simetria das ligações, `arcs.bin` decodificado igual ao `xref.npz`, o grafo de capítulos somando todos os pares, as citações ACF/AA dos vídeos ausentes das saídas (exceto onde a BLIVRE tem as mesmas palavras) e o SHA-256 de cada saída. Os créditos no HTML são conferidos por `site/scripts/check-dist.ts`, no fim do build.
+
 ### 5.6 Orçamento e qualidade
 
 - **Desempenho:**
-  - Página de leitura com até cerca de 100 KB de JS (gzip).
+  - Página de leitura com até cerca de 100 KB de JS (gzip). **Não cabe no Next.js** (medido em 19/10 com `npm run budget`): a home provisória, sem nenhum componente de cliente, já manda 135,1 KB gzip (navegador moderno; os polyfills `noModule` ficam fora). Desligar `cacheComponents`/`partialPrefetching` deu 134,7 KB.
+    - Proposta (decisão do Alex): orçamento = runtime medido + até 30 KB gzip de ilhas próprias na leitura, conferido por `npm run budget` a cada fase.
+    - O HTML chega pronto: o texto aparece sem esperar o JS. O custo do runtime cai na hidratação (interatividade), não na primeira pintura.
   - LCP < 2,5 s em 4G simulado e CLS < 0,1.
   - Visões WebGL carregadas sob demanda.
 - **Acessibilidade:** checklist em `design/README.md` §8, incluindo alternativa em lista para grafo, arcos e mapa.
@@ -227,6 +263,8 @@ Slugs dos livros a partir de `books_pt`, sem acento, com hífen.
 ---
 
 ## 6. Plano em fases (cada uma termina com evidência)
+
+**Andamento (19/10):** Fase 0 feita, menos o projeto da Vercel e a URL de preview (bloqueio em §9). Fase 1 feita: testes verdes, contagens batendo, nenhum número escrito à mão no site.
 
 | Fase | Entrega | Critério de aceite |
 |---|---|---|
@@ -246,6 +284,8 @@ Slugs dos livros a partir de `books_pt`, sem acento, com hífen.
 ## 7. Skills e ferramentas para o Claude Code
 
 Instalar e conferir o repositório de cada uma antes. Os comandos vieram de páginas de terceiros em 19/10.
+
+**Instaladas em 19/10 (sessão na nuvem, escopo de usuário `~/.claude/skills/`, fora do repo):** impeccable (`pbakaus/impeccable` @ `0665bd8`, licença Apache-2.0), design-taste-frontend (`leonxlnx/taste-skill` @ `b9ca2fd`, MIT) e ui-ux-pro-max (`nextlevelbuilder/ui-ux-pro-max-skill` @ `56ea9cf`, MIT, com o CLI `scripts/search.py`). Na nuvem o container é descartado: numa sessão nova, instale de novo com os comandos abaixo (no lugar do `/plugin` do ui-ux-pro-max, use `npx -y skills add nextlevelbuilder/ui-ux-pro-max-skill --skill ui-ux-pro-max -a claude-code -g -y --copy`).
 
 ```bash
 # ui-ux-pro-max completo (a cópia sincronizada aqui só tinha o SKILL.md, sem o CLI de design system)
@@ -267,11 +307,12 @@ npx -y skills add leonxlnx/taste-skill --skill design-taste-frontend --agent cla
 
 ## 8. Decisões pendentes do Alex
 
-1. **Licença do que é do projeto** (código, textos, dados derivados). Hoje não tem licença, o que significa todos os direitos reservados.
-   - Sugestão: MIT para o código e CC BY-SA 4.0 para os dados derivados. O CC BY-SA é obrigatório onde entrar Theographic, NBV, BLT ou TFT.
+1. ~~Licença do código e dos dados derivados~~: decidida em 19/10 (§3.7). Falta decidir a licença da mídia dos estudos e dos textos do site.
 2. **Plano da Vercel.** O Hobby é para uso pessoal não comercial. Se o site for divulgar negócio (perfil comercial, venda), conferir os termos e talvez ir pro Pro.
 3. **Domínio próprio:** só se ele quiser e aprovar a compra.
-4. **Stack** (§5.4): Astro, a recomendação, ou Next.js.
+4. ~~Stack~~: Next.js, decidido em 19/10 (§3.6).
+6. **Orçamento de JS** com Next.js (§5.6): aceitar "runtime medido + 30 KB de ilhas" ou outra regra.
+7. **Projeto da Vercel** (§9): criar no painel ou dar ao conector permissão de criar projetos.
 5. **Tom do texto** do site. Proposta: claro, de estudo, sem jargão, sem "maior do mundo" sem prova.
 
 ---
@@ -280,10 +321,12 @@ npx -y skills add leonxlnx/taste-skill --skill design-taste-frontend --agent cla
 
 1. Dar acesso do app da Vercel ao repo, se a instalação estiver em "repositórios selecionados". É o mesmo tipo de passo que o Alex fez para o Claude.
 2. Criar o projeto `biblia-conectada`:
-   - Framework: Astro (ou o escolhido).
-   - Root Directory: `site`.
-   - Build `npm run build`, saída `dist`.
+   - Framework: Next.js. Root Directory: `site`.
+   - Install `npm ci`, build `npm run build` e o Ignored Build Step já vêm de `site/vercel.json`; não precisa mexer no painel.
    - A opção que inclui arquivos fora da Root Directory precisa estar ligada, porque o build lê `../fontes` e `../estudos`. Confira.
+   - **Estado em 19/10:** o conector da Vercel (time "Lex Technology projects", `team_imSH7u74mbysZKluH23ZCgsN`) achou o repo, mas recebeu 403 ao criar o projeto. Caminhos:
+     - (a) O Alex cria no painel: Add New → Project → importar `alexpiraginet-bot/biblia-conectada`. Enquanto o PR #1 não entra no `main`, a pasta `site` ainda não existe lá: importe e, em Settings → Build and Deployment, ponha Root Directory `site`. O primeiro deploy do `main` vai falhar até o merge; os pushes na branch do PR geram preview.
+     - (b) O Alex reconecta o conector da Vercel com permissão de escrita e pede para o Claude criar.
 3. URL: `biblia-conectada.vercel.app` se o nome estiver livre. Se não estiver, a Vercel acrescenta um sufixo. Registrar aqui a URL final.
 4. **Caminhos para criar e deployar o projeto:**
    - Integração Git, onde todo push no `main` gera produção.
@@ -291,7 +334,7 @@ npx -y skills add leonxlnx/taste-skill --skill design-taste-frontend --agent cla
    - Conector da Vercel (MCP), se a sessão tiver.
 5. Nunca guardar token no repo.
 6. **Tamanho:** o `main` tem cerca de 366 MB (471 arquivos), por causa da mídia dos estudos e das fontes. O maior arquivo tem 35,5 MB.
-   - Configure o "Ignored Build Step" para não buildar quando só mudar `estudos/`.
+   - Ignored Build Step: feito em `site/scripts/vercel-ignore.sh` (via `site/vercel.json`). Pula o build só quando nada em `site/`, `fontes/`, `estudos/*/data/` ou `ATTRIBUTION.md` mudou desde o último deploy da branch; na dúvida, builda.
    - Se o clone pesar no tempo de build, dá pra decidir depois tirar a mídia dos estudos do `main`.
 
 ---
@@ -342,3 +385,9 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
   - Subiram os estudos (4 commits), as fontes livres (1) e os documentos (1).
   - Intermediários foram para a branch órfã, porque a sessão não podia criar Release.
   - Traduções protegidas ficaram fora (§3).
+- **19/10, sessão das Fases 0 e 1:**
+  - Skills do §7 instaladas e conferidas. Design system do ui-ux-pro-max e `/impeccable shape` rodados; revisão registrada em `design/README.md` §10.
+  - O Alex escolheu Next.js e a licença MIT + CC BY-SA 4.0, e listou o que faria o site parecer errado: app devocional genérico, dashboard tech frio, perder a cara dos vídeos, lento no celular.
+  - `site/` criado com pipeline de dados, parser de referências e 80 testes. PR #1 em rascunho.
+  - Achados: empate em 5º lugar (§4.2) e runtime do Next acima do orçamento de JS (§5.6).
+  - Vercel bloqueada por permissão do conector (§9).

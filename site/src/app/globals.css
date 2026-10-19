@@ -9,8 +9,9 @@
   --quote: #ffe2aa;
   --hairline: #2a3b57;
   --focus: var(--gold);
-  /* text column in rem, so blocks with smaller type (footer) share the same edges as the body text */
-  --column: 43rem;
+  /* text column in rem, so blocks with smaller type (footer) share the same edges as the body text.
+     37rem at 17px Space Grotesk is ~71 average BLIVRE characters per line (average advance 0.492em). */
+  --column: 37rem;
   --space-1: 0.5rem;
   --space-2: 1rem;
   --space-3: 1.5rem;
