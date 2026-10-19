@@ -15,7 +15,11 @@ const pages = textFiles(appDir)
   .map((f) => relative(appDir, f))
   .filter((f) => !f.split(sep).some((part) => part.startsWith("_") || part.includes("[")));
 
+// sections with an index page and detail pages of their own (not books, chapters or verses)
+const SECTIONS = ["linha-do-tempo", "tema", "palavra"];
 const kind = (page: string) => {
+  const top = page.split(sep)[0].replace(/\.html$/, "");
+  if (SECTIONS.includes(top)) return page.includes(sep) ? `${top}/[…]` : top;
   const depth = page.split(sep).length;
   if (depth === 3) return "versículo";
   if (depth === 2) return "capítulo";

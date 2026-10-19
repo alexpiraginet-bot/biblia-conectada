@@ -69,7 +69,16 @@ Fora: as Bíblias árabes marcadas (`Tagged-Bibles/`) e a pasta `Older Formats`.
 | `openbible-geo/` | OpenBible.info Bible Geocoding Data | CC BY 4.0 | `ancient.jsonl`: 1.342 lugares bíblicos com identificações e grau de confiança. `modern.jsonl`: 1.596 locais modernos com `lonlat` |
 | `theographic/` | Theographic Bible Metadata (Viz.Bible) | CC BY-SA 4.0 | 3.067 pessoas, 1.298 lugares (com lat/long), 450 eventos, 23 grupos, 66 livros, 1.189 capítulos, 31.102 versículos (texto KJV + ligações), 6.519 verbetes do dicionário Easton |
 
+A linha do tempo do site usa os 450 eventos do Theographic. As datas seguem a cronologia de Floyd Nolen Jones (readme do Theographic e `docs/chronology-and-dates.md` do repositório deles), em anos astronômicos ISO: `-4003` é 4004 a.C.
+
 **Nomes em português:** OpenBible, Theographic e TIPNR trazem os nomes em inglês. O nome em PT precisa sair do próprio texto da BLIVRE nos versículos de cada lugar ou pessoa, com revisão humana nos mais citados. Não traduzir de cabeça.
+
+## Temas e recepção cultural
+
+| Pasta | Base | Licença | Conteúdo (conferido em 19/10) |
+|---|---|---|---|
+| `openbible-topics/` | OpenBible.info Topics, `topic-scores.zip` (https://a.openbible.info/data/topic-scores.zip, ligado em https://www.openbible.info/topics/) | CC BY 4.0. O cabeçalho do arquivo diz `# Generated 2026-10-19. CC-BY License: www.openbible.info/topics`; o rodapé do site diz "Unless otherwise indicated, all content is licensed under a Creative Commons Attribution License", com link para a CC BY 4.0 | 71.358 linhas, 6.712 tópicos (todos em inglês), notas de 2 a 100. O arquivo é refeito toda semana; esta cópia é a de 19/10/2026 (`Last-Modified: Mon, 19 Oct 2026 03:29:13 GMT`). O site publica só os tópicos de uma lista revisada, com rótulo em português tirado da BLIVRE (`site/scripts/data/themes.ts`) |
+| `wikidata-recepcao/` | Wikidata, duas consultas SPARQL: obras sobre o bom samaritano (`Q261103`) e sobre a criação/"Haja luz" (`Q137651`, `Q2704440`) | CC0 (https://www.wikidata.org/wiki/Wikidata:Licensing: "All structured data (i.e. the main, Property, Lexeme, and EntitySchema namespaces) is released into the public domain under Creative Commons Zero.") | 155 obras (145 pinturas) e 17 obras (10 pinturas), consulta de 19/10/2026. Resposta sem alteração + a consulta (`.rq`) + `LEIA-ME.md`. Não se baixa de novo igual: o Wikidata muda; `scripts/fetch_sources.sh` só confere o SHA-256. `commons-arquivos.json`: licença, autor e data lidos na página de 52 arquivos do Wikimedia Commons (45 em domínio público); só 7 miniaturas puderam ser baixadas (429) e 4 passaram na conferência visual (`LEIA-ME.md` da pasta) |
 
 ## Referências cruzadas
 

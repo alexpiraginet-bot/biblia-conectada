@@ -8,6 +8,7 @@ import { formatInt } from "../src/lib/canon/text";
 import { formatBytes, type DadosManifest } from "../src/lib/dados";
 import { findLeaks, loadProtectedQuotes, protectedRuns, textFiles } from "./data/leak-guard";
 import { OUT, SITE, SRC } from "./data/sources";
+import { checkTimeline } from "./checks/timeline";
 
 const credits = JSON.parse(readFileSync(join(OUT.generated, "credits.json"), "utf8")) as { blivreCredit: string; openBibleCredit: string };
 const appDir = join(SITE, ".next/server/app");
@@ -97,6 +98,9 @@ const dadosNumbers = [
 ];
 for (const s of dadosNumbers) if (!dados.includes(s)) failures.push(`dados.html: "${s}" missing`);
 if (!dados.includes(credits.openBibleCredit)) failures.push("dados.html: OpenBible.info credit line missing");
+
+// linha do tempo, temas, palavras, recepção: credits on /sobre and the numbers of those pages (scripts/checks/timeline.ts)
+checkTimeline({ appDir, textOf, failures });
 
 // rule 1: no run of the ACF/AA quotes in anything the server or the browser receives
 type BookFile = { chapters: { t: string }[][] };

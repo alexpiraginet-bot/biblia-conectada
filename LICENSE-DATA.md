@@ -6,6 +6,7 @@ Os dados que este projeto gera a partir das fontes abertas saem sob a **Creative
 
 - O que `site/scripts/build-data.ts` calcula e escreve em `site/src/data/generated/` e `site/public/data/`: contagens, ligações, votos, posições e grafos (por exemplo `arcs.bin`, `sky-head.bin`, `chapter-graph.json`, `chapter-edges.bin`, `chapter-links.json`, `summary.json`).
 - O pacote de dados abertos em `site/public/dados/v1/`, servido em `/dados/v1/` e descrito em `DADOS.md` (`livros.json`, `versiculos.csv`, `ligacoes.csv`, `capitulos.csv`, `capitulos-arestas.csv`, `estudos/natal.json`, `datapackage.json` e o zip com tudo).
+- A linha do tempo, os temas e a recepção cultural em `site/src/data/generated/` (`linha-do-tempo/events.json`, `linha-do-tempo/place-names.json`, `temas.json`, `recepcao.json`), derivados do Theographic (CC BY-SA 4.0), da OpenBible.info Topics (CC BY 4.0) e do Wikidata (CC0). Por causa do Theographic, a CC BY-SA 4.0 aqui é obrigação.
 - Qualquer outro conjunto de dados que o projeto derive de `fontes/` ou de `estudos/*/data/`.
 
 Dentro desses mesmos arquivos há partes que **não** mudam de licença:
@@ -19,6 +20,9 @@ Quem reutilizar estes dados precisa manter os créditos das fontes, além do cr�
 
 - Referências cruzadas: OpenBible.info (CC BY).
 - Texto bíblico: Bíblia Livre (BLIVRE), CC BY 4.0 Brasil. O texto é reproduzido sem alterações.
+- Eventos, datas e lugares da linha do tempo: Theographic Bible Metadata, Viz.Bible (CC BY-SA 4.0), cronologia de Floyd Nolen Jones.
+- Temas: OpenBible.info Topics (CC BY 4.0).
+- Obras de arte da recepção cultural: Wikidata (CC0).
 
 Quando entrarem dados do Theographic, da NBV Open, da BLT ou da TFT (todos CC BY-SA 4.0), a CC BY-SA 4.0 deixa de ser escolha e passa a ser obrigação.
 

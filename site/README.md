@@ -36,10 +36,16 @@ divergir do que os vídeos publicaram (`stats.json`, `natal-stats.json`, `xref.n
 | `public/dados/v1/` | Pacote de dados abertos para quem quer criar a partir dos nossos dados (`scripts/data/open-data.ts`): `ligacoes.csv`, `versiculos.csv`, `livros.json`, `capitulos.csv`, `capitulos-arestas.csv`, `texto/`, `estudos/natal.json`, `datapackage.json` (Frictionless v2), `LEIA-ME.md`, `LICENSE.txt`, `SHA256SUMS`, `manifest.json` e um zip com tudo. Documentação: [`../DADOS.md`](../DADOS.md) |
 | `src/data/generated/dados-manifest.json` | Cópia do `manifest.json` do pacote, lida pela página `/dados` |
 | `src/data/generated/chapter-links.json`, `chapter-pairs.json`, `verse-pages.json` | Capítulos mais ligados a cada capítulo (empates mantidos), ligações por capítulo, versículos gerados no build |
+| `src/data/generated/linha-do-tempo/events.json` | Os 450 eventos do Theographic (`scripts/data/timeline.ts`): versículos na grade, referência em português, ano (cronologia de F. N. Jones), lugares com nome lido da BLIVRE, capítulos, ligações, temas. CC BY-SA 4.0 |
+| `src/data/generated/linha-do-tempo/place-names.json` | Nome em português de cada lugar do Theographic, lido do texto da BLIVRE (`scripts/data/place-names.ts`); os sem nome claro ficam em `unnamed` |
+| `src/data/generated/temas.json` | Temas da OpenBible.info Topics com rótulo da BLIVRE, passagens e ligações entre elas (`scripts/data/themes.ts`) |
+| `src/data/generated/recepcao.json` | Piloto de recepção: pinturas do Wikidata sobre o bom samaritano e a criação (`scripts/data/reception.ts`) |
 
 ## Páginas
 
 - `/ler`, `/<livro>`, `/<livro>/<cap>`, `/<livro>/<cap>/<vers>`: leitura. Livros e capítulos saem no build; versículos, os 200 mais ligados no build e os outros na primeira visita.
+- `/linha-do-tempo` e `/linha-do-tempo/<id>-<referência>` (ex.: `/linha-do-tempo/423-lucas-10-25-37`): os 450 eventos, todos no build. Eras do eixo em `src/lib/eras.ts` (convenção do site, posição por `eraX`, testada).
+- `/tema` e `/tema/<palavra>`: temas publicados, todos no build. `/palavra` e `/palavra/<palavra>`: versículos com a palavra (`src/lib/words.ts`, `src/lib/word-index.ts`); as palavras dos temas saem no build, as outras na primeira visita.
 - `/dados`: os dados abertos, com tamanhos e registros lidos do manifesto do pacote (conferidos por `check-dist`). Os arquivos de `/dados/v1/` respondem com `Access-Control-Allow-Origin: *` (`next.config.ts`).
 - `/is/9/6` e outras abreviações redirecionam para o livro (`src/lib/canon/redirects.ts`); abreviação que serve a dois livros sem acento ("jo") fica de fora.
 - Arcos da leitura: `src/components/reader/Arcs.tsx` (SVG no servidor, estilo do vídeo 1, `src/lib/arc-style.ts`).
