@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import { LinksPanel } from "@/components/reader/LinksPanel";
 import { PanelShell } from "@/components/reader/PanelShell";
+import { missingPage, NOT_FOUND_TITLE } from "@/lib/missing";
 import { bookBySlug, chapterNumber, chapterVerses, versePages, verseNumber } from "@/lib/reading";
 
 // The most linked verses are prerendered; the others render on their first request and are kept.
@@ -19,7 +19,7 @@ async function resolve(params: Promise<{ livro: string; cap: string; vers: strin
 
 export async function generateMetadata({ params }: PageProps<"/[livro]/[cap]/[vers]">): Promise<Metadata> {
   const r = await resolve(params);
-  if (!r) return {};
+  if (!r) return { title: NOT_FOUND_TITLE };
   const label = `${r.book.name} ${r.chapter}:${r.verse}`;
   return {
     title: label,
@@ -31,7 +31,10 @@ export async function generateMetadata({ params }: PageProps<"/[livro]/[cap]/[ve
 
 export default async function VersePage({ params }: PageProps<"/[livro]/[cap]/[vers]">) {
   const r = await resolve(params);
-  if (!r) notFound();
+  if (!r) {
+    const { livro, cap, vers } = await params;
+    missingPage([livro, cap, vers]);
+  }
   const verses = await chapterVerses(r.book, r.chapter);
   const v = verses[r.verse - 1];
   const titleId = "titulo-ligacoes";

@@ -4,6 +4,7 @@ import { ChapterArcs } from "@/components/reader/Arcs";
 import styles from "@/components/reader/reader.module.css";
 import { formatInt } from "@/lib/canon/text";
 import { books } from "@/lib/data";
+import { missingPage, NOT_FOUND_TITLE } from "@/lib/missing";
 import { bookBySlug, chapterNumber, chapterPartners, linkedChapters } from "@/lib/reading";
 
 export const ensureStatic = "navigation";
@@ -16,7 +17,7 @@ export async function generateMetadata({ params }: PageProps<"/[livro]/[cap]">):
   const { livro, cap } = await params;
   const book = bookBySlug(livro);
   const chapter = book ? chapterNumber(book, cap) : null;
-  if (!book || !chapter) return {};
+  if (!book || !chapter) return { title: NOT_FOUND_TITLE };
   return {
     title: `${book.name} ${chapter}`,
     description: `${book.name} ${chapter} na Bíblia Livre (BLIVRE), com as ligações de cada versículo.`,
@@ -29,7 +30,7 @@ export default async function ChapterPage({ params }: PageProps<"/[livro]/[cap]"
   const { livro, cap } = await params;
   const book = bookBySlug(livro);
   const chapter = book ? chapterNumber(book, cap) : null;
-  if (!book || !chapter) return null;
+  if (!book || !chapter) missingPage([livro, cap]);
   const linked = linkedChapters(book, chapter);
   const partners = await chapterPartners(book, chapter);
   const label = `${book.name} ${chapter}`;

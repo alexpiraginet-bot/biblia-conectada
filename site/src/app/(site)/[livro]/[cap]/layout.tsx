@@ -1,6 +1,5 @@
 import localFont from "next/font/local";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "@/components/icons";
 import { ChapterText } from "@/components/reader/ChapterText";
 import { VerseFocus } from "@/components/reader/VerseFocus";
@@ -28,7 +27,9 @@ export default async function ChapterLayout({ params, children }: LayoutProps<"/
   const { livro, cap } = await params;
   const book = bookBySlug(livro);
   const chapter = book ? chapterNumber(book, cap) : null;
-  if (!book || !chapter) notFound();
+  // an address that names no chapter: the page below sends it on with all its segments, the verse's included
+  // (src/lib/missing.ts), which this layout cannot see
+  if (!book || !chapter) return children;
   const verses = await chapterVerses(book, chapter);
   const { prev, next } = neighbours(book, chapter);
   const pairs = chapterPairs(book, chapter);

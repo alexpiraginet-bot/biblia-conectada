@@ -488,3 +488,25 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
     números por extenso, frase de aquecimento e escolha de tomada por métrica (`tools/takes.py`).
   - O Alex pediu "o estudo mais completo existente" dentro do GitHub: entraram as bases abertas de hebraico/grego,
     léxicos e traduções em domínio público (ver `fontes/README.md` e `fontes/catalogo.json`).
+- **19/10, tarde, 404 no ar:**
+  - O Alex abriu o site pelo navegador do Instagram e caiu na 404 padrão do Next.js: branca, em inglês, com "Ler" aceso na barra. Não deu para saber o endereço: a Vercel não mostra os acessos (sem logs de função nem observabilidade). Um rastreio do site no ar (1.264 páginas, 32.364 links) não achou link quebrado, e a navegação no celular funciona.
+  - Correção:
+    - Página 404 própria, em português e nos temas Noite e Dia, com caminhos de volta.
+    - Endereço "solto" vai para a página certa (redirect 307), desde que a referência exista: `/Isaías/9/6`, `/isaias/9/6)` (pontuação colada pelo app de mensagem), `/Is 9:6`, `/1-co-13`, `/judas/3` (`site/src/lib/canon/loose.ts`).
+    - "Ler" só fica aceso em página de leitura que existe; na 404 nenhum item fica aceso.
+  - Achado do Next 16: `notFound()` numa rota de leitura com PPR devolve um documento vazio (`__next_error__`) que o navegador monta. O script do tema não roda nesse caso, e por isso o `ThemeToggle` reaplica o tema salvo antes da primeira pintura (`useLayoutEffect`). Sem JavaScript, essa 404 fica em branco; é limite do Next, registrado aqui. O `check-dist` confere a 404 estática nos dois formatos de build.
+  - Revisão adversarial (4 frentes) antes do merge. Achados corrigidos:
+    - um link de Jó (slug `jo`) com pontuação colada ia para João (`/jo/3/16)` → `/joao/3/16`). Agora o slug exato fixa o livro, e capítulo ou versículo que não existe vira 404;
+    - palavras comuns viravam livro pelo prefixo de 3 letras (`/mar` → Marcos). No endereço, o prefixo agora precisa de 4 letras;
+    - segmentos longos faziam as expressões regulares gastarem CPU. Agora segmento acima de 64 caracteres não é analisado;
+    - o CSS da 404 carregava em toda página. Foi para o `globals.css`, e os caminhos viraram lista com fio, como em `/ler` (design §10), sem animação (§7).
+- **19/10, noite, contraste no iPhone:**
+  - O Alex mandou um print da folha de ligações de Josué 1:2 com título, versículo e lista quase invisíveis: texto escuro sobre a folha escura, e a página atrás clara.
+  - Os elementos com cor própria estavam certos; só o texto que herdava a cor da página ficou com a cor do outro tema. É um estado misturado depois de trocar o tema, que o Chromium daqui não reproduz (não há WebKit no ambiente).
+  - Correção:
+    - cada tema agora dá todos os valores, sem token apontando para outro (um teste barra o padrão antigo);
+    - a troca de tema marca também o `<body>`, que o navegador então recalcula;
+    - a folha tem cor de texto própria;
+    - o `<html>` não traz mais `data-theme` fixo do servidor.
+  - Não verificado em Safari/iPhone. Conferido no Chromium: três trocas de tema seguidas e a folha aberta nos dois temas, com contraste mínimo de 9,7:1.
+  - O Alex pediu também um design system muito superior e uma remodelagem total, com leitura e busca mais fáceis.

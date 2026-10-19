@@ -1,7 +1,9 @@
 /* Tokens from design/README.md §3, after Alex's three reference images (HANDOFF §3.8): Noite is navy and gold,
    Dia is parchment with bronze, burgundy and green. Contrast of every text pair is computed in design §3.
    The sky (canvas views, arc strips) always paints the Noite ground, in both themes.
-   Old names (--bg, --text, --text-2, --gold) stay as aliases while the components move to the new ones. */
+   Old names (--bg, --text, --text-2, --gold) stay as aliases while the components move to the new ones.
+   Each theme spells out every value, aliases included, with no var() between tokens: on an iPhone (Alex's screenshot,
+   19/10) text that inherited a token alias kept the other theme's colour after a theme switch, dark on dark. */
 :root {
   --ground: #051219;
   --surface: #051017;
@@ -22,16 +24,16 @@
   --on-fill: #051219;
   --on-gold: #051219;
   --quote: #ffe2aa;
-  --focus: var(--accent-text);
+  --focus: #e7c588;
   --sky: #060d1a;
   --sky-text: #f2ebdd;
   --sky-text-2: #a9b4c8;
   --sky-gold: #ffcc6b;
 
-  --bg: var(--ground);
-  --text: var(--ink);
-  --text-2: var(--ink-2);
-  --gold: var(--accent-text);
+  --bg: #051219;
+  --text: #f2ebdd;
+  --text-2: #d2c8c1;
+  --gold: #e7c588;
 
   /* text column in rem, so blocks with smaller type (footer) share the same edges as the body text.
      37rem at 17px Space Grotesk is ~71 average BLIVRE characters per line (average advance 0.492em). */
@@ -78,7 +80,12 @@
   --highlight: #dbddcc;
   --on-fill: #ffffff;
   --on-gold: #ffffff;
-  --quote: var(--ink);
+  --quote: #0e1e1a;
+  --focus: #8a5e2c;
+  --bg: #f8f4ed;
+  --text: #0e1e1a;
+  --text-2: #403e3c;
+  --gold: #8a5e2c;
   color-scheme: light;
 }
 
@@ -234,6 +241,98 @@ input {
   clip: rect(0 0 0 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* 404 page (src/components/NotFoundBody.tsx). Here and not in a CSS module: Next.js sends the 404 tree with every page,
+   so a module would be preloaded everywhere. The motif's arc stops short of its second verse; the ways are a ruled
+   list, like /ler (design §10: no grid of cards). */
+.not-found {
+  width: 100%;
+  max-width: calc(var(--column) + 2 * var(--space-2));
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-2);
+}
+
+.not-found__mark {
+  display: block;
+  width: 7.5rem;
+  height: auto;
+  margin: 0 0 var(--space-3);
+  overflow: visible;
+}
+
+.not-found__arc {
+  fill: none;
+  stroke: var(--accent-text);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.not-found__from {
+  fill: var(--accent-text);
+}
+
+.not-found__to {
+  fill: none;
+  stroke: var(--control-border);
+  stroke-width: 1.5;
+}
+
+.not-found__base {
+  stroke: var(--hairline);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.not-found__title {
+  font-family: var(--font-title);
+  font-weight: 440;
+  font-synthesis: none;
+  letter-spacing: -0.015em;
+  font-size: clamp(2rem, 6vw, 3rem);
+  line-height: 1.1;
+  margin: 0 0 var(--space-2);
+  text-wrap: balance;
+}
+
+.not-found__lede {
+  color: var(--text-2);
+  margin: 0 0 var(--space-3);
+  text-wrap: pretty;
+}
+
+.not-found__ways {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.not-found__way {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.1rem;
+  min-height: 2.75rem;
+  padding: 0.7rem 0;
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.not-found__name {
+  font-weight: 600;
+  color: var(--accent-text);
+}
+
+.not-found__way:hover .not-found__name {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.not-found__note {
+  font-size: var(--step-ui);
+  color: var(--text-2);
 }
 
 @media (prefers-reduced-motion: reduce) {
