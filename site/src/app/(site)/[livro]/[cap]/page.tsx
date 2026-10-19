@@ -6,7 +6,7 @@ import { Featured, MiniGraph, PanelHead } from "@/components/reader/FromHere";
 import styles from "@/components/reader/reader.module.css";
 import { formatInt } from "@/lib/canon/text";
 import { conexaoPath } from "@/lib/conexao";
-import { chapterHeadline, graphNote, graphPartners, topGroup, votesLabel } from "@/lib/from-here";
+import { chapterHeadline, graphNote, graphPartners, mostLinkedRows, topGroup, votesLabel } from "@/lib/from-here";
 import { books } from "@/lib/data";
 import { missingPage } from "@/lib/missing";
 import { bookBySlug, chapterNeighbours, chapterNumber, chapterRef } from "@/lib/reading";
@@ -29,10 +29,8 @@ export async function generateMetadata({ params }: PageProps<"/[livro]/[cap]">):
   };
 }
 
-const LISTED = 8; // rows of "Mais ligados"; chapters tied with the 8th are kept
-
-// Panel when no verse is chosen ("A partir deste capítulo"): the chapters most linked to this one by summed votes,
-// as a headline, a mini graph and a list, and how to open a verse.
+// Panel when no verse is chosen ("A partir deste capítulo"): the chapters most linked to this one, in the order the
+// Explorar uses too (src/lib/chapter-rank.ts), as a headline, a mini graph and a list, and how to open a verse.
 export default async function ChapterPage({ params }: PageProps<"/[livro]/[cap]">) {
   const { livro, cap } = await params;
   const book = bookBySlug(livro);
@@ -42,8 +40,7 @@ export default async function ChapterPage({ params }: PageProps<"/[livro]/[cap]"
   const partners = await chapterNeighbours(book, chapter);
   const label = `${book.name} ${chapter}`;
   const ranked = partners.map((p) => ({ key: p.ci, votes: p.votes, pairs: p.pairs }));
-  const cut = ranked[Math.min(LISTED, ranked.length) - 1]?.votes;
-  const shown = ranked.filter((r, i) => i < LISTED || r.votes === cut);
+  const shown = mostLinkedRows(ranked);
   const extra = ranked.length - shown.length;
   const graph = graphPartners(ranked);
   const top = ranked[0] ? chapterRef(ranked[0].key) : null;
@@ -84,7 +81,7 @@ export default async function ChapterPage({ params }: PageProps<"/[livro]/[cap]"
             Mais ligados
             <span>pela soma dos votos das ligações entre os versículos dos dois capítulos</span>
           </h3>
-          <ol className={styles.rows}>
+          <ol className={styles.rows} data-mais-ligados="">
             {shown.map(({ key, votes, pairs }) => {
               const ref = chapterRef(key);
               return (

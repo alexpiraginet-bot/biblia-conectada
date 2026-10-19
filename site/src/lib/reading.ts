@@ -4,6 +4,7 @@ import chapterPairsJson from "@/data/generated/chapter-pairs.json";
 import versePagesJson from "@/data/generated/verse-pages.json";
 import { arcStrength } from "@/lib/arc-style";
 import { createGrid } from "@/lib/canon/grid";
+import { rankLinkedChapters } from "@/lib/chapter-rank";
 import type { Book } from "@/lib/canon/types";
 import { books } from "@/lib/data";
 
@@ -126,11 +127,12 @@ export async function bookPartners(book: Book): Promise<ChapterPartner[]> {
 }
 
 /**
- * The chapters linked to this one ranked by summed votes (strongest first, canonical order inside a tie), the order of
- * the chapter panel's "Mais ligados" list and mini graph.
+ * The chapters linked to this one, strongest first: the order of the chapter panel's "Mais ligados" list, mini graph
+ * and "Abrir conexão", and of the Explorar (src/lib/chapter-rank.ts: summed votes, then verse pairs, then canonical
+ * order).
  */
 export async function chapterNeighbours(book: Book, chapter: number): Promise<ChapterPartner[]> {
-  return (await chapterPartners(book, chapter)).sort((p, q) => q.votes - p.votes || p.ci - q.ci);
+  return rankLinkedChapters(await chapterPartners(book, chapter));
 }
 
 /** Previous and next chapter across book boundaries. */

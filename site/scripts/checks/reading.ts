@@ -6,8 +6,9 @@ import { readFileSync } from "node:fs";
 import { join, sep } from "node:path";
 import { createGrid } from "../../src/lib/canon/grid";
 import type { Book } from "../../src/lib/canon/types";
+import { rankLinkedChapters, type LinkedChapter } from "../../src/lib/chapter-rank";
 import { conexaoPath } from "../../src/lib/conexao";
-import { byVotes, chapterHeadline, padChapter, railWindow, testamentName, verseHeadline } from "../../src/lib/from-here";
+import { chapterHeadline, mostLinkedRows, padChapter, railWindow, testamentName, verseHeadline } from "../../src/lib/from-here";
 import { OUT } from "../data/sources";
 
 type BookFile = { chapters: { t: string; l: [number, number, number][] }[][] };
@@ -74,18 +75,32 @@ export function checkReading({
     }
 
     if (parts.length === 2) {
-      // chapter panel: linked chapters by summed votes
-      const acc = new Map<number, number>();
+      // chapter panel: linked chapters recounted from the verse links, in the order the Explorar uses too
+      const acc = new Map<number, LinkedChapter>();
       for (const v of verseList) {
         for (const [gv, votes] of v.l) {
           const l = grid.locate(gv);
           const ci = l.book.firstChapter + l.chapter - 1;
-          if (ci !== here) acc.set(ci, (acc.get(ci) ?? 0) + votes);
+          if (ci === here) continue;
+          const a = acc.get(ci) ?? { ci, pairs: 0, votes: 0 };
+          a.pairs++;
+          a.votes += votes;
+          acc.set(ci, a);
         }
       }
-      const ranked = byVotes([...acc].map(([key, votes]) => ({ key, votes })));
+      const ranked = rankLinkedChapters([...acc.values()]).map((p) => ({ key: p.ci, votes: p.votes }));
       const expected = chapterHeadline(ranked, chapterLabel);
       if (headlineOf(raw) !== expected) failures.push(`${page}: headline "${headlineOf(raw)}", expected "${expected}"`);
+      // "Mais ligados": the rows, in order
+      const list = /<ol[^>]*data-mais-ligados=""[^>]*>([\s\S]*?)<\/ol>/.exec(raw)?.[1];
+      const rows = [...(list ?? "").matchAll(/<a [^>]*href="([^"]+)"/g)].map((m) => m[1]);
+      const want = mostLinkedRows(ranked).map((p) => {
+        const l = grid.locateChapter(p.key);
+        return `/${l.book.slug}/${l.chapter}`;
+      });
+      if (ranked.length && JSON.stringify(rows) !== JSON.stringify(want)) {
+        failures.push(`${page}: "Mais ligados" lists ${rows.join(" ")}, expected ${want.join(" ")}`);
+      }
       if (ranked[0]) {
         const top = grid.locateChapter(ranked[0].key);
         const href = conexaoPath({ book: book.index, slug: book.slug, chapter }, { book: top.book.index, slug: top.book.slug, chapter: top.chapter });

@@ -1,5 +1,6 @@
 // The Explorar data contract: src/data/generated/explore/<book slug>.json, written by scripts/data/explore.ts.
 // Pure types and the ranking rule, so the pipeline, the pages and the tests share one definition.
+import { compareLinkedChapters } from "../chapter-rank";
 
 /** How many partner chapters each chapter keeps (centre + 6 labelled + 5 medallions + 24 dots = 35 partners). */
 export const EXPLORE_PARTNERS = 35;
@@ -36,11 +37,7 @@ export type ExploreFile = { format: "biblia-conectada/explore@1"; osis: string; 
 
 /**
  * The ranking rule shown on screen ("por votos, OpenBible.info"): summed votes (both directions) descending, then
- * verse pairs descending, then canonical order of the partner chapter.
+ * verse pairs descending, then canonical order of the partner chapter. It is the shared rule of src/lib/chapter-rank.ts,
+ * which the reading panel's "Mais ligados" uses too.
  */
-export function compareByVotes(
-  x: { ci: number; pairs: number; votes: number },
-  y: { ci: number; pairs: number; votes: number },
-): number {
-  return y.votes - x.votes || y.pairs - x.pairs || x.ci - y.ci;
-}
+export const compareByVotes = compareLinkedChapters;

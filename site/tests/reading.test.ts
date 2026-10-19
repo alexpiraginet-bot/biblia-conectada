@@ -61,13 +61,14 @@ describe("chapter partners (arcs, mini graph and list of a chapter page)", () =>
     expect(seen).toBe(2 * edges.size);
   });
 
-  it("are ranked by summed votes for the panel, strongest first, canonical order inside a tie", async () => {
+  it("are ranked for the panel by summed votes, then verse pairs, then canonical order (src/lib/chapter-rank.ts)", async () => {
     for (const book of books().filter((_, i) => i % 7 === 0)) {
       for (let c = 1; c <= book.verses.length; c += 5) {
         const ranked = await chapterNeighbours(book, c);
         for (let k = 1; k < ranked.length; k++) {
           const [p, q] = [ranked[k - 1], ranked[k]];
-          expect(p.votes > q.votes || (p.votes === q.votes && p.ci < q.ci), `${book.osis} ${c} #${k}`).toBe(true);
+          const ok = p.votes > q.votes || (p.votes === q.votes && (p.pairs > q.pairs || (p.pairs === q.pairs && p.ci < q.ci)));
+          expect(ok, `${book.osis} ${c} #${k}`).toBe(true);
         }
       }
     }

@@ -24,6 +24,17 @@ export function graphPartners<T extends Partner>(ranked: readonly T[], max = GRA
   return { shown, left: ranked.length - shown.length, tiedOut };
 }
 
+export const MOST_LINKED_ROWS = 8;
+
+/**
+ * Rows of the chapter panel's "Mais ligados": the first `max` linked chapters of the ranked list
+ * (src/lib/chapter-rank.ts), plus any chapter tied in votes with the last of them.
+ */
+export function mostLinkedRows<T extends Partner>(ranked: readonly T[], max = MOST_LINKED_ROWS): T[] {
+  const cut = ranked[Math.min(max, ranked.length) - 1]?.votes;
+  return ranked.filter((r, i) => i < max || r.votes === cut);
+}
+
 /** The partners sharing the top vote count (one, unless there is a tie). */
 export function topGroup<T extends Partner>(ranked: readonly T[]): T[] {
   return ranked.length ? ranked.filter((p) => p.votes === ranked[0].votes) : [];
