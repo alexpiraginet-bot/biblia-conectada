@@ -24,6 +24,14 @@ for f in books chapters verses people places events peopleGroups easton; do get 
 get "$TG/LICENSE" theographic/LICENSE
 get "$TG/readme.md" theographic/readme.md
 
+# Temas: OpenBible.info Topics. A origem refaz o arquivo toda semana, então "mudou na origem" é o esperado; ao atualizar,
+# troque a data do crédito no ATTRIBUTION.md (o build confere) e revise a lista de temas em site/scripts/data/themes.ts.
+get https://a.openbible.info/data/topic-scores.zip openbible-topics/topic-scores.zip
+
+# Recepção cultural: instantâneo de duas consultas ao Wikidata (fontes/wikidata-recepcao/LEIA-ME.md). O resultado muda
+# com o Wikidata e não se baixa de novo igual: a cópia local entra como está e só o SHA-256 dela é conferido.
+mkdir -p "$TMP/wikidata-recepcao" && cp "$ROOT/fontes/wikidata-recepcao/"* "$TMP/wikidata-recepcao/"
+
 # Repositórios git: baixados no commit registrado em fontes/<pasta>/COMMIT (blobless + sparse checkout)
 gitget() {  # gitget <repo> <pasta destino> <commit> <sparse patterns...>
   local repo=$1 dst=$2 commit=$3; shift 3

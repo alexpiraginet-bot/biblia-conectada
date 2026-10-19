@@ -9,6 +9,9 @@ import { chapterGraph, LAYOUT } from "./data/chapter-graph";
 import { buildPairs, linksPerVerse, parseCrossRefs } from "./data/crossrefs";
 import { natalPair, natalStudy } from "./data/natal";
 import { buildOpenData, type NatalOut } from "./data/open-data";
+import { buildReception } from "./data/reception";
+import { buildThemes } from "./data/themes";
+import { buildTimeline } from "./data/timeline";
 import { CROSSREFS_SHA256, OUT, REPO, SITE, SRC, readJson, sha256 } from "./data/sources";
 import { createGrid } from "../src/lib/canon/grid";
 
@@ -283,6 +286,13 @@ write(join(OUT.publicData, "LICENSE.txt"), [
   "Termos completos e créditos: LICENSE-DATA.md e ATTRIBUTION.md em https://github.com/alexpiraginet-bot/biblia-conectada",
   "",
 ].join("\n"));
+
+// linha do tempo (Theographic), temas (OpenBible.info Topics) and the reception pilot (Wikidata): scripts/data/
+const toGenerated = (rel: string, data: string) => write(join(OUT.generated, rel), data);
+const themes = buildThemes({ canon, text: blivre.text, links, write: toGenerated });
+const timeline = buildTimeline({ canon, text: blivre.text, links, themes: themes.themes, write: toGenerated });
+const reception = buildReception({ write: toGenerated });
+log(`linha do tempo: ${timeline.events.length} events, ${timeline.placesNamed} places named from the BLIVRE; ${themes.themes.length} themes; reception: ${reception.pilots.map((p) => p.works.length).join(" + ")} paintings`);
 
 const summary = {
   counts: {

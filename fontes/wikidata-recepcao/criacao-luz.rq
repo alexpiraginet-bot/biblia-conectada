@@ -1,0 +1,10 @@
+SELECT ?subject ?prop ?work ?labelPt ?labelEn ?type ?typeLabelPt ?typeLabelEn ?inception ?creator ?creatorPt ?creatorEn ?image WHERE {
+  VALUES ?subject { wd:Q137651 wd:Q2704440 }
+  { ?work wdt:P180 ?subject . BIND("P180" AS ?prop) } UNION { ?work wdt:P921 ?subject . BIND("P921" AS ?prop) } UNION { ?work wdt:P144 ?subject . BIND("P144" AS ?prop) }
+  OPTIONAL { ?work rdfs:label ?labelPt FILTER(lang(?labelPt) = "pt") }
+  OPTIONAL { ?work rdfs:label ?labelEn FILTER(lang(?labelEn) = "en") }
+  OPTIONAL { ?work wdt:P31 ?type . OPTIONAL { ?type rdfs:label ?typeLabelPt FILTER(lang(?typeLabelPt) = "pt") } OPTIONAL { ?type rdfs:label ?typeLabelEn FILTER(lang(?typeLabelEn) = "en") } }
+  OPTIONAL { ?work wdt:P571 ?inception }
+  OPTIONAL { ?work wdt:P170 ?creator . OPTIONAL { ?creator rdfs:label ?creatorPt FILTER(lang(?creatorPt) = "pt") } OPTIONAL { ?creator rdfs:label ?creatorEn FILTER(lang(?creatorEn) = "en") } }
+  OPTIONAL { ?work wdt:P18 ?image }
+}

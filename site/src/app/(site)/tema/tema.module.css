@@ -1,0 +1,316 @@
+/* Temas and Palavras: index lists and detail pages. "Tema" is the green layer (--accent-theme). */
+
+.main {
+  width: 100%;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-2) var(--space-5);
+}
+
+.head {
+  margin-bottom: var(--space-3);
+}
+
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 0.5rem;
+  margin: 0 0 var(--space-1);
+  font-size: var(--step-small);
+  color: var(--ink-2);
+}
+
+.crumbs a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+.title {
+  font-family: var(--font-title);
+  font-weight: 440;
+  font-synthesis: none;
+  letter-spacing: -0.015em;
+  font-size: var(--step-display);
+  line-height: 1.05;
+  margin: 0 0 var(--space-2);
+  overflow-wrap: anywhere;
+}
+
+.lede {
+  max-width: var(--column);
+  color: var(--ink-2);
+  margin: 0;
+}
+
+.rule {
+  max-width: var(--column);
+  margin: 0 0 var(--space-4);
+  padding: var(--space-2) 0 var(--space-2) var(--space-2);
+  border-left: 1px solid var(--accent-theme);
+  color: var(--ink-2);
+}
+
+.rule p {
+  margin: 0;
+}
+
+.ruleTitle {
+  font-size: var(--step-ui);
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0 0 0.25rem;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  columns: 16rem auto;
+  column-gap: var(--space-4);
+}
+
+.list li {
+  break-inside: avoid;
+}
+
+.item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0 var(--space-2);
+  min-height: 2.75rem;
+  padding: 0.5rem 0;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--hairline) 55%, transparent);
+}
+
+.item:hover .label {
+  color: var(--accent-theme);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+/* "Tema" is a filled green disc in every view (design: node shape of the Tema layer) */
+.themeDisc {
+  flex: none;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  background: var(--accent-theme);
+}
+
+.passages,
+.links {
+  max-width: 46rem;
+}
+
+.meta {
+  color: var(--ink-2);
+  font-size: var(--step-small);
+}
+
+.source,
+.note {
+  max-width: var(--column);
+  color: var(--ink-2);
+  font-size: var(--step-small);
+  margin: var(--space-3) 0 0;
+}
+
+.layout {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.primary {
+  min-width: 0;
+}
+
+.aside {
+  min-width: 0;
+  font-size: var(--step-ui);
+  color: var(--ink-2);
+}
+
+.aside p {
+  margin: 0 0 var(--space-2);
+}
+
+/* a link alone on its line gets a 44 px target; links inside a sentence stay inline */
+.asideLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+.asideTitle {
+  font-family: var(--font-title);
+  font-weight: 440;
+  font-synthesis: none;
+  font-size: var(--step-title);
+  line-height: 1.2;
+  color: var(--ink);
+  margin: 0 0 var(--space-2);
+}
+
+.events {
+  margin: 0 0 var(--space-2);
+  padding-left: 1.1rem;
+}
+
+.sectionTitle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 var(--space-2);
+  font-family: var(--font-title);
+  font-weight: 440;
+  font-synthesis: none;
+  font-size: var(--step-title);
+  line-height: 1.2;
+  margin: var(--space-4) 0 var(--space-2);
+  padding-bottom: var(--space-1);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.sectionTitle:first-child {
+  margin-top: 0;
+}
+
+.count {
+  font-family: var(--font-grotesk), system-ui, sans-serif;
+  font-size: var(--step-small);
+  color: var(--ink-2);
+}
+
+.passages {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.passage {
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--hairline) 55%, transparent);
+}
+
+.passageHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0 var(--space-2);
+  margin: 0;
+  max-width: calc(var(--scripture-column) + 2.5rem);
+}
+
+.passageHead a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  font-weight: 500;
+}
+
+.verses {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: calc(var(--scripture-column) + 2.5rem);
+}
+
+.verses li {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  column-gap: 0.5rem;
+}
+
+.num {
+  padding-top: 0.3rem;
+  color: var(--accent-text);
+  font-size: var(--step-small);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.scripture {
+  grid-column: 2;
+}
+
+/* a one-verse passage has no verse number: its text takes the whole row */
+.verses li > .scripture:only-child {
+  grid-column: 1 / -1;
+}
+
+.scripture {
+  font-family: var(--font-scripture), Georgia, serif;
+  font-size: var(--step-scripture);
+  line-height: 1.7;
+  font-weight: 430;
+  font-variation-settings: "wght" 430;
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
+}
+
+.refs {
+  list-style: none;
+  margin: var(--space-1) 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-2);
+  font-size: var(--step-ui);
+}
+
+.refs a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+.links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.links li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0 var(--space-2);
+  border-bottom: 1px solid color-mix(in srgb, var(--hairline) 55%, transparent);
+}
+
+.links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 64rem) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 20rem;
+    align-items: start;
+  }
+
+  .aside {
+    position: sticky;
+    top: calc(var(--header-h) + var(--space-3));
+    padding-left: var(--space-3);
+    border-left: 1px solid var(--hairline);
+  }
+}

@@ -13,7 +13,7 @@ export const RESERVED = [
   // planned (design/README.md §5, HANDOFF §6)
   "grafo", "mapa", "lugar", "pessoa", "evento", "estudo", "assistente", "og",
   // public folders and framework paths
-  "data", "sky", "medalhoes", "img", "_next", "api", "icon.svg",
+  "data", "sky", "medalhoes", "img", "recepcao", "_next", "api", "icon.svg",
 ];
 
 export function abbreviationRedirects(books: readonly Pick<Book, "osis" | "name" | "slug">[]) {
