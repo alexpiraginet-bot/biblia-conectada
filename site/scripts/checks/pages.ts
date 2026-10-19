@@ -2,19 +2,22 @@
 // Vercel the deployment adapter (NEXT_ADAPTER_PATH, "Applying modifyConfig from Vercel" in the log) writes the same
 // files to .next/server/route-cache/APP_PAGE/<hash>/$/<path>.html instead, and nothing to .next/server/app. The checks
 // read pages by their path relative to the app, whichever layout the build used.
-import { existsSync, readdirSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative, sep } from "node:path";
 import { textFiles } from "../data/leak-guard";
 
 /** "isaias/9.html" → absolute file, for every prerendered page; framework pages ("_not-found") and the fallback
- *  shells of dynamic routes ("[livro].html") are left out */
+ *  shells of dynamic routes ("[livro].html") are left out. Only routes the build prerendered count: `next start`
+ *  caches the pages it renders later (a verse on its first visit, even a 404) in .next/server/route-cache too. */
 export function prerenderedPages(site: string): Map<string, string> {
   const pages = new Map<string, string>();
+  const built = builtRoutes(site);
   for (const root of htmlRoots(site)) {
     for (const file of textFiles(root)) {
       if (!file.endsWith(".html")) continue;
       const rel = relative(root, file);
       if (rel.split(sep).some((part) => part.startsWith("_") || part.includes("["))) continue;
+      if (built && !built.has(rel === "index.html" ? "/" : `/${rel.replace(/\.html$/, "").split(sep).join("/")}`)) continue;
       if (!pages.has(rel)) pages.set(rel, file);
     }
   }
@@ -29,6 +32,14 @@ export function notFoundPage(site: string): string | null {
     if (existsSync(file)) return file;
   }
   return null;
+}
+
+/** The routes `next build` prerendered (.next/prerender-manifest.json, written in both layouts), or null without one. */
+function builtRoutes(site: string): Set<string> | null {
+  const file = join(site, ".next/prerender-manifest.json");
+  if (!existsSync(file)) return null;
+  const routes = (JSON.parse(readFileSync(file, "utf8")) as { routes?: Record<string, unknown> }).routes;
+  return routes ? new Set(Object.keys(routes)) : null;
 }
 
 function htmlRoots(site: string): string[] {

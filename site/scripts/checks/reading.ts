@@ -59,6 +59,8 @@ export function checkReading({
     const book = bySlug.get(parts[0]);
     if (!book || parts.length < 2) continue;
     const chapter = Number(parts[1]);
+    // only pages that name a chapter (and verse) that exists are reading pages
+    if (!(chapter >= 1 && chapter <= book.verses.length) || (parts.length > 2 && !(Number(parts[2]) >= 1 && Number(parts[2]) <= book.verses[chapter - 1]))) continue;
     const raw = read(page);
     const text = textOf(raw);
     const here = book.firstChapter + chapter - 1;
