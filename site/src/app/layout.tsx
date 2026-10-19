@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { SiteFooter } from "@/components/SiteFooter";
+import { THEME_SCRIPT } from "@/components/header/ThemeToggle";
 import "./globals.css";
 
-// OFL fonts of the videos, subset to Latin by scripts/subset-fonts.sh (licences in src/fonts/OFL-*.txt).
-// Only the interface face lives in the root layout; faces used on one page are declared on that page (design/README.md §4).
+// OFL fonts, subset to Latin (scripts/subset-fonts.sh; licences in src/fonts/OFL-*.txt).
+// Only the interface face lives in the root layout; faces used by one route are declared there (design/README.md §4).
 const grotesk = localFont({
   src: "../fonts/SpaceGrotesk-VF.woff2",
   variable: "--font-grotesk",
@@ -20,12 +21,15 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: "#060d1a",
-  colorScheme: "dark",
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="pt-BR" className={grotesk.variable}>
+    <html lang="pt-BR" data-theme="noite" className={grotesk.variable} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body>
         <a className="skip-link" href="#conteudo">
           Pular para o conteúdo

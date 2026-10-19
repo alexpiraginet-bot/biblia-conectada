@@ -1,7 +1,7 @@
 // Builds every data file the site reads, from fontes/ and estudos/*/data/ only. Throws (and fails the build) when
 // a source disagrees with the numbers already published by the videos (stats.json, natal-stats.json, xref.npz).
 //   npm run data
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { join, relative } from "node:path";
 import { loadBlivre, loadCanon } from "./data/canon";
@@ -78,15 +78,21 @@ log(`natal: ${natal.pairsAll} pairs, ${natal.otVersesAll} OT verses in ${natal.o
 const graph = chapterGraph(canon, pairs);
 log(`chapter graph: ${graph.nodes.length} nodes, ${graph.edges.i.length} edges, ForceAtlas2 ${LAYOUT.iterations} it.`);
 
-// ---- write outputs (both output folders are generated only; wipe them first so nothing stale survives)
-for (const dir of [OUT.generated, OUT.publicData]) {
-  rmSync(dir, { recursive: true, force: true });
-  mkdirSync(dir, { recursive: true });
+// ---- write outputs into staging folders; they replace the real ones only after every check below has passed,
+// so a failed run never leaves a half-written data set behind (both folders are generated only).
+const STAGE = ".staging";
+const OUTPUT_DIRS = [OUT.generated, OUT.publicData];
+for (const dir of OUTPUT_DIRS) {
+  rmSync(dir + STAGE, { recursive: true, force: true });
+  mkdirSync(dir + STAGE, { recursive: true });
 }
 const written: Record<string, string> = {};
 function write(path: string, data: string | Uint8Array) {
-  mkdirSync(join(path, ".."), { recursive: true });
-  writeFileSync(path, data);
+  const root = OUTPUT_DIRS.find((d) => path.startsWith(d + "/"));
+  check(root, `output path outside the generated folders: ${path}`);
+  const staged = root + STAGE + path.slice(root.length);
+  mkdirSync(join(staged, ".."), { recursive: true });
+  writeFileSync(staged, data);
   written[relative(SITE, path)] = createHash("sha256").update(data).digest("hex");
 }
 const json = (v: unknown) => JSON.stringify(v);
@@ -142,6 +148,44 @@ write(join(OUT.publicData, "arcs.json"), json({
   source: "OpenBible.info cross references (CC BY)",
   license: "CC BY-SA 4.0 (derived data of this project); source: OpenBible.info, CC BY",
 }));
+
+// sky (home): the HEAD most voted arcs in the same layout as arcs.bin, for the first paint on phones (design §8),
+// plus everything the canvas needs to place them: chapters equally spaced on the baseline, as in video 1 (arcs.py).
+const SKY_HEAD = 20000;
+const head = new ArrayBuffer(SKY_HEAD * 6);
+const hv = new DataView(head);
+for (let k = 0; k < SKY_HEAD; k++) {
+  hv.setUint16(k * 2, av.getUint16(k * 2, true), true);
+  hv.setUint16(SKY_HEAD * 2 + k * 2, av.getUint16(N * 2 + k * 2, true), true);
+  hv.setInt16(SKY_HEAD * 4 + k * 2, av.getInt16(N * 4 + k * 2, true), true);
+}
+write(join(OUT.publicData, "sky-head.bin"), new Uint8Array(head));
+const chapterPairs = graph.nodes.map((nd) => nd.degree + nd.internal);
+write(join(OUT.publicData, "sky.json"), json({
+  format: "biblia-conectada/sky@1",
+  layout: "x = (chapter + (verse - 0.5) / versesInChapter) / chapters; arc = semicircle over the baseline (video 1, arcs.py)",
+  counts: { arcs: N, verses: canon.verseCount, chapters: canon.chapterVerses.length, crossrefRows: xr.rowCount },
+  files: {
+    head: { file: "sky-head.bin", count: SKY_HEAD, minVotes: av.getInt16(N * 4 + (SKY_HEAD - 1) * 2, true) },
+    full: { file: "arcs.bin", count: N },
+  },
+  // per chapter: book index, chapter number, first global verse, verses, distinct verse pairs touching it (self excluded)
+  chapters: canon.chapterVerses.map((n, ci) => [canon.chapterBook[ci], ci - canon.books[canon.chapterBook[ci]].firstChapter + 1, canon.chapterFirst[ci], n, chapterPairs[ci]]),
+  books: canon.books.map((b) => [b.name, b.slug, b.abbr, b.firstChapter, b.verses.length, b.testament]),
+  topVerses: ranked.slice(0, 1).map(([gv, n]) => {
+    const loc = grid.locate(gv);
+    return { gv, ref: `${loc.book.name} ${loc.chapter}:${loc.verse}`, path: `/${loc.book.slug}/${loc.chapter}/${loc.verse}`, links: n };
+  }),
+  license: "CC BY-SA 4.0 (derived data of this project); source: OpenBible.info, CC BY",
+}));
+
+// verse texts per chapter (BLIVRE, unchanged), fetched by the hover preview of a linked verse
+for (const book of canon.books) {
+  book.verses.forEach((n, c) => {
+    const first = canon.chapterFirst[book.firstChapter + c];
+    write(join(OUT.publicData, "text", book.slug, `${c + 1}.json`), json(blivre.text.slice(first, first + n)));
+  });
+}
 
 // chapter graph: nodes JSON + edges binary (uint16 i | uint16 j | uint32 pairs | int32 votes, struct of arrays)
 const E = graph.edges.i.length;
@@ -230,6 +274,10 @@ write(join(OUT.generated, "summary.json"), json(summary));
 const inputs = Object.fromEntries(
   [SRC.blivreZip, SRC.crossrefsTxt, SRC.xrefNpz, SRC.statsJson, SRC.natalStatsJson, SRC.attribution].map((p) => [relative(REPO, p), sha256(p)]),
 );
-writeFileSync(join(OUT.generated, "manifest.json"), JSON.stringify({ inputs, outputs: written }, null, 1));
+writeFileSync(join(OUT.generated + STAGE, "manifest.json"), JSON.stringify({ inputs, outputs: written }, null, 1));
+for (const dir of OUTPUT_DIRS) {
+  rmSync(dir, { recursive: true, force: true });
+  renameSync(dir + STAGE, dir);
+}
 log(`wrote ${Object.keys(written).length} files`);
 console.log(JSON.stringify(summary.counts));

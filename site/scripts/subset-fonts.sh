@@ -18,4 +18,7 @@ for f in Cormorant-Italic-VF SpaceGrotesk-VF SpaceMono-Regular SpaceMono-Bold; d
     --flavor=woff2 --output-file="$OUT/$f.woff2"
 done
 cp "$SRC"/OFL-*.txt "$OUT/"
+# Literata (Bible text) is not from the videos: src/fonts/Literata-wght-latin.woff2 is the latin wght file of
+# @fontsource-variable/literata 5.3.0 (files/literata-latin-wght-normal.woff2, already subset by Fontsource),
+# SHA-256 9adbeac5b167fe5ad6c49d9e29aa0c76e2f1bb3b46bf4ebf12a9eca7d3525384, licence in OFL-Literata.txt.
 ls -l "$OUT"

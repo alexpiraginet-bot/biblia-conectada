@@ -50,7 +50,10 @@ export function parseCrossRefs(path: string, canon: Canon): CrossRefs {
     if (!m) return "ValueError" as const;
     const b = bookIndex.get(m[1]);
     if (b === undefined) return "KeyError" as const;
-    return [b, Number(m[2]), Number(m[3])] as const;
+    const c = Number(m[2]), v = Number(m[3]);
+    // the typed arrays below are int32: refuse what would wrap instead of merging it into another verse
+    if (c > 0x7fffffff || v > 0x7fffffff) throw new Error(`chapter or verse out of range: ${ref}`);
+    return [b, c, v] as const;
   };
   let r = 0;
   for (let i = 1; i < n; i++) {
@@ -77,7 +80,9 @@ export function parseCrossRefs(path: string, canon: Canon): CrossRefs {
     const fbk = books[a[0]], tbk = books[b[0]];
     fgv[r] = canon.chapterFirst[fbk.firstChapter + a[1] - 1] + Math.min(a[2], fbk.verses[a[1] - 1]) - 1;
     tgv[r] = canon.chapterFirst[tbk.firstChapter + b[1] - 1] + Math.min(b[2], tbk.verses[b[1] - 1]) - 1;
-    votes[r] = Number(p[2].trim());
+    const vote = Number(p[2].trim());
+    if (vote > 0x7fffffff || vote < -0x80000000) throw new Error(`votes out of int32 range, line ${i + 1}`);
+    votes[r] = vote;
     r++;
   }
   return {

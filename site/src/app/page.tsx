@@ -1,5 +1,6 @@
 import localFont from "next/font/local";
 import Link from "next/link";
+import { SiteHeader } from "@/components/header/SiteHeader";
 import { formatInt } from "@/lib/canon/text";
 import { summary, verseText } from "@/lib/data";
 import styles from "./page.module.css";
@@ -22,6 +23,8 @@ export default async function Home() {
   const c = summary.counts;
 
   return (
+    <>
+    <SiteHeader overlay />
     <main id="conteudo" className={styles.main}>
       <h1 className={styles.title}>Bíblia Conectada</h1>
       <p className={styles.lede}>
@@ -51,5 +54,6 @@ export default async function Home() {
         grafo e o mapa. <Link href="/sobre">Veja as fontes e os créditos</Link>.
       </p>
     </main>
+    </>
   );
 }
