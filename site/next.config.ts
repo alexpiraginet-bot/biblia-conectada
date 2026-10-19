@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
   async redirects() {
     return abbreviationRedirects(books);
   },
+  // the open data bundle (DADOS.md) can be read by pages and apps on other sites
+  async headers() {
+    return [{ source: "/dados/v1/:path*", headers: [{ key: "Access-Control-Allow-Origin", value: "*" }] }];
+  },
 };
 
 export default nextConfig;

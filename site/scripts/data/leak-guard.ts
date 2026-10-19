@@ -7,7 +7,7 @@ import { extname, join } from "node:path";
 
 export const NGRAM = 6;
 
-const TEXT_EXT = new Set([".html", ".rsc", ".js", ".mjs", ".json", ".txt", ".md", ".meta", ".body", ".ts", ".tsx", ".css", ".svg"]);
+const TEXT_EXT = new Set([".html", ".rsc", ".js", ".mjs", ".json", ".txt", ".md", ".csv", ".meta", ".body", ".ts", ".tsx", ".css", ".svg"]);
 
 /**
  * Lowercase words with accents, after undoing the escapes HTML, JSON and JS bundles use, split into segments.

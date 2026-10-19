@@ -58,5 +58,5 @@ Space Grotesk, Space Mono e Cormorant (as três dos vídeos), Literata (texto b�
 ## Código e dados deste repositório
 
 - **Código-fonte** (`site/`, `scripts/` e o código Python de `estudos/`): licença MIT, ver `LICENSE`.
-- **Dados derivados** gerados pelo projeto (`site/src/data/generated/`, `site/public/data/`): CC BY-SA 4.0, ver `LICENSE-DATA.md`. Quem reutilizar mantém os créditos das fontes listados acima.
+- **Dados derivados** gerados pelo projeto (`site/src/data/generated/`, `site/public/data/` e o pacote de dados abertos `site/public/dados/v1/`, servido em `/dados` e descrito em `DADOS.md`): CC BY-SA 4.0, ver `LICENSE-DATA.md`. Quem reutilizar mantém os créditos das fontes listados acima.
 - **Mídia dos estudos e textos do site:** ainda sem licença definida, o que por padrão significa todos os direitos reservados.

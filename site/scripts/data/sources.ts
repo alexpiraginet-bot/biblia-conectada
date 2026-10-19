@@ -25,6 +25,8 @@ export const CROSSREFS_SHA256 = "2aba58d2adc91609a090f80bb05dfbc7a1518ff10ee798f
 export const OUT = {
   generated: join(SITE, "src/data/generated"),
   publicData: join(SITE, "public/data"),
+  /** open data bundle for people who build on the project's data, served at /dados/v1/ (DADOS.md) */
+  publicDados: join(SITE, "public/dados"),
 };
 
 export function sha256(path: string): string {
