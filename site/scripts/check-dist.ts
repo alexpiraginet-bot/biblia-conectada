@@ -17,7 +17,7 @@ const html = textFiles(appDir)
   .filter((f) => f.endsWith(".html"))
   .map((f) => relative(appDir, f))
   .filter((f) => !f.split(sep).some((part) => part.startsWith("_") || part.includes("[")));
-const required = ["index.html", "sobre.html", "ler.html", "isaias.html", join("isaias", "9.html"), join("isaias", "9", "6.html")];
+const required = ["index.html", "sobre.html", "arcos.html", "ler.html", "isaias.html", join("isaias", "9.html"), join("isaias", "9", "6.html")];
 for (const r of required) if (!html.includes(r)) throw new Error(`[check-dist] ${r} was not prerendered`);
 
 const decode = (s: string) => s.replace(/&quot;/g, '"').replace(/&#x27;/g, "'").replace(/&amp;/g, "&").replace(/<!-- -->/g, "");
@@ -47,6 +47,10 @@ const homeNumbers = [
 ];
 for (const s of homeNumbers) if (!home.includes(s)) failures.push(`index.html: "${s}" missing`);
 if (home.includes(formatInt(summary.counts.pairs))) failures.push("index.html: shows the pair count with the 45 self-pairs");
+// /arcos (the sky of links) states the same numbers in its first screen, from the same pipeline
+const arcos = textOf(readFileSync(join(appDir, "arcos.html"), "utf8"));
+for (const s of homeNumbers) if (!arcos.includes(s)) failures.push(`arcos.html: "${s}" missing`);
+if (arcos.includes(formatInt(summary.counts.pairs))) failures.push("arcos.html: shows the pair count with the 45 self-pairs");
 
 // rule 1: no run of the ACF/AA quotes in anything the server or the browser receives
 type BookFile = { chapters: { t: string }[][] };
@@ -68,6 +72,6 @@ if (failures.length) {
   process.exit(1);
 }
 console.log(
-  `[check-dist] credits and lang in ${html.length} prerendered pages; home numbers match summary.json; ` +
+  `[check-dist] credits and lang in ${html.length} prerendered pages; home and /arcos numbers match summary.json; ` +
     `${shipped.length} shipped text files hold none of the ${new Set(runs.values()).size} protected quotes`,
 );
