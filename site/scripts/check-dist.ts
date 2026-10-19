@@ -11,7 +11,7 @@ const appDir = join(SITE, ".next/server/app");
 if (!existsSync(appDir)) throw new Error("no .next/server/app: run `next build` first");
 
 const html = readdirSync(appDir).filter((f) => f.endsWith(".html") && !f.startsWith("_"));
-const required = ["index.html", "sobre.html"];
+const required = ["index.html", "sobre.html", "arcos.html"];
 for (const r of required) if (!html.includes(r)) throw new Error(`[check-dist] ${r} was not prerendered`);
 
 const decode = (s: string) => s.replace(/&quot;/g, '"').replace(/&#x27;/g, "'").replace(/&amp;/g, "&").replace(/<!-- -->/g, "");
@@ -38,9 +38,13 @@ const homeNumbers = [
 ];
 for (const s of homeNumbers) if (!home.includes(s)) failures.push(`index.html: "${s}" missing`);
 if (home.includes(formatInt(summary.counts.pairs))) failures.push("index.html: shows the pair count with the 45 self-pairs");
+// /arcos (the sky of links) states the same numbers in its first screen, from the same pipeline
+const arcos = decode(readFileSync(join(appDir, "arcos.html"), "utf8"));
+for (const s of homeNumbers) if (!arcos.includes(s)) failures.push(`arcos.html: "${s}" missing`);
+if (arcos.includes(formatInt(summary.counts.pairs))) failures.push("arcos.html: shows the pair count with the 45 self-pairs");
 
 if (failures.length) {
   console.error(failures.join("\n"));
   process.exit(1);
 }
-console.log(`[check-dist] credits present in ${html.length} prerendered pages (${html.join(", ")}); home numbers match summary.json`);
+console.log(`[check-dist] credits present in ${html.length} prerendered pages (${html.join(", ")}); home and /arcos numbers match summary.json`);
