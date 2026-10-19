@@ -133,7 +133,13 @@ Celular (375 px): uma coluna. A contagem vai no fim do versículo, como botão; 
 - **Arcos da leitura (feito em 19/10).** No painel do versículo, no do capítulo e na página do livro há uma faixa com os arcos daquela seleção, desenhada como no vídeo 1: linha de base de Gênesis a Apocalipse com os capítulos igualmente espaçados, cada ligação um meio-arco, cor pela distância (paleta do `film.py`) e espessura pelos votos (peso do `arcs.py`). Escala vertical fixa para todas as páginas, então alturas comparam. Fundo Noite também no tema Dia, como o céu. No capítulo e no livro os arcos de versículos que vão ao mesmo capítulo viram um só, com brilho `1 − e^(−Σ)`, a luz somada do vídeo. SVG feito no servidor: zero JS. Legenda curta embaixo diz como ler.
 - **Capa da home (19/10):** título dividido "Toda passagem / abre um mundo", com a primeira linha na Cormorant Itálica dos vídeos. Ao rolar, uma janela sobre o céu noturno cresce até ocupar a tela.
   - No horizonte fica a luz do versículo mais ligado, com os arcos dele em ouro: `summary.json`, hoje Isaías 9:6 e 212 arcos.
-  - Canvas desenhado uma vez em três camadas, sem laço de animação; o único movimento é o nascer dos arcos (recorte CSS) e a coreografia da rolagem (variáveis CSS).
+  - **Céu vivo (pedido do Alex, "com muito Motion vivo"):** WebGL2 com três passadas na GPU.
+    - Céu: estrelas piscando, brilho respirando, estrela cadente rara.
+    - Arcos aditivos: os dourados do versículo com pulsos de luz correndo da estrela, sobre um véu tênue dos pares mais votados (paleta do `film.py`), carregado depois da primeira pintura e não baixado com economia de dados.
+    - Frente: colinas que derivam e respondem ao mouse e à rolagem, névoa, granulação.
+    - Pausa fora da tela e em aba escondida; resolução cai sozinha se os quadros ficam lentos.
+    - Com renderizador por software (SwiftShader, llvmpipe…) ou com menos de ~8 quadros por segundo, volta para a cena parada em Canvas 2D (três camadas desenhadas uma vez, arcos nascendo por recorte CSS). No Lighthouse, o WebGL por software travava a página 0,2–1 s por quadro.
+    - `localStorage["ceu-vivo"] = "1"` força o céu vivo para conferir sem GPU.
   - Com movimento reduzido ou sem JS, a capa é uma página parada e completa.
   - Código em `site/src/components/home/`.
 - **Largura da página:** `--page-max: 84rem` vale para o cabeçalho, a grade de leitura e o índice de livros, então a marca, o trilho de capítulos e os títulos começam na mesma linha.

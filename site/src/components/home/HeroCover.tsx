@@ -5,8 +5,10 @@
 // scroll handler that writes a few CSS variables do the same choreography: the title halves part, the window onto the
 // night sky grows to fill the screen, the caption fades. Without JavaScript, or with reduced motion, the cover is a
 // still, complete page.
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { arcStrength } from "@/lib/arc-style";
 import { drawSky, type SkyData } from "./sky-canvas";
+import { type GlSky, startGlSky } from "./sky-gl";
 import styles from "./HeroCover.module.css";
 
 type Props = {
@@ -32,16 +34,77 @@ const easeOut = (x: number) => 1 - (1 - x) * (1 - x); // power1.out
 export function HeroCover({ titleTop, titleBottom, skyLabel, captionTop, captionLeft, captionRight, notesLabel, paragraph, sky, children }: Props) {
   const rootRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const hostRef = useRef<HTMLDivElement>(null);
+  const glRef = useRef<GlSky | null>(null);
+  const [fallback, setFallback] = useState(false);
   const backRef = useRef<HTMLCanvasElement>(null);
   const midRef = useRef<HTMLCanvasElement>(null);
   const frontRef = useRef<HTMLCanvasElement>(null);
   const notesRef = useRef<HTMLElement>(null);
   const words = paragraph.split(" ");
 
+  // the live sky (WebGL2). A canvas per mount: Next keeps hidden pages around, and a released context cannot be reused.
   useEffect(() => {
+    const host = hostRef.current;
+    if (!host || fallback) return;
+    const canvas = document.createElement("canvas");
+    canvas.className = styles.canvas;
+    host.appendChild(canvas);
+    const gl = startGlSky(canvas, sky, () => setFallback(true));
+    if (!gl) {
+      canvas.remove();
+      // no WebGL2: switch to the still scene once this effect is done
+      queueMicrotask(() => setFallback(true));
+      return;
+    }
+    glRef.current = gl;
+
+    // after the first paint, a faint sky of the most voted pairs behind the gold arcs (skipped when saving data)
+    let cancelled = false;
+    const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+    const lite = conn?.saveData === true || /2g$/.test(conn?.effectiveType ?? "");
+    const load = async () => {
+      try {
+        const [model, meta, buf] = await Promise.all([
+          import("@/components/sky/model"),
+          fetch("/data/sky.json").then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status))))),
+          fetch("/data/sky-head.bin").then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error(String(r.status))))),
+        ]);
+        if (cancelled) return;
+        const geo = model.buildGeometry(meta);
+        const set = model.decodeArcs(buf, false);
+        const n = Math.min(set.n, window.innerWidth < 700 ? 1800 : 4000);
+        const triples = new Float32Array(n * 3);
+        for (let k = 0; k < n; k++) {
+          triples[k * 3] = geo.xOfGv[set.a[k]];
+          triples[k * 3 + 1] = geo.xOfGv[set.b[k]];
+          triples[k * 3 + 2] = arcStrength(set.votes[k]);
+        }
+        gl.setBackground(triples);
+      } catch {
+        /* the gold arcs are enough */
+      }
+    };
+    const idle = window.requestIdleCallback
+      ? window.requestIdleCallback(() => void load(), { timeout: 2500 })
+      : window.setTimeout(() => void load(), 1200);
+    if (lite) (window.cancelIdleCallback ?? window.clearTimeout)(idle);
+
+    return () => {
+      cancelled = true;
+      (window.cancelIdleCallback ?? window.clearTimeout)(idle);
+      gl.destroy();
+      canvas.remove();
+      glRef.current = null;
+    };
+  }, [sky, fallback]);
+
+  // the still Canvas 2D scene, when WebGL2 is missing or its context was lost
+  useEffect(() => {
+    if (!fallback) return;
     const [back, mid, front] = [backRef.current, midRef.current, frontRef.current];
     return back && mid && front ? drawSky({ back, mid, front }, sky) : undefined;
-  }, [sky]);
+  }, [sky, fallback]);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -61,7 +124,9 @@ export function HeroCover({ titleTop, titleBottom, skyLabel, captionTop, caption
       s.setProperty("--k-hint", String(span(p, 0, 0.1)));
       s.setProperty("--k-title", String(easeIn(span(p, 0.04, 0.54))));
       s.setProperty("--k-caption", String(span(p, 0.38, 0.58)));
-      s.setProperty("--k-panel", String(easeInOut(span(p, 0.08, 0.98))));
+      const panel = easeInOut(span(p, 0.08, 0.98));
+      s.setProperty("--k-panel", String(panel));
+      glRef.current?.setOpen(panel);
       s.setProperty("--k-frame", String(easeInOut(span(p, 0.48, 0.88))));
       s.setProperty("--k-zoom", String(easeOut(span(p, 0, 0.98))));
     };
@@ -109,9 +174,14 @@ export function HeroCover({ titleTop, titleBottom, skyLabel, captionTop, caption
                   aria-label={skyLabel}
                   style={{ "--sx": `${Math.round(sky.x0 * 1000) / 10}%` } as React.CSSProperties}
                 >
-                  <canvas ref={backRef} className={styles.canvas} />
-                  <canvas ref={midRef} className={`${styles.canvas} ${styles.lights}`} />
-                  <canvas ref={frontRef} className={styles.canvas} />
+                  <div ref={hostRef} className={styles.canvas} />
+                  {fallback && (
+                    <>
+                      <canvas ref={backRef} className={styles.canvas} />
+                      <canvas ref={midRef} className={`${styles.canvas} ${styles.lights}`} />
+                      <canvas ref={frontRef} className={styles.canvas} />
+                    </>
+                  )}
                 </div>
                 <div className={styles.shade} aria-hidden="true" />
                 <figcaption className={styles.caption} aria-hidden="true">

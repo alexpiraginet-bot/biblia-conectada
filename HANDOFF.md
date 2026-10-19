@@ -453,4 +453,8 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
   - Desempenho:
     - A primeira versão redesenhava a paisagem a cada quadro: TBT 6,7 s no Lighthouse celular.
     - Agora o canvas é desenhado uma vez, em três camadas, e os arcos nascem por recorte CSS: celular 94–97 (TBT 160–250 ms, LCP 2,0–2,3 s, CLS 0), desktop 100, acessibilidade 100.
+  - Depois o Alex pediu "muito Motion vivo": o céu da capa passou a WebGL2.
+    - Na GPU: estrelas, pulsos de luz nos arcos, véu dos pares mais votados, colinas com paralaxe, névoa e granulação.
+    - Sem GPU real cai na cena parada. Lighthouse: celular 94–96 (TBT 130–220 ms), desktop 100.
+    - Conferido só em Chromium sem GPU, com o céu vivo forçado; não testado em GPU real (§5.6).
   - O Alex mandou também o "Atlas Design Kit v2". Ele foi lido e não adotado como direção, porque diz que a direção ainda não fora escolhida e as imagens do Alex já escolhem. Aproveitado: as quatro categorias de ligação com padrão de linha, a regra de fonte e estado editorial, as regras do grafo e as fontes Newsreader e Instrument Sans como candidatas (análise em andamento).
