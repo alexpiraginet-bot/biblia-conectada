@@ -1,0 +1,24 @@
+{
+ "versiculos": 31102,
+ "capitulos": 1189,
+ "livros": 66,
+ "referencias_linhas": 344799,
+ "pares_unicos": 301584,
+ "pares_sem_autoligacao": 301539,
+ "pares_at_nt": 67293,
+ "versiculos_com_ligacao": 30303,
+ "versiculos_sem_ligacao": 799,
+ "media_ligacoes_por_versiculo": 19.39,
+ "mediana": 15,
+ "capitulos_arestas": 142082,
+ "livros_pares_ligados": 2036,
+ "mais_ligado": {
+  "ref": "Isaías 9:6",
+  "ligacoes": 212
+ },
+ "par_mais_votado": {
+  "a": "Isaías 41:10",
+  "b": "Filipenses 4:13",
+  "votos": 1477
+ }
+}

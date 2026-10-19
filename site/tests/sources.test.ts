@@ -1,6 +1,6 @@
 // Rule 1 of CLAUDE.md: only free sources. Protected translations (ACF, AA, NVI, ARA, NAA, NTLH…) never reach
 // fontes/, the generated data or public/.
-import { readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { join, relative } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -23,7 +23,8 @@ const PROTECTED_NAME = /(^|[^a-z])(acf|aa|nvi|ara|arc|naa|ntlh|nvt|a21|kja|nbv-?
 const PROTECTED_TITLE = /Almeida Corrigida|Revista e Atualizada|Revista e Corrigida|Nova Versão Internacional|Linguagem de Hoje|Nova Almeida Atualizada|Nova Versão Transformadora/i;
 
 describe("fontes/", () => {
-  it("holds only README.md, SHA256SUMS and files listed there with matching SHA-256", () => {
+  // README.md, SHA256SUMS and the index catalogo.json describe the sources; scripts/fetch_sources.sh leaves them out of the sums
+  it("holds only README.md, catalogo.json, SHA256SUMS and files listed there with matching SHA-256", () => {
     const sums = new Map(
       readFileSync(SRC.fontesSums, "utf8").trim().split("\n").map((l) => {
         const [hash, ...name] = l.split("  ");
@@ -32,11 +33,17 @@ describe("fontes/", () => {
     );
     for (const file of walk(SRC.fontesDir)) {
       const rel = relative(SRC.fontesDir, file);
-      if (rel === "README.md" || rel === "SHA256SUMS") continue;
+      if (rel === "README.md" || rel === "SHA256SUMS" || rel === "catalogo.json") continue;
       expect(sums.has(rel), `${rel} is not in fontes/SHA256SUMS`).toBe(true);
       expect(createHash("sha256").update(readFileSync(file)).digest("hex"), rel).toBe(sums.get(rel));
       expect(rel).not.toMatch(PROTECTED_NAME);
     }
+  });
+
+  it("indexes in catalogo.json only folders that exist", () => {
+    const catalog = JSON.parse(readFileSync(join(SRC.fontesDir, "catalogo.json"), "utf8")) as { fontes: { pasta: string }[] };
+    expect(catalog.fontes.length).toBeGreaterThan(0);
+    for (const f of catalog.fontes) expect(existsSync(join(SRC.fontesDir, f.pasta)), f.pasta).toBe(true);
   });
 });
 

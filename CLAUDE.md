@@ -27,6 +27,7 @@ Fale com o Alex em PT-BR. Código, identificadores e mensagens de commit em ingl
 
 ```bash
 scripts/fetch_sources.sh            # confere as fontes contra fontes/SHA256SUMS (--update para atualizar)
+python3 -I grafo/build.py           # regera grafo/dados, RANKINGS.md e imagens (~1 min)
 pip install -r estudos/requirements.txt   # só para mexer nos vídeos (EGL/Linux para o mapa 3D)
 
 # site/ (Next.js 16, Node 22). Detalhes em site/README.md
@@ -49,7 +50,8 @@ npm run lint        # eslint
 - `HANDOFF.md`: plano e estado.
 - `ATTRIBUTION.md`: licenças e créditos.
 - `design/`: direção visual e referências.
-- `fontes/`: bases abertas com SHA-256.
+- `fontes/`: bases abertas com SHA-256; `fontes/catalogo.json` é o índice.
+- `grafo/`: datasets, rankings e imagens gerados por `grafo/build.py` (regerar depois de mexer na base).
 - `estudos/biblia-referencias/data/`: `xref.npz`, `stats.json` e a base de referências cruzadas.
 - `estudos/biblia-natal/data/`: `natal-stats.json`, `places.json`, `verses.json` (citações).
 - `scripts/`: utilitários.
