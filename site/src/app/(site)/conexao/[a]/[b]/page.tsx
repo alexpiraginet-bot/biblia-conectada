@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
+import { NOT_FOUND_TITLE } from "@/components/NotFoundBody";
 import { scripture } from "@/components/explore/fonts";
 import { Scripture } from "@/components/reader/Scripture";
 import { formatInt } from "@/lib/canon/text";
@@ -56,7 +57,9 @@ async function resolve(params: Promise<{ a: string; b: string }>) {
 
 export async function generateMetadata({ params }: PageProps<"/conexao/[a]/[b]">): Promise<Metadata> {
   const r = await resolve(params);
-  if (!r || !r.canonical) return {};
+  // no such passage: the 404 title; the reversed pair redirects to its canonical page, which has the title
+  if (!r) return { title: NOT_FOUND_TITLE };
+  if (!r.canonical) return {};
   return {
     title: `${r.x.label} e ${r.y.label}`,
     description: `${r.x.label} e ${r.y.label} lado a lado na Bíblia Livre (BLIVRE), com os versículos que a OpenBible.info liga entre os dois.`,

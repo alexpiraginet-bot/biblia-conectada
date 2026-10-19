@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ConnectionPanel } from "@/components/explore/ConnectionPanel";
+import { NOT_FOUND_TITLE } from "@/components/NotFoundBody";
 import { explore, explorePages, resolveChapter } from "@/lib/explore/data";
 import { explorePath } from "@/lib/explore/home";
 
@@ -12,7 +13,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/explorar/[livro]/[cap]">): Promise<Metadata> {
   const { livro, cap } = await params;
   const r = resolveChapter(livro, cap);
-  if (!r) return {};
+  if (!r) return { title: NOT_FOUND_TITLE };
   const label = `${r.book.name} ${r.chapter}`;
   return {
     title: `Explorar ${label}`,

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BlivreText } from "@/components/passage/Passage";
+import { NOT_FOUND_TITLE } from "@/components/NotFoundBody";
 import { literata } from "@/components/passage/literata";
 import { formatInt } from "@/lib/canon/text";
 import { conexaoPath } from "@/lib/conexao";
@@ -24,7 +25,7 @@ const capital = (s: string) => s.charAt(0).toLocaleUpperCase("pt-BR") + s.slice(
 
 export async function generateMetadata({ params }: PageProps<"/tema/[slug]">): Promise<Metadata> {
   const t = themeBySlug((await params).slug);
-  if (!t) return {};
+  if (!t) return { title: NOT_FOUND_TITLE };
   return {
     title: `${capital(t.label)} (tema)`,
     description: `${formatInt(t.passages.length)} passagens do tema “${t.label}” (OpenBible.info Topics), no texto da Bíblia Livre, e as ligações entre elas.`,

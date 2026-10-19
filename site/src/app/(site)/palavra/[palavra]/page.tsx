@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { NOT_FOUND_TITLE } from "@/components/NotFoundBody";
 import { VerseRows } from "@/components/passage/Passage";
 import { literata } from "@/components/passage/literata";
 import { formatInt } from "@/lib/canon/text";
@@ -29,7 +30,7 @@ async function resolve(params: Promise<{ palavra: string }>) {
 
 export async function generateMetadata({ params }: PageProps<"/palavra/[palavra]">): Promise<Metadata> {
   const w = await resolve(params);
-  if (!w) return {};
+  if (!w) return { title: NOT_FOUND_TITLE };
   return {
     title: `“${w.label}” na Bíblia Livre`,
     description: `Os ${formatInt(w.verses.length)} versículos da Bíblia Livre com a palavra “${w.label}” e as ${formatInt(w.linksAmong.length)} ligações entre eles.`,

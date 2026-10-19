@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { NOT_FOUND_TITLE } from "@/components/NotFoundBody";
 import { PassageText } from "@/components/passage/Passage";
 import { literata } from "@/components/passage/literata";
 import { EraAxis, type AxisLane } from "@/components/timeline/EraAxis";
@@ -35,7 +36,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps<"/linha-do-tempo/[evento]">): Promise<Metadata> {
   const e = eventBySlug((await params).evento);
-  if (!e) return {};
+  if (!e) return { title: NOT_FOUND_TITLE };
   return {
     title: e.ref,
     description: `${e.ref} na linha do tempo: ${yearLabel(e.year)} pela cronologia de F. N. Jones (Theographic), texto da Bíblia Livre e ${formatInt(e.links.pairs)} ligações.`,

@@ -6,6 +6,7 @@ import { CardMaker } from "@/components/community/CardMaker";
 import { DeviceNote } from "@/components/community/DeviceNote";
 import { MarkVisited } from "@/components/community/TrailSky";
 import styles from "@/components/community/community.module.css";
+import { NOT_FOUND_TITLE } from "@/components/NotFoundBody";
 import { scripture } from "@/components/community/scripture-font";
 import { ChevronLeft, ChevronRight } from "@/components/icons";
 import { formatInt } from "@/lib/canon/text";
@@ -26,7 +27,7 @@ async function resolve(params: Promise<{ n: string }>) {
 
 export async function generateMetadata({ params }: PageProps<"/trilha/antes-do-natal/[n]">): Promise<Metadata> {
   const s = await resolve(params);
-  if (!s) return {};
+  if (!s) return { title: NOT_FOUND_TITLE };
   return {
     title: `${stepTitle(s)} · ${trail.title}`,
     description: `Passo ${s.step} da trilha ${trail.title}: ${stepTitle(s)}, ${formatInt(s.votes)} votos de leitores na OpenBible.info, no texto da Bíblia Livre.`,

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { DeviceNote } from "@/components/community/DeviceNote";
+import { NOT_FOUND_TITLE } from "@/components/NotFoundBody";
 import { PontePlayer } from "@/components/community/PontePlayer";
 import styles from "@/components/community/community.module.css";
 import { scripture } from "@/components/community/scripture-font";
@@ -21,7 +22,7 @@ async function resolve(params: Promise<{ n: string }>) {
 
 export async function generateMetadata({ params }: PageProps<"/ponte/[n]">): Promise<Metadata> {
   const b = await resolve(params);
-  if (!b) return {};
+  if (!b) return { title: NOT_FOUND_TITLE };
   return {
     title: `Ponte nº ${b.n}`,
     description: `De ${verseInfo(b.start).ref} a ${verseInfo(b.target).ref} pelas referências cruzadas, no mínimo ${b.min} saltos.`,

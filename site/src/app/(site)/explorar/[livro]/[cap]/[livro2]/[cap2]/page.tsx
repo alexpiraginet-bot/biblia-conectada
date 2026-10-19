@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ConnectionPanel } from "@/components/explore/ConnectionPanel";
+import { NOT_FOUND_TITLE } from "@/components/NotFoundBody";
 import { explore, resolveChapter } from "@/lib/explore/data";
 import { connectionPath, EXPLORE_ALWAYS } from "@/lib/explore/home";
 
@@ -36,7 +37,7 @@ async function resolve(params: Params) {
 
 export async function generateMetadata({ params }: PageProps<"/explorar/[livro]/[cap]/[livro2]/[cap2]">): Promise<Metadata> {
   const r = await resolve(params);
-  if (!r) return {};
+  if (!r) return { title: NOT_FOUND_TITLE };
   const c = r.data.centre;
   const p = r.n.ref;
   return {
