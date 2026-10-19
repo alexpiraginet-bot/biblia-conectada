@@ -16,6 +16,8 @@ const pages = textFiles(appDir)
   .filter((f) => !f.split(sep).some((part) => part.startsWith("_") || part.includes("[")));
 
 const kind = (page: string) => {
+  const first = page.split(sep)[0];
+  if (first === "explorar" || first === "conexao") return first;
   const depth = page.split(sep).length;
   if (depth === 3) return "versículo";
   if (depth === 2) return "capítulo";
