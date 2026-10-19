@@ -500,3 +500,13 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
     - palavras comuns viravam livro pelo prefixo de 3 letras (`/mar` → Marcos). No endereço, o prefixo agora precisa de 4 letras;
     - segmentos longos faziam as expressões regulares gastarem CPU. Agora segmento acima de 64 caracteres não é analisado;
     - o CSS da 404 carregava em toda página. Foi para o `globals.css`, e os caminhos viraram lista com fio, como em `/ler` (design §10), sem animação (§7).
+- **19/10, noite, contraste no iPhone:**
+  - O Alex mandou um print da folha de ligações de Josué 1:2 com título, versículo e lista quase invisíveis: texto escuro sobre a folha escura, e a página atrás clara.
+  - Os elementos com cor própria estavam certos; só o texto que herdava a cor da página ficou com a cor do outro tema. É um estado misturado depois de trocar o tema, que o Chromium daqui não reproduz (não há WebKit no ambiente).
+  - Correção:
+    - cada tema agora dá todos os valores, sem token apontando para outro (um teste barra o padrão antigo);
+    - a troca de tema marca também o `<body>`, que o navegador então recalcula;
+    - a folha tem cor de texto própria;
+    - o `<html>` não traz mais `data-theme` fixo do servidor.
+  - Não verificado em Safari/iPhone. Conferido no Chromium: três trocas de tema seguidas e a folha aberta nos dois temas, com contraste mínimo de 9,7:1.
+  - O Alex pediu também um design system muito superior e uma remodelagem total, com leitura e busca mais fáceis.

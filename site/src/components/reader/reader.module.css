@@ -310,6 +310,8 @@
     max-height: 82dvh;
     overflow: auto;
     overscroll-behavior: contain;
+    /* its own text colour with its own background, never one inherited from the page behind */
+    color: var(--ink);
     background: var(--surface);
     border-radius: 1rem 1rem 0 0;
     box-shadow: 0 -12px 40px rgb(0 0 0 / 0.35);

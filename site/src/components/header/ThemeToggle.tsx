@@ -8,8 +8,11 @@ const THEME_COLOR: Record<Theme, string> = { noite: "#051219", dia: "#f8f4ed" };
 
 export const THEME_SCRIPT = `(function(){try{var t=localStorage.getItem("theme");if(t==="dia"||t==="noite"){document.documentElement.setAttribute("data-theme",t);var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",t==="dia"?"${THEME_COLOR.dia}":"${THEME_COLOR.noite}")}}catch(e){}})()`;
 
+/** The theme goes on <html> and on <body>: the [data-theme] rules then match <body> itself, so the browser recomputes
+ *  it and everything that inherits from it, rather than trusting values it inherited before the switch. */
 function apply(t: Theme) {
   document.documentElement.setAttribute("data-theme", t);
+  document.body.setAttribute("data-theme", t);
   document.querySelector('meta[name="theme-color"]')?.setAttribute("content", THEME_COLOR[t]);
 }
 function read(): Theme {
@@ -27,10 +30,11 @@ export function ThemeToggle() {
   // A document rendered on the client never ran THEME_SCRIPT: Next.js sends the 404 of a reading route ("/x") as an
   // empty shell that the browser fills in. Apply the stored choice there too, before the first paint.
   useLayoutEffect(() => {
+    let stored: string | null = null;
     try {
-      const stored = localStorage.getItem("theme");
-      if ((stored === "dia" || stored === "noite") && stored !== read()) apply(stored);
+      stored = localStorage.getItem("theme");
     } catch {}
+    apply(stored === "dia" || stored === "noite" ? stored : read());
   }, []);
   return (
     <button

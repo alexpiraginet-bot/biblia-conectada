@@ -35,7 +35,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="pt-BR" data-theme="noite" className={`${grotesk.variable} ${display.variable}`} suppressHydrationWarning>
+    <html lang="pt-BR" className={`${grotesk.variable} ${display.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>
