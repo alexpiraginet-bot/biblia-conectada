@@ -1,6 +1,6 @@
 // Post-build checks of the community pages (CLAUDE.md rule 3): every number and pair they show in the prerendered
 // HTML is the pipeline's (src/data/generated/community/), and no bridge after the build day has a page.
-import { existsSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { join, sep } from "node:path";
 import { createGrid } from "../../src/lib/canon/grid";
 import { formatInt } from "../../src/lib/canon/text";
@@ -10,8 +10,9 @@ import { PONTE_DAYS, formatDateBR, type PonteBuilt, type PonteCalendar } from ".
 import { TRAIL_SLUG, type TrailFile } from "../../src/lib/community/trail";
 import { OUT } from "../data/sources";
 
-export function checkCommunity(ctx: { appDir: string; html: string[]; textOf: (raw: string) => string; failures: string[] }) {
-  const { appDir, html, textOf, failures } = ctx;
+/** `html`: prerendered pages by path relative to the app ("ponte/1.html"); `page` reads one (scripts/checks/pages.ts) */
+export function checkCommunity(ctx: { html: string[]; page: (rel: string) => string; textOf: (raw: string) => string; failures: string[] }) {
+  const { html, textOf, failures } = ctx;
   const read = <T>(p: string) => JSON.parse(readFileSync(p, "utf8")) as T;
   const books = read<Book[]>(join(OUT.generated, "books.json"));
   const grid = createGrid(books);
@@ -24,7 +25,7 @@ export function checkCommunity(ctx: { appDir: string; html: string[]; textOf: (r
       failures.push(`${rel} was not prerendered`);
       return null;
     }
-    const raw = readFileSync(join(appDir, rel), "utf8");
+    const raw = ctx.page(rel);
     return { raw, text: textOf(raw) };
   };
   const need = (rel: string, text: string, s: string) => {
@@ -78,9 +79,9 @@ export function checkCommunity(ctx: { appDir: string; html: string[]; textOf: (r
   }
   const ponteHtml = html.filter((f) => f.startsWith("ponte" + sep));
   if (ponteHtml.length !== Math.max(built.builtThrough, 0)) failures.push(`ponte: ${ponteHtml.length} pages, expected ${built.builtThrough}`);
-  const shown = ["ponte.html", ...ponteHtml].filter((f) => existsSync(join(appDir, f))).map((f) => [f, textOf(readFileSync(join(appDir, f), "utf8"))]);
+  const shown = ["ponte.html", ...ponteHtml].filter((f) => html.includes(f)).map((f) => [f, textOf(ctx.page(f))]);
   for (let n = built.builtThrough + 1; n <= PONTE_DAYS; n++) {
-    if (existsSync(join(appDir, "ponte", `${n}.html`))) failures.push(`ponte/${n}.html exists before its day`);
+    if (html.includes(join("ponte", `${n}.html`))) failures.push(`ponte/${n}.html exists before its day`);
     const [s, t] = calendar.bridges[n - 1];
     const future = `${ref(s)} → ${ref(t)}`;
     for (const [f, text] of shown) if (text.includes(future)) failures.push(`${f}: shows bridge nº ${n} before its day`);
