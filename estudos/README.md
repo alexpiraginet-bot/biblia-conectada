@@ -4,10 +4,15 @@
 |---|---|---|
 | `biblia-referencias/` | **A Bíblia, conectada** (18/10/2026, 1080×1920, 30 fps, cerca de 53,5 s) | As 344.799 referências cruzadas como arcos. De 63.779 (Harrison & Römhild, 2007) até hoje. Isaías 9:6 é o versículo mais ligado (212) |
 | `biblia-natal/` | **Antes do Natal, já estava escrito** (19/10/2026, 1080×1920, 24 fps, cerca de 63,9 s) | As profecias do nascimento num mapa 3D do relevo real, com recriações dos lugares |
+| `biblia-comentarios/` | **Os versículos de vocês** (19/10/2026, 1080×1920, 30 fps, 62,2 s) | Resposta aos comentários do vídeo 1: os 19 versículos pedidos, cada um com as próprias ligações e o @ de quem pediu. Narração do mesmo narrador (Andre) |
 
 **Números do vídeo 2:**
 - 2.094 ligações do AT chegam aos 4 capítulos do nascimento (Mt 1–2 e Lc 1–2, 180 versículos).
 - Elas vêm de 1.561 versículos do AT, em 38 dos 39 livros. Só Jonas fica de fora.
+
+**Números do vídeo 3:**
+- 20 comentários com versículo, 19 mapas. O mais conectado entre os pedidos é Isaías 55:6 (121).
+- Juntos, os pedidos se ligam a 1.024 versículos em 59 dos 66 livros.
 
 **Onde está o resto:**
 - Cada pasta tem `PROJETO.md` (decisões, dados, pipeline), `LEGENDA.md` (legenda do post) e o código.
@@ -21,12 +26,13 @@ python3 -m venv .venv && . .venv/bin/activate && pip install -r estudos/requirem
 # ffmpeg 6.x no PATH
 cd estudos/biblia-referencias && python3 -I tools/analyze.py && python3 film.py --still 3,20,44
 cd ../biblia-natal && python3 film.py --still 1.0,31.5     # -> renders/.stills/
+cd ../biblia-comentarios && python3 -I tools/analyze.py && python3 -I tools/check.py   # números + fala == tela
 ```
 
 O pipeline completo de cada vídeo está no `PROJETO.md` da pasta.
 
 **Cuidados:**
-- `biblia-natal` lê `../biblia-referencias/data/`. As duas pastas precisam continuar lado a lado.
+- `biblia-natal` e `biblia-comentarios` leem `../biblia-referencias/data/`; `biblia-comentarios` ainda usa `arcs.py` e as fontes de lá (`assets` é um link simbólico). As três pastas precisam continuar lado a lado.
 - **O mapa 3D (`biblia-natal/mapgl.py`) usa OpenGL 3.3 headless com `backend="egl"` (Linux + Mesa).** No macOS não existe EGL: lá é preciso trocar o backend (CGL) e testar. Uma sessão Linux, como a nuvem do Claude Code, roda sem mudança.
 - `words.py` e `narration.py` usam `faster-whisper`, que baixa o modelo na primeira execução.
 - **Render conferido em 19/10:** `film.py --still 1.0,50.0` rodou numa cópia deste repo que tinha só `narr.json` em `renders/.film/`.
