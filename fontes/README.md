@@ -9,10 +9,10 @@ Cópias exatas das bases livres usadas, ou planejadas, no site. Foram baixadas e
 | Pasta | Tradução | Licença | Conferido em 19/10 (contra a grade de versículos KJV/OpenBible) |
 |---|---|---|---|
 | `blivre/` | **Bíblia Livre (BLIVRE)**, texto principal | CC BY 4.0 Brasil | 66 livros, 1.189 capítulos, 31.102 versículos, nenhum vazio. **0 diferenças de numeração** |
-| `ebible/porbrbsl/` | Bíblia Portuguesa Mundial | Domínio público (rascunho em revisão) | 81 livros, inclui deuterocanônicos (213 capítulos fora da grade). Nos 66, Rm 16:25–27 aparece como Rm 14:24–26. 29 versículos vazios |
+| `ebible/porbrbsl/` | Bíblia Portuguesa Mundial | Domínio público (rascunho em revisão) | 81 livros: 15 deuterocanônicos/apócrifos (213 capítulos fora da grade). Nos 66, Rm 16:25–27 aparece como Rm 14:24–26. 29 versículos vazios |
 | `ebible/poronbv/` | Biblica® Open Nova Bíblia Viva™ (2007) | CC BY-SA 4.0 | 66 livros. Versículos a mais: Jz 5:32, 1Sm 20:43, 3Jo 1:15 |
 | `ebible/porblt/` | Bíblia Livre Para Todos (só NT) | CC BY-SA 4.0 | 27 livros. A mais: 3Jo 1:15, Ap 12:18. 17 vazios |
-| `ebible/portft/` | Tradução para Tradutores (só NT) | CC BY-SA 4.0 | 27 livros. 47 capítulos com versículos agrupados (números que faltam na grade) |
+| `ebible/portft/` | Tradução para Tradutores (só NT) | CC BY-SA 4.0 | 27 livros. 47 capítulos com números de versículo faltando (provavelmente agrupados) |
 
 Fora: "Novo Testamento: Versão Fácil de Ler" (`por-WBTC`), marcado como não redistribuível no catálogo do eBible.
 
