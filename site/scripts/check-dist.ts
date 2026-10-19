@@ -9,6 +9,7 @@ import { formatBytes, type DadosManifest } from "../src/lib/dados";
 import { checkCommunity } from "./checks/community";
 import { checkExplore } from "./checks/explore";
 import { notFoundPage, prerenderedPages } from "./checks/pages";
+import { checkReading } from "./checks/reading";
 import { checkTimeline } from "./checks/timeline";
 import { findLeaks, loadProtectedQuotes, protectedRuns, textFiles } from "./data/leak-guard";
 import { OUT, SITE, SRC } from "./data/sources";
@@ -118,6 +119,9 @@ failures.push(...explore.failures);
 // community pages (trail, Ponte, Mesa): pairs, votes and dates are the pipeline's; no bridge before its day
 const community = checkCommunity({ html, page, textOf, failures });
 
+// reading pages (rail, panel headline and links) and /salvos: numbers from the book files (scripts/checks/reading.ts)
+const reading = checkReading({ html, page, textOf, failures });
+
 // rule 1: no run of the ACF/AA quotes in anything the server or the browser receives
 type BookFile = { chapters: { t: string }[][] };
 const books = JSON.parse(readFileSync(join(OUT.generated, "books.json"), "utf8")) as { slug: string }[];
@@ -146,5 +150,6 @@ console.log(
     `linha do tempo (${timeline.events} events), ${timeline.themes} themes and their words match the generated data; ` +
     `Explorar and /conexao show the explore data (${explore.checked} rows checked); ` +
     `trail (${community.trailSteps} steps) and Ponte (${community.pontePages} pages) match the community data; ` +
+    `${reading}; ` +
     `${shipped.length} shipped text files hold none of the ${new Set(runs.values()).size} protected quotes`,
 );

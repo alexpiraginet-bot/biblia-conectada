@@ -1,0 +1,145 @@
+/* /salvos: passages saved on this device */
+
+.main {
+  width: 100%;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-2) var(--space-5);
+}
+
+.main > * {
+  max-width: 44rem;
+}
+
+.title {
+  margin: 0 0 var(--space-1);
+  font-family: var(--font-title);
+  font-weight: 440;
+  font-synthesis: none;
+  font-size: clamp(2.5rem, 1.5rem + 3.2vw, 3.75rem);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.device {
+  margin: 0 0 var(--space-4);
+  color: var(--ink-2);
+}
+
+.loading {
+  min-height: 6rem;
+}
+
+.empty {
+  margin: 0;
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.count {
+  margin: 0 0 var(--space-1);
+  color: var(--ink-2);
+  font-size: var(--step-small);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.item {
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.itemHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.ref {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  color: var(--ink);
+  font-family: var(--font-title);
+  font-weight: 440;
+  font-synthesis: none;
+  font-size: 1.375rem;
+  text-decoration: none;
+}
+
+.ref:hover {
+  color: var(--accent-text);
+  text-decoration: underline;
+}
+
+.quote {
+  margin: 0.25rem 0 0.5rem;
+  padding-left: 0.875rem;
+  border-left: 1px solid var(--hairline);
+  font-family: var(--font-scripture), Georgia, serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.when {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: var(--step-small);
+}
+
+.remove,
+.btn,
+.danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  border: 1px solid var(--control-border);
+  border-radius: 0.625rem;
+  background: transparent;
+  color: var(--ink);
+  font-size: var(--step-ui);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.remove {
+  flex: none;
+  color: var(--ink-2);
+}
+
+.remove:hover,
+.btn:hover {
+  background: var(--raised);
+  color: var(--ink);
+}
+
+.danger {
+  background: var(--accent-interp);
+  border-color: var(--accent-interp);
+  color: var(--on-fill);
+  font-weight: 600;
+}
+
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+  margin-top: var(--space-3);
+}
+
+.confirm {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+}

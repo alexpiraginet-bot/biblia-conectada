@@ -2,11 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { NOT_FOUND_TITLE } from "@/components/NotFoundBody";
 import { ChapterArcs } from "@/components/reader/Arcs";
+import { Featured, MiniGraph, PanelHead } from "@/components/reader/FromHere";
 import styles from "@/components/reader/reader.module.css";
 import { formatInt } from "@/lib/canon/text";
+import { conexaoPath } from "@/lib/conexao";
+import { chapterHeadline, graphNote, graphPartners, topGroup, votesLabel } from "@/lib/from-here";
 import { books } from "@/lib/data";
 import { missingPage } from "@/lib/missing";
-import { bookBySlug, chapterNumber, chapterPartners, linkedChapters } from "@/lib/reading";
+import { bookBySlug, chapterNeighbours, chapterNumber, chapterRef } from "@/lib/reading";
 
 export const ensureStatic = "navigation";
 
@@ -26,48 +29,82 @@ export async function generateMetadata({ params }: PageProps<"/[livro]/[cap]">):
   };
 }
 
-// Panel when no verse is chosen: the chapter's strongest neighbours and how to open a verse.
+const LISTED = 8; // rows of "Mais ligados"; chapters tied with the 8th are kept
+
+// Panel when no verse is chosen ("A partir deste capítulo"): the chapters most linked to this one by summed votes,
+// as a headline, a mini graph and a list, and how to open a verse.
 export default async function ChapterPage({ params }: PageProps<"/[livro]/[cap]">) {
   const { livro, cap } = await params;
   const book = bookBySlug(livro);
   const chapter = book ? chapterNumber(book, cap) : null;
+  // an address that names no chapter: a loose reference goes to its page, anything else is the 404 (src/lib/missing.ts)
   if (!book || !chapter) missingPage([livro, cap]);
-  const linked = linkedChapters(book, chapter);
-  const partners = await chapterPartners(book, chapter);
+  const partners = await chapterNeighbours(book, chapter);
   const label = `${book.name} ${chapter}`;
-  const shown = linked.slice(0, 8);
-  const extra = linked.length - shown.length;
+  const ranked = partners.map((p) => ({ key: p.ci, votes: p.votes, pairs: p.pairs }));
+  const cut = ranked[Math.min(LISTED, ranked.length) - 1]?.votes;
+  const shown = ranked.filter((r, i) => i < LISTED || r.votes === cut);
+  const extra = ranked.length - shown.length;
+  const graph = graphPartners(ranked);
+  const top = ranked[0] ? chapterRef(ranked[0].key) : null;
+  const short = (ci: number) => {
+    const r = chapterRef(ci);
+    return `${r.book.abbr} ${r.chapter}`;
+  };
 
   return (
     <aside className={styles.chapterAside} aria-labelledby="ligados">
-      <h2 id="ligados" className={styles.panelTitle}>
-        Ligações de {label}
-      </h2>
-      {partners.length > 0 && <ChapterArcs ci={book.firstChapter + chapter - 1} label={label} partners={partners} />}
-      <h3 className={styles.listTitle}>
-        Mais ligados
-        <span>ligações entre os versículos dos dois capítulos</span>
-      </h3>
-      {shown.length === 0 ? (
+      <PanelHead kicker="A partir deste capítulo" title={`Ligações de ${label}`} titleId="ligados" />
+      {!top ? (
         <p className={styles.empty}>Nenhum outro capítulo está ligado a este na base OpenBible.info.</p>
       ) : (
-        <ol className={styles.rows}>
-          {shown.map(({ ref, pairs }) => (
-            <li key={ref.ci} className={styles.row}>
-              <Link href={ref.path}>{ref.label}</Link>
-              <span className={styles.votes}>
-                {formatInt(pairs)} {pairs === 1 ? "ligação" : "ligações"}
-              </span>
-            </li>
-          ))}
-        </ol>
+        <>
+          <p className={styles.headline} data-headline="">
+            {chapterHeadline(ranked, (ci) => chapterRef(ci).label)}
+          </p>
+          <MiniGraph
+            centre={`${book.abbr} ${chapter}`}
+            nodes={graph.shown.map((p) => ({ key: p.key, label: short(p.key), votes: p.votes }))}
+            topKey={top.ci}
+            legend="Ligações entre os capítulos: mais grossa, mais votos somados"
+            topLegend={ranked.length === 1 ? "O único capítulo ligado" : topGroup(ranked).length > 1 ? "Um dos mais votados, em destaque" : "O mais votado, em destaque"}
+            note={graphNote(ranked.length, graph.shown.length, graph.tiedOut, "capítulos ligados")}
+          />
+          <Featured
+            a={label}
+            b={top.label}
+            conexao={conexaoPath(
+              { book: book.index, slug: book.slug, chapter },
+              { book: top.book.index, slug: top.book.slug, chapter: top.chapter },
+            )}
+            explorar={`/explorar/${book.slug}/${chapter}`}
+          />
+          <ChapterArcs ci={book.firstChapter + chapter - 1} label={label} partners={partners} />
+          <h3 className={styles.listTitle}>
+            Mais ligados
+            <span>pela soma dos votos das ligações entre os versículos dos dois capítulos</span>
+          </h3>
+          <ol className={styles.rows}>
+            {shown.map(({ key, votes, pairs }) => {
+              const ref = chapterRef(key);
+              return (
+                <li key={key} className={styles.row}>
+                  <Link href={ref.path}>{ref.label}</Link>
+                  <span className={styles.votes}>
+                    {votesLabel(votes)} · {formatInt(pairs)} {pairs === 1 ? "ligação" : "ligações"}
+                  </span>
+                </li>
+              );
+            })}
+          </ol>
+          {extra > 0 && (
+            <p className={styles.panelMeta}>
+              E mais {formatInt(extra)} {extra === 1 ? "capítulo ligado" : "capítulos ligados"}, com menos votos.
+            </p>
+          )}
+        </>
       )}
-      {extra > 0 && (
-        <p className={styles.panelMeta}>
-          E mais {formatInt(extra)} {extra === 1 ? "capítulo" : "capítulos"} empatados no último lugar.
-        </p>
-      )}
-      <p className={styles.hint}>Toque no número ao lado de um versículo para ver as ligações dele.</p>
+      <p className={styles.hint}>Toque no número ao lado de um versículo para ver as ligações dele, ou selecione um trecho do texto.</p>
     </aside>
   );
 }

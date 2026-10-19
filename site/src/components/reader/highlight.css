@@ -1,0 +1,10 @@
+/* Paint of the selected passage (SelectionBar.tsx registers the "bc-trecho" highlight with the CSS Custom Highlight
+   API). Global on purpose: a CSS module would rename the highlight's name. */
+::highlight(bc-trecho) {
+  background-color: var(--highlight);
+  color: var(--ink);
+  text-decoration-line: underline;
+  text-decoration-color: var(--accent-text);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.28em;
+}

@@ -84,10 +84,11 @@ export function chapterPairs(book: Book, chapter: number): number {
   return (chapterPairsJson as number[])[book.firstChapter + chapter - 1];
 }
 
-export type ChapterPartner = { ci: number; pairs: number; light: number };
+export type ChapterPartner = { ci: number; pairs: number; light: number; votes: number };
 /**
  * Every chapter linked to this one, from the verse links: distinct verse pairs with one end here and the other there
- * (pairs inside the chapter left out), and the summed arc strength of those pairs (arc-style.ts).
+ * (pairs inside the chapter left out), the summed arc strength of those pairs (arc-style.ts) and their summed votes
+ * (each pair's votes already add up both directions). Sorted by pairs, as chapter-links.json.
  */
 export async function chapterPartners(book: Book, chapter: number): Promise<ChapterPartner[]> {
   const here = book.firstChapter + chapter - 1;
@@ -97,9 +98,10 @@ export async function chapterPartners(book: Book, chapter: number): Promise<Chap
       const loc = grid.locate(gv);
       const ci = loc.book.firstChapter + loc.chapter - 1;
       if (ci === here) continue;
-      const p = acc.get(ci) ?? { ci, pairs: 0, light: 0 };
+      const p = acc.get(ci) ?? { ci, pairs: 0, light: 0, votes: 0 };
       p.pairs++;
       p.light += arcStrength(votes);
+      p.votes += votes;
       acc.set(ci, p);
     }
   }
@@ -113,13 +115,22 @@ export async function bookPartners(book: Book): Promise<ChapterPartner[]> {
   for (let c = 1; c <= book.verses.length; c++) {
     for (const p of await chapterPartners(book, c)) {
       if (p.ci >= book.firstChapter && p.ci < end) continue;
-      const q = acc.get(p.ci) ?? { ci: p.ci, pairs: 0, light: 0 };
+      const q = acc.get(p.ci) ?? { ci: p.ci, pairs: 0, light: 0, votes: 0 };
       q.pairs += p.pairs;
       q.light += p.light;
+      q.votes += p.votes;
       acc.set(p.ci, q);
     }
   }
   return [...acc.values()].sort((p, q) => q.pairs - p.pairs || p.ci - q.ci);
+}
+
+/**
+ * The chapters linked to this one ranked by summed votes (strongest first, canonical order inside a tie), the order of
+ * the chapter panel's "Mais ligados" list and mini graph.
+ */
+export async function chapterNeighbours(book: Book, chapter: number): Promise<ChapterPartner[]> {
+  return (await chapterPartners(book, chapter)).sort((p, q) => q.votes - p.votes || p.ci - q.ci);
 }
 
 /** Previous and next chapter across book boundaries. */
