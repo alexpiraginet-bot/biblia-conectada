@@ -1,0 +1,96 @@
+/* BLIVRE text outside the reader (linha do tempo, temas, palavras): Literata, the reader's measure and ink */
+
+.passage {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.chapterTitle {
+  margin: 0 0 var(--space-1);
+  font-size: var(--step-small);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.chapterTitle a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+.verses {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: var(--scripture-column);
+}
+
+.verse {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  column-gap: 0.5rem;
+  padding: 0.25rem 0;
+}
+
+.num {
+  padding-top: 0.3rem;
+  color: var(--accent-text);
+  font-size: var(--step-small);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.scripture {
+  margin: 0;
+  font-family: var(--font-scripture), Georgia, serif;
+  font-size: var(--step-scripture);
+  line-height: 1.7;
+  font-weight: 430;
+  font-variation-settings: "wght" 430;
+  text-wrap: pretty;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.supplied {
+  color: var(--ink-2);
+}
+
+.rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: calc(var(--scripture-column) + 4rem);
+}
+
+.row {
+  padding: var(--space-2) 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.row:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.rowHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0 var(--space-2);
+  margin: 0 0 0.25rem;
+  font-size: var(--step-ui);
+}
+
+.rowHead a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  font-weight: 500;
+}
+
+.rowMeta {
+  color: var(--ink-2);
+  font-size: var(--step-small);
+}

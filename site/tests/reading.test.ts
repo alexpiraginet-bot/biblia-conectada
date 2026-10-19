@@ -1,13 +1,34 @@
 // The reading pages compute a few things at render time from the generated book files; they must agree with what the
-// pipeline computed for the same chapters (chapter-links.json, chapter-pairs.json).
+// pipeline computed for the same chapters (chapter-links.json, chapter-pairs.json, the chapter graph's edges).
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { OUT } from "../scripts/data/sources";
 import { arcStrength, arcTone } from "../src/lib/arc-style";
-import { chapterPairs, chapterPartners, chapterVerses, grid, linkedChapters } from "../src/lib/reading";
+import { chapterNeighbours, chapterPairs, chapterPartners, chapterVerses, grid, linkedChapters } from "../src/lib/reading";
 import { books } from "./generated";
 
-describe("chapter partners (arcs of a chapter page)", () => {
-  it("rank the same chapters as chapter-links.json, and add up to chapter-pairs.json", async () => {
+/** pairs and summed votes of every chapter edge, from public/data/chapter-edges.bin (chapter-graph.json layout) */
+function edgeTable() {
+  type Arr = { name: string; offset: number };
+  const meta = JSON.parse(readFileSync(join(OUT.publicData, "chapter-graph.json"), "utf8")) as { edges: { count: number; arrays: Arr[] } };
+  const buf = readFileSync(join(OUT.publicData, "chapter-edges.bin"));
+  const dv = new DataView(buf.buffer, buf.byteOffset, buf.byteLength);
+  const off = (n: string) => meta.edges.arrays.find((a) => a.name === n)!.offset;
+  const table = new Map<number, { pairs: number; votes: number }>();
+  for (let k = 0; k < meta.edges.count; k++) {
+    const i = dv.getUint16(off("i") + 2 * k, true);
+    const j = dv.getUint16(off("j") + 2 * k, true);
+    table.set(i * 2048 + j, { pairs: dv.getUint32(off("pairs") + 4 * k, true), votes: dv.getInt32(off("votes") + 4 * k, true) });
+  }
+  return table;
+}
+
+describe("chapter partners (arcs, mini graph and list of a chapter page)", () => {
+  it("rank the same chapters as chapter-links.json, add up to chapter-pairs.json and match the graph's summed votes", async () => {
+    const edges = edgeTable();
     let checked = 0;
+    let seen = 0;
     for (const book of books()) {
       for (let c = 1; c <= book.verses.length; c++) {
         const partners = await chapterPartners(book, c);
@@ -26,10 +47,31 @@ describe("chapter partners (arcs of a chapter page)", () => {
         }
         expect(inside % 2).toBe(0);
         expect(partners.reduce((s, p) => s + p.pairs, 0) + inside / 2, `${book.osis} ${c} total`).toBe(chapterPairs(book, c));
+        // summed votes per partner chapter (the "Mais ligados" criterion) are the pipeline's edge votes
+        for (const p of partners) {
+          const e = edges.get(Math.min(here, p.ci) * 2048 + Math.max(here, p.ci));
+          expect(e, `${book.osis} ${c} -> ${p.ci}`).toEqual({ pairs: p.pairs, votes: p.votes });
+          seen++;
+        }
         checked++;
       }
     }
     expect(checked).toBe(grid.chapterCount);
+    // every edge was seen from both of its chapters
+    expect(seen).toBe(2 * edges.size);
+  });
+
+  it("are ranked for the panel by summed votes, then verse pairs, then canonical order (src/lib/chapter-rank.ts)", async () => {
+    for (const book of books().filter((_, i) => i % 7 === 0)) {
+      for (let c = 1; c <= book.verses.length; c += 5) {
+        const ranked = await chapterNeighbours(book, c);
+        for (let k = 1; k < ranked.length; k++) {
+          const [p, q] = [ranked[k - 1], ranked[k]];
+          const ok = p.votes > q.votes || (p.votes === q.votes && (p.pairs > q.pairs || (p.pairs === q.pairs && p.ci < q.ci)));
+          expect(ok, `${book.osis} ${c} #${k}`).toBe(true);
+        }
+      }
+    }
   });
 });
 

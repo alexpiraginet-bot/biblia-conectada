@@ -6,7 +6,11 @@ import { existsSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { formatInt } from "../src/lib/canon/text";
 import { formatBytes, type DadosManifest } from "../src/lib/dados";
+import { checkCommunity } from "./checks/community";
+import { checkExplore } from "./checks/explore";
 import { notFoundPage, prerenderedPages } from "./checks/pages";
+import { checkReading } from "./checks/reading";
+import { checkTimeline } from "./checks/timeline";
 import { findLeaks, loadProtectedQuotes, protectedRuns, textFiles } from "./data/leak-guard";
 import { OUT, SITE, SRC } from "./data/sources";
 
@@ -55,6 +59,10 @@ const homeNumbers = [
   `${summary.topVerses[0].ref}, com ${formatInt(summary.topVerses[0].links)}`,
 ];
 for (const s of homeNumbers) if (!home.includes(s)) failures.push(`index.html: "${s}" missing`);
+// and says what "ligações" means next to that number (HANDOFF §4.2: the convention goes with the number)
+for (const s of [`as ${formatInt(summary.topVerses[0].links)} de ${summary.topVerses[0].ref} na capa`, "conta o primeiro versículo"]) {
+  if (!home.includes(s)) failures.push(`index.html: definition of "ligações" ("${s}") missing`);
+}
 if (home.includes(formatInt(summary.counts.pairs))) failures.push("index.html: shows the pair count with the 45 self-pairs");
 // /arcos (the sky of links) states the same numbers in its first screen, from the same pipeline
 const arcos = textOf(page("arcos.html"));
@@ -105,6 +113,19 @@ const dadosNumbers = [
 for (const s of dadosNumbers) if (!dados.includes(s)) failures.push(`dados.html: "${s}" missing`);
 if (!dados.includes(credits.openBibleCredit)) failures.push("dados.html: OpenBible.info credit line missing");
 
+// linha do tempo, temas, palavras, recepção: credits on /sobre and the numbers of those pages (scripts/checks/timeline.ts)
+const timeline = checkTimeline({ html, page, textOf, failures });
+
+// Explorar (home and /explorar/isaias/9) and its /conexao page: numbers from the explore data (scripts/checks/explore.ts)
+const explore = checkExplore((rel) => (pages.has(rel) ? page(rel) : null), textOf);
+failures.push(...explore.failures);
+
+// community pages (trail, Ponte, Mesa): pairs, votes and dates are the pipeline's; no bridge before its day
+const community = checkCommunity({ html, page, textOf, failures });
+
+// reading pages (rail, panel headline and links) and /salvos: numbers from the book files (scripts/checks/reading.ts)
+const reading = checkReading({ html, page, textOf, failures });
+
 // rule 1: no run of the ACF/AA quotes in anything the server or the browser receives
 type BookFile = { chapters: { t: string }[][] };
 const books = JSON.parse(readFileSync(join(OUT.generated, "books.json"), "utf8")) as { slug: string }[];
@@ -123,6 +144,17 @@ for (const f of shipped) {
   for (const leak of findLeaks(readFileSync(f, "utf8"), runs)) failures.push(`${relative(SITE, f)}: protected text ${leak}`);
 }
 
+// the medallion manifest stays on the server (src/lib/medalhoes.ts is server-only): none of its provenance (model,
+// prompts) may reach a browser bundle; pages get only the image paths
+type MedalManifest = { groups: Record<string, { model: string; prompt: string }> };
+const medalManifest = JSON.parse(readFileSync(join(SITE, "src/data/medalhoes.json"), "utf8")) as MedalManifest;
+const provenance = [...new Set(Object.values(medalManifest.groups).flatMap((g) => [g.model, g.prompt.slice(0, 60)]))];
+const browserFiles = textFiles(join(SITE, ".next/static"));
+for (const f of browserFiles) {
+  const text = readFileSync(f, "utf8");
+  if (provenance.some((p) => text.includes(p))) failures.push(`${relative(SITE, f)}: medallion manifest in a browser bundle`);
+}
+
 if (failures.length) {
   console.error(failures.join("\n"));
   process.exit(1);
@@ -130,5 +162,10 @@ if (failures.length) {
 console.log(
   `[check-dist] credits and lang in ${html.length} prerendered pages and the static 404 page; home and /arcos numbers match summary.json; ` +
     `/dados shows the size and count of the ${manifest.arquivos.length} files of the open data manifest; ` +
-    `${shipped.length} shipped text files hold none of the ${new Set(runs.values()).size} protected quotes`,
+    `linha do tempo (${timeline.events} events), ${timeline.themes} themes and their words match the generated data; ` +
+    `Explorar and /conexao show the explore data (${explore.checked} rows checked); ` +
+    `trail (${community.trailSteps} steps) and Ponte (${community.pontePages} pages) match the community data; ` +
+    `${reading}; ` +
+    `${shipped.length} shipped text files hold none of the ${new Set(runs.values()).size} protected quotes; ` +
+    `${browserFiles.length} browser files hold no medallion provenance`,
 );

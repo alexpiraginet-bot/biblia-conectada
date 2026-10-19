@@ -1,33 +1,31 @@
 // Reports the JavaScript each prerendered page makes a modern browser download (gzip -9), excluding the
-// `noModule` polyfills that only legacy browsers fetch, grouped by kind of page. HANDOFF.md §5.6 has the measured
-// baseline and the proposed budget (total ≤ 165 KiB); pages over it are flagged, the build does not fail on it yet.
+// `noModule` polyfills that only legacy browsers fetch, grouped by the route that renders the page ("/salvos",
+// "/explorar/[livro]/[cap]"; the reading routes keep their names: livro, capítulo, versículo). HANDOFF.md §5.6 has the
+// measured baseline and the proposed budget (total ≤ 165 KiB); pages over it are flagged, the build does not fail on it
+// yet. Pages are read wherever the build put them (plain or Vercel adapter layout, scripts/checks/pages.ts).
 //   npm run budget   (after npm run build)
 import { readFileSync } from "node:fs";
 import { gzipSync } from "node:zlib";
-import { join, relative, sep } from "node:path";
-import { textFiles } from "./data/leak-guard";
+import { join } from "node:path";
+import { appRoutes, prerenderedPages, routeOf } from "./checks/pages";
 import { SITE } from "./data/sources";
 
 const BUDGET_KB = 165;
-const appDir = join(SITE, ".next/server/app");
-const pages = textFiles(appDir)
-  .filter((f) => f.endsWith(".html"))
-  .map((f) => relative(appDir, f))
-  .filter((f) => !f.split(sep).some((part) => part.startsWith("_") || part.includes("[")));
-
+const pages = prerenderedPages(SITE);
+const routes = appRoutes(SITE);
+const NAMES: Record<string, string> = { "/": "index", "/[livro]": "livro", "/[livro]/[cap]": "capítulo", "/[livro]/[cap]/[vers]": "versículo" };
 const kind = (page: string) => {
-  const depth = page.split(sep).length;
-  if (depth === 3) return "versículo";
-  if (depth === 2) return "capítulo";
-  return ["index.html", "sobre.html", "ler.html", "arcos.html", "dados.html"].includes(page) ? page.replace(".html", "") : "livro";
+  const route = routeOf(routes, page);
+  if (!route) throw new Error(`[budget] no route in src/app renders ${page}`);
+  return NAMES[route] ?? route.slice(1);
 };
 
 const gzCache = new Map<string, number>();
 const groups = new Map<string, { pages: number; jsMax: number; jsMaxPage: string; htmlMax: number; htmlMaxPage: string }>();
-for (const page of pages) {
-  const html = readFileSync(join(appDir, page), "utf8");
+for (const [page, file] of pages) {
+  const html = readFileSync(file, "utf8");
   const srcs = new Set(
-    [...html.matchAll(/<script[^>]*src="(\/_next\/static\/[^"]+\.js)"[^>]*>/g)].filter((m) => !/noModule/i.test(m[0])).map((m) => m[1]),
+    [...html.matchAll(/<script[^>]*src="(\/_next\/static\/[^"?]+\.js)(?:\?[^"]*)?"[^>]*>/g)].filter((m) => !/noModule/i.test(m[0])).map((m) => m[1]),
   );
   let js = 0;
   for (const s of srcs) {
@@ -44,12 +42,14 @@ for (const page of pages) {
 }
 const kb = (n: number) => Math.round((n / 1024) * 10) / 10;
 console.table(
-  [...groups].map(([k, g]) => ({
-    kind: k,
-    pages: g.pages,
-    jsGzipKB: kb(g.jsMax),
-    overBudget: kb(g.jsMax) > BUDGET_KB ? "SIM" : "",
-    htmlGzipMaxKB: kb(g.htmlMax),
-    largestHtml: g.htmlMaxPage,
-  })),
+  [...groups]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([k, g]) => ({
+      kind: k,
+      pages: g.pages,
+      jsGzipKB: kb(g.jsMax),
+      overBudget: kb(g.jsMax) > BUDGET_KB ? "SIM" : "",
+      htmlGzipMaxKB: kb(g.htmlMax),
+      largestHtml: g.htmlMaxPage,
+    })),
 );

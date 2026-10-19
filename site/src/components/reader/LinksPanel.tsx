@@ -2,7 +2,10 @@ import Link from "next/link";
 import { DirBoth, DirIn, DirOut } from "@/components/icons";
 import { formatInt } from "@/lib/canon/text";
 import type { Book } from "@/lib/canon/types";
+import { conexaoPath } from "@/lib/conexao";
+import { graphNote, graphPartners, topGroup, verseHeadline, votesLabel } from "@/lib/from-here";
 import { grid, type Link as VerseLink, verseRef, verseText } from "@/lib/reading";
+import { Featured, MiniGraph, PanelHead } from "./FromHere";
 import { HoverPreview } from "./HoverPreview";
 import { Scripture } from "./Scripture";
 import { VerseArcs } from "./Arcs";
@@ -17,9 +20,11 @@ const DIR = {
   3: { icon: "i i-both", label: "nos dois sentidos" },
 } as const;
 
-function votes(v: number) {
-  return `${formatInt(v)} ${Math.abs(v) === 1 ? "voto" : "votos"}`;
-}
+const votes = votesLabel;
+const short = (gv: number) => {
+  const r = verseRef(gv);
+  return `${r.book.abbr} ${r.chapter}:${r.verse}`;
+};
 
 function Row({ link }: { link: VerseLink }) {
   const [gv, v, d] = link;
@@ -56,25 +61,48 @@ export async function LinksPanel({
   const rest = links.slice(WITH_TEXT);
   const visible = rest.slice(0, VISIBLE);
   const hidden = rest.slice(VISIBLE);
+  // links come from the pipeline strongest first, canonical order inside a tie
+  const ranked = links.map(([key, v]) => ({ key, votes: v }));
+  const headline = verseHeadline(ranked, (gv) => verseRef(gv).label);
+  const graph = graphPartners(ranked);
+  const top = ranked[0] ? verseRef(ranked[0].key) : null;
 
   return (
     <div className={styles.links}>
-      <h2 id={titleId} className={styles.panelTitle} tabIndex={-1}>
-        Ligações de {label}
-      </h2>
+      <PanelHead kicker="A partir deste trecho" title={`Ligações de ${label}`} titleId={titleId} />
       <blockquote className={styles.focusVerse}>
         <Scripture text={text} />
       </blockquote>
 
-      {links.length === 0 ? (
+      {links.length === 0 || !top ? (
         <p className={styles.empty}>
           A base OpenBible.info não liga {label} a nenhum outro versículo. Os versículos vizinhos podem ter ligações.
         </p>
       ) : (
         <>
+          <p className={styles.headline} data-headline="">
+            {headline}
+          </p>
+          <MiniGraph
+            centre={`${book.abbr} ${chapter}:${verse}`}
+            nodes={graph.shown.map((p) => ({ key: p.key, label: short(p.key), votes: p.votes }))}
+            topKey={top.gv}
+            legend="Ligação da OpenBible.info: mais grossa, mais votos"
+            topLegend={links.length === 1 ? "A única ligação" : topGroup(ranked).length > 1 ? "Uma das mais votadas, em destaque" : "A mais votada, em destaque"}
+            note={graphNote(links.length, graph.shown.length, graph.tiedOut, "ligações")}
+          />
+          <Featured
+            a={label}
+            b={top.label}
+            conexao={conexaoPath(
+              { book: book.index, slug: book.slug, chapter, verse },
+              { book: top.book.index, slug: top.book.slug, chapter: top.chapter, verse: top.verse },
+            )}
+            explorar={`/explorar/${book.slug}/${chapter}`}
+          />
           <VerseArcs gv={grid.verseIndex(book, chapter, verse)} label={label} links={links} />
           <h3 className={styles.listTitle}>
-            {formatInt(links.length)} {links.length === 1 ? "ligação" : "ligações"}
+            {links.length === 1 ? "A ligação" : `As ${formatInt(links.length)} ligações`}
             <span>das mais votadas às menos votadas</span>
           </h3>
           <ol className={styles.strong}>

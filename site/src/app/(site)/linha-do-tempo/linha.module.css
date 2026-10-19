@@ -1,0 +1,397 @@
+/* Linha do tempo: index and event pages (layout of the reference image: main column + a narrow panel at ≥ 64rem) */
+
+.main {
+  width: 100%;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-2) var(--space-5);
+}
+
+.head {
+  margin-bottom: var(--space-3);
+}
+
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 0.5rem;
+  margin: 0 0 var(--space-1);
+  font-size: var(--step-small);
+  color: var(--ink-2);
+}
+
+.crumbs a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+.title {
+  font-family: var(--font-title);
+  font-weight: 440;
+  font-synthesis: none;
+  letter-spacing: -0.015em;
+  font-size: var(--step-display);
+  line-height: 1.05;
+  margin: 0 0 var(--space-2);
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+.titleLong {
+  font-size: clamp(1.75rem, 1rem + 3vw, 2.75rem);
+  line-height: 1.15;
+}
+
+.lede {
+  max-width: var(--column);
+  color: var(--ink-2);
+  margin: 0;
+}
+
+.original {
+  margin: var(--space-1) 0 0;
+  color: var(--ink-2);
+  font-size: var(--step-ui);
+}
+
+.original span[lang] {
+  color: var(--ink);
+}
+
+.layout {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.layoutEvent {
+  gap: var(--space-3);
+}
+
+.primary {
+  min-width: 0;
+}
+
+.aside {
+  min-width: 0;
+  font-size: var(--step-ui);
+  color: var(--ink-2);
+}
+
+.aside p {
+  margin: 0 0 var(--space-2);
+}
+
+.aside strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.asideTitle {
+  font-family: var(--font-title);
+  font-weight: 440;
+  font-synthesis: none;
+  font-size: var(--step-title);
+  line-height: 1.2;
+  color: var(--ink);
+  margin: 0 0 var(--space-2);
+}
+
+.eraList {
+  margin: 0 0 var(--space-2);
+  padding-left: 1.1rem;
+}
+
+.sources {
+  font-size: var(--step-small);
+  border-top: 1px solid var(--hairline);
+  padding-top: var(--space-2);
+}
+
+.note {
+  max-width: var(--column);
+  color: var(--ink-2);
+  font-size: var(--step-small);
+  margin: var(--space-2) 0 var(--space-4);
+}
+
+.sectionTitle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 var(--space-2);
+  font-family: var(--font-title);
+  font-weight: 440;
+  font-synthesis: none;
+  font-size: var(--step-title);
+  line-height: 1.2;
+  margin: var(--space-4) 0 var(--space-2);
+  padding-bottom: var(--space-1);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.count {
+  font-family: var(--font-grotesk), system-ui, sans-serif;
+  font-size: var(--step-small);
+  color: var(--ink-2);
+}
+
+/* the ordered list of events: the same <ol> on every width */
+.events {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.event {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  column-gap: var(--space-2);
+  align-items: baseline;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--hairline) 55%, transparent);
+}
+
+.year {
+  color: var(--ink-2);
+  font-size: var(--step-small);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* the medallion is a generated illustration of the book group, and says so (HANDOFF §3.8) */
+.illustration {
+  color: var(--ink-3);
+  font-size: var(--step-small);
+}
+
+.ref {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.en {
+  grid-column: 2;
+  color: var(--ink-3);
+  font-size: var(--step-small);
+  line-height: 1.4;
+  padding-bottom: 0.25rem;
+}
+
+@media (min-width: 64rem) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 20rem;
+    align-items: start;
+  }
+
+  .aside {
+    position: sticky;
+    top: calc(var(--header-h) + var(--space-3));
+    padding-left: var(--space-3);
+    border-left: 1px solid var(--hairline);
+  }
+
+  /* event page: the facts come first in the document (first on phones), in the right column on desktop */
+  .layoutEvent > .aside {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .layoutEvent > .primary {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .event {
+    grid-template-columns: 7rem minmax(0, 1.1fr) minmax(0, 1fr);
+  }
+
+  .en {
+    grid-column: auto;
+    padding-bottom: 0;
+  }
+}
+
+/* ---- event page */
+
+.facts {
+  margin: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.facts dt {
+  font-size: var(--step-small);
+  color: var(--ink-3);
+  margin: 0;
+}
+
+.facts dd {
+  margin: 0;
+  color: var(--ink);
+}
+
+.factNote {
+  display: block;
+  color: var(--ink-2);
+  font-size: var(--step-small);
+}
+
+.links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.links li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0 var(--space-2);
+  border-bottom: 1px solid color-mix(in srgb, var(--hairline) 55%, transparent);
+}
+
+.links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+.linkMeta {
+  color: var(--ink-2);
+  font-size: var(--step-small);
+  font-variant-numeric: tabular-nums;
+}
+
+.chapters {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.chapters li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 var(--space-2);
+}
+
+.chapters a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+.chapterName {
+  min-width: 8rem;
+  color: var(--ink);
+}
+
+.more {
+  color: var(--ink-2);
+  font-size: var(--step-small);
+  margin: var(--space-2) 0 0;
+  max-width: var(--column);
+}
+
+.works {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.works li {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  column-gap: var(--space-2);
+  padding: 0.35rem 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--hairline) 55%, transparent);
+  font-size: var(--step-ui);
+}
+
+.works a {
+  overflow-wrap: anywhere;
+}
+
+.workMeta {
+  grid-column: 2;
+  color: var(--ink-2);
+  font-size: var(--step-small);
+}
+
+.gallery {
+  list-style: none;
+  margin: var(--space-2) 0 var(--space-3);
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
+  gap: var(--space-3) var(--space-2);
+}
+
+.figure {
+  margin: 0;
+}
+
+.figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--raised);
+}
+
+.figure figcaption {
+  margin-top: 0.4rem;
+  color: var(--ink-2);
+  font-size: var(--step-small);
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.eraHeading {
+  font-size: var(--step-ui);
+  font-weight: 600;
+  margin: var(--space-3) 0 var(--space-1);
+}
+
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--hairline);
+}
+
+.pager a {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 2.75rem;
+  max-width: 100%;
+}
+
+.pagerLabel {
+  font-size: var(--step-small);
+  color: var(--ink-3);
+}
+
+.lead {
+  display: grid;
+  gap: var(--space-3);
+  margin: var(--space-3) 0;
+}
+
+@media (min-width: 48rem) {
+  .lead {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+  }
+}

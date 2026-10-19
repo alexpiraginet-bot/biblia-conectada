@@ -1,16 +1,19 @@
 // The site's sections, in one place: the desktop header lists all of them, the phone's bottom bar the ones marked
-// `bar` (design/README.md §5: up to four items, icon and label). Icons are the CSS masks in globals.css.
-// Only sections whose page exists are listed (tests/routes.test.ts): Explorar (i-explore), Linha do tempo (i-time) and
-// Ponte (i-bridge) join when their pages land.
+// `bar` (design/README.md §5: four items, icon and label). Icons are the CSS masks in globals.css.
+// Every item must lead to a page that exists (tests/routes.test.ts). "Linha do tempo" does not fit the bar and is
+// reached from the header and the Explorar; "Dados" is in the header and the footer.
 import booksJson from "@/data/generated/books.json";
 
-/** `nested`: the section has pages below its own address (none yet), so those pages count as the section too */
+/** `nested`: the section has pages below its own address ("/ponte/1"), so those pages count as the section too */
 export type NavItem = { href: string; label: string; icon: string; bar: boolean; nested?: boolean };
 
 export const NAV: readonly NavItem[] = [
+  { href: "/explorar", label: "Explorar", icon: "i-explore", bar: true, nested: true },
   { href: "/ler", label: "Ler", icon: "i-book", bar: true },
+  { href: "/linha-do-tempo", label: "Linha do tempo", icon: "i-time", bar: false, nested: true },
   { href: "/arcos", label: "Arcos", icon: "i-arc", bar: true },
-  { href: "/dados", label: "Dados", icon: "i-data", bar: true },
+  { href: "/ponte", label: "Ponte", icon: "i-bridge", bar: true, nested: true },
+  { href: "/dados", label: "Dados", icon: "i-data", bar: false },
 ];
 
 /** verses per chapter of each book, by slug */
@@ -29,7 +32,8 @@ function isReadingPath(pathname: string): boolean {
 }
 
 /** The navigation item a path belongs to: its own section, "Ler" for a book, chapter or verse page, else none (the
- *  home page, pages outside the navigation such as /sobre, and every 404, "/genesis/51" included). */
+ *  home page, pages outside the navigation such as /sobre, /conexao or /salvos, and the 404 of an address like
+ *  "/genesis/51" or "/ler/x"). */
 export function currentItem(pathname: string): string | null {
   // "/ler/x" is a 404, not the book list: only a section with pages below it claims a longer path
   const own = NAV.find((n) => pathname === n.href || (n.nested && pathname.startsWith(`${n.href}/`)));

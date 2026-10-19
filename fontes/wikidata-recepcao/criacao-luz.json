@@ -1,0 +1,1081 @@
+{
+  "head" : {
+    "vars" : [ "subject", "prop", "work", "labelPt", "labelEn", "type", "typeLabelPt", "typeLabelEn", "inception", "creator", "creatorPt", "creatorEn", "image" ]
+  },
+  "results" : {
+    "bindings" : [ {
+      "creator" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q5592"
+      },
+      "creatorEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Michelangelo"
+      },
+      "creatorPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "Michelangelo"
+      },
+      "work" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q3696827"
+      },
+      "type" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q3305213"
+      },
+      "typeLabelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "painting"
+      },
+      "typeLabelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "pintura"
+      },
+      "labelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "The Creation of the Sun, Moon and Planets"
+      },
+      "subject" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q137651"
+      },
+      "prop" : {
+        "type" : "literal",
+        "value" : "P180"
+      },
+      "inception" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "1511-01-01T00:00:00Z"
+      },
+      "labelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "Criação do Sol, Lua e Plantas"
+      },
+      "image" : {
+        "type" : "uri",
+        "value" : "http://commons.wikimedia.org/wiki/Special:FilePath/Michelangelo%2C%20Creation%20of%20the%20Sun%2C%20Moon%2C%20and%20Plants%2001.jpg"
+      }
+    }, {
+      "creator" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q5592"
+      },
+      "creatorEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Michelangelo"
+      },
+      "creatorPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "Michelangelo"
+      },
+      "work" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q3955632"
+      },
+      "type" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q3305213"
+      },
+      "typeLabelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "painting"
+      },
+      "typeLabelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "pintura"
+      },
+      "labelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "The Separation of the Earth and Waters"
+      },
+      "subject" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q137651"
+      },
+      "prop" : {
+        "type" : "literal",
+        "value" : "P180"
+      },
+      "inception" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "1511-01-01T00:00:00Z"
+      },
+      "labelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "Deus separando a terra das águas"
+      },
+      "image" : {
+        "type" : "uri",
+        "value" : "http://commons.wikimedia.org/wiki/Special:FilePath/Sistine%20Chapel%20ceiling%2C%20Creation%20of%20Adam.jpg"
+      }
+    }, {
+      "creator" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q5592"
+      },
+      "creatorEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Michelangelo"
+      },
+      "creatorPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "Michelangelo"
+      },
+      "work" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q3955636"
+      },
+      "type" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q22669139"
+      },
+      "typeLabelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "fresco"
+      },
+      "typeLabelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "afresco"
+      },
+      "labelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Separation of Light from Darkness"
+      },
+      "subject" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q137651"
+      },
+      "prop" : {
+        "type" : "literal",
+        "value" : "P180"
+      },
+      "inception" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "1512-01-01T00:00:00Z"
+      },
+      "labelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "Deus separando a Luz das Trevas"
+      },
+      "image" : {
+        "type" : "uri",
+        "value" : "http://commons.wikimedia.org/wiki/Special:FilePath/Dividing%20Light%20from%20Darkness.jpg"
+      }
+    }, {
+      "creator" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q5592"
+      },
+      "creatorEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Michelangelo"
+      },
+      "creatorPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "Michelangelo"
+      },
+      "work" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q3955636"
+      },
+      "type" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q3305213"
+      },
+      "typeLabelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "painting"
+      },
+      "typeLabelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "pintura"
+      },
+      "labelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Separation of Light from Darkness"
+      },
+      "subject" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q137651"
+      },
+      "prop" : {
+        "type" : "literal",
+        "value" : "P180"
+      },
+      "inception" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "1512-01-01T00:00:00Z"
+      },
+      "labelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "Deus separando a Luz das Trevas"
+      },
+      "image" : {
+        "type" : "uri",
+        "value" : "http://commons.wikimedia.org/wiki/Special:FilePath/Dividing%20Light%20from%20Darkness.jpg"
+      }
+    }, {
+      "creator" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q5592"
+      },
+      "creatorEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Michelangelo"
+      },
+      "creatorPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "Michelangelo"
+      },
+      "work" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q3974458"
+      },
+      "type" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q16905563"
+      },
+      "typeLabelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "cycle of paintings"
+      },
+      "typeLabelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "ciclo de pinturas"
+      },
+      "labelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Nine scenes from Genesis"
+      },
+      "subject" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q137651"
+      },
+      "prop" : {
+        "type" : "literal",
+        "value" : "P180"
+      }
+    }, {
+      "creator" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q164696"
+      },
+      "creatorEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Hans Baldung Grien"
+      },
+      "creatorPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "Hans Baldung"
+      },
+      "work" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q104761559"
+      },
+      "type" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q3305213"
+      },
+      "typeLabelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "painting"
+      },
+      "typeLabelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "pintura"
+      },
+      "labelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "The Creation of the Men and Animals"
+      },
+      "subject" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q137651"
+      },
+      "prop" : {
+        "type" : "literal",
+        "value" : "P180"
+      },
+      "inception" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "1533-01-01T00:00:00Z"
+      },
+      "image" : {
+        "type" : "uri",
+        "value" : "http://commons.wikimedia.org/wiki/Special:FilePath/Hans%20Baldung%20-%20Die%20Erschaffung%20der%20Menschen%20und%20Tiere.jpg"
+      }
+    }, {
+      "creator" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q15796"
+      },
+      "creatorEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Coppo di Marcovaldo"
+      },
+      "creatorPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "Coppo di Marcovaldo"
+      },
+      "work" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q129514567"
+      },
+      "type" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q133067"
+      },
+      "typeLabelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "mosaic"
+      },
+      "typeLabelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "mosaico"
+      },
+      "labelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Creation of the Universe"
+      },
+      "subject" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q137651"
+      },
+      "prop" : {
+        "type" : "literal",
+        "value" : "P180"
+      },
+      "inception" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "1275-01-01T00:00:00Z"
+      },
+      "image" : {
+        "type" : "uri",
+        "value" : "http://commons.wikimedia.org/wiki/Special:FilePath/Mosaici%20del%20battistero%20di%20firenze%2C%20storie%20della%20genesi%201250-1330%20ca.%2C%2001%20Creazione%20degli%20elementi%2C%20gaddo%20gaddi%20o%20artista%20giottesco.JPG"
+      }
+    }, {
+      "creator" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q15796"
+      },
+      "creatorEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Coppo di Marcovaldo"
+      },
+      "creatorPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "Coppo di Marcovaldo"
+      },
+      "work" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q129514567"
+      },
+      "type" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q133067"
+      },
+      "typeLabelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "mosaic"
+      },
+      "typeLabelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "mosaico"
+      },
+      "labelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Creation of the Universe"
+      },
+      "subject" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q137651"
+      },
+      "prop" : {
+        "type" : "literal",
+        "value" : "P921"
+      },
+      "inception" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "1275-01-01T00:00:00Z"
+      },
+      "image" : {
+        "type" : "uri",
+        "value" : "http://commons.wikimedia.org/wiki/Special:FilePath/Mosaici%20del%20battistero%20di%20firenze%2C%20storie%20della%20genesi%201250-1330%20ca.%2C%2001%20Creazione%20degli%20elementi%2C%20gaddo%20gaddi%20o%20artista%20giottesco.JPG"
+      }
+    }, {
+      "creator" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q9319"
+      },
+      "creatorEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Jacopo Tintoretto"
+      },
+      "creatorPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "Tintoretto"
+      },
+      "work" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q5963059"
+      },
+      "type" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q3305213"
+      },
+      "typeLabelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "painting"
+      },
+      "typeLabelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "pintura"
+      },
+      "labelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Creation of the Animals"
+      },
+      "subject" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q137651"
+      },
+      "prop" : {
+        "type" : "literal",
+        "value" : "P180"
+      },
+      "inception" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "1550-01-01T00:00:00Z"
+      },
+      "image" : {
+        "type" : "uri",
+        "value" : "http://commons.wikimedia.org/wiki/Special:FilePath/Jacopo%20Tintoretto%20%E2%80%94%20Creation%20of%20the%20Animals.jpg"
+      }
+    }, {
+      "type" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q29154550"
+      },
+      "typeLabelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "verse of the Bible"
+      },
+      "typeLabelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "versículo da Bíblia"
+      },
+      "work" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q4101743"
+      },
+      "labelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Genesis 1:1"
+      },
+      "subject" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q137651"
+      },
+      "prop" : {
+        "type" : "literal",
+        "value" : "P921"
+      },
+      "labelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "Gênesis 1:1"
+      },
+      "image" : {
+        "type" : "uri",
+        "value" : "http://commons.wikimedia.org/wiki/Special:FilePath/Genesis%20on%20egg%20cropped2.jpg"
+      }
+    }, {
+      "type" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q30149195"
+      },
+      "typeLabelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "biblical concept"
+      },
+      "typeLabelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "tema bíblico"
+      },
+      "work" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q32194977"
+      },
+      "labelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Hexameron"
+      },
+      "subject" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q137651"
+      },
+      "prop" : {
+        "type" : "literal",
+        "value" : "P921"
+      },
+      "labelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "Hexamerão"
+      },
+      "image" : {
+        "type" : "uri",
+        "value" : "http://commons.wikimedia.org/wiki/Special:FilePath/Hexameron%20of%20Severian%20of%20Gabala%2001.jpg"
+      }
+    }, {
+      "type" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q223393"
+      },
+      "typeLabelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "literary genre"
+      },
+      "typeLabelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "género literário"
+      },
+      "work" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q32194977"
+      },
+      "labelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Hexameron"
+      },
+      "subject" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q137651"
+      },
+      "prop" : {
+        "type" : "literal",
+        "value" : "P921"
+      },
+      "labelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "Hexamerão"
+      },
+      "image" : {
+        "type" : "uri",
+        "value" : "http://commons.wikimedia.org/wiki/Special:FilePath/Hexameron%20of%20Severian%20of%20Gabala%2001.jpg"
+      }
+    }, {
+      "type" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q21191270"
+      },
+      "typeLabelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "television series episode"
+      },
+      "typeLabelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "episódio de série de televisão"
+      },
+      "work" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q112875947"
+      },
+      "labelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Episode #2.1"
+      },
+      "subject" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q2704440"
+      },
+      "prop" : {
+        "type" : "literal",
+        "value" : "P180"
+      }
+    }, {
+      "type" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q3331189"
+      },
+      "typeLabelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "version, edition or translation"
+      },
+      "typeLabelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "edição, versão ou tradução"
+      },
+      "work" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q119510609"
+      },
+      "labelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Akashi: nihon no kirisutosha"
+      },
+      "subject" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q137651"
+      },
+      "prop" : {
+        "type" : "literal",
+        "value" : "P180"
+      }
+    }, {
+      "creator" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/.well-known/genid/ecbf25cd14bd0ceabb837ac6a1559e60"
+      },
+      "work" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q111648759"
+      },
+      "type" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q3305213"
+      },
+      "typeLabelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "painting"
+      },
+      "typeLabelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "pintura"
+      },
+      "labelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "The Creation of the Animals"
+      },
+      "subject" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q137651"
+      },
+      "prop" : {
+        "type" : "literal",
+        "value" : "P921"
+      },
+      "inception" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "1535-01-01T00:00:00Z"
+      },
+      "image" : {
+        "type" : "uri",
+        "value" : "http://commons.wikimedia.org/wiki/Special:FilePath/Strasbourg%20rohan%20bocksberger%20creation.JPG"
+      }
+    }, {
+      "creator" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q1357253"
+      },
+      "creatorEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Grão Vasco"
+      },
+      "creatorPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "Grão Vasco"
+      },
+      "work" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q56605896"
+      },
+      "type" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q3305213"
+      },
+      "typeLabelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "painting"
+      },
+      "typeLabelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "pintura"
+      },
+      "labelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Creation of the animals"
+      },
+      "subject" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q137651"
+      },
+      "prop" : {
+        "type" : "literal",
+        "value" : "P180"
+      },
+      "inception" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "1500-01-01T00:00:00Z"
+      },
+      "labelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "Criação dos Animais"
+      },
+      "image" : {
+        "type" : "uri",
+        "value" : "http://commons.wikimedia.org/wiki/Special:FilePath/Cria%C3%A7%C3%A3o%20dos%20Animais%20%281506-11%29%20-%20Vasco%20Fernandes%20%28Museu%20de%20Lamego%29.png"
+      }
+    }, {
+      "creator" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q564143"
+      },
+      "creatorEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Michael Willmann"
+      },
+      "creatorPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "Michael Willmann"
+      },
+      "work" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q99971938"
+      },
+      "type" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q3305213"
+      },
+      "typeLabelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "painting"
+      },
+      "typeLabelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "pintura"
+      },
+      "labelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Six days of creation"
+      },
+      "subject" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q137651"
+      },
+      "prop" : {
+        "type" : "literal",
+        "value" : "P180"
+      },
+      "inception" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "1668-01-01T00:00:00Z"
+      },
+      "image" : {
+        "type" : "uri",
+        "value" : "http://commons.wikimedia.org/wiki/Special:FilePath/Michael%20Willman%20Opus%20Magnum%202019%20P57%20Six%20Days%20of%20Creation%20%281668%29.jpg"
+      }
+    }, {
+      "creator" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q473825"
+      },
+      "creatorEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Johann Melchior Roos"
+      },
+      "creatorPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "Johann Melchior Roos"
+      },
+      "work" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q108489118"
+      },
+      "type" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q3305213"
+      },
+      "typeLabelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "painting"
+      },
+      "typeLabelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "pintura"
+      },
+      "labelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "The Animal Kingdom"
+      },
+      "subject" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q137651"
+      },
+      "prop" : {
+        "type" : "literal",
+        "value" : "P180"
+      },
+      "inception" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "1728-01-01T00:00:00Z"
+      },
+      "image" : {
+        "type" : "uri",
+        "value" : "http://commons.wikimedia.org/wiki/Special:FilePath/Roos%20Das%20Reich%20d%20Tiere%40Herzog%20Anton%20Ulrich%20Museum.JPG"
+      }
+    }, {
+      "creator" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q5544737"
+      },
+      "creatorEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "George Spencer Watson"
+      },
+      "creatorPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "George Spencer Watson"
+      },
+      "work" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q119190561"
+      },
+      "type" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q3305213"
+      },
+      "typeLabelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "painting"
+      },
+      "typeLabelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "pintura"
+      },
+      "labelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "The Creation"
+      },
+      "subject" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q137651"
+      },
+      "prop" : {
+        "type" : "literal",
+        "value" : "P180"
+      },
+      "inception" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "1921-01-01T00:00:00Z"
+      },
+      "image" : {
+        "type" : "uri",
+        "value" : "http://commons.wikimedia.org/wiki/Special:FilePath/George%20Spencer%20Watson%20%281869%E2%80%931934%29%20-%20The%20Creation%20-%20OP76%20-%20Wolverhampton%20Art%20Gallery.jpg"
+      }
+    }, {
+      "creator" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q5544737"
+      },
+      "creatorEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "George Spencer Watson"
+      },
+      "creatorPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "George Spencer Watson"
+      },
+      "work" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q119190561"
+      },
+      "type" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q3305213"
+      },
+      "typeLabelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "painting"
+      },
+      "typeLabelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "pintura"
+      },
+      "labelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "The Creation"
+      },
+      "subject" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q137651"
+      },
+      "prop" : {
+        "type" : "literal",
+        "value" : "P921"
+      },
+      "inception" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "1921-01-01T00:00:00Z"
+      },
+      "image" : {
+        "type" : "uri",
+        "value" : "http://commons.wikimedia.org/wiki/Special:FilePath/George%20Spencer%20Watson%20%281869%E2%80%931934%29%20-%20The%20Creation%20-%20OP76%20-%20Wolverhampton%20Art%20Gallery.jpg"
+      }
+    }, {
+      "creator" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q16229698"
+      },
+      "creatorEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Willy Vuilleumier"
+      },
+      "creatorPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "Willy Vuilleumier"
+      },
+      "work" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q122080336"
+      },
+      "type" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q860861"
+      },
+      "typeLabelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "sculpture"
+      },
+      "typeLabelPt" : {
+        "xml:lang" : "pt",
+        "type" : "literal",
+        "value" : "escultura"
+      },
+      "labelEn" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Fiat Lux"
+      },
+      "subject" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q2704440"
+      },
+      "prop" : {
+        "type" : "literal",
+        "value" : "P180"
+      },
+      "inception" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "1953-01-01T00:00:00Z"
+      },
+      "image" : {
+        "type" : "uri",
+        "value" : "http://commons.wikimedia.org/wiki/Special:FilePath/Fiat%20Lux-Willy%20Vuilleumier-FCAC%20CP%201953-2-IMG%200290.JPG"
+      }
+    } ]
+  }
+}

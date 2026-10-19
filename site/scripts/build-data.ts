@@ -6,9 +6,14 @@ import { createHash } from "node:crypto";
 import { join, relative } from "node:path";
 import { loadBlivre, loadCanon } from "./data/canon";
 import { chapterGraph, LAYOUT } from "./data/chapter-graph";
+import { buildCommunity } from "./data/community";
 import { buildPairs, linksPerVerse, parseCrossRefs } from "./data/crossrefs";
+import { buildExplore } from "./data/explore";
 import { natalPair, natalStudy } from "./data/natal";
 import { buildOpenData, type NatalOut } from "./data/open-data";
+import { buildReception } from "./data/reception";
+import { buildThemes } from "./data/themes";
+import { buildTimeline } from "./data/timeline";
 import { CROSSREFS_SHA256, OUT, REPO, SITE, SRC, readJson, sha256 } from "./data/sources";
 import { createGrid } from "../src/lib/canon/grid";
 
@@ -240,6 +245,9 @@ write(join(OUT.publicData, "chapter-graph.json"), json({
   license: "CC BY-SA 4.0 (derived data of this project); source: OpenBible.info, CC BY",
 }));
 
+// Explorar: per chapter, the partner chapters with the most votes and the faint network among them (one file per book)
+buildExplore(canon, pairs, graph.edges).forEach((f, b) => write(join(OUT.generated, "explore", `${canon.books[b].slug}.json`), json(f)));
+
 // study numbers (the same object feeds the open data bundle below)
 const keyPairs = [["Isaías 7:14", "Mateus 1:23"], ["Miqueias 5:2", "Mateus 2:6"]] as const;
 const natalOut: NatalOut = {
@@ -284,6 +292,13 @@ write(join(OUT.publicData, "LICENSE.txt"), [
   "",
 ].join("\n"));
 
+// linha do tempo (Theographic), temas (OpenBible.info Topics) and the reception pilot (Wikidata): scripts/data/
+const toGenerated = (rel: string, data: string) => write(join(OUT.generated, rel), data);
+const themes = buildThemes({ canon, text: blivre.text, links, write: toGenerated });
+const timeline = buildTimeline({ canon, text: blivre.text, links, themes: themes.themes, write: toGenerated });
+const reception = buildReception({ write: toGenerated });
+log(`linha do tempo: ${timeline.events.length} events, ${timeline.placesNamed} places named from the BLIVRE; ${themes.themes.length} themes; reception: ${reception.pilots.map((p) => p.works.length).join(" + ")} paintings`);
+
 const summary = {
   counts: {
     books: canon.books.length,
@@ -326,6 +341,9 @@ const dados = buildOpenData({
 for (const f of dados.files) write(join(OUT.publicDados, "v1", f.path), f.data);
 write(join(OUT.generated, "dados-manifest.json"), JSON.stringify(dados.manifest, null, 2) + "\n");
 log(`open data: ${dados.files.length} files in public/dados/v1 (${(dados.files.reduce((s, f) => s + f.data.byteLength, 0) / 1e6).toFixed(1)} MB)`);
+
+// community pages: trail "Antes do Natal", Ponte nº N calendar, links per chapter (scripts/data/community.ts)
+buildCommunity({ canon, text: blivre.text, links }, write, log);
 
 const inputs = Object.fromEntries(
   [SRC.blivreZip, SRC.crossrefsTxt, SRC.xrefNpz, SRC.statsJson, SRC.natalStatsJson, SRC.attribution].map((p) => [relative(REPO, p), sha256(p)]),

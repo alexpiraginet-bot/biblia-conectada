@@ -48,6 +48,17 @@ Tudo o que está marcado como "conferido" foi rodado ou lido em 19/10. O que é 
 - `npm run build` passa: dados → testes → `next build` → `check-dist` (créditos e `lang` nas 1.458 páginas geradas, números da home iguais ao `summary.json`, nenhum trecho das citações ACF/AA em 11.588 arquivos entregues).
 - **Projeto da Vercel:** criado pelo Alex no painel em 19/10 (`alexpiraginet-bot-biblia-conectada`, time "Lex Technology projects"), ligado ao repo. Root Directory `site` gravada pelo Alex depois do merge do PR #1 no `main` (a lista de pastas do painel só mostra o que existe no `main`). O conector desta sessão só lê (403 ao alterar). Estado e URLs em §9.
 
+**Site, onda C (19/10, noite; branch `worktree-agent-a0016f4647e112bf9`, sem push nem PR):** as cinco frentes da onda B juntas, cada uma com merge commit, mais os ajustes de integração (registro em §12).
+- Páginas novas:
+  - `/explorar` (redireciona para `/explorar/isaias/9`), `/explorar/<livro>/<cap>` e a conexão escolhida em `/explorar/<livro>/<cap>/<livro2>/<cap2>`: grafo local do capítulo com medalhões. A home ganhou, abaixo da capa, o Explorar de Isaías 9.
+  - `/conexao/<a>/<b>`: dois capítulos ou versículos lado a lado, com os pares que os ligam.
+  - `/linha-do-tempo` e os 450 eventos do Theographic; `/tema` (85 temas da OpenBible.info Topics) e `/palavra`.
+  - `/trilha`, a trilha "Antes do Natal" (26 passos), `/ponte` e `/ponte/<n>` (só até a ponte do dia do build), `/mesa`; tudo sem conta, guardado só no aparelho.
+  - Leitura redesenhada (trilho de capítulos, barra de seleção, painel "A partir deste trecho") e `/salvos`.
+- Navegação completa: Explorar, Ler, Linha do tempo (só no topo), Arcos, Ponte e Dados (só no topo).
+- Fontes novas, com licença conferida e SHA-256: OpenBible.info Topics (CC BY 4.0), Wikidata (CC0) e 4 pinturas do Wikimedia Commons em domínio público. Os medalhões são ilustrações geradas, marcadas como "Ilustração".
+- `npm run build` passa: 348 testes, `check-dist` em 2.518 páginas geradas e na 404. `npm run budget`: no máximo 155,4 KiB de JS (home), abaixo do teto de 165. O build com o adaptador da Vercel também passa. Detalhes em §12.
+
 **Bloqueios desta sessão (políticas, não erros do repo):** a sessão na nuvem não podia criar repositório (403 em `/user/repos`) nem criar Release (403). Por isso o repo foi criado pelo Alex e os intermediários foram para uma branch órfã.
 
 ---
@@ -311,6 +322,13 @@ No fim do build, `site/scripts/check-dist.ts` confere créditos e `lang` em toda
   - Lighthouse acessibilidade 100 nas 6 páginas, celular e desktop (13.5.0, 19/10);
   - detector do impeccable sem achados.
 - Fase 4 (céu na home) em andamento.
+- **Onda C (19/10, noite):** a onda B entrou numa branch só, ainda sem prévia na Vercel (branch sem push).
+  - Fase 2: leitura v2 (trilho de capítulos, painel "A partir deste trecho / deste capítulo", barra de seleção) e `/salvos`.
+  - Fase 4: o céu está em `/arcos` e a home virou capa + Explorar de Isaías 9 (§3.8). O Explorar e `/conexao` fazem o grafo local de cada capítulo; o `/grafo` com os 1.189 capítulos ainda falta.
+  - Visão 5 da §5.3 feita: linha do tempo com os 450 eventos, mais temas e palavras.
+  - Fase 5 começou pelos lugares dos eventos: 1.119 nomes tirados do texto da BLIVRE, com os 45 mais citados conferidos em teste. Mapa e notas de lugar e pessoa ainda faltam.
+  - Fora da tabela: comunidade sem conta (trilha "Antes do Natal", Ponte nº N, Mesa da semana) e os medalhões do Explorar.
+  - Conferido em 375 e 1440 px, Noite e Dia, em todos os tipos de rota (capturas fora do repo). **Pare e mostre ao Alex** antes de publicar.
 
 | Fase | Entrega | Critério de aceite |
 |---|---|---|
@@ -369,6 +387,8 @@ npx -y skills add leonxlnx/taste-skill --skill design-taste-frontend --agent cla
 7. **Projeto da Vercel** (§9): criar no painel ou dar ao conector permissão de criar projetos.
 8. **Chaves expostas (urgente):** revogar e trocar (a) a chave da Anthropic colada no chat em 19/10, (b) a segunda chave da Anthropic, mandada num arquivo anexo no mesmo dia, e (c) a chave da OpenAI que aparece em texto puro no `SKILL.md` da skill gpt-image sincronizada nesta conta. Nenhuma delas foi gravada no repositório. A chave nova da Anthropic vai só para a variável `ANTHROPIC_API_KEY` da Vercel (criptografada). Definir no console o teto de US$ 20/mês (Fase 2b).
 5. **Tom do texto** do site. Proposta: claro, de estudo, sem jargão, sem "maior do mundo" sem prova.
+9. **Medalhões no tema Dia** (onda C): as ilustrações foram feitas sobre o azul-marinho do Noite e aparecem como moedas escuras sobre o pergaminho. Manter assim ou gerar uma versão clara.
+10. **Pontes futuras** (onda C): as páginas `/ponte/<n>` só existem até o dia do build, mas `public/data/ponte/calendar.json` e os 365 arquivos `public/data/ponte/<n>.json` já trazem todas as pontes do ano para quem abrir os arquivos. Aceitar (o jogo é de honra) ou servir o calendário aos poucos.
 
 ---
 
@@ -510,3 +530,27 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
     - o `<html>` não traz mais `data-theme` fixo do servidor.
   - Não verificado em Safari/iPhone. Conferido no Chromium: três trocas de tema seguidas e a folha aberta nos dois temas, com contraste mínimo de 9,7:1.
   - O Alex pediu também um design system muito superior e uma remodelagem total, com leitura e busca mais fáceis.
+- **19/10, noite, onda C (junção da onda B):**
+  - As cinco frentes da onda B entraram numa branch só (`worktree-agent-a0016f4647e112bf9`, em cima do commit da 404), uma de cada vez e com merge commit: medalhões (B5), linha do tempo, temas, palavras e recepção (B3), Explorar e `/conexao` (B1), comunidade (B4) e leitura v2 com `/salvos` (B2).
+  - Conflitos:
+    - Só somas em `check-dist`, `build-data`, `js-budget` e no README do site.
+    - As telas de capítulo, que o B2 redesenhou e o commit da 404 tinha mudado: o layout continua passando o endereço que não nomeia capítulo para a página, e a página continua chamando `missingPage` (endereço solto vira redirect, o resto é a 404).
+    - As conferências do B3 e do B2 liam `.next/server/app` direto. Agora passam pelo leitor de páginas comum (`site/scripts/checks/pages.ts`), que serve aos dois formatos de build.
+  - Decisões aplicadas:
+    - Navegação completa de novo: Explorar, Ler, Linha do tempo, Arcos, Ponte e, no fim, Dados; a barra do celular com Explorar, Ler, Arcos e Ponte. "Ler" acende só em livro, capítulo ou versículo que existe.
+    - Uma ordem só para os capítulos ligados (`site/src/lib/chapter-rank.ts`: soma dos votos, depois pares, depois ordem canônica), usada pelo Explorar e pelo "Mais ligados" da leitura, com teste nos 1.189 capítulos. As duas regras antigas discordavam na lista de 293 capítulos e no capítulo mais votado de 6.
+    - Medalhões no Explorar (o B1 já os pedia por `medalhaoForBook`), com a legenda "Ilustração por grupo de livros: …", e "Ilustração do grupo …" na página de evento. O manifesto fica só no servidor (`server-only`), e o `check-dist` confere que a procedência dele não chegou a nenhum arquivo do navegador.
+    - `npm run budget` agrupa as páginas pela rota que as gera: `/salvos` e as seções novas deixaram de contar como "livro".
+    - Título da 404 em todas as rotas dinâmicas novas; `RESERVED` ganhou "recepcao".
+  - Achados na junção, corrigidos:
+    - A faixa da Ponte cobria a barra de seleção da leitura abaixo de 64 rem.
+    - A home tinha perdido a definição de "ligações" ao lado do número de Isaías 9:6 (§4.2). Voltou, e o `check-dist` cobra.
+    - O `check-dist` rodado depois de `next start` lia as páginas que o servidor guardou em execução (até uma 404) e quebrava. Agora só conta as rotas do `prerender-manifest.json`.
+    - "Ler" acendia na 404 de endereços dentro de um livro, como `/genesis/51`: o mesmo sintoma que o Alex viu no Instagram.
+  - Conferido: `npm run typecheck`, `lint`, `test` (348 testes) e `build` (`check-dist` em 2.518 páginas e na 404); `npm run budget` (máximo 155,4 KiB, na home); o build com o adaptador da Vercel mais o `check-dist`; `scripts/fetch_sources.sh` (todas as fontes iguais às cópias). No Chromium, todos os tipos de rota em 375 e 1440 px, Noite e Dia (39 endereços, 156 aberturas): status HTTP, sem erro de página, sem rolagem horizontal, créditos no rodapé e item atual certo; e a barra de seleção com uma ponte em andamento, em 375, 960 e 1440 px.
+  - Não conferido: aparelho real, Safari e Firefox, leitor de tela, Lighthouse e o detector do impeccable.
+  - Visto e não mexido:
+    - Na primeira visita a um endereço solto (cache vazio do `next start`), o redirect sai com o cabeçalho `location` repetido, com o mesmo valor. O Chromium segue; os outros navegadores não foram testados. Vem do commit da 404, não da onda C.
+    - Com seis itens no cabeçalho, a busca fica com 123 px de largura em 896 px (o começo do desktop), 187 px em 960 e 251 px em 1024: funciona, mas o texto de exemplo aparece cortado. Fica para o passo de design.
+    - Uma 404 dentro de uma seção (`/ponte/999`, `/linha-do-tempo/nada`) acende a seção pelo começo do endereço; só "Ler" confere se a página existe.
+    - A faixa da Ponte encosta 1 px sobre o fio de cima da barra do celular.
