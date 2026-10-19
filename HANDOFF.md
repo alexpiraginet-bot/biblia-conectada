@@ -24,7 +24,7 @@ Tudo o que está marcado como "conferido" foi rodado ou lido em 19/10. O que é 
 **Repo:** `alexpiraginet-bot/biblia-conectada`, público. O Alex criou e deu acesso de escrita ao app do Claude.
 
 **Branch `main`:** commits de 19/10 em cima do "Initial commit" do Alex.
-- `estudos/biblia-referencias/` e `estudos/biblia-natal/`: código, dados, fontes OFL, mídia gerada (recriações, clipes, narrações), vídeos finais e capas.
+- `estudos/biblia-referencias/`, `estudos/biblia-natal/` e `estudos/biblia-comentarios/`: código, dados, fontes OFL, mídia gerada (recriações, clipes, narrações), vídeos finais e capas.
   - Cópia byte a byte das pastas de trabalho, conferida por SHA-256.
   - Exceções: os textos completos da ACF, AA e NVI (`source/text/`), os caches `__pycache__` e os logs do x264.
 - `fontes/`: traduções livres em português, OpenBible geo, Theographic e STEPBible TIPNR, com `SHA256SUMS`.
@@ -104,6 +104,22 @@ Arquivo `estudos/biblia-referencias/data/xref.npz`, construído por `tools/analy
   - Esses pares vêm de 1.561 versículos do AT, em 38 livros. Falta Jonas.
   - Pares-chave: Is 7:14 ↔ Mt 1:23 = 333 votos, Mq 5:2 ↔ Mt 2:6 = 226.
 
+### 4.2b Grafo pronto (`grafo/`)
+
+- `grafo/build.py` gera, a partir de `xref.npz`: `dados/arestas.csv` e `arestas.bin` (301.539 pares, sem auto-ligações),
+  `versiculos.csv` (grau por versículo), `capitulos.csv` + `capitulos-arestas.csv` + `capitulos.gexf` + `capitulos.json`
+  (142.082 arestas), `livros.csv` + `livros-matriz.csv`, `resumo.json`, `RANKINGS.md` e as imagens.
+- **O site deve ler `grafo/dados/`** em vez de refazer essas contas (a Fase 1 vira "validar e empacotar", não "calcular").
+- `arestas.bin` já está no formato da §5.5.
+
+### 4.3b Hebraico, grego, léxicos (`fontes/`, 19/10)
+
+- OSHB (WLC + morfologia, 306.785 palavras), MorphGNT (137.554 palavras), STEPBible TAHOT/TAGNT (palavra a palavra com
+  Strong estendido e glosa), léxicos TBESH/TBESG/TFLSJ, dicionários de Strong, TVTMS (versificação), e textos em
+  hebraico, grego, latim, inglês e espanhol. Tabela completa em `fontes/README.md`; índice em `fontes/catalogo.json`.
+- Isso abre as notas de **palavra** (lema + Strong + ocorrências) como um tipo de nó do grafo. Fica como Fase 8, depois
+  do site estar de pé: 8.674 + 5.624 verbetes de Strong ligados a versículos via TAHOT/TAGNT.
+
 ### 4.3 Lugares, pessoas, eventos
 
 - **OpenBible geo:**
@@ -139,7 +155,7 @@ Arquivo `estudos/biblia-referencias/data/xref.npz`, construído por `tools/analy
 | Pessoa | Até 3.067 | Versículos, família, lugares, eventos |
 | Lugar | Cerca de 1.300 após unir as bases | Versículos, pessoas, eventos, mapa |
 | Evento | 450 | Versículos, pessoas, lugares, linha do tempo |
-| Estudo | 2 (vídeos) | Versículos, lugares, números do estudo |
+| Estudo | 3 (vídeos) | Versículos, lugares, números do estudo, @ dos comentários (vídeo 3) |
 
 Toda nota tem:
 - Ligações de saída e de entrada (backlinks).
@@ -236,7 +252,7 @@ Slugs dos livros a partir de `books_pt`, sem acento, com hífen.
 | 3. Busca ⌘K | Referências, livros, texto, lugares e pessoas, com os recentes | Casos de teste do parser. Busca de texto carregando sob demanda |
 | 4. Arcos + Grafo | Céu de ligações na home, `/arcos` e `/grafo` | 60 fps no desktop e fluido no celular médio (com LOD). Alternativa em lista. Movimento reduzido respeitado |
 | 5. Mapa + Pessoas/Lugares | Base unida (§4.3), nomes PT revisados nos ~150 principais, notas de lugar e pessoa, mapa com relevo e rotas dos estudos | Nomes PT tirados do texto. Lista de incertos registrada |
-| 6. Estudos + Home | Páginas dos 2 vídeos (números do `natal-stats.json` e do `stats.json`) com "abrir no grafo" | Vídeo leve (poster + `preload="none"` ou link para o post) |
+| 6. Estudos + Home | Páginas dos 3 vídeos (números do `natal-stats.json` e do `stats.json`) com "abrir no grafo" | Vídeo leve (poster + `preload="none"` ou link para o post) |
 | 7. Polimento e produção | `/impeccable audit` → `polish`. OG. Performance. Deploy de produção | Checklists da §5.6. URL de produção enviada ao Alex |
 
 **Pare e mostre ao Alex ao fim das Fases 0, 2 e 4.** Mostre screenshots e a URL de preview.
@@ -342,3 +358,9 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
   - Subiram os estudos (4 commits), as fontes livres (1) e os documentos (1).
   - Intermediários foram para a branch órfã, porque a sessão não podia criar Release.
   - Traduções protegidas ficaram fora (§3).
+- **19/10, manhã:**
+  - Vídeo 3, "Os versículos de vocês" (`estudos/biblia-comentarios/`): resposta aos comentários do vídeo 1, 19 mapas com @.
+  - **Padrão novo do Alex: todo vídeo tem narração, sempre com o mesmo narrador (Andre).** O sotaque foi tratado com
+    números por extenso, frase de aquecimento e escolha de tomada por métrica (`tools/takes.py`).
+  - O Alex pediu "o estudo mais completo existente" dentro do GitHub: entraram as bases abertas de hebraico/grego,
+    léxicos e traduções em domínio público (ver `fontes/README.md` e `fontes/catalogo.json`).
