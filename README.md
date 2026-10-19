@@ -47,7 +47,7 @@
 | ![Os 1.189 capítulos em círculo](grafo/imagens/capitulos-circulo.png) | ![Mapa de calor livro × livro](grafo/imagens/livros-matriz.png) |
 | **Os 1.189 capítulos em círculo**, na ordem da Bíblia: 1.448 ligações entre capítulos com 12+ pares. Laranja = Antigo ↔ Novo Testamento. Os paralelos saltam aos olhos: Reis ↔ Crônicas, os Evangelhos entre si, Salmos com tudo | **Livro × livro** (escala log): o par mais ligado é Salmos ↔ Isaías, com 4.099 pares de versículos; depois Isaías ↔ Jeremias (3.090) e Mateus ↔ Lucas (2.587) |
 | ![Isaías 9:6, o versículo mais ligado](grafo/imagens/top01-Isa-9-6.png) | ![1 Pedro 2:9](grafo/imagens/top02-1Pet-2-9.png) |
-| **Isaías 9:6**, o versículo mais ligado da Bíblia: 212 versículos, 120 no AT e 92 no NT | **1 Pedro 2:9**, o segundo: 194 versículos e a maior soma de votos entre os dez primeiros (3.644) |
+| **Isaías 9:6**, o versículo mais ligado da Bíblia: 212 versículos, 120 no AT e 92 no NT | **1 Pedro 2:9**, o segundo: 194 versículos, 116 no AT e 78 no NT |
 
 Os 12 versículos mais ligados têm o próprio mapa em [`grafo/imagens/`](grafo/imagens/), no estilo dos vídeos. A distribuição das ligações está em `distribuicao-ligacoes.png`.
 
@@ -63,12 +63,12 @@ Os 12 versículos mais ligados têm o próprio mapa em [`grafo/imagens/`](grafo/
 | 2 | 1 Pedro 2:9 | 194 | 116 | 78 |
 | 3 | Mateus 28:20 | 169 | 102 | 67 |
 | 4 | Tito 2:14 | 157 | 67 | 90 |
-| 5 | Apocalipse 5:9 | 156 | 67 | 89 |
-| 6 | Apocalipse 11:15 | 156 | 109 | 47 |
-| 7 | Isaías 41:10 | 151 | 81 | 70 |
-| 8 | Hebreus 12:2 | 150 | 55 | 95 |
-| 9 | Atos 26:18 | 150 | 59 | 91 |
-| 10 | Miqueias 7:18 | 149 | 102 | 47 |
+| 5 | Isaías 41:10 | 156 | 127 | 29 |
+| 6 | Apocalipse 5:9 | 156 | 67 | 89 |
+| 7 | Apocalipse 11:15 | 156 | 109 | 47 |
+| 8 | Hebreus 12:2 | 153 | 34 | 119 |
+| 9 | Atos 26:18 | 150 | 42 | 108 |
+| 10 | Miqueias 7:18 | 148 | 120 | 28 |
 
 **Os 5 pares Antigo ↔ Novo Testamento mais votados**
 
