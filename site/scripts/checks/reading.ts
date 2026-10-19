@@ -1,0 +1,118 @@
+// Post-build checks of the reading pages (called by check-dist.ts): the data headline of every prerendered chapter
+// and verse panel is the one src/lib/from-here.ts computes from the generated book files (CLAUDE.md rule 3), the rail
+// shows the zero-padded window around the chapter, the panel links follow the /conexao and /explorar contracts, and
+// /salvos ships its static shell.
+import { readFileSync } from "node:fs";
+import { join, sep } from "node:path";
+import { createGrid } from "../../src/lib/canon/grid";
+import type { Book } from "../../src/lib/canon/types";
+import { conexaoPath } from "../../src/lib/conexao";
+import { byVotes, chapterHeadline, padChapter, railWindow, testamentName, verseHeadline } from "../../src/lib/from-here";
+import { OUT } from "../data/sources";
+
+type BookFile = { chapters: { t: string; l: [number, number, number][] }[][] };
+
+export function checkReading({
+  appDir,
+  html,
+  textOf,
+  failures,
+}: {
+  appDir: string;
+  html: string[];
+  textOf: (s: string) => string;
+  failures: string[];
+}): string {
+  for (const r of [join("genesis", "1.html"), join("salmos", "119.html"), "salvos.html"]) {
+    if (!html.includes(r)) failures.push(`[reading] ${r} was not prerendered`);
+  }
+  const books = JSON.parse(readFileSync(join(OUT.generated, "books.json"), "utf8")) as Book[];
+  const grid = createGrid(books);
+  const bySlug = new Map(books.map((b) => [b.slug, b]));
+  const files = new Map<string, BookFile>();
+  const file = (slug: string) => {
+    let f = files.get(slug);
+    if (!f) files.set(slug, (f = JSON.parse(readFileSync(join(OUT.generated, "books", `${slug}.json`), "utf8")) as BookFile));
+    return f;
+  };
+  const verseLabel = (gv: number) => {
+    const l = grid.locate(gv);
+    return `${l.book.name} ${l.chapter}:${l.verse}`;
+  };
+  const chapterLabel = (ci: number) => {
+    const l = grid.locateChapter(ci);
+    return `${l.book.name} ${l.chapter}`;
+  };
+  const headlineOf = (raw: string) => {
+    const m = /<p[^>]*data-headline=""[^>]*>([\s\S]*?)<\/p>/.exec(raw);
+    return m ? textOf(m[1]) : null;
+  };
+  const attr = (s: string) => s.replace(/&/g, "&amp;");
+
+  let chapters = 0;
+  let verses = 0;
+  for (const page of html) {
+    const parts = page.replace(/\.html$/, "").split(sep);
+    const book = bySlug.get(parts[0]);
+    if (!book || parts.length < 2) continue;
+    const chapter = Number(parts[1]);
+    const raw = readFileSync(join(appDir, page), "utf8");
+    const text = textOf(raw);
+    const here = book.firstChapter + chapter - 1;
+    const verseList = file(book.slug).chapters[chapter - 1];
+
+    // the chapter frame (layout): testament kicker, rail window, every chapter in the selector
+    if (!text.includes(`${testamentName(book.testament)}${book.name} ${chapter}`)) failures.push(`${page}: testament kicker and title missing`);
+    for (const c of railWindow(chapter, book.verses.length)) {
+      const a = [...raw.matchAll(new RegExp(`<a [^>]*>${padChapter(c, book.verses.length)}</a>`, "g"))].find(
+        ([tag]) => tag.includes(`href="/${book.slug}/${c}"`) && tag.includes(`aria-label="Capítulo ${c}"`),
+      );
+      if (!a) failures.push(`${page}: rail entry ${padChapter(c, book.verses.length)} missing`);
+      else if ((c === chapter) !== a[0].includes('aria-current="page"')) failures.push(`${page}: rail aria-current on the wrong chapter`);
+    }
+
+    if (parts.length === 2) {
+      // chapter panel: linked chapters by summed votes
+      const acc = new Map<number, number>();
+      for (const v of verseList) {
+        for (const [gv, votes] of v.l) {
+          const l = grid.locate(gv);
+          const ci = l.book.firstChapter + l.chapter - 1;
+          if (ci !== here) acc.set(ci, (acc.get(ci) ?? 0) + votes);
+        }
+      }
+      const ranked = byVotes([...acc].map(([key, votes]) => ({ key, votes })));
+      const expected = chapterHeadline(ranked, chapterLabel);
+      if (headlineOf(raw) !== expected) failures.push(`${page}: headline "${headlineOf(raw)}", expected "${expected}"`);
+      if (ranked[0]) {
+        const top = grid.locateChapter(ranked[0].key);
+        const href = conexaoPath({ book: book.index, slug: book.slug, chapter }, { book: top.book.index, slug: top.book.slug, chapter: top.chapter });
+        if (!raw.includes(`href="${attr(href)}"`)) failures.push(`${page}: no "Abrir conexão" link to ${href}`);
+        if (!raw.includes(`href="/explorar/${book.slug}/${chapter}"`)) failures.push(`${page}: no "Ver no Explorar" link`);
+      }
+      chapters++;
+    } else {
+      // verse panel: the verse's links, strongest first
+      const verse = Number(parts[2]);
+      const ranked = verseList[verse - 1].l.map(([key, votes]) => ({ key, votes }));
+      const expected = verseHeadline(ranked, verseLabel);
+      if (headlineOf(raw) !== expected) failures.push(`${page}: headline "${headlineOf(raw)}", expected "${expected}"`);
+      if (!text.includes("A partir deste trecho")) failures.push(`${page}: kicker "A partir deste trecho" missing`);
+      if (ranked[0]) {
+        const top = grid.locate(ranked[0].key);
+        const href = conexaoPath(
+          { book: book.index, slug: book.slug, chapter, verse },
+          { book: top.book.index, slug: top.book.slug, chapter: top.chapter, verse: top.verse },
+        );
+        if (!raw.includes(`href="${attr(href)}"`)) failures.push(`${page}: no "Abrir conexão" link to ${href}`);
+      }
+      verses++;
+    }
+  }
+  if (chapters !== grid.chapterCount) failures.push(`[reading] ${chapters} chapter pages checked, expected ${grid.chapterCount}`);
+
+  const salvos = textOf(readFileSync(join(appDir, "salvos.html"), "utf8"));
+  if (!salvos.includes("Ficam só neste aparelho")) failures.push("salvos.html: the on-this-device sentence is missing");
+
+  return `reading headlines, rail and panel links in ${chapters} chapter and ${verses} verse pages`;
+}

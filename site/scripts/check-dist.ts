@@ -8,6 +8,7 @@ import { formatInt } from "../src/lib/canon/text";
 import { formatBytes, type DadosManifest } from "../src/lib/dados";
 import { findLeaks, loadProtectedQuotes, protectedRuns, textFiles } from "./data/leak-guard";
 import { OUT, SITE, SRC } from "./data/sources";
+import { checkReading } from "./checks/reading";
 
 const credits = JSON.parse(readFileSync(join(OUT.generated, "credits.json"), "utf8")) as { blivreCredit: string; openBibleCredit: string };
 const appDir = join(SITE, ".next/server/app");
@@ -113,6 +114,7 @@ for (const f of shipped) {
   for (const leak of findLeaks(readFileSync(f, "utf8"), runs)) failures.push(`${relative(SITE, f)}: protected text ${leak}`);
 }
 
+console.log(`[check-dist] ${checkReading({ appDir, html, textOf, failures })}`);
 if (failures.length) {
   console.error(failures.join("\n"));
   process.exit(1);
