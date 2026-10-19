@@ -46,7 +46,7 @@ Tudo o que está marcado como "conferido" foi rodado ou lido em 19/10. O que é 
 - `site/` existe: Next.js 16.4.2 + React 19.3.1. Páginas: `/` (provisória até o céu entrar), `/sobre`, `/ler`, os 66 livros, os 1.189 capítulos e os versículos (os 200 mais ligados saem no build; os outros na primeira visita, e ficam guardados).
 - Pipeline `site/scripts/build-data.ts` + 137 testes (vitest). Detalhes em §5.5.
 - `npm run build` passa: dados → testes → `next build` → `check-dist` (créditos e `lang` nas 1.458 páginas geradas, números da home iguais ao `summary.json`, nenhum trecho das citações ACF/AA em 11.588 arquivos entregues).
-- **Projeto da Vercel: não criado.** O conector da Vercel desta sessão recebeu 403 ao criar projeto, nas duas rotas (`create_project` e `create_git_project`). O Alex é OWNER do time "Lex Technology projects"; falta permissão do conector, não do time. Passo a passo em §9.
+- **Projeto da Vercel:** criado pelo Alex no painel em 19/10 (`alexpiraginet-bot-biblia-conectada`, time "Lex Technology projects"), ligado ao repo. Root Directory `site` gravada pelo Alex depois do merge do PR #1 no `main` (a lista de pastas do painel só mostra o que existe no `main`). O conector desta sessão só lê (403 ao alterar). Estado e URLs em §9.
 
 **Bloqueios desta sessão (políticas, não erros do repo):** a sessão na nuvem não podia criar repositório (403 em `/user/repos`) nem criar Release (403). Por isso o repo foi criado pelo Alex e os intermediários foram para uma branch órfã.
 
@@ -379,10 +379,12 @@ npx -y skills add leonxlnx/taste-skill --skill design-taste-frontend --agent cla
    - Framework: Next.js. Root Directory: `site`.
    - Install `npm ci`, build `npm run build` e o Ignored Build Step já vêm de `site/vercel.json`; não precisa mexer no painel.
    - A opção que inclui arquivos fora da Root Directory precisa estar ligada, porque o build lê `../fontes` e `../estudos`. Confira.
-   - **Estado em 19/10:** o conector da Vercel (time "Lex Technology projects", `team_imSH7u74mbysZKluH23ZCgsN`) achou o repo, mas recebeu 403 ao criar o projeto. Caminhos:
-     - (a) O Alex cria no painel: Add New → Project → importar `alexpiraginet-bot/biblia-conectada`. Enquanto o PR #1 não entra no `main`, a pasta `site` ainda não existe lá: importe e, em Settings → Build and Deployment, ponha Root Directory `site`. O primeiro deploy do `main` vai falhar até o merge; os pushes na branch do PR geram preview.
-     - (b) O Alex reconecta o conector da Vercel com permissão de escrita e pede para o Claude criar.
-3. URL: `biblia-conectada.vercel.app` se o nome estiver livre. Se não estiver, a Vercel acrescenta um sufixo. Registrar aqui a URL final.
+   - **Estado em 19/10 (tarde):** o Alex criou o projeto `alexpiraginet-bot-biblia-conectada` (`prj_86CqaGK6jk98KjoTbUXPrlnnzCuD`, time "Lex Technology projects", `team_imSH7u74mbysZKluH23ZCgsN`, plano Pro que já era do time; nada foi contratado).
+     - O import criou o projeto com a raiz do repo e o preset Python (a lista de pastas do import vem do `main`, que ainda não tem `site/`). Todo deploy falha com `PYTHON_ENTRYPOINT_NOT_FOUND`. A Root Directory `site` só pôde ser escolhida depois do merge do PR #1 no `main`, porque a lista de pastas do painel vem do `main`. Com `site` gravado, o preset Python do painel não importa, porque `site/vercel.json` fixa `framework: nextjs`.
+     - Um segundo projeto, `estudos` (raiz em `estudos/`), foi criado por engano no import e apagado pelo Alex.
+     - O conector da Vercel desta sessão lê projetos, deploys e logs, mas recebe 403 ao alterar o projeto: mudanças de configuração ficam com o Alex.
+     - No build da Vercel o Next usa o adaptador da Vercel ("Applying modifyConfig from Vercel" no log), que grava o HTML das páginas em `.next/server/route-cache/APP_PAGE/<hash>/$/` e na saída `.next/output/`, e nada em `.next/server/app/`. O `check-dist` lê as páginas pelos dois formatos (`site/scripts/checks/pages.ts`); reproduzido aqui com o pacote `@vercel/next` 23.0.3 via `NEXT_ADAPTER_PATH`.
+3. URLs: produção `alexpiraginet-bot-biblia-conectada.vercel.app` (serve o `main`; só mostra o site depois do merge do PR #1). Prévia da branch do PR: `alexpiraginet-bot-biblia-conectada-git-claud-bf2a0a-lexprojects.vercel.app`, protegida por login da Vercel (Vercel Authentication do time).
 4. **Caminhos para criar e deployar o projeto:**
    - Integração Git, onde todo push no `main` gera produção.
    - CLI: `npx vercel` em `site/`, com login na máquina.
@@ -479,7 +481,7 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
   - Fundação comum, antes das telas novas: cores novas (Noite `#051219` e ouro; Dia em pergaminho liso com bronze, vinho e verde), Newsreader nos títulos, kicker, navegação única (topo no desktop, barra de baixo no celular) e lista de rotas reservadas com teste. Registro em `design/README.md` §3–§5 e §13 (v3).
   - O pergaminho saiu da lista do "app devocional genérico" (A1), porque as referências do Alex usam pergaminho no Dia. Continua proibido como textura ou moldura.
   - Novo teste de contraste dos tokens (`site/tests/tokens.test.ts`); ele achou um par ruim antes de qualquer tela usar (rótulo claro sobre o verde no Noite, 3,02:1), já corrigido.
-  - A navegação já aponta para Explorar, Linha do tempo e Ponte, que chegam na onda B; até lá esses links dão 404.
+  - A navegação lista só seções com página (hoje Ler, Arcos e Dados; um teste confere). Explorar, Linha do tempo e Ponte entram quando as páginas da onda B chegarem.
 - **19/10, manhã (outra sessão, direto no `main`):**
   - Vídeo 3, "Os versículos de vocês" (`estudos/biblia-comentarios/`): resposta aos comentários do vídeo 1, 19 mapas com @.
   - **Padrão novo do Alex: todo vídeo tem narração, sempre com o mesmo narrador (Andre).** O sotaque foi tratado com

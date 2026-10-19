@@ -1,7 +1,7 @@
 // Post-build check of the Explorar (called by scripts/check-dist.ts): the numbers the home and /explorar/isaias/9
 // show (partner count, each neighbour's pairs and votes, the default connection, its strongest pair and verses) and
 // the /conexao page of that connection are the pipeline's numbers (CLAUDE.md rule 3).
-import { existsSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { formatInt } from "../../src/lib/canon/text";
 import type { Book } from "../../src/lib/canon/types";
@@ -13,7 +13,8 @@ import { OUT } from "../data/sources";
 type BookFile = { chapters: { t: string; l: [number, number, number][] }[][] };
 const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-export function checkExplore(appDir: string, textOf: (html: string) => string): { failures: string[]; checked: number } {
+/** `read` returns the prerendered HTML of a page by its path relative to the app ("explorar/isaias/9.html"), or null. */
+export function checkExplore(read: (rel: string) => string | null, textOf: (html: string) => string): { failures: string[]; checked: number } {
   const failures: string[] = [];
   let checked = 0;
   const books = JSON.parse(readFileSync(join(OUT.generated, "books.json"), "utf8")) as Book[];
@@ -30,7 +31,7 @@ export function checkExplore(appDir: string, textOf: (html: string) => string): 
   const pages = ["index.html", `${EXPLORE_HOME_PATH.slice(1)}.html`, `${EXPLORE_HOME_PATH.slice(1)}/${partner.book.slug}/${partner.chapter}.html`, "explorar/joao/1.html"];
 
   for (const page of [...pages, conexao]) {
-    if (!existsSync(join(appDir, page))) failures.push(`${page} was not prerendered`);
+    if (read(page) === null) failures.push(`${page} was not prerendered`);
   }
   if (failures.length) return { failures, checked };
 
@@ -39,7 +40,7 @@ export function checkExplore(appDir: string, textOf: (html: string) => string): 
   const there = bookText(partner.book).chapters[partner.chapter - 1];
 
   for (const page of pages.slice(0, 3)) {
-    const raw = readFileSync(join(appDir, page), "utf8");
+    const raw = read(page) ?? "";
     const text = textOf(raw);
     const fail = (msg: string) => failures.push(`${page}: ${msg}`);
     const inner = (attr: string) => new RegExp(`<(\\w+)[^>]*\\s${escapeRe(attr)}[^>]*>([\\s\\S]*?)</\\1>`).exec(raw)?.[2];
@@ -79,12 +80,12 @@ export function checkExplore(appDir: string, textOf: (html: string) => string): 
     for (const v of thereVerses) if (!raw.includes(`href="/${partner.book.slug}/${partner.chapter}/${v}"`)) fail(`panel lacks the verse ${partner.label}:${v}`);
   }
 
-  const explorar = textOf(readFileSync(join(appDir, pages[1]), "utf8"));
+  const explorar = textOf(read(pages[1]) ?? "");
   const meta = `${formatInt(ch.partners)} capítulos ligados a ${centre} · no grafo, os ${formatInt(ch.top.length)} com mais votos`;
   if (!explorar.includes(meta)) failures.push(`${pages[1]}: "${meta}" missing`);
 
   // /conexao of the default connection: every verse pair between the two chapters, recounted from the verse links
-  const raw = readFileSync(join(appDir, conexao), "utf8");
+  const raw = read(conexao) ?? "";
   const firstGv = partner.book.firstVerse + partner.book.verses.slice(0, partner.chapter - 1).reduce((s, n) => s + n, 0);
   const lastGv = firstGv + partner.book.verses[partner.chapter - 1] - 1;
   const found = here.flatMap((v, i) => v.l.filter(([gv]) => gv >= firstGv && gv <= lastGv).map(([gv, votes]) => ({ a: i + 1, b: gv - firstGv + 1, votes })));
