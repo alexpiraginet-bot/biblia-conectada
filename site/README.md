@@ -10,7 +10,7 @@ npm run dev         # servidor local em http://localhost:3000 (rode `npm run dat
 npm run data        # gera src/data/generated/ e public/data/ a partir de ../fontes e ../estudos/*/data
 npm test            # gera os dados e roda os testes (vitest)
 npm run build       # dados + testes + next build + check-dist (créditos, números da home, trava de tradução protegida)
-npm run budget      # JS e HTML (gzip) por tipo de página, depois do build
+npm run budget      # JS e HTML (gzip) por rota (a que gera cada página), depois do build
 npm run typecheck   # tsc --noEmit
 npm run lint        # eslint
 ```
@@ -42,11 +42,17 @@ divergir do que os vídeos publicaram (`stats.json`, `natal-stats.json`, `xref.n
 | `src/data/generated/recepcao.json` | Piloto de recepção: pinturas do Wikidata sobre o bom samaritano e a criação (`scripts/data/reception.ts`) |
 | `src/data/generated/community/trilha-antes-do-natal.json` | Trilha "Antes do Natal": 26 pares (o mais votado de cada livro do AT com Mt 1–2 / Lc 1–2), datas sugeridas (`scripts/data/trilha.ts`) |
 | `src/data/generated/community/ponte-built.json`, `public/data/ponte/calendar.json`, `public/data/ponte/<n>.json` | Ponte nº N: calendário de um ano (fuso de São Paulo), mínimo de saltos, rotas mínimas, rota mais forte e mapa de distâncias por ponte (`scripts/data/ponte.ts`); páginas só até a ponte do dia do build |
+| `src/data/generated/explore/<slug>.json` | Explorar: para cada capítulo, os 35 capítulos ligados com mais votos (na ordem de `src/lib/chapter-rank.ts`, a mesma do "Mais ligados" da leitura), com o par de versículos mais votado e os versículos de cada lado, e até 60 arestas entre eles (`scripts/data/explore.ts`) |
 | `public/data/verse-links/<slug>/<cap>.json` | Ligações de cada versículo do capítulo `[parceiro, votos, …]`, lidas pela faixa da Ponte e pela Mesa da semana |
 
 ## Páginas
 
-- `/ler`, `/<livro>`, `/<livro>/<cap>`, `/<livro>/<cap>/<vers>`: leitura. Livros e capítulos saem no build; versículos, os 200 mais ligados no build e os outros na primeira visita.
+- `/`: a capa (céu de Isaías 9:6) e, abaixo dela, o Explorar de Isaías 9 (`src/lib/explore/home.ts`).
+- `/ler`, `/<livro>`, `/<livro>/<cap>`, `/<livro>/<cap>/<vers>`: leitura. Livros e capítulos saem no build; versículos, os 200 mais ligados no build e os outros na primeira visita. A seleção de um trecho abre a barra Copiar, Compartilhar, Salvar e Explorar (`src/components/reader/SelectionBar.tsx`).
+- `/explorar` redireciona para `/explorar/isaias/9`. `/explorar/<livro>/<cap>`: grafo local do capítulo (os 200 capítulos com mais pares, Isaías 9 e João 1 saem no build; os outros na primeira visita); `/explorar/<livro>/<cap>/<livro2>/<cap2>`: a conexão escolhida, um dos 35 capítulos do grafo (outro par é 404). Medalhões: `public/medalhoes/` e `src/lib/medalhoes.ts`, que só roda no servidor.
+- `/conexao/<a>/<b>`: dois capítulos ou versículos lado a lado, com os pares que os ligam (`src/lib/conexao.ts`); a ordem invertida redireciona para a canônica.
+- `/salvos`: os trechos salvos neste aparelho pela barra de seleção (`localStorage` `bc:salvos:v1`, `src/lib/salvos.ts`).
+- Endereço que não nomeia página: uma referência solta (`/Isaías/9/6`, `/is 9:6`) vai para a página dela (`src/lib/canon/loose.ts`, `src/lib/missing.ts`); o resto é a 404 do site. As rotas dinâmicas chamam `notFound()` quando os parâmetros não nomeiam nada.
 - `/linha-do-tempo` e `/linha-do-tempo/<id>-<referência>` (ex.: `/linha-do-tempo/423-lucas-10-25-37`): os 450 eventos, todos no build. Eras do eixo em `src/lib/eras.ts` (convenção do site, posição por `eraX`, testada).
 - `/tema` e `/tema/<palavra>`: temas publicados, todos no build. `/palavra` e `/palavra/<palavra>`: versículos com a palavra (`src/lib/words.ts`, `src/lib/word-index.ts`); as palavras dos temas saem no build, as outras na primeira visita.
 - `/dados`: os dados abertos, com tamanhos e registros lidos do manifesto do pacote (conferidos por `check-dist`). Os arquivos de `/dados/v1/` respondem com `Access-Control-Allow-Origin: *` (`next.config.ts`).
