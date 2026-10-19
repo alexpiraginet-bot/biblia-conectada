@@ -32,6 +32,18 @@ Licença: Creative Commons Atribuição 4.0 Brasil. Crédito sugerido pelos auto
 - Base legal: citação para fins de estudo, com a fonte indicada (Lei 9.610/98, art. 46, III).
 - **Os textos completos dessas traduções e de outras protegidas (NVI, ARA etc.) não entram no repositório nem no site.** Tradução é obra protegida (art. 7º, XI). Quem traduz obra em domínio público tem direito sobre a própria tradução (art. 14).
 
+### Línguas originais e domínio público (`fontes/ebible/`)
+
+- **Westminster Leningrad Codex** (hebraico), **Textus Receptus** e **Septuaginta** (grego), **Vulgata Clementina** (latim), **King James Version**, **World English Bible**, **Berean Standard Bible**, **American Standard Version**, **Young's Literal Translation**, **Reina-Valera 1909**: domínio público. "World English Bible" é marca da eBible.org; o texto é livre.
+- **SBL Greek New Testament:** CC BY 4.0. Crédito: "SBLGNT © 2010 Society of Biblical Literature and Logos Bible Software".
+
+### Hebraico e grego com morfologia
+
+- **Open Scriptures Hebrew Bible** (`fontes/oshb/`): CC BY 4.0. Crédito: "Open Scriptures Hebrew Bible (openscriptures/morphhb), based on the Westminster Leningrad Codex".
+- **MorphGNT** (`fontes/morphgnt/`): o texto é o SBLGNT (CC BY 4.0); a análise morfológica é CC BY-SA 3.0. Dados derivados da análise saem CC BY-SA.
+- **Dicionários de Strong** (`fontes/strongs/`): domínio público (edição XML de Ulrik Petersen e Open Scriptures).
+- **STEPBible Data** (`fontes/stepbible/`, TAHOT, TAGNT, léxicos, TIPNR, TVTMS): CC BY 4.0. Crédito, com link para www.STEPBible.org: "Data created by www.STEPBible.org based on work at Tyndale House Cambridge". Quem alterar os dados deve registrar as mudanças e apontar o repositório deles como origem.
+
 ## Dados
 
 | Base | Licença | Crédito |
@@ -39,7 +51,7 @@ Licença: Creative Commons Atribuição 4.0 Brasil. Crédito sugerido pelos auto
 | Referências cruzadas (OpenBible.info) | CC BY | "Referências cruzadas: OpenBible.info". A base é derivada principalmente do Treasury of Scripture Knowledge |
 | Bible Geocoding Data (OpenBible.info) | CC BY 4.0 | "Geocodificação: OpenBible.info" |
 | Theographic Bible Metadata (Viz.Bible) | CC BY-SA 4.0 | "Theographic Bible Metadata, Viz.Bible". O projeto pede também crédito às fontes originais dele. **Dados derivados saem sob CC BY-SA 4.0** |
-| STEPBible Data (TIPNR) | CC BY 4.0 | "STEP Bible", com link para www.STEPBible.org: "Data created by www.STEPBible.org based on work at Tyndale House Cambridge" |
+| STEPBible Data (TAHOT, TAGNT, léxicos, TIPNR, TVTMS) | CC BY 4.0 | "STEP Bible", com link para www.STEPBible.org: "Data created by www.STEPBible.org based on work at Tyndale House Cambridge" |
 | Natural Earth | Domínio público | Opcional: "Natural Earth" |
 | AWS Terrain Tiles (relevo dos vídeos) | Atribuição | SRTM/GMTED2010 (USGS), ETOPO1 (NOAA), Mapzen |
 

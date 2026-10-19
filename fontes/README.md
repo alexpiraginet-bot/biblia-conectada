@@ -1,14 +1,16 @@
 # Fontes abertas
 
-Cópias exatas das bases livres usadas, ou planejadas, no site. Foram baixadas em 19/10/2026 e cada arquivo tem SHA-256 em `SHA256SUMS`.
+Cópias exatas das bases livres do projeto: texto bíblico em 7 línguas, hebraico e grego com morfologia e números de Strong, léxicos, versificação, lugares, pessoas, eventos e referências cruzadas. Cada arquivo tem SHA-256 em `SHA256SUMS` e a licença foi lida no próprio arquivo ou no repositório de origem na data da cópia. O índice legível por máquina é `catalogo.json`.
 
 `scripts/fetch_sources.sh` baixa tudo de novo e compara (sai com 1 se algo mudou na origem). Com `--update`, substitui os arquivos. Créditos obrigatórios: `ATTRIBUTION.md`.
 
-## Traduções em português (eBible.org, um versículo por linha: `.txt`, `.xml`, `.sql` + `*_about.htm` com a licença)
+## Texto bíblico (eBible.org, um versículo por linha: `.txt`, `.xml`, `.sql` + `*_about.htm` com a licença)
 
-| Pasta | Tradução | Licença | Conferido em 19/10 (contra a grade de versículos KJV/OpenBible) |
+### Português
+
+| Pasta | Tradução | Licença | Conferido em 19/10 (contra a grade KJV/OpenBible) |
 |---|---|---|---|
-| `blivre/` | **Bíblia Livre (BLIVRE)**, texto principal | CC BY 4.0 Brasil | 66 livros, 1.189 capítulos, 31.102 versículos, nenhum vazio. **0 diferenças de numeração** |
+| `blivre/` | **Bíblia Livre (BLIVRE)**, texto principal do site | CC BY 4.0 Brasil | 66 livros, 1.189 capítulos, 31.102 versículos, nenhum vazio. **0 diferenças de numeração** |
 | `ebible/porbrbsl/` | Bíblia Portuguesa Mundial | Domínio público (rascunho em revisão) | 81 livros: 15 deuterocanônicos/apócrifos (213 capítulos fora da grade). Nos 66, Rm 16:25–27 aparece como Rm 14:24–26. 29 versículos vazios |
 | `ebible/poronbv/` | Biblica® Open Nova Bíblia Viva™ (2007) | CC BY-SA 4.0 | 66 livros. Versículos a mais: Jz 5:32, 1Sm 20:43, 3Jo 1:15 |
 | `ebible/porblt/` | Bíblia Livre Para Todos (só NT) | CC BY-SA 4.0 | 27 livros. A mais: 3Jo 1:15, Ap 12:18. 17 vazios |
@@ -16,13 +18,56 @@ Cópias exatas das bases livres usadas, ou planejadas, no site. Foram baixadas e
 
 Fora: "Novo Testamento: Versão Fácil de Ler" (`por-WBTC`), marcado como não redistribuível no catálogo do eBible.
 
-## Lugares, pessoas, eventos, nomes
+### Línguas originais e antigas
+
+| Pasta | Texto | Licença | Versículos |
+|---|---|---|---|
+| `ebible/hebwlc/` | Westminster Leningrad Codex (hebraico do AT) | Domínio público | 23.213 |
+| `ebible/grcsbl/` | SBL Greek New Testament (SBLGNT, 2010) | CC BY 4.0 (© Society of Biblical Literature e Logos) | 7.939 |
+| `ebible/grctr/` | Textus Receptus (grego do NT) | Domínio público | 7.957 |
+| `ebible/grclxx/` | Septuaginta (grego do AT, 36 livros) | Domínio público | 27.722 |
+| `ebible/latVUC/` | Vulgata Clementina (latim) | Domínio público | 35.809 |
+
+### Inglês e espanhol (domínio público)
+
+| Pasta | Tradução | Versículos |
+|---|---|---|
+| `ebible/eng-kjv2006/` | King James Version (1769) | 31.102 |
+| `ebible/engwebp/` | World English Bible | 31.103 |
+| `ebible/engbsb/` | Berean Standard Bible (domínio público desde 2023) | 31.086 |
+| `ebible/eng-asv/` | American Standard Version (1901) | 31.102 |
+| `ebible/engylt/` | Young's Literal Translation | 31.102 |
+| `ebible/spaRV1909/` | Reina-Valera 1909 | 31.102 |
+
+## Hebraico e grego com morfologia e Strong
+
+| Pasta | Base | Licença | Conteúdo (conferido em 19/10) |
+|---|---|---|---|
+| `oshb/` | Open Scriptures Hebrew Bible (WLC 4.20 + morfologia) | CC BY 4.0 (texto WLC: domínio público) | `wlc/*.xml` em OSIS, 39 livros + `parsing/Oshm.xml`: **23.213 versículos, 306.785 palavras**, cada uma com lema (Strong estendido) e código morfológico |
+| `morphgnt/` | MorphGNT (SBLGNT analisado) | Texto SBLGNT CC BY 4.0; análise morfológica CC BY-SA 3.0 | 27 livros, **137.554 palavras em 7.927 versículos**, cada uma com classe, análise, forma, lema |
+| `strongs/` | Dicionários de Strong em XML (Open Scriptures) | Domínio público | Hebraico **8.674 verbetes**, grego **5.624 verbetes** |
+| `stepbible/` | STEPBible Data (Tyndale House Cambridge) | CC BY 4.0 | Ver abaixo |
+
+### STEPBible (`stepbible/`, commit `ed476a8`)
+
+| Arquivo | Sigla | O que é |
+|---|---|---|
+| `Translators Amalgamated OT+NT/TAHOT *` (4 arquivos) | TAHOT | AT hebraico, palavra por palavra, com Strong estendido, morfologia e glosa em inglês |
+| `Translators Amalgamated OT+NT/TAGNT *` (2 arquivos) | TAGNT | NT grego amalgamado (variantes dos principais textos), com Strong estendido, morfologia e glosa |
+| `Lexicons/TBESH`, `Lexicons/TBESG` | TBESH / TBESG | Léxicos breves de Strong estendido, hebraico e grego |
+| `Lexicons/TFLSJ *` (2 arquivos) | TFLSJ | Léxico grego completo Liddell-Scott-Jones formatado |
+| `Morphology codes/TEHMC`, `TEGMC` | | Expansão dos códigos morfológicos de hebraico e grego |
+| `Proper Nouns/TIPNR` | TIPNR | Todos os nomes próprios (pessoas e lugares) com forma em hebraico/grego, Strong desambiguado e todas as ocorrências |
+| `Versification/TVTMS` | TVTMS | Mapeamento de versificação entre as tradições inglesa, hebraica, latina e grega |
+
+Fora: as Bíblias árabes marcadas (`Tagged-Bibles/`) e a pasta `Older Formats`.
+
+## Lugares, pessoas, eventos
 
 | Pasta | Base | Licença | Conteúdo |
 |---|---|---|---|
 | `openbible-geo/` | OpenBible.info Bible Geocoding Data | CC BY 4.0 | `ancient.jsonl`: 1.342 lugares bíblicos com identificações e grau de confiança. `modern.jsonl`: 1.596 locais modernos com `lonlat` |
 | `theographic/` | Theographic Bible Metadata (Viz.Bible) | CC BY-SA 4.0 | 3.067 pessoas, 1.298 lugares (com lat/long), 450 eventos, 23 grupos, 66 livros, 1.189 capítulos, 31.102 versículos (texto KJV + ligações), 6.519 verbetes do dicionário Easton |
-| `stepbible/` | STEPBible TIPNR (nomes próprios) | CC BY 4.0 | Todos os nomes próprios (pessoas e lugares) com forma em hebraico/grego, Strong desambiguado e todas as ocorrências. Nomes em inglês (ESV) |
 
 **Nomes em português:** OpenBible, Theographic e TIPNR trazem os nomes em inglês. O nome em PT precisa sair do próprio texto da BLIVRE nos versículos de cada lugar ou pessoa, com revisão humana nos mais citados. Não traduzir de cabeça.
 
@@ -32,20 +77,15 @@ Fora: "Novo Testamento: Versão Fácil de Ler" (`por-WBTC`), marcado como não r
 - `cross-references.zip`: OpenBible.info, CC BY, arquivo de 12/10/2026.
 - `openbible-cross_references.txt`: o mesmo, extraído. SHA-256 `2aba58d2adc91609a090f80bb05dfbc7a1518ff10ee798f6b452dfeaf01ccff8`.
 
-Ficam lá porque os vídeos dependem deles. O script de conferência também checa essa cópia.
+Ficam lá porque os vídeos dependem deles. O script de conferência também checa essa cópia. Os dados derivados (grafo, rankings, imagens) estão em `grafo/`.
 
 - 344.799 linhas.
 - 301.584 pares únicos (`xref.npz`), com 45 pares de um versículo com ele mesmo.
 - Votos vão de −86 a 1.477.
 - 30.303 dos 31.102 versículos têm ao menos uma ligação.
 
-## Próximas fontes livres (não baixadas ainda; conferir licença antes)
+## Ainda não incluído (conferir licença antes)
 
-- **STEPBible:** TAHOT/TAGNT (hebraico/grego marcados), TBESH/TBESG (léxicos), TVTMS (versificação). CC BY 4.0, mesmo repositório do TIPNR.
-- **Textos originais:**
-  - Westminster Leningrad Codex: domínio público.
-  - Morfologia do Open Scriptures Hebrew Bible.
-  - SBLGNT.
-  - Berean Standard Bible e interlinear: declarados domínio público em 2023.
-- **Inglês em domínio público:** KJV, WEB, ASV (todas no eBible).
-- **Dicionários e índices antigos (domínio público pela idade):** Nave's Topical Bible, Smith's Bible Dictionary, Hitchcock's Bible Names. O Easton já vem no Theographic.
+- Dicionários e índices antigos em domínio público pela idade: Nave's Topical Bible, Smith's Bible Dictionary, Hitchcock's Bible Names. Faltou uma fonte com licença declarada no próprio arquivo.
+- Léxico BDB formatado (TFBDB) do STEPBible: ainda não publicado por eles.
+- Outras traduções abertas de outras línguas estão no catálogo do eBible (`Redistributable = True`).

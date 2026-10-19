@@ -1,0 +1,29 @@
+{
+ "descricao": "Índice das fontes abertas do repositório. Licença lida no próprio arquivo ou repositório de origem na data indicada. Checksums em fontes/SHA256SUMS.",
+ "data": "2026-10-19",
+ "fontes": [
+  {"id": "blivre", "pasta": "blivre", "nome": "Bíblia Livre (BLIVRE)", "tipo": "texto", "lingua": "por", "licenca": "CC BY 4.0 BR", "origem": "https://ebible.org/Scriptures/porbr2018_vpl.zip", "uso": "texto principal do site"},
+  {"id": "porbrbsl", "pasta": "ebible/porbrbsl", "nome": "Bíblia Portuguesa Mundial", "tipo": "texto", "lingua": "por", "licenca": "Domínio público", "origem": "https://ebible.org/Scriptures/porbrbsl_vpl.zip", "nota": "rascunho em revisão; inclui 15 deuterocanônicos"},
+  {"id": "poronbv", "pasta": "ebible/poronbv", "nome": "Biblica Open Nova Bíblia Viva 2007", "tipo": "texto", "lingua": "por", "licenca": "CC BY-SA 4.0", "origem": "https://ebible.org/Scriptures/poronbv_vpl.zip"},
+  {"id": "porblt", "pasta": "ebible/porblt", "nome": "Bíblia Livre Para Todos (NT)", "tipo": "texto", "lingua": "por", "licenca": "CC BY-SA 4.0", "origem": "https://ebible.org/Scriptures/porblt_vpl.zip"},
+  {"id": "portft", "pasta": "ebible/portft", "nome": "Tradução para Tradutores (NT)", "tipo": "texto", "lingua": "por", "licenca": "CC BY-SA 4.0", "origem": "https://ebible.org/Scriptures/portft_vpl.zip"},
+  {"id": "hebwlc", "pasta": "ebible/hebwlc", "nome": "Westminster Leningrad Codex", "tipo": "texto", "lingua": "hbo", "licenca": "Domínio público", "origem": "https://ebible.org/Scriptures/hebwlc_vpl.zip"},
+  {"id": "grcsbl", "pasta": "ebible/grcsbl", "nome": "SBL Greek New Testament", "tipo": "texto", "lingua": "grc", "licenca": "CC BY 4.0", "origem": "https://ebible.org/Scriptures/grcsbl_vpl.zip", "credito": "© 2010 Society of Biblical Literature and Logos Bible Software"},
+  {"id": "grctr", "pasta": "ebible/grctr", "nome": "Textus Receptus", "tipo": "texto", "lingua": "grc", "licenca": "Domínio público", "origem": "https://ebible.org/Scriptures/grctr_vpl.zip"},
+  {"id": "grclxx", "pasta": "ebible/grclxx", "nome": "Septuaginta", "tipo": "texto", "lingua": "grc", "licenca": "Domínio público", "origem": "https://ebible.org/Scriptures/grclxx_vpl.zip"},
+  {"id": "latVUC", "pasta": "ebible/latVUC", "nome": "Vulgata Clementina", "tipo": "texto", "lingua": "lat", "licenca": "Domínio público", "origem": "https://ebible.org/Scriptures/latVUC_vpl.zip"},
+  {"id": "eng-kjv2006", "pasta": "ebible/eng-kjv2006", "nome": "King James Version", "tipo": "texto", "lingua": "eng", "licenca": "Domínio público", "origem": "https://ebible.org/Scriptures/eng-kjv2006_vpl.zip"},
+  {"id": "engwebp", "pasta": "ebible/engwebp", "nome": "World English Bible", "tipo": "texto", "lingua": "eng", "licenca": "Domínio público (nome é marca da eBible.org)", "origem": "https://ebible.org/Scriptures/engwebp_vpl.zip"},
+  {"id": "engbsb", "pasta": "ebible/engbsb", "nome": "Berean Standard Bible", "tipo": "texto", "lingua": "eng", "licenca": "Domínio público", "origem": "https://ebible.org/Scriptures/engbsb_vpl.zip"},
+  {"id": "eng-asv", "pasta": "ebible/eng-asv", "nome": "American Standard Version 1901", "tipo": "texto", "lingua": "eng", "licenca": "Domínio público", "origem": "https://ebible.org/Scriptures/eng-asv_vpl.zip"},
+  {"id": "engylt", "pasta": "ebible/engylt", "nome": "Young's Literal Translation", "tipo": "texto", "lingua": "eng", "licenca": "Domínio público", "origem": "https://ebible.org/Scriptures/engylt_vpl.zip"},
+  {"id": "spaRV1909", "pasta": "ebible/spaRV1909", "nome": "Reina-Valera 1909", "tipo": "texto", "lingua": "spa", "licenca": "Domínio público", "origem": "https://ebible.org/Scriptures/spaRV1909_vpl.zip"},
+  {"id": "oshb", "pasta": "oshb", "nome": "Open Scriptures Hebrew Bible (WLC + morfologia)", "tipo": "morfologia", "lingua": "hbo", "licenca": "CC BY 4.0", "origem": "https://github.com/openscriptures/morphhb", "commit": "3d15126"},
+  {"id": "morphgnt", "pasta": "morphgnt", "nome": "MorphGNT (SBLGNT analisado)", "tipo": "morfologia", "lingua": "grc", "licenca": "texto CC BY 4.0; análise CC BY-SA 3.0", "origem": "https://github.com/morphgnt/sblgnt", "commit": "aaed91e"},
+  {"id": "strongs", "pasta": "strongs", "nome": "Dicionários de Strong (hebraico e grego)", "tipo": "lexico", "licenca": "Domínio público", "origem": "https://github.com/openscriptures/strongs", "commit": "0acd2f2"},
+  {"id": "stepbible", "pasta": "stepbible", "nome": "STEPBible Data: TAHOT, TAGNT, TBESH, TBESG, TFLSJ, TEHMC, TEGMC, TIPNR, TVTMS", "tipo": "morfologia, lexico, nomes, versificacao", "licenca": "CC BY 4.0", "origem": "https://github.com/STEPBible/STEPBible-Data", "commit": "ed476a8", "credito": "STEP Bible (www.STEPBible.org), based on work at Tyndale House Cambridge"},
+  {"id": "openbible-geo", "pasta": "openbible-geo", "nome": "OpenBible.info Bible Geocoding Data", "tipo": "lugares", "licenca": "CC BY 4.0", "origem": "https://github.com/openbibleinfo/Bible-Geocoding-Data"},
+  {"id": "theographic", "pasta": "theographic", "nome": "Theographic Bible Metadata", "tipo": "pessoas, lugares, eventos, Easton", "licenca": "CC BY-SA 4.0", "origem": "https://github.com/robertrouse/theographic-bible-metadata"},
+  {"id": "openbible-xref", "pasta": "../estudos/biblia-referencias/data", "nome": "OpenBible.info cross references", "tipo": "referencias cruzadas", "licenca": "CC BY", "origem": "https://a.openbible.info/data/cross-references.zip", "nota": "cópia de 12/10/2026; os vídeos dependem dela"}
+ ]
+}
