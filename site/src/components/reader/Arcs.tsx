@@ -37,6 +37,9 @@ const LEVELS = 4; // strength steps; each step is one stroke width and opacity
  * twice, as HTML and as the React payload). Weak groups first, so the strongest links are drawn on top.
  */
 function groups(x0: number, arcs: Arc[]) {
+  // hundreds of arcs (a whole book reaches more than a thousand chapters) would fill the window with solid gold:
+  // the more arcs, the fainter each one, so their crossings still read as added light
+  const dim = Math.min(1, Math.sqrt(250 / Math.max(1, arcs.length)));
   const by = new Map<number, string[]>();
   for (const a of arcs) {
     const level = Math.round(Math.min(Math.max(a.s, 0), 1) * LEVELS);
@@ -52,7 +55,7 @@ function groups(x0: number, arcs: Arc[]) {
       level,
       d: d.join(""),
       width: r1(0.6 + (1.2 * level) / LEVELS),
-      opacity: r1(0.25 + (0.7 * level) / LEVELS),
+      opacity: Math.round((0.25 + (0.7 * level) / LEVELS) * dim * 100) / 100,
     }));
 }
 

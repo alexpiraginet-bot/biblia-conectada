@@ -275,6 +275,13 @@
   margin: 0 var(--space-4) var(--space-7);
 }
 
+/* the panel and the sheet are flex columns that scroll: their blocks keep their height (a sky window, with its
+   overflow hidden, would otherwise shrink to nothing) */
+.chapterPanel > *,
+.verseSheet > * {
+  flex-shrink: 0;
+}
+
 .verseShell {
   /* its own ground and ink, set on the sheet below: never a colour inherited through a floating surface */
   color: var(--ink);
@@ -309,6 +316,14 @@
   /* the sheet goes straight to the links (design system ConnectionPanel); the map stays on the wider panel */
   .verseSheet .map {
     display: none;
+  }
+}
+
+/* tablets: the sheet keeps a reading measure instead of spanning the whole screen */
+@media (min-width: 40rem) and (max-width: 63.99rem) {
+  .verseSheet {
+    align-self: center;
+    width: min(100%, 42rem);
   }
 }
 
@@ -368,6 +383,11 @@
 
 .panelTitle {
   scroll-margin-top: var(--space-8);
+}
+
+/* the title takes the focus when the sheet opens, to announce it; it is not a control, so no ring is drawn */
+.panelTitle:focus {
+  outline: none;
 }
 
 .headline {
@@ -622,10 +642,12 @@
   overflow: visible;
 }
 
+/* additive light, as in the video: each group of arcs brightens what is under it */
 .arcsLinks path {
   fill: none;
   stroke: var(--sky-gold);
   stroke-linecap: round;
+  mix-blend-mode: screen;
 }
 
 .arcsBase path {

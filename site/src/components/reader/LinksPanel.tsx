@@ -186,10 +186,16 @@ export async function LinksPanel({
         </>
       )}
       <p className={styles.source}>
-        Ligações: OpenBible.info. Os votos somam as duas direções; um trecho conta pelo primeiro versículo. Sentido:{" "}
-        <Icon name="out" className={`bc-icon ${styles.sourceIcon}`} /> sai deste versículo,{" "}
-        <Icon name="in" className={`bc-icon ${styles.sourceIcon}`} /> chega a este versículo,{" "}
-        <Icon name="both" className={`bc-icon ${styles.sourceIcon}`} /> nos dois sentidos.
+        Ligações: OpenBible.info.
+        {links.length > 0 && (
+          <>
+            {" "}
+            Os votos somam as duas direções; um trecho conta pelo primeiro versículo. Sentido:{" "}
+            <Icon name="out" className={`bc-icon ${styles.sourceIcon}`} /> sai deste versículo,{" "}
+            <Icon name="in" className={`bc-icon ${styles.sourceIcon}`} /> chega a este versículo,{" "}
+            <Icon name="both" className={`bc-icon ${styles.sourceIcon}`} /> nos dois sentidos.
+          </>
+        )}
       </p>
     </>
   );

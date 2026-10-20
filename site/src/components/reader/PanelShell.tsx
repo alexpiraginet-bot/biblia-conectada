@@ -96,6 +96,9 @@ export function PanelShell({
       mq.removeEventListener("change", apply);
       window.removeEventListener("keydown", onKey);
       undo?.();
+      // the router may keep this page hidden rather than remove it (Activity): it must not stay a modal dialog
+      panel?.removeAttribute("role");
+      panel?.removeAttribute("aria-modal");
       // a sheet that closes hands the focus back to where it was opened; another verse's sheet takes it right after
       const active = document.activeElement;
       if (mq.matches && (!active || active === document.body || panel?.contains(active))) {
