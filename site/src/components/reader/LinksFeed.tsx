@@ -38,6 +38,8 @@ function scroller(el: HTMLElement): HTMLElement | null {
 }
 
 const saveData = () => (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
+/** a section whose files failed is asked for again once, after this pause, before the list says so */
+const RETRY_MS = 1200;
 const subscribe = () => () => {};
 
 type Status = "idle" | "loading" | "error" | "end";
@@ -87,7 +89,8 @@ function Hub({ section, titleId }: { section: FeedSection; titleId: string }) {
 /**
  * The endless list under a verse's links (design §6.2, lib/links-feed.ts). When the verse's own list nears its end,
  * the links of each of its links come in, a section at a time and with their whole BLIVRE text, then the links of
- * those, without end. It fetches the chapter files of public/data (links and text), each once; with Save-Data on, a
+ * those, without end. It fetches the chapter files of public/data (links and text), each once, one section ahead; a
+ * file that fails or stalls is asked for again once before the list offers "Tentar de novo". With Save-Data on, a
  * section comes only when asked for. Without JavaScript nothing shows here: the verse's own list above is complete.
  */
 export function LinksFeed({ origin, links }: { origin: number; links: readonly VerseLink[] }) {
@@ -107,7 +110,11 @@ export function LinksFeed({ origin, links }: { origin: number; links: readonly V
     busy.current = true;
     setStatus("loading");
     try {
-      const r = await nextSection(state.current ?? startFeed(origin, links.map(([gv, votes]) => ({ gv, votes })), BASE.verseCount), loader);
+      const from = state.current ?? startFeed(origin, links.map(([gv, votes]) => ({ gv, votes })), BASE.verseCount);
+      const r = await nextSection(from, loader).catch(async () => {
+        await new Promise((done) => setTimeout(done, RETRY_MS));
+        return nextSection(from, loader);
+      });
       if (!r) {
         setStatus("end");
         return;
@@ -116,6 +123,8 @@ export function LinksFeed({ origin, links }: { origin: number; links: readonly V
       const s = r.section;
       if (s) setSections((list) => [...list, s]);
       setStatus("idle");
+      // the files of the section after it start coming now, so a fast reader finds it ready (they stay for the real call)
+      if (!saveData()) void nextSection(r.state, loader).catch(() => {});
     } catch {
       setStatus("error");
     } finally {
