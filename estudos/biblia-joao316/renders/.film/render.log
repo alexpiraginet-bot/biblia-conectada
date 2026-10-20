@@ -1,0 +1,14 @@
+frame 0/1727  1 s
+frame 150/1727  54 s
+frame 300/1727  122 s
+frame 450/1727  202 s
+frame 600/1727  271 s
+frame 750/1727  352 s
+frame 900/1727  442 s
+frame 1050/1727  513 s
+frame 1200/1727  603 s
+frame 1350/1727  724 s
+frame 1500/1727  863 s
+frame 1650/1727  1002 s
+video frames done in 1078 s -> /home/claude/hf-test/videos/biblia-joao316/renders/.film/video.mp4
+EXIT 0

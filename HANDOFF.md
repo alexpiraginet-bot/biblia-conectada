@@ -24,7 +24,7 @@ Tudo o que está marcado como "conferido" foi rodado ou lido em 19/10. O que é 
 **Repo:** `alexpiraginet-bot/biblia-conectada`, público. O Alex criou e deu acesso de escrita ao app do Claude.
 
 **Branch `main`:** commits de 19/10 em cima do "Initial commit" do Alex.
-- `estudos/biblia-referencias/`, `estudos/biblia-natal/` e `estudos/biblia-comentarios/`: código, dados, fontes OFL, mídia gerada (recriações, clipes, narrações), vídeos finais e capas.
+- `estudos/biblia-referencias/`, `estudos/biblia-natal/`, `estudos/biblia-comentarios/` e `estudos/biblia-joao316/`: código, dados, fontes OFL, mídia gerada (recriações, clipes, narrações), vídeos finais e capas.
   - Cópia byte a byte das pastas de trabalho, conferida por SHA-256.
   - Exceções: os textos completos da ACF, AA e NVI (`source/text/`), os caches `__pycache__` e os logs do x264.
 - `fontes/`: traduções livres em português, OpenBible geo, Theographic e STEPBible TIPNR, com `SHA256SUMS`.
@@ -567,3 +567,7 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
     - Achados e corrigidos no navegador: a regra base de link do sistema vencia a cor dos botões das páginas ("Abrir conexão" ficou com 1,33:1); o Esc só limpava o campo de busca em vez de fechar; o foco não voltava a quem abriu a busca.
   - **Em andamento:** cinco agentes em paralelo, cada um num worktree a partir de 6a35179: leitura; capa, Explorar e conexão; linha do tempo, temas e palavras; comunidade, céu, dados, sobre e 404; o índice de palavras da busca. Briefing comum em `design/README.md` v4 e no contrato de direção (`.impeccable/surfaces/site-src-app-layout-tsx.md`).
   - Atenção para quem testar no servidor local: `ss` não existe aqui e o `lsof` não enxerga os sockets do Next. Rodar o servidor como um processo só (`node node_modules/next/dist/bin/next start -p N & echo $!`) e parar pelo PID; um servidor velho continua respondendo com os chunks do build anterior (erros 500).
+- **19/10, noite, vídeo 4:**
+  - Vídeo 4, "Antes de João 3:16" (`estudos/biblia-joao316/`): remake do episódio 02 (projeto HyperFrames que o Alex
+    mandou em zip) no padrão do vídeo 1, a pedido dele: gancho no frame 0, arcos de dados reais, órgão em ré menor que
+    resolve em ré maior no 3:16, narração do Andre. Citações literais da BLIVRE. Legenda reescrita para tração.

@@ -116,6 +116,7 @@ Detalhes, contagens conferidas e o que ficou de fora: [`fontes/README.md`](fonte
 | 1 | [**A Bíblia, conectada**](estudos/biblia-referencias/) | As 344.799 referências cruzadas como arcos, de 2007 até hoje; Isaías 9:6 vira uma estrela |
 | 2 | [**Antes do Natal, já estava escrito**](estudos/biblia-natal/) | As profecias do nascimento num mapa 3D do relevo real: 2.094 ligações do AT chegam aos 4 capítulos do nascimento, de 38 dos 39 livros |
 | 3 | [**Os versículos de vocês**](estudos/biblia-comentarios/) | Resposta aos comentários do vídeo 1: 19 versículos pedidos, cada um com o próprio mapa e o @ de quem pediu. Juntos, se ligam a 1.024 versículos em 59 livros |
+| 4 | [**Antes de João 3:16**](estudos/biblia-joao316/) | A ligação mais votada de João 3:14 é com Números 21: um arco de 862 capítulos pra trás, a serpente de bronze erguida numa haste e a haste que vira cruz. Só depois vem João 3:16 |
 
 Cada pasta tem o código que renderiza o vídeo do zero (arcos rasterizados em NumPy, trilha sintetizada, narração cortada por pausas), os dados e um `PROJETO.md` com as decisões. Como rodar: [`estudos/README.md`](estudos/README.md).
 
