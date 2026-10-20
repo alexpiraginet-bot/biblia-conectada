@@ -19,6 +19,8 @@ export type HubView = {
   align: "start" | "end" | "center";
   trunk: string;
   img: { src: string; src2: string };
+  /** when its trunk starts growing on the map's entrance, in seconds (the groups in the order of the canon) */
+  t: number;
 };
 
 /** A chapter around its medallion. */

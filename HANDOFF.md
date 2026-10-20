@@ -753,7 +753,6 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
     - `npm run build`: 529 testes, e o `check-dist` em 2.539 páginas;
     - `npm run budget`: `/arcos` com 165,0 KiB de JS, no teto; capa com 157,8;
     - medido para o handoff: só o que o `WebGLShader` usa do three.js 0.186.1 dá 129 KiB em gzip.
-
 - **20/10, Codex, pulsos de luz nas conexões — branch `codex/fiber-light-connections`:**
   - **Pedido do Alex:** feixes de luz percorrendo as linhas como fibra óptica, mantendo conexões reais e leitura confortável.
   - **Entrega:** a constelação da capa ilumina até 12 arestas reais em repouso e até 18 da seleção, com núcleo claro e cauda dourada. O céu 3D reutiliza a geometria existente e anima até 40 fios na vista geral ou 64 da seleção, mais o fio em foco quando necessário. Caminhos preservam a sequência dos saltos; uma seleção sem ligações permanece sem feixes.
@@ -845,3 +844,21 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
   - `motion/node_modules` é um link para o do vídeo 5. Ficou fora do git (`.gitignore`).
   - Para liberar disco, foram apagados os intermediários antigos dos vídeos 1 a 4 em `hf-test/videos/*/renders/.film`
     (fora do repo, refeitos pelo pipeline de cada vídeo).
+
+- **25/10, Claude, o mapa vivo (feito em 20/10, integrado agora):**
+  - **Pedido do Alex**, com a captura do mapa de Isaías 9 no celular (tema Dia): "Quero tudo isso vivo! Movimento e fluidez tudo precisa ser ultra moderno e interativo".
+  - **Entrega** (`design/README.md` §7.1; o resto do site continua quieto):
+    - entrada: o mostrador varre de Gênesis, em sentido horário; os troncos crescem do selo na ordem do cânon, cada medalhão chega com o seu, depois os capítulos, e por último o traço da ligação escolhida;
+    - vida: um pulso de luz corre por cada tronco, mais vezes onde há mais votos (a cada 4,4 s no mais fraco, a cada 2,2 s no mais forte), e sem parar na ligação acesa; a órbita, o pontilhado entre capítulos e o aro do selo andam devagar. A legenda ganhou "Pulso de luz mais frequente, mais votos";
+    - resposta: apontar, com o mouse ou o teclado, recua as outras ligações; o medalhão cresce sob o mouse e afunda ao toque; o escolhido responde quando o traço chega;
+    - um mapa que chega fora da tela espera e faz a entrada quando aparece; os ciclos param fora da tela; com movimento reduzido, nada se mexe.
+    - O `DESIGN.md`, o `PRODUCT.md` e o `design/README.md` diziam "um só momento orquestrado"; agora dizem que o movimento mora no mapa.
+  - **Conferido** (servidor de produção local, Chromium):
+    - `npm run build`: 531 testes, 2 deles novos em `tests/atlas-motion.test.ts` (a entrada segue o cânon; no mapa real de Isaías 9, mais votos dão pulsos mais frequentes; com a regra invertida, o teste falha), e o `check-dist` em 2.539 páginas;
+    - `npm run budget`: Explorar com 147,2 KiB (+0,7), capa com 158,3 KiB (+0,5); `/arcos` e versículo iguais;
+    - navegador, 28 de 28: entrada e pulsos em 390 px, Noite e Dia; pulsos parados fora da tela e de volta nela; a entrada esperando abaixo da dobra; desktop com mouse e teclado; movimento reduzido em 390 e 1440 px; o atlas da capa ao abrir, com o traço aceso esperando o tronco também ali; a entrada de Isaías 10 ao navegar; nenhum erro na página;
+    - quadros da entrada no primeiro carregamento, com o relógio das animações a 10%: o traço aceso só aparece depois do tronco dele;
+    - ritmo de quadros igual com e sem movimento (60 por segundo, nenhum acima de 34 ms) e LCP igual (88 a 108 ms contra 88 a 100 ms, 3 rodadas cada);
+    - capturas em 375 e 1440 px, Noite e Dia.
+  - **Achado, do PR #9, já na produção:** no tema Dia, a capa tem fundo escuro e o atlas de Isaías 9 dentro dela usa os tokens do Dia, com a legenda quase invisível. Ficou para o Codex (`docs/HANDOFF-CODEX.md` §4.1).
+  - **Não conferido:** iPhone e GPU de verdade; o ritmo de quadros foi medido no Chromium sem GPU.

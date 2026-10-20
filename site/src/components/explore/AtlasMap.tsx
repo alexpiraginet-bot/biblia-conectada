@@ -2,6 +2,7 @@ import { books } from "@/lib/data";
 import { formatInt } from "@/lib/canon/text";
 import { GROUP_NAMES, hubText, votesWord, type AtlasLayout, type GroupId } from "@/lib/explore/atlas";
 import { groupOfBook, medals, type Atlas } from "@/lib/explore/atlas-data";
+import { enterAt, flowPeriod } from "@/lib/explore/atlas-motion";
 import { chapterKey } from "@/lib/explore/data";
 import { connectionPath } from "@/lib/explore/home";
 import { measure } from "@/lib/explore/measure";
@@ -12,6 +13,9 @@ import type { HubView, NodeView, VariantView } from "./atlas-view";
 import styles from "./explore.module.css";
 
 const r3 = (n: number) => Math.round(n * 1000) / 1000;
+// The map is alive (design §7.1): on its entrance the dial sweeps from Gênesis, at the top, clockwise, and the trunks
+// grow from the seal in the order of the canon (enterAt), each medallion arriving with its trunk. Then a bead of light
+// keeps running along each trunk, more often the more votes it carries (flowPeriod).
 const hubAlign = { below: "center", above: "center", right: "start", left: "end" } as const;
 const nodeAlign = { b: "center", t: "center", r: "start", l: "end" } as const;
 
@@ -40,6 +44,7 @@ function variantView(atlas: Atlas, l: AtlasLayout): VariantView {
       align: hubAlign[h.side],
       trunk: h.trunk,
       img: { src: m[g.id].src96, src2: m[g.id].src192 },
+      t: enterAt(h.k),
     };
   });
   const nodes: NodeView[] = l.nodes.map((n) => {
@@ -96,29 +101,44 @@ function Stage({ atlas, l, fallback, fixed, label, hint }: { atlas: Atlas; l: At
   const sealStyle = { "--x": s.cx / s.W, "--y": s.cy / s.H, "--s": s.seal, "--sb": SEAL_BOOK[s.key] } as React.CSSProperties;
   const nodeAt = new Map(l.nodes.map((n) => [n.ci, n]));
   const maxWeb = Math.max(1, ...atlas.web.map((w) => w[3]));
+  const tOf = new Map(v.hubs.map((h) => [h.id, h.t]));
+  const trunks = l.hubs.filter((h) => h.trunkW > 0).sort((a, b) => a.trunkW - b.trunkW);
+  const view = `0 0 ${s.W} ${s.H}`;
   return (
     <div className={`${styles.stage} ${s.key === "wide" ? styles.wide : styles.narrow}`} style={style} data-variant={s.key}>
-      <svg className={styles.lines} viewBox={`0 0 ${s.W} ${s.H}`} aria-hidden="true">
+      {/* the dial: a tick per linked chapter, from Gênesis at the top, clockwise (its own layer, so it can sweep in) */}
+      <svg className={styles.dial} viewBox={view} style={{ "--x": s.cx / s.W, "--y": s.cy / s.H } as React.CSSProperties} aria-hidden="true">
+        <circle className={styles.dialRing} cx={s.cx} cy={s.cy} r={l.rOut + 3} style={{ transformOrigin: `${s.cx}px ${s.cy}px` }} />
+        {l.ticks.map((d, i) => d && <path key={i} className={styles.tick} d={d} style={{ strokeOpacity: [0.4, 0.6, 0.8, 1][i] }} />)}
+        {l.leads.map((t) => (
+          <path key={t.id} className={`${styles.tick} ${styles.lead}`} d={t.d} />
+        ))}
+      </svg>
+      <svg className={styles.lines} viewBox={view} aria-hidden="true">
         <ellipse className={styles.orbit} cx={s.cx} cy={s.cy} rx={s.rx} ry={s.ry} />
-        <circle className={styles.dialRing} cx={s.cx} cy={s.cy} r={l.rOut + 3} />
         {s.key === "wide" &&
           atlas.web.map(([a, b, , votes]) => {
             const p = nodeAt.get(a), q = nodeAt.get(b);
             if (!p || !q) return null;
             return <path key={`${a}-${b}`} className={styles.web} d={`M${p.x} ${p.y}L${q.x} ${q.y}`} style={{ strokeOpacity: r3(0.35 + 0.5 * Math.sqrt(Math.max(0, votes) / maxWeb)) }} />;
           })}
-        {l.ticks.map((d, i) => d && <path key={i} className={styles.tick} d={d} style={{ strokeOpacity: [0.4, 0.6, 0.8, 1][i] }} />)}
-        {l.leads.map((t) => (
-          <path key={t.id} className={`${styles.tick} ${styles.lead}`} d={t.d} />
+        {trunks.map((h) => (
+          <path key={h.id} className={styles.trunk} d={h.trunk} pathLength={1} style={{ strokeWidth: h.trunkW, strokeOpacity: h.trunkO, "--t": tOf.get(h.id) } as React.CSSProperties} />
         ))}
-        {l.hubs
-          .filter((h) => h.trunkW > 0)
-          .sort((a, b) => a.trunkW - b.trunkW)
-          .map((h) => (
-            <path key={h.id} className={styles.trunk} d={h.trunk} style={{ strokeWidth: h.trunkW, strokeOpacity: h.trunkO }} />
-          ))}
         {l.nodes.map((n) => (
-          <path key={n.ci} className={styles.twig} d={`M${n.tx} ${n.ty}L${n.x} ${n.y}`} style={{ strokeWidth: n.twigW }} />
+          <path key={n.ci} className={styles.twig} d={`M${n.tx} ${n.ty}L${n.x} ${n.y}`} pathLength={1} style={{ strokeWidth: n.twigW, "--t": tOf.get(n.id) } as React.CSSProperties} />
+        ))}
+      </svg>
+      {/* the links alive: a bead of light runs from the seal along each trunk (its own layer: the only one that repaints) */}
+      <svg className={styles.flows} viewBox={view} aria-hidden="true">
+        {trunks.map((h) => (
+          <path
+            key={h.id}
+            className={styles.flow}
+            d={h.trunk}
+            pathLength={1}
+            style={{ strokeWidth: r3(h.trunkW + 1.4), "--t": tOf.get(h.id), "--period": flowPeriod(h.trunkW) } as React.CSSProperties}
+          />
         ))}
       </svg>
       <div className={styles.seal} style={sealStyle} role="img" aria-label={`${atlas.centre.label}, com ${partnersText(atlas.partners)}`}>
@@ -171,6 +191,13 @@ export function AtlasMap({ atlas, selected, fixed = false }: { atlas: Atlas; sel
             <path className={styles.swTicks} d="M3 11V8M8 11V3M13 11V6M18 11V1M23 11V7" />
           </svg>
           Cada risco no selo, um capítulo ligado
+        </li>
+        <li className={styles.motionOnly}>
+          <svg viewBox="0 0 28 12" aria-hidden="true">
+            <path className={styles.swThick} d="M1 6h26" />
+            <path className={styles.swFlow} d="M1 6h26" pathLength={1} />
+          </svg>
+          Pulso de luz mais frequente, mais votos
         </li>
         {shownWeb && (
           <li className={styles.wideOnly}>

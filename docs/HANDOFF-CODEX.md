@@ -1,6 +1,6 @@
 # Handoff para o Codex (20/10/2026, noite)
 
-Escrito pelo Claude a pedido do Alex: "Prepare handoff para o códex seguir". Daqui em diante o Codex conduz. Este é o handoff de transferência que o `docs/claude-coordination.md` ainda não tinha visto: o Claude não tem trabalho aberto no site além do PR deste documento. Tudo marcado como **conferido** foi rodado ou lido nesta data. O que é sugestão está escrito como sugestão.
+Escrito pelo Claude a pedido do Alex: "Prepare handoff para o códex seguir". Daqui em diante o Codex conduz. Este é o handoff de transferência que o `docs/claude-coordination.md` ainda não tinha visto. Depois dele, a pedido do Alex, o Claude ainda deixou vivo o mapa do Explorar (PR #13, design §7.1; arquivos em `site/src/components/explore/` e `site/src/lib/explore/atlas-motion.ts`). Tudo marcado como **conferido** foi rodado ou lido nesta data. O que é sugestão está escrito como sugestão.
 
 **Continuidade do Codex, 20/10:** item 4.1 publicado pelo PR #14, commit `6bbca4d94536dde42ae0514588f3b1e80e84e4cf`, com autorização explícita do Alex após informar Lighthouse/LCP pendentes. Deploy de produção `dpl_BBGdYhunFt3QqWFSYh7fUDe5Fnhq` confirmado READY e domínio público conferido. Caderno local e ampliação das jornadas seguem no plano; vídeos continuam em sessão separada. O retrato original das 18h43 UTC permanece como histórico.
 
@@ -89,6 +89,18 @@ Antes disso, no mesmo dia, ele pediu a lista sem fim da leitura: "As conexões a
 **Estado atual:** publicado pelo PR #14; conferências e medições ainda pendentes no §2. O shader já ocupa `components/ui`; os efeitos de metal/vidro e a moldura dos cards usam o CSS da capa, sem Tailwind, shadcn ou three.js. Publicação autorizada pelo Alex sem declarar atendido o requisito de Lighthouse/LCP.
 
 **Base do pedido:** a capa do PR #9. O pedido troca o hero, a primeira tela, e renova os cards. A referência e o plano original abaixo ficam preservados para comparação com a implementação.
+
+**Movimento em tudo.** Depois do handoff, o Alex mandou a captura do mapa de Isaías 9 com: "Quero tudo isso vivo! Movimento e fluidez tudo precisa ser ultra moderno e interativo".
+- O mapa do Explorar já está vivo (design §7.1, PR #13):
+  - a entrada conta algo do dado (o mostrador varre de Gênesis, os troncos crescem na ordem do cânon);
+  - a luz corre nas ligações, mais vezes onde há mais votos;
+  - tudo responde ao toque e ao teclado, nada anima por cima de texto, e tudo para fora da tela e com movimento reduzido.
+- Leve a mesma linguagem ao hero e às seções novas.
+
+**Bug já no ar (do PR #9), para consertar junto:**
+- no tema Dia, a capa tem fundo escuro (`main.home`, em `site/src/app/page.module.css`);
+- mas o atlas de Isaías 9 dentro do `<details>` usa os tokens do Dia: placas de nome brancas e a legenda em `ink-2` quase invisível sobre o escuro (conferido na produção às 19h30 UTC, 375 px, Dia);
+- ou a capa segue o tema, ou a região escura força os tokens do Noite.
 
 **A referência**
 - Fundo preto com linhas de luz que ondulam, desenhadas por um shader em tela cheia:
@@ -240,6 +252,8 @@ Tudo fica no aparelho: sem conta, sem servidor. A frase "Ficam só neste aparelh
 - **Listas longas de links:** `prefetch={false}`. Senão cada linha que passa na tela baixa uma página inteira.
 - **Números da capa:** o `check-dist` exige no `index.html` os números de `summary.json`, o parágrafo `data-definition` e os versículos mais ligados (`data-top-verse`), hoje dentro do `HomeAtlas`. Se o hero novo tirar o atlas da capa, leve isso junto, ou o build falha.
 - **Tokens:** `tests/css-vars.test.ts` acusa qualquer `var(--x)` que ninguém declara. Rode `npm test` depois de mexer em tokens.
+- **Animação dentro de animação:** uma custom property animada por `@keyframes` não pode entrar em `animation-*` de outro elemento. A especificação torna a declaração inválida ("animation-tainted"), e a animação some. O mapa usa um atributo (`data-entering`) no lugar.
+- **Gravar quadros de uma animação:** `getAnimations()` não lista animações que já terminaram sem `fill` para frente, então pausar e posicionar falha depois do fim. Desacelere o relógio da página pelo CDP (`Animation.setPlaybackRate`) e fotografe em tempo real.
 - **Arquivos de `public/data`:** use `site/src/lib/community/fetchers.ts`, que já tem cache e o limite de 10 s.
 - **Orçamento de JS:** `/arcos` está no teto (§2). Todo JS novo no que é comum às páginas (cabeçalho, menu, rodapé, layout) passa `/arcos` de 165 KiB. Ponha o código novo só nas páginas que o usam, ou carregue depois. Para partes só de cliente carregadas depois, `React.lazy` saiu mais leve que `next/dynamic`.
 - **Lint e hooks:** o lint barra `setState` síncrono em effect e acesso a ref no render. Para "estou no cliente", use `useSyncExternalStore`.

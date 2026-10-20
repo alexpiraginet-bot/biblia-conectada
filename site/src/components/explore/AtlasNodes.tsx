@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSelectedLayoutSegments } from "next/navigation";
-import { useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import type { HubView, NodeView, VariantView } from "./atlas-view";
 import styles from "./explore.module.css";
 
@@ -54,6 +54,60 @@ export function AtlasNodes({
   const stop = moved?.sel === sel.key ? moved.id : home;
   const box = useRef<HTMLDivElement>(null);
   const hintId = useId();
+  // when each group's trunk starts growing on the entrance (AtlasMap): while the map arrives, the lit stroke waits for
+  // its own trunk; once the entrance is over, a stroke lit by pointing or choosing is traced at once
+  const tOf: Record<string, number> = Object.fromEntries(v.hubs.map((h) => [h.id, h.t]));
+  const litAt = { "--lit-at": `${((tOf[visual.group] ?? 0) + 0.45).toFixed(2)}s` } as React.CSSProperties;
+  const [entering, setEntering] = useState(true);
+
+  // The map's motion (design §7) plays where it is seen: a map that arrives off screen waits at its first frame and
+  // plays when it comes into view; the loops (light along the links, the orbit and the dial turning, the legend's
+  // pulse) stop off screen. Only the shown variant acts (the other has no box), and only CSS animations are touched.
+  useEffect(() => {
+    const stage = box.current?.parentElement;
+    const scope = stage?.parentElement;
+    if (!stage || !scope || typeof IntersectionObserver === "undefined" || typeof CSSAnimation === "undefined") {
+      const raf = requestAnimationFrame(() => setEntering(false));
+      return () => cancelAnimationFrame(raf);
+    }
+    const motion = () => scope.getAnimations({ subtree: true }).filter((a) => a instanceof CSSAnimation);
+    const r = stage.getBoundingClientRect();
+    if (r.height > 0 && (r.top >= innerHeight || r.bottom <= 0)) {
+      for (const a of motion()) {
+        a.pause();
+        a.currentTime = 0;
+      }
+    }
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e.boundingClientRect.height) return;
+        for (const a of motion()) {
+          if (e.isIntersecting) {
+            if (a.playState === "paused") a.play();
+          } else if (a.playState === "running" && a.effect?.getComputedTiming().iterations === Infinity) a.pause();
+        }
+      },
+      // the entrance starts once the map is a fifth of a screen above the bottom edge
+      { rootMargin: "0px 0px -20% 0px" },
+    );
+    io.observe(stage);
+    // the entrance is over when the stage's clock ends. A stage that is drawn with no clock (reduced motion, or a clock
+    // over before this ran) is over now; one not drawn yet (the capa's closed <details>, the variant hidden at this
+    // width) gets its clock, and its entrance, when it is drawn
+    const clock = (name: string) => name.includes("enterClock");
+    const over = (e: AnimationEvent) => {
+      if (e.target === stage && clock(e.animationName)) setEntering(false);
+    };
+    stage.addEventListener("animationend", over);
+    const drawn = stage.getClientRects().length > 0;
+    const running = stage.getAnimations().some((a) => a instanceof CSSAnimation && clock(a.animationName));
+    const raf = drawn && !running ? requestAnimationFrame(() => setEntering(false)) : 0;
+    return () => {
+      io.disconnect();
+      stage.removeEventListener("animationend", over);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
 
   const hubs = v.hubs.filter((h) => h.href);
   const nodesOf = (id: string) => v.nodes.filter((n) => n.group === id).sort((a, b) => a.j - b.j);
@@ -89,7 +143,7 @@ export function AtlasNodes({
 
   const hubEl = (h: HubView) => {
     const isLit = h.id === visual.group;
-    const style = { ...at(h.x, h.y, v.W, v.H), ...unit(h.s), ...plate(h.label) } as React.CSSProperties;
+    const style = { ...at(h.x, h.y, v.W, v.H), ...unit(h.s), ...plate(h.label), "--t": h.t } as React.CSSProperties;
     const inner = (
       <>
         {/* eslint-disable-next-line @next/next/no-img-element -- a 96/192 px illustration, already sized; next/image adds JS */}
@@ -130,7 +184,7 @@ export function AtlasNodes({
 
   const nodeEl = (n: NodeView) => {
     const current = n.key === sel.key;
-    const style = { ...at(n.cx, n.cy, v.W, v.H), ...unit(n.s), ...plate(n.label) } as React.CSSProperties;
+    const style = { ...at(n.cx, n.cy, v.W, v.H), ...unit(n.s), ...plate(n.label), "--t": tOf[n.group] ?? 0 } as React.CSSProperties;
     return (
       <Link
         key={n.key}
@@ -162,11 +216,13 @@ export function AtlasNodes({
   return (
     <>
       {lit && (
-        <svg key={`lit-${visual.key}`} className={styles.litLayer} viewBox={`0 0 ${v.W} ${v.H}`} aria-hidden="true">
+        <svg key={`lit-${visual.key}`} className={styles.litLayer} viewBox={`0 0 ${v.W} ${v.H}`} style={litAt} data-entering={entering ? "" : undefined} aria-hidden="true">
           <path className={styles.lit} pathLength={1} d={lit} />
+          {/* once traced, light keeps running along the lit connection */}
+          <path className={styles.litFlow} pathLength={1} d={lit} />
         </svg>
       )}
-      <div ref={box} className={styles.links} role="group" aria-label={label} aria-describedby={hintId} onKeyDown={onKey}>
+      <div ref={box} className={styles.links} style={litAt} data-entering={entering ? "" : undefined} role="group" aria-label={label} aria-describedby={hintId} onKeyDown={onKey}>
         <p id={hintId} className="visually-hidden">
           {hint}
         </p>

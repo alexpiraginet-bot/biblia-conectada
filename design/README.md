@@ -44,7 +44,7 @@ Todo número deste documento foi calculado por código. Número que vai para o s
 
 1. **O texto vem primeiro.** A Escritura é a coisa mais legível da tela: Literata grande, coluna de 60 a 66 caracteres, contraste de no mínimo 7:1. Nada se desenha atrás dela.
 2. **Toda ligação mostra o número e a regra.** "17 ligações, das mais votadas às menos votadas". Os números vêm do pipeline de dados e têm teste; nenhum é digitado.
-3. **A luz guia a exploração:** pulsos de ouro percorrem conexões reais, ganham destaque na seleção e podem ser pausados. Fora da tela e com movimento reduzido, ficam parados. Nada anima por cima do texto bíblico em leitura.
+3. **A luz guia a exploração:** pulsos de ouro percorrem conexões reais, ganham destaque na seleção e podem ser pausados. Fora da tela e com movimento reduzido, ficam parados. Nada anima por cima do texto bíblico em leitura. O mapa do Explorar está em §7.1.
 4. **Buscar é sempre um gesto.** Do campo da barra, de Ctrl K ou / no desktop, da aba Buscar no celular: a mesma busca entende referência, palavra, livro e tema.
 5. **Os dois temas são de primeira.** Noite e Dia têm a mesma hierarquia e o mesmo contraste. A primeira visita começa em Noite; a escolha explícita da pessoa fica guardada, incluindo Sistema.
 
@@ -174,8 +174,28 @@ Pedido do Alex, com a captura da folha no iPhone: "As conexões aqui precisam es
 - `dur-fast` (120ms) para hover e pressão, `dur-base` (220ms) para folha e busca abrindo, `dur-slow` (420ms) para transições.
 - **Ondas do hero (branch em revisão):** `components/ui/web-gl-shader.tsx` desenha um triângulo em WebGL2 puro, sem dependências novas, a no máximo 30 quadros/s; DPR até 1,5 e raster limitado a 1440 × 900. O canvas decorativo não recebe foco; o botão de pausa é acessível. Pausa manual e movimento reduzido mantêm um quadro estático; aba oculta e saída da tela cancelam frames/timers. Sem WebGL, com render por software ou após perda de contexto, fica o fundo CSS estático. Seis testes cobrem o ciclo de vida. As ondas são ornamentais; os pulsos da constelação continuam seguindo conexões reais.
 - Na constelação da capa e no céu 3D, feixes recorrentes com núcleo claro e cauda seguem as arestas dos dados. A câmera não gira sozinha. O botão de luzes permite pausar e retomar; aba oculta, visualização fora da tela e movimento reduzido suspendem a animação.
-- Saída rápida: `ease-out` (`cubic-bezier(0.16, 1, 0.3, 1)`). Tudo começa visível; nada espera rolagem para aparecer.
+- Saída rápida: `ease-out` (`cubic-bezier(0.16, 1, 0.3, 1)`). O texto de leitura começa visível e nunca espera rolagem; uma visualização pode fazer a entrada quando aparece (o mapa do Explorar, §7.1).
 - Com `prefers-reduced-motion`, nada se desloca; só a cor muda.
+
+### 7.1 O mapa vivo (20/10)
+
+Pedido do Alex, com a captura do mapa de Isaías 9 no celular: "Quero tudo isso vivo! Movimento e fluidez tudo precisa ser ultra moderno e interativo". O mapa (`AtlasMap` e `AtlasNodes`, no Explorar e na capa) deixa de ter um só momento orquestrado:
+
+- **Entrada (cerca de 1,3 s):**
+  - o selo surge, e o mostrador varre de Gênesis, no alto, em sentido horário;
+  - os troncos crescem do selo na ordem do cânon, e cada medalhão chega com o seu; depois vêm os capítulos;
+  - por último, o traço da ligação escolhida.
+- **Vida:**
+  - um pulso de luz corre do selo por cada tronco, mais vezes nos troncos com mais votos: a cada 4,4 s no mais fraco, a cada 2,2 s no mais forte, pela mesma raiz dos votos que dá a espessura. A legenda diz isso;
+  - na ligação acesa, o pulso não para;
+  - os pontos da órbita e o pontilhado entre capítulos andam devagar, e o aro do selo gira em sentido horário.
+- **Resposta:**
+  - apontar um medalhão ou um capítulo, com o mouse ou o teclado, recua as outras ligações e traça a dele;
+  - o medalhão cresce 6% sob o mouse e afunda ao toque;
+  - o capítulo ou o medalhão escolhido responde quando o traço chega.
+- **Onde se vê:** um mapa que chega fora da tela espera no primeiro quadro e faz a entrada quando aparece; os ciclos param fora da tela.
+- **Sem movimento** (`prefers-reduced-motion`): o mapa aparece inteiro e parado, a escolha muda só de cor, e a legenda não fala do pulso.
+- Sem brilho, halo nem desfoque: o pulso é um traço curto em `lit`.
 
 ## 8. Qualidade mínima
 

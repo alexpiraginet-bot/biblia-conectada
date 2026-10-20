@@ -60,7 +60,9 @@
   }
 }
 
+.dial,
 .lines,
+.flows,
 .litLayer {
   position: absolute;
   inset: 0;
@@ -70,7 +72,9 @@
   pointer-events: none;
 }
 
-.lines * {
+.dial *,
+.lines *,
+.flows * {
   fill: none;
 }
 
@@ -130,17 +134,262 @@
   stroke-linejoin: round;
 }
 
+/* ---- the map alive (design §7: Alex, 20/10, "Quero tudo isso vivo!") -------------------------------------------- */
+
+/* how far the dial has swept on the entrance, and the entrance's clock: an animation of the stage that only measures
+   the entrance, whose end tells AtlasNodes the map has arrived (an animated property cannot time another animation) */
+@property --sweep {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 360deg;
+}
+
+@property --arriving {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
+/* while the map arrives (data-entering, AtlasNodes), the lit stroke waits for its own trunk (--lit-at); a stroke lit
+   later, by pointing or choosing, is traced at once */
+.litLayer,
+.links {
+  --lit-delay: 0s;
+}
+
+.litLayer[data-entering],
+.links[data-entering] {
+  --lit-delay: var(--lit-at, 0s);
+}
+
+/* a bead of light along a link; invisible without motion */
+.flow,
+.litFlow {
+  fill: none;
+  stroke: var(--lit);
+  stroke-linecap: round;
+  stroke-opacity: 0;
+}
+
+.litFlow {
+  stroke-width: 5.2;
+}
+
+.trunk,
+.twig,
+.flow {
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+
+/* pointing at a medallion or a chapter: the other links step back while its own is lit (AtlasNodes) */
+@media (hover: hover) {
+  .stage:has(.links a:hover) :is(.trunk, .twig, .flow) {
+    opacity: 0.35;
+  }
+}
+
+.stage:has(.links a:focus-visible) :is(.trunk, .twig, .flow) {
+  opacity: 0.35;
+}
+
 @media (prefers-reduced-motion: no-preference) {
+  /* the entrance (about 1.4 s; the stage's 2 s clock tells AtlasNodes when it is over): the seal strikes, the dial
+     sweeps from Gênesis at the top, clockwise; each trunk grows from the seal in the order of the canon (--t, AtlasMap)
+     and its medallion arrives with it, then its chapters; the selected connection is traced last */
+  .stage {
+    animation: enterClock 2s;
+  }
+
+  .seal {
+    animation: enterStrike 0.5s var(--ease-out) backwards;
+  }
+
+  .dial {
+    mask-image: conic-gradient(from 0deg at calc(var(--x) * 100%) calc(var(--y) * 100%), #000 var(--sweep), transparent 0);
+    animation: enterSweep 0.6s linear 0.1s backwards;
+  }
+
+  .trunk {
+    stroke-dasharray: 1;
+    animation: enterGrow 0.45s var(--ease-out) calc(var(--t) * 1s) backwards;
+  }
+
+  .twig {
+    stroke-dasharray: 1;
+    animation: enterGrow 0.3s var(--ease-out) calc(var(--t) * 1s + 0.4s) backwards;
+  }
+
+  .stage .hub {
+    animation: enterStrike 0.45s var(--ease-out) calc(var(--t) * 1s + 0.3s) backwards;
+  }
+
+  .stage .node {
+    animation: enterStrike 0.35s var(--ease-out) calc(var(--t) * 1s + 0.6s) backwards;
+  }
+
+  .caption {
+    animation: enterFade 0.4s var(--ease-out) 0.3s backwards;
+  }
+
   .lit {
     stroke-dasharray: 1;
+    animation: trace var(--dur-slow) var(--ease-out) var(--lit-delay, 0s) both;
+  }
+
+  /* the chapter or medallion the lit stroke reaches answers when it arrives */
+  .node[aria-current] .disc,
+  .hub[aria-current] :global(.bc-medallion__img) {
+    animation: arrive 0.5s var(--ease-out) calc(var(--lit-delay, 0s) + var(--dur-slow)) backwards;
+  }
+
+  /* then the life, stopped off screen by AtlasNodes: light runs from the seal along every link, more often the more
+     votes it carries (--period); along the lit connection it never rests; the orbit's dots and the dotted web between
+     chapters creep, and the dial's ring turns, clockwise like the canon */
+  .flow {
+    animation: flowRun calc(var(--period) * 1s) linear calc(var(--t) * 1s + 0.8s) infinite;
+  }
+
+  .litFlow {
+    animation: flowRun 1.6s linear calc(var(--lit-at, 0s) + var(--dur-slow)) infinite;
+  }
+
+  .orbit {
+    animation:
+      enterFade 0.6s var(--ease-out) backwards,
+      orbitDrift 4s linear infinite;
+  }
+
+  .web {
+    animation:
+      enterFade 0.4s var(--ease-out) 1s backwards,
+      webDrift 5s linear 1.4s infinite;
+  }
+
+  .dialRing {
+    transform-box: view-box;
+    animation: turn 120s linear infinite;
+  }
+
+  /* a medallion answers the touch: it sinks when pressed and, under a pointer, comes forward */
+  .stage .hub :global(.bc-medallion__img) {
+    transition: scale var(--dur-fast) var(--ease-out);
+  }
+
+  .stage a.hub:active :global(.bc-medallion__img) {
+    scale: 0.94;
+  }
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .stage a.hub:hover :global(.bc-medallion__img) {
+    scale: 1.06;
+  }
+}
+
+@keyframes enterClock {
+  from,
+  to {
+    --arriving: 1;
+  }
+}
+
+@keyframes enterSweep {
+  from {
+    --sweep: 0deg;
+  }
+
+  to {
+    --sweep: 360deg;
+  }
+}
+
+/* a stroke waiting to grow is transparent too: its hidden dash would still show its round cap as a dot */
+@keyframes enterGrow {
+  from {
     stroke-dashoffset: 1;
-    animation: trace var(--dur-slow) var(--ease-out) forwards;
+    opacity: 0;
+  }
+
+  1% {
+    opacity: 1;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes enterStrike {
+  from {
+    opacity: 0;
+    scale: 0.82;
+  }
+}
+
+@keyframes enterFade {
+  from {
+    opacity: 0;
   }
 }
 
 @keyframes trace {
+  from {
+    stroke-dashoffset: 1;
+    opacity: 0;
+  }
+
+  1% {
+    opacity: 1;
+  }
+
   to {
     stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes arrive {
+  45% {
+    scale: 1.14;
+  }
+}
+
+/* one bead, 7% of the path: it fades in at the seal and out under the medallion */
+@keyframes flowRun {
+  from {
+    stroke-dasharray: 0.07 1;
+    stroke-dashoffset: 0.07;
+    stroke-opacity: 0;
+  }
+
+  12%,
+  80% {
+    stroke-opacity: 1;
+  }
+
+  to {
+    stroke-dasharray: 0.07 1;
+    stroke-dashoffset: -1;
+    stroke-opacity: 0;
+  }
+}
+
+/* one dash pattern per loop: the orbit's is 1 + 6, the web's 0.4 + 4.6 */
+@keyframes orbitDrift {
+  to {
+    stroke-dashoffset: -7;
+  }
+}
+
+@keyframes webDrift {
+  to {
+    stroke-dashoffset: -5;
+  }
+}
+
+@keyframes turn {
+  to {
+    rotate: 1turn;
   }
 }
 
@@ -391,6 +640,26 @@
 .swDots {
   stroke-width: 1.4;
   stroke-dasharray: 0.4 4;
+}
+
+/* the pulse of the legend runs like the map's; without motion there is no pulse, and no line saying so */
+.swFlow {
+  stroke: var(--lit);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .swFlow {
+    animation: flowRun 2.2s linear infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .legend .motionOnly {
+    display: none;
+  }
 }
 
 .legend .wideOnly {
