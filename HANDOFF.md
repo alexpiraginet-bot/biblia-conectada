@@ -728,6 +728,6 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
   - **Conferido no build local:** `npm test` (485 testes, com `tests/fetchers.test.ts`: o arquivo travado é abandonado em 10 s e buscado de novo; sem o limite, o teste falha) e `npm run build`; teste da folha no navegador, 28 de 28, com um caso novo: o primeiro pedido do texto de Deuteronômio 11 fica sem resposta, e a seção chega em 11,4 s, sem aviso de erro.
   - **Conferido na prévia da Vercel** (`f0d0fc1`):
     - teste da folha, 28 de 28; numa das rodadas a rede devolveu dois 502 e a lista seguiu;
-    - leitura rápida simulada no celular (30 s rolando, Lv 26:3), antes (produção do PR #7) × agora:
+    - leitura rápida simulada no celular (30 s rolando, Lv 26:3), antes (uma rodada na produção do PR #7) × agora (duas rodadas na prévia):
       - 1.200 px/s: 0 seções e a lista parada no fim × 20 seções, sem nunca mostrar "Carregando";
       - 2.400 px/s: "Carregando" na tela em 35 de 119 amostras × 2 de 119, com 42 a 43 seções.
