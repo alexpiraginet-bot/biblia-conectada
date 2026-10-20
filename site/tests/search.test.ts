@@ -6,7 +6,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { createSearch, describe as describeQuery, emptyText, quoted, type SearchTheme } from "../src/components/search/core";
-import { decodeAscending, decodeOrder, INDEX_FORMAT, INDEX_PATH, type IndexMeta, type PositionShard, type WordShard } from "../src/components/search/format";
+import { decodeAscending, decodeOrder, INDEX_FORMAT, INDEX_PATH, shardFile, type IndexMeta, type PositionShard, type WordShard } from "../src/components/search/format";
 import { createTextIndex, markVerse, parseTextQuery, type TextQuery } from "../src/components/search/text-index";
 import { createGrid } from "../src/lib/canon/grid";
 import { tokenize, wordKey } from "../src/lib/words";
@@ -229,8 +229,8 @@ describe("text search (public/data/busca/v1)", () => {
     let postings = 0;
     const bad: string[] = [];
     for (const s of indexMeta.shards) {
-      const w = read(`${INDEX_PATH}/palavras/${s}.json`) as WordShard;
-      const p = read(`${INDEX_PATH}/posicoes/${s}.json`) as PositionShard;
+      const w = read(`${INDEX_PATH}/palavras/${shardFile(s)}`) as WordShard;
+      const p = read(`${INDEX_PATH}/posicoes/${shardFile(s)}`) as PositionShard;
       expect(Object.keys(p).sort(), s).toEqual(Object.keys(w).sort());
       for (const [k, diffs] of Object.entries(w)) {
         words++;

@@ -25,14 +25,18 @@ export type IndexMeta = {
   shards: string[];
 };
 
-/** palavras/<shard>.json: word -> its verses as ascending ranks, the first rank and then the differences */
+/** palavras/<shardFile>: word -> its verses as ascending ranks, the first rank and then the differences */
 export type WordShard = Record<string, number[]>;
-/** posicoes/<shard>.json: word -> for each of its verses, in the same order, where the word stands in the verse (0 is
+/** posicoes/<shardFile>: word -> for each of its verses, in the same order, where the word stands in the verse (0 is
  *  the first word); a number when once, a list when more */
 export type PositionShard = Record<string, (number | number[])[]>;
 
 /** The shard of a word key ("luz" -> "lu", "e" -> "e"). Keys are lowercase ASCII letters (src/lib/words.ts wordKey). */
 export const shardOf = (key: string) => key.slice(0, 2);
+
+/** Where a shard's file is under palavras/ and posicoes/: "lu" -> "l/u.json", "e" -> "e/_.json". The two letters are
+ *  never side by side in a path, so no file is named like a protected translation ("aa": tests/sources.test.ts). */
+export const shardFile = (shard: string) => `${shard[0]}/${shard[1] ?? "_"}.json`;
 
 export function encodeAscending(xs: ArrayLike<number>): number[] {
   const out = new Array<number>(xs.length);

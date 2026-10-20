@@ -4,7 +4,7 @@
 // order. Pure functions and a factory over a loader, so the tests read the same files from disk (tests/search.test.ts).
 // Relative imports only: the data pipeline and the post-build check load this file too.
 import { tokenize, wordKey } from "../../lib/words";
-import { decodeAscending, decodeOrder, INDEX_PATH, shardOf, type IndexMeta, type PositionShard, type WordShard } from "./format";
+import { decodeAscending, decodeOrder, INDEX_PATH, shardFile, shardOf, type IndexMeta, type PositionShard, type WordShard } from "./format";
 
 export type TextQuery = {
   /** the same for queries that mean the same ("Luz" and "luz"; "luz trevas" and "trevas luz") */
@@ -76,7 +76,7 @@ function intersect(a: Int32Array, b: Int32Array): Int32Array {
 
 /**
  * The index behind the search box. `load(path)` returns the parsed JSON of a file under INDEX_PATH ("/index.json",
- * "/palavras/lu.json"). A request that fails is forgotten, so the next search asks again ("Tentar de novo").
+ * "/palavras/l/u.json"). A request that fails is forgotten, so the next search asks again ("Tentar de novo").
  */
 export function createTextIndex(load: Loader) {
   let meta: Promise<Meta> | null = null;
@@ -115,7 +115,7 @@ export function createTextIndex(load: Loader) {
     const s = shardOf(key);
     let out: Int32Array | null = null;
     if (m.shards.has(s)) {
-      const shard = await file<WordShard>(`/palavras/${s}.json`);
+      const shard = await file<WordShard>(`/palavras/${shardFile(s)}`);
       out = has(shard, key) ? decodeAscending(shard[key]) : null;
     }
     lists.set(key, out);
@@ -123,7 +123,7 @@ export function createTextIndex(load: Loader) {
   }
 
   async function positions(key: string): Promise<(number | number[])[]> {
-    const shard = await file<PositionShard>(`/posicoes/${shardOf(key)}.json`);
+    const shard = await file<PositionShard>(`/posicoes/${shardFile(shardOf(key))}`);
     return shard[key];
   }
 

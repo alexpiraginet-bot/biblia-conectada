@@ -3,12 +3,21 @@
 // and punctuation separate words). Every word is kept: no stopword list, so a phrase like "o senhor é meu pastor" can
 // be found word by word. Written to public/data/busca/v1/ (format in src/components/search/format.ts):
 //   index.json             counts, the verse at each rank and the link count of each rank
-//   palavras/<xx>.json     word -> ascending ranks (xx: the first two letters of the word)
-//   posicoes/<xx>.json     word -> where it stands in each of those verses, read only for "phrases in quotes"
+//   palavras/<x>/<y>.json  word -> ascending ranks (xy: the first two letters of the word; "_" for a one-letter word)
+//   posicoes/<x>/<y>.json  word -> where it stands in each of those verses, read only for "phrases in quotes"
 // The snippets of the results are the BLIVRE text itself, from public/data/text/<livro>/<capitulo>.json.
 import { gzipSync } from "node:zlib";
 import { tokenize, wordKey } from "../../src/lib/words";
-import { encodeAscending, encodeOrder, INDEX_FORMAT, shardOf, type IndexMeta, type PositionShard, type WordShard } from "../../src/components/search/format";
+import {
+  encodeAscending,
+  encodeOrder,
+  INDEX_FORMAT,
+  shardFile,
+  shardOf,
+  type IndexMeta,
+  type PositionShard,
+  type WordShard,
+} from "../../src/components/search/format";
 
 export type SearchTheme = { slug: string; label: string; key: string; topic: string; passages: number };
 
@@ -75,8 +84,8 @@ export function buildSearchIndex({ text, links, themes, writePublic, writeGenera
       postings += e.ranks.length;
     }
     const wj = JSON.stringify(w);
-    writePublic(`busca/v1/palavras/${s}.json`, wj);
-    writePublic(`busca/v1/posicoes/${s}.json`, JSON.stringify(p));
+    writePublic(`busca/v1/palavras/${shardFile(s)}`, wj);
+    writePublic(`busca/v1/posicoes/${shardFile(s)}`, JSON.stringify(p));
     sizes.push({ shard: s, bytes: Buffer.byteLength(wj), gzip: gzipSync(wj, { level: 9 }).length });
   }
 

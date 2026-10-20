@@ -5,7 +5,16 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { gzipSync } from "node:zlib";
-import { decodeAscending, decodeOrder, INDEX_FORMAT, shardOf, type IndexMeta, type PositionShard, type WordShard } from "../../src/components/search/format";
+import {
+  decodeAscending,
+  decodeOrder,
+  INDEX_FORMAT,
+  shardFile,
+  shardOf,
+  type IndexMeta,
+  type PositionShard,
+  type WordShard,
+} from "../../src/components/search/format";
 import { tokenize, wordKey } from "../../src/lib/words";
 import { OUT, SITE } from "../data/sources";
 import { textFiles } from "../data/leak-guard";
@@ -68,9 +77,9 @@ export function checkSearch({
       (m.get(gv) ?? m.set(gv, []).get(gv)!).push(i);
     }),
   );
-  const listed = new Set(meta.shards);
+  const listed = new Set(meta.shards.map(shardFile));
   for (const sub of ["palavras", "posicoes"]) {
-    const files = readdirSync(join(dir, sub)).map((f) => f.replace(/\.json$/, ""));
+    const files = readdirSync(join(dir, sub)).flatMap((d) => readdirSync(join(dir, sub, d)).map((f) => `${d}/${f}`));
     if (files.length !== listed.size || files.some((f) => !listed.has(f))) failures.push(`[search] ${sub}/ does not hold exactly the ${listed.size} shards of index.json`);
   }
   let words = 0;
@@ -78,11 +87,11 @@ export function checkSearch({
   let largest = { shard: "", gzip: 0 };
   const wrong: string[] = [];
   for (const s of meta.shards) {
-    const raw = readFileSync(join(dir, "palavras", `${s}.json`));
+    const raw = readFileSync(join(dir, "palavras", shardFile(s)));
     const gz = gzipSync(raw, { level: 9 }).length;
     if (gz > largest.gzip) largest = { shard: s, gzip: gz };
     const w = JSON.parse(raw.toString("utf8")) as WordShard;
-    const p = json<PositionShard>(join("posicoes", `${s}.json`));
+    const p = json<PositionShard>(join("posicoes", shardFile(s)));
     for (const [k, diffs] of Object.entries(w)) {
       words++;
       const m = want.get(k);
