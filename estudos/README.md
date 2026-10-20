@@ -6,6 +6,7 @@
 | `biblia-natal/` | **Antes do Natal, já estava escrito** (19/10/2026, 1080×1920, 24 fps, cerca de 63,9 s) | As profecias do nascimento num mapa 3D do relevo real, com recriações dos lugares |
 | `biblia-comentarios/` | **Os versículos de vocês** (19/10/2026, 1080×1920, 30 fps, 62,2 s) | Resposta aos comentários do vídeo 1: os 19 versículos pedidos, cada um com as próprias ligações e o @ de quem pediu. Narração do mesmo narrador (Andre) |
 | `biblia-joao316/` | **Antes de João 3:16** (19/10/2026, 1080×1920, 30 fps, 57,6 s) | Remake do episódio 02 no padrão do vídeo 1: o arco de João 3:14 até Números 21 (862 capítulos pra trás), a serpente de bronze e a cruz desenhadas em luz nas duas pontas. Narração do Andre |
+| `biblia-joao316-ligacoes/` | **João 3:16, por dentro** (20/10/2026, 1080×1920, 30 fps) | Cinco ligações de João 3:16 com o "como liga" documentado (votos do site + grego, hebraico e Septuaginta), cenas ilustradas e gráficos animados no Remotion (`motion/`). Narração do Andre |
 
 **Números do vídeo 2:**
 - 2.094 ligações do AT chegam aos 4 capítulos do nascimento (Mt 1–2 e Lc 1–2, 180 versículos).
@@ -18,6 +19,10 @@
 **Números do vídeo 4:**
 - João 3:16 tem 80 versículos ligados; João 3:14 tem 34. A ligação mais votada de 3:14 é com Números 21:7–9 (81 votos).
 - João 3 é o capítulo 1.000 da Bíblia e Números 21 é o 138: 862 capítulos de distância.
+
+**Números do vídeo 5:**
+- João 3:16 ↔ Romanos 5:8 tem 1.146 votos: é a 5ª ligação mais votada entre 301.539 pares.
+- Gênesis 22:2 é a 1ª ocorrência de "amar" no hebraico (אהב), na Septuaginta (ἀγαπ-) e na BLIVRE. μονογενής aparece 9 vezes no NT (SBLGNT).
 
 **Onde está o resto:**
 - Cada pasta tem `PROJETO.md` (decisões, dados, pipeline), `LEGENDA.md` (legenda do post) e o código.
@@ -33,6 +38,7 @@ cd estudos/biblia-referencias && python3 -I tools/analyze.py && python3 film.py 
 cd ../biblia-natal && python3 film.py --still 1.0,31.5     # -> renders/.stills/
 cd ../biblia-comentarios && python3 -I tools/analyze.py && python3 -I tools/check.py   # números + fala == tela
 cd ../biblia-joao316 && python3 -I tools/analyze.py && python3 -I tools/check.py       # idem, + citações == BLIVRE
+cd ../biblia-joao316-ligacoes && python3 -I tools/analyze.py && python3 -I tools/check.py   # idem, + site == base, grego/hebraico
 ```
 
 O pipeline completo de cada vídeo está no `PROJETO.md` da pasta.

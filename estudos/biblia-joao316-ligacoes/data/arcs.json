@@ -1,0 +1,821 @@
+{
+ "n_chapters": 1189,
+ "from": {
+  "ref": "João 3:16",
+  "chapter": 999
+ },
+ "books": [
+  {
+   "pt": "Gênesis",
+   "first": 0,
+   "chapters": 50
+  },
+  {
+   "pt": "Êxodo",
+   "first": 50,
+   "chapters": 40
+  },
+  {
+   "pt": "Levítico",
+   "first": 90,
+   "chapters": 27
+  },
+  {
+   "pt": "Números",
+   "first": 117,
+   "chapters": 36
+  },
+  {
+   "pt": "Deuteronômio",
+   "first": 153,
+   "chapters": 34
+  },
+  {
+   "pt": "Josué",
+   "first": 187,
+   "chapters": 24
+  },
+  {
+   "pt": "Juízes",
+   "first": 211,
+   "chapters": 21
+  },
+  {
+   "pt": "Rute",
+   "first": 232,
+   "chapters": 4
+  },
+  {
+   "pt": "1 Samuel",
+   "first": 236,
+   "chapters": 31
+  },
+  {
+   "pt": "2 Samuel",
+   "first": 267,
+   "chapters": 24
+  },
+  {
+   "pt": "1 Reis",
+   "first": 291,
+   "chapters": 22
+  },
+  {
+   "pt": "2 Reis",
+   "first": 313,
+   "chapters": 25
+  },
+  {
+   "pt": "1 Crônicas",
+   "first": 338,
+   "chapters": 29
+  },
+  {
+   "pt": "2 Crônicas",
+   "first": 367,
+   "chapters": 36
+  },
+  {
+   "pt": "Esdras",
+   "first": 403,
+   "chapters": 10
+  },
+  {
+   "pt": "Neemias",
+   "first": 413,
+   "chapters": 13
+  },
+  {
+   "pt": "Ester",
+   "first": 426,
+   "chapters": 10
+  },
+  {
+   "pt": "Jó",
+   "first": 436,
+   "chapters": 42
+  },
+  {
+   "pt": "Salmos",
+   "first": 478,
+   "chapters": 150
+  },
+  {
+   "pt": "Provérbios",
+   "first": 628,
+   "chapters": 31
+  },
+  {
+   "pt": "Eclesiastes",
+   "first": 659,
+   "chapters": 12
+  },
+  {
+   "pt": "Cânticos",
+   "first": 671,
+   "chapters": 8
+  },
+  {
+   "pt": "Isaías",
+   "first": 679,
+   "chapters": 66
+  },
+  {
+   "pt": "Jeremias",
+   "first": 745,
+   "chapters": 52
+  },
+  {
+   "pt": "Lamentações",
+   "first": 797,
+   "chapters": 5
+  },
+  {
+   "pt": "Ezequiel",
+   "first": 802,
+   "chapters": 48
+  },
+  {
+   "pt": "Daniel",
+   "first": 850,
+   "chapters": 12
+  },
+  {
+   "pt": "Oseias",
+   "first": 862,
+   "chapters": 14
+  },
+  {
+   "pt": "Joel",
+   "first": 876,
+   "chapters": 3
+  },
+  {
+   "pt": "Amós",
+   "first": 879,
+   "chapters": 9
+  },
+  {
+   "pt": "Obadias",
+   "first": 888,
+   "chapters": 1
+  },
+  {
+   "pt": "Jonas",
+   "first": 889,
+   "chapters": 4
+  },
+  {
+   "pt": "Miqueias",
+   "first": 893,
+   "chapters": 7
+  },
+  {
+   "pt": "Naum",
+   "first": 900,
+   "chapters": 3
+  },
+  {
+   "pt": "Habacuque",
+   "first": 903,
+   "chapters": 3
+  },
+  {
+   "pt": "Sofonias",
+   "first": 906,
+   "chapters": 3
+  },
+  {
+   "pt": "Ageu",
+   "first": 909,
+   "chapters": 2
+  },
+  {
+   "pt": "Zacarias",
+   "first": 911,
+   "chapters": 14
+  },
+  {
+   "pt": "Malaquias",
+   "first": 925,
+   "chapters": 4
+  },
+  {
+   "pt": "Mateus",
+   "first": 929,
+   "chapters": 28
+  },
+  {
+   "pt": "Marcos",
+   "first": 957,
+   "chapters": 16
+  },
+  {
+   "pt": "Lucas",
+   "first": 973,
+   "chapters": 24
+  },
+  {
+   "pt": "João",
+   "first": 997,
+   "chapters": 21
+  },
+  {
+   "pt": "Atos",
+   "first": 1018,
+   "chapters": 28
+  },
+  {
+   "pt": "Romanos",
+   "first": 1046,
+   "chapters": 16
+  },
+  {
+   "pt": "1 Coríntios",
+   "first": 1062,
+   "chapters": 16
+  },
+  {
+   "pt": "2 Coríntios",
+   "first": 1078,
+   "chapters": 13
+  },
+  {
+   "pt": "Gálatas",
+   "first": 1091,
+   "chapters": 6
+  },
+  {
+   "pt": "Efésios",
+   "first": 1097,
+   "chapters": 6
+  },
+  {
+   "pt": "Filipenses",
+   "first": 1103,
+   "chapters": 4
+  },
+  {
+   "pt": "Colossenses",
+   "first": 1107,
+   "chapters": 4
+  },
+  {
+   "pt": "1 Tessalonicenses",
+   "first": 1111,
+   "chapters": 5
+  },
+  {
+   "pt": "2 Tessalonicenses",
+   "first": 1116,
+   "chapters": 3
+  },
+  {
+   "pt": "1 Timóteo",
+   "first": 1119,
+   "chapters": 6
+  },
+  {
+   "pt": "2 Timóteo",
+   "first": 1125,
+   "chapters": 4
+  },
+  {
+   "pt": "Tito",
+   "first": 1129,
+   "chapters": 3
+  },
+  {
+   "pt": "Filemom",
+   "first": 1132,
+   "chapters": 1
+  },
+  {
+   "pt": "Hebreus",
+   "first": 1133,
+   "chapters": 13
+  },
+  {
+   "pt": "Tiago",
+   "first": 1146,
+   "chapters": 5
+  },
+  {
+   "pt": "1 Pedro",
+   "first": 1151,
+   "chapters": 5
+  },
+  {
+   "pt": "2 Pedro",
+   "first": 1156,
+   "chapters": 3
+  },
+  {
+   "pt": "1 João",
+   "first": 1159,
+   "chapters": 5
+  },
+  {
+   "pt": "2 João",
+   "first": 1164,
+   "chapters": 1
+  },
+  {
+   "pt": "3 João",
+   "first": 1165,
+   "chapters": 1
+  },
+  {
+   "pt": "Judas",
+   "first": 1166,
+   "chapters": 1
+  },
+  {
+   "pt": "Apocalipse",
+   "first": 1167,
+   "chapters": 22
+  }
+ ],
+ "links": [
+  {
+   "ref": "Romanos 5:8",
+   "osis": "Rom.5.8",
+   "chapter": 1050,
+   "votes": 1146
+  },
+  {
+   "ref": "1 João 4:9",
+   "osis": "1John.4.9",
+   "chapter": 1162,
+   "votes": 755
+  },
+  {
+   "ref": "Romanos 8:32",
+   "osis": "Rom.8.32",
+   "chapter": 1053,
+   "votes": 591
+  },
+  {
+   "ref": "João 3:15",
+   "osis": "John.3.15",
+   "chapter": 999,
+   "votes": 524
+  },
+  {
+   "ref": "João 11:25",
+   "osis": "John.11.25",
+   "chapter": 1007,
+   "votes": 461
+  },
+  {
+   "ref": "João 6:40",
+   "osis": "John.6.40",
+   "chapter": 1002,
+   "votes": 401
+  },
+  {
+   "ref": "1 João 4:19",
+   "osis": "1John.4.19",
+   "chapter": 1162,
+   "votes": 400
+  },
+  {
+   "ref": "João 3:36",
+   "osis": "John.3.36",
+   "chapter": 999,
+   "votes": 378
+  },
+  {
+   "ref": "João 10:28",
+   "osis": "John.10.28",
+   "chapter": 1006,
+   "votes": 321
+  },
+  {
+   "ref": "1 Timóteo 1:15",
+   "osis": "1Tim.1.15",
+   "chapter": 1119,
+   "votes": 318
+  },
+  {
+   "ref": "Romanos 5:10",
+   "osis": "Rom.5.10",
+   "chapter": 1050,
+   "votes": 266
+  },
+  {
+   "ref": "João 1:29",
+   "osis": "John.1.29",
+   "chapter": 997,
+   "votes": 256
+  },
+  {
+   "ref": "2 Tessalonicenses 2:16",
+   "osis": "2Thess.2.16",
+   "chapter": 1117,
+   "votes": 233
+  },
+  {
+   "ref": "2 Coríntios 5:19",
+   "osis": "2Cor.5.19",
+   "chapter": 1082,
+   "votes": 214
+  },
+  {
+   "ref": "Efésios 2:4",
+   "osis": "Eph.2.4",
+   "chapter": 1098,
+   "votes": 204
+  },
+  {
+   "ref": "Mateus 9:13",
+   "osis": "Matt.9.13",
+   "chapter": 937,
+   "votes": 190
+  },
+  {
+   "ref": "João 1:14",
+   "osis": "John.1.14",
+   "chapter": 997,
+   "votes": 189
+  },
+  {
+   "ref": "Apocalipse 1:5",
+   "osis": "Rev.1.5",
+   "chapter": 1167,
+   "votes": 172
+  },
+  {
+   "ref": "Gênesis 22:12",
+   "osis": "Gen.22.12",
+   "chapter": 21,
+   "votes": 172
+  },
+  {
+   "ref": "Tito 3:4",
+   "osis": "Titus.3.4",
+   "chapter": 1131,
+   "votes": 162
+  },
+  {
+   "ref": "João 1:18",
+   "osis": "John.1.18",
+   "chapter": 997,
+   "votes": 157
+  },
+  {
+   "ref": "Marcos 12:6",
+   "osis": "Mark.12.6",
+   "chapter": 968,
+   "votes": 140
+  },
+  {
+   "ref": "Lucas 2:14",
+   "osis": "Luke.2.14",
+   "chapter": 974,
+   "votes": 137
+  },
+  {
+   "ref": "1 Coríntios 2:9",
+   "osis": "1Cor.2.9",
+   "chapter": 1063,
+   "votes": 48
+  },
+  {
+   "ref": "1 João 3:1",
+   "osis": "1John.3.1",
+   "chapter": 1161,
+   "votes": 46
+  },
+  {
+   "ref": "João 4:10",
+   "osis": "John.4.10",
+   "chapter": 1000,
+   "votes": 45
+  },
+  {
+   "ref": "Gênesis 22:2",
+   "osis": "Gen.22.2",
+   "chapter": 21,
+   "votes": 43
+  },
+  {
+   "ref": "1 João 3:16",
+   "osis": "1John.3.16",
+   "chapter": 1161,
+   "votes": 41
+  },
+  {
+   "ref": "João 5:24",
+   "osis": "John.5.24",
+   "chapter": 1001,
+   "votes": 29
+  },
+  {
+   "ref": "Isaías 9:6",
+   "osis": "Isa.9.6",
+   "chapter": 687,
+   "votes": 23
+  },
+  {
+   "ref": "Mateus 7:11",
+   "osis": "Matt.7.11",
+   "chapter": 935,
+   "votes": 22
+  },
+  {
+   "ref": "Gálatas 2:20",
+   "osis": "Gal.2.20",
+   "chapter": 1092,
+   "votes": 21
+  },
+  {
+   "ref": "1 João 4:10",
+   "osis": "1John.4.10",
+   "chapter": 1162,
+   "votes": 21
+  },
+  {
+   "ref": "Romanos 8:39",
+   "osis": "Rom.8.39",
+   "chapter": 1053,
+   "votes": 19
+  },
+  {
+   "ref": "2 Coríntios 9:15",
+   "osis": "2Cor.9.15",
+   "chapter": 1086,
+   "votes": 19
+  },
+  {
+   "ref": "Gálatas 4:4",
+   "osis": "Gal.4.4",
+   "chapter": 1094,
+   "votes": 16
+  },
+  {
+   "ref": "Colossenses 1:15",
+   "osis": "Col.1.15",
+   "chapter": 1107,
+   "votes": 16
+  },
+  {
+   "ref": "1 João 4:14",
+   "osis": "1John.4.14",
+   "chapter": 1162,
+   "votes": 16
+  },
+  {
+   "ref": "Salmos 2:7",
+   "osis": "Ps.2.7",
+   "chapter": 479,
+   "votes": 14
+  },
+  {
+   "ref": "Hebreus 2:9",
+   "osis": "Heb.2.9",
+   "chapter": 1134,
+   "votes": 10
+  },
+  {
+   "ref": "João 6:29",
+   "osis": "John.6.29",
+   "chapter": 1002,
+   "votes": 9
+  },
+  {
+   "ref": "Colossenses 3:3",
+   "osis": "Col.3.3",
+   "chapter": 1109,
+   "votes": 9
+  },
+  {
+   "ref": "João 6:47",
+   "osis": "John.6.47",
+   "chapter": 1002,
+   "votes": 8
+  },
+  {
+   "ref": "Romanos 5:1",
+   "osis": "Rom.5.1",
+   "chapter": 1050,
+   "votes": 8
+  },
+  {
+   "ref": "Hebreus 1:2",
+   "osis": "Heb.1.2",
+   "chapter": 1133,
+   "votes": 8
+  },
+  {
+   "ref": "Salmos 36:7",
+   "osis": "Ps.36.7",
+   "chapter": 513,
+   "votes": 8
+  },
+  {
+   "ref": "João 6:51",
+   "osis": "John.6.51",
+   "chapter": 1002,
+   "votes": 7
+  },
+  {
+   "ref": "2 Coríntios 5:18",
+   "osis": "2Cor.5.18",
+   "chapter": 1082,
+   "votes": 7
+  },
+  {
+   "ref": "João 1:34",
+   "osis": "John.1.34",
+   "chapter": 997,
+   "votes": 7
+  },
+  {
+   "ref": "Deuteronômio 30:15",
+   "osis": "Deut.30.15",
+   "chapter": 182,
+   "votes": 6
+  },
+  {
+   "ref": "Hebreus 2:3",
+   "osis": "Heb.2.3",
+   "chapter": 1134,
+   "votes": 5
+  },
+  {
+   "ref": "Provérbios 8:4",
+   "osis": "Prov.8.4",
+   "chapter": 635,
+   "votes": 5
+  },
+  {
+   "ref": "João 7:29",
+   "osis": "John.7.29",
+   "chapter": 1003,
+   "votes": 4
+  },
+  {
+   "ref": "João 14:4",
+   "osis": "John.14.4",
+   "chapter": 1010,
+   "votes": 4
+  },
+  {
+   "ref": "Apocalipse 2:18",
+   "osis": "Rev.2.18",
+   "chapter": 1168,
+   "votes": 4
+  },
+  {
+   "ref": "Isaías 55:4",
+   "osis": "Isa.55.4",
+   "chapter": 733,
+   "votes": 4
+  },
+  {
+   "ref": "Zacarias 9:17",
+   "osis": "Zech.9.17",
+   "chapter": 919,
+   "votes": 4
+  },
+  {
+   "ref": "Mateus 21:37",
+   "osis": "Matt.21.37",
+   "chapter": 949,
+   "votes": 4
+  },
+  {
+   "ref": "Marcos 1:1",
+   "osis": "Mark.1.1",
+   "chapter": 957,
+   "votes": 4
+  },
+  {
+   "ref": "Lucas 1:78",
+   "osis": "Luke.1.78",
+   "chapter": 973,
+   "votes": 4
+  },
+  {
+   "ref": "Lucas 20:13",
+   "osis": "Luke.20.13",
+   "chapter": 992,
+   "votes": 4
+  },
+  {
+   "ref": "João 5:43",
+   "osis": "John.5.43",
+   "chapter": 1001,
+   "votes": 3
+  },
+  {
+   "ref": "Hebreus 5:5",
+   "osis": "Heb.5.5",
+   "chapter": 1137,
+   "votes": 3
+  },
+  {
+   "ref": "Ezequiel 47:9",
+   "osis": "Ezek.47.9",
+   "chapter": 848,
+   "votes": 3
+  },
+  {
+   "ref": "Marcos 1:11",
+   "osis": "Mark.1.11",
+   "chapter": 957,
+   "votes": 3
+  },
+  {
+   "ref": "Marcos 9:7",
+   "osis": "Mark.9.7",
+   "chapter": 965,
+   "votes": 3
+  },
+  {
+   "ref": "Romanos 1:3",
+   "osis": "Rom.1.3",
+   "chapter": 1046,
+   "votes": 2
+  },
+  {
+   "ref": "Romanos 5:15",
+   "osis": "Rom.5.15",
+   "chapter": 1050,
+   "votes": 2
+  },
+  {
+   "ref": "2 Coríntios 1:19",
+   "osis": "2Cor.1.19",
+   "chapter": 1078,
+   "votes": 2
+  },
+  {
+   "ref": "1 João 5:10",
+   "osis": "1John.5.10",
+   "chapter": 1163,
+   "votes": 2
+  },
+  {
+   "ref": "Provérbios 8:24",
+   "osis": "Prov.8.24",
+   "chapter": 635,
+   "votes": 2
+  },
+  {
+   "ref": "Ezequiel 2:1",
+   "osis": "Ezek.2.1",
+   "chapter": 803,
+   "votes": 2
+  },
+  {
+   "ref": "Mateus 17:5",
+   "osis": "Matt.17.5",
+   "chapter": 945,
+   "votes": 2
+  },
+  {
+   "ref": "Mateus 26:63",
+   "osis": "Matt.26.63",
+   "chapter": 954,
+   "votes": 2
+  },
+  {
+   "ref": "Mateus 27:43",
+   "osis": "Matt.27.43",
+   "chapter": 955,
+   "votes": 2
+  },
+  {
+   "ref": "Lucas 9:35",
+   "osis": "Luke.9.35",
+   "chapter": 981,
+   "votes": 2
+  },
+  {
+   "ref": "Hebreus 1:6",
+   "osis": "Heb.1.6",
+   "chapter": 1133,
+   "votes": 1
+  },
+  {
+   "ref": "Hebreus 11:17",
+   "osis": "Heb.11.17",
+   "chapter": 1143,
+   "votes": 1
+  },
+  {
+   "ref": "Salmos 40:10",
+   "osis": "Ps.40.10",
+   "chapter": 517,
+   "votes": 1
+  },
+  {
+   "ref": "Provérbios 8:35",
+   "osis": "Prov.8.35",
+   "chapter": 635,
+   "votes": 1
+  }
+ ]
+}

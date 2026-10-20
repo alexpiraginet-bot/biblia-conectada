@@ -1,0 +1,159 @@
+{
+ "source": "OpenBible.info (CC BY) via xref.npz; BLIVRE (CC BY 4.0 BR); MorphGNT/SBLGNT; OSHB; LXX (eBible grclxx)",
+ "n_pairs": 301539,
+ "links_john316": 80,
+ "pairs": {
+  "Rom.5.8": 1146,
+  "1John.4.9": 755,
+  "Gen.22.2": 43,
+  "Gen.22.12": 172,
+  "John.1.29": 256,
+  "Rom.8.32": 591,
+  "1John.4.19": 400,
+  "Heb.11.17": 1
+ },
+ "rank_rom58_pair": {
+  "above": 4,
+  "tied_incl_self": 1,
+  "rank": 5,
+  "of": 301539
+ },
+ "top_pairs": [
+  {
+   "a": "Isaías 41:10",
+   "b": "Filipenses 4:13",
+   "votes": 1477
+  },
+  {
+   "a": "Isaías 55:8",
+   "b": "Jeremias 29:11",
+   "votes": 1296
+  },
+  {
+   "a": "Romanos 8:29",
+   "b": "Efésios 1:4",
+   "votes": 1280
+  },
+  {
+   "a": "Jeremias 1:5",
+   "b": "Romanos 8:29",
+   "votes": 1232
+  },
+  {
+   "a": "João 3:16",
+   "b": "Romanos 5:8",
+   "votes": 1146
+  },
+  {
+   "a": "Isaías 44:3",
+   "b": "Joel 2:28",
+   "votes": 1049
+  }
+ ],
+ "chain": {
+  "Gen.22.7~John.1.29": 15,
+  "Gen.22.8~John.1.29": 13,
+  "Gen.22.2~Rom.8.32": 35,
+  "Gen.22.12~Rom.8.32": 17,
+  "Gen.22.2~Heb.11.17": 13,
+  "1John.4.9~John.1.14": 152
+ },
+ "site": {
+  "url": "https://alexpiraginet-bot-biblia-conectada.vercel.app/joao/3/16",
+  "fetched": "2026-10-20",
+  "links": 80,
+  "all_votes_match": true,
+  "headline": "80 ligações · a mais votada: Romanos 5:8, 1.146 votos"
+ },
+ "method": {
+  "openbible": [
+   "About 340,000 cross references identify commonalities between different parts of the Bible—chains of similar themes, words, events, or people.",
+   "This data draws primarily from public-domain sources, especially the Treasury of Scripture Knowledge, which provides most of the data. It also includes data (to seed the initial votes) from my Topical Bible and Twitter Bible Search."
+  ],
+  "fetched": "2026-10-20",
+  "rows": 344799
+ },
+ "greek": {
+  "monogenes": {
+   "lemma": "μονογενής",
+   "count_nt": 9,
+   "refs": [
+    "Luke.7.12",
+    "Luke.8.42",
+    "Luke.9.38",
+    "John.1.14",
+    "John.1.18",
+    "John.3.16",
+    "John.3.18",
+    "Heb.11.17",
+    "1John.4.9"
+   ],
+   "edition": "SBLGNT (MorphGNT)"
+  },
+  "shared_john316_1john49": [
+   "θεός",
+   "υἱός",
+   "μονογενής",
+   "κόσμος"
+  ],
+  "agapao_form": {
+   "John.3.16": "ἠγάπησεν",
+   "1John.4.19": "ἠγάπησεν"
+  },
+  "pheidomai": {
+   "Rom.8.32": "οὐκ ἐφείσατο"
+  },
+  "text": {
+   "John.3.16": "Οὕτως γὰρ ἠγάπησεν ὁ θεὸς τὸν κόσμον ὥστε τὸν ⸀υἱὸν τὸν μονογενῆ ἔδωκεν, ἵνα πᾶς ὁ πιστεύων εἰς αὐτὸν μὴ ἀπόληται ἀλλὰ ἔχῃ ζωὴν αἰώνιον.",
+   "1John.4.9": "ἐν τούτῳ ἐφανερώθη ἡ ἀγάπη τοῦ θεοῦ ἐν ἡμῖν, ὅτι τὸν υἱὸν αὐτοῦ τὸν μονογενῆ ἀπέσταλκεν ὁ θεὸς εἰς τὸν κόσμον ἵνα ζήσωμεν δι’ αὐτοῦ.",
+   "Rom.5.8": "συνίστησιν δὲ τὴν ἑαυτοῦ ἀγάπην εἰς ἡμᾶς ὁ θεὸς ὅτι ἔτι ἁμαρτωλῶν ὄντων ἡμῶν Χριστὸς ὑπὲρ ἡμῶν ἀπέθανεν.",
+   "Rom.8.32": "ὅς γε τοῦ ἰδίου υἱοῦ οὐκ ἐφείσατο, ἀλλὰ ὑπὲρ ἡμῶν πάντων παρέδωκεν αὐτόν, πῶς οὐχὶ καὶ σὺν αὐτῷ τὰ πάντα ἡμῖν χαρίσεται;",
+   "Heb.11.17": "Πίστει προσενήνοχεν Ἀβραὰμ τὸν Ἰσαὰκ πειραζόμενος, καὶ τὸν μονογενῆ προσέφερεν ὁ τὰς ἐπαγγελίας ἀναδεξάμενος,",
+   "John.1.29": "Τῇ ἐπαύριον βλέπει τὸν Ἰησοῦν ἐρχόμενον πρὸς αὐτόν, καὶ λέγει· Ἴδε ὁ ἀμνὸς τοῦ θεοῦ ὁ αἴρων τὴν ἁμαρτίαν τοῦ κόσμου.",
+   "1John.4.19": "ἡμεῖς ⸀ἀγαπῶμεν, ὅτι αὐτὸς πρῶτος ἠγάπησεν ἡμᾶς."
+  }
+ },
+ "lxx": {
+  "first_agap": "GEN 22:2",
+  "Gen.22.2": "ὃν ἠγάπησας",
+  "Gen.22.12": "οὐκ ἐφείσω τοῦ υἱοῦ σου",
+  "Gen.22.16": "οὐκ ἐφείσω τοῦ υἱοῦ σου",
+  "text": {
+   "GEN 22:2": "καὶ εἶπε· λαβὲ τὸν υἱόν σου τὸν ἀγαπητόν, ὃν ἠγάπησας, τὸν Ἰσαάκ, καὶ πορεύθητι εἰς τὴν γῆν τὴν ὑψηλὴν καὶ ἀνένεγκον αὐτὸν ἐκεῖ εἰς ὁλοκάρπωσιν ἐφ᾿ ἓν τῶν ὀρέων, ὧν ἄν σοι εἴπω.",
+   "GEN 22:12": "καὶ εἶπε· μὴ ἐπιβάλῃς τὴν χεῖρά σου ἐπὶ τὸ παιδάριον μηδὲ ποιήσῃς αὐτῷ μηδέν· νῦν γὰρ ἔγνων, ὅτι φοβῇ σὺ τὸν Θεὸν καὶ οὐκ ἐφείσω τοῦ υἱοῦ σου τοῦ ἀγαπητοῦ δι᾿ ἐμέ.",
+   "GEN 22:16": "κατ᾿ ἐμαυτοῦ ὤμοσα, λέγει Κύριος, οὗ εἵνεκεν ἐποίησας τὸ ρῆμα τοῦτο, καὶ οὐκ ἐφείσω τοῦ υἱοῦ σου τοῦ ἀγαπητοῦ δι᾿ ἐμέ,"
+  }
+ },
+ "hebrew": {
+  "lemma": "H157 אהב",
+  "first": "Gen.22.2",
+  "form": "אָהַבְתָּ",
+  "count": 211,
+  "yachid_Gen.22.2": "יְחִידְךָ",
+  "edition": "OSHB (WLC 4.20)"
+ },
+ "blivre": {
+  "John.3.16": "Porque Deus amou ao mundo de tal maneira, que deu o seu Filho unigênito; para que todo aquele que nele crê não pereça, mas tenha a vida eterna.",
+  "Rom.5.8": "Mas Deus prova o seu amor por nós através de Cristo haver morrido por nós, quando ainda éramos pecadores.",
+  "1John.4.9": "Nisto se manifestou o amor de Deus por nós: que Deus enviou o seu Filho unigênito ao mundo, para que por meio dele vivamos.",
+  "Heb.11.17": "Pela fé, Abraão, quando foi provado, ofereceu Isaque; aquele que havia recebido as promessas ofereceu o [seu] único filho,",
+  "Gen.22.2": "E disse: Toma agora teu filho, teu único, Isaque, a quem amas, e vai à terra de Moriá, e oferece-o ali em holocausto sobre um dos montes que eu te direi.",
+  "Gen.22.7": "Então falou Isaque a Abraão seu pai, e disse: Meu pai. e ele respondeu: Eis-me aqui, meu filho. E ele disse: Eis aqui o fogo e a lenha; mas onde está o cordeiro para o holocausto?",
+  "Gen.22.8": "E respondeu Abraão: Deus se proverá de cordeiro para o holocausto, filho meu. E iam juntos.",
+  "Gen.22.11": "Então o anjo do SENHOR lhe gritou do céu, e disse: Abraão, Abraão. E ele respondeu: Eis-me aqui.",
+  "Gen.22.12": "E disse: Não estendas tua mão sobre o jovem, nem lhe faças nada; que já conheço que temes a Deus, pois que não me recusaste o teu filho, o teu único;",
+  "Gen.22.13": "Então levantou Abraão seus olhos, e olhou, e eis um carneiro a suas costas preso em um arbusto por seus chifres: e foi Abraão, e tomou o carneiro, e ofereceu-lhe em holocausto em lugar de seu filho.",
+  "John.1.29": "O dia seguinte viu João a Jesus vir a ele, e disse: Eis o Cordeiro de Deus, que tira o pecado do mundo.",
+  "Rom.8.32": "Aquele que nem mesmo ao seu próprio Filho poupou, como não nos dará também com ele todas as coisas?",
+  "1John.4.19": "Nós o amamos, porque ele nos amou primeiro."
+ },
+ "first_love_pt": {
+  "ref": "GEN 22:2",
+  "word": "amas"
+ },
+ "chapter_index": {
+  "João 3": 1000,
+  "Gênesis 22": 22,
+  "total": 1189
+ }
+}
