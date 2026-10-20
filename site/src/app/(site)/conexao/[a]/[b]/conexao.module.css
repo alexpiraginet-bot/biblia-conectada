@@ -118,6 +118,10 @@
   }
 }
 
+.col {
+  min-width: 0;
+}
+
 .colTitle {
   margin: 0 0 var(--space-3);
   padding: var(--space-3) 0;

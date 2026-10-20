@@ -362,7 +362,7 @@
   stroke-dasharray: 0.4 4;
 }
 
-.wideOnly {
+.legend .wideOnly {
   display: none;
 }
 
@@ -722,6 +722,7 @@
 
 .view {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-6);
 }
 
