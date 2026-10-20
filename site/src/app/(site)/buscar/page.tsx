@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 // results come from the word index in public/data/busca/v1 (src/components/search/text-index.ts).
 export default function Buscar() {
   return (
-    <main id="conteudo" className="site-page site-search-page">
+    <main id="conteudo" className="site-page">
       <h1 className="bc-display">Buscar</h1>
       <p className="bc-lede">
         Uma referência como Is 9:6, o nome de um livro ou de um tema, ou palavras do texto da Bíblia Livre. Entre aspas, a frase exata.

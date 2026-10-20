@@ -23,6 +23,8 @@ const TOP = 5;
 const PAGE = 20;
 /** words of a snippet in the palette (19 of 20 verses fit whole); /buscar shows the whole verse */
 const SNIPPET_WORDS = 40;
+/** the largest count the "Texto" chip can show: every verse */
+const MOST = formatInt(books.reduce((n, b) => n + b.verses.reduce((a, v) => a + v, 0), 0));
 const SCOPES: [Scope, string][] = [
   ["tudo", "Tudo"],
   ["texto", "Texto"],
@@ -206,7 +208,6 @@ export function SearchPanel({ initial = "", onClose, page = false, urlQuery, she
     document.getElementById(`${id}-${next}`)?.scrollIntoView({ block: "nearest" });
   };
 
-  const count = done?.total ?? null;
   let n = 0;
   return (
     <div className={page ? "bc-search site-search__box site-search__box--page" : "bc-search site-search__box"}>
@@ -261,13 +262,21 @@ export function SearchPanel({ initial = "", onClose, page = false, urlQuery, she
         <div className="bc-search__scopes" role="group" aria-label="Onde buscar">
           {SCOPES.map(([s, label]) => (
             <button key={s} type="button" className="bc-chip" aria-pressed={scope === s} onClick={() => choose(s)}>
-              {label}
-              {s === "texto" && textQuery && (
-                // while a count loads, the last one (or a 0 before the first) holds its place, hidden, so the chips
-                // do not move when it arrives
-                <span className="site-search__count" data-stale={count === null || text.pending || undefined}>
-                  {formatInt(count ?? 0)}
+              {s === "texto" ? (
+                // the widest this label can be (every verse) holds the chip's width, hidden, so a count that arrives
+                // or changes moves no chip
+                <span className="site-search__scope">
+                  <span>
+                    {label}
+                    {fresh && <span className="site-search__count">{formatInt(fresh.total)}</span>}
+                  </span>
+                  <span className="site-search__ghost" aria-hidden="true">
+                    {label}
+                    <span className="site-search__count">{MOST}</span>
+                  </span>
                 </span>
+              ) : (
+                label
               )}
             </button>
           ))}
@@ -288,7 +297,7 @@ export function SearchPanel({ initial = "", onClose, page = false, urlQuery, she
                 id: `${id}-${i}`,
                 role: "option" as const,
                 "aria-selected": i === active,
-                className: o.kind === "text" ? "bc-search__item site-search__verse" : "bc-search__item",
+                className: "bc-search__item",
                 onMouseMove: () => setActiveKey(o.key),
               };
               if (o.kind === "retry") {

@@ -312,6 +312,12 @@ input {
   }
 }
 
+/* the scopes row scrolls sideways, so as a flex item it could shrink below its chips when a long list of results
+   fills the box (ds.css .bc-search has a max-height); it keeps its height */
+.bc-search > .bc-search__scopes {
+  flex: none;
+}
+
 /* the chips of the search are 40px tall (ds.css .bc-chip); their touch area reaches the 44px target */
 .bc-search .bc-chip {
   position: relative;
@@ -323,14 +329,25 @@ input {
   inset: -2px 0;
 }
 
-/* the count in the "Texto" chip; while the next count loads the last one keeps its width, hidden */
-.site-search__count {
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
+/* the "Texto" chip: its label and count over a hidden copy of the widest label, so its width never changes */
+.site-search__scope {
+  display: inline-grid;
 }
 
-.site-search__count[data-stale] {
+.site-search__scope > * {
+  grid-area: 1 / 1;
+  justify-self: center;
+  white-space: nowrap;
+}
+
+.site-search__ghost {
   visibility: hidden;
+}
+
+.site-search__count {
+  margin-left: var(--space-2);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
 }
 
 /* "Tentar de novo" is a button in the list of results, drawn like the rows around it */
