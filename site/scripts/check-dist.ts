@@ -20,7 +20,7 @@ const credits = JSON.parse(readFileSync(join(OUT.generated, "credits.json"), "ut
 const pages = prerenderedPages(SITE);
 const page = (rel: string) => readFileSync(pages.get(rel) ?? join(SITE, ".next/server/app", rel), "utf8");
 const html = [...pages.keys()];
-const required = ["index.html", "sobre.html", "arcos.html", "ler.html", "dados.html", "isaias.html", join("isaias", "9.html"), join("isaias", "9", "6.html")];
+const required = ["index.html", "sobre.html", "arcos.html", join("arcos", "plano.html"), "ler.html", "dados.html", "isaias.html", join("isaias", "9.html"), join("isaias", "9", "6.html")];
 for (const r of required) if (!html.includes(r)) throw new Error(`[check-dist] ${r} was not prerendered`);
 
 const decode = (s: string) => s.replace(/&quot;/g, '"').replace(/&#x27;/g, "'").replace(/&amp;/g, "&").replace(/<!-- -->/g, "");
@@ -77,10 +77,13 @@ for (const t of summary.topVerses) {
   lastTop = at;
 }
 if (home.includes(formatInt(summary.counts.pairs))) failures.push("index.html: shows the pair count with the 45 self-pairs");
-// /arcos (the sky of links) states the same numbers in its first screen, from the same pipeline
-const arcos = textOf(page("arcos.html"));
-for (const s of homeNumbers) if (!arcos.includes(s)) failures.push(`arcos.html: "${s}" missing`);
-if (arcos.includes(formatInt(summary.counts.pairs))) failures.push("arcos.html: shows the pair count with the 45 self-pairs");
+// /arcos (the light sculpture) and /arcos/plano (the sky of links in 2D) state the same numbers in their first screen,
+// from the same pipeline
+for (const file of ["arcos.html", join("arcos", "plano.html")]) {
+  const text = textOf(page(file));
+  for (const s of homeNumbers) if (!text.includes(s)) failures.push(`${file}: "${s}" missing`);
+  if (text.includes(formatInt(summary.counts.pairs))) failures.push(`${file}: shows the pair count with the 45 self-pairs`);
+}
 
 // /dados (open data): every size, record count and total on the page is the bundle manifest's
 const manifest = JSON.parse(readFileSync(join(OUT.publicDados, "v1", "manifest.json"), "utf8")) as DadosManifest;
@@ -176,7 +179,7 @@ if (failures.length) {
   process.exit(1);
 }
 console.log(
-  `[check-dist] credits and lang in ${html.length} prerendered pages and the static 404 page; home and /arcos numbers match summary.json; ` +
+  `[check-dist] credits and lang in ${html.length} prerendered pages and the static 404 page; home, /arcos and /arcos/plano numbers match summary.json; ` +
     `/dados shows the size and count of the ${manifest.arquivos.length} files of the open data manifest; ` +
     `linha do tempo (${timeline.events} events), ${timeline.themes} themes and their words match the generated data; ` +
     `Explorar and /conexao show the explore data (${explore.checked} rows checked); ` +

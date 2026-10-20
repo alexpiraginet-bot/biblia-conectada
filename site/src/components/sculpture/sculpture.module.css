@@ -1,0 +1,966 @@
+/* The light sculpture (/arcos): a stage that fills the column under the top bar, the canvas on it, and what floats
+   over the canvas: the field, the intro, the labels on the axis, the panel (a sheet on phones) and the card of one
+   link. Surfaces are the theme's own (tokens.json): no glass, no glow on the interface; the light is in the picture. */
+
+.page {
+  position: relative;
+}
+
+.stage {
+  position: relative;
+  height: calc(100dvh - var(--bar-h) - var(--tabbar-h));
+  min-height: 34rem;
+  overflow: hidden;
+  background: var(--ground);
+  isolation: isolate;
+  /* home.ts homeArea and homeBox in CSS, for the poster and the intro (the box's aspect is space.ts HOME_ASPECT; TOP
+     is 76px): from 48rem the area is right of the intro, under the field */
+  container-type: size;
+  --area-x: clamp(360px, 34cqw, 560px);
+  --area-w: calc(100cqw - var(--area-x) - 16px);
+  --area-h: calc(100cqh - 76px - 56px);
+  --box-w: min(var(--area-w), var(--area-h) * 1.4);
+  --box-h: calc(var(--box-w) / 1.4);
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: grab;
+}
+
+.canvas:active {
+  cursor: grabbing;
+}
+
+.canvas:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -6px;
+}
+
+/* no canvas on this device, or the arcs did not load: the canvas draws nothing, the poster stays */
+.stage[data-state="poster"] .canvas,
+.stage[data-state="error"] .canvas {
+  visibility: hidden;
+}
+
+/* ---- the poster: the opening view as an image (poster.ts, rendered by the page's own renderer) on the box the first
+   live frame fills (home.ts homeBox, centred in its area). It covers the canvas until the canvas has drawn the same
+   picture, or the person reaches for it; without a live canvas it stays, dimmed behind a selection. The image of the
+   theme and the size is the only one downloaded. The box fills the middle 90% of the image (poster.ts `box`), the rest
+   carries the glow on past the box's edges, as the canvas does, and fades out before the image's own edge. */
+.poster {
+  --poster-m: calc((1 / 0.9 - 1) / 2);
+  position: absolute;
+  top: calc(76px + (var(--area-h) - var(--box-h)) / 2 - var(--box-h) * var(--poster-m));
+  left: calc(var(--area-x) + (var(--area-w) - var(--box-w)) / 2 - var(--box-w) * var(--poster-m));
+  width: calc(var(--box-w) * (1 + 2 * var(--poster-m)));
+  height: calc(var(--box-h) * (1 + 2 * var(--poster-m)));
+  background: var(--poster-wide-noite) center / 100% 100% no-repeat;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent), linear-gradient(transparent, #000 4%, #000 96%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent), linear-gradient(transparent, #000 4%, #000 96%, transparent);
+  mask-composite: intersect;
+  pointer-events: none;
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    visibility 0s linear var(--dur-slow);
+}
+
+.poster[data-poster="dim"] {
+  opacity: 0.35;
+}
+
+.poster[data-poster="gone"] {
+  opacity: 0;
+  visibility: hidden;
+}
+
+:root[data-theme="dia"] .poster {
+  background-image: var(--poster-wide-dia);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="noite"]) .poster {
+    background-image: var(--poster-wide-dia);
+  }
+}
+
+@media (max-width: 47.99rem) {
+  /* home.ts homeArea on phones: a band under the field as tall as the picture at this width, at most 42% of the stage */
+  .stage {
+    --area-x: 12px;
+    --area-w: calc(100cqw - 24px);
+    --area-h: min(clamp(160px, 42cqh, 400px), (100cqw - 24px) / 1.4);
+  }
+
+  .poster {
+    background-image: var(--poster-phone-noite);
+  }
+
+  :root[data-theme="dia"] .poster {
+    background-image: var(--poster-phone-dia);
+  }
+}
+
+@media (max-width: 47.99rem) and (prefers-color-scheme: light) {
+  :root:not([data-theme="noite"]) .poster {
+    background-image: var(--poster-phone-dia);
+  }
+}
+
+/* ---- labels on the axis, moved by the engine every frame */
+
+.labels {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 5px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--overlay);
+  color: var(--ink);
+  font: 600 13px/1 var(--font-ui);
+  white-space: nowrap;
+  pointer-events: auto;
+  cursor: pointer;
+  visibility: hidden;
+}
+
+.pill:hover {
+  border-color: var(--accent);
+}
+
+.pillMain {
+  border-color: transparent;
+  background: var(--accent-fill);
+  color: var(--on-accent);
+}
+
+/* the names on the axis at the opening: smaller and quieter than the verse pills, never clickable */
+.pillAxis {
+  padding: 4px 9px;
+  color: var(--ink-2);
+  font: 500 12px/1 var(--font-ui);
+  pointer-events: none;
+  cursor: default;
+}
+
+.pillOn {
+  border-color: var(--lit);
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--lit);
+}
+
+.tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  display: grid;
+  gap: 2px;
+  padding: 7px 11px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: var(--overlay);
+  color: var(--ink);
+  font: 600 14px/1.3 var(--font-ui);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.tip span {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+/* ---- the field */
+
+.search {
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-4);
+  z-index: 3;
+  display: flex;
+  gap: var(--space-2);
+  width: min(28rem, calc(100% - 2 * var(--space-4)));
+}
+
+.field {
+  flex: 1;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: var(--raised);
+  color: var(--ink);
+  font: 400 16px/1.2 var(--font-ui);
+}
+
+.field::placeholder {
+  color: var(--ink-3);
+}
+
+.field:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+
+.go {
+  min-height: 48px;
+  padding: 0 var(--space-5);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--action-fill);
+  color: var(--on-action);
+  font: 600 16px/1 var(--font-ui);
+  cursor: pointer;
+}
+
+.go:hover {
+  filter: brightness(1.06);
+}
+
+.error {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: var(--overlay);
+  color: var(--ink);
+  font: 400 14px/1.4 var(--font-ui);
+}
+
+/* ---- under the field: the way back to the whole Bible and the trail of verses followed */
+
+.whole {
+  position: absolute;
+  top: calc(var(--space-4) + 48px + var(--space-3));
+  left: var(--space-4);
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 40px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--ink);
+  font: 600 14px/1 var(--font-ui);
+  cursor: pointer;
+}
+
+.whole:hover {
+  border-color: var(--accent);
+}
+
+.whole svg {
+  width: 18px;
+  height: 18px;
+}
+
+.trail {
+  position: absolute;
+  top: calc(var(--space-4) + 48px + var(--space-3));
+  left: calc(var(--space-4) + 10.5rem);
+  right: var(--space-4);
+  z-index: 3;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.trail ol {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trail li {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.trail li + li::before {
+  content: "";
+  width: 14px;
+  height: 1px;
+  background: var(--line-strong);
+}
+
+.trail button,
+.trail span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--ink-2);
+  font: 600 14px/1 var(--font-ui);
+  cursor: pointer;
+}
+
+.trail span[aria-current] {
+  border-color: transparent;
+  background: var(--accent-fill);
+  color: var(--on-accent);
+  cursor: default;
+}
+
+/* ---- the intro, over the bottom left of the whole Bible */
+
+.intro {
+  position: absolute;
+  left: var(--space-6);
+  bottom: var(--space-6);
+  z-index: 2;
+  /* ends 24px before the picture's area (home.ts homeArea) */
+  max-width: calc(var(--area-x) - var(--space-6) - var(--space-5));
+}
+
+.title {
+  margin: 0 0 var(--space-3);
+  font: 440 clamp(2.25rem, 1.5rem + 2.6vw, 3.75rem) / 1.02 var(--font-display);
+  letter-spacing: -0.02em;
+  font-synthesis: none;
+  color: var(--ink);
+}
+
+.lede {
+  max-width: 44ch;
+  margin: 0;
+  font: 400 17px/1.55 var(--font-ui);
+  color: var(--ink);
+}
+
+.examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target);
+  padding: 0 var(--space-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--ink);
+  font: 600 15px/1 var(--font-ui);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.chip:hover {
+  border-color: var(--accent);
+}
+
+.chipLuck {
+  color: var(--accent);
+}
+
+.chip:disabled {
+  opacity: 0.55;
+  cursor: progress;
+}
+
+.hint {
+  margin: var(--space-3) 0 0;
+  font: 400 14px/1.45 var(--font-ui);
+  color: var(--ink-2);
+}
+
+/* ---- legend and colour mode */
+
+.legend {
+  position: absolute;
+  right: var(--space-4);
+  bottom: var(--space-4);
+  z-index: 2;
+  display: grid;
+  justify-items: end;
+  gap: var(--space-2);
+  font: 500 14px/1.3 var(--font-ui);
+  color: var(--ink-2);
+}
+
+.legend ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2) var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.legend li,
+.legend p {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.legend i {
+  display: inline-block;
+  width: 18px;
+  height: 4px;
+  border-radius: var(--radius-pill);
+}
+
+/* the arcs' own colours (arcs.ts TESTAMENT and GLASS), shown as they look on each ground */
+.swAt {
+  background: #f9b34d;
+}
+
+.swNt {
+  background: #8fb5ff;
+}
+
+.swBr {
+  background: #ffe6c2;
+}
+
+.swGlass {
+  width: 48px !important;
+  background: linear-gradient(90deg, #2980ff, #8c33ff, #ff2966, #ff801f, #ffd15c);
+}
+
+:root[data-theme="dia"] .swAt {
+  background: #8a5a12;
+}
+
+:root[data-theme="dia"] .swNt {
+  background: #2a4f8f;
+}
+
+:root[data-theme="dia"] .swBr {
+  background: #3a3530;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="noite"]) .swAt {
+    background: #8a5a12;
+  }
+
+  :root:not([data-theme="noite"]) .swNt {
+    background: #2a4f8f;
+  }
+
+  :root:not([data-theme="noite"]) .swBr {
+    background: #3a3530;
+  }
+}
+
+.legendActions {
+  display: flex;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.mode {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  min-height: 40px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--ink);
+  font: 600 14px/1 var(--font-ui);
+  cursor: pointer;
+}
+
+.mode:hover {
+  border-color: var(--accent);
+}
+
+/* with the panel open the legend moves to the left (the panel holds the right) */
+.stage[data-open] .legend {
+  right: auto;
+  left: var(--space-4);
+  justify-items: start;
+}
+
+.stage[data-open] .legend ul {
+  justify-content: flex-start;
+}
+
+.loadAll {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: 600 14px/1.45 var(--font-ui);
+  text-align: left;
+  cursor: pointer;
+}
+
+.loadAll:hover {
+  text-decoration: underline;
+}
+
+/* the chapter panel's previous and next (ds.css .bc-pager, as in the reading pages) */
+.pager {
+  margin: 0 0 var(--space-4);
+}
+
+.pagerWay {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.pager a[rel="next"] .pagerWay {
+  justify-content: flex-end;
+}
+
+.pagerIcon.pagerIcon {
+  width: 16px;
+  height: 16px;
+}
+
+/* ---- the panel: beside the sculpture from 48rem, a sheet from the bottom on phones */
+
+.panel {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  bottom: var(--space-4);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: min(26rem, 42%);
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+/* the panel's top row: the close button (and, on phones, the grip that makes the sheet taller) */
+.panelBar {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  z-index: 1;
+}
+
+.grip {
+  display: none;
+}
+
+.card > .close {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+}
+
+.close {
+  display: inline-grid;
+  place-items: center;
+  width: var(--target);
+  height: var(--target);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+
+.close:hover {
+  background: var(--raised);
+  color: var(--ink);
+}
+
+.ref {
+  margin: 0;
+  padding-right: var(--target);
+  font: 440 clamp(1.75rem, 1.4rem + 1vw, 2.25rem) / 1.1 var(--font-display);
+  letter-spacing: -0.01em;
+  font-synthesis: none;
+  color: var(--ink);
+}
+
+/* the heading takes the focus when a selection opens (for screen readers); it is not a control, so no ring */
+.ref:focus {
+  outline: none;
+}
+
+.meta {
+  margin: 0;
+  font: 400 14px/1.45 var(--font-ui);
+  color: var(--ink-2);
+}
+
+.scripture {
+  margin: 0;
+  font: 400 clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem) / 1.65 var(--font-reading);
+  color: var(--ink-reading);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin: 0;
+}
+
+.act {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: 600 15px/1.2 var(--font-ui);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.act:hover {
+  text-decoration: underline;
+}
+
+.filters {
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--raised);
+}
+
+.filters button {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 38px;
+  padding: 0 var(--space-3);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--ink-2);
+  font: 500 14px/1 var(--font-ui);
+  cursor: pointer;
+}
+
+.filters button span {
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.filters button[aria-pressed="true"] {
+  background: var(--overlay);
+  color: var(--ink);
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+.filters button[aria-pressed="true"] span {
+  color: var(--ink-2);
+}
+
+.filters button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-1) var(--space-3);
+  width: 100%;
+  padding: var(--space-3) var(--space-3);
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.item:hover {
+  background: var(--raised);
+}
+
+.item[aria-pressed="true"] {
+  background: var(--highlight);
+  box-shadow: inset 0 0 0 1px var(--lit);
+}
+
+.itemRef {
+  font: 600 16px/1.3 var(--font-ui);
+  color: var(--ink);
+}
+
+.itemVotes {
+  font: 500 14px/1.3 var(--font-ui);
+  color: var(--ink-2);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.itemText {
+  grid-column: 1 / -1;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font: 400 16px/1.5 var(--font-reading);
+  color: var(--ink-reading);
+}
+
+.more,
+.chapterLink {
+  min-height: var(--target);
+  padding: 0 var(--space-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--ink);
+  font: 600 15px/1.2 var(--font-ui);
+  cursor: pointer;
+}
+
+.chapterLink {
+  border: 0;
+  padding: 0;
+  color: var(--accent);
+  text-align: left;
+}
+
+.more:hover {
+  border-color: var(--accent);
+}
+
+.chapterLink:hover {
+  text-decoration: underline;
+}
+
+.credit {
+  margin: auto 0 0;
+  padding-top: var(--space-3);
+  font: 400 13px/1.5 var(--font-ui);
+  color: var(--ink-2);
+}
+
+/* ---- one link, chosen in the list or on a label */
+
+.card {
+  position: absolute;
+  left: var(--space-4);
+  bottom: var(--space-4);
+  z-index: 5;
+  display: grid;
+  gap: var(--space-3);
+  width: min(26rem, calc(100% - 2 * var(--space-4)));
+  max-width: calc(58% - 2 * var(--space-4));
+  padding: var(--space-5);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  background: var(--overlay);
+  color: var(--ink);
+  box-shadow: var(--shadow-float);
+}
+
+.route {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding-right: var(--target);
+  font: 500 15px/1.3 var(--font-ui);
+  color: var(--ink-2);
+}
+
+.route strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.routeArrow {
+  width: 16px;
+  height: 16px;
+  color: var(--lit);
+}
+
+.cardText {
+  margin: 0;
+  font: 400 17px/1.6 var(--font-reading);
+  color: var(--ink-reading);
+}
+
+.cardActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  margin: 0;
+}
+
+.follow {
+  min-height: var(--target);
+  padding: 0 var(--space-5);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--action-fill);
+  color: var(--on-action);
+  font: 600 15px/1 var(--font-ui);
+  cursor: pointer;
+}
+
+/* ---- phones: the field across the top, the intro at the bottom, the panel as a sheet over the lower half */
+
+@media (max-width: 47.99rem) {
+  .search {
+    width: calc(100% - 2 * var(--space-4));
+  }
+
+  .trail {
+    left: var(--space-4);
+    top: calc(var(--space-4) + 48px + var(--space-3) + 40px + var(--space-2));
+  }
+
+  /* under the picture's band (the same sum as homeArea), scrolling on its own when the words outgrow the space left:
+     it never covers the sculpture */
+  .intro {
+    top: calc(76px + var(--area-h));
+    right: 0;
+    bottom: 0;
+    left: 0;
+    max-width: none;
+    padding: var(--space-3) var(--space-4) var(--space-4);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .lede {
+    font-size: 16px;
+  }
+
+  .legend {
+    display: none;
+  }
+
+  .panel {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    height: 50%;
+    padding: 0 var(--space-4) calc(var(--space-5) + env(safe-area-inset-bottom, 0px));
+    border-bottom: 0;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    background: var(--overlay);
+    transition: height var(--dur-fast) var(--ease-out);
+  }
+
+  .stage[data-sheet="full"] .panel {
+    height: calc(100% - var(--space-4));
+  }
+
+  /* the sheet's bar stays at its top while the sheet scrolls: the grip in the middle, the close button at the right */
+  .panelBar {
+    position: sticky;
+    top: 0;
+    right: auto;
+    display: grid;
+    grid-template-columns: var(--target) 1fr var(--target);
+    align-items: center;
+    min-height: 48px;
+    margin: 0 calc(-1 * var(--space-4));
+    padding: 0 var(--space-2);
+    background: var(--overlay);
+  }
+
+  .grip {
+    grid-column: 2;
+    justify-self: center;
+    display: inline-grid;
+    place-items: center;
+    width: 88px;
+    height: var(--target);
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .grip span {
+    width: 40px;
+    height: 4px;
+    border-radius: var(--radius-pill);
+    background: var(--line-strong);
+  }
+
+  .panelBar .close {
+    grid-column: 3;
+  }
+
+  .ref {
+    padding-right: 0;
+  }
+
+  .card {
+    top: calc(var(--space-4) + 48px + var(--space-3));
+    bottom: auto;
+    max-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pill,
+  .chip,
+  .whole,
+  .mode {
+    transition: none;
+  }
+}

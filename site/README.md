@@ -28,7 +28,7 @@ divergir do que os vídeos publicaram (`stats.json`, `natal-stats.json`, `xref.n
 | `src/data/generated/studies/natal.json` | Números do estudo "Antes do Natal" |
 | `src/data/generated/credits.json` | `ATTRIBUTION.md` na íntegra (página `/sobre`) e a linha de crédito da BLIVRE (rodapé) |
 | `public/data/arcs.bin` + `arcs.json` | Pares de versículos para os arcos (uint16, uint16, int16), ordenados por votos |
-| `public/data/sky.json` + `sky-head.bin` | Céu de ligações (/arcos): capítulos, livros e os 20.000 arcos mais votados (mesmo formato de `arcs.bin`) |
+| `public/data/sky.json` + `sky-head.bin` | Escultura (/arcos) e céu 2D (/arcos/plano): capítulos, livros e os 20.000 arcos mais votados (mesmo formato de `arcs.bin`) |
 | `public/data/chapter-graph.json` + `chapter-edges.bin` | Grafo de capítulos com posições (ForceAtlas2, semente fixa) |
 | `public/data/sky.json` + `sky-head.bin` | Céu da home: livros, capítulos e os 20.000 pares mais votados para a primeira pintura |
 | `public/data/text/<slug>/<cap>.json` | Texto BLIVRE de cada capítulo, para a prévia no hover |
@@ -66,7 +66,46 @@ divergir do que os vídeos publicaram (`stats.json`, `natal-stats.json`, `xref.n
 
 Licença dos dados derivados: CC BY-SA 4.0, exceto o texto BLIVRE, que segue CC BY 4.0 Brasil (`../LICENSE-DATA.md`). Código: MIT (`../LICENSE`).
 
-## Céu de ligações (/arcos)
+## Escultura de luz (/arcos)
+
+A direção, a calibração da luz e o que ficou melhor que a referência estão em `../design/README.md` §15. O código fica em
+`src/components/sculpture/`:
+
+- `Sculpture.tsx`: o estado da página. A seleção fica no fragmento do endereço (`#isaias/53/5`, `#isaias/53`; `state.ts`),
+  e o componente cuida da carga dos dados, do campo, da trilha, dos rótulos no eixo e do cartão da ligação.
+- `Panel.tsx`: o painel (folha no celular) do versículo e do capítulo.
+- `engine.ts`: a câmera, os gestos, o voo, os quadros e a escolha do que está sob o ponteiro.
+- `renderer.ts` + `shaders.ts`: o WebGL2 próprio, sem biblioteca.
+- `space.ts`: as contas puras de forma e câmera.
+- `arcs.ts`: dos arquivos do pipeline (os mesmos do céu 2D) para o que se desenha.
+- `home.ts`: a vista de abertura, a mesma do pôster.
+
+`tests/sculpture.test.ts` confere contra o pipeline:
+
+- os parceiros de cada versículo com os arquivos `verse-links`;
+- as ligações de cada capítulo com o céu 2D;
+- os planos dos fios, a câmera, o enquadramento e os endereços.
+
+Sem GPU de verdade (ou sem WebGL2 com render em ponto flutuante), a página fica no pôster, com busca, painel e lista
+funcionando. Para ver o desenho em software num teste, defina `window.__SCULPTURE_ALLOW_SOFTWARE__ = true` antes da carga;
+o motor fica em `window.__sculpture`.
+
+**Pôster.** A primeira pintura mostra a vista de abertura pronta, feita dos dados reais com o mesmo renderizador:
+`public/sculpture/{noite,dia}-{854,2002}.{avif,webp}`, com o quadro da escultura nos 90% do meio (a borda leva o brilho).
+O lugar é o mesmo do primeiro quadro vivo (`home.ts`; o CSS repete a conta em `sculpture.module.css`). As imagens
+ficam no git e **não** são refeitas no build. Refaça quando mudarem os arcos, a luz (`renderer.ts`, `shaders.ts`,
+`arcs.ts`), a vista de abertura (`home.ts`, `space.ts`) ou os tamanhos (`poster.ts`):
+
+```bash
+npm run data
+CHROME=/caminho/do/chrome node scripts/render-sculpture-poster.mjs   # precisa de ffmpeg com libaom-av1 e libwebp
+npm test                                                           # confere os arquivos contra poster.ts
+```
+
+`SCULPTURE_POSTER_ONLY=phone|wide` e `SCULPTURE_POSTER_THEME=noite|dia` refazem só uma parte; `SCULPTURE_POSTER_PNG=<pasta>`
+guarda os PNG sem perda.
+
+## Céu de ligações em 2D (/arcos/plano)
 
 O código fica em `src/components/sky/`: `Sky.tsx` (estado, leitura, seletor, lista; carrega com a página),
 `SkyCanvas.tsx` + `renderer.ts` + `shaders.ts` (WebGL2 próprio, carregado depois da primeira pintura por
