@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Advance widths and kerning of the two faces used by the Explorar graph labels, read from the site's own WOFF2 files.
+"""Advance widths and kerning of the two faces used by the Explorar map labels, read from the site's own WOFF2 files.
 
-The layout test (tests/explore-layout.test.ts) measures every node label of all 1,189 chapters with this table, so a
-label is checked at its real width in the real font, not with an average character width. The table records the
-SHA-256 of each font file and the test fails when a font changes, until this script is run again.
+The map layout (src/lib/explore/atlas.ts, run by the pages on the server) places every label at its real width in the
+real font with this table, and the layout test (tests/explore-layout.test.ts) checks all 1,189 chapters with it. The
+table records the SHA-256 of each font file and the test fails when a font changes, until this script is run again.
 
 Not part of `npm run build` (Python is not on the build machine); the output is committed.
   requirements: python3 with fonttools 4.60.1 + brotli 1.1.0 (the same as scripts/subset-fonts.sh)
@@ -18,11 +18,11 @@ from fontTools.ttLib import TTFont
 from fontTools.varLib import instancer
 
 SITE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-OUT = os.path.join(SITE, "tests", "label-metrics.json")
+OUT = os.path.join(SITE, "src", "lib", "explore", "label-metrics.json")
 FACES = {
-    # node labels and the centre label: --font-title (Newsreader, static instance opsz 72 / wght 440)
+    # chapter and medallion names: --font-display (Newsreader, static instance opsz 72 / wght 440)
     "title": {"file": "src/fonts/Newsreader-Display.woff2", "axes": None},
-    # counts under the labels: --font-grotesk at weight 400 (body text weight)
+    # count lines under the names: --font-ui (Space Grotesk) at weight 400
     "ui": {"file": "src/fonts/SpaceGrotesk-VF.woff2", "axes": {"wght": 400}},
 }
 
@@ -30,7 +30,8 @@ FACES = {
 def charset():
     """Every character a label can hold: book names, digits, and the words of the count lines."""
     books = json.load(open(os.path.join(SITE, "src/data/generated/books.json"), encoding="utf-8"))
-    chars = set("0123456789 .,:·–")
+    # "-": a sum of votes can be negative, and Intl.NumberFormat writes the hyphen-minus
+    chars = set("0123456789 .,:·–-")
     for b in books:
         chars.update(b["name"])
         chars.update(b["abbr"])

@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ChevronLeft, ChevronRight } from "@/components/icons";
-import { Explorer } from "@/components/explore/Explorer";
-import { NeighbourList } from "@/components/explore/NeighbourList";
+import { Icon } from "@/components/icons";
+import { AtlasMap } from "@/components/explore/AtlasMap";
+import { MapList } from "@/components/explore/MapList";
 import styles from "@/components/explore/explore.module.css";
-import { formatInt } from "@/lib/canon/text";
-import { explore, explorePages, resolveChapter } from "@/lib/explore/data";
+import { atlasOf, defaultConnection, PER_GROUP } from "@/lib/explore/atlas-data";
+import { chapterKey, explorePages, resolveChapter } from "@/lib/explore/data";
 import { explorePath } from "@/lib/explore/home";
+import { partnersText } from "@/lib/explore/text";
 import { neighbours } from "@/lib/reading";
 
 export const ensureStatic = "navigation";
@@ -16,45 +17,53 @@ export function generateStaticParams() {
   return explorePages().map(({ book, chapter }) => ({ livro: book.slug, cap: String(chapter) }));
 }
 
-// The graph stays in the layout; the connection panel is the page below it (default: the strongest partner;
-// /explorar/<livro>/<cap>/<livro2>/<cap2>: the one chosen), so choosing a node only swaps the panel.
+// The map stays in the layout; the connection panel is the page beside it (default: the most voted linked chapter;
+// /explorar/<livro>/<cap>/<livro2>/<cap2>: the one chosen), so choosing a chapter only swaps the panel and the lit line.
 export default async function ExploreLayout({ params, children }: LayoutProps<"/explorar/[livro]/[cap]">) {
   const { livro, cap } = await params;
   const r = resolveChapter(livro, cap);
   if (!r) notFound();
-  const data = await explore(r.book, r.chapter);
+  const atlas = await atlasOf(r.book, r.chapter);
+  const top = await defaultConnection(r.book, r.chapter);
+  if (!top) notFound();
   const { prev, next } = neighbours(r.book, r.chapter);
-  const label = data.centre.label;
+  const c = atlas.centre;
 
   return (
     <main id="conteudo" className={styles.page}>
       <div className={styles.head}>
-        <div>
-          <h1 className={styles.title}>{label}</h1>
-          <p className={styles.meta} data-explore-meta="">
-            {formatInt(data.partners)} capítulos ligados a {label} · no grafo, os {formatInt(data.neighbours.length)} com mais
-            votos (soma das duas direções, OpenBible.info)
+        <div className={styles.headText}>
+          <h1 className="bc-display">{c.label}</h1>
+          <p className={`bc-lede ${styles.lede}`} data-explore-meta="">
+            {partnersText(atlas.partners)} a {c.label}. Em volta de cada grupo de livros, os {PER_GROUP} mais votados.
           </p>
         </div>
         <p className={styles.headLinks}>
-          <Link href={data.centre.path}>Ler {label}</Link>
-          <Link href={`/arcos#${r.book.slug}/${r.chapter}`}>Ver no céu</Link>
+          <Link href={c.path} className="bc-button bc-button--secondary">
+            <Icon name="book" />
+            Ler {c.label}
+          </Link>
           {prev && (
             <Link href={explorePath(prev.book.slug, prev.chapter)} className={styles.pager} rel="prev">
-              <ChevronLeft size={16} />
+              <Icon name="chev-l" />
               {prev.label}
             </Link>
           )}
           {next && (
             <Link href={explorePath(next.book.slug, next.chapter)} className={styles.pager} rel="next">
               {next.label}
-              <ChevronRight size={16} />
+              <Icon name="chev-r" />
             </Link>
           )}
         </p>
       </div>
-      <Explorer data={data} panel={children} />
-      <NeighbourList data={data} />
+      <div className={styles.view}>
+        <div className={styles.mapCol}>
+          <AtlasMap atlas={atlas} selected={{ key: chapterKey(top.other), group: top.group }} />
+        </div>
+        <div className={styles.panelCol}>{children}</div>
+      </div>
+      <MapList atlas={atlas} />
     </main>
   );
 }

@@ -50,7 +50,7 @@ for (const s of ["Biblica® Open Nova Bíblia Viva™ Copyright © 2007, 2010 by
   if (!sobre.includes(s)) failures.push(`sobre.html: "${s}" missing`);
 }
 // rule 3: the numbers on the home page are the pipeline's numbers, rendered with pt-BR grouping
-type Summary = { counts: Record<string, number>; topVerses: { ref: string; links: number }[] };
+type Summary = { counts: Record<string, number>; topVerses: { ref: string; links: number; path: string }[] };
 const summary = JSON.parse(readFileSync(join(OUT.generated, "summary.json"), "utf8")) as Summary;
 const home = textOf(page("index.html"));
 const homeNumbers = [
@@ -60,9 +60,21 @@ const homeNumbers = [
   `${summary.topVerses[0].ref}, com ${formatInt(summary.topVerses[0].links)}`,
 ];
 for (const s of homeNumbers) if (!home.includes(s)) failures.push(`index.html: "${s}" missing`);
-// and says what "ligações" means next to that number (HANDOFF §4.2: the convention goes with the number)
-for (const s of [`as ${formatInt(summary.topVerses[0].links)} de ${summary.topVerses[0].ref} na capa`, "conta o primeiro versículo"]) {
-  if (!home.includes(s)) failures.push(`index.html: definition of "ligações" ("${s}") missing`);
+// and says, in the same paragraph as the number, what "ligações" means (HANDOFF §4.2: the convention goes with it)
+const homeRaw = page("index.html");
+const definition = textOf(/data-definition=""[^>]*>([\s\S]*?)<\/p>/.exec(homeRaw)?.[1] ?? "");
+for (const s of [homeNumbers[2], homeNumbers[3], "contados uma vez cada", "conta o primeiro versículo"]) {
+  if (!definition.includes(s)) failures.push(`index.html: the paragraph that defines "ligações" lacks "${s}"`);
+}
+// the most linked verses, with their counts, in the order of summary.json
+let lastTop = -1;
+for (const t of summary.topVerses) {
+  const at = homeRaw.indexOf(`data-top-verse="${t.path}"`);
+  const row = textOf(new RegExp(`data-top-verse="${t.path}"[^>]*>([\\s\\S]*?)</li>`).exec(homeRaw)?.[1] ?? "");
+  if (at < 0 || at < lastTop || !row.includes(t.ref) || !row.includes(`${formatInt(t.links)} ${t.links === 1 ? "ligação" : "ligações"}`)) {
+    failures.push(`index.html: the most linked verses lack "${t.ref}, ${formatInt(t.links)} ligações" in order`);
+  }
+  lastTop = at;
 }
 if (home.includes(formatInt(summary.counts.pairs))) failures.push("index.html: shows the pair count with the 45 self-pairs");
 // /arcos (the sky of links) states the same numbers in its first screen, from the same pipeline

@@ -1,63 +1,13 @@
-// Server-side access to the Explorar data (src/data/generated/explore/<slug>.json). Never imported by client code.
+// Which Explorar pages exist and how their chapters are named in URLs and in the checks of the built pages.
+// The map itself is computed by ./atlas-data.ts (server only).
 import chapterPairsJson from "@/data/generated/chapter-pairs.json";
 import type { Book } from "@/lib/canon/types";
-import { bookBySlug, chapterRef, grid, type ChapterRef } from "@/lib/reading";
+import { bookBySlug, grid, type ChapterRef } from "@/lib/reading";
 import { EXPLORE_ALWAYS } from "./home";
-import type { ExploreChapter, ExploreEdge, ExploreFile } from "./types";
 
 export { pairsText, votesText } from "./text";
 
-const files = new Map<string, Promise<ExploreFile>>();
-function exploreFile(slug: string): Promise<ExploreFile> {
-  let f = files.get(slug);
-  if (!f) {
-    f = import(`@/data/generated/explore/${slug}.json`).then((m: { default: ExploreFile }) => m.default);
-    files.set(slug, f);
-  }
-  return f;
-}
-
-export type Neighbour = {
-  /** 0 = most votes */
-  rank: number;
-  ref: ChapterRef;
-  pairs: number;
-  votes: number;
-  /** strongest verse pair: verse numbers here and there, and its votes */
-  strongest: { here: number; there: number; votes: number };
-  /** verses of each chapter that take part in the pairs, ascending */
-  hereVerses: number[];
-  thereVerses: number[];
-};
-
-export type Explore = {
-  centre: ChapterRef;
-  /** every chapter linked to the centre */
-  partners: number;
-  neighbours: Neighbour[];
-  edges: ExploreEdge[];
-};
-
-export async function explore(book: Book, chapter: number): Promise<Explore> {
-  const f = await exploreFile(book.slug);
-  const c: ExploreChapter = f.chapters[chapter - 1];
-  return {
-    centre: chapterRef(book.firstChapter + chapter - 1),
-    partners: c.partners,
-    neighbours: c.top.map(([ci, pairs, votes, [here, there, v], hereVerses, thereVerses], rank) => ({
-      rank,
-      ref: chapterRef(ci),
-      pairs,
-      votes,
-      strongest: { here, there, votes: v },
-      hereVerses,
-      thereVerses,
-    })),
-    edges: c.edges,
-  };
-}
-
-/** Stable key of a chapter in the graph and in the check of the built pages: "lucas-2". */
+/** Stable key of a chapter in the map and in the check of the built pages: "lucas-2". */
 export function chapterKey(ref: Pick<ChapterRef, "book" | "chapter">): string {
   return `${ref.book.slug}-${ref.chapter}`;
 }

@@ -1,28 +1,26 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
-import { NOT_FOUND_TITLE } from "@/lib/missing";
-import { Scripture } from "@/components/reader/Scripture";
+import { Icon } from "@/components/icons";
+import { ScriptureText } from "@/components/explore/ScriptureText";
 import { formatInt } from "@/lib/canon/text";
 import { compareSides, conexaoPath, parseSide, sideSegment, type Side } from "@/lib/conexao";
-import { explore, explorePages, pairsText, votesText } from "@/lib/explore/data";
+import { explorePages, pairsText, votesText } from "@/lib/explore/data";
 import { explorePath } from "@/lib/explore/home";
-import { bookBySlug, chapterVerses, grid, type VerseData } from "@/lib/reading";
+import { NOT_FOUND_TITLE } from "@/lib/missing";
+import { bookBySlug, chapterNeighbours, chapterRef, chapterVerses, grid, type VerseData } from "@/lib/reading";
 import styles from "./conexao.module.css";
 
 export const ensureStatic = "navigation";
 
-// Built ahead: the connection each prebuilt Explorar page opens on (its chapter and its strongest partner).
+// Built ahead: the connection each prebuilt Explorar page opens on (its chapter and its most voted linked chapter).
 export async function generateStaticParams() {
   const seen = new Set<string>();
   for (const { book, chapter } of explorePages()) {
-    const n = (await explore(book, chapter)).neighbours[0];
-    if (!n) continue;
-    const path = conexaoPath(
-      { book: book.index, slug: book.slug, chapter },
-      { book: n.ref.book.index, slug: n.ref.book.slug, chapter: n.ref.chapter },
-    );
-    seen.add(path);
+    const top = (await chapterNeighbours(book, chapter))[0];
+    if (!top) continue;
+    const p = chapterRef(top.ci);
+    seen.add(conexaoPath({ book: book.index, slug: book.slug, chapter }, { book: p.book.index, slug: p.book.slug, chapter: p.chapter }));
   }
   return [...seen].map((p) => {
     const [, , a, b] = p.split("/");
@@ -72,8 +70,13 @@ async function passage(s: Resolved): Promise<{ n: number; gv: number; v: VerseDa
   return (await chapterVerses(book, s.chapter)).map((v, i) => ({ n: i + 1, gv: start + i, v })).filter((x) => x.gv >= s.first && x.gv <= s.last);
 }
 
-// Two passages side by side (stacked on phones), with the verse pairs that link them listed and marked in the text.
-// No client code: the pair list and the marks are plain anchors.
+/** "3 pares de versículos · 296 votos somados" */
+function meta(pairs: number, votes: number): string {
+  return `${pairsText(pairs)} de versículos · ${votesText(votes)} ${Math.abs(votes) === 1 ? "somado" : "somados"}`;
+}
+
+// Two passages side by side (stacked on phones), in Literata at reading size, with the verse pairs that link them listed
+// first and marked in the text. No client code: the pair list and the marks are plain anchors.
 export default async function ConexaoPage({ params }: PageProps<"/conexao/[a]/[b]">) {
   const r = await resolve(params);
   if (!r) notFound();
@@ -86,6 +89,7 @@ export default async function ConexaoPage({ params }: PageProps<"/conexao/[a]/[b
     .flatMap((l) => l.v.links.filter(([gv]) => gv >= y.first && gv <= y.last).map(([gv, votes]) => ({ a: l.n, b: grid.locate(gv).verse, votes })))
     .sort((p, q) => q.votes - p.votes || p.a - q.a || p.b - q.b);
   const votes = pairs.reduce((s, p) => s + p.votes, 0);
+  const maxVotes = Math.max(1, ...pairs.map((p) => p.votes));
   const partnersOf = (k: "a" | "b", n: number) => pairs.filter((p) => p[k] === n);
   const ref = (s: Resolved, v: number) => `${grid.locate(s.first).book.name} ${s.chapter}:${v}`;
   const xBook = grid.locate(x.first).book;
@@ -106,14 +110,14 @@ export default async function ConexaoPage({ params }: PageProps<"/conexao/[a]/[b
               <li key={n} id={`${k}-${n}`} className={styles.verse} data-linked={linked.length > 0 || undefined}>
                 <span className={styles.vnum}>{n}</span>
                 <p className={styles.vtext}>
-                  <Scripture text={v.text} />
+                  <ScriptureText text={v.text} />
                 </p>
                 {linked.length > 0 && (
                   <p className={styles.vlinks}>
-                    <span className="visually-hidden">Ligado a </span>
                     {linked.map((p) => (
                       <a key={p[ok]} href={`#${ok}-${p[ok]}`}>
-                        <span aria-hidden="true">↔ </span>
+                        <Icon name="both" />
+                        <span className="visually-hidden">Ligado a </span>
                         {ref(other, p[ok])} · {votesText(p.votes)}
                       </a>
                     ))}
@@ -129,37 +133,49 @@ export default async function ConexaoPage({ params }: PageProps<"/conexao/[a]/[b
 
   return (
     <main id="conteudo" className={styles.page}>
-      <p className="kicker">Lado a lado</p>
-      <h1 className={styles.title}>
-        {x.label} <span className={styles.arrow} aria-hidden="true">↔</span>
-        <span className="visually-hidden">e</span> {y.label}
-      </h1>
-      <p className={styles.meta} data-conexao-meta="">
-        {pairs.length > 0
-          ? `${pairsText(pairs.length)} · ${votesText(votes)} · Bíblia Livre (BLIVRE)`
-          : "Nenhum par de versículos liga estas passagens na base OpenBible.info. Bíblia Livre (BLIVRE)."}
-      </p>
-      <p className={styles.links}>
-        <Link href={explorePath(xBook.slug, x.chapter)}>Explorar {xBook.name} {x.chapter}</Link>
-        <Link href={explorePath(yBook.slug, y.chapter)}>Explorar {yBook.name} {y.chapter}</Link>
-      </p>
+      <header className={styles.head}>
+        <h1 className={`bc-display ${styles.title}`}>
+          <span>{x.label}</span>
+          <Icon name="both" className={`bc-icon ${styles.both}`} />
+          <span className="visually-hidden"> e </span>
+          <span>{y.label}</span>
+        </h1>
+        <p className="bc-lede" data-conexao-meta="">
+          {pairs.length > 0
+            ? `${meta(pairs.length, votes)} · Bíblia Livre (BLIVRE)`
+            : "Nenhum par de versículos liga estas passagens na base OpenBible.info. Bíblia Livre (BLIVRE)."}
+        </p>
+        <p className={styles.links}>
+          <Link href={explorePath(xBook.slug, x.chapter)} className="bc-button bc-button--secondary">
+            <Icon name="explore" />
+            Mapa de {xBook.name} {x.chapter}
+          </Link>
+          <Link href={explorePath(yBook.slug, y.chapter)} className="bc-button bc-button--secondary">
+            <Icon name="explore" />
+            Mapa de {yBook.name} {y.chapter}
+          </Link>
+        </p>
+      </header>
 
       {pairs.length > 0 && (
         <section className={styles.pairs} aria-labelledby="pares">
-          <h2 id="pares" className={styles.pairsTitle}>
+          <h2 id="pares" className="bc-section-title">
             {formatInt(pairs.length)} {pairs.length === 1 ? "par ligado" : "pares ligados"}
-            {pairs.length > 1 && <span>do mais votado ao menos votado</span>}
+            {pairs.length > 1 && <small>do mais votado ao menos votado</small>}
           </h2>
           <ol className={styles.pairRows}>
             {pairs.map((p) => (
               <li key={`${p.a}-${p.b}`} data-pair={`${p.a}-${p.b}`}>
-                <a href={`#a-${p.a}`}>{ref(x, p.a)}</a>
-                <span aria-hidden="true" className={styles.arrow}>
-                  ↔
+                <span className={styles.pairRefs}>
+                  <a href={`#a-${p.a}`}>{ref(x, p.a)}</a>
+                  <Icon name="both" className={`bc-icon ${styles.pairIcon}`} />
+                  <span className="visually-hidden"> e </span>
+                  <a href={`#b-${p.b}`}>{ref(y, p.b)}</a>
                 </span>
-                <span className="visually-hidden">e</span>
-                <a href={`#b-${p.b}`}>{ref(y, p.b)}</a>
-                <span className={styles.votes}>{votesText(p.votes)}</span>
+                <span className={styles.votes}>
+                  {votesText(p.votes)}
+                  <span className="bc-conn__bar" style={{ "--w": Math.max(0, p.votes) / maxVotes } as React.CSSProperties} aria-hidden="true" />
+                </span>
               </li>
             ))}
           </ol>

@@ -1,0 +1,83 @@
+/* The phone peek of the selected connection (Peek.tsx): an opaque strip above the tab bar, with its own text colour. */
+
+.peek {
+  position: fixed;
+  z-index: 20;
+  left: var(--space-3);
+  right: var(--space-3);
+  bottom: calc(var(--tabbar-h) + var(--space-2));
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 60px;
+  padding: var(--space-2) var(--space-3) var(--space-2) var(--space-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--overlay);
+  color: var(--ink);
+  box-shadow: var(--shadow-float);
+  text-decoration: none;
+}
+
+.peek[hidden] {
+  display: none;
+}
+
+/* the panel sits beside the map from 80rem; the strip is for screens with the tab bar */
+@media (min-width: 64rem) {
+  .peek {
+    display: none;
+  }
+}
+
+.marks {
+  display: flex;
+  flex: none;
+  align-items: center;
+}
+
+.seal {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink);
+  font: 440 22px/1 var(--font-display);
+  font-synthesis: none;
+}
+
+.marks img {
+  --size: 40px;
+  margin-left: calc(-1 * var(--space-2));
+}
+
+.text {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  gap: 2px;
+}
+
+.title {
+  overflow: hidden;
+  font: 440 var(--fs-lede) / 1.2 var(--font-display);
+  font-synthesis: none;
+  color: var(--ink);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.sub {
+  font: 500 var(--fs-meta) / 1.3 var(--font-ui);
+  color: var(--accent);
+}
+
+.chev {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  color: var(--ink-2);
+}

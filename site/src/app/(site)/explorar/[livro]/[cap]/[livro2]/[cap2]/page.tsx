@@ -2,22 +2,25 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ConnectionPanel } from "@/components/explore/ConnectionPanel";
 import { NOT_FOUND_TITLE } from "@/lib/missing";
-import { explore, resolveChapter } from "@/lib/explore/data";
+import { atlasOf, connectionOf } from "@/lib/explore/atlas-data";
+import { resolveChapter } from "@/lib/explore/data";
 import { connectionPath, EXPLORE_ALWAYS } from "@/lib/explore/home";
+import { chapterRef } from "@/lib/reading";
 
 export const ensureStatic = "navigation";
 
-// Built ahead: the 11 medallions (6 labelled + 5) of the home centre and of João 1. Any other connection of a chapter
-// to one of its 35 partners renders on its first visit and is kept.
-const PREBUILT_CONNECTIONS = 11;
+// Built ahead: every chapter drawn on the map of the home centre and of João 1, and the most voted chapter of each of
+// their groups (where a medallion leads). Any other linked chapter renders on its first visit and is kept.
 export async function generateStaticParams() {
   const out: { livro: string; cap: string; livro2: string; cap2: string }[] = [];
   for (const a of EXPLORE_ALWAYS) {
     const r = resolveChapter(a.slug, String(a.chapter));
     if (!r) continue;
-    const data = await explore(r.book, r.chapter);
-    for (const n of data.neighbours.slice(0, PREBUILT_CONNECTIONS)) {
-      out.push({ livro: a.slug, cap: String(a.chapter), livro2: n.ref.book.slug, cap2: String(n.ref.chapter) });
+    const atlas = await atlasOf(r.book, r.chapter);
+    const cis = new Set([...atlas.wide.nodes.map((n) => n.ci), ...atlas.groups.flatMap((g) => g.partners.slice(0, 1).map((p) => p.ci))]);
+    for (const ci of [...cis].sort((x, y) => x - y)) {
+      const p = chapterRef(ci);
+      out.push({ livro: a.slug, cap: String(a.chapter), livro2: p.book.slug, cap2: String(p.chapter) });
     }
   }
   return out;
@@ -30,26 +33,24 @@ async function resolve(params: Params) {
   const a = resolveChapter(livro, cap);
   const b = resolveChapter(livro2, cap2);
   if (!a || !b) return null;
-  const data = await explore(a.book, a.chapter);
-  const n = data.neighbours.find((x) => x.ref.book.index === b.book.index && x.ref.chapter === b.chapter);
-  return n ? { data, n } : null;
+  return connectionOf(a.book, a.chapter, b.book.firstChapter + b.chapter - 1);
 }
 
 export async function generateMetadata({ params }: PageProps<"/explorar/[livro]/[cap]/[livro2]/[cap2]">): Promise<Metadata> {
-  const r = await resolve(params);
-  if (!r) return { title: NOT_FOUND_TITLE };
-  const c = r.data.centre;
-  const p = r.n.ref;
+  const c = await resolve(params);
+  if (!c) return { title: NOT_FOUND_TITLE };
   return {
-    title: `${c.label} e ${p.label}`,
-    description: `A ligação entre ${c.label} e ${p.label} nas referências cruzadas da OpenBible.info, com os versículos de cada lado.`,
-    alternates: { canonical: connectionPath({ slug: c.book.slug, chapter: c.chapter }, { slug: p.book.slug, chapter: p.chapter }) },
+    title: `${c.centre.label} e ${c.other.label}`,
+    description: `A ligação entre ${c.centre.label} e ${c.other.label} nas referências cruzadas da OpenBible.info, com os versículos de cada lado.`,
+    alternates: {
+      canonical: connectionPath({ slug: c.centre.book.slug, chapter: c.centre.chapter }, { slug: c.other.book.slug, chapter: c.other.chapter }),
+    },
   };
 }
 
-// A chosen connection: one of the 35 partners on the centre's graph. Any other chapter is not on the graph: 404.
+// A chosen connection: any chapter linked to the centre. A chapter with no verse pair to it is not a connection: 404.
 export default async function ConnectionPage({ params }: PageProps<"/explorar/[livro]/[cap]/[livro2]/[cap2]">) {
-  const r = await resolve(params);
-  if (!r) notFound();
-  return <ConnectionPanel data={r.data} n={r.n} focusOnNavigate />;
+  const c = await resolve(params);
+  if (!c) notFound();
+  return <ConnectionPanel c={c} focusOnNavigate explore />;
 }

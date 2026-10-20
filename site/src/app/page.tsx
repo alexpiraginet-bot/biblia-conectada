@@ -1,103 +1,122 @@
-import localFont from "next/font/local";
 import Link from "next/link";
+import { notFound } from "next/navigation";
+import { Icon } from "@/components/icons";
+import { AtlasMap } from "@/components/explore/AtlasMap";
 import { ConnectionPanel } from "@/components/explore/ConnectionPanel";
-import { Explorer } from "@/components/explore/Explorer";
-import { NeighbourList } from "@/components/explore/NeighbourList";
+import { MapList } from "@/components/explore/MapList";
+import { ScriptureText } from "@/components/explore/ScriptureText";
 import explore from "@/components/explore/explore.module.css";
-import { HeroCover } from "@/components/home/HeroCover";
-import { arcStrength } from "@/lib/arc-style";
+import { HeroSearch } from "@/components/home/HeroSearch";
+import { Peek } from "@/components/home/Peek";
+import peek from "@/components/home/Peek.module.css";
 import { formatInt } from "@/lib/canon/text";
 import { summary } from "@/lib/data";
-import { chapterKey, explore as exploreData, resolveChapter } from "@/lib/explore/data";
+import { votesWord } from "@/lib/explore/atlas";
+import { atlasOf, defaultConnection, medals } from "@/lib/explore/atlas-data";
+import { chapterKey, pairsText, resolveChapter } from "@/lib/explore/data";
 import { EXPLORE_HOME, EXPLORE_HOME_PATH } from "@/lib/explore/home";
-import { bookBySlug, chapterVerses, grid, verseX } from "@/lib/reading";
+import { partnersText } from "@/lib/explore/text";
+import { verseText } from "@/lib/reading";
 import styles from "./page.module.css";
 
-// Cormorant Italic: the serif of the videos, used only for quotation and the cover lines. Declared here, not in the
-// root layout, so other routes do not load it.
-const quoteFace = localFont({
-  src: "../fonts/Cormorant-Italic-VF.woff2",
-  variable: "--font-quote",
-  style: "italic",
-  weight: "300 700",
-  display: "swap",
-  adjustFontFallback: "Times New Roman",
-});
+const links = (n: number) => `${formatInt(n)} ${n === 1 ? "ligação" : "ligações"}`;
 
-const r4 = (n: number) => Math.round(n * 1e4) / 1e4;
-
-// Every number on this page comes from src/data/generated (scripts/build-data.ts); scripts/check-dist.ts and
-// scripts/checks/explore.ts check them.
+// The capa (design §5): the title, a sentence of facts and the big search field; the map of Isaías 9 (the chapter of
+// the verse with the most links) with its selected connection beside it, peeking from the bottom on phones; below, in
+// Read mode, the list of the map and the most linked verses. Every number comes from src/data/generated
+// (scripts/build-data.ts); scripts/check-dist.ts and scripts/checks/explore.ts check them in the built page.
 export default async function Home() {
-  const top = summary.topVerses[0];
-  const [, slug, chapter, verse] = top.path.split("/");
-  const book = bookBySlug(slug);
-  if (!book) throw new Error(`home: no book ${slug}`);
-  const links = (await chapterVerses(book, Number(chapter)))[Number(verse) - 1].links;
-  if (links.length !== top.links) throw new Error(`home: ${top.ref} has ${links.length} links, summary says ${top.links}`);
-  const gv = grid.verseIndex(book, Number(chapter), Number(verse));
-  const c = summary.counts;
-  // the Explorar below the cover opens on the chapter of the cover's verse (src/lib/explore/home.ts)
   const home = resolveChapter(EXPLORE_HOME.slug, String(EXPLORE_HOME.chapter));
-  if (!home) throw new Error("home: no Explorar centre");
-  const ex = await exploreData(home.book, home.chapter);
-  const centre = ex.centre;
-  const first = ex.neighbours[0];
-  const topInCentre = book.index === home.book.index && Number(chapter) === home.chapter;
+  if (!home) notFound();
+  const atlas = await atlasOf(home.book, home.chapter);
+  const top = await defaultConnection(home.book, home.chapter);
+  if (!top) throw new Error("home: the map centre has no linked chapter");
+  const c = summary.counts;
+  const first = summary.topVerses[0];
+  const verses = await Promise.all(summary.topVerses.map(async (t) => ({ ...t, text: await verseText(t.gv) })));
+  const lead = medals()[top.group];
 
   return (
-    <>
-      <main id="conteudo" className={quoteFace.variable}>
-        <HeroCover
-          titleTop="Toda passagem"
-          titleBottom="abre um mundo"
-          skyLabel={`Céu noturno sobre colinas. No horizonte, uma luz: ${top.ref}. Dela partem ${formatInt(top.links)} arcos dourados, um para cada versículo ligado a ela, de Gênesis a Apocalipse.`}
-          captionTop="Céu de ligações"
-          captionLeft={`${top.ref} · ${formatInt(top.links)} ligações`}
-          captionRight="BLIVRE · OpenBible.info"
-          notesLabel="O céu de ligações"
-          paragraph={`São ${formatInt(c.verses)} versículos e ${formatInt(c.crossrefRows)} referências cruzadas. Cada arco liga dois versículos; o que tem mais ligações é ${top.ref}, com ${formatInt(top.links)}.`}
-          sky={{ x0: r4(verseX(gv)), arcs: links.flatMap(([p, votes]) => [r4(verseX(p)), r4(arcStrength(votes))]) }}
-        >
-          <p className={styles.actions}>
-            <Link href={top.path} className={styles.primary}>
-              Abrir {top.ref}
+    <main id="conteudo" className={styles.home}>
+      <div className={styles.cover}>
+        <div className={styles.head}>
+          <h1 className="bc-display">Toda passagem abre um mundo.</h1>
+          <p className={`bc-lede ${styles.lede}`}>
+            {atlas.centre.label} e os {partnersText(atlas.partners)} a ele, entre as {formatInt(c.crossrefRows)} referências cruzadas
+            dos {formatInt(c.verses)} versículos da Bíblia Livre.
+          </p>
+          <HeroSearch text="Buscar versículo, palavra ou livro" />
+        </div>
+        <div className={`${styles.map} ${explore.mapCol}`}>
+          <AtlasMap atlas={atlas} selected={{ key: chapterKey(top.other), group: top.group }} fixed />
+        </div>
+        <div className={styles.panel}>
+          <ConnectionPanel c={top} anchor="conexao" />
+        </div>
+      </div>
+
+      <Peek target="conexao">
+        <span className={peek.marks} aria-hidden="true">
+          <span className={peek.seal}>{atlas.centre.chapter}</span>
+          {/* eslint-disable-next-line @next/next/no-img-element -- a 96 px illustration, already sized */}
+          <img className="bc-medallion__img" src={lead.src96} width={96} height={96} alt="" />
+        </span>
+        <span className={peek.text}>
+          <span className={peek.title}>
+            {top.centre.label} e {top.other.label}
+          </span>
+          <span className={peek.sub}>
+            {votesWord(top.votes)} · {pairsText(top.pairs)}
+          </span>
+        </span>
+        <Icon name="chev-r" className={`bc-icon ${peek.chev}`} />
+      </Peek>
+
+      <div className={styles.read}>
+        <MapList atlas={atlas} />
+
+        <section className={styles.verses} aria-labelledby="mais-ligados">
+          <h2 id="mais-ligados" className="bc-section-title">
+            Os versículos mais ligados
+            <small>ligações de cada versículo, das mais às menos</small>
+          </h2>
+          <p className={styles.facts} data-definition="">
+            As {formatInt(c.crossrefRows)} referências cruzadas da OpenBible.info ligam {formatInt(c.arcs)} pares de versículos
+            diferentes. O versículo com mais ligações é {first.ref}, com {formatInt(first.links)}: &ldquo;ligações&rdquo; de um
+            versículo são os outros versículos que a base relaciona a ele, contados uma vez cada, com qualquer número de votos.
+            Quando a referência aponta um trecho (como Mateus 5:3–12), conta o primeiro versículo, como nos vídeos.
+          </p>
+          <ol className={styles.verseList}>
+            {verses.map((v) => (
+              <li key={v.gv} data-top-verse={v.path}>
+                <p className={styles.verseHead}>
+                  <Link href={v.path} className={styles.verseRef}>
+                    {v.ref}
+                  </Link>
+                  <span className={styles.verseCount}>{links(v.links)}</span>
+                </p>
+                <p className={styles.verseText}>
+                  <ScriptureText text={v.text} />
+                </p>
+              </li>
+            ))}
+          </ol>
+          <p className={styles.onward}>
+            <Link href={EXPLORE_HOME_PATH} className={styles.more}>
+              Abrir o mapa de {atlas.centre.label} no Explorar
+              <Icon name="chev-r" />
             </Link>
-            <Link href="/arcos" className={styles.secondary}>
+            <Link href="/arcos" className={styles.more}>
               Ver o céu de ligações
+              <Icon name="chev-r" />
             </Link>
-            <Link href="/ler" className={styles.secondary}>
-              Escolher um livro
+            <Link href="/sobre" className={styles.more}>
+              Fontes e créditos
+              <Icon name="chev-r" />
             </Link>
           </p>
-        </HeroCover>
-
-        <section className={explore.homeSection} aria-labelledby="explorar">
-          <div className={explore.homeHead}>
-            <p className="kicker">Explorar</p>
-            <h2 id="explorar" className={explore.homeTitle}>
-              {centre.label}
-            </h2>
-            <p className={explore.homeLede}>
-              As {formatInt(c.crossrefRows)} referências cruzadas ligam {formatInt(c.arcs)} pares de versículos diferentes.{" "}
-              {centre.label}
-              {topInCentre ? `, o capítulo de ${top.ref},` : ""} está ligado a {formatInt(ex.partners)} capítulos; o grafo
-              mostra os {formatInt(ex.neighbours.length)} com mais votos. Escolha um para ver a conexão.
-            </p>
-            <p className={styles.note}>
-              &ldquo;Ligações&rdquo; de um versículo são os outros versículos que a base OpenBible.info relaciona a ele,
-              contados uma vez cada, com qualquer número de votos: as {formatInt(top.links)} de {top.ref} na capa. Quando a
-              referência aponta um trecho (como Mt 5:3–12), conta o primeiro versículo, como nos vídeos.
-            </p>
-            <p className={explore.homeLinks}>
-              <Link href={EXPLORE_HOME_PATH}>Abrir {centre.label} no Explorar</Link>
-              <Link href="/sobre">Fontes e créditos</Link>
-            </p>
-          </div>
-          <Explorer data={ex} fixed={chapterKey(first.ref)} panel={<ConnectionPanel data={ex} n={first} level={3} />} />
-          <NeighbourList data={ex} level={3} />
         </section>
-      </main>
-    </>
+      </div>
+    </main>
   );
 }
