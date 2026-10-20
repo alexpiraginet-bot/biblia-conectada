@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-20",
+  "url": "http://localhost:3002/assistente",
+  "environment": "Next.js development build, Edge, real unavailable backend state",
+  "mobile": { "viewportWidth": 375, "viewportHeight": 812, "documentScrollWidth": 360, "overflow": false },
+  "desktop": { "viewportWidth": 3432, "documentScrollWidth": 3417, "overflow": false },
+  "checks": [
+    "Ten curated passage choices rendered.",
+    "Enter on mode button changed selected mode, heading and question.",
+    "Selection of batismo changed image, Mark 1:9-11 text, reference and graph link.",
+    "GET readiness message displayed; submit remained disabled.",
+    "Figtree verified by CSS.getPlatformFontsForNode on privacy paragraph: custom font Figtree, 101 glyphs.",
+    "Temporary viewport override reset after QA.",
+    "Next.js runtime/cacheComponents compilation conflict found in browser and fixed by backend owner; subsequent page/GET rendered normally."
+  ],
+  "evidence": ["assistant-mobile.jpg", "assistant-mobile-form.jpg", "assistant-desktop.jpg"],
+  "limits": [
+    "No paid POST or model request was made during browser QA.",
+    "Answer rendering, scene navigation and retry states reviewed in source, not exercised with a live provider response.",
+    "Speech synthesis support and UI were present; audible playback was not confirmed.",
+    "Development console retains prior compilation errors; current page no longer displays the error overlay."
+  ]
+}
