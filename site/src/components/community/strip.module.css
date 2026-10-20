@@ -6,7 +6,6 @@
    When a modal sheet is open (the links panel on phones), the strip moves to the top, above the sheet's veil, so the
    distance stays in view while the next hop is chosen. */
 .strip {
-  --strip-h: 3.75rem;
   position: fixed;
   z-index: 41;
   left: 0;

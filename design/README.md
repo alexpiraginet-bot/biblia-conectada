@@ -111,6 +111,7 @@ Três vozes, OFL, servidas pelo próprio site e carregadas no layout raiz (`--fo
 - Alvo de toque mínimo `target` (44px). Barra superior e barra de abas com `bar-h` (64px) mais a área segura.
 - **Desktop (de 1024px):** trilho de seções à esquerda (`rail-w`, 88px: Explorar, Ler, Linha do tempo, Arcos, Ponte, Salvos, Dados) e barra superior com a marca, a busca larga e a aparência. A leitura é uma grade de três partes: trilho de capítulos, coluna de texto, painel de ligações.
 - **Celular:** barra superior com marca, lupa e aparência; barra de abas embaixo (Explorar, Ler, Buscar, Arcos, Ponte). O que a página fixa embaixo fica acima das abas com `--tabbar-h`. O painel de ligações vira a folha de baixo.
+- **Mapa (capa e Explorar):** o desenho sai de um resolvedor determinístico em unidades do próprio quadro (`site/src/lib/explore/atlas.ts`), que a página escala pela largura; abaixo de 760px vale a versão de celular. No centro o selo do capítulo (um traço no mostrador por capítulo ligado); em órbita os oito medalhões, com tamanho e tronco pela soma dos votos do grupo; até três capítulos mais votados por grupo, sem encostar uns nos outros (a lista abaixo do mapa nomeia todos); pontilhado entre capítulos desenhados que se ligam. Uma tecla de Tab no mapa (o capítulo escolhido); setas entre medalhões e capítulos.
 - **Capa:** o mapa de Isaías 9. No centro o selo do capítulo, em órbita os oito medalhões dos grupos e os capítulos mais votados de cada grupo, com traços de ouro que engrossam com os votos. Ao lado, o painel "Conexão selecionada" (Isaías 9 ⇄ Lucas 2) e o botão "Ler lado a lado". No celular o mapa fica em cima e o painel espia por baixo. A busca grande fica logo abaixo do título.
 - A página nunca rola de lado; o que é largo (barra de capítulos, chips, tabelas) rola dentro do próprio contêiner.
 
@@ -121,6 +122,8 @@ Três vozes, OFL, servidas pelo próprio site e carregadas no layout raiz (`--fo
   - Resultados de texto: a referência, quantas ligações o versículo tem e o trecho em Literata 17px, com a palavra em `<mark>`. Os mais ligados primeiro; "Ver os N versículos" leva a `/buscar`.
   - Teclado: setas escolhem, Enter abre, Esc fecha e devolve o foco a quem abriu. `role="combobox"` sobre `role="listbox"` com `aria-selected`.
   - Vazio: exemplos para tocar e as últimas buscas do aparelho. Sem resultado: diz o que foi buscado e o próximo passo ("Não achei “João 22”: João tem 21 capítulos.").
+  - **Índice de palavras** (gerado no build, `site/scripts/data/search-index.ts`): palavra é uma sequência de letras, sem acento e em minúsculas; todas as palavras ficam, sem lista de palavras vazias. Cada palavra aponta para os versículos em ordem de ligações (o mesmo número das páginas de leitura) e depois em ordem canônica. Várias palavras: todas precisam estar no versículo; frase entre aspas: as palavras em sequência. A palavra é exata ("luz" não acha "luzes").
+  - `/buscar` mostra os versículos de 20 em 20 ("Mais resultados"), com `?q=` no endereço. Sem JavaScript a página não mostra resultados (o `?q=` só existe no pedido, e a página é estática); um aviso leva à leitura.
 - **Ler:** escolher um versículo acende a contagem e abre as ligações, ordenadas por votos, com o número sempre em texto. Cada versículo é uma rota (`/isaias/9/6`) cujo painel vem pronto do servidor; o texto do capítulo fica no layout e não recarrega ao trocar de versículo.
 - **Painel "A partir deste trecho / deste capítulo":** manchete de dados, mini grafo dos até 6 mais votados (a lista é o caminho acessível), a ligação mais forte em destaque com "Abrir conexão" e "Ver no Explorar". "Mais ligados" e o Explorar usam a mesma ordem (`site/src/lib/chapter-rank.ts`).
 - **Barra de seleção:** Copiar (com a referência), Compartilhar, Salvar (só no aparelho) e Explorar. Fica acima das abas e da faixa da Ponte no celular.
@@ -202,9 +205,16 @@ Em 375 e 1440 px, nos temas Noite e Dia (regra 9 do `CLAUDE.md`):
 
 ## 14. Pendências para o Alex
 
-| # | Decisão | Proposta |
+| # | Decisão | Como está |
 |---|---|---|
-| 1 | Medalhões no tema Dia | Manter como moedas escuras com anel (alternativa: gerar versões claras) |
-| 2 | Ponte: calendário público de pontes futuras (`public/data/ponte/calendar.json`) | Publicar só até o dia do build |
+| 1 | Medalhões no tema Dia | Moedas escuras com anel (alternativa: gerar versões claras) |
+| 2 | Ponte: calendário público de pontes futuras (`public/data/ponte/calendar.json`) | Proposta: publicar só até o dia do build |
 | 3 | Botão principal no Dia | Verde (`action-fill`), como nas referências; alternativa: bronze |
-| 4 | Onde mora "Salvos" no celular | No menu de cada versículo e em `/salvos` (alternativa: sexta aba) |
+| 4 | Linha do tempo: os 10 períodos | Nomes e limites são convenção do site, ditos na página; "Ministério de Jesus" inclui a Paixão e a ressurreição, e Daniel cai em "Reino dividido". Revisar |
+| 5 | Linha do tempo: título dos eventos | Em inglês, do Theographic, marcado `lang="en"` (traduzir à mão não é permitido); alternativa: as primeiras palavras do texto da BLIVRE |
+| 6 | Busca: palavra exata | "luz" não acha "luzes"; alternativa: famílias de palavras. Toda palavra está no índice ("e" sozinho: 24.589 versículos) |
+| 7 | Capa: tamanho do título | `display` (56px) em vez de `display-xl`, para título, mapa e botão principal caberem na primeira tela de 1440px |
+| 8 | Mapa: quantos capítulos desenhar | Até 3 por grupo (cerca de 19 de 24 desenhados; a lista nomeia todos); no celular, os 8 medalhões |
+| 9 | Céu em `/arcos` no tema Noite | Também emoldurado (`bc-window`), como no Dia; alternativa: céu na página inteira no Noite |
+| 10 | `/dados`, 404, comunidade | "Baixar tudo" como botão principal de `/dados`; "Buscar" como primeiro caminho da 404; "Outros caminhos" entre Trilha, Ponte e Mesa |
+| 11 | Mapa da leitura | Azul-marinho nos dois temas (os medalhões no próprio chão) |

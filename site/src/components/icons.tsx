@@ -127,6 +127,7 @@ const PATHS = {
       <path d="M10 20v-5h4v5" />
     </>
   ),
+  share: <path d="M12 15V3.5M7.5 8 12 3.5 16.5 8M5 12.5v6A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-6" />,
   copy: (
     <>
       <rect x="8" y="8" width="11" height="11" rx="2" />

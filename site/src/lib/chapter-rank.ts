@@ -1,5 +1,5 @@
 // The one order of a chapter's linked chapters. The Explorar (graph, list and default connection, written by
-// scripts/data/explore.ts) and the reading panel ("Mais ligados", its mini graph and "Abrir conexão") both rank with it,
+// scripts/data/explore.ts) and the reading panel ("Mais ligados", its mini graph and "Ler lado a lado") both rank with it,
 // so the two pages can never disagree (tests/chapter-rank.test.ts compares them on all 1,189 chapters):
 //   1. summed votes of the verse pairs between the two chapters (each pair's votes already add up both directions),
 //      most first;

@@ -116,7 +116,7 @@ export function Featured({ a, b, conexao, explorar }: { a: string; b: string; co
       </p>
       <div className={styles.actions}>
         <Link href={conexao} className="bc-button bc-button--primary">
-          Abrir conexão
+          Ler lado a lado
         </Link>
         <Link href={explorar} className="bc-button bc-button--secondary">
           Ver no Explorar

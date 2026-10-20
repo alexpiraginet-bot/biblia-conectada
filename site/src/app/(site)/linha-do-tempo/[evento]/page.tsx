@@ -331,8 +331,8 @@ export default async function EventPage({ params }: PageProps<"/linha-do-tempo/[
                       <p className={styles.connMeta}>
                         com <Link href={f.path}>{f.label}</Link>
                         {" · "}
-                        <Link href={conexaoPath(side(from), side(gv))} aria-label={`Abrir a conexão de ${f.label} com ${r.label}`}>
-                          Abrir conexão
+                        <Link href={conexaoPath(side(from), side(gv))} aria-label={`Ler ${f.label} e ${r.label} lado a lado`}>
+                          Ler lado a lado
                         </Link>
                       </p>
                     </li>

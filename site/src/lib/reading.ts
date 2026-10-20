@@ -175,7 +175,7 @@ export async function bookPartners(book: Book): Promise<ChapterPartner[]> {
 
 /**
  * The chapters linked to this one, strongest first: the order of the chapter panel's "Mais ligados" list, mini graph
- * and "Abrir conexão", and of the Explorar (src/lib/chapter-rank.ts: summed votes, then verse pairs, then canonical
+ * and "Ler lado a lado", and of the Explorar (src/lib/chapter-rank.ts: summed votes, then verse pairs, then canonical
  * order).
  */
 export async function chapterNeighbours(book: Book, chapter: number): Promise<ChapterPartner[]> {

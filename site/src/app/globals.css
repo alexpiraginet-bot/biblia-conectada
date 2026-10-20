@@ -36,16 +36,6 @@ body {
   font-synthesis: none;
 }
 
-/* one kicker per panel: letter-spaced caps in the accent (design §4) */
-.kicker {
-  margin: 0 0 var(--space-2);
-  font-size: var(--fs-meta);
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
 a {
   color: var(--accent);
   text-decoration-thickness: 1px;
@@ -91,6 +81,8 @@ input {
 :root {
   /* the bar, its 1px top rule (ds.css .bc-tabbar) and the home indicator's area */
   --tabbar-h: calc(var(--bar-h) + 1px + env(safe-area-inset-bottom, 0px));
+  /* the Ponte strip (community/strip.module.css); the reading's selection bar sits above it */
+  --strip-h: 3.75rem;
 }
 
 .site-shell {

@@ -225,7 +225,7 @@ export function checkReading({
       if (ranked[0]) {
         const top = grid.locateChapter(ranked[0].key);
         const href = conexaoPath({ book: book.index, slug: book.slug, chapter }, { book: top.book.index, slug: top.book.slug, chapter: top.chapter });
-        if (!raw.includes(`href="${attr(href)}"`)) failures.push(`${page}: no "Abrir conexão" link to ${href}`);
+        if (!raw.includes(`href="${attr(href)}"`)) failures.push(`${page}: no "Ler lado a lado" link to ${href}`);
         if (!raw.includes(`href="/explorar/${book.slug}/${chapter}"`)) failures.push(`${page}: no "Ver no Explorar" link`);
       }
       chapters++;
@@ -250,7 +250,7 @@ export function checkReading({
           { book: book.index, slug: book.slug, chapter, verse },
           { book: top.book.index, slug: top.book.slug, chapter: top.chapter, verse: top.verse },
         );
-        if (!raw.includes(`href="${attr(href)}"`)) failures.push(`${page}: no "Abrir conexão" link to ${href}`);
+        if (!raw.includes(`href="${attr(href)}"`)) failures.push(`${page}: no "Ler lado a lado" link to ${href}`);
       }
       verses++;
     }

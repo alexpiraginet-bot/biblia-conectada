@@ -7,16 +7,6 @@ import { addSalvo, cleanQuote, newId, passageRef, quoteWithRef, readSalvos, text
 import "./highlight.css";
 import styles from "./selection.module.css";
 
-/** "Compartilhar": an arrow leaving a tray, drawn like the design system's icons (24px grid, 1.75 stroke); the set in
- *  components/icons.tsx has no share icon yet */
-function ShareIcon() {
-  return (
-    <svg className="bc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M12 15V3.5M7.5 8 12 3.5 16.5 8M5 12.5v6A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-6" />
-    </svg>
-  );
-}
-
 type Picked = { from: number; to: number; text: string; top: number; left: number; below: boolean; float: boolean };
 type Note = { text: string; saved?: boolean };
 
@@ -292,7 +282,7 @@ export function SelectionScope({
               </span>
             </button>
             <button type="button" className={`bc-button bc-button--ghost ${styles.action}`} onClick={share}>
-              <ShareIcon />
+              <Icon name="share" />
               <span>Compartilhar</span>
             </button>
             <button type="button" className={`bc-button bc-button--ghost ${styles.action}`} onClick={save} title="Salvar trecho">

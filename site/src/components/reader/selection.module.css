@@ -34,9 +34,9 @@
 }
 
 /* a bridge in progress (Ponte nº N) keeps its strip at the bottom, above the phone's tab bar
-   (community/strip.module.css, 3.75rem reserved): the selection bar sits above the strip */
+   (community/strip.module.css, --strip-h tall): the selection bar sits above the strip */
 :global(html[data-ponte-faixa]) .bar:not([data-float]) {
-  bottom: calc(var(--tabbar-h) + 3.75rem + var(--space-2));
+  bottom: calc(var(--tabbar-h) + var(--strip-h) + var(--space-2));
 }
 
 .bar[data-float] {
