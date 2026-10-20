@@ -135,8 +135,11 @@ export function rankPassages<P extends Range & { score: number }>(passages: read
   return passages.map((p) => ({ ...p, pairs: passagePairs(p, links) })).sort((a, b) => b.pairs - a.pairs || b.score - a.score || a.from - b.from);
 }
 
-/** Content words (src/lib/words.ts) by the number of passages that have them; at least `min` passages. */
-export function sharedWords(passages: readonly Range[], text: readonly string[], n: number, min = 2): { key: string; passages: number }[] {
+/**
+ * Content words (src/lib/words.ts) by the number of passages that have them, at least `min` passages; `lead` (the word
+ * a theme is named after) comes first whatever its count.
+ */
+export function sharedWords(passages: readonly Range[], text: readonly string[], n: number, lead?: string, min = 2): { key: string; passages: number }[] {
   const count = new Map<string, number>();
   const first = new Map<string, number>();
   passages.forEach((p, i) => {
@@ -148,8 +151,8 @@ export function sharedWords(passages: readonly Range[], text: readonly string[],
     }
   });
   return [...count]
-    .filter(([, c]) => c >= min)
-    .sort((a, b) => b[1] - a[1] || first.get(a[0])! - first.get(b[0])! || a[0].localeCompare(b[0]))
+    .filter(([k, c]) => c >= min || k === lead)
+    .sort((a, b) => Number(b[0] === lead) - Number(a[0] === lead) || b[1] - a[1] || first.get(a[0])! - first.get(b[0])! || a[0].localeCompare(b[0]))
     .slice(0, n)
     .map(([key, c]) => ({ key, passages: c }));
 }

@@ -14,7 +14,7 @@ export type ThemeView = {
 export async function themeView(t: Theme): Promise<ThemeView> {
   const { text, links } = await verseTable();
   const words = await Promise.all(
-    sharedWords(t.passages, text, WORDS_SHOWN).map(async (w) => ({ ...w, label: (await wordLabel(w.key)) ?? w.key })),
+    sharedWords(t.passages, text, WORDS_SHOWN, t.key).map(async (w) => ({ ...w, label: (await wordLabel(w.key)) ?? w.key })),
   );
   return { passages: rankPassages(t.passages, links), words };
 }

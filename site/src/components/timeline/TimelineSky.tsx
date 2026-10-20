@@ -21,8 +21,6 @@ const LEVELS = 4;
 const r1 = (n: number) => Math.round(n * 10) / 10;
 const strength = (n: number, max: number) => (max > 0 ? Math.log1p(Math.max(n, 0)) / Math.log1p(max) : 0);
 
-type Item = { e: TimelineEvent; index: number };
-
 export function TimelineSky({ periods, events, arcs }: { periods: Period<TimelineEvent>[]; events: readonly TimelineEvent[]; arcs: CrossArc[] }) {
   // x of each event: its period's tenth of the line, the events evenly spaced inside it
   const x = new Map<number, number>();
