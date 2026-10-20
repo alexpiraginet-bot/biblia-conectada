@@ -7,6 +7,7 @@ import { DiscoveryQuest } from "@/components/home/DiscoveryQuest";
 import { HeroSearch } from "@/components/home/HeroSearch";
 import { HomeAtlas } from "@/components/home/HomeAtlas";
 import { HomeMotion } from "@/components/home/HomeMotion";
+import { HomeGuide } from "@/components/home/HomeGuide";
 import { WebGLShader } from "@/components/ui/web-gl-shader";
 import { summary, verseText } from "@/lib/data";
 import { formatInt } from "@/lib/canon/text";
@@ -51,9 +52,9 @@ export default async function Home() {
       <HomeMotion />
       <section className={styles.hero} aria-labelledby="home-title">
         <div className={styles.heroCopy}>
-          <div className={styles.heroBackdrop}><WebGLShader /></div>
           <p className={styles.eyebrow}><span className={styles.liveDot} aria-hidden="true" /> Bíblia Conectada · Um atlas vivo</p>
           <h1 id="home-title">Uma história. <em>Tudo se conecta.</em></h1>
+          <div className={styles.heroBackdrop}><WebGLShader /></div>
           <div className={styles.heroBottom}>
             <div className={styles.heroLead}>
               <p className={styles.intro}>Leia uma passagem. Veja as ligações. Descubra o caminho entre elas.</p>
@@ -61,6 +62,7 @@ export default async function Home() {
                 <Link href="/ler" className={styles.primary}><Icon name="book" /> Começar a ler <Icon name="out" /></Link>
                 <a href="#atlas-vivo" className={styles.secondary}>Explorar conexões <Icon name="explore" /></a>
               </div>
+              <div className={styles.heroShortcuts}><Link href="/assistente">Estudar com IA <span aria-hidden="true">↗</span></Link><a href="#como-funciona">Como funciona <span aria-hidden="true">↓</span></a></div>
             </div>
             <nav className={styles.experienceTabs} aria-label="Escolha uma experiência"><a href="#atlas-vivo" aria-current="true"><Icon name="explore" /> Constelação</a><Link href="/arcos">Céu em 3D <span aria-hidden="true">↗</span></Link><Link href="/caminhos">Mapa de Jesus <span aria-hidden="true">↗</span></Link></nav>
           </div>
@@ -70,6 +72,7 @@ export default async function Home() {
           <div className={styles.searchField}><HeroSearch text="Um versículo, uma palavra, um livro..." /></div>
           <div className={styles.searchIdeas}><span>Que tal...</span>{["amor", "paz", "esperança"].map((word) => <Link key={word} href={`/buscar?q=${encodeURIComponent(word)}`}>{word} <span aria-hidden="true">↗</span></Link>)}</div>
         </section>
+        <HomeGuide />
         <div className={styles.heroGraph} id="atlas-vivo"><LivingGraph data={graph} immersive /></div>
         <a className={styles.scrollHint} href="#descobrir"><span aria-hidden="true">↓</span> Há um mundo para descobrir</a>
       </section>
@@ -112,7 +115,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className={styles.questSection} aria-labelledby="quest-title">
+      <section id="sua-jornada" className={styles.questSection} aria-labelledby="quest-title">
         <div className={styles.sectionHead} data-reveal=""><div><p className={styles.eyebrow}>APRENDA. DESCUBRA. FLORESÇA.</p><h2 id="quest-title">Pequenas descobertas.<br /><em>Uma grande jornada.</em></h2></div><p>Leia uma passagem, teste o que aprendeu e veja sua jornada florescer.</p></div>
         <DiscoveryQuest questions={questions} />
       </section>
