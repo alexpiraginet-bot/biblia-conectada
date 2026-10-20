@@ -42,12 +42,13 @@ Os arcos dos vídeos viram algo que se toca: os 301.539 pares de versículos lig
 
 ## Brand Commitments
 
-- A cara dos vídeos: ouro `#FFCC6B`, céu noturno, arcos em vitral, Space Grotesk / Space Mono / Cormorant (OFL). Quem vem do Reels precisa reconhecer.
+- A cara dos vídeos: ouro `#FFCC6B` sobre o céu azul-marinho, arcos de luz. Quem vem do Reels precisa reconhecer. Desde a v4 do design (19/10, "Atlas"), as vozes são Newsreader Display, Literata e Space Grotesk (OFL).
 - O que faria o site parecer errado, mesmo bem acabado (respostas do Alex em 19/10):
   - app devocional genérico (fundo creme, ornamentos, versículo do dia, tom de pregação);
   - dashboard tech frio (neon, grade de cards, cara de ferramenta de dev);
   - perder a cara dos vídeos;
-  - lento ou pesado no celular.
+  - lento ou pesado no celular;
+  - ler e buscar com esforço: contraste fraco, letra pequena, busca que só entende um formato (retorno do Alex sobre o site no ar, 19/10).
 - Tom proposto, ainda não confirmado: claro, de estudo, sem jargão, sem "maior do mundo" sem prova.
 
 ## Evidence on Hand
@@ -65,4 +66,4 @@ Os arcos dos vídeos viram algo que se toca: os 301.539 pares de versículos lig
 
 ## Accessibility & Inclusion
 
-O checklist de `design/README.md` §8: contraste AA conferido por código, foco visível, navegação completa por teclado, alternativa em lista para grafo, arcos e mapa, `prefers-reduced-motion` respeitado, alvos de toque de 44 px. Critério da Fase 2: Lighthouse acessibilidade ≥ 95.
+O checklist de `design/README.md` §8: contraste conferido por código (7:1 para texto e Escritura, design §3), foco visível, navegação completa por teclado, alternativa em lista para grafo, arcos e mapa, `prefers-reduced-motion` respeitado, alvos de toque de 44 px. Critério da Fase 2: Lighthouse acessibilidade ≥ 95.

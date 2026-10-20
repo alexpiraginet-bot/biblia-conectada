@@ -1,0 +1,186 @@
+/* Mesa da semana: an app screen inside a Read page (design §1.2): one field, the arcs, the two lists. */
+
+.form {
+  max-width: 32rem;
+  margin: var(--space-6) 0 var(--space-2);
+}
+
+.label {
+  display: block;
+  margin: 0 0 var(--space-2);
+  font-size: var(--fs-ui);
+  font-weight: 600;
+  line-height: var(--lh-ui);
+  color: var(--ink);
+}
+
+.formRow {
+  display: flex;
+  gap: var(--space-2);
+}
+
+/* the field of the design system's search box (ds.css .bc-searchbox): raised, with a control border */
+.input {
+  flex: 1;
+  min-width: 0;
+  min-height: var(--target);
+  padding: 0 var(--space-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: var(--raised);
+  color: var(--ink);
+  font: 400 var(--fs-ui) / var(--lh-ui) var(--font-ui);
+  box-shadow: var(--shadow-raise);
+}
+
+.input::placeholder {
+  color: var(--ink-3);
+  opacity: 1;
+}
+
+.input:hover {
+  border-color: var(--accent);
+}
+
+.input:focus-visible {
+  border-color: var(--accent);
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.input[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+
+.error {
+  color: var(--danger);
+}
+
+.recent {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-2);
+}
+
+.recent > span {
+  margin-right: var(--space-1);
+}
+
+.recent > a {
+  text-decoration: none;
+}
+
+/* arcs answer the pointer on their stroke; a wide invisible stroke makes them easier to hit */
+.svg {
+  touch-action: manipulation;
+}
+
+.arc {
+  cursor: pointer;
+}
+
+.hit {
+  stroke: transparent;
+  stroke-width: 14px;
+  pointer-events: stroke;
+}
+
+.arc path:not(.hit) {
+  pointer-events: none;
+}
+
+/* the link chosen: its two texts in a panel of their own (ds.css .bc-panel), with the table's actions */
+.detail {
+  max-width: calc(var(--column) + var(--space-9));
+  margin: var(--space-5) 0 0;
+  gap: var(--space-4);
+}
+
+.detail > * {
+  margin: 0;
+}
+
+.detailActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+}
+
+.turn {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  margin: var(--space-6) 0 0;
+  padding: var(--space-3) 0;
+  border-block: 1px solid var(--line);
+}
+
+.turn p {
+  flex: 1 1 16rem;
+}
+
+.lists {
+  display: grid;
+  gap: var(--space-7);
+  margin-top: var(--space-7);
+}
+
+.lists > * {
+  min-width: 0;
+}
+
+@media (min-width: 64rem) {
+  .lists {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-8);
+    align-items: start;
+  }
+}
+
+.items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+/* a row of the lists: the arc mark when on the table, the pair, the votes */
+.item {
+  display: grid;
+  grid-template-columns: 1rem minmax(0, 1fr) auto;
+  align-items: baseline;
+  column-gap: var(--space-3);
+  width: 100%;
+  min-height: var(--target);
+  padding: var(--space-3) var(--space-2);
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  font: 500 var(--fs-ui) / var(--lh-ui) var(--font-ui);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+.item:hover {
+  background: var(--raised);
+}
+
+.item[aria-pressed="true"] {
+  background: var(--highlight);
+  box-shadow: inset 0 0 0 1px var(--lit);
+}
+
+.mark {
+  align-self: center;
+  display: inline-grid;
+  color: var(--accent);
+}
+
+.after {
+  margin-top: var(--space-3);
+}

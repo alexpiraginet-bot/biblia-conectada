@@ -1,16 +1,21 @@
-// The site's sections, in one place: the desktop header lists all of them, the phone's bottom bar the ones marked
-// `bar` (design/README.md §5: up to four items, icon and label). Icons are the CSS masks in globals.css.
-// Only sections whose page exists are listed (tests/routes.test.ts): Explorar (i-explore), Linha do tempo (i-time) and
-// Ponte (i-bridge) join when their pages land.
+// The site's sections, in one place (design/README.md, "Estrutura das páginas"). From 1024px the rail on the left
+// lists the items marked `rail`; on phones the tab bar lists the five marked `tab`. "Buscar" is a tab only: on wider
+// screens the search box sits in the top bar. Every item leads to a page that exists (tests/routes.test.ts).
 import booksJson from "@/data/generated/books.json";
+import type { IconName } from "@/components/icons";
 
-/** `nested`: the section has pages below its own address (none yet), so those pages count as the section too */
-export type NavItem = { href: string; label: string; icon: string; bar: boolean; nested?: boolean };
+/** `nested`: the section has pages below its own address ("/ponte/1"), so those pages count as the section too */
+export type NavItem = { href: string; label: string; icon: IconName; rail: boolean; tab: boolean; nested?: boolean };
 
 export const NAV: readonly NavItem[] = [
-  { href: "/ler", label: "Ler", icon: "i-book", bar: true },
-  { href: "/arcos", label: "Arcos", icon: "i-arc", bar: true },
-  { href: "/dados", label: "Dados", icon: "i-data", bar: true },
+  { href: "/explorar", label: "Explorar", icon: "explore", rail: true, tab: true, nested: true },
+  { href: "/ler", label: "Ler", icon: "book", rail: true, tab: true },
+  { href: "/buscar", label: "Buscar", icon: "search", rail: false, tab: true },
+  { href: "/linha-do-tempo", label: "Linha do tempo", icon: "time", rail: true, tab: false, nested: true },
+  { href: "/arcos", label: "Arcos", icon: "arc", rail: true, tab: true },
+  { href: "/ponte", label: "Ponte", icon: "bridge", rail: true, tab: true, nested: true },
+  { href: "/salvos", label: "Salvos", icon: "bookmark", rail: true, tab: false },
+  { href: "/dados", label: "Dados", icon: "data", rail: true, tab: false },
 ];
 
 /** verses per chapter of each book, by slug */
@@ -29,7 +34,8 @@ function isReadingPath(pathname: string): boolean {
 }
 
 /** The navigation item a path belongs to: its own section, "Ler" for a book, chapter or verse page, else none (the
- *  home page, pages outside the navigation such as /sobre, and every 404, "/genesis/51" included). */
+ *  home page, pages outside the navigation such as /sobre or /conexao, and the 404 of an address like
+ *  "/genesis/51" or "/ler/x"). */
 export function currentItem(pathname: string): string | null {
   // "/ler/x" is a 404, not the book list: only a section with pages below it claims a longer path
   const own = NAV.find((n) => pathname === n.href || (n.nested && pathname.startsWith(`${n.href}/`)));

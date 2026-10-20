@@ -1,0 +1,222 @@
+/* /conexao: two passages side by side (stacked on phones), in Literata at reading size, the linking pairs listed and
+   marked. Tokens only. */
+
+.page {
+  width: 100%;
+  max-width: calc(var(--page-max) - var(--rail-w));
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-4) var(--space-8);
+}
+
+@media (min-width: 64rem) {
+  .page {
+    padding: var(--space-6) var(--space-6) var(--space-9);
+  }
+}
+
+.head {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 48rem;
+  margin-bottom: var(--space-6);
+}
+
+.title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--space-3);
+}
+
+.both {
+  width: 0.7em;
+  height: 0.7em;
+  color: var(--accent);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  margin: var(--space-2) 0 0;
+}
+
+.pairs {
+  max-width: 48rem;
+  margin-bottom: var(--space-7);
+}
+
+.pairRows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pairRows li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 var(--space-4);
+  padding: var(--space-1) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.pairRefs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--space-2);
+}
+
+.pairRefs a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target);
+  font: 600 var(--fs-ui) / 1.3 var(--font-ui);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.pairRefs a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.pairIcon {
+  width: 18px;
+  height: 18px;
+  color: var(--accent);
+}
+
+.votes {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font: 500 var(--fs-meta) / 1.3 var(--font-ui);
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.cols {
+  display: grid;
+  gap: var(--space-7);
+}
+
+@media (min-width: 64rem) {
+  .cols {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: var(--space-7);
+    align-items: start;
+  }
+
+  .colTitle {
+    position: sticky;
+    top: var(--bar-h);
+    z-index: 1;
+  }
+}
+
+.col {
+  min-width: 0;
+}
+
+.colTitle {
+  margin: 0 0 var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--line);
+  background: var(--ground);
+  font: 440 var(--fs-title) / var(--lh-title) var(--font-display);
+  font-synthesis: none;
+  color: var(--ink);
+}
+
+.colTitle a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.colTitle a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.verses {
+  max-width: calc(var(--column) + 3rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.verse {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  column-gap: var(--space-2);
+  margin: 0 calc(-1 * var(--space-3));
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  scroll-margin-top: calc(var(--bar-h) + 5rem);
+}
+
+.verse[data-linked] {
+  background: var(--highlight);
+}
+
+.verse:target {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.vnum {
+  padding-top: 0.55em;
+  font: 600 var(--fs-label) / 1 var(--font-ui);
+  color: var(--accent);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* on the highlight band the marks use the ink, as the text does (design §3: --ink on --highlight) */
+.verse[data-linked] .vnum {
+  color: var(--ink);
+}
+
+.vtext {
+  max-width: var(--column);
+  margin: 0;
+  font: 400 var(--fs-scripture) / var(--lh-scripture) var(--font-reading);
+  color: var(--ink-reading);
+  text-wrap: pretty;
+}
+
+.vlinks {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--space-4);
+  margin: 0;
+}
+
+.vlinks a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--target);
+  font: 500 var(--fs-meta) / 1.3 var(--font-ui);
+  color: var(--ink);
+  text-decoration-color: var(--accent);
+  text-underline-offset: 0.2em;
+}
+
+.vlinks svg {
+  width: 16px;
+  height: 16px;
+  color: var(--ink);
+}
+
+.source {
+  margin: var(--space-7) 0 0;
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  color: var(--ink-3);
+}

@@ -1,94 +1,217 @@
-.main {
+/* The capa: title, facts and search at the top left, the map of Isaías 9 under them, the selected connection beside
+   it from 80rem (below it on smaller screens, with the peek on phones); then the list of the map and the most linked
+   verses, in Read mode. Tokens only. */
+
+.home {
   width: 100%;
-  max-width: calc(var(--column) + 2 * var(--space-2));
-  margin: 0 auto;
-  padding: var(--space-5) var(--space-2) var(--space-4);
 }
 
-.title {
-  font-family: var(--font-title);
-  font-weight: 440;
-  font-synthesis: none;
-  font-size: clamp(2.25rem, 7vw, 3.75rem);
-  line-height: 1.05;
-  letter-spacing: -0.015em;
-  text-wrap: balance;
-  margin: 0 0 var(--space-3);
-  color: var(--text);
+/* the capa spreads wider than a page of text (the title, the map and the panel side by side); the Read part below
+   keeps the same left edge */
+.cover,
+.read {
+  width: 100%;
+  max-width: calc(var(--page-max) + 2 * var(--space-8));
+  margin: 0 auto;
+  padding-inline: var(--space-4);
+}
+
+.cover {
+  display: grid;
+  /* the column never grows to its content's one-line width (the search field's text) */
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-5);
+  padding-top: var(--space-5);
+  padding-bottom: var(--space-6);
+}
+
+.head {
+  display: grid;
+  gap: var(--space-3);
 }
 
 .lede {
-  font-size: 1.25rem;
-  line-height: 1.5;
-  color: var(--text);
-  margin: 0 0 var(--space-4);
+  max-width: 42rem;
 }
 
-.verse {
-  margin: var(--space-3) 0;
-  padding: 0;
-  font-style: italic;
-  font-weight: 500;
-  font-size: clamp(1.375rem, 4.5vw, 1.75rem);
-  line-height: 1.45;
-  color: var(--quote);
+.head :global(.bc-searchbox--hero) {
+  max-width: 48rem;
+  margin-top: var(--space-2);
 }
 
-.verse p {
-  margin: 0 0 var(--space-1);
+/* phones: a shorter lede, so the map starts in the first screen */
+@media (max-width: 39.99rem) {
+  .cover {
+    gap: var(--space-4);
+  }
+
+  .lede {
+    font-size: var(--fs-body);
+  }
+
+  .head :global(.bc-searchbox--hero) {
+    font-size: var(--fs-body);
+  }
+}
+
+.map {
+  /* the room the page takes above and below the map on the screen: the wide map shrinks to fit under it */
+  --map-chrome: 24rem;
+  min-width: 0;
+}
+
+.panel {
+  min-width: 0;
+}
+
+@media (min-width: 64rem) {
+  .cover,
+  .read {
+    padding-inline: var(--space-6);
+  }
+
+  .cover {
+    padding-top: var(--space-6);
+  }
+}
+
+@media (min-width: 80rem) {
+  .cover {
+    grid-template-columns: minmax(0, 1fr) clamp(21rem, 26vw, 25rem);
+    grid-template-rows: auto 1fr;
+    column-gap: var(--space-6);
+    row-gap: var(--space-4);
+    align-items: start;
+  }
+
+  .head {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .map {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .panel {
+    position: sticky;
+    top: calc(var(--bar-h) + var(--space-4));
+    grid-column: 2;
+    grid-row: 1 / 3;
+  }
+}
+
+/* ---- Read mode below the first screen */
+
+.read {
+  padding-bottom: var(--space-8);
+}
+
+.verses {
+  max-width: 48rem;
+  margin-top: var(--space-7);
+}
+
+.facts {
+  max-width: 42rem;
+  margin: var(--space-4) 0 var(--space-5);
+  font: 400 var(--fs-body) / var(--lh-body) var(--font-ui);
+  color: var(--ink-2);
   text-wrap: pretty;
 }
 
-.verse footer {
-  font-family: var(--font-grotesk), system-ui, sans-serif;
-  font-style: normal;
-  font-size: 0.875rem;
-  color: var(--gold);
+.verseList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
 }
 
-.note {
-  color: var(--text-2);
-  font-size: 0.9375rem;
-  margin-bottom: var(--space-4);
+.verseList li {
+  padding: var(--space-2) 0 var(--space-4);
+  border-bottom: 1px solid var(--line);
 }
 
-/* actions under the cover paragraph, on the night ground */
-.actions {
+/* wide screens: the ranked verses in two columns, each at a reading measure (about 60 to 70 characters), so the list
+   no longer runs down one side of an empty page; ranks read across, row by row */
+@media (min-width: 75rem) {
+  .verses {
+    max-width: none;
+  }
+
+  .verseList {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-7);
+    border-top: 0;
+  }
+
+  .verseList li:nth-child(-n + 2) {
+    border-top: 1px solid var(--line);
+  }
+}
+
+.verseHead {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--space-2);
-  margin: var(--space-4) 0 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 var(--space-3);
+  margin: 0;
 }
 
-.primary,
-.secondary {
+.verseRef {
   display: inline-flex;
   align-items: center;
-  min-height: 2.75rem;
-  padding: 0 var(--space-3);
-  border-radius: 999px;
-  font-size: var(--step-ui);
+  min-height: var(--target);
+  font: 600 var(--fs-ui) / 1.3 var(--font-ui);
+  color: var(--ink);
   text-decoration: none;
-  transition: background-color 160ms var(--ease-out), color 160ms var(--ease-out);
 }
 
-.primary {
-  background: var(--sky-gold);
-  color: #060d1a;
-  font-weight: 600;
+.verseRef:hover {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
-.primary:hover {
-  background: #ffe2aa;
+.verseCount {
+  font: 600 var(--fs-meta) / 1.3 var(--font-ui);
+  color: var(--accent);
 }
 
-.secondary {
-  border: 1px solid rgb(242 235 221 / 0.35);
-  color: var(--sky-text);
+.verseText {
+  max-width: var(--column);
+  margin: 0;
+  font: 400 var(--fs-scripture-sm) / var(--lh-scripture-sm) var(--font-reading);
+  color: var(--ink-reading);
+  text-wrap: pretty;
 }
 
-.secondary:hover {
-  border-color: var(--sky-gold);
-  color: var(--sky-gold);
+.onward {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-5);
+  margin: var(--space-5) 0 0;
+}
+
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--target);
+  font: 500 var(--fs-ui) / 1.2 var(--font-ui);
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.more:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.more svg {
+  width: 18px;
+  height: 18px;
 }

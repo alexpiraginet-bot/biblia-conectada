@@ -41,7 +41,8 @@ export function HoverPreview({ children }: { children: React.ReactNode }) {
           const r = a.getBoundingClientRect();
           const width = 340;
           setCard({
-            label: a.textContent ?? "",
+            // the reference itself, without the direction said only to screen readers
+            label: [...a.childNodes].filter((n) => n.nodeType === Node.TEXT_NODE).map((n) => n.textContent).join("").trim(),
             text: texts[verse - 1] ?? "",
             top: r.bottom + 8,
             left: Math.max(8, Math.min(r.left, window.innerWidth - width - 16)),

@@ -1,0 +1,54 @@
+/* /buscar: the search column, and from 75rem a second column that says how to search (no empty half of a page). */
+
+.page {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+}
+
+.help {
+  display: none;
+}
+
+@media (min-width: 75rem) {
+  .page {
+    grid-template-columns: minmax(0, 44rem) minmax(16rem, 22rem);
+    column-gap: var(--space-8);
+  }
+
+  /* the title and the lede over the search column; the help beside the box, from its top */
+  .page > :not(.help) {
+    grid-column: 1;
+  }
+
+  .help {
+    display: block;
+    grid-column: 2;
+    grid-row: 3 / span 2;
+    position: sticky;
+    top: calc(var(--bar-h) + var(--space-5));
+  }
+}
+
+.rules {
+  display: grid;
+  gap: var(--space-4);
+  margin: var(--space-4) 0 0;
+}
+
+.rules dt {
+  font: 600 var(--fs-ui) / var(--lh-ui) var(--font-ui);
+  color: var(--ink);
+}
+
+.rules dd {
+  margin: var(--space-1) 0 0;
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  color: var(--ink-2);
+}
+
+/* an example never breaks inside ("Is" / "9:6") */
+.rules a {
+  font-weight: 600;
+  white-space: nowrap;
+}

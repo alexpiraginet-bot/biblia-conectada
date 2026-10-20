@@ -1,82 +1,68 @@
-.main {
-  width: 100%;
-  max-width: var(--page-max);
-  margin: 0 auto;
-  padding: var(--space-4) var(--space-2) var(--space-5);
+/* /ler: the book index (ds.css .bc-list, .bc-section-title, .bc-medallion__img). The two testaments side by side from
+   64rem, one under the other on phones. */
+
+.testaments {
+  display: grid;
+  gap: var(--space-8);
 }
 
-.title {
-  font-size: var(--step-display);
-  font-family: var(--font-title);
-  font-weight: 440;
-  font-synthesis: none;
-  letter-spacing: -0.015em;
-  line-height: 1.05;
-  margin: 0 0 var(--space-2);
+@media (min-width: 64rem) {
+  .testaments {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-8);
+    align-items: start;
+  }
 }
 
-.lede {
-  max-width: var(--column);
-  color: var(--text-2);
-  margin: 0 0 var(--space-4);
+.testamentHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-4);
+  margin: 0 0 var(--space-5);
+}
+
+.testamentHead p {
+  margin: 0;
+}
+
+.group {
+  scroll-margin-top: calc(var(--bar-h) + var(--space-4));
 }
 
 .group + .group {
-  margin-top: var(--space-4);
+  margin-top: var(--space-6);
 }
 
-.groupTitle {
+.groupHead {
   display: flex;
-  align-items: baseline;
-  gap: var(--space-2);
-  font-size: var(--step-title);
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  margin: 0 0 var(--space-2);
-  padding-bottom: var(--space-1);
-  border-bottom: 1px solid var(--hairline);
+  align-items: center;
+  gap: var(--space-4);
+  margin: 0 0 var(--space-3) 5px;
 }
 
-.count {
-  font-size: var(--step-small);
-  font-weight: 400;
-  color: var(--text-2);
-  letter-spacing: 0;
+.medal {
+  --size: 48px;
+  flex: none;
 }
 
-.list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  columns: 15rem auto;
-  column-gap: var(--space-4);
+.groupTitle.groupTitle {
+  flex: 1;
+  padding-bottom: 0;
+  border-bottom: 0;
 }
 
-.list li {
-  break-inside: avoid;
+/* on a narrow phone the counts go under the book's name rather than squeezing it */
+.list a {
+  flex-wrap: wrap;
+  column-gap: var(--space-3);
+  row-gap: 2px;
 }
 
-.book {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-2);
-  min-height: 2.75rem;
-  padding: 0.6rem 0;
-  color: var(--text);
-  text-decoration: none;
-  border-bottom: 1px solid color-mix(in srgb, var(--hairline) 55%, transparent);
-}
-
-.book:hover .name {
-  color: var(--gold);
-}
-
-.name {
-  font-weight: 500;
-}
-
-.meta {
-  color: var(--text-2);
-  font-size: var(--step-small);
+.note {
+  max-width: 38rem;
+  margin: var(--space-7) 0 0;
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  color: var(--ink-3);
 }

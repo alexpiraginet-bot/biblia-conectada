@@ -1,0 +1,1051 @@
+{
+ "checked": "2026-10-19",
+ "files": [
+  {
+   "qid": "Q114706800",
+   "pilot": "bom-samaritano",
+   "file": "Herri met de Bles - Landscape with the Parable of the Good Samaritan 2001.19.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Herri_met_de_Bles_-_Landscape_with_the_Parable_of_the_Good_Samaritan_2001.19.jpg",
+   "pageSha256": "b017ba5c5ff62a005d0e7867dd2e005b4dd8082574ba6edc5795af9c07d5a807",
+   "author": "Manner of Herri met de Bles (circa 1510–after 1555)",
+   "date": "between 1525 and 1550",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": {
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Herri_met_de_Bles_-_Landscape_with_the_Parable_of_the_Good_Samaritan_2001.19.jpg/330px-Herri_met_de_Bles_-_Landscape_with_the_Parable_of_the_Good_Samaritan_2001.19.jpg",
+    "width": 330,
+    "height": 229,
+    "webp": "recepcao/Q114706800.webp",
+    "webpWidth": 330,
+    "webpHeight": 229,
+    "webpSha256": "ebef41c98975654b4c7c4d77750ee365e0989a98075f99c745f0214f3935446a"
+   }
+  },
+  {
+   "qid": "Q17334380",
+   "pilot": "bom-samaritano",
+   "file": "De barmhartige Samaritaan Rijksmuseum SK-A-3468.jpeg",
+   "page": "https://commons.wikimedia.org/wiki/File:De_barmhartige_Samaritaan_Rijksmuseum_SK-A-3468.jpeg",
+   "pageSha256": "958cde6b4939bc460d2c2500e66d9cd23ffd695405fcbca036255aa14d16998b",
+   "author": "Meester van de Barmhartige Samaritaan Meester van de Barmhartige Samaritaan Jan van Scorel died 1562-12-06",
+   "date": "1537",
+   "licenseShort": [
+    "Public domain",
+    "Public domain",
+    "PDM",
+    "CC0"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0",
+    "Creative Commons Zero, Public Domain Dedication"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q28060851",
+   "pilot": "bom-samaritano",
+   "file": "Jan Mandyn (1500-1558) - Der barmherzige Samariter - 3475 - Führermuseum.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Jan_Mandyn_(1500-1558)_-_Der_barmherzige_Samariter_-_3475_-_Führermuseum.jpg",
+   "pageSha256": "8fdc34c9cccbb0d5751e676810437dbc4988dd3fce8d0ac0b07a4fba005bc144",
+   "author": "Jan Mandijn (circa 1500–circa 1560)",
+   "date": "between 1520 and 1560",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q28029340",
+   "pilot": "bom-samaritano",
+   "file": "Jacopo Bassano (c. 1510-1592) - The Good Samaritan - RCIN 405771 - Royal Collection.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Jacopo_Bassano_(c._1510-1592)_-_The_Good_Samaritan_-_RCIN_405771_-_Royal_Collection.jpg",
+   "pageSha256": "2f6d8f5010c137ffb6580c689d56d634c6a17e8129af8a8cb1745bbac2f5af18",
+   "author": "Jacopo Bassano (1510–1592)",
+   "date": "between circa 1545 and circa 1550",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q95630049",
+   "pilot": "bom-samaritano",
+   "file": "Jacopo Bassano - The good Samaritan - Google Art Project.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Jacopo_Bassano_-_The_good_Samaritan_-_Google_Art_Project.jpg",
+   "pageSha256": "b181ed11b703f9ef9db79180eebe68996a901d15fa32f0320e5b959df3c7ef54",
+   "author": "Jacopo Bassano (1510–1592)",
+   "date": "1550",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q21675433",
+   "pilot": "bom-samaritano",
+   "file": "De barmhartige Samaritaan, circa 1551 - circa 1600, Groeningemuseum, 0040759000.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:De_barmhartige_Samaritaan,_circa_1551_-_circa_1600,_Groeningemuseum,_0040759000.jpg",
+   "pageSha256": "b080e4f1427f5f5955a6d953eda023a7526b1b8b29d727aeb9e87ba0a7ac726f",
+   "author": "Anonieme meester, Zuidelijke Nederlanden, tweede helft 16de eeuw",
+   "date": "between circa 1551 and circa 1600",
+   "licenseShort": [
+    "CC0"
+   ],
+   "licenseLong": [
+    "Creative Commons Zero, Public Domain Dedication"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q50752436",
+   "pilot": "bom-samaritano",
+   "file": "Nizozemský maliar z 2. polovice 16. storočia - The Good Samaritan - O 337 - Slovak National Gallery.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Nizozemský_maliar_z_2._polovice_16._storočia_-_The_Good_Samaritan_-_O_337_-_Slovak_National_Gallery.jpg",
+   "pageSha256": "f20527789be6ea6b927eed3c910199ca37ccf153dbb113dc09e456011eb18240",
+   "author": "anonymous",
+   "date": "1560",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q18686218",
+   "pilot": "bom-samaritano",
+   "file": "Jacopo Bassano - The Good Samaritan - Google Art Project.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Jacopo_Bassano_-_The_Good_Samaritan_-_Google_Art_Project.jpg",
+   "pageSha256": "45f9cba15b0f6504482089caa63860add45fb842f4620946722adb599fbad258",
+   "author": "Jacopo Bassano (1510–1592)",
+   "date": "between circa 1562 and circa 1563",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": {
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Jacopo_Bassano_-_The_Good_Samaritan_-_Google_Art_Project.jpg/330px-Jacopo_Bassano_-_The_Good_Samaritan_-_Google_Art_Project.jpg",
+    "width": 330,
+    "height": 422,
+    "webp": "recepcao/Q18686218.webp",
+    "webpWidth": 313,
+    "webpHeight": 400,
+    "webpSha256": "8cfea8dd016d6ca18153729d3c89632621da68545c1799f5f4f1a4f3fe4441d6"
+   }
+  },
+  {
+   "qid": "Q27950229",
+   "pilot": "bom-samaritano",
+   "file": "Francesco da Ponte, gen. Francesco Bassano - Gleichnis vom Barmherzigen Samariter - GG 12 - Kunsthistorisches Museum.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Francesco_da_Ponte,_gen._Francesco_Bassano_-_Gleichnis_vom_Barmherzigen_Samariter_-_GG_12_-_Kunsthistorisches_Museum.jpg",
+   "pageSha256": "8fb35c354c4da0a02ec14783d4a7da1567f37617b0f52f4ac08e3abf4d6195f4",
+   "author": "Francesco Bassano the Younger (1549–1592)",
+   "date": "1575",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q22246391",
+   "pilot": "bom-samaritano",
+   "file": "De barmhartige Samaritaan, circa 1581 - circa 1600, Groeningemuseum, 0040910000.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:De_barmhartige_Samaritaan,_circa_1581_-_circa_1600,_Groeningemuseum,_0040910000.jpg",
+   "pageSha256": "2812b82a2f0ce2ca1b6854e38af6ea889f0a9e7bb3bb49cd5bd5306ddc1c9510",
+   "author": "Anonieme meester, Antwerpen, einde 16de eeuw",
+   "date": "between circa 1581 and circa 1600",
+   "licenseShort": [
+    "CC0"
+   ],
+   "licenseLong": [
+    "Creative Commons Zero, Public Domain Dedication"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q131703109",
+   "pilot": "bom-samaritano",
+   "file": "Parabole du bon samaritain - Willem II van Nieulandt - MBA Dijon J21.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Parabole_du_bon_samaritain_-_Willem_II_van_Nieulandt_-_MBA_Dijon_J21.jpg",
+   "pageSha256": "c4375b61709437715270c7c743a204dbd0ea175620dfa27ecea16e4f5fc2481b",
+   "author": "Jan Willem van Nieulandt II",
+   "date": "1609",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q95571270",
+   "pilot": "bom-samaritano",
+   "file": "Jacob Jordaens - The Good Samaritan (Podhorce).jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Jacob_Jordaens_-_The_Good_Samaritan_(Podhorce).jpg",
+   "pageSha256": "63701e693ca37ba7c0cf1ba8d7994639f11bae53b5d54443c5694728457bce5a",
+   "author": "Jacob Jordaens (1593–1678)",
+   "date": "circa 1616",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q24060655",
+   "pilot": "bom-samaritano",
+   "file": "The Good Samaritan by Joost Cornelisz. Droochsloot Centraal Museum 2529.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:The_Good_Samaritan_by_Joost_Cornelisz._Droochsloot_Centraal_Museum_2529.jpg",
+   "pageSha256": "1a0b05c5ee5d8e3d18cbe3cd19ba051dead99396bafa299581734885c9093e3e",
+   "author": "Joost Cornelisz Droochsloot (1586–1666)",
+   "date": "1617",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q19911871",
+   "pilot": "bom-samaritano",
+   "file": "The Good Samaritan MET DP278746.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:The_Good_Samaritan_MET_DP278746.jpg",
+   "pageSha256": "b7e6dae3600a95cffa33c9f93e9fa18cf1eed7c5bd3e48411d99ec747e4c4917",
+   "author": "Domenico Fetti (1589–)",
+   "date": "circa 1618–22",
+   "licenseShort": [
+    "CC0"
+   ],
+   "licenseLong": [
+    "Creative Commons Zero, Public Domain Dedication"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q140247817",
+   "pilot": "bom-samaritano",
+   "file": "David de Haen - The Good Samaritan.jpeg",
+   "page": "https://commons.wikimedia.org/wiki/File:David_de_Haen_-_The_Good_Samaritan.jpeg",
+   "pageSha256": "dab5dce2c31a5e33fd43c7699fc43dbf69617cac88f8cb9e8dd8084e2fc764f3",
+   "author": "David de Haen (circa 1585–1622)",
+   "date": "between 1617 and 1622",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q124258800",
+   "pilot": "bom-samaritano",
+   "file": "Adam Elsheimer - The Good Samaritan, katalogder00jmhe 0034.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Adam_Elsheimer_-_The_Good_Samaritan,_katalogder00jmhe_0034.jpg",
+   "pageSha256": "fe59c35ad3690cecbf4234b1772cadf9002685ab70c95603eff4dd21f728bbd2",
+   "author": "Adam Elsheimer (1578–1610)",
+   "date": "circa 1620",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q21711851",
+   "pilot": "bom-samaritano",
+   "file": "Domenico Fetti - Parable of the Good Samaritan - WGA07861.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Domenico_Fetti_-_Parable_of_the_Good_Samaritan_-_WGA07861.jpg",
+   "pageSha256": "9a268ed453b83b26edddc4bafa83e23e7e4ec85db9ccae493f2217e71c23f217",
+   "author": "Workshop of Domenico Fetti (1589–)",
+   "date": "circa 1622",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q120885631",
+   "pilot": "bom-samaritano",
+   "file": "(Venice) The parable of the Good Samaritan by Domenico Fetti - Gallerie Accademia.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:(Venice)_The_parable_of_the_Good_Samaritan_by_Domenico_Fetti_-_Gallerie_Accademia.jpg",
+   "pageSha256": "241e79b226b5f0147b8a3f5a8f6930c8417cd9cbfcd43eafd62230d4439cdfa5",
+   "author": "Workshop of Domenico Fetti (1589–)",
+   "date": "circa 1620",
+   "licenseShort": [
+    "Public domain",
+    "PDM",
+    "Public domain",
+    "PDM",
+    "CC BY-SA 4.0"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0",
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0",
+    "Creative Commons Attribution-Share Alike 4.0"
+   ],
+   "publicDomain": false,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q29647909",
+   "pilot": "bom-samaritano",
+   "file": "Jacob Pynas (attr.) - The good Samaritan (Louvre).jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Jacob_Pynas_(attr.)_-_The_good_Samaritan_(Louvre).jpg",
+   "pageSha256": "e99e3280dbd862cd0a4f719fe170ce96860e721f5b72745ac8545c5365c44d0c",
+   "author": "Possibly Jacob Pynas (1592/1593–circa 1650) Alternative names Jacob Pijnas, Jacob Symonsz. Pijnas, Jacob Pinas, Jacob Symonsz. Pinas, Jacob Pynas",
+   "date": "between 1600 and 1650 / between 1610 and 1620",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q21558277",
+   "pilot": "bom-samaritano",
+   "file": "Rembrandt Harmensz. van Rijn 033.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Rembrandt_Harmensz._van_Rijn_033.jpg",
+   "pageSha256": "d5b364872161e391aae547f82df61f7eed89d8ccc7a5661848bf1a8b2b6acabe",
+   "author": "Rembrandt (1606–1669)",
+   "date": "after 1633",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": {
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Rembrandt_Harmensz._van_Rijn_033.jpg/330px-Rembrandt_Harmensz._van_Rijn_033.jpg",
+    "width": 330,
+    "height": 413
+   }
+  },
+  {
+   "qid": "Q111642495",
+   "pilot": "bom-samaritano",
+   "file": "Ferdinand Bol (1616-1680) - Der barmherzige Samariter - 1259 - Führermuseum.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Ferdinand_Bol_(1616-1680)_-_Der_barmherzige_Samariter_-_1259_-_Führermuseum.jpg",
+   "pageSha256": "c20de1afaf6bb291107f5788f12ad5d0e0a9a873a0751aa775ba119f11e13a7c",
+   "author": "Ferdinand Bol (1616–1680)",
+   "date": "1631",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q138713647",
+   "pilot": "bom-samaritano",
+   "file": "Reyer van Blommendael - The Good Samaritan, 1635.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Reyer_van_Blommendael_-_The_Good_Samaritan,_1635.jpg",
+   "pageSha256": "ae03cdceb58b3304025ad8e885b63cc84fdf6c5b88e3f2b8c10bbc55e17f031c",
+   "author": "Reyer van Blommendael (1628–1675) Alternative names Reijer Jacobsz. van Blommendael, Reijer van Blommendael, Reyer van Blommendael",
+   "date": "1635",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q64536731",
+   "pilot": "bom-samaritano",
+   "file": "Daniel Bretschneider the Younger - The Good Samaritan - 1994.22 - Detroit Institute of Arts.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Daniel_Bretschneider_the_Younger_-_The_Good_Samaritan_-_1994.22_-_Detroit_Institute_of_Arts.jpg",
+   "pageSha256": "8c4314f8d05adcf7ba68dc2e3aeef3aa96775ede31e03ed85325b15c93445185",
+   "author": "Daniel Bretschneider the Younger (–1658) Alternative names Daniel, the younger Bretschneider; Daniel The Younger Bretschneider",
+   "date": "1635",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q11747764",
+   "pilot": "bom-samaritano",
+   "file": "Rembrandt van Rijn (1606-1669) - Landscape with the Parable of the Good Samaritan - MNK XII-290 - National Museum Kraków.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Rembrandt_van_Rijn_(1606-1669)_-_Landscape_with_the_Parable_of_the_Good_Samaritan_-_MNK_XII-290_-_National_Museum_Kraków.jpg",
+   "pageSha256": "207194462a4f4b4451ccf01c3e9613ddf8befc153daafda214427391ea9578cb",
+   "author": "Rembrandt (1606–1669)",
+   "date": "1638",
+   "licenseShort": [
+    "Public domain",
+    "PDM",
+    "CC0"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0",
+    "Creative Commons Zero, Public Domain Dedication"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q21614663",
+   "pilot": "bom-samaritano",
+   "file": "Balthasar van Cortbemde - De barmhartige Samaritaan - 370 - Royal Museum of Fine Arts Antwerp.tiff",
+   "page": "https://commons.wikimedia.org/wiki/File:Balthasar_van_Cortbemde_-_De_barmhartige_Samaritaan_-_370_-_Royal_Museum_of_Fine_Arts_Antwerp.tiff",
+   "pageSha256": "29e9404f6bff8b16beaf5b74f1adf4dbcaf1d5dbc7c5fc48be16e19422ec4385",
+   "author": "Balthasar van Cortbemde (1612–1663) Alternative names Balthasar Cortbemde, Balthasar Curtbemde, Balthasar van Curtbemde",
+   "date": "1647",
+   "licenseShort": [
+    "Public domain",
+    "PDM",
+    "CC0"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0",
+    "Creative Commons Zero, Public Domain Dedication"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q21884172",
+   "pilot": "bom-samaritano",
+   "file": "Rembrandt - The Good Samaritan - Berlin.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Rembrandt_-_The_Good_Samaritan_-_Berlin.jpg",
+   "pageSha256": "6a0e6c0bda15545716a5b4a69ce637dc481755fb713cdf0533bafaaa285879da",
+   "author": "Rembrandt (1606–1669)",
+   "date": "circa 1648",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q21885275",
+   "pilot": "bom-samaritano",
+   "file": "Rembrandt - The Good Samaritan - Louvre.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Rembrandt_-_The_Good_Samaritan_-_Louvre.jpg",
+   "pageSha256": "3c286cd788543dd52dafefadb6b876bc3d77974afa4954f9ec77897717f84943",
+   "author": "Constantijn à Renesse (1626–)",
+   "date": "circa 1648",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q105465424",
+   "pilot": "bom-samaritano",
+   "file": "Rouen MdBA giordano samaritain.JPG",
+   "page": "https://commons.wikimedia.org/wiki/File:Rouen_MdBA_giordano_samaritain.JPG",
+   "pageSha256": "639c6a21cbfc6d4ca81a2db30f408e847ed2c8ae83a5e6c8720d139d3acc90fd",
+   "author": "Luca Giordano (–1705)",
+   "date": "late 17 th century",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q115670464",
+   "pilot": "bom-samaritano",
+   "file": "Le Bon Samaritain - Guillaume Courtois - MBAB D.970.2.1.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Le_Bon_Samaritain_-_Guillaume_Courtois_-_MBAB_D.970.2.1.jpg",
+   "pageSha256": "35b558a9f79a45083615bb199ad678adc862a6fa1d34a733a2ab40a8b2f7588d",
+   "author": "Guillaume Courtois",
+   "date": "between circa 1665 and circa 1670",
+   "licenseShort": [
+    "Public domain",
+    "PD-1923",
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Public domain in the United States",
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": {
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Le_Bon_Samaritain_-_Guillaume_Courtois_-_MBAB_D.970.2.1.jpg/330px-Le_Bon_Samaritain_-_Guillaume_Courtois_-_MBAB_D.970.2.1.jpg",
+    "width": 330,
+    "height": 237
+   }
+  },
+  {
+   "qid": "Q22086465",
+   "pilot": "bom-samaritano",
+   "file": "Illustrated catalogue of 100 paintings of old masters of the Dutch, Flemish, Italian, French, and English schools - belonging to the Sedelmeyer Gallery, which contains about 1000 original paintings of (14766565282).jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Illustrated_catalogue_of_100_paintings_of_old_masters_of_the_Dutch,_Flemish,_Italian,_French,_and_English_schools_-_belonging_to_the_Sedelmeyer_Gallery,_which_contains_about_1000_original_paintings_of_(14766565282).jpg",
+   "pageSha256": "0867f0cf7a5a3f7823cf07ded37946a6ca3fe291c021eb807d354bb43cfd8ad7",
+   "author": "Manner of Rembrandt (1606–1669)",
+   "date": "1894",
+   "licenseShort": [
+    "No restrictions"
+   ],
+   "licenseLong": [
+    "No known copyright restrictions"
+   ],
+   "publicDomain": false,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q19912549",
+   "pilot": "bom-samaritano",
+   "file": "'The Good Samaritan' by David Teniers the younger after Francesco Bassano.JPG",
+   "page": "https://commons.wikimedia.org/wiki/File:'The_Good_Samaritan'_by_David_Teniers_the_younger_after_Francesco_Bassano.JPG",
+   "pageSha256": "5999c45ff477e601166d4907c5f6d2084a126d7006d4fb480b6213f50c156e01",
+   "author": "David Teniers the Younger (–1690)",
+   "date": "between 1651 and 1656",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q17522663",
+   "pilot": "bom-samaritano",
+   "file": "Nicolaes Roosendael - The good Samaritan heals the traveller 1665 FHM01 OS-I-297.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Nicolaes_Roosendael_-_The_good_Samaritan_heals_the_traveller_1665_FHM01_OS-I-297.jpg",
+   "pageSha256": "b60f8ae1408c87fe197a144f583a95bede18fb8b141931b76352898256750fda",
+   "author": "Nicolaas Roosendael (1634/1635–1686) Alternative names Nicolaes Roosendael, Nicolaas Roossendael, Nicolaas Rosendael, Nicolaes Rosendael, Nicolaas Rozendaal",
+   "date": "1665",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q112114863",
+   "pilot": "bom-samaritano",
+   "file": "Il Buon Samaritano - Langetti (Osterley).jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Il_Buon_Samaritano_-_Langetti_(Osterley).jpg",
+   "pageSha256": "ff059b324c244a8c2a3362cd6d615ab3e7814ef508d845d77dba3ae9a7abdd10",
+   "author": "Giovan Battista Langetti (1625–1676) Alternative names Giovanni Battista Langetti, Giambattista Langetti",
+   "date": "between 1660 and 1675",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q112115294",
+   "pilot": "bom-samaritano",
+   "file": "Il Buon Samaritano - Langetti.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Il_Buon_Samaritano_-_Langetti.jpg",
+   "pageSha256": "8911f7e6f2de2d3116030e53bfdcbdd7a2183f8fd0d174c58aaa5deaa635674d",
+   "author": "Giovan Battista Langetti (1625–1676) Alternative names Giovanni Battista Langetti, Giambattista Langetti",
+   "date": "between 1660 and 1675",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q118984603",
+   "pilot": "bom-samaritano",
+   "file": "Giovanni Battista Langetti (1635-1676) - The Good Samaritan - A42 - Holburne Museum.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Giovanni_Battista_Langetti_(1635-1676)_-_The_Good_Samaritan_-_A42_-_Holburne_Museum.jpg",
+   "pageSha256": "fd0e8e833253858dae4ece5432b1901cf0cb5aad6fa3d09b51070bb356a9543a",
+   "author": "Giovan Battista Langetti (1625–1676) Alternative names Giovanni Battista Langetti, Giambattista Langetti",
+   "date": "between circa 1660 and circa 1676",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q16578689",
+   "pilot": "bom-samaritano",
+   "file": "Johann Carl Loth - The Good Samaritane - WGA13644.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Johann_Carl_Loth_-_The_Good_Samaritane_-_WGA13644.jpg",
+   "pageSha256": "b412f770744f883c726784ef8d0933d1857d739cdf902a00602d0d8f2846c74a",
+   "author": "Johann Carl Loth (1632–1698)",
+   "date": "circa 1676",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q30096344",
+   "pilot": "bom-samaritano",
+   "file": "Daniel Seiter (^) - Barmherziger Samariter - 1523 - Bavarian State Painting Collections.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Daniel_Seiter_(^)_-_Barmherziger_Samariter_-_1523_-_Bavarian_State_Painting_Collections.jpg",
+   "pageSha256": "d9ac9f8b4b03ea9f7450e8dcc156d8a1674875622eb29b01d538221b765120ed",
+   "author": "Daniel Seiter (1649–1705) Alternative names Saiter / Seyter / Daniel Seiter",
+   "date": "between 1647 and 1705",
+   "licenseShort": [
+    "Public domain",
+    "PDM",
+    "CC BY-SA 4.0"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0",
+    "Creative Commons Attribution-Share Alike 4.0"
+   ],
+   "publicDomain": false,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q117337993",
+   "pilot": "bom-samaritano",
+   "file": "Marcantonio Franceschini - La Samaritaine MU FABRE 2788 PE 842 1 1 L.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Marcantonio_Franceschini_-_La_Samaritaine_MU_FABRE_2788_PE_842_1_1_L.jpg",
+   "pageSha256": "6061d720bedb93394f68e5c680be22ae7444f9d7b68b4aa5c6640bd109ce9b40",
+   "author": "Marcantonio Franceschini (1648–1729)",
+   "date": "circa 1700",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": {
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Marcantonio_Franceschini_-_La_Samaritaine_MU_FABRE_2788_PE_842_1_1_L.jpg/330px-Marcantonio_Franceschini_-_La_Samaritaine_MU_FABRE_2788_PE_842_1_1_L.jpg",
+    "width": 330,
+    "height": 440
+   }
+  },
+  {
+   "qid": "Q125022851",
+   "pilot": "bom-samaritano",
+   "file": "Le bon samaritain - musée Granet.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Le_bon_samaritain_-_musée_Granet.jpg",
+   "pageSha256": "c6788a3b187ec8220ab400c2e5665471a27f291e11e2ed55ba7da16948225bc8",
+   "author": "Unknown author Unknown author",
+   "date": "17 th century",
+   "licenseShort": [
+    "CC BY-SA 4.0"
+   ],
+   "licenseLong": [
+    "Creative Commons Attribution-Share Alike 4.0"
+   ],
+   "publicDomain": false,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q29908885",
+   "pilot": "bom-samaritano",
+   "file": "Nicolas Bertin (zugeschrieben) - Der barmherzige Samariter - 11060 - Bavarian State Painting Collections.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Nicolas_Bertin_(zugeschrieben)_-_Der_barmherzige_Samariter_-_11060_-_Bavarian_State_Painting_Collections.jpg",
+   "pageSha256": "175f5ad7757a8b5843f4d269e8ac71634f2212c8b7f6b85c94a83dd3d7a214c3",
+   "author": "Nicolas Bertin (1667–1736)",
+   "date": "between 1667 and 1736",
+   "licenseShort": [
+    "Public domain",
+    "PDM",
+    "CC BY-SA 4.0"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0",
+    "Creative Commons Attribution-Share Alike 4.0"
+   ],
+   "publicDomain": false,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q115663575",
+   "pilot": "bom-samaritano",
+   "file": "Carle van Loo-Le bon Samaritain.JPG",
+   "page": "https://commons.wikimedia.org/wiki/File:Carle_van_Loo-Le_bon_Samaritain.JPG",
+   "pageSha256": "e7af39b23ddea2faf9838c9dc68977a65121dc4af8a19f4d02f5109f90b6b1e2",
+   "author": "Charles André van Loo (1705–1765)",
+   "date": "1723",
+   "licenseShort": [
+    "Public domain",
+    "PDM",
+    "CC BY-SA 3.0"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0",
+    "Creative Commons Attribution-Share Alike 3.0"
+   ],
+   "publicDomain": false,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q118998110",
+   "pilot": "bom-samaritano",
+   "file": "Lambert and Hogarth - The Good Samaritan, 1736–1737, SBHX78.1.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Lambert_and_Hogarth_-_The_Good_Samaritan,_1736–1737,_SBHX78.1.jpg",
+   "pageSha256": "48941b446844f89856976e1b228046420ab1a09cbf6977dec3dceb7a6355665f",
+   "author": "William Hogarth (1697–1764)",
+   "date": "1736–1737",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q28555658",
+   "pilot": "bom-samaritano",
+   "file": "Joseph Highmore (1692-1780) - The Good Samaritan - T00076 - Tate.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Joseph_Highmore_(1692-1780)_-_The_Good_Samaritan_-_T00076_-_Tate.jpg",
+   "pageSha256": "c11c9753e72b7d0959c19c329c697faba882735e3c9f9a1106be5c076717962f",
+   "author": "Joseph Highmore (1692–1780)",
+   "date": "1744",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": {
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Joseph_Highmore_%281692-1780%29_-_The_Good_Samaritan_-_T00076_-_Tate.jpg/330px-Joseph_Highmore_%281692-1780%29_-_The_Good_Samaritan_-_T00076_-_Tate.jpg",
+    "width": 330,
+    "height": 366,
+    "webp": "recepcao/Q28555658.webp",
+    "webpWidth": 330,
+    "webpHeight": 366,
+    "webpSha256": "030a41c3f597836d972c0e8d3736e68434b0ffd07cd5780680bb09aa13d4151e"
+   }
+  },
+  {
+   "qid": "Q56605896",
+   "pilot": "criacao-luz",
+   "file": "Criação dos Animais (1506-11) - Vasco Fernandes (Museu de Lamego).png",
+   "page": "https://commons.wikimedia.org/wiki/File:Criação_dos_Animais_(1506-11)_-_Vasco_Fernandes_(Museu_de_Lamego).png",
+   "pageSha256": "b8d07911295d0ee192a04c94aa42a79ec0ef36ba970ed809494139dcfe6b1141",
+   "author": "Grão Vasco (1475–1542)",
+   "date": "between 1506 and 1511",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q3696827",
+   "pilot": "criacao-luz",
+   "file": "Michelangelo, Creation of the Sun, Moon, and Plants 01.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Michelangelo,_Creation_of_the_Sun,_Moon,_and_Plants_01.jpg",
+   "pageSha256": "a83de3d31a7b1612424ce17d61455c046b34628dc7b17f78636b72aa9a39d728",
+   "author": "Michelangelo (1475–1564)",
+   "date": "1511",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q3955632",
+   "pilot": "criacao-luz",
+   "file": "Sistine Chapel ceiling, Creation of Adam.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Sistine_Chapel_ceiling,_Creation_of_Adam.jpg",
+   "pageSha256": "d65d787ff4dc6d8148c905d143ab204e478ef359e1be2e00788bfb4293b9921e",
+   "author": "Michelangelo (1475–1564)",
+   "date": "1511",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q3955636",
+   "pilot": "criacao-luz",
+   "file": "Dividing Light from Darkness.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Dividing_Light_from_Darkness.jpg",
+   "pageSha256": "79ff203b6b498b055a5ef7df587db6d5f048f5202136a3cdc7c6be603a945c2e",
+   "author": "Michelangelo (1475–1564)",
+   "date": "1509",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q104761559",
+   "pilot": "criacao-luz",
+   "file": "Hans Baldung - Die Erschaffung der Menschen und Tiere.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Hans_Baldung_-_Die_Erschaffung_der_Menschen_und_Tiere.jpg",
+   "pageSha256": "9884b8df3043a142a01e7ff7157430ca731c82422377d17cee0bd45e4a654328",
+   "author": "Hans Baldung Grien (1484–1545)",
+   "date": "circa 1533",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q111648759",
+   "pilot": "criacao-luz",
+   "file": "Strasbourg rohan bocksberger creation.JPG",
+   "page": "https://commons.wikimedia.org/wiki/File:Strasbourg_rohan_bocksberger_creation.JPG",
+   "pageSha256": "5572c543e7aa1ee0ff3abedfee0fdda340d0c547a98d41046aa0a0d1384efc1c",
+   "author": "anonymous",
+   "date": "circa 1575",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q5963059",
+   "pilot": "criacao-luz",
+   "file": "Jacopo Tintoretto — Creation of the Animals.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Jacopo_Tintoretto_—_Creation_of_the_Animals.jpg",
+   "pageSha256": "d5a02a337bcc2e4165def2d3e638dadd2c99261af9fa4f28e8b6699041fe75fb",
+   "author": "Jacopo Tintoretto (1519–1594)",
+   "date": "between 1551 and 1552",
+   "licenseShort": [
+    "CC0",
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Creative Commons Zero, Public Domain Dedication",
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": {
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Jacopo_Tintoretto_%E2%80%94_Creation_of_the_Animals.jpg/330px-Jacopo_Tintoretto_%E2%80%94_Creation_of_the_Animals.jpg",
+    "width": 330,
+    "height": 191,
+    "webp": "recepcao/Q5963059.webp",
+    "webpWidth": 330,
+    "webpHeight": 191,
+    "webpSha256": "2830ed93e16309885eb6310138b024e1f403530065921e06835c9c458cd9581e"
+   }
+  },
+  {
+   "qid": "Q99971938",
+   "pilot": "criacao-luz",
+   "file": "Michael Willman Opus Magnum 2019 P57 Six Days of Creation (1668).jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Michael_Willman_Opus_Magnum_2019_P57_Six_Days_of_Creation_(1668).jpg",
+   "pageSha256": "1c0f31e4942b87f1e01ddb9812212a5633bccfca6bf0754499eed9e7e2ab9d2b",
+   "author": "Fallaner",
+   "date": "29 December 2019, 15:40:45",
+   "licenseShort": [
+    "CC BY-SA 4.0"
+   ],
+   "licenseLong": [
+    "Creative Commons Attribution-Share Alike 4.0"
+   ],
+   "publicDomain": false,
+   "thumbnail": null
+  },
+  {
+   "qid": "Q108489118",
+   "pilot": "criacao-luz",
+   "file": "Roos Das Reich d Tiere@Herzog Anton Ulrich Museum.JPG",
+   "page": "https://commons.wikimedia.org/wiki/File:Roos_Das_Reich_d_Tiere@Herzog_Anton_Ulrich_Museum.JPG",
+   "pageSha256": "7ad139b5225fca8846f47092407e9e64c23b020a3cbf5625bbed16fa0895ea9a",
+   "author": "Johann Melchior Roos (1663–1731) Description German painter, printmaker and artist",
+   "date": "1728",
+   "licenseShort": [
+    "Public domain",
+    "PDM"
+   ],
+   "licenseLong": [
+    "Public domain",
+    "Creative Commons Public Domain Mark 1.0"
+   ],
+   "publicDomain": true,
+   "thumbnail": null
+  }
+ ]
+}

@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { memo, useCallback, useEffect, useId, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
+import { Icon } from "@/components/icons";
 import { formatInt } from "@/lib/canon/text";
 import type { SkyInitial } from "./initial";
 import {
@@ -290,12 +291,15 @@ export function Sky({ initial, title, lede }: Props) {
     <div className={styles.root}>
       <section className={styles.hero} aria-labelledby={`${ids}-h`}>
         <div className={styles.heading}>
-          <h1 id={`${ids}-h`}>{title}</h1>
-          <p>{lede}</p>
+          <h1 id={`${ids}-h`} className="bc-display">
+            {title}
+          </h1>
+          <p className="bc-lede">{lede}</p>
         </div>
 
         <div className={styles.stage}>
-          <div className={styles.band} data-canvas={canvasOn ? mode : "none"} data-gold={goldPoster ? "on" : "off"}>
+          {/* the one window of full night colour (design §1.2): framed in the page column, the same in both themes */}
+          <div className={`bc-window ${styles.band}`} data-canvas={canvasOn ? mode : "none"} data-gold={goldPoster ? "on" : "off"}>
             <picture className={styles.poster}>
               <source type="image/avif" media={POSTER.desktopMedia} srcSet={POSTER.full.avif} width={POSTER.full.w} height={POSTER.full.h} />
               <source type="image/webp" media={POSTER.desktopMedia} srcSet={POSTER.full.webp} width={POSTER.full.w} height={POSTER.full.h} />
@@ -364,6 +368,10 @@ export function Sky({ initial, title, lede }: Props) {
               </p>
             ) : null}
           </div>
+          <p className={styles.ends} aria-hidden="true">
+            <span>Gênesis</span>
+            <span>Apocalipse</span>
+          </p>
         </div>
 
         <div className={styles.panel}>
@@ -373,15 +381,14 @@ export function Sky({ initial, title, lede }: Props) {
               {cur.links === null ? null : <span className={styles.readoutSep}> · </span>}
               <span className={styles.readoutCount}>
                 {cur.links === null ? null : linksText(cur.links)}
-                <svg className={styles.arrow} width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path d="M5 12h13m-5-6 6 6-6 6" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+                <Icon name="out" className={`bc-icon ${styles.arrow}`} />
               </span>
             </Link>
           </p>
           <Picker books={books} nch={nch} ci={selCi} onPick={select} />
           {sel.kind === "chapter" ? (
-            <button type="button" className={styles.quiet} onClick={() => select(null)}>
+            <button type="button" className={`bc-button bc-button--ghost ${styles.back}`} onClick={() => select(null)}>
+              <Icon name="chev-l" />
               Voltar a {verse.ref}
             </button>
           ) : null}
@@ -393,7 +400,7 @@ export function Sky({ initial, title, lede }: Props) {
             Setas mudam o capítulo; Shift e setas, o livro. Enter abre a seleção; Esc volta a {verse.ref}.
           </p>
           {full === "offer" || full === "error" ? (
-            <button type="button" className={styles.quiet} onClick={() => void loadFull(true)}>
+            <button type="button" className="bc-button bc-button--secondary" onClick={() => void loadFull(true)}>
               {full === "error" ? "Tentar de novo: céu completo" : `Carregar o céu completo (${formatInt(initial.arcs)} arcos)`}
             </button>
           ) : null}
@@ -404,7 +411,7 @@ export function Sky({ initial, title, lede }: Props) {
           {loadError ? (
             <>
               <p className={styles.hint}>Não deu para carregar as ligações.</p>
-              <button type="button" className={styles.quiet} onClick={() => void load()}>
+              <button type="button" className="bc-button bc-button--secondary" onClick={() => void load()}>
                 Tentar de novo
               </button>
             </>
@@ -413,7 +420,7 @@ export function Sky({ initial, title, lede }: Props) {
       </section>
 
       <section className={styles.listSection} aria-labelledby={`${ids}-list`}>
-        <h2 id={`${ids}-list`} className={styles.listTitle}>
+        <h2 id={`${ids}-list`} className={`bc-title ${styles.listTitle}`}>
           Mais ligados a {cur.name}
         </h2>
         {list ? (
@@ -447,51 +454,53 @@ const Picker = memo(function Picker({ books, nch, ci, onPick }: { books: BookRow
     <div className={styles.picker}>
       <button
         type="button"
-        className={styles.step}
+        className={`bc-icon-button ${styles.step}`}
         aria-label="Capítulo anterior"
         disabled={ci === 0}
         onClick={() => onPick(stepChapter(books, nch, ci, -1, false))}
       >
-        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="m15 6-6 6 6 6" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+        <Icon name="chev-l" />
       </button>
       <label className="visually-hidden" htmlFor={`${id}-b`}>
         Livro
       </label>
-      <select id={`${id}-b`} className={styles.select} value={b} onChange={(e) => onPick(books[Number(e.target.value)][3])}>
-        {(["AT", "NT"] as const).map((t) => (
-          <optgroup key={t} label={t === "AT" ? "Antigo Testamento" : "Novo Testamento"}>
-            {books.map((row, i) =>
-              row[4] === t ? (
-                <option key={row[1]} value={i}>
-                  {row[0]}
-                </option>
-              ) : null,
-            )}
-          </optgroup>
-        ))}
-      </select>
+      <span className={styles.selectBox}>
+        <select id={`${id}-b`} className={styles.select} value={b} onChange={(e) => onPick(books[Number(e.target.value)][3])}>
+          {(["AT", "NT"] as const).map((t) => (
+            <optgroup key={t} label={t === "AT" ? "Antigo Testamento" : "Novo Testamento"}>
+              {books.map((row, i) =>
+                row[4] === t ? (
+                  <option key={row[1]} value={i}>
+                    {row[0]}
+                  </option>
+                ) : null,
+              )}
+            </optgroup>
+          ))}
+        </select>
+        <Icon name="chev-r" className={`bc-icon ${styles.selectChevron}`} />
+      </span>
       <label className="visually-hidden" htmlFor={`${id}-c`}>
         Capítulo
       </label>
-      <select id={`${id}-c`} className={`${styles.select} ${styles.selectChapter}`} value={n} onChange={(e) => onPick(book[3] + Number(e.target.value) - 1)}>
-        {Array.from({ length: book[2] }, (_, k) => (
-          <option key={k} value={k + 1}>
-            {k + 1}
-          </option>
-        ))}
-      </select>
+      <span className={`${styles.selectBox} ${styles.selectChapter}`}>
+        <select id={`${id}-c`} className={styles.select} value={n} onChange={(e) => onPick(book[3] + Number(e.target.value) - 1)}>
+          {Array.from({ length: book[2] }, (_, k) => (
+            <option key={k} value={k + 1}>
+              {k + 1}
+            </option>
+          ))}
+        </select>
+        <Icon name="chev-r" className={`bc-icon ${styles.selectChevron}`} />
+      </span>
       <button
         type="button"
-        className={styles.step}
+        className={`bc-icon-button ${styles.step}`}
         aria-label="Próximo capítulo"
         disabled={ci === nch - 1}
         onClick={() => onPick(stepChapter(books, nch, ci, 1, false))}
       >
-        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="m9 6 6 6-6 6" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+        <Icon name="chev-r" />
       </button>
     </div>
   );
@@ -502,13 +511,13 @@ const LinkedList = memo(function LinkedList({ books, list }: { books: BookRow[];
   const last = list.items[list.items.length - 1].count;
   return (
     <>
-      <ol className={styles.list} role="list">
+      <ol className={`bc-list ${styles.list}`} role="list">
         {list.items.map(({ ci, count }) => (
           <li key={ci}>
-            <Link href={chapterPath(books, ci)} className={styles.listLink}>
-              <span>{chapterName(books, ci)}</span>
+            <Link href={chapterPath(books, ci)}>
+              <span className="bc-list__name">{chapterName(books, ci)}</span>
               <span className="visually-hidden">: </span>
-              <span className={styles.listCount}>
+              <span className="bc-list__meta">
                 {formatInt(count)} {count === 1 ? "ligação" : "ligações"}
               </span>
             </Link>

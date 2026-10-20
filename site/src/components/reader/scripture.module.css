@@ -1,0 +1,6 @@
+/* Words the BLIVRE translators supplied, kept in [brackets] and set in the secondary ink (Scripture.tsx). On its own
+   so the pages that quote a verse (conexão, Explorar) do not load the whole reading stylesheet. */
+
+.supplied {
+  color: var(--ink-2);
+}

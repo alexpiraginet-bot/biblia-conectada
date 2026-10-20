@@ -1,62 +1,127 @@
-.main {
-  width: 100%;
-  max-width: calc(var(--column) + 2 * var(--space-2));
-  margin: 0 auto;
-  padding: var(--space-5) var(--space-2) var(--space-4);
-}
-
+/* /sobre: ATTRIBUTION.md as it is in the repository (CLAUDE.md rule 2), set as a Read page in the system's voices:
+   the display serif for the title, the title serif for the sections, the interface face for the text. The credits to
+   copy stand in their own boxes, like the credit lines on /dados. */
 .prose {
+  max-width: 44rem;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--ink);
   overflow-wrap: anywhere;
 }
 
-.prose h1 {
-  font-family: var(--font-title);
-  font-weight: 440;
-  font-synthesis: none;
-  letter-spacing: -0.015em;
-  font-size: clamp(2rem, 6vw, 3rem);
-  line-height: 1.1;
-  margin: 0 0 var(--space-3);
+.prose > :first-child {
+  margin-top: 0;
 }
 
-.prose h2,
-.prose h3 {
-  line-height: 1.25;
-  margin: var(--space-4) 0 var(--space-1);
+.prose h1 {
+  margin: 0 0 var(--space-5);
+  font: 440 var(--fs-display) / var(--lh-display) var(--font-display);
+  letter-spacing: -0.015em;
+  font-synthesis: none;
+  text-wrap: balance;
+  color: var(--ink);
+}
+
+.prose h1 + p {
+  max-width: 38rem;
+  font-size: var(--fs-lede);
+  line-height: var(--lh-lede);
+  color: var(--ink-2);
 }
 
 .prose h2 {
-  font-size: 1.5rem;
+  margin: var(--space-8) 0 var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--line);
+  font: 440 var(--fs-title) / var(--lh-title) var(--font-display);
+  letter-spacing: -0.01em;
+  font-synthesis: none;
+  text-wrap: balance;
+  color: var(--ink);
 }
 
 .prose h3 {
-  font-size: 1.1875rem;
+  margin: var(--space-6) 0 var(--space-2);
+  font-size: var(--fs-body);
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--ink);
+}
+
+.prose p {
+  margin: 0 0 var(--space-4);
+  text-wrap: pretty;
+}
+
+.prose ul,
+.prose ol {
+  margin: 0 0 var(--space-4);
+  padding-left: var(--space-5);
+}
+
+.prose li {
+  margin: 0 0 var(--space-2);
+  padding-left: var(--space-1);
+  text-wrap: pretty;
+}
+
+.prose li::marker {
+  color: var(--ink-2);
+}
+
+.prose strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.prose a {
+  color: var(--accent);
 }
 
 .prose blockquote {
-  margin: var(--space-2) 0;
-  padding-left: var(--space-2);
-  border-left: 1px solid var(--hairline);
-  color: var(--text);
+  margin: var(--space-4) 0 var(--space-5);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--ink);
 }
 
+.prose blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* code is the one place where a monospaced face reads better; system fonts, nothing loaded */
 .prose code {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
   font-size: 0.875em;
-  color: var(--text-2);
+  color: var(--ink);
 }
 
+/* a wide table scrolls inside its own box, never the page */
 .prose table {
   display: block;
+  max-width: 100%;
+  margin: var(--space-4) 0 var(--space-5);
   overflow-x: auto;
   border-collapse: collapse;
-  font-size: 0.9375rem;
-  margin: var(--space-2) 0;
+  font-size: var(--fs-ui);
+  line-height: var(--lh-ui);
 }
 
 .prose th,
 .prose td {
+  min-width: 9rem;
+  padding: var(--space-3) var(--space-3) var(--space-3) 0;
+  border-bottom: 1px solid var(--line);
   text-align: left;
   vertical-align: top;
-  padding: var(--space-1);
-  border-bottom: 1px solid var(--hairline);
+}
+
+.prose th {
+  font-size: var(--fs-label);
+  font-weight: 600;
+  line-height: var(--lh-label);
+  color: var(--ink-2);
+  border-bottom-color: var(--line-strong);
 }

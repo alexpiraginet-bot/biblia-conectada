@@ -1,0 +1,96 @@
+/* The phone peek of a panel further down (Peek.tsx): an opaque strip with its own text colour, docked on the tab bar
+   across the whole width, its top corners rounded like the edge of a sheet. Nothing of the page shows between the two,
+   so no line of text is ever seen sliced under it. */
+
+.peek {
+  position: fixed;
+  z-index: 20;
+  left: 0;
+  right: 0;
+  bottom: var(--tabbar-h);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 60px;
+  padding: var(--space-2) max(var(--space-4), env(safe-area-inset-right, 0px)) var(--space-2) max(var(--space-3), env(safe-area-inset-left, 0px));
+  border: 1px solid var(--line);
+  border-bottom: 0;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  background: var(--overlay);
+  color: var(--ink);
+  box-shadow: var(--shadow-float);
+  text-decoration: none;
+}
+
+.peek[hidden] {
+  display: none;
+}
+
+/* a bridge in progress (Ponte nº N) keeps its strip above the tab bar (community/strip.module.css): the peek docks on it */
+:global(html[data-ponte-faixa]) .peek {
+  bottom: calc(var(--tabbar-h) + var(--strip-h));
+}
+
+/* the reading's selection bar (reader/SelectionBar.tsx) takes this place while a passage is selected */
+:global(body:has([data-selection-bar])) .peek {
+  display: none;
+}
+
+/* the panel sits beside the map from 80rem; the strip is for screens with the tab bar */
+@media (min-width: 64rem) {
+  .peek {
+    display: none;
+  }
+}
+
+.marks {
+  display: flex;
+  flex: none;
+  align-items: center;
+}
+
+.seal {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink);
+  font: 440 22px/1 var(--font-display);
+  font-synthesis: none;
+}
+
+.marks img {
+  --size: 40px;
+  margin-left: calc(-1 * var(--space-2));
+}
+
+.text {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  gap: 2px;
+}
+
+.title {
+  overflow: hidden;
+  font: 440 var(--fs-lede) / 1.2 var(--font-display);
+  font-synthesis: none;
+  color: var(--ink);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.sub {
+  font: 500 var(--fs-meta) / 1.3 var(--font-ui);
+  color: var(--accent);
+}
+
+.chev {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  color: var(--ink-2);
+}

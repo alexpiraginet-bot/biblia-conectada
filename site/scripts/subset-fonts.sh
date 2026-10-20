@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Subsets the OFL fonts used by the videos (estudos/*/assets/fonts) to Latin and converts them to WOFF2 for the web.
+# Subsets the OFL font the site shares with the videos (estudos/*/assets/fonts) to Latin and converts them to WOFF2 for the web.
 # Not part of `npm run build`: the outputs in src/fonts/ are committed. Re-run only when a font or the range changes.
 #   requirements: python3 with fonttools 4.60.1 + brotli 1.1.0 (e.g. `uv pip install fonttools==4.60.1 brotli==1.1.0`)
 #   usage: PYTHON=/path/to/python scripts/subset-fonts.sh
@@ -13,12 +13,13 @@ PY=${PYTHON:-python3}
 # U+2190-2195: arrows, including ↔ for "João 1 ↔ Gênesis 1" (only Space Grotesk has it among the site's fonts).
 RANGE="U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0300-0304,U+0307-0308,U+0327,U+0329,U+2000-206F,U+20AC,U+2122,U+2190-2195,U+2212,U+2215,U+FEFF,U+FFFD"
 mkdir -p "$OUT"
-# Cormorant roman is not used on the site (design/README.md §4): only the italic is subset.
-for f in Cormorant-Italic-VF SpaceGrotesk-VF SpaceMono-Regular SpaceMono-Bold; do
+# Of the videos' fonts the site uses Space Grotesk only (design/README.md §4, v4): Space Mono and Cormorant stay in
+# the videos.
+for f in SpaceGrotesk-VF; do
   "$PY" -m fontTools.subset "$SRC/$f.ttf" --unicodes="$RANGE" --layout-features='*' --name-IDs='*' --name-languages='*' \
     --flavor=woff2 --output-file="$OUT/$f.woff2"
 done
-cp "$SRC"/OFL-*.txt "$OUT/"
+cp "$SRC/OFL-SpaceGrotesk.txt" "$OUT/"
 # Newsreader (titles, design/README.md §4) is not from the videos either: the latin opsz file of
 # @fontsource-variable/newsreader 5.3.0 (files/newsreader-latin-opsz-normal.woff2,
 # SHA-256 6e4f2958c3a7c4a80acde4e5a679abe7e01bc1e30b92be3c7a8b696ef401d101), pinned to one static instance:

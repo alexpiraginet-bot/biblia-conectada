@@ -32,3 +32,6 @@ site/.vercel/
 
 # Cópias de trabalho temporárias de agentes do Claude Code (git worktree): nunca versionar
 .claude/worktrees/
+
+# Capturas da revisão de design (impeccable): evidência local, regeneradas a cada revisão
+.impeccable/review/

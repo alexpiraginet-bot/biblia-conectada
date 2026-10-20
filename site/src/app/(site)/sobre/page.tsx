@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function Sobre() {
   const html = marked.parse(credits.attributionMarkdown, { async: false });
   return (
-    <main id="conteudo" className={styles.main}>
+    <main id="conteudo" className="site-page">
       <article className={styles.prose} dangerouslySetInnerHTML={{ __html: html }} />
     </main>
   );

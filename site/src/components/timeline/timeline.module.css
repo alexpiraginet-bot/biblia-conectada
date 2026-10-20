@@ -1,0 +1,635 @@
+/* Linha do tempo components: the sky strip (TimelineSky), the vertical list (EventList) and the reception axis
+   (EraAxis). Colours, sizes and steps are tokens (src/styles/tokens.css); the window is ds.css .bc-window. */
+
+/* ---- the sky strip: navy in both themes, gold arcs (design "ArcWindow") */
+
+.sky {
+  margin: var(--space-6) 0 0;
+}
+
+.skySvg {
+  display: block;
+  width: 100%;
+  height: 9.5rem;
+}
+
+.skyBase,
+.skyBounds,
+.skyTicks {
+  fill: none;
+  stroke: var(--sky-ink-2);
+  stroke-width: 1;
+}
+
+.skyBase {
+  stroke-opacity: 0.55;
+}
+
+.skyBounds {
+  stroke-opacity: 0.7;
+}
+
+.skyTicks {
+  stroke-opacity: 0.6;
+}
+
+.skyArc {
+  stroke: var(--sky-gold);
+}
+
+/* the period names under the strip, one equal column per period like the strip itself (from 48rem) */
+.skyPeriods {
+  display: none;
+}
+
+.skyCaption {
+  display: block;
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  border-top: 1px solid var(--line);
+}
+
+@media (min-width: 48rem) {
+  .skySvg {
+    height: 15rem;
+  }
+
+  .skyPeriods {
+    display: grid;
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+    margin: 0;
+    padding: var(--space-1) 0 var(--space-4);
+    list-style: none;
+  }
+
+  .skyPeriods li {
+    display: grid;
+    align-content: start;
+    gap: 2px;
+    padding: 0 var(--space-1);
+    text-align: center;
+  }
+
+  .skyName {
+    font: 600 var(--fs-label) / var(--lh-label) var(--font-ui);
+    color: var(--sky-ink);
+    text-wrap: balance;
+  }
+
+  .skyYears {
+    font: 400 var(--fs-meta) / var(--lh-label) var(--font-ui);
+    color: var(--sky-ink-2);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* ---- the arcs in text */
+
+.arcList {
+  margin: var(--space-2) 0 0;
+}
+
+.arcSummary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--target);
+  color: var(--accent);
+  font: 500 var(--fs-ui) / var(--lh-ui) var(--font-ui);
+  cursor: pointer;
+  list-style: none;
+}
+
+.arcSummary::-webkit-details-marker {
+  display: none;
+}
+
+.arcSummary:hover span {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.arcChevron {
+  width: 18px;
+  height: 18px;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.arcList[open] .arcChevron {
+  transform: rotate(90deg);
+}
+
+.arcRule {
+  max-width: 38rem;
+  margin: var(--space-2) 0 var(--space-3);
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  color: var(--ink-2);
+}
+
+.arcList :global(.bc-conns) {
+  max-width: 46rem;
+}
+
+.arcEvents {
+  grid-column: 1 / -1;
+  margin: 0;
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  color: var(--ink-2);
+  overflow-wrap: anywhere;
+}
+
+/* ---- filter chips: a radio group drawn as ds.css .bc-chip (the checked one is the pressed chip). The rules that hide
+   the other periods are written by EventList.tsx under .timeline, from the list of periods. */
+
+.timeline {
+  min-width: 0;
+}
+
+.filter {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.filterLegend {
+  margin: 0 0 var(--space-2);
+  padding: 0;
+  font: 600 var(--fs-label) / var(--lh-label) var(--font-ui);
+  color: var(--ink-2);
+}
+
+.chips {
+  /* one scrolling row on phones, inside its own box, never the page */
+  contain: inline-size;
+  display: flex;
+  gap: var(--space-2);
+  margin: 0 calc(-1 * var(--space-1));
+  padding: var(--space-1);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.chipItem {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+}
+
+.radio {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.chip {
+  min-height: var(--target);
+}
+
+.radio:hover + .chip {
+  color: var(--ink);
+  border-color: var(--accent);
+}
+
+.radio:checked + .chip {
+  background: var(--accent-fill);
+  border-color: var(--accent-fill);
+  color: var(--on-accent);
+}
+
+.radio:focus-visible + .chip {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.chipCount {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (min-width: 48rem) {
+  .chips {
+    contain: none;
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+}
+
+.status {
+  margin: var(--space-3) 0 0;
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  color: var(--ink-2);
+}
+
+.status [data-for]:not([data-for="todos"]) {
+  display: none;
+}
+
+/* ---- periods and events: a spine with a dot per event */
+
+.periods {
+  min-width: 0;
+}
+
+.period {
+  margin-top: var(--space-8);
+  scroll-margin-top: calc(var(--bar-h) + var(--space-4));
+}
+
+.period:first-child {
+  margin-top: var(--space-6);
+}
+
+.periodHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--line);
+}
+
+.periodMeta {
+  margin: 0;
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  color: var(--ink-2);
+}
+
+.events {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.event {
+  --spine: 1.25rem;
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--spine) minmax(0, 1fr) auto;
+  grid-template-areas:
+    "dot year links"
+    "dot main main";
+  column-gap: var(--space-3);
+  padding: var(--space-3) 0;
+}
+
+/* the spine runs through the dot column; the hairline under each row starts after it */
+.event::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--spine) / 2);
+  width: 1px;
+  background: var(--line-strong);
+}
+
+.event::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: calc(var(--spine) + var(--space-3));
+  height: 1px;
+  background: var(--line);
+}
+
+.year {
+  grid-area: year;
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.dot {
+  --d: 8px;
+  position: relative;
+  z-index: 1;
+  grid-area: dot;
+  justify-self: center;
+  align-self: start;
+  width: var(--d);
+  height: var(--d);
+  /* centred on the first line of the title (body text, line height 1.35) */
+  margin-top: calc(var(--fs-meta) * var(--lh-meta) + (var(--fs-body) * 1.35 - var(--d)) / 2);
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--ground);
+}
+
+.dot[data-s="0"] {
+  --d: 5px;
+}
+
+.dot[data-s="1"] {
+  --d: 7px;
+}
+
+.dot[data-s="3"] {
+  --d: 11px;
+}
+
+.dot[data-s="4"] {
+  --d: 13px;
+}
+
+.main {
+  grid-area: main;
+  display: grid;
+  min-width: 0;
+}
+
+.ref {
+  font: 500 var(--fs-body) / 1.35 var(--font-ui);
+  color: var(--ink);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+/* the whole row opens the event */
+.ref::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.event:hover .ref {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.en {
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  color: var(--ink-2);
+}
+
+.links {
+  grid-area: links;
+  display: inline-flex;
+  align-items: center;
+  align-self: start;
+  gap: var(--space-1);
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.linksIcon {
+  width: 15px;
+  height: 15px;
+  color: var(--accent);
+}
+
+@media (min-width: 48rem) {
+  .event {
+    --year: 7rem;
+    grid-template-columns: var(--year) var(--spine) minmax(0, 1fr) auto;
+    grid-template-areas: "year dot main links";
+    padding: var(--space-2) 0 calc(var(--space-2) + 2px);
+  }
+
+  .event::before {
+    left: calc(var(--year) + var(--space-3) + var(--spine) / 2);
+  }
+
+  .event::after {
+    left: calc(var(--year) + var(--spine) + 2 * var(--space-3));
+  }
+
+  .year {
+    text-align: right;
+    /* on the title's first line */
+    padding-top: calc((var(--fs-body) * 1.35 - var(--fs-meta) * var(--lh-meta)) / 2);
+  }
+
+  .dot {
+    margin-top: calc((var(--fs-body) * 1.35 - var(--d)) / 2);
+  }
+
+  .links {
+    padding-top: calc((var(--fs-body) * 1.35 - var(--fs-meta) * var(--lh-meta)) / 2);
+  }
+}
+
+/* ---- reception axis of an event (EraAxis): phones, the eras as a list with the counts in text; from 48rem, five
+   equal columns and lanes of marks under them */
+
+.axis {
+  --lane-label: 8rem;
+  margin: 0;
+  padding: var(--space-4) 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.axisCaption {
+  max-width: 38rem;
+  margin: 0 0 var(--space-4);
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  color: var(--ink-2);
+}
+
+.eras {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.era {
+  display: grid;
+  grid-template-columns: minmax(0, 9rem) minmax(0, 1fr);
+  column-gap: var(--space-4);
+  padding: var(--space-2) 0;
+  border-top: 1px solid var(--line);
+}
+
+.era:first-child {
+  border-top: 0;
+}
+
+.eraName {
+  margin: 0;
+  font: 440 1.125rem / 1.3 var(--font-display);
+  font-synthesis: none;
+  color: var(--ink);
+}
+
+.eraSpan {
+  align-self: center;
+  margin: 0;
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  color: var(--ink-2);
+}
+
+.eraCounts {
+  grid-column: 1 / -1;
+  margin: var(--space-1) 0 0;
+  padding: 0;
+  list-style: none;
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  color: var(--ink-2);
+}
+
+.eraCounts:empty {
+  display: none;
+}
+
+.eraCounts li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.swatch {
+  flex: none;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+}
+
+.lanes {
+  margin-top: var(--space-4);
+}
+
+.lane {
+  display: none;
+}
+
+.lane[data-empty] {
+  display: block;
+}
+
+.laneLabel {
+  margin: 0;
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  color: var(--ink-2);
+}
+
+.track {
+  position: relative;
+}
+
+.trackEmpty {
+  max-width: 38rem;
+  margin: var(--space-1) 0 0;
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  color: var(--ink-2);
+}
+
+.boundary,
+.mark {
+  display: none;
+}
+
+.history {
+  background: var(--cat-historia);
+}
+
+.work {
+  background: var(--ink-2);
+}
+
+.here {
+  background: var(--accent);
+}
+
+@media (min-width: 48rem) {
+  /* the era columns sit right above the tracks, after the lane-label column */
+  .eras {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0;
+    margin-left: calc(var(--lane-label) + var(--space-4));
+  }
+
+  .era {
+    display: block;
+    padding: 0 var(--space-2) var(--space-2);
+    border-top: 0;
+    border-left: 1px solid var(--line);
+  }
+
+  .eraSpan {
+    margin-bottom: var(--space-1);
+  }
+
+  .lanes {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .lane,
+  .lane[data-empty] {
+    display: grid;
+    grid-template-columns: var(--lane-label) minmax(0, 1fr);
+    align-items: center;
+    column-gap: var(--space-4);
+    min-height: 2.25rem;
+  }
+
+  .laneLabel {
+    text-align: right;
+  }
+
+  .track {
+    height: 2rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .lane[data-empty] .track {
+    height: auto;
+    min-height: 2rem;
+    border-bottom-style: dashed;
+  }
+
+  .lane[data-empty] .boundary {
+    display: none;
+  }
+
+  /* the sentence of a lane without a source sits over the eras after the Antiguidade */
+  .trackEmpty {
+    max-width: none;
+    margin: 0;
+    padding: var(--space-1) 0 var(--space-1) calc(100% / 5 + var(--space-2));
+  }
+
+  .boundary {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--line);
+  }
+
+  .mark {
+    display: block;
+    position: absolute;
+    top: 50%;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin: -0.25rem 0 0 -0.25rem;
+    border-radius: 50%;
+    opacity: 0.6;
+  }
+
+  .mark.here {
+    width: 0.75rem;
+    height: 0.75rem;
+    margin: -0.375rem 0 0 -0.375rem;
+    opacity: 1;
+    box-shadow:
+      0 0 0 2px var(--ground),
+      0 0 0 3px var(--accent);
+  }
+}

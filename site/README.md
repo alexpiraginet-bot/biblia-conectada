@@ -10,7 +10,7 @@ npm run dev         # servidor local em http://localhost:3000 (rode `npm run dat
 npm run data        # gera src/data/generated/ e public/data/ a partir de ../fontes e ../estudos/*/data
 npm test            # gera os dados e roda os testes (vitest)
 npm run build       # dados + testes + next build + check-dist (créditos, números da home, trava de tradução protegida)
-npm run budget      # JS e HTML (gzip) por tipo de página, depois do build
+npm run budget      # JS e HTML (gzip) por rota (a que gera cada página), depois do build
 npm run typecheck   # tsc --noEmit
 npm run lint        # eslint
 ```
@@ -36,13 +36,33 @@ divergir do que os vídeos publicaram (`stats.json`, `natal-stats.json`, `xref.n
 | `public/dados/v1/` | Pacote de dados abertos para quem quer criar a partir dos nossos dados (`scripts/data/open-data.ts`): `ligacoes.csv`, `versiculos.csv`, `livros.json`, `capitulos.csv`, `capitulos-arestas.csv`, `texto/`, `estudos/natal.json`, `datapackage.json` (Frictionless v2), `LEIA-ME.md`, `LICENSE.txt`, `SHA256SUMS`, `manifest.json` e um zip com tudo. Documentação: [`../DADOS.md`](../DADOS.md) |
 | `src/data/generated/dados-manifest.json` | Cópia do `manifest.json` do pacote, lida pela página `/dados` |
 | `src/data/generated/chapter-links.json`, `chapter-pairs.json`, `verse-pages.json` | Capítulos mais ligados a cada capítulo (empates mantidos), ligações por capítulo, versículos gerados no build |
+| `src/data/generated/linha-do-tempo/events.json` | Os 450 eventos do Theographic (`scripts/data/timeline.ts`): versículos na grade, referência em português, ano (cronologia de F. N. Jones), lugares com nome lido da BLIVRE, capítulos, ligações, temas. CC BY-SA 4.0 |
+| `src/data/generated/linha-do-tempo/place-names.json` | Nome em português de cada lugar do Theographic, lido do texto da BLIVRE (`scripts/data/place-names.ts`); os sem nome claro ficam em `unnamed` |
+| `src/data/generated/temas.json` | Temas da OpenBible.info Topics com rótulo da BLIVRE, passagens e ligações entre elas (`scripts/data/themes.ts`) |
+| `src/data/generated/recepcao.json` | Piloto de recepção: pinturas do Wikidata sobre o bom samaritano e a criação (`scripts/data/reception.ts`) |
+| `src/data/generated/community/trilha-antes-do-natal.json` | Trilha "Antes do Natal": 26 pares (o mais votado de cada livro do AT com Mt 1–2 / Lc 1–2), datas sugeridas (`scripts/data/trilha.ts`) |
+| `src/data/generated/community/ponte-built.json`, `public/data/ponte/calendar.json`, `public/data/ponte/<n>.json` | Ponte nº N: calendário de um ano (fuso de São Paulo), mínimo de saltos, rotas mínimas, rota mais forte e mapa de distâncias por ponte (`scripts/data/ponte.ts`); páginas só até a ponte do dia do build |
+| `src/data/generated/explore/<slug>.json` | Explorar: para cada capítulo, os 35 capítulos ligados com mais votos (na ordem de `src/lib/chapter-rank.ts`, a mesma do "Mais ligados" da leitura), com o par de versículos mais votado e os versículos de cada lado, e até 60 arestas entre eles (`scripts/data/explore.ts`) |
+| `public/data/verse-links/<slug>/<cap>.json` | Ligações de cada versículo do capítulo `[parceiro, votos, …]`, lidas pela faixa da Ponte e pela Mesa da semana |
 
 ## Páginas
 
-- `/ler`, `/<livro>`, `/<livro>/<cap>`, `/<livro>/<cap>/<vers>`: leitura. Livros e capítulos saem no build; versículos, os 200 mais ligados no build e os outros na primeira visita.
+- `/`: a capa (céu de Isaías 9:6) e, abaixo dela, o Explorar de Isaías 9 (`src/lib/explore/home.ts`).
+- `/ler`, `/<livro>`, `/<livro>/<cap>`, `/<livro>/<cap>/<vers>`: leitura. Livros e capítulos saem no build; versículos, os 200 mais ligados no build e os outros na primeira visita. A seleção de um trecho abre a barra Copiar, Compartilhar, Salvar e Explorar (`src/components/reader/SelectionBar.tsx`).
+- `/explorar` redireciona para `/explorar/isaias/9`. `/explorar/<livro>/<cap>`: grafo local do capítulo (os 200 capítulos com mais pares, Isaías 9 e João 1 saem no build; os outros na primeira visita); `/explorar/<livro>/<cap>/<livro2>/<cap2>`: a conexão escolhida, um dos 35 capítulos do grafo (outro par é 404). Medalhões: `public/medalhoes/` e `src/lib/medalhoes.ts`, que só roda no servidor.
+- `/conexao/<a>/<b>`: dois capítulos ou versículos lado a lado, com os pares que os ligam (`src/lib/conexao.ts`); a ordem invertida redireciona para a canônica.
+- `/salvos`: os trechos salvos neste aparelho pela barra de seleção (`localStorage` `bc:salvos:v1`, `src/lib/salvos.ts`).
+- Endereço que não nomeia página: uma referência solta (`/Isaías/9/6`, `/is 9:6`) vai para a página dela (`src/lib/canon/loose.ts`, `src/lib/missing.ts`); o resto é a 404 do site. As rotas dinâmicas chamam `notFound()` quando os parâmetros não nomeiam nada.
+- `/linha-do-tempo` e `/linha-do-tempo/<id>-<referência>` (ex.: `/linha-do-tempo/423-lucas-10-25-37`): os 450 eventos, todos no build. Os dez períodos da lista são convenção do site, cada um aberto por um evento (`src/lib/timeline-periods.ts`); o filtro por período é CSS (`:has()`), sem JavaScript. As ligações entre eventos (os arcos do céu e os "Eventos ligados") saem de `src/lib/timeline-graph.ts`, que o `check-dist` e `tests/timeline-view.test.ts` recontam. As eras da recepção ficam em `src/lib/eras.ts`.
+- `/tema` e `/tema/<palavra>`: temas publicados, todos no build, com índice de A a Z; as passagens vêm das mais ligadas às menos ligadas e as palavras em comum saem do texto da BLIVRE (`src/lib/timeline-graph.ts`). `/palavra` e `/palavra/<palavra>`: versículos com a palavra marcada (`src/lib/words.ts`, `src/lib/word-index.ts`); as palavras dos temas saem no build, as outras na primeira visita.
 - `/dados`: os dados abertos, com tamanhos e registros lidos do manifesto do pacote (conferidos por `check-dist`). Os arquivos de `/dados/v1/` respondem com `Access-Control-Allow-Origin: *` (`next.config.ts`).
 - `/is/9/6` e outras abreviações redirecionam para o livro (`src/lib/canon/redirects.ts`); abreviação que serve a dois livros sem acento ("jo") fica de fora.
 - Arcos da leitura: `src/components/reader/Arcs.tsx` (SVG no servidor, estilo do vídeo 1, `src/lib/arc-style.ts`).
+- Comunidade sem conta (tudo fica no aparelho, em `localStorage`; código em `src/components/community/` e `src/lib/community/`):
+  `/trilha/antes-do-natal` e os 26 passos `/trilha/antes-do-natal/<n>` (com o cartão de ligação desenhado no aparelho),
+  `/ponte` (a ponte de hoje, escolhida no aparelho pela data de São Paulo) e `/ponte/<n>` (arquivo até o dia do build),
+  e `/mesa` (Mesa da semana num aparelho só). A faixa da Ponte (`PonteStrip`) fica no layout `(site)` e só carrega o
+  código dela quando há uma ponte em andamento. `PONTE_LAUNCH` (`src/lib/community/ponte.ts`) marca o dia da Ponte nº 1.
 
 Licença dos dados derivados: CC BY-SA 4.0, exceto o texto BLIVRE, que segue CC BY 4.0 Brasil (`../LICENSE-DATA.md`). Código: MIT (`../LICENSE`).
 

@@ -1,0 +1,127 @@
+/* The bridge strip: fixed at the bottom of the page column (above the phone's tab bar), on the theme's surface, with
+   its own ink. Its height is fixed at 3.75rem: the reading pages lift their selection bar by exactly that much
+   (reader/selection.module.css), so the strip never covers it. The whole strip opens the bridge; the label of that
+   link shows from 30rem, and below it the arrow carries the same name.
+
+   When a modal sheet is open (the links panel on phones), the strip moves to the top, above the sheet's veil, so the
+   distance stays in view while the next hop is chosen. */
+.strip {
+  position: fixed;
+  z-index: 41;
+  left: 0;
+  right: 0;
+  bottom: var(--tabbar-h);
+  height: var(--strip-h);
+  padding: 0 max(var(--space-4), env(safe-area-inset-right)) 0 max(var(--space-4), env(safe-area-inset-left));
+  background: var(--surface);
+  color: var(--ink);
+  border-top: 1px solid var(--line);
+  box-shadow: var(--shadow-raise);
+}
+
+/* desktop: the tab bar is gone (--tabbar-h is 0) and the strip leaves the section rail free */
+@media (min-width: 64rem) {
+  .strip {
+    left: var(--rail-w);
+    height: calc(var(--strip-h) + env(safe-area-inset-bottom, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+}
+
+:global(html:has([aria-modal="true"])) .strip {
+  top: 0;
+  bottom: auto;
+  height: calc(var(--strip-h) + env(safe-area-inset-top, 0px));
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: 0;
+  border-top: 0;
+  border-bottom: 1px solid var(--line);
+}
+
+/* the page's reserved height lives in PonteStripBody (RESERVE): CSS modules only take selectors with a local class */
+
+.inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  height: 100%;
+  max-width: calc(var(--page-max) - var(--rail-w) - 2 * var(--space-4));
+  margin: 0 auto;
+}
+
+.icon {
+  width: 1.375rem;
+  height: 1.375rem;
+  color: var(--accent);
+}
+
+/* two short lines at most three rows tall (14px), whatever the phone: they fit the strip's 3.75rem */
+.text {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: var(--fs-meta);
+  line-height: 1.3;
+  color: var(--ink-2);
+}
+
+.text strong {
+  display: block;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.text span {
+  display: block;
+}
+
+.action {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-width: var(--target);
+  min-height: var(--target);
+  padding: 0 var(--space-3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: var(--raised);
+  color: var(--ink);
+  font: 600 var(--fs-ui) / 1.2 var(--font-ui);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+
+.action:hover {
+  border-color: var(--accent);
+}
+
+/* the whole strip is the link's target */
+.action::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.action :global(.bc-icon) {
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 29.99rem) {
+  .action {
+    padding: 0;
+  }
+
+  .label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}

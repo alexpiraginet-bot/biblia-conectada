@@ -1,0 +1,141 @@
+/* Selection of a passage in the chapter text and its small bar (SelectionBar.tsx): a floating surface (overlay ground,
+   its own ink) with the design system's buttons. Desktop: over the selection. Phones: above the tab bar. */
+
+.scope {
+  position: relative;
+}
+
+/* where the Custom Highlight API exists, the selection inside the Bible text is painted by it (highlight.css: the
+   highlight band with an accent underline, in both themes); elsewhere the native selection stays */
+.scope[data-hl] [data-scripture]::selection,
+.scope[data-hl] [data-scripture] *::selection {
+  background: transparent;
+  color: var(--ink);
+}
+
+.bar {
+  position: fixed;
+  z-index: 35;
+  left: max(var(--space-4), env(safe-area-inset-left, 0px));
+  right: max(var(--space-4), env(safe-area-inset-right, 0px));
+  bottom: calc(var(--tabbar-h) + var(--space-2));
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: var(--space-1);
+  padding: var(--space-1);
+  background: var(--overlay);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-float);
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  animation: bar-in var(--dur-fast) var(--ease-out);
+}
+
+/* a bridge in progress (Ponte nº N) keeps its strip at the bottom, above the phone's tab bar
+   (community/strip.module.css, --strip-h tall): the selection bar sits above the strip */
+:global(html[data-ponte-faixa]) .bar:not([data-float]) {
+  bottom: calc(var(--tabbar-h) + var(--strip-h) + var(--space-2));
+}
+
+.bar[data-float] {
+  position: absolute;
+  right: auto;
+  bottom: auto;
+  width: max-content;
+  max-width: 100%;
+  transform: translate(-50%, -100%);
+  grid-template-columns: auto auto auto;
+}
+
+.bar[data-float][data-below] {
+  transform: translate(-50%, 0);
+}
+
+.ref {
+  grid-row: 1;
+  margin: 0;
+  padding-left: var(--space-3);
+  font: 600 var(--fs-ui) / var(--lh-ui) var(--font-ui);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-variant-numeric: tabular-nums;
+}
+
+.actions {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-1);
+}
+
+.bar[data-float] .actions {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  margin-left: var(--space-2);
+}
+
+/* the ghost buttons of the bar say what they do in the ink, the icon carries the accent */
+.action.action {
+  flex-direction: column;
+  gap: var(--space-1);
+  min-height: 3.25rem;
+  padding: var(--space-1) 0;
+  color: var(--ink);
+  font-size: var(--fs-meta);
+  font-weight: 500;
+}
+
+.action :global(.bc-icon) {
+  color: var(--accent);
+}
+
+.bar[data-float] .action.action {
+  flex-direction: row;
+  min-height: var(--target);
+  padding: 0 var(--space-3);
+}
+
+.close {
+  grid-row: 1;
+  grid-column: 2;
+}
+
+.bar[data-float] .close {
+  grid-column: 3;
+}
+
+.note {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  margin: var(--space-1) 0 var(--space-2);
+  padding-left: var(--space-3);
+  color: var(--ink-2);
+}
+
+.note a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.noteIcon {
+  width: 18px;
+  height: 18px;
+  color: var(--accent);
+}
+
+@keyframes bar-in {
+  from {
+    opacity: 0;
+  }
+}

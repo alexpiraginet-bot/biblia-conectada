@@ -4,6 +4,7 @@ import chapterPairsJson from "@/data/generated/chapter-pairs.json";
 import versePagesJson from "@/data/generated/verse-pages.json";
 import { arcStrength } from "@/lib/arc-style";
 import { createGrid } from "@/lib/canon/grid";
+import { rankLinkedChapters } from "@/lib/chapter-rank";
 import type { Book } from "@/lib/canon/types";
 import { books } from "@/lib/data";
 
@@ -84,10 +85,11 @@ export function chapterPairs(book: Book, chapter: number): number {
   return (chapterPairsJson as number[])[book.firstChapter + chapter - 1];
 }
 
-export type ChapterPartner = { ci: number; pairs: number; light: number };
+export type ChapterPartner = { ci: number; pairs: number; light: number; votes: number };
 /**
  * Every chapter linked to this one, from the verse links: distinct verse pairs with one end here and the other there
- * (pairs inside the chapter left out), and the summed arc strength of those pairs (arc-style.ts).
+ * (pairs inside the chapter left out), the summed arc strength of those pairs (arc-style.ts) and their summed votes
+ * (each pair's votes already add up both directions). Sorted by pairs, as chapter-links.json.
  */
 export async function chapterPartners(book: Book, chapter: number): Promise<ChapterPartner[]> {
   const here = book.firstChapter + chapter - 1;
@@ -97,13 +99,61 @@ export async function chapterPartners(book: Book, chapter: number): Promise<Chap
       const loc = grid.locate(gv);
       const ci = loc.book.firstChapter + loc.chapter - 1;
       if (ci === here) continue;
-      const p = acc.get(ci) ?? { ci, pairs: 0, light: 0 };
+      const p = acc.get(ci) ?? { ci, pairs: 0, light: 0, votes: 0 };
       p.pairs++;
       p.light += arcStrength(votes);
+      p.votes += votes;
       acc.set(ci, p);
     }
   }
   return [...acc.values()].sort((p, q) => q.pairs - p.pairs || p.ci - q.ci);
+}
+
+/** The most voted verse pair between this chapter and a chapter linked to it: the verse here, the verse there. */
+export type BestPair = { here: number; there: number; votes: number };
+/**
+ * For every chapter linked to this one, its most voted verse pair (the first one in canonical order inside a tie),
+ * keyed by the other chapter's global index. The row snippet of the chapter panel's "Mais ligados".
+ */
+export async function chapterBestPairs(book: Book, chapter: number): Promise<Map<number, BestPair>> {
+  const here = book.firstChapter + chapter - 1;
+  const best = new Map<number, BestPair>();
+  // verses in order and each verse's links strongest first (canonical order inside a tie, as the pipeline sorts
+  // them), so the first pair met with the top votes is the canonical one
+  for (const v of await chapterVerses(book, chapter)) {
+    const gv = grid.verseIndex(book, chapter, v.n);
+    for (const [there, votes] of v.links) {
+      const loc = grid.locate(there);
+      const ci = loc.book.firstChapter + loc.chapter - 1;
+      if (ci === here) continue;
+      const b = best.get(ci);
+      if (!b || votes > b.votes) best.set(ci, { here: gv, there, votes });
+    }
+  }
+  return best;
+}
+
+/** Verses in a book. */
+export function bookVerseCount(book: Book): number {
+  return book.verses.reduce((a, b) => a + b, 0);
+}
+
+/**
+ * The "ligações" of a book: distinct verse pairs with at least one verse in it, self-pairs excluded (a pair inside
+ * the book counts once). The book-level count of /ler and the book page, as chapterPairs is for a chapter.
+ */
+export async function bookPairs(book: Book): Promise<number> {
+  const first = book.firstVerse;
+  const end = first + bookVerseCount(book);
+  let n = 0;
+  for (let c = 1; c <= book.verses.length; c++) {
+    let gv = grid.verseIndex(book, c, 1);
+    for (const v of await chapterVerses(book, c)) {
+      for (const [p] of v.links) if (p < first || p >= end || p > gv) n++;
+      gv++;
+    }
+  }
+  return n;
 }
 
 /** Every chapter of another book linked to this book, added up over the book's chapters (see chapterPartners). */
@@ -113,13 +163,23 @@ export async function bookPartners(book: Book): Promise<ChapterPartner[]> {
   for (let c = 1; c <= book.verses.length; c++) {
     for (const p of await chapterPartners(book, c)) {
       if (p.ci >= book.firstChapter && p.ci < end) continue;
-      const q = acc.get(p.ci) ?? { ci: p.ci, pairs: 0, light: 0 };
+      const q = acc.get(p.ci) ?? { ci: p.ci, pairs: 0, light: 0, votes: 0 };
       q.pairs += p.pairs;
       q.light += p.light;
+      q.votes += p.votes;
       acc.set(p.ci, q);
     }
   }
   return [...acc.values()].sort((p, q) => q.pairs - p.pairs || p.ci - q.ci);
+}
+
+/**
+ * The chapters linked to this one, strongest first: the order of the chapter panel's "Mais ligados" list, mini graph
+ * and "Ler lado a lado", and of the Explorar (src/lib/chapter-rank.ts: summed votes, then verse pairs, then canonical
+ * order).
+ */
+export async function chapterNeighbours(book: Book, chapter: number): Promise<ChapterPartner[]> {
+  return rankLinkedChapters(await chapterPartners(book, chapter));
 }
 
 /** Previous and next chapter across book boundaries. */

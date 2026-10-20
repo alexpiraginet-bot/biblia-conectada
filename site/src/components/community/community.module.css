@@ -1,0 +1,643 @@
+/* Community pages (trail, bridge, table): Read pages with one action per area (design/README.md §1.2). Titles,
+   lede, buttons, chips and lists are the design system's (src/styles/ds.css); this file holds the page layout, the
+   verse pair and the sky window. The sky always paints the night ground, in both themes (design §3). */
+
+/* ---- page head: crumbs, title, progress, lede */
+
+.head {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 48rem;
+}
+
+.head > * {
+  margin: 0;
+}
+
+/* the crumbs bring their own 44px rows; the title sits close under them */
+.head > .crumbs {
+  margin-bottom: calc(-1 * var(--space-2));
+}
+
+.lede {
+  max-width: 38rem;
+}
+
+.section {
+  margin-top: var(--space-7);
+}
+
+.sectionHead {
+  display: grid;
+  gap: var(--space-2);
+  max-width: 44rem;
+  margin: 0 0 var(--space-4);
+}
+
+.sectionHead > * {
+  margin: 0;
+}
+
+.keep {
+  white-space: nowrap;
+}
+
+/* from the start to the target of a bridge: the icon family's arrow, never a typed "→" */
+.arrow {
+  width: 0.8em;
+  height: 0.8em;
+  margin-inline: 0.1em;
+  vertical-align: -0.08em;
+  color: var(--accent);
+}
+
+.prose {
+  max-width: 38rem;
+  margin: 0;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+/* a source note (ink-3 is for notes of source only, design §3) */
+.note {
+  max-width: 38rem;
+  margin: 0;
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--ink-3);
+  text-wrap: pretty;
+}
+
+.meta {
+  margin: 0;
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--ink-2);
+}
+
+.status {
+  min-height: 1.45em;
+  margin: 0;
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--ink-2);
+}
+
+/* ---- two areas side by side from 64rem: the reading column and the map beside it */
+
+.split {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.head + .split {
+  margin-top: var(--space-6);
+}
+
+.split > * {
+  min-width: 0;
+}
+
+@media (min-width: 64rem) {
+  .split {
+    grid-template-columns: minmax(0, calc(var(--column) + var(--space-6))) minmax(0, 1fr);
+    column-gap: var(--space-8);
+    align-items: start;
+  }
+
+  .aside {
+    position: sticky;
+    top: calc(var(--bar-h) + var(--space-5));
+  }
+
+  /* the map comes first in the reading order (it sums up the list); on wide screens it sits beside the list */
+  .splitList > .aside {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .splitList > :not(.aside) {
+    grid-column: 1;
+    grid-row: 1;
+  }
+}
+
+.h2 {
+  margin: 0 0 var(--space-4);
+}
+
+/* a split right under its own heading */
+.flush {
+  margin-top: 0;
+}
+
+.after {
+  margin-top: var(--space-5);
+}
+
+.hops {
+  margin: 0 0 var(--space-4);
+}
+
+.hops + .prose {
+  margin-bottom: var(--space-4);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  margin: var(--space-6) 0 0;
+}
+
+.actions > :global(.bc-button--ghost) {
+  padding-inline: var(--space-2);
+}
+
+/* a text button that starts a line keeps its label on the column's edge */
+.actions > :global(.bc-button--ghost):first-child,
+.back > :global(.bc-button--ghost) {
+  margin-left: calc(-1 * var(--space-2));
+  padding-inline: var(--space-2);
+}
+
+.pair + .note {
+  margin-top: var(--space-5);
+}
+
+/* ---- progress: where this step sits in the trail (hairline steps, decorative; the text says the same) */
+
+.progress {
+  display: grid;
+  gap: var(--space-2);
+  max-width: calc(var(--column) + var(--space-6));
+}
+
+.progressRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--target);
+}
+
+.progressText {
+  flex: 1;
+  margin: 0;
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--ink-2);
+}
+
+.progressText strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.progressRow :global(.bc-icon-button) {
+  flex: none;
+  border: 1px solid var(--line-strong);
+  color: var(--ink);
+}
+
+.progressRow :global(.bc-icon-button[aria-disabled="true"]) {
+  border-color: var(--line);
+  color: var(--ink-3);
+  pointer-events: none;
+}
+
+/* the steps before this one in the accent, this one taller in the lit colour (its shape says it, not only its
+   colour), the rest in the rule colour */
+.track {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.track > li {
+  flex: 1;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--line-strong);
+}
+
+.track > .before {
+  background: var(--accent);
+}
+
+.track > .here {
+  height: 10px;
+  background: var(--lit);
+}
+
+/* ---- the pair: two verses joined by a gold line with the votes between them (the "Conexão selecionada" of the
+   reference). Each part draws its own piece of the line, so the line meets whatever the texts' heights. */
+
+.pair {
+  --dot: 9px;
+  --rail: 28px;
+  --mid: calc(var(--target) / 2);
+  display: flex;
+  flex-direction: column;
+  max-width: calc(var(--column) + var(--rail));
+  margin: 0;
+}
+
+.verse {
+  position: relative;
+  margin: 0;
+  padding-left: var(--rail);
+}
+
+.verse::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: calc(var(--mid) - var(--dot) / 2);
+  width: var(--dot);
+  height: var(--dot);
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.verse:first-child::after,
+.verse:last-child::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--dot) / 2 - 0.5px);
+  width: 1px;
+  background: var(--accent);
+}
+
+.verse:first-child::after {
+  top: var(--mid);
+  bottom: 0;
+}
+
+.verse:last-child::after {
+  top: 0;
+  height: var(--mid);
+}
+
+.link {
+  position: relative;
+  margin: 0;
+  padding: var(--space-4) 0 var(--space-4) var(--rail);
+}
+
+.link::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--dot) / 2 - 0.5px);
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--accent);
+}
+
+.linkPill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 2rem;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  color: var(--accent);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  line-height: var(--lh-label);
+  font-variant-numeric: tabular-nums;
+}
+
+.linkPill :global(.i) {
+  width: 1rem;
+  height: 1rem;
+}
+
+.verseRef {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--space-2);
+  min-height: var(--target);
+  margin: 0;
+  font-size: var(--fs-ui);
+  font-weight: 600;
+  line-height: var(--lh-ui);
+  color: var(--ink);
+}
+
+.verseRef a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target);
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.verseRef a:hover {
+  text-decoration: underline;
+}
+
+.verseLabel {
+  color: var(--ink-2);
+  font-weight: 500;
+}
+
+.verseText {
+  max-width: var(--column);
+  margin: 0;
+  font-family: var(--font-reading);
+  font-size: var(--fs-scripture);
+  line-height: var(--lh-scripture);
+  color: var(--ink-reading);
+  text-wrap: pretty;
+}
+
+/* the translators' supplied words, as the reading pages show them */
+.supplied {
+  color: var(--ink-2);
+}
+
+/* ---- sky window: the arcs on the Gênesis→Apocalipse line (design §9, ArcWindow) */
+
+.sky {
+  margin: 0;
+}
+
+.skyWindow {
+  position: relative;
+  padding: var(--sky-pad-top, var(--space-3)) var(--space-3) var(--space-1);
+}
+
+.skySvg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.skyGold {
+  transition: stroke var(--dur-slow) var(--ease-out);
+}
+
+.skyTicks {
+  fill: none;
+  stroke: var(--sky-ink-2);
+  stroke-opacity: 0.55;
+  stroke-width: 1;
+}
+
+.skyFaint {
+  stroke: var(--sky-ink-2);
+}
+
+.skyStar {
+  fill: var(--sky-ink-2);
+}
+
+.skyStarGold {
+  fill: var(--sky-gold);
+}
+
+/* the window's own caption: the two testaments under the line, in the sky's inks */
+.skyScale {
+  position: relative;
+  height: 1.5rem;
+  color: var(--sky-ink-2);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  line-height: 1.5rem;
+}
+
+.skyScale span {
+  position: absolute;
+  top: 0;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* the box over the drawing (the window minus its padding and the scale): labels are placed from its bottom, just
+   above the line */
+.skyLabels {
+  position: absolute;
+  top: var(--sky-pad-top, var(--space-3));
+  left: var(--space-3);
+  right: var(--space-3);
+  bottom: calc(1.5rem + var(--space-1));
+  pointer-events: none;
+}
+
+.skyLabels span {
+  position: absolute;
+  padding: 0 var(--space-1);
+  border-radius: var(--radius-sm);
+  background: var(--sky);
+  color: var(--sky-ink);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+.skyLabels .skyLabelGold {
+  color: var(--sky-gold);
+}
+
+.skyCaption {
+  max-width: 38rem;
+  margin: var(--space-3) 0 0;
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+/* ---- ruled lists (the text alternative of every arc figure); rows are links (ds.css .bc-list) or plain rows */
+
+.list {
+  max-width: 44rem;
+}
+
+/* a ruled list whose rows are not links (ds.css .bc-list styles every link inside it as a row) */
+.rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+/* name and count on one baseline, the name wrapping inside its own column; a leading date or number gets a column of
+   its own (the child selector outweighs ds.css .bc-list a) */
+.list > li > a,
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  column-gap: var(--space-4);
+  row-gap: var(--space-1);
+}
+
+.list > li > a:has(> .lead),
+.row:has(> .lead) {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  column-gap: var(--space-3);
+}
+
+.path a[data-gold] .name {
+  color: var(--accent);
+}
+
+.row {
+  min-height: var(--target);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.lead {
+  min-width: 3.25rem;
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.name {
+  min-width: 0;
+}
+
+/* a row with a second line under its name */
+.name:has(.desc) {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.desc {
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--ink-2);
+}
+
+.count {
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--ink-2);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* a verse of a route under its reference, in the scripture face (lists: 17px, design §4) */
+.rowText {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-family: var(--font-reading);
+  font-size: var(--fs-scripture-sm);
+  line-height: var(--lh-scripture-sm);
+  color: var(--ink-reading);
+  text-wrap: pretty;
+}
+
+.row .name a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target);
+  margin-block: calc((2rem - var(--target)) / 2);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.row .name a:hover {
+  text-decoration: underline;
+}
+
+/* ---- the one line about the device, with the erase button */
+
+.device {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 var(--space-3);
+  max-width: 44rem;
+  margin: var(--space-7) 0 0;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--line);
+}
+
+.device > p:first-child {
+  margin: 0;
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--ink-2);
+}
+
+.device :global(.bc-button--ghost) {
+  min-height: var(--target);
+  padding-inline: 0;
+  margin-right: var(--space-3);
+  font-size: var(--fs-meta);
+}
+
+.device .status {
+  flex-basis: 100%;
+}
+
+/* ---- card */
+
+.card {
+  max-width: 44rem;
+  margin: var(--space-7) 0 0;
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--line);
+}
+
+.card > h2,
+.card > h3 {
+  margin: 0 0 var(--space-2);
+}
+
+.card > p {
+  margin: 0 0 var(--space-4);
+}
+
+.cardPreview {
+  display: block;
+  width: min(100%, 20rem);
+  height: auto;
+  margin: 0 0 var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+
+.card .actions {
+  margin-top: 0;
+}
+
+/* ---- index of a trail: the one way in */
+
+.start {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  margin: var(--space-6) 0 0;
+}
+
+/* ---- the other community pages (CommunityWays): icon, name, one line on what it is */
+
+.ways > li > a {
+  grid-template-columns: 22px minmax(0, 1fr);
+  align-items: start;
+  column-gap: var(--space-3);
+}
+
+.ways :global(.bc-icon) {
+  margin-top: 1px;
+  color: var(--accent);
+}

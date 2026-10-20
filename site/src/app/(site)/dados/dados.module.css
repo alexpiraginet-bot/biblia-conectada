@@ -1,37 +1,38 @@
-/* /dados: a Read page (design/README.md §1.1) with the tokens of the reading pages. One text column; on wide screens
-   the "Nesta página" list sits to its right and stays in view. */
-.main {
-  width: 100%;
-  max-width: var(--page-max);
-  margin: 0 auto;
-  padding: var(--space-4) var(--space-2) var(--space-5);
+/* /dados: a Read page (design/README.md §1.2). The files are a ruled list (each with its size, its count and its
+   download button), then the conventions, the licence and how to use them in one text column; from 64rem the
+   "Nesta página" list sits to its right and stays in view. */
+
+.head {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 44rem;
 }
 
-.title {
-  font-family: var(--font-title);
-  font-size: clamp(2rem, 6vw, 3rem);
-  font-weight: 440;
-  font-synthesis: none;
-  letter-spacing: -0.015em;
-  line-height: 1.1;
-  margin: 0 0 var(--space-2);
+.head > * {
+  margin: 0;
 }
 
-.lede {
-  max-width: var(--column);
-  color: var(--text-2);
-  margin: 0 0 var(--space-3);
-  text-wrap: pretty;
+/* download everything: the page's one primary action */
+.all {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  margin-top: var(--space-2);
 }
 
 .layout {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-6);
+  margin-top: var(--space-7);
 }
 
 .content {
   min-width: 0;
   max-width: 44rem;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--ink);
 }
 
 .content p,
@@ -40,33 +41,34 @@
 }
 
 .toc ol {
-  list-style: none;
-  margin: 0;
-  padding: 0;
   display: flex;
   flex-wrap: wrap;
-  column-gap: var(--space-2);
+  column-gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .toc a {
   display: inline-flex;
   align-items: center;
-  min-height: 2.75rem;
-  color: var(--text-2);
-  font-size: var(--step-ui);
+  min-height: var(--target);
+  color: var(--ink-2);
+  font-size: var(--fs-ui);
   text-decoration: none;
 }
 
 .toc a:hover {
-  color: var(--text);
+  color: var(--ink);
   text-decoration: underline;
 }
 
 .tocTitle {
-  font-size: var(--step-small);
-  font-weight: 600;
-  color: var(--text-2);
   margin: 0;
+  font-size: var(--fs-label);
+  font-weight: 600;
+  line-height: var(--lh-label);
+  color: var(--ink-2);
 }
 
 @media (min-width: 64rem) {
@@ -74,7 +76,7 @@
     grid-template-columns: minmax(0, 44rem) 15rem;
     grid-template-areas: "content toc";
     justify-content: start;
-    column-gap: var(--space-5);
+    column-gap: var(--space-8);
   }
 
   .content {
@@ -84,145 +86,108 @@
   .toc {
     grid-area: toc;
     position: sticky;
-    top: calc(var(--header-h) + var(--space-3));
+    top: calc(var(--bar-h) + var(--space-5));
     align-self: start;
-    padding-left: var(--space-2);
-    border-left: 1px solid var(--hairline);
+    padding-left: var(--space-4);
+    border-left: 1px solid var(--line);
   }
 
   .toc ol {
     display: block;
   }
-
-  .toc a {
-    min-height: 2.25rem;
-  }
 }
 
 .section {
-  margin-top: var(--space-4);
+  scroll-margin-top: calc(var(--bar-h) + var(--space-4));
 }
 
-.section:first-child {
-  margin-top: 0;
+.section + .section {
+  margin-top: var(--space-8);
 }
 
-.h2 {
-  font-size: var(--step-title);
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  line-height: 1.2;
-  margin: 0 0 var(--space-2);
-  padding-bottom: var(--space-1);
-  border-bottom: 1px solid var(--hairline);
+.section > h2 {
+  margin: 0 0 var(--space-4);
 }
 
 .section p {
-  margin: 0 0 var(--space-2);
+  margin: 0 0 var(--space-4);
 }
 
 .section code {
-  font-size: 0.875em;
-  color: var(--text);
+  font-size: 0.9em;
+  color: var(--ink);
   overflow-wrap: anywhere;
 }
 
-/* download everything: the page's one primary action (filled with --text, design §3) */
-.all {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-1) var(--space-2);
-  margin: var(--space-3) 0;
-}
-
-.allButton {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-height: 2.75rem;
-  padding: 0 1.125rem;
-  border-radius: 0.625rem;
-  background: var(--text);
-  color: var(--bg);
-  font-weight: 600;
-  text-decoration: none;
-  transition: opacity 160ms var(--ease-out);
-}
-
-.allButton:hover {
-  opacity: 0.88;
-}
+/* ---- the files: one ruled row each, the button on the right */
 
 .files {
-  list-style: none;
-  margin: 0 0 var(--space-2);
+  margin: var(--space-5) 0 var(--space-4);
   padding: 0;
-  border-top: 1px solid var(--hairline);
+  list-style: none;
+  border-top: 1px solid var(--line);
 }
 
 .file {
-  padding: 0.75rem 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--hairline) 55%, transparent);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--line);
 }
 
-.fileHead {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.125rem var(--space-2);
-}
-
-.fileName,
-.fileGroup {
-  font-weight: 600;
-  color: var(--text);
-  overflow-wrap: anywhere;
+.fileText {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
 }
 
 .fileName {
-  display: inline-flex;
-  align-items: center;
-  min-height: 2.75rem;
-  text-decoration-color: var(--control-border);
+  font-size: var(--fs-ui);
+  font-weight: 600;
+  line-height: var(--lh-ui);
+  color: var(--ink);
+  overflow-wrap: anywhere;
 }
 
-.fileName:hover {
-  color: var(--gold);
-  text-decoration-color: currentColor;
-}
-
-.fileGroup {
-  display: inline-flex;
-  align-items: center;
-  min-height: 2.75rem;
+.fileDesc {
+  font-size: var(--fs-ui);
+  line-height: var(--lh-ui);
+  color: var(--ink-2);
 }
 
 .fileMeta {
-  color: var(--text-2);
-  font-size: var(--step-small);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
-.section .fileDesc {
-  margin: 0;
-  color: var(--text-2);
-  font-size: var(--step-ui);
+.get {
+  padding-inline: var(--space-4);
 }
 
-.more {
-  margin-top: var(--space-1);
+.get :global(.bc-icon) {
+  width: 20px;
+  height: 20px;
+}
+
+/* the folder of texts: its list opens below it, across the row */
+.group {
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .more summary {
   display: inline-flex;
   align-items: center;
-  gap: 0.375rem;
-  min-height: 2.75rem;
+  gap: var(--space-2);
+  min-height: var(--target);
+  color: var(--accent);
+  font-size: var(--fs-ui);
+  font-weight: 600;
   cursor: pointer;
-  color: var(--text);
-  font-size: var(--step-ui);
   list-style: none;
 }
 
@@ -231,8 +196,9 @@
 }
 
 .chevron {
-  color: var(--text-2);
-  transition: transform 160ms var(--ease-out);
+  width: 18px;
+  height: 18px;
+  transition: transform var(--dur-fast) var(--ease-out);
 }
 
 .more[open] .chevron {
@@ -240,11 +206,11 @@
 }
 
 .textFiles {
-  list-style: none;
-  margin: var(--space-1) 0 0;
+  margin: var(--space-2) 0 0;
   padding: 0;
+  list-style: none;
   columns: 15rem auto;
-  column-gap: var(--space-4);
+  column-gap: var(--space-7);
 }
 
 .textFiles li {
@@ -252,62 +218,76 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: var(--space-1);
-  border-bottom: 1px solid color-mix(in srgb, var(--hairline) 55%, transparent);
+  gap: var(--space-2);
+  border-bottom: 1px solid var(--line);
 }
 
 .textFiles a {
   display: inline-flex;
   align-items: center;
-  min-height: 2.75rem;
-  color: var(--text);
+  min-height: var(--target);
+  color: var(--ink);
+  font-weight: 500;
   text-decoration: none;
 }
 
 .textFiles a:hover {
-  color: var(--gold);
+  color: var(--accent);
+  text-decoration: underline;
 }
 
 .section .note {
-  color: var(--text-2);
-  font-size: var(--step-ui);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--ink-2);
 }
+
+/* ---- conventions and ideas: ruled rows of text */
 
 .rules,
 .ideas {
-  margin: 0 0 var(--space-2);
-  padding-left: 1.25rem;
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
 }
 
 .rules li,
 .ideas li {
-  margin-bottom: var(--space-1);
-  padding-left: 0.25rem;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-2);
 }
 
-.rules li::marker,
-.ideas li::marker {
-  color: var(--text-2);
+.rules strong,
+.ideas strong {
+  color: var(--ink);
+  font-weight: 600;
 }
 
 .credit {
-  margin: 0 0 var(--space-3);
-  padding-left: var(--space-2);
-  border-left: 1px solid var(--hairline);
-  color: var(--text);
+  margin: 0 0 var(--space-5);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: var(--fs-ui);
+  line-height: var(--lh-body);
   overflow-wrap: anywhere;
 }
 
 /* code is the one place where a monospaced face reads better than the interface face; system fonts, nothing loaded */
 .code {
-  margin: 0 0 var(--space-3);
-  padding: var(--space-2);
+  margin: 0 0 var(--space-5);
+  padding: var(--space-4);
   overflow-x: auto;
-  border: 1px solid var(--hairline);
-  border-radius: 0.625rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
   background: var(--surface);
+  color: var(--ink);
   font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
-  font-size: 0.8125rem;
+  font-size: var(--fs-meta);
   line-height: 1.6;
   tab-size: 4;
 }

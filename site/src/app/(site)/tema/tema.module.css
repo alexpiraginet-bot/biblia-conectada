@@ -1,0 +1,305 @@
+/* Temas and Palavras: the A–Z indexes and the detail pages. Tokens only (src/styles/tokens.css); lists, chips and rows
+   are ds.css bc-* classes. */
+
+.page {
+  min-width: 0;
+}
+
+.head {
+  max-width: 46rem;
+}
+
+/* one way back, drawn as a back link */
+.crumbs li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.crumbIcon {
+  width: 16px;
+  height: 16px;
+  color: var(--ink-2);
+}
+
+.lede {
+  margin-top: var(--space-3);
+}
+
+/* ---- the A–Z index */
+
+.letters {
+  margin: var(--space-6) 0 0;
+}
+
+.letters ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.letters a {
+  display: inline-grid;
+  place-items: center;
+  min-width: var(--target);
+  height: var(--target);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  color: var(--ink);
+  font: 500 var(--fs-ui) / 1 var(--font-ui);
+  text-decoration: none;
+}
+
+.letters a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.index {
+  margin-top: var(--space-6);
+  columns: 20rem auto;
+  column-gap: var(--space-7);
+}
+
+.letter {
+  break-inside: avoid;
+  padding-top: var(--space-5);
+  scroll-margin-top: calc(var(--bar-h) + var(--space-4));
+}
+
+.letterTitle {
+  align-items: baseline;
+}
+
+.letterName {
+  font: 440 var(--fs-title) / 1 var(--font-display);
+  font-synthesis: none;
+  color: var(--ink);
+}
+
+.list {
+  border-top: 0;
+}
+
+.name {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.topic {
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  color: var(--ink-2);
+}
+
+.rule {
+  max-width: 42rem;
+  margin: var(--space-2) 0 var(--space-4);
+  font: 400 var(--fs-ui) / 1.55 var(--font-ui);
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+section.rule {
+  margin-top: var(--space-8);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--line);
+}
+
+section.rule p {
+  margin: var(--space-3) 0 0;
+}
+
+.source {
+  max-width: 46rem;
+  margin: var(--space-5) 0 0;
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  color: var(--ink-2);
+}
+
+/* ---- detail pages: the main column and "Sobre" beside it from 64rem */
+
+.layout {
+  display: grid;
+  gap: var(--space-8);
+  margin-top: var(--space-6);
+}
+
+.primary {
+  min-width: 0;
+  max-width: 46rem;
+}
+
+.block + .block {
+  margin-top: var(--space-8);
+}
+
+.note {
+  max-width: 42rem;
+  margin: var(--space-3) 0 0;
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  min-height: var(--target);
+  text-decoration: none;
+}
+
+.chipCount {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.titleCount {
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  color: var(--ink-2);
+  letter-spacing: 0;
+}
+
+.count {
+  font-variant-numeric: tabular-nums;
+}
+
+.countIcon {
+  width: 15px;
+  height: 15px;
+  color: var(--accent);
+}
+
+.passages {
+  margin-top: var(--space-2);
+}
+
+.verseN {
+  margin-left: 0.15em;
+}
+
+.passageMeta {
+  grid-column: 1 / -1;
+  margin: 0;
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  color: var(--ink-2);
+}
+
+.passageMeta a {
+  display: inline-block;
+  padding-block: 0.6rem;
+}
+
+.pairs :global(.bc-conn) {
+  align-items: center;
+}
+
+.actions {
+  margin: var(--space-5) 0 0;
+}
+
+.subTitle {
+  margin: var(--space-6) 0 0;
+  font: 600 var(--fs-ui) / var(--lh-ui) var(--font-ui);
+  color: var(--ink);
+}
+
+.refs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-4);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.refs a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target);
+  font: 500 var(--fs-ui) / var(--lh-ui) var(--font-ui);
+  font-variant-numeric: tabular-nums;
+}
+
+.aside {
+  min-width: 0;
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--line);
+  font: 400 var(--fs-ui) / 1.55 var(--font-ui);
+  color: var(--ink-2);
+}
+
+.aside p {
+  margin: var(--space-3) 0 0;
+}
+
+/* a link alone on its line gets a 44 px target; links inside a sentence stay inline */
+.asideLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target);
+  font-weight: 500;
+}
+
+.asideTitle {
+  margin: var(--space-6) 0 0;
+  font: 600 var(--fs-ui) / var(--lh-ui) var(--font-ui);
+  color: var(--ink);
+}
+
+.asideNote {
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+}
+
+.events {
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.events li {
+  border-bottom: 1px solid var(--line);
+}
+
+.events a {
+  display: flex;
+  align-items: center;
+  min-height: var(--target);
+  padding: var(--space-2) 0;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.aside .source {
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+}
+
+@media (min-width: 64rem) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 19rem;
+    align-items: start;
+    gap: var(--space-7);
+  }
+
+  .aside {
+    position: sticky;
+    top: calc(var(--bar-h) + var(--space-5));
+    padding: 0 0 0 var(--space-5);
+    border-top: 0;
+    border-left: 1px solid var(--line);
+  }
+}

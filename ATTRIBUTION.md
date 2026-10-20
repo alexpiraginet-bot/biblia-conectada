@@ -51,6 +51,10 @@ Licença: Creative Commons Atribuição 4.0 Brasil. Crédito sugerido pelos auto
 | Referências cruzadas (OpenBible.info) | CC BY | "Referências cruzadas: OpenBible.info". A base é derivada principalmente do Treasury of Scripture Knowledge. Fonte: https://www.openbible.info/labs/cross-references/ (o cabeçalho do arquivo diz `CC-BY`, sem versão) |
 | Bible Geocoding Data (OpenBible.info) | CC BY 4.0 | "Geocodificação: OpenBible.info" |
 | Theographic Bible Metadata (Viz.Bible) | CC BY-SA 4.0 | "Theographic Bible Metadata, Viz.Bible". O projeto pede também crédito às fontes originais dele. **Dados derivados saem sob CC BY-SA 4.0** |
+| Linha do tempo (eventos do Theographic) | CC BY-SA 4.0 | "Eventos e datas: Theographic Bible Metadata, Viz.Bible (CC BY-SA 4.0), cronologia de Floyd Nolen Jones". Os 450 eventos, as datas e os lugares vêm do Theographic; o título de cada evento é a referência em português; os nomes dos lugares saem do texto da BLIVRE. Dados derivados sob CC BY-SA 4.0 |
+| Tópicos (OpenBible.info Topics) | CC BY 4.0 | "Temas: OpenBible.info Topics (CC BY 4.0), instantâneo de 19/10/2026". Arquivo `fontes/openbible-topics/topic-scores.zip`, de https://www.openbible.info/topics/. O cabeçalho do arquivo diz `CC-BY License: www.openbible.info/topics`; o rodapé do site diz "all content is licensed under a Creative Commons Attribution License", com link para a CC BY 4.0. O rótulo em português de cada tema é uma palavra do texto da BLIVRE, nunca uma tradução |
+| Obras de arte (Wikidata) | CC0 | "Dados de obras: Wikidata (CC0)". Instantâneo de 19/10/2026 em `fontes/wikidata-recepcao/` |
+| Imagens de pinturas (Wikimedia Commons) | Domínio público | Só arquivos cuja página no Commons diz domínio público, conferidos um por um (`fontes/wikidata-recepcao/commons-arquivos.json`), sem rostos de crianças. Cada imagem leva no site o crédito "‹título›, ‹autor›, ‹data› · imagem: Wikimedia Commons, ‹arquivo›, domínio público". As imagens ficam em `site/public/recepcao/` |
 | STEPBible Data (TAHOT, TAGNT, léxicos, TIPNR, TVTMS) | CC BY 4.0 | "STEP Bible", com link para www.STEPBible.org: "Data created by www.STEPBible.org based on work at Tyndale House Cambridge" |
 | Natural Earth | Domínio público | Opcional: "Natural Earth" |
 | AWS Terrain Tiles (relevo dos vídeos) | Atribuição | SRTM/GMTED2010 (USGS), ETOPO1 (NOAA), Mapzen |
@@ -66,6 +70,7 @@ Space Grotesk, Space Mono e Cormorant (as três dos vídeos), Literata (texto b�
 - **Trilha:** sintetizada por código (`score.py`).
 - Sem rostos de pessoas.
 - Prompts e ids dos jobs: `estudos/biblia-natal/source/PROMPTS.md`.
+- **Medalhões do Explorar:** ilustrações geradas por IA (OpenAI `gpt-image-2.5-sunburst-2026-09-08`), conferidas uma a uma e marcadas como "Ilustração" no site. Prompts e revisão: `site/scripts/data/medallions-review.json`.
 
 ## Código e dados deste repositório
 

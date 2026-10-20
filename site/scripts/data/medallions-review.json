@@ -1,0 +1,630 @@
+{
+  "calls": [
+    {
+      "id": "evangelhos",
+      "attempt": 1,
+      "master": "evangelhos-a1.png",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:19:20.000Z",
+      "prompt": "Subject: a woven reed basket holding five round flat barley loaves and two small fish, standing on a plain stone.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "quality": "medium",
+      "size": "1024x1024",
+      "status": "accepted",
+      "reason": "Basket with four round loaves and two fish on a stone; no people, hands, text or emblems; reads at 96 px. Shows 4 loaves, not 5, so the alt text does not give a number.",
+      "usage": {
+        "input_tokens": 235,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 235
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 674
+      }
+    },
+    {
+      "id": "cidade",
+      "attempt": 1,
+      "master": "cidade-a1.png",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:19:21.000Z",
+      "prompt": "Subject: a small walled hilltop town of pale limestone at dusk, flat-roofed houses, one gate, terraced olive trees on the slope, seen from a distance, empty of people.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "quality": "medium",
+      "size": "1024x1024",
+      "status": "accepted",
+      "reason": "Walled hilltop town with terraced olive trees; no people, text, rays or emblems; reads at 96 px as a town on a hill.",
+      "usage": {
+        "input_tokens": 252,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 252
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 691
+      }
+    },
+    {
+      "id": "pessoa",
+      "attempt": 1,
+      "master": "pessoa-a1.png",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:19:18.000Z",
+      "prompt": "Subject: a folded wool cloak, a pair of worn leather sandals and a leather water-skin resting on a low stone wall beside a dirt path; objects only.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "quality": "medium",
+      "size": "1024x1024",
+      "status": "accepted",
+      "reason": "Cloak, water-skin and sandals on a stone wall; objects only, no figure, face or hands; reads at 96 px.",
+      "usage": {
+        "input_tokens": 244,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 244
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 683
+      }
+    },
+    {
+      "id": "pentateuco",
+      "attempt": 1,
+      "master": "pentateuco-a1.png",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:20:32.000Z",
+      "prompt": "Subject: a closed scroll wound on two wooden rollers and tied with a cord, resting on a flat stone; rolled shut, so no writing shows.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "quality": "medium",
+      "size": "1024x1024",
+      "status": "accepted",
+      "reason": "Closed scroll on two wooden rollers, tied, on a stone; no writing visible, no people or emblems; reads at 96 px.",
+      "usage": {
+        "input_tokens": 241,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 241
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 680
+      }
+    },
+    {
+      "id": "historicos",
+      "attempt": 1,
+      "master": "historicos-a1.png",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:20:26.000Z",
+      "prompt": "Subject: a plain ancient royal crown, a hammered metal circlet with low points and no jewels or symbols, resting on a folded cloth on a stone ledge.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "quality": "medium",
+      "size": "1024x1024",
+      "status": "accepted",
+      "reason": "Plain hammered crown on a folded cloth on a stone ledge; no jewels, symbols, text or people; reads at 96 px.",
+      "usage": {
+        "input_tokens": 244,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 244
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 683
+      }
+    },
+    {
+      "id": "poesia",
+      "attempt": 1,
+      "master": "poesia-a1.png",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:20:26.000Z",
+      "prompt": "Subject: an ancient wooden lyre with a wooden yoke and a few strings, standing upright on a stone, nobody playing it.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "quality": "medium",
+      "size": "1024x1024",
+      "status": "accepted",
+      "reason": "Wooden lyre with five strings on a stone; nobody playing, no hands or text; reads at 96 px.",
+      "usage": {
+        "input_tokens": 238,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 238
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 677
+      }
+    },
+    {
+      "id": "profetas",
+      "attempt": 1,
+      "master": "profetas-a1.png",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:20:26.000Z",
+      "prompt": "Subject: a flowering almond branch with open blossoms, buds and a few young green almonds, lying across a rough stone.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "quality": "medium",
+      "size": "1024x1024",
+      "status": "accepted",
+      "reason": "Almond branch with blossoms, buds and two almonds on a stone; no people, text or emblems; reads at 96 px.",
+      "usage": {
+        "input_tokens": 235,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 235
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 674
+      }
+    },
+    {
+      "id": "atos",
+      "attempt": 1,
+      "master": "atos-a1.png",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:20:25.000Z",
+      "prompt": "Subject: an ancient merchant sailing ship with one large square sail, under way on a moderate sea, seen from the side, no crew visible.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "quality": "medium",
+      "size": "1024x1024",
+      "status": "accepted",
+      "reason": "Merchant ship with one square sail and cargo bales on waves; no crew, plain stern post (no animal head), no flags or text.",
+      "usage": {
+        "input_tokens": 240,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 240
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 679
+      }
+    },
+    {
+      "id": "cartas",
+      "attempt": 1,
+      "master": "cartas-a1.png",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:20:50.000Z",
+      "prompt": "Subject: a rolled papyrus letter tied with cord and closed with a plain unmarked clay seal, lying beside a reed pen and a small clay inkpot on a wooden table; rolled shut, so no writing shows.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "quality": "medium",
+      "size": "1024x1024",
+      "status": "accepted",
+      "reason": "Rolled papyrus with cord and an unmarked clay seal, reed pen and inkpot; no writing visible, no people. Close to the Pentateuco scroll in silhouette; the seal and inkpot tell them apart.",
+      "usage": {
+        "input_tokens": 255,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 255
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 694
+      }
+    },
+    {
+      "id": "apocalipse",
+      "attempt": 1,
+      "master": "apocalipse-a1.png",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:20:42.000Z",
+      "prompt": "Subject: a tall wooden door standing half open on a bank of clouds in a night sky with small stars, soft light in the gap of the doorway but no beams.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "quality": "medium",
+      "size": "1024x1024",
+      "status": "rejected",
+      "reason": "Four-pointed sparkle stars read as small crosses and glints; the door is a modern panelled door with a round knob.",
+      "usage": {
+        "input_tokens": 245,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 245
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 684
+      }
+    },
+    {
+      "id": "regiao",
+      "attempt": 1,
+      "master": "regiao-a1.png",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:20:42.000Z",
+      "prompt": "Subject: a wide landscape seen from a height: layered ranges of hills receding to a far horizon, a river winding through a plain, a few tiny distant villages.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "quality": "medium",
+      "size": "1024x1024",
+      "status": "rejected",
+      "reason": "The villages have church steeples (a religious building, and a European scene); checked at 3x zoom.",
+      "usage": {
+        "input_tokens": 245,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 245
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 684
+      }
+    },
+    {
+      "id": "monte",
+      "attempt": 1,
+      "master": "monte-a1.png",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:20:42.000Z",
+      "prompt": "Subject: a single rocky mountain peak rising above lower foothills, a few drifting clouds around the summit, calm night sky.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "quality": "medium",
+      "size": "1024x1024",
+      "status": "accepted",
+      "reason": "Rocky peak with clouds and forested foothills; no rays, people or text. Looks alpine rather than Levantine; acceptable for a generic mountain.",
+      "usage": {
+        "input_tokens": 236,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 236
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 675
+      }
+    },
+    {
+      "id": "agua",
+      "attempt": 1,
+      "master": "agua-a1.png",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:20:48.000Z",
+      "prompt": "Subject: a spring flowing from a cleft in a rock into a shallow stone pool, reeds and grasses at the edge, ripples on the water.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "quality": "medium",
+      "size": "1024x1024",
+      "status": "accepted",
+      "reason": "Spring falling from rocks into a pool with reeds; no people, animals, text or rays; reads at 96 px.",
+      "usage": {
+        "input_tokens": 242,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 242
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 681
+      }
+    },
+    {
+      "id": "vale",
+      "attempt": 1,
+      "master": "vale-a1.png",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:20:58.000Z",
+      "prompt": "Subject: a gentle valley floor with a field of ripe barley, a few bound sheaves and one old olive tree, low hills on both sides.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "quality": "medium",
+      "size": "1024x1024",
+      "status": "accepted",
+      "reason": "Olive tree, barley field with three sheaves; distant farmhouses checked at 3x zoom: no towers, people or text.",
+      "usage": {
+        "input_tokens": 241,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 241
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 680
+      }
+    },
+    {
+      "id": "construcao",
+      "attempt": 1,
+      "master": "construcao-a1.png",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:20:59.000Z",
+      "prompt": "Subject: a massive ancient city gate of cut stone blocks, a dark gateway passage between two square towers, heavy wooden doors standing open, seen close.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "quality": "medium",
+      "size": "1024x1024",
+      "status": "rejected",
+      "reason": "Medieval European castle gatehouse with battlements and arch: reads as a fantasy castle (generic illustration, design README 11), not an ancient city gate. No figures.",
+      "usage": {
+        "input_tokens": 241,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 241
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 680
+      }
+    },
+    {
+      "id": "acampamento",
+      "attempt": 1,
+      "master": "acampamento-a1.png",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:20:59.000Z",
+      "prompt": "Subject: a few low black goat-hair tents pitched on a desert plain, tent ropes and pegs, low dunes, a starry night sky.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "quality": "medium",
+      "size": "1024x1024",
+      "status": "rejected",
+      "reason": "Crescent moon among stars can read as the star-and-crescent emblem; four-pointed sparkle stars read as small crosses.",
+      "usage": {
+        "input_tokens": 242,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 242
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 681
+      }
+    },
+    {
+      "id": "ilha",
+      "attempt": 1,
+      "master": "ilha-a1.png",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:21:03.000Z",
+      "prompt": "Subject: a small rocky island rising from a calm sea, steep cliffs, a few trees on its top, gentle waves around it, no boats.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "quality": "medium",
+      "size": "1024x1024",
+      "status": "accepted",
+      "reason": "Rocky island with pines in a calm sea; no boats, people or text; reads at 96 px.",
+      "usage": {
+        "input_tokens": 241,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 241
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 680
+      }
+    },
+    {
+      "id": "caminho",
+      "attempt": 1,
+      "master": "caminho-a1.png",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:21:06.000Z",
+      "prompt": "Subject: an ancient road paved with worn stones winding away between low hills, edged by a low dry-stone wall, vanishing toward the horizon.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "quality": "medium",
+      "size": "1024x1024",
+      "status": "accepted",
+      "reason": "Stone-paved road between dry-stone walls toward hills; no people, milestones or text; reads at 96 px.",
+      "usage": {
+        "input_tokens": 241,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 241
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 680
+      }
+    },
+    {
+      "id": "povo",
+      "attempt": 1,
+      "master": "povo-a1.png",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:21:13.000Z",
+      "prompt": "Subject: a bundle of twelve tall wooden walking staffs standing upright together, tied around the middle with a cord, on bare ground.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "quality": "medium",
+      "size": "1024x1024",
+      "status": "rejected",
+      "reason": "A bundle of rods bound with a cord is the fasces shape (banned), even without an axe.",
+      "usage": {
+        "input_tokens": 237,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 237
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 676
+      }
+    },
+    {
+      "id": "evento",
+      "attempt": 1,
+      "master": "evento-a1.png",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:21:15.000Z",
+      "prompt": "Subject: a clay oil lamp with a small steady flame on a worn stone step, casting a long soft shadow.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "quality": "medium",
+      "size": "1024x1024",
+      "status": "accepted",
+      "reason": "Clay oil lamp with a small flame on a stone step; no rays (only a small natural glow at the flame), no people or text.",
+      "usage": {
+        "input_tokens": 234,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 234
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 673
+      }
+    },
+    {
+      "id": "apocalipse",
+      "attempt": 2,
+      "master": "apocalipse-a2.png",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:24:18.000Z",
+      "prompt": "Subject: a tall, heavy ancient door of rough wooden planks with iron straps and no handle or knob, standing half open in a plain stone frame on a bank of clouds; night sky with tiny round dot stars only (no sparkles, no four-pointed stars, no moon); soft light in the gap of the doorway, no beams.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "quality": "medium",
+      "size": "1024x1024",
+      "status": "accepted",
+      "reason": "Plank door with iron straps, half open in a stone frame on clouds; dot stars only, soft light in the gap, no beams, knob, people or text (top of door checked at 3x: a knot-hole).",
+      "usage": {
+        "input_tokens": 281,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 281
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 720
+      }
+    },
+    {
+      "id": "regiao",
+      "attempt": 2,
+      "master": "regiao-a2.png",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:24:27.000Z",
+      "prompt": "Subject: a wide Near Eastern landscape seen from a height: dry layered hills receding to a far horizon, a river winding through a plain with date palms and fields, a few tiny villages of flat-roofed mud-brick houses; no towers, steeples, domes or temples.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "quality": "medium",
+      "size": "1024x1024",
+      "status": "accepted",
+      "reason": "Near Eastern river plain with palms, fields and flat-roofed villages; villages checked at 3x zoom: no towers, steeples, people or text.",
+      "usage": {
+        "input_tokens": 271,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 271
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 710
+      }
+    },
+    {
+      "id": "construcao",
+      "attempt": 2,
+      "master": "construcao-a2.png",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:24:20.000Z",
+      "prompt": "Subject: an ancient Near Eastern city gate of large rough-cut stone blocks: a dark gateway passage under a flat stone lintel between two square towers with flat tops (no battlements, no arch), heavy wooden doors standing open, seen close, empty street beyond.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "quality": "medium",
+      "size": "1024x1024",
+      "status": "accepted",
+      "reason": "City gate with flat lintel between flat-topped stone towers, doors open; street beyond checked at 3x zoom: empty, no people or text.",
+      "usage": {
+        "input_tokens": 264,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 264
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 703
+      }
+    },
+    {
+      "id": "acampamento",
+      "attempt": 2,
+      "master": "acampamento-a2.png",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:24:17.000Z",
+      "prompt": "Subject: a few low black goat-hair tents pitched on a desert plain, tent ropes and pegs, low dunes; plain navy night sky with a few tiny round dot stars only (no moon, no sparkles, no four-pointed stars).\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "quality": "medium",
+      "size": "1024x1024",
+      "status": "accepted",
+      "reason": "Low goat-hair tents on a desert plain, dot stars only, no moon or sparkles; no people or text.",
+      "usage": {
+        "input_tokens": 262,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 262
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 701
+      }
+    },
+    {
+      "id": "povo",
+      "attempt": 2,
+      "master": "povo-a2.png",
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "createdAt": "2026-10-19T17:24:27.000Z",
+      "prompt": "Subject: a flock of sheep gathered inside a low round sheepfold of rough stacked stones, seen from slightly above, no shepherd.\nStyle: a fine steel-engraving or etching vignette. Crisp warm gold line work with hatching and cross-hatching and a few pale gold highlights, printed on a flat, uniform deep navy ground (hex #051219) that fills the whole square. Composition: one subject, centred and kept entirely inside a central circle about 70% of the width, with a bold, simple silhouette and open navy space around it, so it reads at 96 pixels and survives a circular crop; corners and edges are plain navy. Only gold tones on navy, no other colours. Calm, even light. Strictly none of: text, letters, numbers, inscriptions or pseudo-writing; people, human figures, faces, hands or children; light rays, beams, sunbursts, halos, glow or lens flare; Bible, open book or pages; dove; cross or any other religious symbol; weapons, armour, eagle, fasces, flags or insignia; border, ring, frame or coin rim.",
+      "quality": "medium",
+      "size": "1024x1024",
+      "status": "accepted",
+      "reason": "Flock of sheep in a round dry-stone fold; animals only, no shepherd, human faces, hands or text.",
+      "usage": {
+        "input_tokens": 237,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 237
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 676
+      }
+    }
+  ],
+  "errors": []
+}

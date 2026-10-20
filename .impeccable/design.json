@@ -1,0 +1,1096 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-20T05:50:58Z",
+  "title": "Design System: Bíblia Conectada",
+  "extensions": {
+    "themes": {
+      "keys": "Cada cor do frontmatter tem as chaves <token>-noite e <token>-dia; sky, sky-ink, sky-ink-2 e sky-gold são iguais nos dois temas e têm uma chave só. No código o nome é o do token sem sufixo, var(--<token>), e o tema escolhe o valor.",
+      "source": "site/src/styles/tokens.json (tokens.css é gerado dele)",
+      "default": "noite",
+      "selection": "A primeira visita segue prefers-color-scheme; a escolha (Sistema, Dia, Noite) vai como data-theme no <html> e no <body>."
+    },
+    "colorMeta": {
+      "ground-noite": {
+        "role": "neutral",
+        "displayName": "Azul-Marinho da Noite",
+        "canonical": "#06121b",
+        "theme": "noite",
+        "tonalRamp": [
+          "#030c15",
+          "#1b2832",
+          "#394752",
+          "#596874",
+          "#7c8c98",
+          "#a0b0bd",
+          "#c3d4e1",
+          "#e0f1ff"
+        ]
+      },
+      "ground-dia": {
+        "role": "neutral",
+        "displayName": "Pergaminho Liso",
+        "canonical": "#f6f1e6",
+        "theme": "dia",
+        "tonalRamp": [
+          "#0e0b05",
+          "#2a261e",
+          "#49453c",
+          "#6a665c",
+          "#8d897f",
+          "#b2ada3",
+          "#d5d0c6",
+          "#f3eee3"
+        ]
+      },
+      "surface-noite": {
+        "role": "neutral",
+        "displayName": "Painel (Noite)",
+        "canonical": "#0b1a25",
+        "theme": "noite",
+        "tonalRamp": [
+          "#010c17",
+          "#192834",
+          "#374754",
+          "#576976",
+          "#7a8c9a",
+          "#9eb1c0",
+          "#c1d4e3",
+          "#e0f1ff"
+        ]
+      },
+      "surface-dia": {
+        "role": "neutral",
+        "displayName": "Painel (Dia)",
+        "canonical": "#fcf9f3",
+        "theme": "dia",
+        "tonalRamp": [
+          "#0d0b07",
+          "#282622",
+          "#474540",
+          "#686661",
+          "#8b8983",
+          "#b0aea8",
+          "#d3d1cb",
+          "#f1eee8"
+        ]
+      },
+      "raised-noite": {
+        "role": "neutral",
+        "displayName": "Elevado (Noite)",
+        "canonical": "#11232f",
+        "theme": "noite",
+        "tonalRamp": [
+          "#000d17",
+          "#172935",
+          "#354855",
+          "#556977",
+          "#778c9b",
+          "#9cb1c1",
+          "#bed5e5",
+          "#e0f1fe"
+        ]
+      },
+      "raised-dia": {
+        "role": "neutral",
+        "displayName": "Elevado (Dia)",
+        "canonical": "#eee6d6",
+        "theme": "dia",
+        "tonalRamp": [
+          "#100a02",
+          "#2c2619",
+          "#4b4437",
+          "#6c6557",
+          "#90887a",
+          "#b5ad9e",
+          "#d8d0c0",
+          "#f6eede"
+        ]
+      },
+      "overlay-noite": {
+        "role": "neutral",
+        "displayName": "Flutuante (Noite)",
+        "canonical": "#14293a",
+        "theme": "noite",
+        "tonalRamp": [
+          "#000c1a",
+          "#132839",
+          "#32485a",
+          "#52697d",
+          "#748ca1",
+          "#98b1c7",
+          "#bbd5eb",
+          "#e1f1ff"
+        ]
+      },
+      "overlay-dia": {
+        "role": "neutral",
+        "displayName": "Flutuante (Dia)",
+        "canonical": "#fffdf8",
+        "theme": "dia",
+        "tonalRamp": [
+          "#0c0b08",
+          "#282623",
+          "#464541",
+          "#686662",
+          "#8b8984",
+          "#b0aea9",
+          "#d3d1cc",
+          "#f0eee9"
+        ]
+      },
+      "line-noite": {
+        "role": "neutral",
+        "displayName": "Fio (Noite)",
+        "canonical": "#22374a",
+        "theme": "noite",
+        "tonalRamp": [
+          "#000c1b",
+          "#14283a",
+          "#32475b",
+          "#52697e",
+          "#748ca2",
+          "#99b1c8",
+          "#bbd4ec",
+          "#e2f1fe"
+        ]
+      },
+      "line-dia": {
+        "role": "neutral",
+        "displayName": "Fio (Dia)",
+        "canonical": "#dcd3c2",
+        "theme": "dia",
+        "tonalRamp": [
+          "#100a02",
+          "#2c2518",
+          "#4c4436",
+          "#6d6556",
+          "#908878",
+          "#b6ad9c",
+          "#d9d0bf",
+          "#f7eddc"
+        ]
+      },
+      "line-strong-noite": {
+        "role": "neutral",
+        "displayName": "Fio de Controle (Noite)",
+        "canonical": "#62798c",
+        "theme": "noite",
+        "tonalRamp": [
+          "#000c19",
+          "#142938",
+          "#324859",
+          "#53697c",
+          "#758ca0",
+          "#99b1c6",
+          "#bbd5ea",
+          "#e1f1fe"
+        ]
+      },
+      "line-strong-dia": {
+        "role": "neutral",
+        "displayName": "Fio de Controle (Dia)",
+        "canonical": "#847b6d",
+        "theme": "dia",
+        "tonalRamp": [
+          "#100a02",
+          "#2d2519",
+          "#4c4437",
+          "#6d6557",
+          "#91887a",
+          "#b6ad9e",
+          "#d9d0c0",
+          "#f7eddd"
+        ]
+      },
+      "ink-noite": {
+        "role": "neutral",
+        "displayName": "Tinta (Noite)",
+        "canonical": "#f2ebdd",
+        "theme": "noite",
+        "tonalRamp": [
+          "#0f0a03",
+          "#2b261b",
+          "#4a4439",
+          "#6b6559",
+          "#8f887c",
+          "#b4ada0",
+          "#d7d0c3",
+          "#f5eee0"
+        ]
+      },
+      "ink-dia": {
+        "role": "neutral",
+        "displayName": "Tinta (Dia)",
+        "canonical": "#141f1b",
+        "theme": "dia",
+        "tonalRamp": [
+          "#040e0a",
+          "#1e2925",
+          "#3c4844",
+          "#5d6964",
+          "#7f8d87",
+          "#a4b2ac",
+          "#c6d5cf",
+          "#e4f3ed"
+        ]
+      },
+      "ink-reading-noite": {
+        "role": "neutral",
+        "displayName": "Tinta de Leitura (Noite)",
+        "canonical": "#eae3d4",
+        "theme": "noite",
+        "tonalRamp": [
+          "#0f0a03",
+          "#2b261a",
+          "#4a4438",
+          "#6c6558",
+          "#8f887b",
+          "#b4ad9f",
+          "#d7d0c2",
+          "#f5eedf"
+        ]
+      },
+      "ink-reading-dia": {
+        "role": "neutral",
+        "displayName": "Tinta de Leitura (Dia)",
+        "canonical": "#18231e",
+        "theme": "dia",
+        "tonalRamp": [
+          "#050e09",
+          "#1e2924",
+          "#3c4843",
+          "#5d6a63",
+          "#7f8d86",
+          "#a4b2ab",
+          "#c7d5ce",
+          "#e4f3eb"
+        ]
+      },
+      "ink-2-noite": {
+        "role": "neutral",
+        "displayName": "Tinta Secundária (Noite)",
+        "canonical": "#cbc3b6",
+        "theme": "noite",
+        "tonalRamp": [
+          "#100a03",
+          "#2c251b",
+          "#4b4439",
+          "#6c6559",
+          "#90887c",
+          "#b5ada0",
+          "#d8d0c3",
+          "#f6ede0"
+        ]
+      },
+      "ink-2-dia": {
+        "role": "neutral",
+        "displayName": "Tinta Secundária (Dia)",
+        "canonical": "#3c4540",
+        "theme": "dia",
+        "tonalRamp": [
+          "#060d09",
+          "#202924",
+          "#3e4843",
+          "#5f6963",
+          "#828c86",
+          "#a6b1ab",
+          "#c9d4ce",
+          "#e7f2eb"
+        ]
+      },
+      "ink-3-noite": {
+        "role": "neutral",
+        "displayName": "Tinta de Nota (Noite)",
+        "canonical": "#a2acb4",
+        "theme": "noite",
+        "tonalRamp": [
+          "#060c11",
+          "#20282e",
+          "#3e464d",
+          "#5e676f",
+          "#818b92",
+          "#a5afb7",
+          "#c8d3db",
+          "#e5f0f9"
+        ]
+      },
+      "ink-3-dia": {
+        "role": "neutral",
+        "displayName": "Tinta de Nota (Dia)",
+        "canonical": "#565e59",
+        "theme": "dia",
+        "tonalRamp": [
+          "#070d09",
+          "#212824",
+          "#404742",
+          "#606863",
+          "#838c86",
+          "#a8b0ab",
+          "#cad4ce",
+          "#e8f1eb"
+        ]
+      },
+      "accent-noite": {
+        "role": "primary",
+        "displayName": "Ouro de Lamparina",
+        "canonical": "#ecc98a",
+        "theme": "noite",
+        "tonalRamp": [
+          "#110a00",
+          "#342301",
+          "#594008",
+          "#806020",
+          "#a48446",
+          "#cba96a",
+          "#efcc8d",
+          "#feeccc"
+        ]
+      },
+      "accent-dia": {
+        "role": "primary",
+        "displayName": "Bronze",
+        "canonical": "#7a4f1f",
+        "theme": "dia",
+        "tonalRamp": [
+          "#150800",
+          "#392003",
+          "#633a03",
+          "#875b2c",
+          "#ad7e50",
+          "#d3a373",
+          "#f8c695",
+          "#feebd9"
+        ]
+      },
+      "accent-strong-noite": {
+        "role": "primary",
+        "displayName": "Ouro Aceso",
+        "canonical": "#ffd891",
+        "theme": "noite",
+        "tonalRamp": [
+          "#120a00",
+          "#342300",
+          "#594006",
+          "#825f11",
+          "#a7833c",
+          "#cda862",
+          "#f2cb84",
+          "#feeccc"
+        ]
+      },
+      "accent-strong-dia": {
+        "role": "primary",
+        "displayName": "Bronze Escuro",
+        "canonical": "#683c00",
+        "theme": "dia",
+        "tonalRamp": [
+          "#140800",
+          "#3a1f01",
+          "#623a08",
+          "#895b28",
+          "#ae7e4c",
+          "#d5a270",
+          "#fac592",
+          "#ffebd8"
+        ]
+      },
+      "action-fill-noite": {
+        "role": "secondary",
+        "displayName": "Ouro de Ação",
+        "canonical": "#e8c27c",
+        "theme": "noite",
+        "tonalRamp": [
+          "#110a00",
+          "#342301",
+          "#594007",
+          "#826012",
+          "#a7833d",
+          "#cda862",
+          "#f1cb85",
+          "#feeccc"
+        ]
+      },
+      "action-fill-dia": {
+        "role": "secondary",
+        "displayName": "Verde-Pinho",
+        "canonical": "#2b4a3d",
+        "theme": "dia",
+        "tonalRamp": [
+          "#000f08",
+          "#0e2d21",
+          "#2e4d3f",
+          "#4e6e60",
+          "#719283",
+          "#95b7a7",
+          "#b7dbca",
+          "#d4f8e8"
+        ]
+      },
+      "on-action-noite": {
+        "role": "secondary",
+        "displayName": "Rótulo da Ação (Noite)",
+        "canonical": "#06121b",
+        "theme": "noite",
+        "tonalRamp": [
+          "#030c15",
+          "#1b2832",
+          "#394752",
+          "#596874",
+          "#7c8c98",
+          "#a0b0bd",
+          "#c3d4e1",
+          "#e0f1ff"
+        ]
+      },
+      "on-action-dia": {
+        "role": "secondary",
+        "displayName": "Rótulo da Ação (Dia)",
+        "canonical": "#ffffff",
+        "theme": "dia",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#262626",
+          "#454545",
+          "#666666",
+          "#898989",
+          "#aeaeae",
+          "#d1d1d1",
+          "#eeeeee"
+        ]
+      },
+      "accent-fill-noite": {
+        "role": "secondary",
+        "displayName": "Marca Cheia (Noite)",
+        "canonical": "#e8c27c",
+        "theme": "noite",
+        "tonalRamp": [
+          "#110a00",
+          "#342301",
+          "#594007",
+          "#826012",
+          "#a7833d",
+          "#cda862",
+          "#f1cb85",
+          "#feeccc"
+        ]
+      },
+      "accent-fill-dia": {
+        "role": "secondary",
+        "displayName": "Marca Cheia (Dia)",
+        "canonical": "#2b4a3d",
+        "theme": "dia",
+        "tonalRamp": [
+          "#000f08",
+          "#0e2d21",
+          "#2e4d3f",
+          "#4e6e60",
+          "#719283",
+          "#95b7a7",
+          "#b7dbca",
+          "#d4f8e8"
+        ]
+      },
+      "on-accent-noite": {
+        "role": "secondary",
+        "displayName": "Rótulo da Marca Cheia (Noite)",
+        "canonical": "#06121b",
+        "theme": "noite",
+        "tonalRamp": [
+          "#030c15",
+          "#1b2832",
+          "#394752",
+          "#596874",
+          "#7c8c98",
+          "#a0b0bd",
+          "#c3d4e1",
+          "#e0f1ff"
+        ]
+      },
+      "on-accent-dia": {
+        "role": "secondary",
+        "displayName": "Rótulo da Marca Cheia (Dia)",
+        "canonical": "#ffffff",
+        "theme": "dia",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#262626",
+          "#454545",
+          "#666666",
+          "#898989",
+          "#aeaeae",
+          "#d1d1d1",
+          "#eeeeee"
+        ]
+      },
+      "lit-noite": {
+        "role": "primary",
+        "displayName": "Ouro Aceso (ligação acesa)",
+        "canonical": "#ffd891",
+        "theme": "noite",
+        "tonalRamp": [
+          "#120a00",
+          "#342300",
+          "#594006",
+          "#825f11",
+          "#a7833c",
+          "#cda862",
+          "#f2cb84",
+          "#feeccc"
+        ]
+      },
+      "lit-dia": {
+        "role": "primary",
+        "displayName": "Bronze Escuro (ligação acesa)",
+        "canonical": "#683c00",
+        "theme": "dia",
+        "tonalRamp": [
+          "#140800",
+          "#3a1f01",
+          "#623a08",
+          "#895b28",
+          "#ae7e4c",
+          "#d5a270",
+          "#fac592",
+          "#ffebd8"
+        ]
+      },
+      "highlight-noite": {
+        "role": "neutral",
+        "displayName": "Faixa (Noite)",
+        "canonical": "#1a3343",
+        "theme": "noite",
+        "tonalRamp": [
+          "#000d17",
+          "#102939",
+          "#2f4859",
+          "#4f6a7c",
+          "#728da0",
+          "#96b2c6",
+          "#b8d6ea",
+          "#dff1fe"
+        ]
+      },
+      "highlight-dia": {
+        "role": "neutral",
+        "displayName": "Faixa (Dia)",
+        "canonical": "#e7dfc9",
+        "theme": "dia",
+        "tonalRamp": [
+          "#100a00",
+          "#2c2615",
+          "#4b4532",
+          "#6d6652",
+          "#908974",
+          "#b5ae98",
+          "#d9d1bb",
+          "#f6eed8"
+        ]
+      },
+      "cat-historia-noite": {
+        "role": "tertiary",
+        "displayName": "Verde-Água da História (Noite)",
+        "canonical": "#86c4c7",
+        "theme": "noite",
+        "tonalRamp": [
+          "#000e0f",
+          "#012d2f",
+          "#084f52",
+          "#337174",
+          "#589598",
+          "#7dbbbe",
+          "#9fdee1",
+          "#c1fbfe"
+        ]
+      },
+      "cat-historia-dia": {
+        "role": "tertiary",
+        "displayName": "Verde-Água da História (Dia)",
+        "canonical": "#2e6164",
+        "theme": "dia",
+        "tonalRamp": [
+          "#000e10",
+          "#042d2f",
+          "#194e51",
+          "#3d7073",
+          "#609496",
+          "#85b9bc",
+          "#a7dcdf",
+          "#c4fafd"
+        ]
+      },
+      "focus-noite": {
+        "role": "primary",
+        "displayName": "Ouro Aceso (foco)",
+        "canonical": "#ffd891",
+        "theme": "noite",
+        "tonalRamp": [
+          "#120a00",
+          "#342300",
+          "#594006",
+          "#825f11",
+          "#a7833c",
+          "#cda862",
+          "#f2cb84",
+          "#feeccc"
+        ]
+      },
+      "focus-dia": {
+        "role": "primary",
+        "displayName": "Bronze Escuro (foco)",
+        "canonical": "#683c00",
+        "theme": "dia",
+        "tonalRamp": [
+          "#140800",
+          "#3a1f01",
+          "#623a08",
+          "#895b28",
+          "#ae7e4c",
+          "#d5a270",
+          "#fac592",
+          "#ffebd8"
+        ]
+      },
+      "sky": {
+        "role": "tertiary",
+        "displayName": "Céu dos Vídeos",
+        "canonical": "#060d1a",
+        "theme": "ambos",
+        "tonalRamp": [
+          "#050b18",
+          "#1e2735",
+          "#3c4556",
+          "#5c6778",
+          "#7f8a9c",
+          "#a3afc2",
+          "#c6d2e5",
+          "#e6efff"
+        ]
+      },
+      "sky-ink": {
+        "role": "tertiary",
+        "displayName": "Tinta do Céu",
+        "canonical": "#f2ebdd",
+        "theme": "ambos",
+        "tonalRamp": [
+          "#0f0a03",
+          "#2b261b",
+          "#4a4439",
+          "#6b6559",
+          "#8f887c",
+          "#b4ada0",
+          "#d7d0c3",
+          "#f5eee0"
+        ]
+      },
+      "sky-ink-2": {
+        "role": "tertiary",
+        "displayName": "Tinta do Céu, secundária",
+        "canonical": "#aeb9cc",
+        "theme": "ambos",
+        "tonalRamp": [
+          "#050b18",
+          "#1e2735",
+          "#3c4555",
+          "#5d6778",
+          "#7f8a9c",
+          "#a4afc1",
+          "#c6d2e5",
+          "#e6efff"
+        ]
+      },
+      "sky-gold": {
+        "role": "tertiary",
+        "displayName": "Ouro dos Vídeos",
+        "canonical": "#ffcc6b",
+        "theme": "ambos",
+        "tonalRamp": [
+          "#120a00",
+          "#342300",
+          "#5a4004",
+          "#835f0f",
+          "#b08006",
+          "#d7a541",
+          "#fbc867",
+          "#ffeccb"
+        ]
+      },
+      "danger-noite": {
+        "role": "tertiary",
+        "displayName": "Coral de Erro",
+        "canonical": "#f2a39b",
+        "theme": "noite",
+        "tonalRamp": [
+          "#1e0101",
+          "#4b0a0b",
+          "#6f2d29",
+          "#954f49",
+          "#bc726b",
+          "#e4968f",
+          "#febfb8",
+          "#fee9e6"
+        ]
+      },
+      "danger-dia": {
+        "role": "tertiary",
+        "displayName": "Vermelho-Óxido",
+        "canonical": "#8e2a22",
+        "theme": "dia",
+        "tonalRamp": [
+          "#1e0000",
+          "#4e0303",
+          "#7e1a14",
+          "#a64036",
+          "#cf6558",
+          "#f88a7c",
+          "#fcc0b7",
+          "#fee9e6"
+        ]
+      },
+      "scrim-noite": {
+        "role": "neutral",
+        "displayName": "Véu (Noite)",
+        "canonical": "rgba(2, 6, 14, 0.62)",
+        "theme": "noite",
+        "tonalRamp": [
+          "#050c15",
+          "#1f2732",
+          "#3d4651",
+          "#5d6773",
+          "#808a97",
+          "#a4afbd",
+          "#c7d2e0",
+          "#e4f0fe"
+        ]
+      },
+      "scrim-dia": {
+        "role": "neutral",
+        "displayName": "Véu (Dia)",
+        "canonical": "rgba(20, 31, 27, 0.40)",
+        "theme": "dia",
+        "tonalRamp": [
+          "#040e0a",
+          "#1e2925",
+          "#3c4844",
+          "#5d6964",
+          "#7f8d87",
+          "#a4b2ac",
+          "#c6d5cf",
+          "#e4f3ed"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Título de página (livro, capítulo, Explorar, Linha do tempo) e o título da capa; de 38 a 56px."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Título de painel, de folha e de seção maior; de 24 a 28px."
+      },
+      "scripture": {
+        "displayName": "Escritura",
+        "purpose": "O texto bíblico na coluna de 36rem: 19px no celular, 20px a partir de 1024px, 21px a partir de 1440px."
+      },
+      "scripture-sm": {
+        "displayName": "Escritura em lista",
+        "purpose": "Trechos em listas, resultados de busca e prévias; nunca menor que 17px."
+      },
+      "quote": {
+        "displayName": "Versículo em foco",
+        "purpose": "O versículo em foco no topo do painel e os dois versículos de uma conexão."
+      },
+      "lede": {
+        "displayName": "Abertura",
+        "purpose": "Parágrafo de abertura de página, até 38rem."
+      },
+      "body": {
+        "displayName": "Corpo da interface",
+        "purpose": "Texto corrido da interface, que não é bíblico."
+      },
+      "ui": {
+        "displayName": "Interface",
+        "purpose": "Botões, abas, itens de lista e referências; peso 600 em botões, referências e títulos de seção de 16px."
+      },
+      "meta": {
+        "displayName": "Metadados",
+        "purpose": "Metadados e legendas; nunca menor que 14px no celular."
+      },
+      "label": {
+        "displayName": "Rótulo",
+        "purpose": "Número de versículo, contagem na pílula, tecla e grupo de resultados; itens do trilho e das abas em peso 500. Sem caixa-alta."
+      }
+    },
+    "shadows": [
+      {
+        "name": "shadow-float-noite",
+        "value": "0 16px 48px rgba(0, 0, 0, 0.55)",
+        "purpose": "O que flutua no Noite (folha, paleta, menu, faixa que espia, barra de seleção, prévia); a borda line separa, a sombra só dá profundidade."
+      },
+      {
+        "name": "shadow-float-dia",
+        "value": "0 14px 40px rgba(44, 33, 14, 0.16)",
+        "purpose": "O que flutua no Dia."
+      },
+      {
+        "name": "shadow-raise-noite",
+        "value": "0 1px 0 rgba(255, 255, 255, 0.04)",
+        "purpose": "Botão principal, campos e segmento marcado em repouso, no Noite."
+      },
+      {
+        "name": "shadow-raise-dia",
+        "value": "0 1px 2px rgba(44, 33, 14, 0.10)",
+        "purpose": "Botão principal, campos e segmento marcado em repouso, no Dia."
+      }
+    ],
+    "motion": [
+      {
+        "name": "dur-fast",
+        "value": "120ms",
+        "purpose": "Hover, pressão e troca de cor; a barra de seleção aparecendo; a entrada de busca da barra saindo de cena."
+      },
+      {
+        "name": "dur-base",
+        "value": "220ms",
+        "purpose": "A folha do celular entrando: sobe 24px a partir de 0.6 de opacidade."
+      },
+      {
+        "name": "dur-slow",
+        "value": "420ms",
+        "purpose": "O traço aceso do mapa, desenhado do selo ao capítulo escolhido: o único momento orquestrado."
+      },
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Curva de saída rápida de todo movimento do site."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "transition-duration: 0.01ms; animation-duration: 0.01ms",
+        "purpose": "Com prefers-reduced-motion, nada se desloca; só a cor muda, e o traço aceso aparece inteiro."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "narrow",
+        "value": "30rem",
+        "purpose": "Abaixo: anterior e seguinte um por linha; no mapa do celular, uma unidade nunca passa de 1px."
+      },
+      {
+        "name": "search-field",
+        "value": "40rem",
+        "purpose": "A barra superior troca a lupa pelo campo de busca."
+      },
+      {
+        "name": "palette",
+        "value": "48rem",
+        "purpose": "Abaixo, a paleta de busca ocupa a tela inteira; acima, é um diálogo de até 44rem."
+      },
+      {
+        "name": "rail",
+        "value": "64rem",
+        "purpose": "Trilho de seções, abas e faixa que espia somem, leitura em três partes, painel fixo ao lado do texto."
+      },
+      {
+        "name": "two-columns",
+        "value": "75rem",
+        "purpose": "Capa: versículos mais ligados em duas colunas; /buscar ganha \"Como buscar\" ao lado."
+      },
+      {
+        "name": "panel-beside",
+        "value": "80rem",
+        "purpose": "O painel \"Conexão selecionada\" fica ao lado do mapa; painel da leitura de 24rem; números do trilho em Newsreader."
+      },
+      {
+        "name": "reading-wide",
+        "value": "90rem",
+        "purpose": "Painel da leitura de 26rem e selo de 128px."
+      },
+      {
+        "name": "atlas-wide",
+        "value": "760px (container)",
+        "purpose": "Quadro do mapa a partir do qual vale o atlas completo; abaixo, a versão de celular."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "A única ação principal de uma área, com o verbo do que acontece; ouro no Noite, verde-pinho no Dia, e accent-strong no hover.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\"><svg class=\"ds-btn-primary__icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><rect x=\"3\" y=\"5\" width=\"8\" height=\"14\" rx=\"1.5\"/><rect x=\"13\" y=\"5\" width=\"8\" height=\"14\" rx=\"1.5\"/></svg>Ler lado a lado</a>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 24px;border:1px solid transparent;border-radius:var(--radius-md, 10px);font:600 16px/1.2 var(--font-ui, \"Space Grotesk\", system-ui, -apple-system, \"Segoe UI\", sans-serif);text-decoration:none;cursor:pointer;transition:background-color var(--dur-fast, 120ms) ease-out,border-color var(--dur-fast, 120ms) ease-out,color var(--dur-fast, 120ms) ease-out;background:var(--action-fill, #e8c27c);color:var(--on-action, #06121b);box-shadow:var(--shadow-raise, 0 1px 0 rgba(255, 255, 255, 0.04))}.ds-btn-primary:hover{background:var(--accent-strong, #ffd891)}.ds-btn-primary:focus-visible{outline:2px solid var(--focus, #ffd891);outline-offset:2px}.ds-btn-primary__icon{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Segundo caminho ao lado do principal: raised, borda line-strong, tinta ink; a borda acende em accent no hover.",
+      "html": "<a class=\"ds-btn-secondary\" href=\"#\">Ver no Explorar</a>",
+      "css": ".ds-btn-secondary{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 24px;border:1px solid transparent;border-radius:var(--radius-md, 10px);font:600 16px/1.2 var(--font-ui, \"Space Grotesk\", system-ui, -apple-system, \"Segoe UI\", sans-serif);text-decoration:none;cursor:pointer;transition:background-color var(--dur-fast, 120ms) ease-out,border-color var(--dur-fast, 120ms) ease-out,color var(--dur-fast, 120ms) ease-out;background:var(--raised, #11232f);border-color:var(--line-strong, #62798c);color:var(--ink, #f2ebdd)}.ds-btn-secondary:hover{border-color:var(--accent, #ecc98a)}.ds-btn-secondary:focus-visible{outline:2px solid var(--focus, #ffd891);outline-offset:2px}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Ação discreta dentro de um painel: sem fundo, tinta accent, recuo de 12px; ganha raised no hover.",
+      "html": "<div class=\"ds-btn-ghost__stage\"><button class=\"ds-btn-ghost\" type=\"button\">Mostrar menos</button></div>",
+      "css": ".ds-btn-ghost__stage{display:flex;padding:16px;background:var(--surface, #0b1a25)}.ds-btn-ghost{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 24px;border:1px solid transparent;border-radius:var(--radius-md, 10px);font:600 16px/1.2 var(--font-ui, \"Space Grotesk\", system-ui, -apple-system, \"Segoe UI\", sans-serif);text-decoration:none;cursor:pointer;transition:background-color var(--dur-fast, 120ms) ease-out,border-color var(--dur-fast, 120ms) ease-out,color var(--dur-fast, 120ms) ease-out;padding:0 12px;background:transparent;color:var(--accent, #ecc98a)}.ds-btn-ghost:hover{background:var(--raised, #11232f)}.ds-btn-ghost:focus-visible{outline:2px solid var(--focus, #ffd891);outline-offset:2px}"
+    },
+    {
+      "name": "Search Palette",
+      "kind": "input",
+      "refersTo": "search-palette",
+      "description": "A busca única: campo de 60px que mostra o foco como fio de 2px na base, grupos de resultados e a opção escolhida contornada inteira.",
+      "html": "<div class=\"ds-palette\" role=\"dialog\" aria-label=\"Busca\"><div class=\"ds-palette__field\"><svg class=\"ds-palette__icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><circle cx=\"11\" cy=\"11\" r=\"6.5\"/><path d=\"m16 16 4.5 4.5\"/></svg><input class=\"ds-palette__input\" type=\"text\" value=\"Jo 3:16\" aria-label=\"Buscar versículo, palavra, livro ou tema\" placeholder=\"Is 9:6, luz, “grande luz”, Ezequiel\"><button class=\"ds-palette__close\" type=\"button\" aria-label=\"Fechar a busca\"><svg class=\"ds-palette__icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M6 6l12 12M18 6 6 18\"/></svg></button></div><div class=\"ds-palette__results\" role=\"listbox\" aria-label=\"Resultados\"><p class=\"ds-palette__group\">Mais de um livro serve</p><a class=\"ds-palette__option\" role=\"option\" aria-selected=\"true\" href=\"#\"><svg class=\"ds-palette__icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M4 5.5c2.5-1 5.5-1 8 .5 2.5-1.5 5.5-1.5 8-.5V19c-2.5-1-5.5-1-8 .5-2.5-1.5-5.5-1.5-8-.5zM12 6v13.5\"/></svg><span class=\"ds-palette__title\">Ir para Jó 3:16</span></a><a class=\"ds-palette__option\" role=\"option\" aria-selected=\"false\" href=\"#\"><svg class=\"ds-palette__icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M4 5.5c2.5-1 5.5-1 8 .5 2.5-1.5 5.5-1.5 8-.5V19c-2.5-1-5.5-1-8 .5-2.5-1.5-5.5-1.5-8-.5zM12 6v13.5\"/></svg><span class=\"ds-palette__title\">Ir para João 3:16</span></a></div><div class=\"ds-palette__foot\"><span><kbd class=\"ds-palette__kbd\">Enter</kbd> abrir</span><span><kbd class=\"ds-palette__kbd\">Esc</kbd> fechar</span></div></div>",
+      "css": ".ds-palette{display:flex;flex-direction:column;width:min(44rem, 100%);overflow:hidden;background:var(--overlay, #14293a);color:var(--ink, #f2ebdd);border:1px solid var(--line, #22374a);border-radius:var(--radius-lg, 18px);box-shadow:var(--shadow-float, 0 16px 48px rgba(0, 0, 0, 0.55))}.ds-palette__field{display:flex;align-items:center;gap:12px;min-height:60px;padding:0 8px 0 16px;border-bottom:1px solid var(--line, #22374a);color:var(--ink-2, #cbc3b6)}.ds-palette__field:has(.ds-palette__input:focus-visible){box-shadow:inset 0 -2px 0 var(--focus, #ffd891)}.ds-palette__input{flex:1;min-width:0;border:0;outline:none;background:transparent;color:var(--ink, #f2ebdd);font:400 19px/1.3 var(--font-ui, \"Space Grotesk\", system-ui, -apple-system, \"Segoe UI\", sans-serif)}.ds-palette__input::placeholder{color:var(--ink-3, #a2acb4);opacity:1}.ds-palette__close{display:inline-grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:var(--radius-md, 10px);background:transparent;color:var(--ink-2, #cbc3b6);cursor:pointer}.ds-palette__close:hover{background:var(--raised, #11232f);color:var(--ink, #f2ebdd)}.ds-palette__close:focus-visible{outline:2px solid var(--focus, #ffd891);outline-offset:2px}.ds-palette__results{padding:8px 0 12px}.ds-palette__group{margin:0;padding:12px 16px 4px;font:600 13px/1.3 var(--font-ui, \"Space Grotesk\", system-ui, -apple-system, \"Segoe UI\", sans-serif);color:var(--ink-2, #cbc3b6)}.ds-palette__option{display:grid;grid-template-columns:22px 1fr auto;align-items:start;gap:4px 12px;padding:12px 16px;color:var(--ink, #f2ebdd);text-decoration:none}.ds-palette__option:hover,.ds-palette__option[aria-selected=\"true\"]{background:var(--raised, #11232f)}.ds-palette__option[aria-selected=\"true\"]{box-shadow:inset 0 0 0 1px var(--accent, #ecc98a)}.ds-palette__option .ds-palette__icon{margin-top:1px;color:var(--accent, #ecc98a)}.ds-palette__title{font:600 16px/1.35 var(--font-ui, \"Space Grotesk\", system-ui, -apple-system, \"Segoe UI\", sans-serif)}.ds-palette__foot{display:flex;flex-wrap:wrap;gap:8px 16px;padding:8px 16px;border-top:1px solid var(--line, #22374a);font:400 14px/1.45 var(--font-ui, \"Space Grotesk\", system-ui, -apple-system, \"Segoe UI\", sans-serif);color:var(--ink-2, #cbc3b6)}.ds-palette__foot span{display:inline-flex;align-items:center;gap:4px}.ds-palette__kbd{display:inline-grid;place-items:center;min-width:2rem;height:1.625rem;padding:0 0.375rem;border:1px solid var(--line-strong, #62798c);border-radius:var(--radius-sm, 6px);color:var(--ink-2, #cbc3b6);font:600 13px/1 var(--font-ui, \"Space Grotesk\", system-ui, -apple-system, \"Segoe UI\", sans-serif)}.ds-palette__icon{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}"
+    },
+    {
+      "name": "Scope Chips",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Pílulas de 44px com borda line-strong e tinta ink-2; a escolhida em accent-fill com on-accent.",
+      "html": "<div class=\"ds-chips\" role=\"group\" aria-label=\"Onde buscar\"><button class=\"ds-chip\" type=\"button\" aria-pressed=\"true\">Tudo</button><button class=\"ds-chip\" type=\"button\" aria-pressed=\"false\">Texto</button><button class=\"ds-chip\" type=\"button\" aria-pressed=\"false\">Livros</button><button class=\"ds-chip\" type=\"button\" aria-pressed=\"false\">Temas</button></div>",
+      "css": ".ds-chips{display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px;background:var(--overlay, #14293a)}.ds-chip{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:1px solid var(--line-strong, #62798c);border-radius:var(--radius-pill, 999px);background:transparent;color:var(--ink-2, #cbc3b6);font:500 14px/1 var(--font-ui, \"Space Grotesk\", system-ui, -apple-system, \"Segoe UI\", sans-serif);white-space:nowrap;cursor:pointer}.ds-chip:hover{color:var(--ink, #f2ebdd);border-color:var(--accent, #ecc98a)}.ds-chip[aria-pressed=\"true\"]{background:var(--accent-fill, #e8c27c);border-color:var(--accent-fill, #e8c27c);color:var(--on-accent, #06121b)}.ds-chip:focus-visible{outline:2px solid var(--focus, #ffd891);outline-offset:2px}"
+    },
+    {
+      "name": "Section Rail",
+      "kind": "nav",
+      "refersTo": "rail-item",
+      "description": "Trilho de seções do desktop: ícone sobre o nome em ink-2; o atual em raised com accent e traço de 2.1.",
+      "html": "<nav class=\"ds-rail\" aria-label=\"Seções\"><a class=\"ds-rail__item\" href=\"#\"><svg class=\"ds-rail__icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M6.5 8.2 11 16.2M13 16.2l4.6-8.4M8.2 6.6l7.6-.5\"/><circle cx=\"6\" cy=\"7\" r=\"2\"/><circle cx=\"18\" cy=\"6\" r=\"2\"/><circle cx=\"12\" cy=\"18\" r=\"2\"/></svg><span>Explorar</span></a><a class=\"ds-rail__item\" href=\"#\" aria-current=\"page\"><svg class=\"ds-rail__icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M4 5.5c2.5-1 5.5-1 8 .5 2.5-1.5 5.5-1.5 8-.5V19c-2.5-1-5.5-1-8 .5-2.5-1.5-5.5-1.5-8-.5zM12 6v13.5\"/></svg><span>Ler</span></a><a class=\"ds-rail__item\" href=\"#\"><svg class=\"ds-rail__icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M3 12h18M7 9v6M12 7.5v9M17 10v4\"/></svg><span>Linha do tempo</span></a><a class=\"ds-rail__item\" href=\"#\"><svg class=\"ds-rail__icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M4 17a8 8 0 0 1 16 0\"/><path d=\"M2.5 17h19\" opacity=\".45\"/></svg><span>Arcos</span></a></nav>",
+      "css": ".ds-rail{display:flex;flex-direction:column;gap:4px;width:88px;padding:12px 8px;background:var(--ground, #06121b);border-right:1px solid var(--line, #22374a)}.ds-rail__item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:60px;padding:8px 4px;border-radius:var(--radius-md, 10px);color:var(--ink-2, #cbc3b6);font:500 13px/1.15 var(--font-ui, \"Space Grotesk\", system-ui, -apple-system, \"Segoe UI\", sans-serif);text-align:center;text-decoration:none}.ds-rail__item:hover{background:var(--raised, #11232f);color:var(--ink, #f2ebdd)}.ds-rail__item[aria-current]{background:var(--raised, #11232f);color:var(--accent, #ecc98a)}.ds-rail__item[aria-current] .ds-rail__icon{stroke-width:2.1}.ds-rail__item:focus-visible{outline:2px solid var(--focus, #ffd891);outline-offset:2px}.ds-rail__icon{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}"
+    },
+    {
+      "name": "Verse Line",
+      "kind": "custom",
+      "refersTo": "verse-links",
+      "description": "A unidade da leitura: número pendurado em accent, Escritura em Literata, palavras acrescentadas em ink-2, pílula de ligações; o versículo aceso ganha a faixa highlight e a pílula cheia.",
+      "html": "<div class=\"ds-verses__stage\"><ol class=\"ds-verses\"><li class=\"ds-verse\"><span class=\"ds-verse__n\">1</span><span class=\"ds-verse__body\">Mas não <span class=\"ds-verse__supplied\">[haverá]</span> escuridão para aquela que foi angustiada tal como nos primeiros tempos, <span class=\"ds-verse__supplied\">[quando]</span> ele afligiu a terra de Zebulom e a terra de Naftali; mas depois ele <span class=\"ds-verse__supplied\">[a]</span> honrará junto ao caminho do mar, dalém do Jordão, a Galileia das nações. <a class=\"ds-verse__links\" href=\"#\"><svg class=\"ds-verse__icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M4 17a8 8 0 0 1 16 0\"/><path d=\"M2.5 17h19\" opacity=\".45\"/></svg>16<span class=\"ds-verse__hidden\"> ligações</span></a></span></li><li class=\"ds-verse\" aria-current=\"true\"><span class=\"ds-verse__n\">6</span><span class=\"ds-verse__body\">Porque um menino nos nasceu, um filho nos foi dado; e o governo está sobre seus ombros; e seu nome se chama Maravilhoso, Conselheiro, Deus Forte, Pai da Eternidade, Príncipe da Paz. <a class=\"ds-verse__links\" href=\"#\"><svg class=\"ds-verse__icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M4 17a8 8 0 0 1 16 0\"/><path d=\"M2.5 17h19\" opacity=\".45\"/></svg>212<span class=\"ds-verse__hidden\"> ligações</span></a></span></li></ol></div>",
+      "css": ".ds-verses__stage{padding:16px 24px;background:var(--ground, #06121b)}.ds-verses{max-width:calc(1.75rem + 8px + var(--column, 36rem));margin:0;padding:0;list-style:none;font-family:var(--font-reading, Literata, Georgia, \"Times New Roman\", serif);font-size:var(--fs-scripture, clamp(1.1875rem, 1.05rem + 0.35vw, 1.3125rem));line-height:1.75;color:var(--ink-reading, #eae3d4);font-variant-numeric:proportional-nums}.ds-verse{display:grid;grid-template-columns:1.75rem minmax(0, 1fr);column-gap:8px;padding-block:0.25em}.ds-verse[aria-current]{margin:0 -12px;padding:0.25em 12px;border-radius:var(--radius-md, 10px);background:var(--highlight, #1a3343)}.ds-verse__n{grid-column:1;text-align:right;font:600 13px/1 var(--font-ui, \"Space Grotesk\", system-ui, -apple-system, \"Segoe UI\", sans-serif);line-height:calc(var(--fs-scripture, 1.25rem) * 1.75);color:var(--accent, #ecc98a);font-variant-numeric:tabular-nums;user-select:none}.ds-verse__body{grid-column:2;min-width:0;text-wrap:pretty}.ds-verse__supplied{color:var(--ink-2, #cbc3b6)}.ds-verse__links{position:relative;display:inline-flex;align-items:center;gap:4px;margin-left:0.35em;padding:0 0.5rem;min-height:1.75rem;border:1px solid var(--line-strong, #62798c);border-radius:var(--radius-pill, 999px);font:600 13px/1 var(--font-ui, \"Space Grotesk\", system-ui, -apple-system, \"Segoe UI\", sans-serif);color:var(--accent, #ecc98a);text-decoration:none;vertical-align:0.12em;white-space:nowrap;font-variant-numeric:tabular-nums}.ds-verse__links::after{content:\"\";position:absolute;inset:-0.5rem -0.25rem}.ds-verse__links:hover{border-color:var(--accent, #ecc98a)}.ds-verse__links:focus-visible{outline:2px solid var(--focus, #ffd891);outline-offset:2px}.ds-verse[aria-current] .ds-verse__links{background:var(--accent-fill, #e8c27c);border-color:var(--accent-fill, #e8c27c);color:var(--on-accent, #06121b)}.ds-verse__icon{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.ds-verse__hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}"
+    },
+    {
+      "name": "Connection Row",
+      "kind": "custom",
+      "description": "Uma ligação numa lista com fios: referência e direção, votos com a barra proporcional à mais votada, o trecho em Literata.",
+      "html": "<div class=\"ds-conns__stage\"><ol class=\"ds-conns\"><li class=\"ds-conn\"><a class=\"ds-conn__ref\" href=\"#\">Lucas 2:11<svg class=\"ds-conn__dir\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M4 9h14M15 6l3 3-3 3M20 15H6M9 12l-3 3 3 3\"/></svg><span class=\"ds-conn__hidden\">, nos dois sentidos</span></a><span class=\"ds-conn__votes\"><span class=\"ds-conn__bar\" style=\"--w: 1\" aria-hidden=\"true\"></span>228 votos</span><p class=\"ds-conn__text\">que hoje na cidade de Davi vos nasceu o Salvador, que é Cristo, o Senhor.</p></li><li class=\"ds-conn\"><a class=\"ds-conn__ref\" href=\"#\">Isaías 7:14<svg class=\"ds-conn__dir\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M4 9h14M15 6l3 3-3 3M20 15H6M9 12l-3 3 3 3\"/></svg><span class=\"ds-conn__hidden\">, nos dois sentidos</span></a><span class=\"ds-conn__votes\"><span class=\"ds-conn__bar\" style=\"--w: 0.781\" aria-hidden=\"true\"></span>178 votos</span><p class=\"ds-conn__text\">Por isso o Senhor, ele mesmo, vos dará um sinal: eis que a virgem conceberá, e fará nascer um filho, e ela chamará seu nome Emanuel.</p></li></ol></div>",
+      "css": ".ds-conns__stage{padding:8px 24px;background:var(--surface, #0b1a25);color:var(--ink, #f2ebdd)}.ds-conns{margin:0;padding:0;list-style:none}.ds-conn{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:16px 0;border-bottom:1px solid var(--line, #22374a)}.ds-conn__ref{display:inline-flex;align-items:center;gap:8px;min-height:2rem;font:600 16px/1.3 var(--font-ui, \"Space Grotesk\", system-ui, -apple-system, \"Segoe UI\", sans-serif);color:var(--ink, #f2ebdd);text-decoration:none}.ds-conn__ref:hover{color:var(--accent, #ecc98a);text-decoration:underline}.ds-conn__ref:focus-visible{outline:2px solid var(--focus, #ffd891);outline-offset:2px}.ds-conn__dir{width:16px;height:16px;color:var(--ink-2, #cbc3b6);fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}.ds-conn__votes{display:inline-flex;align-items:center;gap:8px;font:500 14px/1 var(--font-ui, \"Space Grotesk\", system-ui, -apple-system, \"Segoe UI\", sans-serif);color:var(--ink-2, #cbc3b6);white-space:nowrap}.ds-conn__bar{position:relative;width:44px;height:6px;border-radius:var(--radius-pill, 999px);background:var(--line, #22374a);overflow:hidden}.ds-conn__bar::before{content:\"\";position:absolute;inset:0 auto 0 0;width:calc(var(--w, 0.5) * 100%);min-width:6px;border-radius:inherit;background:var(--accent, #ecc98a)}.ds-conn__text{grid-column:1 / -1;margin:0;font:400 17px/1.6 var(--font-reading, Literata, Georgia, \"Times New Roman\", serif);color:var(--ink-reading, #eae3d4)}.ds-conn__hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}"
+    },
+    {
+      "name": "Chapter Pager",
+      "kind": "nav",
+      "description": "Anterior e seguinte: uma linha entre dois fios, nunca duas caixas, com o chevron desenhado.",
+      "html": "<div class=\"ds-pager__stage\"><nav class=\"ds-pager\" aria-label=\"Capítulo anterior e seguinte\"><a href=\"#\" rel=\"prev\"><small><svg class=\"ds-pager__icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"m15 6-6 6 6 6\"/></svg>Anterior</small><strong>Isaías 8</strong></a><a href=\"#\" rel=\"next\"><small>Seguinte<svg class=\"ds-pager__icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"m9 6 6 6-6 6\"/></svg></small><strong>Isaías 10</strong></a></nav></div>",
+      "css": ".ds-pager__stage{padding:16px;background:var(--ground, #06121b)}.ds-pager{display:grid;grid-template-columns:1fr 1fr;gap:12px;border-block:1px solid var(--line, #22374a)}.ds-pager a{display:grid;gap:2px;min-height:44px;padding:12px 0;color:var(--ink, #f2ebdd);text-decoration:none}.ds-pager a[rel=\"next\"]{text-align:right}.ds-pager small{display:inline-flex;align-items:center;gap:4px;font:400 13px/1.3 var(--font-ui, \"Space Grotesk\", system-ui, -apple-system, \"Segoe UI\", sans-serif);color:var(--ink-2, #cbc3b6)}.ds-pager a[rel=\"next\"] small{justify-content:flex-end}.ds-pager strong{font:600 16px/1.3 var(--font-ui, \"Space Grotesk\", system-ui, -apple-system, \"Segoe UI\", sans-serif)}.ds-pager a:hover strong{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:0.15em}.ds-pager a:focus-visible{outline:2px solid var(--focus, #ffd891);outline-offset:2px}.ds-pager__icon{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}"
+    },
+    {
+      "name": "Sky Window",
+      "kind": "custom",
+      "refersTo": "sky-window",
+      "description": "Um pedaço do céu dos vídeos, noturno nos dois temas: arcos em sky-gold sobre a linha de base. Emoldurada no Dia; no Noite, dentro de painel, abre-se sem moldura.",
+      "html": "<figure class=\"ds-sky\"><div class=\"ds-sky__box\"><svg class=\"ds-sky__svg\" viewBox=\"0 0 320 120\" aria-hidden=\"true\" focusable=\"false\"><path class=\"ds-sky__base\" d=\"M8 100H312\"/><g class=\"ds-sky__arcs\"><path d=\"M40 100A60 60 0 0 1 160 100\" stroke-width=\"2.5\"/><path d=\"M120 100A80 80 0 0 1 280 100\" stroke-width=\"1.25\" stroke-opacity=\".7\"/><path d=\"M150 100A20 20 0 0 1 190 100\" stroke-width=\"1\" stroke-opacity=\".6\"/></g><circle class=\"ds-sky__star\" cx=\"40\" cy=\"100\" r=\"3\"/><circle class=\"ds-sky__star\" cx=\"160\" cy=\"100\" r=\"3\"/></svg></div><figcaption class=\"ds-sky__caption\"><span class=\"ds-sky__legend\"><span class=\"ds-sky__line\" aria-hidden=\"true\"></span>Traço mais grosso, mais votos</span></figcaption></figure>",
+      "css": ".ds-sky{position:relative;max-width:22rem;margin:0;overflow:hidden;border:1px solid var(--line, #22374a);border-radius:var(--radius-md, 10px);background:var(--sky, #060d1a);color:var(--sky-ink, #f2ebdd)}.ds-sky__box{padding:12px 12px 0}.ds-sky__svg{display:block;width:100%;height:auto;overflow:visible}.ds-sky__base{fill:none;stroke:var(--sky-ink-2, #aeb9cc);stroke-width:1}.ds-sky__arcs path{fill:none;stroke:var(--sky-gold, #ffcc6b);stroke-linecap:round;mix-blend-mode:screen}.ds-sky__star{fill:var(--sky-gold, #ffcc6b)}.ds-sky__caption{display:flex;justify-content:space-between;gap:12px;padding:8px 12px 12px;font:400 14px/1.3 var(--font-ui, \"Space Grotesk\", system-ui, -apple-system, \"Segoe UI\", sans-serif);color:var(--sky-ink-2, #aeb9cc)}.ds-sky__legend{display:inline-flex;align-items:center;gap:8px}.ds-sky__line{flex:none;width:1.5rem;height:3px;border-radius:var(--radius-pill, 999px);background:var(--sky-gold, #ffcc6b)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "O Atlas das Ligações",
+    "overview": "Toda passagem abre um mapa. O sistema trata a Bíblia como um atlas: o texto se lê numa coluna calma, em Literata grande, e cada ligação é uma linha de ouro sobre um céu azul-marinho. O ouro, o céu noturno e os arcos vêm dos dois vídeos, para que quem chega pelo Reels reconheça a luz. O motivo é um só, o arco sobre a linha de base: está na marca, no ícone de ligação, nos mapas e no céu.\n\nA densidade segue o modo de cada superfície. Ler é contenção: uma coluna de 36rem, fios em vez de caixas, cada número escrito em texto e com a sua regra. O mapa é o único lugar de espetáculo, e mesmo ele sai de um desenho determinístico a partir dos votos: o selo do capítulo no centro, oito medalhões gravados em órbita, traços de ouro que engrossam com os votos. Só uma superfície flutua de cada vez (folha, busca, menu), e só um movimento é orquestrado: o traço aceso que corre do selo até o capítulo escolhido.\n\nNoite e Dia são temas de primeira, com a mesma hierarquia e o contraste conferido por teste; a primeira visita segue o aparelho. As rejeições são as do Alex (19/10/2026): app devocional genérico (creme com ornamentos, versículo do dia), dashboard tech frio (neon, brilho, grade de cards), perder a cara dos vídeos, e ler ou buscar com esforço (contraste fraco, letra pequena, busca escondida).",
+    "keyCharacteristics": [
+      "Dois temas: Noite (azul-marinho, tinta de pergaminho, ouro) e Dia (pergaminho liso, tinta verde-negra, bronze), com 7:1 para texto e Escritura nos dois.",
+      "Três vozes: Newsreader Display nos títulos, Literata na Escritura (19 a 21px), Space Grotesk na interface.",
+      "Ouro e bronze só para números, ligações e o que está aceso.",
+      "Fios de 1px em vez de caixas; cartão só para o que é objeto separado.",
+      "Um motivo, o arco sobre a linha de base, e um momento orquestrado, o traço aceso do mapa.",
+      "O céu dos mapas é noturno nos dois temas, com o ouro dos vídeos."
+    ],
+    "rules": [
+      {
+        "name": "A Regra do Valor Literal",
+        "body": "Cada tema dá o valor literal de cada cor, e nenhum token aponta para outro. Foi um apelido entre tokens que deixou texto escuro na folha escura no iPhone do Alex (19/10); `site/tests/tokens.test.ts` barra isso, e `site/tests/css-vars.test.ts` barra qualquer `var(--x)` sem declaração.",
+        "section": "colors"
+      },
+      {
+        "name": "A Regra do Ouro que Conta",
+        "body": "Ouro e bronze marcam o que se conta e o que se segue: números, ligações, o ícone ativo, o que está aceso. Não pintam áreas grandes nem enfeitam; a cor cheia fica no botão principal (`action-fill`, um por área) e nas marcas pequenas de escolha (`accent-fill`).",
+        "section": "colors"
+      },
+      {
+        "name": "A Regra do Céu Noturno",
+        "body": "O céu é noturno nos dois temas. No Dia, é uma janela emoldurada de azul-marinho no pergaminho; no Noite, dentro de um painel ou de uma folha, a janela se abre no próprio painel, sem moldura nem recuo (`--window-inset: 0px`): nunca caixa dentro de caixa.",
+        "section": "colors"
+      },
+      {
+        "name": "A Regra da Escritura Primeiro",
+        "body": "A Escritura é a coisa mais legível da tela: Literata de 19px ou mais, entrelinha 1.75, coluna de 36rem, `ink-reading` a 7:1 ou mais. Nada se desenha atrás dela, e nenhum trecho fica abaixo de 17px.",
+        "section": "typography"
+      },
+      {
+        "name": "A Regra Sem Caixa-Alta",
+        "body": "Hierarquia por tamanho, face e peso, nunca por caixa-alta, espaçamento de letras ou cor fraca. Nenhum sobretítulo acima de título; o selo escreve o livro como no texto (\"Isaías\", nunca \"ISAÍAS\").",
+        "section": "typography"
+      },
+      {
+        "name": "A Regra dos Algarismos",
+        "body": "Algarismos tabulares na interface, para as contagens se alinharem, e proporcionais na Escritura; número com separador de milhar e a unidade junto (\"212 ligações\", \"31.102 versículos\").",
+        "section": "typography"
+      },
+      {
+        "name": "A Regra do Contêiner que Rola",
+        "body": "A página nunca rola de lado: o que é largo (barra de capítulos, escopos da busca, tabelas) rola dentro do próprio contêiner.",
+        "section": "layout"
+      },
+      {
+        "name": "A Regra da Superfície Única",
+        "body": "Só uma coisa flutua de cada vez, e ela é opaca: fundo `overlay`, borda `line`, `shadow-float` e a própria cor de texto. A faixa que espia some quando a barra de seleção aparece; texto nunca herda cor através de uma superfície flutuante.",
+        "section": "elevation"
+      },
+      {
+        "name": "A Regra do Brilho no Céu",
+        "body": "Nenhum brilho, halo, gradiente, vidro ou desfoque na interface. Luz que soma (`mix-blend-mode: screen`) só nos arcos, dentro da janela do céu.",
+        "section": "elevation"
+      },
+      {
+        "name": "A Regra do Fio, Não da Caixa",
+        "body": "Listas são linhas separadas por fio `line`. Cartão só para o que é objeto separado: o painel de ligações, a busca, a folha. Nada de caixa dentro de caixa.",
+        "section": "shapes"
+      },
+      {
+        "name": "A Regra do Contorno Inteiro",
+        "body": "O escolhido se contorna inteiro (`inset 0 0 0 1px`, em `accent` ou `lit`), como o trilho marca o capítulo atual; nunca uma faixa de cor num lado só.",
+        "section": "shapes"
+      },
+      {
+        "name": "A Regra da Busca Única",
+        "body": "Uma busca à vista: na capa e em `/buscar`, a entrada da barra sai de cena (opacidade e visibilidade em 120ms, `data-page-search` no `<html>`) enquanto o campo da própria página aparece, e volta quando ele passa para baixo da barra. Ctrl K, / e a aba Buscar abrem a mesma busca sempre.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "Do tirar toda cor do token do tema (`var(--accent)`), com o valor literal de cada tema em `tokens.json` e `tokens.css` gerado dele.",
+      "Do manter a Escritura em Literata de 19 a 21px, entrelinha 1.75, na coluna de 36rem, e os trechos em 17px ou mais.",
+      "Do escrever cada contagem em texto e com a unidade (\"212 ligações\", \"296 votos\"), e dizer qual regra ela usa.",
+      "Do marcar o escolhido com contorno inteiro (`inset 0 0 0 1px`, em `accent` ou `lit`) e o versículo aceso com a faixa `highlight`.",
+      "Do separar linhas de lista com fios de 1px `line`; anterior e seguinte são uma linha entre dois fios.",
+      "Do desenhar todo ícone com o conjunto de `icons.tsx` (24px, traço 1.75, 2.1 no atual): o separador da trilha de navegação é o chevron, a seta da Ponte é o ícone `out`.",
+      "Do manter uma superfície flutuante por vez, opaca em `overlay`, com borda `line`, `shadow-float` e a própria tinta.",
+      "Do mostrar o céu sempre noturno: janela emoldurada (`line`, `radius-md`) no Dia; no Noite, dentro de painel ou folha, a janela sem moldura nem recuo.",
+      "Do manter uma busca à vista: na capa e em `/buscar`, a entrada da barra sai enquanto o campo da página aparece.",
+      "Do dar tema às partes do navegador: `::selection` em `highlight` com `ink`, cursor e `accent-color` em `accent`, barra de rolagem em `line-strong` sobre `ground`, anel de foco de 2px em `focus` a 2px.",
+      "Do dar 44px de alvo a todo controle, com área invisível em volta das pílulas pequenas.",
+      "Do dar ao título de seção cujos itens têm título próprio o degrau `title` em Newsreader (`.bc-section-title--major`), e às demais seções o título de 16px 600 com fio embaixo (`.bc-section-title`)."
+    ],
+    "donts": [
+      "Don't usar caixa-alta ou espaçamento de letras para hierarquia, nem sobretítulo acima de título.",
+      "Don't montar grade de cards iguais, card dentro de card ou número gigante com rótulo pequeno.",
+      "Don't pôr brilho, halo, borda luminosa, gradiente, vidro ou desfoque na interface; a luz fica dentro do céu.",
+      "Don't marcar o escolhido com uma faixa de cor num lado só da linha ou do cartão.",
+      "Don't digitar \"›\", \"→\" ou emoji no lugar de um ícone.",
+      "Don't usar pergaminho como textura ou moldura, ornamentos ou citação bíblica solta num card, como \"versículo do dia\"; toda citação aparece ligada ao dado que a conecta.",
+      "Don't deixar a Escritura pequena, cortada com reticências sem jeito de abrir, ou com cor herdada de outra superfície.",
+      "Don't usar cinza puro nem opacidade em texto; texto secundário é `ink-2` ou `ink-3`.",
+      "Don't confiar só na cor para erro ou categoria: sempre com palavra, ícone ou padrão de linha.",
+      "Don't animar cada seção ao entrar, cada card no hover ou com parallax; o traço aceso é o único movimento orquestrado."
+    ]
+  }
+}
