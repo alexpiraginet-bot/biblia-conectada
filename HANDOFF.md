@@ -718,3 +718,11 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
     - `/arcos`: LCP de 1,5 a 1,7 s × 1,5 s, desempenho 99 a 100 × 100;
     - no servidor local os números saíram piores (LCP de 3,2 s no versículo), mas a produção medida na mesma hora ficou igual à prévia: a diferença era do servidor local, não do código.
   - **Não conferido:** Safari/iOS de verdade (a rolagem com inércia dentro da folha), leitor de tela, GPU de verdade.
+- **20/10, tarde, PR #7 no ar e a lista sem fim mais firme:**
+  - O Alex aprovou o merge do PR #7 (5bbb11a). Na produção, a folha mostra todas as ligações com texto e a lista sem fim funciona.
+  - **Achado na produção:** em algumas visitas a lista parava. Cada seção espera todos os seus arquivos, e um pedido sem resposta (7 a 8 s, às vezes um 502 sem os cabeçalhos da Vercel, provavelmente do proxy deste ambiente) prendia a lista até o navegador desistir. Em 4G isso também acontece.
+  - **Correção** (`design/README.md` §6.2):
+    - todo arquivo de `public/data` pedido no navegador desiste em 10 s (`DATA_TIMEOUT_MS`), e o pedido seguinte busca de novo;
+    - a lista tenta a seção de novo uma vez, 1,2 s depois, antes de mostrar "Tentar de novo";
+    - logo que uma seção entra, os arquivos da seguinte já começam a vir.
+  - **Conferido no build local:** `npm test` (485 testes, com `tests/fetchers.test.ts`: o arquivo travado é abandonado em 10 s e buscado de novo; sem o limite, o teste falha) e `npm run build`; teste da folha no navegador, 28 de 28, com um caso novo: o primeiro pedido do texto de Deuteronômio 11 fica sem resposta, e a seção chega em 11,4 s, sem aviso de erro.
