@@ -190,7 +190,7 @@ export class SculptureEngine {
     this.preview = lit;
     if (lit) {
       this.r.setLit(lit);
-      this.r.recede = 0.3;
+      this.r.recede = 0.065;
       this.r.grow = 1;
     } else {
       this.r.setLit(this.lit);

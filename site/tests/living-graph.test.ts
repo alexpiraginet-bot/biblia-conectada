@@ -1,11 +1,23 @@
 import { beforeAll, describe, expect, it } from "vitest";
-import { livingGraphData, type LivingGraphData } from "../src/lib/explore/living-graph";
+import { illustratedAtlasData, livingGraphData, type LivingGraphData } from "../src/lib/explore/living-graph";
 import { bookFile, books } from "./generated";
 
 let graph: LivingGraphData;
 beforeAll(async () => { graph = await livingGraphData(); });
 
 describe("the interactive constellation", () => {
+  it("keeps the illustrated lens on the same real graph and separates its primary touch targets", async () => {
+    const source = await livingGraphData("joao", 1);
+    const illustrated = await illustratedAtlasData();
+    expect(illustrated.edges).toEqual(source.edges);
+    expect(illustrated.nodes.map(({ id, text, versePath }) => ({ id, text, versePath }))).toEqual(source.nodes.map(({ id, text, versePath }) => ({ id, text, versePath })));
+    const primary = illustrated.nodes.filter((n) => n.prominent);
+    expect(primary).toHaveLength(8);
+    for (const node of primary) {
+      expect(node.illustration).toMatch(/^\/medalhoes\/[a-z]+-192\.webp$/);
+      for (const other of primary) if (other.id !== node.id) expect(Math.hypot(other.x - node.x, other.y - node.y)).toBeGreaterThan(160);
+    }
+  });
   it("draws only real, correctly weighted chapter connections", () => {
     const all = books();
     const chapterOf: number[] = [];

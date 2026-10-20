@@ -14,25 +14,28 @@ export const metadata: Metadata = {
 export default async function ChronologyPage() {
   const moments = await loadChronologicalReading(verseText);
   return (
-    <main id="conteudo" className={`site-page ${styles.page}`}>
+    <main id="conteudo" className={styles.page}>
+      <div className={styles.edition}><Link href="/">Bíblia Conectada <span aria-hidden="true">/</span> Atlas dos evangelhos</Link><span>Uma história · quatro olhares</span></div>
       <header className={styles.hero}>
-        <div className={styles.heroArt}><Image src="/journey/galilee-dawn.webp" alt="" fill sizes="(max-width: 55rem) 100vw, 80vw" unoptimized preload /></div>
+        <div className={styles.heroArt}><Image src="/journey/jerusalem.webp" alt="" fill sizes="(max-width: 55rem) 100vw, 65vw" unoptimized loading="eager" /></div>
+        <svg className={styles.compass} viewBox="0 0 240 240" fill="none" aria-hidden="true"><circle cx="120" cy="120" r="95" /><circle cx="120" cy="120" r="76" /><circle cx="120" cy="120" r="10" /><path d="M120 0v240M0 120h240M35 35l170 170M35 205 205 35M120 28l13 79 79 13-79 13-13 79-13-79-79-13 79-13Z" /><path d="m120 46 5 64 49-56-44 66 64 5-64 5 44 64-49-54-5 64-5-64-49 54 44-64-64-5 64-5-44-66 49 56Z" /></svg>
         <div className={styles.heroContent}>
-          <span className={styles.eyebrow}>Novo Testamento · Um percurso ilustrado</span>
-          <h1>A vida de Jesus,<br /><em>de perto.</em></h1>
-          <p>Das primeiras páginas ao horizonte de uma nova história. Caminhe pelos acontecimentos e descubra o olhar de cada evangelho.</p>
-          <div className={styles.heroActions}><a href="#percurso">Começar o percurso <span aria-hidden="true">↓</span></a><Link href="/caminhos">Abrir o mapa <span aria-hidden="true">↗</span></Link></div>
+          <span className={styles.eyebrow}>Novo Testamento · Percurso ilustrado</span>
+          <h1>Uma vida.<br />Todos esses<br /><em>caminhos.</em></h1>
+          <p>Siga o fio da vida de Jesus.<br />Descubra como os evangelhos se encontram<br className={styles.desktopBreak} /> — e o que cada olhar revela.</p>
+          <div className={styles.heroActions}><a href="#percurso">Entrar na história <span aria-hidden="true">↓</span></a><Link href="/caminhos">Explorar os lugares <span aria-hidden="true">↗</span></Link></div>
         </div>
-        <span className={styles.artLabel}>Galileia · Recriação artística por IA</span>
+        <div className={styles.heroMarginalia}><span>De Belém<br />a Jerusalém.</span><i aria-hidden="true" /><small>Um caminho de leitura.<br />Muitas conexões.</small></div>
+        <span className={styles.artLabel}>Jerusalém · Recriação artística por IA</span>
       </header>
       <div className={styles.overview}>
-        <p><strong>{moments.length} momentos</strong><span>para seguir a história</span></p>
-        <p><strong>{GOSPELS.length} evangelhos</strong><span>com suas próprias perspectivas</span></p>
-        <p className={styles.overviewNote}>Uma sequência de leitura dos acontecimentos. Os relatos mantêm suas diferenças de cenário, ordem e ênfase.</p>
+        <p><strong>{String(moments.length).padStart(2, "0")}</strong><span>momentos<br />da mesma história</span></p>
+        <p><strong>{String(GOSPELS.length).padStart(2, "0")}</strong><span>evangelhos<br />com sua própria voz</span></p>
+        <p className={styles.overviewNote}>Acompanhe os acontecimentos em uma sequência de leitura. As diferenças de cenário, ordem e ênfase continuam aqui, à vista.</p>
       </div>
       <ChronologicalReading moments={moments} />
       <section className={styles.method} id="criterios" aria-labelledby="criteria-title">
-        <div><span className={styles.methodEyebrow}>Para ler com atenção</span><h2 id="criteria-title">Cada voz tem<br />seu próprio caminho.</h2></div>
+        <div><span className={styles.methodEyebrow}>As fontes, à vista</span><h2 id="criteria-title">Aproximar os relatos.<br /><em>Preservar cada voz.</em></h2></div>
         <div className={styles.methodBody}>
           <p>Este percurso seleciona momentos dos evangelhos em uma ordem narrativa ampla: nascimento, vida pública, paixão e relatos da ressurreição. É um roteiro editorial de leitura, sem pretensão de estabelecer a data ou a posição exata de cada episódio.</p>
           <p>Você pode ler cada evangelista ou comparar os trechos disponíveis. “Passagem relacionada” identifica um vínculo de tema ou contexto que não deve ser confundido com o mesmo relato. As imagens são recriações artísticas, não registros arqueológicos.</p>

@@ -138,3 +138,31 @@ handoff técnico acompanhando uma correção ainda em rascunho.
 
 Nenhuma integração foi executada ou autorizada por este registro. A conclusão
 de ausência de sobreposição vale apenas para os hashes e caminhos acima.
+
+## Atualização — integração autorizada em 20/10/2026
+
+O usuário autorizou integrar as entregas prontas por partes. O PR #8 foi
+revisado no head `d267be3eb8ba9c8d2d32c72c8fd73bcfce8f530e`: oito testes
+isolados do carregador e cinco cenários de leitura contínua com dados reais
+passaram, incluindo timeout do corpo HTTP e nova tentativa.
+
+O merge foi executado com conferência do head esperado e retornou o commit
+`ef1cdf6ad4f0dcaa496388fd1b967290885ff783`. A Vercel mostrou a implantação
+correspondente como Ready. A branch `codex/experiencia-viva` incorporou
+`origin/main` em `1c189c8`, sem conflitos. A afirmação anterior de ausência
+de integração descreve apenas o registro inicial acima.
+
+Esta verificação confirma a integração desse PR; não presume encerramento
+de outras sessões do Claude nem autorização para sobrescrever seu trabalho.
+
+## Atualização — correção da lista no PR #10
+
+O PR #10 foi integrado por `alexpiraginet-bot` em 20/10/2026 às 18:16:15 UTC,
+com merge `42039b7eebacf052514a25f243f885f5505181bb`. A revisão do head
+`09b572f55f647410d4b030f501c42cac8e06cf68` confirmou que os quatro arquivos
+alterados não se sobrepõem à nova experiência visual.
+
+Uma verificação independente do CSS em larguras de 375, 768 e 1440 pixels
+confirmou que a lista permanece dentro da folha após a rolagem. A alteração
+preserva a altura intrínseca e elimina a largura intrínseca que provocava
+overflow. Não foi presumido encerramento da sessão do Claude.

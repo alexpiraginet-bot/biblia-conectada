@@ -10,7 +10,7 @@ import { currentItem, NAV, type NavItem } from "./nav";
 /** Explicit route state: Next can keep a previous page hidden in the DOM during navigation. */
 export function SiteShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const discovery = pathname === "/" || pathname === "/caminhos" || pathname === "/cronologia";
+  const discovery = pathname === "/" || pathname === "/caminhos" || pathname === "/cronologia" || pathname === "/arcos";
   return <div className="site-shell" data-discovery={discovery ? "" : undefined}>{children}</div>;
 }
 

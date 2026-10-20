@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useId, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent } from "react";
 import type { LivingGraphData, LivingNode } from "@/lib/explore/living-graph";
 import styles from "./LivingGraph.module.css";
@@ -14,7 +15,7 @@ function Arrow() {
 }
 
 /** A finite window of real chapters, drawn as a constellation with an equivalent, native keyboard control. */
-export function LivingGraph({ data, compact = false, className = "" }: { data: LivingGraphData; compact?: boolean; className?: string }) {
+export function LivingGraph({ data, compact = false, immersive = false, className = "" }: { data: LivingGraphData; compact?: boolean; immersive?: boolean; className?: string }) {
   const [selected, setSelected] = useState(data.centre);
   const [hovered, setHovered] = useState<number | null>(null);
   const [exploring, setExploring] = useState(false);
@@ -37,6 +38,12 @@ export function LivingGraph({ data, compact = false, className = "" }: { data: L
     return set;
   }, [active, data.edges]);
   const maxVotes = Math.max(1, ...data.edges.map((e) => e.votes));
+  const connections = data.edges.filter((e) => e.source === selected || e.target === selected).toSorted((a, b) => b.votes - a.votes);
+  const curve = (a: LivingNode, b: LivingNode) => {
+    // The control point must stay on the same side when the pulse traverses an edge backwards.
+    const bend = ((a.id + b.id) % 2 ? 1 : -1) * (a.id < b.id ? 1 : -1) * 0.14;
+    return `M${a.x} ${a.y}Q${(a.x + b.x) / 2 - (b.y - a.y) * bend} ${(a.y + b.y) / 2 + (b.x - a.x) * bend} ${b.x} ${b.y}`;
+  };
 
   const choose = (id: number) => { setSelected(id); setExploring(true); };
   const reset = () => { setSelected(data.centre); setHovered(null); setExploring(false); setZoom(1); setPan({ x: 0, y: 0 }); };
@@ -46,12 +53,13 @@ export function LivingGraph({ data, compact = false, className = "" }: { data: L
     if (!box) return null;
     const x = clientX - box.left, y = clientY - box.top;
     if (x < 0 || x > box.width || y < 0 || y > box.height) return null;
-    let nearest: LivingNode | null = null, distance = 23 * Math.max(1, zoom);
+    let nearest: LivingNode | null = null, distance = Infinity;
     for (const node of data.nodes) {
       const nx = box.width / 2 + (node.x / W * box.width - box.width / 2) * zoom + pan.x;
       const ny = box.height / 2 + (node.y / H * box.height - box.height / 2) * zoom + pan.y;
       const d = Math.hypot(nx - x, ny - y);
-      if (d < distance) { nearest = node; distance = d; }
+      const radius = immersive && node.prominent ? (node.id === data.centre ? 53 : 37) : 23;
+      if (d < radius * Math.max(1, zoom) && d < distance) { nearest = node; distance = d; }
     }
     return nearest;
   };
@@ -81,10 +89,10 @@ export function LivingGraph({ data, compact = false, className = "" }: { data: L
   const stopPan = () => { drag.current = null; };
 
   return (
-    <section className={`${styles.root} ${compact ? styles.compact : ""} ${className}`} aria-label={`Constelação de ligações de ${data.centreLabel}`} data-living-graph="">
+    <section className={`${styles.root} ${compact ? styles.compact : ""} ${immersive ? styles.immersive : ""} ${className}`} aria-label={`Constelação de ligações de ${data.centreLabel}`} data-living-graph="">
       <div className={styles.graphTop}>
         <span className={styles.liveDot} aria-hidden="true" />
-        <span>Uma história. Muitas conexões.</span>
+        <span>{immersive ? "ATLAS DE CONEXÕES" : "Uma história. Muitas conexões."}</span>
         <span className={styles.windowCount}>{int(data.nodes.length)} capítulos neste mapa</span>
       </div>
       <div ref={field} className={styles.field} onPointerDown={startPan} onPointerMove={movePan} onPointerUp={stopPan} onPointerCancel={stopPan} onPointerLeave={() => { setHovered(null); stopPan(); }} aria-describedby={help}>
@@ -99,14 +107,14 @@ export function LivingGraph({ data, compact = false, className = "" }: { data: L
             </g>
             {data.edges.map((edge) => {
               const a = byId.get(edge.source)!, b = byId.get(edge.target)!;
-              const lit = active !== null && (edge.source === active || edge.target === active);
-              return <line key={`${edge.source}:${edge.target}`} x1={a.x} y1={a.y} x2={b.x} y2={b.y}
+              const lit = active !== null ? (edge.source === active || edge.target === active) : immersive && a.prominent && b.prominent && (a.id === data.centre || b.id === data.centre);
+              return <path key={`${edge.source}:${edge.target}`} d={curve(a, b)} fill="none"
                 className={`${styles.edge}${lit ? ` ${styles.litEdge}` : ""}${active !== null && !lit ? ` ${styles.dimEdge}` : ""}`}
                 style={{ "--edge-strength": 0.2 + 0.42 * Math.sqrt(Math.max(0, edge.votes) / maxVotes), strokeWidth: lit ? 1.7 : 0.65 + Math.sqrt(Math.max(0, edge.votes) / maxVotes) * 0.8 } as CSSProperties} />;
             })}
             {active !== null && data.edges.filter((e) => e.source === active || e.target === active).slice(0, 7).map((edge) => {
               const a = byId.get(edge.source === active ? edge.source : edge.target)!, b = byId.get(edge.source === active ? edge.target : edge.source)!;
-              return <path key={`pulse:${edge.source}:${edge.target}`} className={styles.signal} pathLength="100" d={`M${a.x} ${a.y}L${b.x} ${b.y}`} />;
+              return <path key={`pulse:${edge.source}:${edge.target}`} className={styles.signal} pathLength="100" d={curve(a, b)} />;
             })}
           </svg>
           <div className={styles.nodes} role="group" aria-label="Capítulos conectados. Use as setas para percorrer o mapa.">
@@ -114,10 +122,10 @@ export function LivingGraph({ data, compact = false, className = "" }: { data: L
               const isCentre = node.id === data.centre, isCurrent = node.id === selected, isActive = node.id === active;
               const related = active !== null && neighbours.has(node.id);
               const dim = active !== null && !related;
-              const label = isCentre || isCurrent || isActive || (active === null && node.prominent);
+              const label = isCentre || isCurrent || isActive || (node.prominent && (immersive || active === null));
               return (
                 <button key={node.id} type="button" data-graph-node={node.id} data-graph-group={node.group}
-                  className={`${styles.node} ${isCentre ? styles.centre : ""} ${isCurrent ? styles.selected : ""} ${isActive ? styles.active : ""} ${related ? styles.related : ""} ${dim ? styles.dim : ""}`}
+                  className={`${styles.node} ${immersive && node.prominent ? styles.medallion : ""} ${isCentre ? styles.centre : ""} ${isCurrent ? styles.selected : ""} ${isActive ? styles.active : ""} ${related ? styles.related : ""} ${dim ? styles.dim : ""}`}
                   style={{ left: `${node.x / W * 100}%`, top: `${node.y / H * 100}%`, "--node-size": `${node.size}px` } as CSSProperties}
                   tabIndex={isCurrent ? 0 : -1} aria-label={`${node.label}. ${int(node.links)} capítulos ligados. Mostrar passagem.`} aria-pressed={isCurrent} aria-controls={panel}
                   onFocus={() => setHovered(node.id)} onBlur={() => setHovered(null)}
@@ -127,8 +135,8 @@ export function LivingGraph({ data, compact = false, className = "" }: { data: L
                     setHovered(target.id);
                     if (target.id !== node.id) field.current?.querySelector<HTMLButtonElement>(`[data-graph-node="${target.id}"]`)?.focus();
                   }}>
-                  <span className={styles.core} />
-                  <span className={`${styles.nodeLabel} ${label ? styles.labelVisible : ""}`}>{node.label}</span>
+                  <span className={styles.core}>{immersive && node.illustration && <Image src={node.illustration} alt="" width={192} height={192} sizes="100px" loading="eager" unoptimized />}</span>
+                  <span className={`${styles.nodeLabel} ${label ? styles.labelVisible : ""}`}>{node.label}{immersive && node.prominent && <small>{node.groupLabel}</small>}</span>
                 </button>
               );
             })}
@@ -142,18 +150,28 @@ export function LivingGraph({ data, compact = false, className = "" }: { data: L
           </button>
         </div>
         <p className={styles.hint} id={help}>Passe o mouse. Toque. Siga a luz.<span className="visually-hidden"> Use as setas do teclado para percorrer capítulos, Enter para selecionar e Escape para recomeçar. Arraste o fundo com o mouse para mover o mapa.</span></p>
+        {immersive && <div className={styles.legend}><span /> Referências cruzadas <i /> Ilustrações por categoria</div>}
       </div>
       <div className={styles.preview} id={panel}>
+        {immersive && <div className={styles.panelEyebrow}>SEU PRÓXIMO ENCONTRO</div>}
         <div className={styles.previewHead}>
           <span className={styles.chapterTag}>{current.groupLabel}</span>
           <span className={styles.selectionNote}>Passagem selecionada</span>
         </div>
         <h2 className={styles.previewTitle} aria-live="polite" aria-atomic="true">{current.verseLabel}</h2>
         <p className={styles.scripture}>{current.text}</p>
+        {immersive && <div className={styles.relatedPreview}><p>ESTE CAPÍTULO SE CONECTA A</p>{connections.slice(0, 3).map((edge) => {
+          const partner = byId.get(edge.source === selected ? edge.target : edge.source)!;
+          return <button key={partner.id} type="button" onClick={() => choose(partner.id)}><span>{partner.label}<small>{int(edge.pairs)} {edge.pairs === 1 ? "referência cruzada" : "referências cruzadas"}</small></span><Arrow /></button>;
+        })}</div>}
         <div className={styles.previewFoot}>
           <Link href={current.versePath} prefetch={false} className={styles.primaryLink}>Ler passagem <Arrow /></Link>
-          <Link href={current.explorePath} prefetch={false} className={styles.secondaryLink}>Explorar conexões <Arrow /></Link>
+          <Link href={immersive && selected !== data.centre ? `${byId.get(data.centre)!.explorePath}${current.path}` : current.explorePath} prefetch={false} className={styles.secondaryLink}>{immersive && selected !== data.centre ? "Ler lado a lado" : "Explorar conexões"} <Arrow /></Link>
         </div>
+        {immersive && <button className={styles.surprise} type="button" onClick={() => {
+          const choices = data.nodes.filter((n) => n.prominent && n.id !== selected);
+          choose(choices[Math.floor(Math.random() * choices.length)].id);
+        }}>Me leve a uma descoberta <span aria-hidden="true">✧</span></button>}
         <details className={styles.connectionList}>
           <summary>Ver as conexões do mapa em lista</summary>
           <ul>

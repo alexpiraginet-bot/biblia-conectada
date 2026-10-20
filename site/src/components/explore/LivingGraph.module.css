@@ -216,3 +216,98 @@
 @media (prefers-reduced-motion: reduce) {
   .root *, .root *::after { animation: none !important; transition: none !important; }
 }
+
+/* The cover is an instrument to explore, with the selected passage beside the living atlas. */
+.immersive {
+  --sky: #08151d;
+  --sky-ink: #f5efe3;
+  --sky-ink-2: #a9b8bc;
+  --sky-gold: #e4bd7b;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 292px;
+  grid-template-rows: auto 1fr;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.immersive .graphTop { grid-column: 1; padding: 20px 24px 0; font-size: 10px; letter-spacing: .16em; }
+.immersive .windowCount { letter-spacing: 0; font-size: 11px; }
+.immersive .field { grid-column: 1; grid-row: 2; aspect-ratio: 850 / 620; min-height: 480px; }
+.immersive .preview { grid-column: 2; grid-row: 1 / 3; border-top: 0; border-left: 1px solid #a8bbb622; background: transparent; padding: 25px 0 15px 30px; margin-block: 20px 30px; }
+.immersive .space { background: radial-gradient(ellipse at 48% 45%, #345e5617, transparent 60%); }
+.immersive .edge { opacity: calc(var(--edge-strength) * .32); stroke: #698d95; }
+.immersive .litEdge { opacity: .8; stroke: var(--sky-gold); filter: drop-shadow(0 0 4px #e4bd7b38); }
+.immersive .dimEdge { opacity: .025; }
+.immersive .referenceRings { opacity: .16; stroke-dasharray: 1 6; }
+.immersive .medallion { width: 74px; height: 74px; --node-size: 70px !important; }
+.immersive .medallion .core { width: 100%; height: 100%; padding: 4px; background: #0c222a; border: 1px solid #a8bfb078; outline: 1px solid #a8bfb020; outline-offset: 4px; }
+.immersive .medallion .core img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; opacity: .8; transition: opacity .3s; }
+.immersive .medallion.related .core img, .immersive .medallion.selected .core img { opacity: 1; }
+.immersive .centre { width: 106px; height: 106px; --node-size: 106px !important; }
+.immersive .centre .core { border: 2px solid var(--sky-gold); padding: 6px; outline-color: #e4bd7b45; outline-offset: 7px; box-shadow: 0 0 55px #cfb16b30, inset 0 0 16px #e4bd7b28; }
+.immersive .centre .core::after { inset: -5px; animation-duration: 6s; }
+.immersive .medallion.active .core { transform: scale(1.06); border-color: var(--sky-gold); }
+.immersive .medallion.selected .core { border-color: var(--sky-gold); }
+.immersive .medallion .nodeLabel { font: 440 21px/1.2 var(--font-display); background: transparent; padding: 4px 0; top: calc(100% + 8px); text-shadow: 0 2px 7px #08151d, 0 0 14px #08151d; }
+.immersive .nodeLabel small { display: block; color: #a9b8bc; font: 400 10px/1.5 var(--font-ui); letter-spacing: .02em; margin-top: 4px; }
+.immersive .centre .nodeLabel { color: #f5e1ba; font-size: 27px; }
+.immersive .node:not(.medallion) { opacity: .5; }
+.immersive .node:not(.medallion).active, .immersive .node:not(.medallion).selected { opacity: 1; }
+.immersive .dim { opacity: .22; }
+.immersive .hint { bottom: 58px; left: 24px; font-size: 10px; }
+.immersive .controls { border-radius: 30px; background: #0c1c25; right: 20px; bottom: 13px; }
+.immersive .controls button { border-radius: 50%; }
+.legend { position: absolute; bottom: 28px; left: 24px; display: flex; align-items: center; gap: 8px; color: #a9b8bc; font-size: 10px; pointer-events: none; }
+.legend span { width: 18px; border-top: 1px solid var(--sky-gold); }
+.legend i { width: 5px; height: 5px; background: #77989b; border-radius: 50%; margin-left: 12px; }
+.panelEyebrow { color: var(--sky-gold); font: 500 10px/1.5 var(--font-ui); letter-spacing: .19em; margin-bottom: 28px; }
+.immersive .previewHead { font-size: 10px; }
+.immersive .selectionNote { display: none; }
+.immersive .chapterTag { font-size: 11px; color: #a9b8bc; }
+.immersive .previewTitle { font-size: 42px; margin-block: 12px 19px; }
+.immersive .scripture { font-size: 16px; line-height: 1.75; }
+.relatedPreview { margin-top: 26px; border-top: 1px solid #a8bbb622; }
+.relatedPreview > p { color: #a9b8bc; font: 400 9px/1.6 var(--font-ui); letter-spacing: .12em; margin: 18px 0 7px; }
+.relatedPreview button { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 59px; border: 0; border-bottom: 1px solid #a8bbb622; background: transparent; text-align: left; color: var(--sky-ink); cursor: pointer; font: 440 20px/1.3 var(--font-display); padding: 10px 0; transition: color .2s, padding .2s; }
+.relatedPreview button:hover { color: var(--sky-gold); padding-left: 5px; }
+.relatedPreview small { display: block; font: 400 10px/1.5 var(--font-ui); color: #a9b8bc; margin-top: 3px; }
+.relatedPreview svg { width: 16px; color: #a9b8bc; }
+.immersive .previewFoot { display: grid; gap: 3px; margin-top: 23px; }
+.immersive .primaryLink { background: #f1eadc; color: #17232a; border-radius: 6px; justify-content: space-between; padding: 13px 17px; font-size: 13px; }
+.immersive .primaryLink:hover { background: #e4bd7b; color: #17232a; }
+.immersive .secondaryLink { font-size: 11px; justify-content: space-between; }
+.surprise { display: flex; justify-content: space-between; gap: 8px; width: 100%; background: transparent; border: 0; border-top: 1px solid #a8bbb622; padding: 13px 0; color: var(--sky-gold); font-size: 11px; text-align: left; cursor: pointer; }
+.surprise span { font-size: 19px; }
+.immersive .connectionList { font-size: 10px; }
+.immersive .credit { font-size: 9px; opacity: .8; }
+@media (min-width: 1500px) { .immersive { grid-template-columns: minmax(0, 1fr) 325px; } .immersive .field { max-height: 720px; } }
+@media (max-width: 1000px) and (min-width: 701px) { .immersive { grid-template-columns: minmax(0, 1fr) 245px; } .immersive .preview { padding-left: 21px; } .immersive .medallion { width: 59px; height: 59px; } .immersive .centre { width: 85px; height: 85px; } .immersive .medallion .nodeLabel { font-size: 18px; } .immersive .field { min-height: 510px; } .legend { font-size: 9px; } .legend i { display: none; } }
+@media (max-width: 700px) {
+  .immersive { grid-template-columns: minmax(0, 1fr); }
+  .immersive .graphTop { padding: 20px 3px 0; font-size: 9px; }
+  .immersive .windowCount { display: block; font-size: 9px; }
+  .immersive .field { min-height: 0; height: 460px; aspect-ratio: auto; overflow: hidden; margin-top: 10px; }
+  .immersive .plane { clip-path: inset(-10px -12px 0); }
+  .immersive .preview { grid-column: 1; grid-row: 3; margin: 0; padding: 24px 0 10px; border-left: 0; border-top: 1px solid #a8bbb633; }
+  .immersive .medallion { width: 49px; height: 49px; }
+  .immersive .centre { width: 76px; height: 76px; }
+  .immersive .medallion .core { width: 100%; height: 100%; }
+  .immersive .medallion .nodeLabel { opacity: 1 !important; font-size: 17px; top: calc(100% + 3px); }
+  .immersive .medallion .nodeLabel small { display: none; }
+  .immersive .centre .nodeLabel { font-size: 21px; }
+  .immersive .hint { left: 0; bottom: 42px; font-size: 9px; max-width: 48%; }
+  .legend { left: 0; bottom: 23px; font-size: 8px; gap: 5px; }
+  .legend i { display: none; }
+  .immersive .controls { right: 0; bottom: 0; }
+  .immersive .controls button { min-width: 40px; min-height: 44px; }
+  .panelEyebrow { margin-bottom: 12px; font-size: 9px; }
+  .immersive .previewHead { position: absolute; right: 0; top: 25px; }
+  .immersive .previewTitle { font-size: 36px; margin-block: 0 14px; }
+  .immersive .scripture { font-size: 17px; max-width: none; }
+  .relatedPreview { margin-top: 20px; }
+  .relatedPreview button { min-height: 56px; }
+  .immersive .previewFoot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .immersive .primaryLink { flex: 1; min-width: 160px; }
+  .immersive .surprise { margin-top: 15px; }
+}

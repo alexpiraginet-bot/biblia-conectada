@@ -4,6 +4,7 @@ import "server-only";
 import { chapterBestPairs, chapterNeighbours, chapterRef, chapterVerses, bookBySlug, grid, verseRef, verseText } from "@/lib/reading";
 import { groupOfBook } from "./atlas-data";
 import { GROUPS, GROUP_NAMES, type GroupId } from "./atlas";
+import { medalhaoForBook } from "@/lib/medalhoes";
 
 export type LivingNode = {
   id: number;
@@ -20,6 +21,8 @@ export type LivingNode = {
   versePath: string;
   text: string;
   links: number;
+  illustration?: string;
+  illustrationLabel?: string;
 };
 export type LivingEdge = { source: number; target: number; pairs: number; votes: number };
 export type LivingGraphData = {
@@ -88,6 +91,44 @@ export function livingGraphData(slug = "isaias", chapter = 9): Promise<LivingGra
   if (!data) { data = buildGraph(slug, chapter); cache.set(key, data); }
   return data;
 }
+
+/** An editorial lens on the same verified graph: real chapters, spaced for illustrated, touchable medallions. */
+export async function illustratedAtlasData(): Promise<LivingGraphData> {
+  const graph = await livingGraphData("joao", 1);
+  const desired = ["/genesis/1", "/salmos/33", "/colossenses/1", "/hebreus/1", "/isaias/40", "/joao/8", "/apocalipse/1"];
+  const focus = [graph.centre];
+  for (const path of desired) {
+    const node = graph.nodes.find((n) => n.path === path);
+    if (node) focus.push(node.id);
+  }
+  for (const node of graph.nodes) {
+    if (focus.length === 8) break;
+    if (!focus.includes(node.id)) focus.push(node.id);
+  }
+  const spots = [[415, 300], [630, 125], [130, 280], [690, 350], [545, 505], [270, 500], [220, 105], [430, 80]];
+  const nodes = graph.nodes.map((node) => {
+    const slot = focus.indexOf(node.id);
+    const medal = medalhaoForBook(chapterRef(node.id).book.osis);
+    return { ...node, prominent: slot >= 0, illustration: slot >= 0 ? medal?.src192 : undefined, illustrationLabel: medal?.label,
+      x: slot >= 0 ? spots[slot][0] : node.x, y: slot >= 0 ? spots[slot][1] : node.y };
+  });
+  // Keep the small stars clear of the large medallions and their labels.
+  const secondary = nodes.filter((n) => !n.prominent);
+  secondary.forEach((node, index) => {
+    const angle = index * 2.399963;
+    let x = 425 + Math.cos(angle) * (245 + index % 3 * 52);
+    let y = 310 + Math.sin(angle) * (185 + index % 3 * 39);
+    for (let iteration = 0; iteration < 14; iteration++) {
+      const obstacle = nodes.find((n) => n.prominent && Math.hypot(n.x - x, (n.y + 14) - y) < 85);
+      if (!obstacle) break;
+      x = clampLayout(x + (x > obstacle.x ? 1 : -1) * 27, 35, 815);
+      y = clampLayout(y + (y > obstacle.y ? 1 : -1) * 19, 40, 575);
+    }
+    node.x = round(x); node.y = round(y);
+  });
+  return { ...graph, nodes };
+}
+const clampLayout = (n: number, min: number, max: number) => Math.max(min, Math.min(max, n));
 
 async function buildGraph(slug: string, chapter: number): Promise<LivingGraphData> {
   const book = bookBySlug(slug);

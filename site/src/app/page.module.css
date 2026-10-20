@@ -170,3 +170,75 @@
   .home :global(.will-reveal) { opacity: 1; transform: none; }
   .discoveryCard:hover, .landscapeCard:hover .landscape, .primary:hover, .primary:hover svg { transform: none; }
 }
+
+/* Atlas cover: a generous, continuous canvas instead of a hero card. */
+.home { --home-accent: #e4bd7b; --home-soft: #a4b5b5; --home-line: #9cb1b125; background: #0b1b21; }
+:global([data-theme="dia"]) .home { --home-accent: #784e38; --home-soft: #655f52; --home-line: #ac9a7540; background: #f5f0e5; }
+.hero { --home-accent: #e4bd7b; --home-soft: #a9b8bc; --home-line: #9cb1b125; max-width: none; padding: 45px clamp(24px, 4vw, 76px) 28px; display: block; min-height: 0; background: #08151d; color: #f5efe3; }
+.heroCopy { max-width: 1336px; margin: auto; }
+.hero .eyebrow { color: #b5a98b; font-size: 10px; letter-spacing: .2em; margin-bottom: 17px; font-weight: 400; }
+.hero h1 { font-family: var(--font-display); font-size: clamp(40px, 5.2vw, 80px); font-weight: 440; letter-spacing: -.045em; line-height: 1.08; margin: 0 0 18px; }
+.hero h1 em { color: #e4bd7b; font-style: italic; white-space: normal; letter-spacing: -.04em; }
+.heroBottom { display: flex; align-items: end; justify-content: space-between; gap: 24px; padding-bottom: 26px; border-bottom: 1px solid #a8bbb622; }
+.hero .intro { margin: 0; color: #b7c4c7; max-width: 380px; font-size: 14px; line-height: 1.7; }
+.experienceTabs { display: flex; gap: 7px; flex-wrap: wrap; }
+.experienceTabs a { display: flex; align-items: center; gap: 10px; padding: 11px 15px; min-height: 44px; text-decoration: none; color: #bdc9ca; font-size: 11px; border-radius: 6px; border: 1px solid transparent; transition: background .2s, color .2s; }
+.experienceTabs a[aria-current] { background: #d9bd8010; border-color: #c5ae7240; color: #e4bd7b; }
+.experienceTabs a:hover { background: #ffffff0a; color: #f5efe3; }
+.experienceTabs svg { width: 16px; height: 16px; }
+.heroGraph { margin: 0 auto; max-width: 1336px; }
+.scrollHint { position: static; justify-content: center; margin: 15px auto 0; color: #a9b8bc; font-size: 10px; letter-spacing: .04em; }
+.scrollHint span { width: 21px; height: 29px; }
+.sectionHead h2, .story h2, .quiet h2 { font-family: var(--font-display); font-size: clamp(40px, 4vw, 62px); font-weight: 440; letter-spacing: -.04em; }
+.sectionHead h2 em, .story h2 em, .quiet h2 em { font-style: italic; }
+.discoveryCard { border-radius: 9px; }
+.cardCopy h3 { font-family: var(--font-display); font-size: 36px; font-weight: 440; }
+.landscapeCard h3 { font-size: 54px; }
+.chronologyCard { background: #6e3e3d; }
+.chronologyCard .cardCategory, .chronologyCard .timeTrail { color: #e6d7bd; }
+.chronologyCard h3 { font-size: 33px; }
+.playStrip { border-radius: 7px; }
+.skyInterlude { position: relative; min-height: 680px; margin-top: 100px; overflow: clip; isolation: isolate; display: flex; align-items: center; color: #f2ebdd; background: #06121b; }
+.skyVista { position: absolute; inset: 0 -15% 0 15%; z-index: -2; }
+.skyVista img { object-fit: contain; opacity: .8; }
+.skyInterlude::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #06121b 5%, #06121be8 26%, transparent 75%); z-index: -1; }
+.skyStory { padding: 90px max(28px, calc((100vw - 1200px) / 2)); width: 100%; }
+.skyStory .eyebrow { color: #d9bd80; font-size: 10px; margin-bottom: 24px; }
+.skyStory h2 { font: 440 clamp(38px, 4vw, 62px)/1.1 var(--font-display); letter-spacing: -.035em; margin: 0; }
+.skyStory h2 em { font-style: italic; color: #e4bd7b; }
+.skyStory > p:not(.eyebrow) { color: #b7c4c7; font-size: 14px; line-height: 1.85; max-width: 300px; margin: 26px 0; }
+.skyStory > a { display: inline-flex; gap: 23px; align-items: center; border: 1px solid #e4bd7b70; padding: 15px 20px; border-radius: 6px; color: #e4bd7b; text-decoration: none; font-size: 12px; }
+.skyStory > a svg { width: 16px; }
+.skyStory > a:hover { background: #e4bd7b; color: #06121b; }
+.skyStory > a.skyExample { display: flex; width: fit-content; margin-top: 13px; padding: 7px 0; border: 0; color: #c6cbd4; font-size: 13px; }
+.skyStory > a.skyExample:hover { background: transparent; color: #fff4e8; }
+.skyCaption { position: absolute; bottom: 25px; right: 30px; left: 30px; text-align: right; font-size: 10px; color: #9caab9; }
+@supports (animation-timeline: view()) {
+  .skyVista { animation: open-sky linear both; animation-timeline: view(); animation-range: entry 0% exit 100%; }
+  @keyframes open-sky { from { transform: translateX(7%) scale(.9) rotate(-8deg); } to { transform: translateX(-5%) scale(1.13) rotate(6deg); } }
+}
+@media (max-width: 1000px) { .heroBottom { align-items: start; } .experienceTabs { justify-content: end; } .experienceTabs a { padding-inline: 10px; } .skyInterlude { min-height: 580px; } }
+@media (max-width: 700px) {
+  .hero { padding: 34px 22px 28px; }
+  .hero .eyebrow { font-size: 9px; letter-spacing: .14em; margin-bottom: 20px; }
+  .hero h1 { font-size: clamp(43px, 10.8vw, 68px); max-width: 520px; margin-bottom: 20px; }
+  .hero h1 em { display: block; }
+  .heroBottom { display: block; padding-bottom: 15px; }
+  .hero .intro { font-size: 13px; line-height: 1.8; max-width: 300px; }
+  .experienceTabs { margin-top: 21px; justify-content: start; gap: 1px; }
+  .experienceTabs a { font-size: 10px; padding-inline: 10px; gap: 6px; }
+  .experienceTabs svg { width: 13px; }
+  .heroGraph { margin: 0; }
+  .scrollHint { margin-top: 26px; }
+  .sectionHead h2, .story h2, .quiet h2 { font-size: 42px; }
+  .landscapeCard h3 { font-size: 46px; }
+  .skyInterlude { margin-top: 65px; min-height: 700px; align-items: start; }
+  .skyStory { padding: 52px 24px; }
+  .skyStory h2 { font-size: 42px; }
+  .skyStory > p:not(.eyebrow) { font-size: 13px; max-width: 285px; }
+  .skyVista { inset: 260px -20% -45px -20%; }
+  .skyVista img { object-fit: contain; opacity: 1; }
+  .skyInterlude::after { background: linear-gradient(#06121b 0%, #06121bf5 33%, transparent 70%); }
+  .skyCaption { font-size: 9px; left: 24px; right: 24px; text-align: center; }
+}
+@media (prefers-reduced-motion: reduce) { .skyVista { animation: none; } }

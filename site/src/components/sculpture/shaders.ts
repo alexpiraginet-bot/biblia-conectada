@@ -245,7 +245,14 @@ void main() {
     vec3 inkLit = -log(clamp(vec3(1.0) - 0.9 * clamp(gold, 0.0, 1.0), 0.02, 1.0));
     c = uGround * exp(-absorb * 1.15) * exp(-inkLit);
   } else {
-    vec3 base = min(uGround + light, 1.0);
+    // A selection becomes a dark sky around the real links. At rest the original poster's ground is unchanged.
+    float selected = 1.0 - smoothstep(0.06, 0.9, uRecede);
+    vec3 night = mix(uGround, vec3(0.008, 0.012, 0.031), selected);
+    vec2 cell = floor(gl_FragCoord.xy / 54.0);
+    vec2 starAt = (cell + vec2(hash(cell), hash(cell + 17.0))) * 54.0;
+    float starDot = exp(-dot(gl_FragCoord.xy - starAt, gl_FragCoord.xy - starAt) / 1.4);
+    float stars = step(0.77, hash(cell + 37.0)) * starDot * 0.24 * selected;
+    vec3 base = min(night + light + stars * vec3(0.68, 0.77, 1.0), 1.0);
     c = 1.0 - (1.0 - base) * (1.0 - clamp(gold, 0.0, 1.0));
   }
   // static dither against banding in the glows

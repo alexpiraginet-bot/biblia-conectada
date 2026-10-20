@@ -4,7 +4,7 @@ Direção solicitada por Alex em 20/10/2026: uma Bíblia moderna, encantadora, i
 
 ## Entrega desta versão
 
-- **Capa:** tipografia expressiva, floresta/menta/papel, constelação de capítulos reais, caminhos visuais para explorar e revelações suaves no scroll.
+- **Capa:** tipografia editorial, azul profundo, ouro e papel, oito medalhões ilustrados em uma constelação de 53 capítulos reais, caminhos visuais para explorar e revelações suaves no scroll.
 - **Constelação:** recorte calculado do grafo real de capítulos, destaque dos vizinhos, zoom, arrasto, foco por teclado e lista equivalente. O toque é resolvido pela posição do ponto visível, para não selecionar outro botão sobreposto no celular.
 - **`/caminhos`:** oito paradas pelos relatos dos evangelhos, mapa SVG próprio com coordenadas documentadas, seleção por URL, texto BLIVRE, paralelos e conexões verificadas. A linha é um roteiro de leitura ilustrativo; não representa uma rota arqueologicamente comprovada.
 - **`/cronologia`:** dez momentos da vida de Jesus, seleção e comparação dos quatro evangelhos. Episódios ausentes e passagens apenas relacionadas são identificados. Datas dos acontecimentos e propostas de composição dos evangelhos ficam em camadas distintas.
@@ -24,14 +24,16 @@ As referências foram estudadas como padrões de interação; o código desta en
 - [21st — Text Reveal](https://mcp.21st.dev/@dillionverma/components/text-reveal): entrada progressiva das seções.
 - [21st — Interactive Hover Button](https://preview.21st.dev/@dillionverma/components/interactive-hover-button): botões com deslocamento curto e direção clara.
 - [Obsidian — Graph view](https://obsidian.md/help/plugins/graph): explorar vizinhanças, acender conexões e reduzir o ruído ao focar um ponto.
+- [Porque Ele Vive — Daniel 9 em 3D](https://porqueelevive.com/conexoes/3d/?v=Daniel%209): observação da interface pública, enquadramento orbital, fios destacados sobre um fundo escuro, busca simples e leitura ao lado da visualização. Implementação no motor WebGL já existente do projeto, com dados próprios. A seleção inicial prioriza 32 conexões para legibilidade e permite mostrar todas.
+- As três imagens enviadas pelo usuário orientaram a constelação ilustrada e a cronologia em papel, com ramificações entre os relatos dos evangelhos.
 
-Fontes já licenciadas e hospedadas pelo projeto: Space Grotesk, Newsreader e Literata. Movimento reduzido é respeitado. Não há rolagem capturada, áudio automático, modal de cadastro ou animação sobre o texto em leitura.
+Fontes licenciadas e hospedadas pelo projeto: Figtree, Newsreader e Literata. Figtree substitui Space Grotesk na interface, sem aumentar o arquivo da fonte. Origem, licença e hash em `site/src/fonts/README-Figtree.md`. Movimento reduzido é respeitado. Não há rolagem capturada, áudio automático, modal de cadastro ou animação sobre o texto em leitura.
 
 ## Continuidade com o Claude
 
 Base inicial: `main` em `5bbb11aeab592ba21dbf918cabe2eae56b0b9837`, merge do PR #7. Trabalho desta entrega na branch `codex/experiencia-viva`.
 
-Durante a implementação foi identificado o [PR #8](https://github.com/alexpiraginet-bot/biblia-conectada/pull/8), do Claude, com correção do carregamento da leitura contínua. Acompanhamento detalhado em `claude-coordination.md`. Essa correção e seus arquivos foram preservados; nenhum merge em produção foi realizado por esta entrega.
+Durante a implementação foi identificado o [PR #8](https://github.com/alexpiraginet-bot/biblia-conectada/pull/8), do Claude, com correção do carregamento da leitura contínua. Após revisão independente e autorização do usuário para integração por partes, ele foi integrado em `ef1cdf6ad4f0dcaa496388fd1b967290885ff783` e sua implantação na Vercel foi confirmada Ready. Nossa branch incorporou esse merge sem conflitos. Acompanhamento detalhado em `claude-coordination.md`.
 
 Os documentos do Claude `HANDOFF.md` e `design/README.md` não foram reescritos. Este documento registra a nova direção sem substituir o histórico.
 

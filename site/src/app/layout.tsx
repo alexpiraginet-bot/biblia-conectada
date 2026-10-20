@@ -10,13 +10,13 @@ import "@/styles/tokens.css";
 import "@/styles/ds.css";
 import "./globals.css";
 
-// The three voices of the design system (design/README.md, "Tipografia"), OFL and served by the site
-// (scripts/subset-fonts.sh; licences in src/fonts/OFL-*.txt). Their variables feed --font-ui, --font-display and
-// --font-reading in src/styles/tokens.css.
+// Three self-hosted OFL families: Figtree for the UI, Newsreader for titles and Literata for Scripture.
+// Font provenance and licences live in src/fonts. Their variables feed --font-ui, --font-display and
+// --font-reading in src/styles/tokens.css; no font request leaves the site.
 const ui = localFont({
-  src: "../fonts/SpaceGrotesk-VF.woff2",
+  src: "../fonts/Figtree-VF.woff2",
   variable: "--nf-ui",
-  weight: "300 700",
+  weight: "300 900",
   display: "swap",
 });
 // Newsreader, one static instance (optical size 72, weight 440): page titles

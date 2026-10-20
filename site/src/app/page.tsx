@@ -9,13 +9,13 @@ import { HomeAtlas } from "@/components/home/HomeAtlas";
 import { HomeMotion } from "@/components/home/HomeMotion";
 import { summary, verseText } from "@/lib/data";
 import { formatInt } from "@/lib/canon/text";
-import { livingGraphData } from "@/lib/explore/living-graph";
+import { illustratedAtlasData } from "@/lib/explore/living-graph";
 import type { DiscoveryQuestion } from "@/lib/journey";
 import styles from "./page.module.css";
 
 export default async function Home() {
   const [graph, promise, birth, light, love, peace] = await Promise.all([
-    livingGraphData(),
+    illustratedAtlasData(),
     verseText("isaias", 9, 6),
     verseText("lucas", 2, 11),
     verseText("genesis", 1, 3),
@@ -50,17 +50,14 @@ export default async function Home() {
       <HomeMotion />
       <section className={styles.hero} aria-labelledby="home-title">
         <div className={styles.heroCopy}>
-          <p className={styles.eyebrow}><span className={styles.liveDot} /> A PALAVRA ESTÁ VIVA</p>
-          <h1 id="home-title">Uma história.<br /><em>Tudo conectado.</em></h1>
-          <p className={styles.intro}>Toque, descubra e siga as conexões da Bíblia. A próxima descoberta começa com a sua curiosidade.</p>
-          <div className={styles.actions}>
-            <Link href="#descobrir" className={styles.primary}>Encontre seu caminho <Icon name="out" /></Link>
-            <Link href="/ler" className={styles.secondary}><Icon name="book" /> Abrir a Bíblia</Link>
+          <p className={styles.eyebrow}><span className={styles.liveDot} /> BÍBLIA CONECTADA · UM ATLAS VIVO</p>
+          <h1 id="home-title">Uma história. <em>Tudo se conecta.</em></h1>
+          <div className={styles.heroBottom}><p className={styles.intro}>Uma passagem leva à outra. Toque em um ponto e siga a sua curiosidade.</p>
+            <nav className={styles.experienceTabs} aria-label="Escolha uma experiência"><a href="#atlas-vivo" aria-current="true"><Icon name="explore" /> Constelação</a><Link href="/arcos">Céu em 3D <span aria-hidden="true">↗</span></Link><Link href="/caminhos">Mapa de Jesus <span aria-hidden="true">↗</span></Link></nav>
           </div>
-          <div className={styles.heroNote}><span className={styles.miniStars} aria-hidden="true">✦</span><span>Cada passagem abre um novo caminho.<br /><strong>Experimente tocar em uma conexão.</strong></span></div>
         </div>
-        <div className={styles.heroGraph}><LivingGraph data={graph} compact /></div>
-        <a className={styles.scrollHint} href="#descobrir"><span aria-hidden="true">↓</span> A descoberta continua</a>
+        <div className={styles.heroGraph} id="atlas-vivo"><LivingGraph data={graph} immersive /></div>
+        <a className={styles.scrollHint} href="#descobrir"><span aria-hidden="true">↓</span> Há um mundo para descobrir</a>
       </section>
 
       <section className={styles.searchBand} aria-label="Busque na Bíblia">
@@ -90,6 +87,12 @@ export default async function Home() {
           </Link>
         </div>
         <Link href="/ponte" className={styles.playStrip} data-reveal=""><span className={styles.playIcon}><Icon name="bridge" /></span><span><strong>Você encontra a conexão?</strong><span>Uma passagem leva à outra. Entre no jogo da Ponte.</span></span><span className={styles.playCta}>Vamos jogar <Icon name="out" /></span></Link>
+      </section>
+
+      <section className={styles.skyInterlude} aria-labelledby="sky-title">
+        <div className={styles.skyVista}><Image src="/sculpture/noite-854.webp" alt="Visualização das referências cruzadas da Bíblia como fios de luz." fill sizes="100vw" /></div>
+        <div className={styles.skyStory} data-reveal=""><p className={styles.eyebrow}>VEJA A HISTÓRIA INTEIRA</p><h2 id="sky-title">E se cada conexão<br /><em>acendesse uma estrela?</em></h2><p>Da criação ao Apocalipse, as referências cruzadas formam um céu de histórias. Entre, gire e encontre seu próximo versículo.</p><Link href="/arcos">Entrar no céu em 3D <Icon name="out" /></Link><Link href="/arcos#daniel/9" className={styles.skyExample}>Começar por Daniel 9 <span aria-hidden="true">↗</span></Link></div>
+        <span className={styles.skyCaption}>Cada fio é uma ligação entre versículos · OpenBible.info</span>
       </section>
 
       <section className={styles.story} aria-labelledby="story-title">

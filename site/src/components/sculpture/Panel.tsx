@@ -5,7 +5,7 @@
 // (Sculpture.tsx) owns the selection, the focus and the fetching of the verses' text. The panels of a path and of a
 // word (PathPanel.tsx, WordPanel.tsx) load on their own.
 import Link from "next/link";
-import { useEffect, useId, useMemo, useState, type Ref } from "react";
+import { useEffect, useId, useMemo, useState, type ReactNode, type Ref } from "react";
 import { Icon } from "@/components/icons";
 import { formatInt } from "@/lib/canon/text";
 import { BASE } from "@/lib/community/books-client";
@@ -190,6 +190,9 @@ export function ChapterPanel({
   first,
   verses,
   links,
+  highlights,
+  snippets,
+  sceneControl,
   full,
   onVerse,
   onChapter,
@@ -204,6 +207,9 @@ export function ChapterPanel({
   first: number;
   verses: number;
   links: ChapterLink[] | null;
+  highlights: readonly ChapterLink[];
+  snippets: ReadonlyMap<number, string>;
+  sceneControl: ReactNode;
   /** false while only the most voted arcs are loaded */
   full: boolean;
   onVerse: (gv: number) => void;
@@ -243,6 +249,7 @@ export function ChapterPanel({
         {formatInt(verses)} versículos
         {links ? ` · ${ligacoes(links.length)}${full ? "" : " entre as mais votadas"}` : ""}
       </p>
+      {sceneControl}
       <p className={styles.actions}>
         <Link href={c.path} className={styles.act}>
           Ler {c.label}
@@ -253,6 +260,21 @@ export function ChapterPanel({
         {ci > 0 ? <PagerLink ci={ci - 1} rel="prev" onChapter={onChapter} /> : <span />}
         {ci < nch - 1 ? <PagerLink ci={ci + 1} rel="next" onChapter={onChapter} /> : <span />}
       </nav>
+      <p className={styles.connectionsHeading}>CONEXÕES EM DESTAQUE</p>
+      <ol className={styles.list} aria-label={`Versículos ligados a ${c.label}`}>
+        {highlights.map((link) => (
+          <li key={link.there}>
+            <button type="button" className={styles.item} onClick={() => onVerse(link.there)}>
+              <span className={styles.itemRef}>{longRef(BASE, link.there)}</span>
+              <span className={styles.itemVotes}>{votos(link.votes)}</span>
+              <span className={styles.itemText}>{snippets.get(link.there) ?? "Carregando passagem…"}</span>
+              <span className={styles.linkOrigin}>A partir de {longRef(BASE, link.here)} <span aria-hidden="true">↗</span></span>
+            </button>
+          </li>
+        ))}
+      </ol>
+      <details className={styles.chapterVerses}>
+      <summary>Versículos de {c.label}</summary>
       <ol className={styles.list}>
         {ranked.map((x) => (
           <li key={x.gv}>
@@ -266,6 +288,7 @@ export function ChapterPanel({
           </li>
         ))}
       </ol>
+      </details>
     </>
   );
 }
