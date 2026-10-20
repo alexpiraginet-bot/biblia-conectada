@@ -2,7 +2,7 @@
 
 Escrito pelo Claude a pedido do Alex: "Prepare handoff para o códex seguir". Daqui em diante o Codex conduz. Este é o handoff de transferência que o `docs/claude-coordination.md` ainda não tinha visto: o Claude não tem trabalho aberto no site além do PR deste documento. Tudo marcado como **conferido** foi rodado ou lido nesta data. O que é sugestão está escrito como sugestão.
 
-**Continuidade do Codex, 20/10:** o item 4.1 está implementado localmente na branch `codex/home-immersive-refinement`, com validação parcial descrita abaixo. A revisão de contraste dos cards, Lighthouse, criação do PR em rascunho e prévia da Vercel continuam pendentes; ainda não houve merge desta etapa. O retrato original das 18h43 UTC permanece como histórico.
+**Continuidade do Codex, 20/10:** item 4.1 publicado pelo PR #14, commit `6bbca4d94536dde42ae0514588f3b1e80e84e4cf`, com autorização explícita do Alex após informar Lighthouse/LCP pendentes. Deploy de produção `dpl_BBGdYhunFt3QqWFSYh7fUDe5Fnhq` confirmado READY e domínio público conferido. Caderno local e ampliação das jornadas seguem no plano; vídeos continuam em sessão separada. O retrato original das 18h43 UTC permanece como histórico.
 
 ## 0. Prompt para colar no Codex
 
@@ -16,15 +16,15 @@ Escrito pelo Claude a pedido do Alex: "Prepare handoff para o códex seguir". Da
 
 ## 2. Estado e continuidade
 
-### Item 4.1 — implementação local em revisão (20/10)
+### Item 4.1 — publicado e conferido (20/10)
 
 - **Branch:** `codex/home-immersive-refinement`, a partir da `main` `a5e741c9` (PR #13 já integrado). Esta entrega altera apenas o site; vídeos e sua automação foram transferidos para uma sessão separada. Não inclui IA, credenciais ou geração de vídeo.
 - **Capa:** hero como janela noturna nos temas Dia e Noite, ondas sutis em ouro/vitral, ações com aparência de metal e vidro em CSS, busca antes da constelação, cards com moldura dupla e card de cronologia em papel. Textos BLIVRE, conexões reais, créditos e o `HomeAtlas` com os dados exigidos pelo `check-dist` permanecem.
 - **Shader:** `site/src/components/ui/web-gl-shader.tsx`, WebGL2 próprio, um triângulo, sem dependências novas; no máximo 30 quadros/s, DPR até 1,5 e raster até 1440 × 900. Pausa manual, movimento reduzido com quadro estático, suspensão com aba oculta/fora da tela e fallback CSS sem WebGL ou após perda de contexto. O canvas é decorativo; o botão de pausa continua acessível. Seis testes verificam seu ciclo de vida.
-- **Conferido localmente:** build, `check-dist`, lint, TypeScript e orçamento de JS; 541 testes em 35 arquivos. Execução local com Node 24; a validação do deploy em Node 22 permanece pendente.
+- **Conferido localmente:** build, `check-dist`, lint, TypeScript e orçamento de JS; 541 testes em 35 arquivos. Execução local com Node 24; build de produção na Vercel confirmado com Node 22 e estado READY.
 - **JS inicial, gzip nível 9:** capa **163.942 bytes (160,1 KiB)**; `/arcos` **168.871 bytes (164,9 KiB)**, inalterado. O teto continua em 168.960 bytes (165 KiB). Esta medida não inclui HTML, imagens, fontes, dados ou módulos carregados depois.
 - **Navegador, build de produção local em `http://localhost:3003`:** capturas em 375 × 812 e 1440 × 900, Dia e Noite; pausa/retomada das ondas, busca por João 1:14, Escape com devolução do foco, âncora da constelação e seleção de Gênesis 1 conferidas.
-- **Contraste corrigido e conferido:** véus reais sob o texto dos cards; cálculo conservador sobre imagem branca e brilho máximo do hover: paisagem 7,28:1 na categoria e 9,02:1 no título; céu 8,87:1 e 10,99:1. Capturas do build final confirmam a leitura. **Ainda não aceito:** O requisito Lighthouse móvel ≥ 90 e a comparação de LCP estão **pendentes**: a Google PageSpeed API respondeu `429 quota exceeded`, sem nota ou medição de LCP. Capturas e build não substituem esse aceite. [PR #14](https://github.com/alexpiraginet-bot/biblia-conectada/pull/14) criado em rascunho; prévia da Vercel iniciada, ainda sem conferência final. Nenhum merge desta etapa.
+- **Contraste corrigido e conferido:** véus reais sob o texto dos cards; cálculo conservador sobre imagem branca e brilho máximo do hover: paisagem 7,28:1 na categoria e 9,02:1 no título; céu 8,87:1 e 10,99:1. Capturas do build final confirmam a leitura. **Medição pendente, publicação autorizada pelo Alex:** o requisito Lighthouse móvel ≥ 90 e a comparação de LCP estão **pendentes**: a Google PageSpeed API respondeu `429 quota exceeded`, sem nota ou medição de LCP. Não há nota de performance comprovada. [PR #14](https://github.com/alexpiraginet-bot/biblia-conectada/pull/14) integrado com a autorização posterior do Alex: "Vamos publicar". Prévia respondeu HTTP 200; produção READY, capturas 375/1440 Dia/Noite, pausa/retomada e busca por João 1:14 com Escape/devolução do foco conferidos no domínio público; console sem erros ou avisos.
 
 ### Retrato histórico: 20/10, 18h43 UTC — `main` = `ddf090a`, toda no ar
 - **PR #7**, `5bbb11a`:
@@ -78,7 +78,7 @@ Antes disso, no mesmo dia, ele pediu a lista sem fim da leitura: "As conexões a
 
 ### 4.1 Hero e botões/cards novos (a referência do Alex)
 
-**Estado atual:** implementado localmente em `codex/home-immersive-refinement`; conferências e pendências no §2. O shader já ocupa `components/ui`; os efeitos de metal/vidro e a moldura dos cards usam o CSS da capa, sem Tailwind, shadcn ou three.js. Não declarar esta etapa concluída antes dos aceites restantes.
+**Estado atual:** publicado pelo PR #14; conferências e medições ainda pendentes no §2. O shader já ocupa `components/ui`; os efeitos de metal/vidro e a moldura dos cards usam o CSS da capa, sem Tailwind, shadcn ou three.js. Publicação autorizada pelo Alex sem declarar atendido o requisito de Lighthouse/LCP.
 
 **Base do pedido:** a capa do PR #9. O pedido troca o hero, a primeira tela, e renova os cards. A referência e o plano original abaixo ficam preservados para comparação com a implementação.
 
