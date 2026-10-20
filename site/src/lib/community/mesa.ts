@@ -19,3 +19,21 @@ export function mesaLinks(perVerse: readonly (readonly number[])[], first: numbe
   });
   return links.sort((a, b) => b.votes - a.votes || a.here - b.here || a.there - b.there);
 }
+
+/** what a device keeps per passage: the links brought (key -> how many people brought it) and this turn's */
+export type MesaTally = { brought: Record<string, number>; turn: string[] };
+
+/** this turn brings a link: each link once per turn, at most `perTurn` per person */
+export function bringLink(t: MesaTally, key: string, perTurn: number): MesaTally {
+  if (t.turn.includes(key) || t.turn.length >= perTurn) return t;
+  return { brought: { ...t.brought, [key]: (t.brought[key] ?? 0) + 1 }, turn: [...t.turn, key] };
+}
+
+/** this turn takes back a link it brought: one person less, and the people before keep theirs */
+export function takeBack(t: MesaTally, key: string): MesaTally {
+  if (!t.turn.includes(key)) return t;
+  const brought = { ...t.brought };
+  if ((brought[key] ?? 0) > 1) brought[key] -= 1;
+  else delete brought[key];
+  return { brought, turn: t.turn.filter((k) => k !== key) };
+}

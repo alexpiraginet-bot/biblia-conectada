@@ -9,7 +9,7 @@ import { formatInt } from "@/lib/canon/text";
 import { BASE, BOOKS } from "@/lib/community/books-client";
 import { loadChapterText, loadVerseLinks } from "@/lib/community/fetchers";
 import { ARC_BASE, ARC_W, arcPath, baselineTicks, longRef, shortRef, versePath } from "@/lib/community/geometry";
-import { mesaLinks, type MesaLink } from "@/lib/community/mesa";
+import { bringLink, mesaLinks, takeBack, type MesaLink } from "@/lib/community/mesa";
 import { KEYS, readJSON, readRaw, subscribeStore, writeJSON } from "@/lib/community/store";
 import { conexaoPath, parseSide, sideSegment } from "@/lib/conexao";
 import { VersePair } from "./Pair";
@@ -199,17 +199,12 @@ function MesaTable({ passage, table }: { passage: Passage; table: Table }) {
   const drawn = [...visible, ...data.links.slice(shown).filter((l) => l.key in table.brought || l.key === selected)];
   const bring = (key: string) =>
     update((s) => {
-      const t = s.tables[passage.key] ?? { brought: {}, turn: [] };
-      if (t.turn.includes(key) || t.turn.length >= PER_TURN) return;
-      s.tables[passage.key] = { brought: { ...t.brought, [key]: (t.brought[key] ?? 0) + 1 }, turn: [...t.turn, key] };
+      s.tables[passage.key] = bringLink(s.tables[passage.key] ?? { brought: {}, turn: [] }, key, PER_TURN);
     });
   const remove = (key: string) =>
     update((s) => {
       const t = s.tables[passage.key];
-      if (!t) return;
-      const rest = { ...t.brought };
-      delete rest[key];
-      s.tables[passage.key] = { brought: rest, turn: t.turn.filter((k) => k !== key) };
+      if (t) s.tables[passage.key] = takeBack(t, key);
     });
   const nextPerson = () =>
     update((s) => {

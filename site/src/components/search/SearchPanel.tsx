@@ -38,7 +38,8 @@ type Item =
   | { kind: "text"; key: string; item: TextItem }
   | { kind: "retry"; key: string }
   | { kind: "all"; key: string; href: string; title: string; icon: IconName };
-type Section = { id: string; label: string; items: Item[] };
+/** `inert`: an earlier query's rows, kept on screen while this one loads (nothing moves), but not offered */
+type Section = { id: string; label: string; items: Item[]; inert?: boolean };
 
 function subscribeRecent(cb: () => void) {
   window.addEventListener("storage", cb);
@@ -143,18 +144,24 @@ export function SearchPanel({ initial = "", onClose, page = false, urlQuery, she
   const showsText = !!textQuery && (scope === "tudo" || scope === "texto");
   // while the first answer is on its way nothing is drawn below the text, so nothing moves when it arrives
   const holding = showsText && !settled;
+  // the rows on screen answer the words typed before: they stay, but Enter and a click cannot open them
+  const stale = showsText && text.pending && !!done;
   if (showsText && settled?.status === "error") {
     sections.push({ id: "text", label: "No texto · não deu para buscar agora", items: [{ kind: "retry", key: "retry" }] });
   } else if (showsText && done && done.total > 0) {
-    const label = page
-      ? `${versos(done.total)} com ${describe(query)} no texto da Bíblia Livre${done.total > 1 ? ", os mais ligados primeiro" : ""}.`
-      : `No texto · ${versos(done.total)}${done.total > 1 ? ", os mais ligados primeiro" : ""}`;
+    const label = stale
+      ? page
+        ? `Procurando ${describe(query)} no texto da Bíblia Livre…`
+        : "No texto · procurando…"
+      : page
+        ? `${versos(done.total)} com ${describe(query)} no texto da Bíblia Livre${done.total > 1 ? ", os mais ligados primeiro" : ""}.`
+        : `No texto · ${versos(done.total)}${done.total > 1 ? ", os mais ligados primeiro" : ""}`;
     const items: Item[] = done.items.map((item) => ({ kind: "text", key: item.href, item }));
-    if (!page && scope === "texto" && done.total > done.items.length) items.push(seeAll(q, done.total));
-    sections.push({ id: "text", label, items });
+    if (!stale && !page && scope === "texto" && done.total > done.items.length) items.push(seeAll(q, done.total));
+    sections.push({ id: "text", label, items, inert: stale });
   }
   if (!page && !holding && themeGroup) sections.push(hits(themeGroup));
-  if (!page && !holding && scope === "tudo" && done && done.total > done.items.length) {
+  if (!page && !holding && !stale && scope === "tudo" && done && done.total > done.items.length) {
     sections.push({ id: "all", label: "", items: [seeAll(q, done.total)] });
   }
   if (q && scope === "livros") {
@@ -164,7 +171,7 @@ export function SearchPanel({ initial = "", onClose, page = false, urlQuery, she
     const n = search.themes.length;
     sections.push({ id: "all", label: "", items: [{ kind: "all", key: "/tema", href: "/tema", title: `Ver os ${formatInt(n)} temas`, icon: "explore" }] });
   }
-  const options = sections.flatMap((s) => s.items);
+  const options = sections.flatMap((s) => (s.inert ? [] : s.items));
   const found = options.findIndex((o) => o.key === activeKey);
   // the palette always has a choice for Enter; the page lights a row only once the arrows are used
   const active = found >= 0 ? found : page ? -1 : 0;
@@ -289,22 +296,29 @@ export function SearchPanel({ initial = "", onClose, page = false, urlQuery, she
       {message && <p className="site-search__message">{message}</p>}
       <div className="bc-search__results" id={`${id}-list`} role="listbox" aria-label="Resultados" aria-busy={text.pending && showsText}>
         {sections.map((s) => (
-          <div key={s.id} role="group" aria-labelledby={s.label ? `${id}-g-${s.id}` : undefined} aria-label={s.label ? undefined : "Ver tudo"}>
+          <div
+            key={s.id}
+            role="group"
+            aria-labelledby={s.label ? `${id}-g-${s.id}` : undefined}
+            aria-label={s.label ? undefined : "Ver tudo"}
+            inert={s.inert || undefined}
+          >
             {s.label && (
               <p className={s.id === "text" && page ? "bc-search__group site-search__count-line" : "bc-search__group"} id={`${id}-g-${s.id}`}>
                 {s.label}
               </p>
             )}
             {s.items.map((o) => {
-              const i = n++;
+              // inert rows are not options: no number, never selected
+              const i = s.inert ? -1 : n++;
               const common = {
-                id: `${id}-${i}`,
+                id: i >= 0 ? `${id}-${i}` : undefined,
                 role: "option" as const,
-                "aria-selected": i === active,
+                "aria-selected": i >= 0 && i === active,
                 // the focus stays in the field (combobox): the arrows choose an option, not Tab
                 tabIndex: -1,
                 className: "bc-search__item",
-                onMouseMove: () => setActiveKey(o.key),
+                onMouseMove: i >= 0 ? () => setActiveKey(o.key) : undefined,
               };
               if (o.kind === "retry") {
                 return (

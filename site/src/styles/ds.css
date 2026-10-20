@@ -972,6 +972,12 @@
   padding: var(--space-2) 0 var(--space-3);
 }
 
+/* the rows of the words typed before, while the new answer loads: they fade only if it takes a moment (no flicker per letter) */
+.bc-search__results > [inert] .bc-search__item {
+  opacity: 0.55;
+  transition: opacity 0.2s ease 0.15s;
+}
+
 .bc-search__group {
   margin: 0;
   padding: var(--space-3) var(--space-4) var(--space-1);

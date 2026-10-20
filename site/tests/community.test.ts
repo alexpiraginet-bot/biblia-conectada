@@ -19,7 +19,7 @@ import {
   PONTE_LAUNCH,
   saoPauloDate,
 } from "../src/lib/community/ponte";
-import { mesaLinks } from "../src/lib/community/mesa";
+import { bringLink, mesaLinks, takeBack } from "../src/lib/community/mesa";
 import { chapterPartners, grid, verseX } from "../src/lib/reading";
 import { bookFile, books, generated } from "./generated";
 
@@ -147,6 +147,24 @@ describe("Mesa da semana", () => {
         }
       }
     }
+  });
+
+  it("takes back only this turn's person: the people before keep the link on the table", () => {
+    const before = { brought: { a: 2, b: 1 }, turn: [] as string[] };
+    const brought = bringLink(before, "a", 3);
+    expect(brought).toEqual({ brought: { a: 3, b: 1 }, turn: ["a"] });
+    expect(takeBack(brought, "a")).toEqual({ brought: { a: 2, b: 1 }, turn: [] });
+    // a link only this person brought leaves the table
+    const own = bringLink({ brought: {}, turn: [] }, "c", 3);
+    expect(takeBack(own, "c")).toEqual({ brought: {}, turn: [] });
+    // a link brought on an earlier turn is not this person's to take back
+    expect(takeBack(before, "b")).toBe(before);
+  });
+
+  it("brings each link once per turn, at most three per person", () => {
+    let t = { brought: {} as Record<string, number>, turn: [] as string[] };
+    for (const k of ["a", "a", "b", "c", "d"]) t = bringLink(t, k, 3);
+    expect(t).toEqual({ brought: { a: 1, b: 1, c: 1 }, turn: ["a", "b", "c"] });
   });
 });
 
