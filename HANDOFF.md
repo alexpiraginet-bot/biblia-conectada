@@ -737,4 +737,20 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
     - Causa (minha, do PR #7): `contain-intrinsic-size: auto 80rem` nas seções. Uma seção que entra longe da tela é pulada antes de ser desenhada e fica com o tamanho intrínseco, que também valia para a largura: 1.280 px. A coluna da lista tomava essa largura.
     - Reproduzido na produção em 3 de 3 tentativas (folha com 1.296 px de conteúdo para 388 visíveis); com a correção injetada na mesma página, 388 de 388 nas 3.
   - **Correção:** as seções têm só altura intrínseca (`contain-intrinsic-block-size`), e a coluna da lista é `minmax(0, 1fr)`. Teste novo em `tests/links-feed.test.ts` (falha com o CSS antigo).
+- **20/10, noite, PR #10 no ar e o handoff para o Codex:**
+  - O Alex aprovou o merge do PR #10 (`42039b7`). Às 18h29 UTC o CSS da produção já trazia a correção (`contain-intrinsic-block-size`, sem largura intrínseca).
+  - Às 18h38 UTC, já com o PR #9 do Codex no ar, a folha de Lv 26:3 no celular (390 px, 3 rodadas na produção): 3 seções da lista sem fim e 388 px de conteúdo para 388 visíveis (antes da correção, 1.296 para 388).
+  - Os PRs #9 (`766c727`, 18h30 UTC) e #11 (`ddf090a`, 18h34 UTC) do Codex entraram na `main`: a capa com o atlas ilustrado, `/caminhos`, `/cronologia` e o companheiro de estudo em `/assistente`, desligado na produção.
+  - **Pedido do Alex:**
+    - "Visual de hero também vamos mudar … Use botões e cards semelhantes a esse visual moderno! Muito scroll e design", com o código do `WebGLShader` (three.js) e dos botões `LiquidButton` e `MetalButton` (shadcn) do 21st.dev;
+    - "Prepare handoff para o códex seguir";
+    - "Precisamos que dados sejam salvos no navegador de cada pessoa, pesquisas, anotações, memórias e etc! E precisamos de mais imagens que represente capítulos e versículos mais importantes! Uma parte visual, com Mapas, leitura diferente, aonde a pessoa ler pelas idas e vindas de Jesus e cronologia".
+  - **Entrega:**
+    - `docs/HANDOFF-CODEX.md`: o estado conferido, o plano em quatro PRs (hero e botões; dados no navegador; imagens dos capítulos e versículos mais ligados; mapas e a leitura pelas idas e vindas de Jesus), as armadilhas, as provas e as decisões que são do Alex;
+    - um `AGENTS.md` na raiz, que leva qualquer agente às regras do `CLAUDE.md`.
+    - Daqui em diante o Codex conduz.
+  - **Conferido na `main` `ddf090a`:**
+    - `npm run build`: 529 testes, e o `check-dist` em 2.539 páginas;
+    - `npm run budget`: `/arcos` com 165,0 KiB de JS, no teto; capa com 157,8;
+    - medido para o handoff: só o que o `WebGLShader` usa do three.js 0.186.1 dá 129 KiB em gzip.
 
