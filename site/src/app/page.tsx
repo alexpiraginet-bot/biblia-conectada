@@ -51,7 +51,7 @@ export default async function Home() {
           <AtlasMap atlas={atlas} selected={{ key: chapterKey(top.other), group: top.group }} fixed />
         </div>
         <div className={styles.panel}>
-          <ConnectionPanel c={top} />
+          <ConnectionPanel c={top} anchor="conexao" />
         </div>
       </div>
 

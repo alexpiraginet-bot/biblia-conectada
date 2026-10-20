@@ -67,12 +67,15 @@ export async function ConnectionPanel({
   level = 2,
   focusOnNavigate = false,
   explore = false,
+  anchor,
 }: {
   c: Connection;
   level?: 2 | 3;
   focusOnNavigate?: boolean;
   /** on the Explorar: also offer to centre the map on the other chapter */
   explore?: boolean;
+  /** the panel's anchor (the capa's peek leads to it); Next keeps visited routes in the page, so only one page sets it */
+  anchor?: string;
 }) {
   const a = c.centre, b = c.other;
   const [hereText, thereText] = await Promise.all([
@@ -96,9 +99,9 @@ export async function ConnectionPanel({
   );
 
   return (
-    <section id="conexao" className={`bc-panel ${styles.panel}`} aria-labelledby={id} data-connection={chapterKey(b)}>
-      {focusOnNavigate && <FocusTitle id={id} />}
+    <section id={anchor} className={`bc-panel ${styles.panel}`} aria-labelledby={id} data-connection={chapterKey(b)}>
       <div className="bc-panel__head">
+        {focusOnNavigate && <FocusTitle />}
         <H id={id} className={`bc-title ${styles.panelTitle}`} tabIndex={-1}>
           <span>{a.label}</span>
           <Icon name="both" className={`bc-icon ${styles.both}`} />
