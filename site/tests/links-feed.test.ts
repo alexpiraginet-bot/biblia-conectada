@@ -6,7 +6,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { beforeAll, describe, expect, it } from "vitest";
-import { OUT } from "../scripts/data/sources";
+import { OUT, SITE } from "../scripts/data/sources";
 import { createGrid } from "../src/lib/canon/grid";
 import {
   FEED_MIN_VOTES,
@@ -210,5 +210,24 @@ describe("the endless list of a verse's links", () => {
     expect(b?.section).toEqual({ hub: 3, from: null, votes: 0, text: "v3", cards: [{ gv: 4, votes: 2, text: "v4" }] });
     state = b!.state;
     expect(await nextSection(state, load)).toBeNull();
+  });
+});
+
+describe("the endless list's layout", () => {
+  // A section that comes in far below the screen is skipped before it is ever drawn (content-visibility: auto) and
+  // stands in at its intrinsic size. A width there made the list's grid column 80rem wide and every text ran past the
+  // sheet's edge, in production on 20/10: the sections get an intrinsic height only, and the column the sheet's width.
+  const css = readFileSync(join(SITE, "src/components/reader/reader.module.css"), "utf8");
+  const rule = (sel: string) => new RegExp(`\\n\\${sel} \\{([^}]*)\\}`).exec(css)?.[1] ?? "";
+
+  it("gives a section an intrinsic height and never a width", () => {
+    const hub = rule(".hub");
+    expect(hub).toMatch(/content-visibility:\s*auto/);
+    expect(hub).toMatch(/contain-intrinsic-block-size:/);
+    expect(hub).not.toMatch(/contain-intrinsic-(size|width|inline-size):/);
+  });
+
+  it("keeps the list's column as wide as the sheet", () => {
+    expect(rule(".feed")).toMatch(/grid-template-columns:\s*minmax\(0, 1fr\)/);
   });
 });
