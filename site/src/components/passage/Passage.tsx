@@ -13,7 +13,15 @@ function Marked({ text, word }: { text: string; word?: string }) {
   if (!word) return <>{text}</>;
   return (
     <>
-      {splitOnWord(text, word).map((p, i) => (i % 2 ? <mark key={i}>{p}</mark> : p))}
+      {splitOnWord(text, word).map((p, i) =>
+        i % 2 ? (
+          <mark key={i} className={styles.mark}>
+            {p}
+          </mark>
+        ) : (
+          p
+        ),
+      )}
     </>
   );
 }

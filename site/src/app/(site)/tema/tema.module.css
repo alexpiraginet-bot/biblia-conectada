@@ -9,6 +9,19 @@
   max-width: 46rem;
 }
 
+/* one way back, drawn as a back link */
+.crumbs li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.crumbIcon {
+  width: 16px;
+  height: 16px;
+  color: var(--ink-2);
+}
+
 .lede {
   margin-top: var(--space-3);
 }

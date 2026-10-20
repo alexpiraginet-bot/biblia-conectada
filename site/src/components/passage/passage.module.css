@@ -56,8 +56,7 @@
 }
 
 /* a word's occurrences, as the search marks them (ds.css .bc-search__snippet mark) */
-.passage mark,
-.rows mark {
+.mark {
   padding: 0 0.12em;
   border-radius: 3px;
   background: var(--highlight);

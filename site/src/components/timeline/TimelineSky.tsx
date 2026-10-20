@@ -5,7 +5,7 @@ import { yearLabel, yearSpanShort } from "@/lib/eras";
 import { Icon } from "@/components/icons";
 import { verseRef } from "@/lib/reading";
 import type { TimelineEvent } from "@/lib/timeline";
-import type { CrossArc } from "@/lib/timeline-links";
+import type { CrossArc } from "@/lib/timeline-graph";
 import type { Period } from "@/lib/timeline-periods";
 import styles from "./timeline.module.css";
 

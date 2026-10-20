@@ -59,8 +59,9 @@ export default async function PalavraPage({ params }: PageProps<"/palavra/[palav
   return (
     <main id="conteudo" className={`site-page ${styles.page}`}>
       <nav aria-label="Trilha">
-        <ol className="bc-crumbs">
+        <ol className={`bc-crumbs ${styles.crumbs}`}>
           <li>
+            <Icon name="chev-l" className={`bc-icon ${styles.crumbIcon}`} />
             <Link href="/palavra">Palavras</Link>
           </li>
         </ol>

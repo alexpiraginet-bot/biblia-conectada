@@ -51,8 +51,9 @@ export default async function TemaPage({ params }: PageProps<"/tema/[slug]">) {
   return (
     <main id="conteudo" className={`site-page ${styles.page}`}>
       <nav aria-label="Trilha">
-        <ol className="bc-crumbs">
+        <ol className={`bc-crumbs ${styles.crumbs}`}>
           <li>
+            <Icon name="chev-l" className={`bc-icon ${styles.crumbIcon}`} />
             <Link href="/tema">Temas</Link>
           </li>
         </ol>
@@ -92,7 +93,8 @@ export default async function TemaPage({ params }: PageProps<"/tema/[slug]">) {
             </h2>
             <p className={styles.rule}>
               As {formatInt(view.passages.length)} passagens, das mais ligadas às menos ligadas. Ligações: pares da OpenBible.info com ao menos
-              um versículo da passagem. A nota é a dos leitores da OpenBible.info Topics para a passagem neste tópico.
+              um versículo da passagem. A nota é a dos leitores da OpenBible.info Topics para a passagem neste tópico. A palavra “{t.label}” vai
+              marcada no texto.
             </p>
             <ol className={`bc-conns ${styles.passages}`}>
               {view.passages.map((p) => {
@@ -117,7 +119,7 @@ export default async function TemaPage({ params }: PageProps<"/tema/[slug]">) {
                               {verseRef(gv).verse}
                             </span>
                           )}
-                          <BlivreText text={text[gv]} />
+                          <BlivreText text={text[gv]} word={t.key} />
                           {i < shown.length - 1 ? " " : ""}
                         </span>
                       ))}
