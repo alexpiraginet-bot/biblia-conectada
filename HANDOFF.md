@@ -59,6 +59,8 @@ Tudo o que está marcado como "conferido" foi rodado ou lido em 19/10. O que é 
 - Fontes novas, com licença conferida e SHA-256: OpenBible.info Topics (CC BY 4.0), Wikidata (CC0) e 4 pinturas do Wikimedia Commons em domínio público. Os medalhões são ilustrações geradas, marcadas como "Ilustração".
 - `npm run build` passa: 348 testes, `check-dist` em 2.518 páginas geradas e na 404. `npm run budget`: no máximo 155,4 KiB de JS (home), abaixo do teto de 165. O build com o adaptador da Vercel também passa. Detalhes em §12.
 
+**Site v4, "Atlas" (19 e 20/10, branch `claude/site-phase-0-1`, PR #4):** o design system novo, com tokens de contraste testado nos temas Noite e Dia e as classes `bc-*` em `ds.css`. Todas as páginas foram remodeladas nele, e a busca única ganhou índice de palavras do texto da BLIVRE. Teve QA no navegador e uma revisão final independente. Registro em §12 (20/10); direção em `design/README.md` v4 e `DESIGN.md`.
+
 **Bloqueios desta sessão (políticas, não erros do repo):** a sessão na nuvem não podia criar repositório (403 em `/user/repos`) nem criar Release (403). Por isso o repo foi criado pelo Alex e os intermediários foram para uma branch órfã.
 
 ---
@@ -389,6 +391,14 @@ npx -y skills add leonxlnx/taste-skill --skill design-taste-frontend --agent cla
 5. **Tom do texto** do site. Proposta: claro, de estudo, sem jargão, sem "maior do mundo" sem prova.
 9. **Medalhões no tema Dia** (onda C): as ilustrações foram feitas sobre o azul-marinho do Noite e aparecem como moedas escuras sobre o pergaminho. Manter assim ou gerar uma versão clara.
 10. **Pontes futuras** (onda C): as páginas `/ponte/<n>` só existem até o dia do build, mas `public/data/ponte/calendar.json` e os 365 arquivos `public/data/ponte/<n>.json` já trazem todas as pontes do ano para quem abrir os arquivos. Aceitar (o jogo é de honra) ou servir o calendário aos poucos.
+11. **Design v4 ("Atlas"):** onze escolhas abertas em `design/README.md` §14, entre elas:
+    - o botão principal verde no Dia;
+    - os 10 períodos da linha do tempo;
+    - os títulos de evento em inglês;
+    - a busca por palavra exata;
+    - o céu emoldurado no Noite;
+    - o mapa da leitura azul-marinho nos dois temas.
+12. **`/arcos` sem GPU:** hoje o céu WebGL roda em software e trava a página (Lighthouse 63 a 69). Proposta: mostrar o pôster parado quando o navegador não tiver GPU de verdade. Troca: aparelhos com GPU bloqueada passam a ver o pôster.
 
 ---
 
@@ -571,3 +581,43 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
   - Vídeo 4, "Antes de João 3:16" (`estudos/biblia-joao316/`): remake do episódio 02 (projeto HyperFrames que o Alex
     mandou em zip) no padrão do vídeo 1, a pedido dele: gancho no frame 0, arcos de dados reais, órgão em ré menor que
     resolve em ré maior no 3:16, narração do Andre. Citações literais da BLIVRE. Legenda reescrita para tração.
+- **20/10, madrugada, integração do Atlas e revisão final (PR #4):**
+  - Retomada depois do limite da sessão. Os cinco agentes da remodelagem terminaram, cada um no seu worktree, e entraram por merge commit:
+    - linha do tempo, temas e palavras (6ac368c);
+    - índice de palavras da busca (608b566);
+    - capa, Explorar e conexão (769f937);
+    - comunidade, céu, dados, sobre e 404 (3469e18);
+    - leitura (7742bbd).
+  - Ajustes da integração (d974b11):
+    - a lista de capítulos é uma parada só de Tab, com setas, Home e End;
+    - um rótulo só para `/conexao`: "Ler lado a lado";
+    - a altura da faixa da Ponte passou a ser compartilhada (`--strip-h`);
+    - o ícone de compartilhar entrou na família de ícones;
+    - saíram as fontes que o site não usa mais.
+  - Interrupções: o limite da sessão às 00:50 UTC (os agentes foram retomados às 03:15) e um reinício do contêiner por volta de 03:38, provavelmente falta de memória com três builds ao mesmo tempo (não confirmado). Desde então os builds correm em fila (`flock`).
+  - QA do d974b11:
+    - `npm run build`: 434 testes, `check-dist` em 2.535 páginas;
+    - no Chromium, 34 endereços × 375/1440 px × Noite/Dia, 136 aberturas sem falha. Contraste mínimo de 6,46:1 no Noite e 5,33:1 no Dia, só em acento e notas (regras de 4,5:1 e 5:1);
+    - interações (Ctrl K, Enter, Esc devolvendo o foco, aparência, aba Buscar): todas passaram;
+    - Lighthouse: acessibilidade 100 nas sete páginas medidas. Desempenho 100 no desktop e 95 a 97 no celular, menos `/arcos` (63 no celular, 69 no desktop): sem GPU, o WebGL roda em software e trava a página por 7 a 10 s. O motor do céu (`renderer.ts`, `SkyCanvas.tsx`) não mudou neste PR; fica a sugestão de mostrar o pôster quando não houver GPU de verdade;
+    - JavaScript: no máximo 155 KiB por página (`/buscar`), abaixo do teto de 165.
+  - Revisão final independente (skill impeccable): um agente separado, que só lê arquivos, comparou as capturas e o código com o contrato de direção. Disposição: "fix", com oito correções, todas feitas (lista em `design/README.md` §13). Junto delas:
+    - o selo do capítulo passou a escrever o livro como no texto;
+    - o nome acessível dos medalhões do mapa passou a começar pelo que eles mostram (WCAG 2.5.3, apontado pelo Lighthouse).
+  - Medido depois das correções:
+    - no celular (375 × 812), os oito medalhões da capa terminam em 662 px e o painel que espia começa em 678 px;
+    - a busca da barra some na capa e em `/buscar` e volta ao rolar ou ao navegar para outra página;
+    - o painel que espia no capítulo some com um trecho selecionado e quando o painel aparece;
+    - o `check-dist` confere a contagem dele nos 1.189 capítulos;
+    - o aceso do Dia (#683c00) tem contraste mínimo de 7,07:1.
+  - Veredito da revisão, em duas rodadas:
+    - na primeira, sete das oito correções saíram resolvidas, e o chip "Texto" da busca ficou parcial: sobrava uma cauda vazia. O revisor achou também uma regressão: entre o painel que espia e as abas aparecia texto cortado;
+    - correções: o chip passou a ter a largura do rótulo quando a busca é referência, e o painel encostou nas abas, na largura toda;
+    - na segunda rodada, disposição "ship", que vale só para os itens avaliados.
+  - Fora da revisão:
+    - a grade de 66 capítulos da página do livro, que ainda são caixas;
+    - o movimento;
+    - o versículo aceso em foco.
+  - Procedência dos medalhões: o manifesto guarda prompt, modelo, data e SHA-256; ela aparece em `/sobre`, e `tests/medalhoes.test.ts` confere.
+  - `DESIGN.md` e `.impeccable/design.json`: escritos por um agente documentador a partir do código entregue. Ele conferiu por script 48 cores, a escala tipográfica, os raios, os espaços e os componentes contra `tokens.json`: nenhuma divergência. O texto qualitativo veio do contrato de direção e do `design/README.md` v4.
+  - LCP no celular (Lighthouse simulado): a mesma página varia ±0,6 s entre medições. Para separar ruído de regressão, comparei 4 a 5 medições alternadas de `/isaias/9/6` no build anterior (média de cerca de 2,9 s) e no corrigido (cerca de 2,6 s): nada piorou. O versículo continua acima da meta de 2,5 s (§5.6), como já estava antes.
