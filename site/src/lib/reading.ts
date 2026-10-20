@@ -109,6 +109,53 @@ export async function chapterPartners(book: Book, chapter: number): Promise<Chap
   return [...acc.values()].sort((p, q) => q.pairs - p.pairs || p.ci - q.ci);
 }
 
+/** The most voted verse pair between this chapter and a chapter linked to it: the verse here, the verse there. */
+export type BestPair = { here: number; there: number; votes: number };
+/**
+ * For every chapter linked to this one, its most voted verse pair (the first one in canonical order inside a tie),
+ * keyed by the other chapter's global index. The row snippet of the chapter panel's "Mais ligados".
+ */
+export async function chapterBestPairs(book: Book, chapter: number): Promise<Map<number, BestPair>> {
+  const here = book.firstChapter + chapter - 1;
+  const best = new Map<number, BestPair>();
+  // verses in order and each verse's links strongest first (canonical order inside a tie, as the pipeline sorts
+  // them), so the first pair met with the top votes is the canonical one
+  for (const v of await chapterVerses(book, chapter)) {
+    const gv = grid.verseIndex(book, chapter, v.n);
+    for (const [there, votes] of v.links) {
+      const loc = grid.locate(there);
+      const ci = loc.book.firstChapter + loc.chapter - 1;
+      if (ci === here) continue;
+      const b = best.get(ci);
+      if (!b || votes > b.votes) best.set(ci, { here: gv, there, votes });
+    }
+  }
+  return best;
+}
+
+/** Verses in a book. */
+export function bookVerseCount(book: Book): number {
+  return book.verses.reduce((a, b) => a + b, 0);
+}
+
+/**
+ * The "ligações" of a book: distinct verse pairs with at least one verse in it, self-pairs excluded (a pair inside
+ * the book counts once). The book-level count of /ler and the book page, as chapterPairs is for a chapter.
+ */
+export async function bookPairs(book: Book): Promise<number> {
+  const first = book.firstVerse;
+  const end = first + bookVerseCount(book);
+  let n = 0;
+  for (let c = 1; c <= book.verses.length; c++) {
+    let gv = grid.verseIndex(book, c, 1);
+    for (const v of await chapterVerses(book, c)) {
+      for (const [p] of v.links) if (p < first || p >= end || p > gv) n++;
+      gv++;
+    }
+  }
+  return n;
+}
+
 /** Every chapter of another book linked to this book, added up over the book's chapters (see chapterPartners). */
 export async function bookPartners(book: Book): Promise<ChapterPartner[]> {
   const end = book.firstChapter + book.verses.length;

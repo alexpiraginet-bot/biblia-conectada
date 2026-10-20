@@ -11,11 +11,11 @@ export const metadata: Metadata = {
 // Static shell; the list is read from this browser's localStorage after the page loads (lib/salvos.ts).
 export default function SalvosPage() {
   return (
-    <main id="conteudo" className={styles.main}>
-      <h1 className={styles.title}>Salvos</h1>
-      <p className={styles.device}>
-        Ficam só neste aparelho, guardados pelo navegador. Nada é enviado a um servidor, e limpar os dados do site apaga
-        a lista.
+    <main id="conteudo" className={`site-page ${styles.page}`}>
+      <h1 className="bc-display">Salvos</h1>
+      <p className="bc-lede">
+        Ficam só neste aparelho, guardados pelo navegador. Nada é enviado a um servidor, e limpar os dados do site apaga a
+        lista.
       </p>
       <SavedList />
     </main>

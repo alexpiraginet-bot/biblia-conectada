@@ -1,8 +1,9 @@
-// Links drawn as in video 1 (estudos/biblia-referencias/arcs.py, film.py): a baseline from Gênesis 1:1 to
-// Apocalipse 22:21 with chapters equally spaced, each link a half ellipse over it, tinted by its span. Rendered on the
-// server as SVG, with no client JavaScript. The night ground is kept in both themes (design §3).
+// The links over the whole Bible, as in video 1 (estudos/biblia-referencias/arcs.py): a baseline from Gênesis 1:1 to
+// Apocalipse 22:21 with chapters equally spaced, each link a half ellipse over it. A sky window (design system
+// ArcWindow, ds.css .bc-window): night ground and gold arcs in both themes, thicker and brighter with more votes
+// (arc-style.ts). Rendered on the server as SVG, with no client JavaScript; the list beside it is the accessible path.
 import type { ReactNode } from "react";
-import { arcStrength as strength, arcTone as tone } from "@/lib/arc-style";
+import { arcStrength as strength } from "@/lib/arc-style";
 import { formatInt } from "@/lib/canon/text";
 import { books } from "@/lib/data";
 import { type ChapterPartner, grid, type Link, verseX } from "@/lib/reading";
@@ -30,60 +31,52 @@ const bookTicks = books.map((b) => `M${r1((b.firstChapter / grid.chapterCount) *
 type Arc = { x: number; s: number };
 
 const LEVELS = 4; // strength steps; each step is one stroke width and opacity
-const TONES = 24; // colour steps over the span
-const span = (x0: number, x: number) => Math.abs(x - x0) / W;
 
 /**
- * Arcs of the same colour and strength go in one <path>, so a page with hundreds of links stays small (the markup is
- * sent twice, as HTML and as the React payload). Weak groups first, so the strongest links are drawn on top.
+ * Arcs of the same strength go in one <path>, so a page with hundreds of links stays small (the markup is sent
+ * twice, as HTML and as the React payload). Weak groups first, so the strongest links are drawn on top.
  */
 function groups(x0: number, arcs: Arc[]) {
-  const by = new Map<string, { level: number; tone: number; d: string[] }>();
+  const by = new Map<number, string[]>();
   for (const a of arcs) {
     const level = Math.round(Math.min(Math.max(a.s, 0), 1) * LEVELS);
-    const tone = Math.round(Math.pow(span(x0, a.x), 0.55) * TONES);
-    const k = `${level}-${tone}`;
-    const g = by.get(k) ?? { level, tone, d: [] };
     const [p, q] = x0 < a.x ? [x0, a.x] : [a.x, x0];
     const rx = (q - p) / 2;
-    g.d.push(`M${Math.round(p)} ${BASE}A${Math.round(rx)} ${Math.round(rx * FLATTEN)} 0 0 1 ${Math.round(q)} ${BASE}`);
-    by.set(k, g);
+    const d = by.get(level) ?? [];
+    d.push(`M${Math.round(p)} ${BASE}A${Math.round(rx)} ${Math.round(rx * FLATTEN)} 0 0 1 ${Math.round(q)} ${BASE}`);
+    by.set(level, d);
   }
-  return [...by.values()]
-    .sort((g, h) => g.level - h.level || g.tone - h.tone)
-    .map((g) => ({
-      key: `${g.level}-${g.tone}`,
-      d: g.d.join(""),
-      stroke: tone(Math.pow(g.tone / TONES, 1 / 0.55)),
-      width: r1(0.5 + (1.3 * g.level) / LEVELS),
-      opacity: r1(0.2 + (0.75 * g.level) / LEVELS),
+  return [...by]
+    .sort(([a], [b]) => a - b)
+    .map(([level, d]) => ({
+      level,
+      d: d.join(""),
+      width: r1(0.6 + (1.2 * level) / LEVELS),
+      opacity: r1(0.25 + (0.7 * level) / LEVELS),
     }));
 }
 
 function ArcStrip({ x0, arcs, id, caption }: { x0: number; arcs: Arc[]; id: string; caption: ReactNode }) {
   return (
-    <figure className={styles.arcs}>
-      <div className={styles.arcsSky}>
-        <svg viewBox={`0 0 ${W} ${BASE + 26}`} role="img" aria-labelledby={id} className={styles.arcsSvg}>
-          <g className={styles.arcsLinks} fill="none" strokeLinecap="round">
-            {groups(x0, arcs).map((g) => (
-              <path key={g.key} d={g.d} stroke={g.stroke} strokeWidth={g.width} strokeOpacity={g.opacity} vectorEffect="non-scaling-stroke" />
-            ))}
-          </g>
-          <g className={styles.arcsTicks}>
-            <path d={`M0 ${BASE}H${W}`} vectorEffect="non-scaling-stroke" />
-            <path d={bookTicks} vectorEffect="non-scaling-stroke" />
-            <path d={`M${r1(ntX)} ${BASE + 4}v18`} vectorEffect="non-scaling-stroke" />
-          </g>
-          <circle cx={r1(x0)} cy={BASE} r={22} className={styles.arcsGlow} />
-          <circle cx={r1(x0)} cy={BASE} r={7} className={styles.arcsStar} />
-        </svg>
-        <div className={styles.arcsScale} aria-hidden="true">
-          <span style={{ left: 0, width: `${r1((ntX / W) * 100)}%` }}>AT</span>
-          <span style={{ left: `${r1((ntX / W) * 100)}%`, right: 0 }}>NT</span>
-        </div>
+    <figure className={`bc-window ${styles.arcs}`}>
+      <svg viewBox={`0 0 ${W} ${BASE + 18}`} role="img" aria-labelledby={id} className={styles.arcsSvg}>
+        <g className={styles.arcsLinks}>
+          {groups(x0, arcs).map((g) => (
+            <path key={g.level} d={g.d} strokeWidth={g.width} strokeOpacity={g.opacity} vectorEffect="non-scaling-stroke" />
+          ))}
+        </g>
+        <g className={styles.arcsBase}>
+          <path d={`M0 ${BASE}H${W}`} vectorEffect="non-scaling-stroke" />
+          <path d={bookTicks} vectorEffect="non-scaling-stroke" strokeOpacity={0.5} />
+          <path d={`M${r1(ntX)} ${BASE - 6}v24`} vectorEffect="non-scaling-stroke" />
+        </g>
+        <circle cx={r1(x0)} cy={BASE} r={9} className={styles.arcsStar} />
+      </svg>
+      <div className={styles.arcsScale} aria-hidden="true">
+        <span>Antigo Testamento</span>
+        <span>Novo Testamento</span>
       </div>
-      <figcaption id={id} className={styles.arcsCaption}>
+      <figcaption id={id} className={`bc-window__caption ${styles.arcsCaption}`}>
         {caption}
       </figcaption>
     </figure>
@@ -101,7 +94,7 @@ export function VerseArcs({ gv, label, links }: { gv: number; label: string; lin
       caption={
         <>
           A linha vai de Gênesis a Apocalipse. Cada arco liga {label} a um dos {formatInt(links.length)}{" "}
-          {links.length === 1 ? "versículo ligado" : "versículos ligados"}: a cor mostra a distância, e a espessura, os votos.
+          {links.length === 1 ? "versículo ligado" : "versículos ligados"}; quanto mais votos, mais forte o arco.
         </>
       }
     />
@@ -142,4 +135,3 @@ export function ChapterArcs({
     />
   );
 }
-
