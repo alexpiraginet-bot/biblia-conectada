@@ -293,6 +293,99 @@ input {
   box-shadow: none;
 }
 
+/* "Procurando…" beside the field: only a wait long enough to notice shows it, and it takes no room from the results */
+.site-search__busy {
+  flex: none;
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  color: var(--ink-2);
+  white-space: nowrap;
+  animation: site-search-busy 0s linear 250ms both;
+}
+
+@keyframes site-search-busy {
+  from {
+    visibility: hidden;
+  }
+
+  to {
+    visibility: visible;
+  }
+}
+
+/* the chips of the search are 40px tall (ds.css .bc-chip); their touch area reaches the 44px target */
+.bc-search .bc-chip {
+  position: relative;
+}
+
+.bc-search .bc-chip::after {
+  content: "";
+  position: absolute;
+  inset: -2px 0;
+}
+
+/* the count in the "Texto" chip; while the next count loads the last one keeps its width, hidden */
+.site-search__count {
+  display: inline-block;
+  min-width: 2.5ch;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.site-search__count[data-stale] {
+  visibility: hidden;
+}
+
+/* "Tentar de novo" is a button in the list of results, drawn like the rows around it */
+button.bc-search__item {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* /buscar: the count sentence heads the text results */
+.bc-search__group.site-search__count-line {
+  padding-top: var(--space-4);
+  font: 500 var(--fs-body) / var(--lh-body) var(--font-ui);
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+/* /buscar: "Mais resultados", drawn like ds.css .bc-pager */
+.site-search__more {
+  display: grid;
+  gap: 2px;
+  justify-items: center;
+  width: calc(100% - 2 * var(--space-4));
+  min-height: var(--target);
+  margin: var(--space-2) var(--space-4) var(--space-5);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.site-search__more:hover {
+  border-color: var(--accent);
+}
+
+.site-search__more[aria-disabled="true"] {
+  cursor: progress;
+}
+
+.site-search__more small {
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  color: var(--ink-2);
+}
+
+.site-search__more strong {
+  font: 600 var(--fs-ui) / var(--lh-ui) var(--font-ui);
+}
+
 @media (max-width: 47.99rem) {
   .site-search {
     padding: 0;

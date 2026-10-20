@@ -3,8 +3,8 @@
 import { useSearchParams } from "next/navigation";
 import { SearchPanel } from "./SearchPanel";
 
-/** The search box of /buscar, filled with the address's ?q= */
+/** The search of /buscar: starts from the address's ?q= and follows it when it changes from outside (back, a link). */
 export function SearchPage() {
   const q = useSearchParams().get("q") ?? "";
-  return <SearchPanel key={q} initial={q} page />;
+  return <SearchPanel initial={q} urlQuery={q} page />;
 }
