@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/header/SiteHeader";
 import { THEME_COLOR, THEME_SCRIPT } from "@/components/header/theme";
 import { SearchHost } from "@/components/search/SearchHost";
+import { StudyHost } from "@/components/assistant/StudyHost";
 import { PAGE_SEARCH_SCRIPT } from "@/components/search/page-search-script";
 import { SectionRail, SiteShell, TabBar } from "@/components/shell/NavLinks";
 import "@/styles/tokens.css";
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: THEME_COLOR.dia },
+    { media: "(prefers-color-scheme: light)", color: THEME_COLOR.noite },
     { media: "(prefers-color-scheme: dark)", color: THEME_COLOR.noite },
   ],
   viewportFit: "cover",
@@ -72,6 +73,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <TabBar />
         </SiteShell>
         <SearchHost />
+        <StudyHost />
       </body>
     </html>
   );

@@ -4,6 +4,8 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { books, verseText } from "@/lib/data";
 import { loadChronologicalReading } from "@/lib/chronological-reading";
 import { StudyCompanion, type StudyMoment } from "@/components/assistant/StudyCompanion";
+import { buildStudyRequest } from "@/components/assistant/StudyChat";
+import type { AssistantSuccess } from "@/lib/assistant/types";
 import { resolveStudyReference } from "@/components/assistant/study-reference";
 import { speakStudyText, speechSnapshot, stopStudySpeech, subscribeSpeech } from "@/components/assistant/study-speech";
 
@@ -54,7 +56,39 @@ describe("study passage selection", () => {
     expect(html).toContain('value="contexto"');
     expect(html).toContain('value="simples"');
     expect(html).toContain('value="cotidiano"');
-    expect(html).toContain("Este navegador não oferece leitura em voz alta.");
+    expect(html).toContain("Leitura em voz alta indisponível neste navegador.");
+    expect(html).toContain("O que este versículo quer dizer?");
+    expect(html).toContain('aria-label="Enviar pergunta"');
+  });
+});
+
+describe("bounded chat context", () => {
+  const passage = { book: "jeremias", chapter: 17, verse: 8, reference: "Jeremias 17:8", text: "Texto da passagem." };
+  const answer: AssistantSuccess = { ok: true, mode: "entender", title: "Contexto", blocks: [{ text: "Resposta anterior", citationIds: [] }], citations: [], suggestions: [], notice: "Confira o texto." };
+  it("keeps only the last completed turns, excluding failures, and omits empty history", () => {
+    const first = buildStudyRequest(passage, "Pergunta inicial", "contexto", "entender", []);
+    expect(first.history).toBeUndefined();
+    const turns = [0, 1, 2].map((n) => ({ request: { ...first, question: `Pergunta ${n}` }, answer }));
+    turns.push({ request: { ...first, question: "Falha" }, answer: undefined! });
+    const next = buildStudyRequest(passage, "E o contexto?", "simples", "explorar", turns);
+    expect(next.history?.map((turn) => turn.question)).toEqual(["Pergunta 1", "Pergunta 2"]);
+    expect(next).toMatchObject({ style: "simples", mode: "explorar", passage: { book: "jeremias", chapter: 17, verse: 8 } });
+    expect(next.requestId).not.toBe(first.requestId);
+  });
+  it("bounds UTF-8 bytes including the new question without changing the user's question", () => {
+    const question = "漢".repeat(800);
+    const previous = buildStudyRequest(passage, question, "contexto", "entender", []);
+    const largeAnswer = { ...answer, blocks: [{ text: "漢".repeat(4000), citationIds: [] }] };
+    const next = buildStudyRequest(passage, question, "cotidiano", "entender", [{ request: previous, answer: largeAnswer }, { request: previous, answer: largeAnswer }]);
+    expect(new TextEncoder().encode(JSON.stringify(next)).byteLength).toBeLessThanOrEqual(8192);
+    expect(next.question).toBe(question);
+    expect(next.history).toBeUndefined();
+  });
+  it("keeps the narrated scenes for follow-up questions", () => {
+    const request = buildStudyRequest(passage, "Conte essa história", "simples", "narrar", []);
+    const narrated: AssistantSuccess = { ...answer, mode: "narrar", scenes: [{ id: "scene1", title: "Primeira cena", text: "O que foi narrado nesta cena.", citationIds: [], art: { src: "/art.webp", alt: "Arte", caption: "Recriação" }, action: { href: "/jeremias/17/8", label: "Ler passagem" } }] };
+    const next = buildStudyRequest(passage, "Explique essa cena", "contexto", "entender", [{ request, answer: narrated }]);
+    expect(next.history?.[0].answer).toContain("Primeira cena. O que foi narrado nesta cena.");
   });
 });
 

@@ -1,18 +1,18 @@
 .reader {
-  --atlas-paper: #f3eddf;
-  --atlas-white: #faf6ed;
-  --atlas-ink: #302a25;
-  --atlas-muted: #726456;
-  --atlas-wine: #713e45;
-  --atlas-gold: #866236;
-  --atlas-line: #d5c7ae;
+  --atlas-paper: var(--ground);
+  --atlas-white: var(--on-action);
+  --atlas-ink: var(--ink);
+  --atlas-muted: var(--ink-2);
+  --atlas-wine: var(--accent);
+  --atlas-gold: var(--accent);
+  --atlas-line: var(--line);
   position: relative;
   color: var(--atlas-ink);
   padding: 4.5rem 0 5rem;
   scroll-margin-top: 6rem;
 }
 .reader button, .reader a { -webkit-tap-highlight-color: transparent; }
-.reader :is(button, a, summary):focus-visible { outline: 2px solid var(--atlas-wine); outline-offset: 5px; }
+.reader :is(button, a, summary):focus-visible { outline: 2px solid var(--focus); outline-offset: 5px; }
 .eyebrow { color: var(--atlas-wine); text-transform: uppercase; letter-spacing: .18em; font: 500 .62rem/1.6 var(--font-ui); }
 .itineraryHead { display: flex; justify-content: space-between; align-items: end; gap: 2rem; margin-bottom: 2.6rem; }
 .itineraryHead h2 { margin: .6rem 0 0; font: 440 clamp(2.1rem, 3.5vw, 3.4rem)/1.03 var(--font-display); letter-spacing: -.04em; }
@@ -31,7 +31,7 @@
 .momentLabel small { display: block; font: 400 10px/1.5 var(--font-ui); color: var(--atlas-muted); margin-top: 5px; }
 .moments button[aria-current] .miniature, .moments button:hover .miniature { filter: none; opacity: 1; transform: translateY(-4px); }
 .moments button[aria-current] .miniature { outline: 1px solid var(--atlas-wine); outline-offset: 4px; }
-.moments button[aria-current] .stepNumber { background: var(--atlas-wine); border-color: var(--atlas-wine); color: var(--atlas-white); }
+.moments button[aria-current] .stepNumber { background: var(--action-fill); border-color: var(--action-fill); color: var(--atlas-white); }
 .moments button[aria-current] strong { color: var(--atlas-wine); }
 .trailFoot { display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: var(--atlas-muted); font-size: .58rem; letter-spacing: .08em; border-bottom: 1px solid var(--atlas-line); padding: 1rem 0; }
 .trailFoot > span:last-child { display: none; }
@@ -52,7 +52,7 @@
 .branches [data-lit="true"] circle { fill: var(--atlas-wine); opacity: 1; }
 .branchStar { display: none; }
 .origin { position: absolute; width: 40%; top: 50%; left: 0; transform: translateY(-50%); }
-.scene { position: relative; width: 100%; aspect-ratio: 1; border-radius: 50%; overflow: hidden; margin: 0; padding: 0; border: 5px solid var(--atlas-paper); outline: 1px solid var(--atlas-gold); box-shadow: 0 8px 30px #5e3b2510; }
+.scene { position: relative; width: 100%; aspect-ratio: 1; border-radius: 50%; overflow: hidden; margin: 0; padding: 0; border: 5px solid var(--atlas-paper); outline: 1px solid var(--atlas-gold); box-shadow: var(--shadow-float); }
 .scene img { object-fit: cover; }
 .originCaption { display: flex; justify-content: center; gap: .7rem; color: var(--atlas-muted); font: 440 1.1rem/1.4 var(--font-display); margin-top: 1rem; }
 .originCaption > span { color: var(--atlas-gold); font-size: .8rem; }
@@ -61,11 +61,11 @@
 .gospelNode strong { display: block; font: 440 clamp(1.25rem, 1.7vw, 1.65rem)/1.1 var(--font-display); }
 .gospelNode small { display: block; font: 400 10px/1.5 var(--font-ui); color: var(--atlas-muted); margin-top: 5px; }
 .nodeArrow { color: var(--atlas-wine); margin-left: auto; font-size: 14px; opacity: 0; transition: opacity 200ms; }
-.gospelNode[aria-pressed="true"] .gospelSeal, .gospelNode[data-comparing="true"] .gospelSeal, .gospelNode:hover .gospelSeal, .gospelNode:focus-visible .gospelSeal { background: var(--atlas-wine); color: var(--atlas-white); border-color: var(--atlas-wine); }
+.gospelNode[aria-pressed="true"] .gospelSeal, .gospelNode[data-comparing="true"] .gospelSeal, .gospelNode:hover .gospelSeal, .gospelNode:focus-visible .gospelSeal { background: var(--action-fill); color: var(--atlas-white); border-color: var(--action-fill); }
 .gospelNode[aria-pressed="true"] .nodeArrow, .gospelNode:hover .nodeArrow { opacity: 1; }
 .gospelNode[aria-pressed="true"] strong { color: var(--atlas-wine); }
 .gospelNode[data-available="false"] .gospelSeal { border-style: dashed; color: var(--atlas-muted); border-color: var(--atlas-line); }
-.gospelNode[data-available="false"][aria-pressed="true"] .gospelSeal, .gospelNode[data-available="false"]:hover .gospelSeal { color: var(--atlas-white); border-color: var(--atlas-wine); }
+.gospelNode[data-available="false"][aria-pressed="true"] .gospelSeal, .gospelNode[data-available="false"]:hover .gospelSeal { color: var(--atlas-white); border-color: var(--action-fill); }
 .mapLegend { display: flex; flex-wrap: wrap; gap: .8rem 1.1rem; align-items: center; font-size: .63rem; color: var(--atlas-muted); margin-top: .7rem; }
 .mapLegend > span { display: flex; gap: .45rem; align-items: center; }
 .mapLegend i { display: inline-block; width: 22px; border-top: 1px solid var(--atlas-gold); }

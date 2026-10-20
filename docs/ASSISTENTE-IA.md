@@ -1,6 +1,6 @@
 # Companheiro de estudo — implementação e ativação
 
-Implementação de 20/10/2026. API em `/api/assistente`; interface em `/assistente`.
+Implementação de 20/10/2026. API em `/api/assistente`; conversa contextual sobre a leitura e página alternativa em `/assistente`.
 Os testes automatizados usam dados bíblicos reais e respostas simuladas do provedor. As verificações reais posteriores em Preview e Production estão registradas separadamente abaixo; não são resultados desses testes.
 
 ## Estado comprovado em 20/10/2026
@@ -31,7 +31,9 @@ Três modos: **entender** explica uma passagem; **explorar** compara suas ligaç
 
 A interface aceita qualquer versículo canônico por `/assistente?ref=jeremias/17/8` ou pelo campo de referência, e preserva dez passagens da jornada como atalhos. O servidor valida livro, capítulo e versículo antes de recuperar o texto. Referências inválidas mostram aviso, sem enviar consulta automaticamente. Uma passagem arbitrária mostra seu texto real, sem reutilizar a ilustração de outro episódio como se fosse dela.
 
-Independentemente do modo, há três estilos: **Bem simples**, com palavras familiares também para crianças; **Contexto bíblico**, com os limites das fontes; e **No dia a dia**, com aplicações identificadas como reflexão. Cada envio é independente: não mantém memória de conversa nem histórico persistido. As sugestões preenchem a pergunta, mas não enviam automaticamente. “Ouvir texto” e “Ouvir resposta” usam a voz do aparelho, somente após acionamento da pessoa, com parada e mensagem quando indisponível. O suporte e a voz variam entre navegadores; não há serviço pago de áudio.
+Independentemente do modo, há três estilos: **Bem simples**, com palavras familiares também para crianças; **Contexto bíblico**, com os limites das fontes; e **No dia a dia**, com aplicações identificadas como reflexão. “Entender com IA” abre uma conversa sobre a tela atual, preservando passagem, rolagem e foco. A abertura recupera texto e disponibilidade, sem POST ao provedor. Perguntas prontas e sugestões são botões de envio explícito; escrever uma pergunta permite enviá-la pelo botão ou Enter. Durante a espera aparecem três pontos e “Preparando resposta…”, sem bloquear o fechamento da conversa.
+
+A conversa aberta mantém em memória até dois pares anteriores completos, com pergunta de até 800 caracteres e resposta de até 2.000, incluindo a narrativa das cenas. O cliente remove os pares mais antigos quando necessário para respeitar 8.192 bytes UTF-8 do corpo HTTP; o servidor valida os mesmos limites e rejeita propriedades extras. O histórico vai como dados na mensagem do usuário, nunca como fonte bíblica ou instrução, e a passagem/estilo atuais prevalecem. Fechar a conversa ou trocar a passagem descarta essa memória; nenhum histórico vai para localStorage ou para o ledger. Retry usa o mesmo corpo e UUID, sem repetição automática. “Ouvir versículo” e “Ouvir resposta” usam a voz do aparelho, somente após acionamento da pessoa, com parada e mensagem quando indisponível. O suporte e a voz variam entre navegadores; não há serviço pago de áudio.
 
 O servidor carrega o capítulo BLIVRE selecionado e até oito parceiros realmente presentes nas referências cruzadas. Capítulos com mais de 60 versículos usam uma janela de 40 ao redor do versículo escolhido, identificada no contexto. O modelo recebe texto, referências e IDs; não navega na internet nem usa ferramentas. A seleção de parceiros de um versículo prioriza as ligações desse versículo; uma consulta ao capítulo usa as ligações do recorte completo.
 

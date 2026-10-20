@@ -27,10 +27,10 @@ void main() {
   vec3 waves = vec3(0.005) / (distance + 0.006)
              + vec3(0.003) / (distance + 0.06);
   vec3 light = waves.x * vec3(1.0, 0.72, 0.32)
-             + waves.y * vec3(0.18, 0.39, 0.80)
-             + waves.z * vec3(0.49, 0.29, 0.63);
+             + waves.y * vec3(0.60, 0.27, 0.37)
+             + waves.z * vec3(0.49, 0.29, 0.53);
   float edge = smoothstep(0.0, 0.09, uv.x) * smoothstep(0.0, 0.09, 1.0 - uv.x);
-  vec3 sky = mix(vec3(0.022, 0.047, 0.078), vec3(0.035, 0.080, 0.135), 1.0 - uv.y);
+  vec3 sky = mix(vec3(0.098, 0.051, 0.090), vec3(0.173, 0.078, 0.125), 1.0 - uv.y);
   color = vec4(sky + light * edge * 0.85, 1.0);
 }`;
 

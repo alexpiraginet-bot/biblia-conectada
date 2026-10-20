@@ -1,17 +1,17 @@
 .journey {
-  --journey-paper: #eee7d7;
-  --journey-paper-light: #f8f3e9;
-  --journey-ink: #263e32;
-  --journey-muted: #5e6656;
-  --journey-water: #ceddd6;
-  --journey-water-ink: #4a6a65;
-  --journey-ochre: #8b572d;
-  --journey-panel: #132e25;
-  --journey-panel-raised: #1b3a2f;
-  --journey-white: #f3eddf;
-  --journey-mint: #c2d6bd;
-  --journey-line: #385348;
-  --journey-meta: #b2c4b7;
+  --journey-paper: var(--surface);
+  --journey-paper-light: var(--raised);
+  --journey-ink: var(--ink);
+  --journey-muted: var(--ink-3);
+  --journey-water: color-mix(in srgb, var(--cat-historia) 13%, var(--surface));
+  --journey-water-ink: var(--cat-historia);
+  --journey-ochre: var(--accent);
+  --journey-panel: var(--surface);
+  --journey-panel-raised: var(--raised);
+  --journey-white: var(--ink);
+  --journey-mint: var(--accent);
+  --journey-line: var(--line-strong);
+  --journey-meta: var(--ink-3);
   margin-top: 38px;
 }
 .stopsNav { overflow-x: auto; scrollbar-width: thin; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-bottom: 30px; }

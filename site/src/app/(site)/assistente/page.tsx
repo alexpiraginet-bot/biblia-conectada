@@ -46,8 +46,8 @@ export default async function AssistantPage({ searchParams }: { searchParams: Se
     };
   });
   return <main id="conteudo" className={styles.page}>
-    <div className={styles.edition}><Link href="/"><Icon name="arc" />Bíblia Conectada / Estudo acompanhado</Link><span>O texto por perto. A curiosidade também.</span></div>
-    <header className={styles.hero}><span>Companheiro de estudo</span><h1>Uma pergunta.<br /><em>Novos caminhos.</em></h1><p>Escolha qualquer versículo. Compreenda a passagem, siga suas conexões e ouça a resposta com a voz do aparelho.</p></header>
+    <div className={styles.edition}><Link href="/"><Icon name="arc" />Bíblia Conectada / Estudo acompanhado</Link></div>
+    <header className={styles.hero}><span>Companheiro de estudo</span><h1>Uma conversa. <em>Mais clareza.</em></h1><p>Leia, pergunte e descubra as conexões da passagem. No seu ritmo.</p></header>
     <Suspense fallback={<section className={styles.referenceLoading} aria-busy="true" role="status">Abrindo a passagem para seu estudo…</section>}>
       <CompanionForReference searchParams={searchParams} moments={moments} />
     </Suspense>

@@ -1,38 +1,23 @@
 /* Home only. The sky stays dark in both themes; reading surfaces follow the theme. */
 .home {
-  --home-accent: #e4bd7b;
-  --home-soft: #afbec0;
-  --home-line: #9cb1b130;
-  --home-ground: #0b1b21;
-  --home-button-ink: #102029;
+  --home-accent: var(--accent);
+  --home-soft: var(--ink-3);
+  --home-line: var(--line);
+  --home-ground: var(--ground);
+  --home-button-ink: #29141e;
   background: var(--home-ground);
   color: var(--ink);
   overflow: clip;
 }
-@media (prefers-color-scheme: light) {
-  :global(:root:not([data-theme="noite"])) .home {
-    --home-accent: #754b30;
-    --home-soft: #615e52;
-    --home-line: #ac9a755c;
-    --home-ground: #f5f0e5;
-  }
-}
-:global([data-theme="dia"]) .home {
-  --home-accent: #754b30;
-  --home-soft: #615e52;
-  --home-line: #ac9a755c;
-  --home-ground: #f5f0e5;
-}
-
 /* Framed introduction, followed by the unchanged full-width constellation. */
 .hero {
-  --home-accent: #e4bd7b;
-  --home-soft: #b8c5ca;
-  --home-line: #9cb1b140;
+  --home-accent: var(--sky-gold);
+  --home-soft: var(--sky-ink-2);
+  --home-line: #c8abb540;
   position: relative;
   padding: 30px clamp(22px, 4vw, 76px) 30px;
-  background: #08151d;
-  color: #f5efe3;
+  background: var(--sky);
+  color: var(--sky-ink);
 }
 .heroCopy {
   position: relative;
@@ -40,9 +25,9 @@
   max-width: 1336px;
   margin: auto;
   padding: clamp(28px, 3.7vw, 54px) clamp(24px, 4vw, 58px) 82px;
-  border: 1px solid #b0c4cb40;
+  border: 1px solid #c9aeb740;
   border-radius: 20px;
-  background: #0b1e2a;
+  background: #2d1722;
   box-shadow: inset 0 1px 0 #e7f4ff0a, 0 24px 64px -48px #000;
   overflow: hidden;
 }
@@ -60,7 +45,7 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(90deg, #08151d 0%, #08151de8 36%, #08151d40 62%, transparent 82%);
+  background: linear-gradient(90deg, #190d17 0%, #190d17e8 36%, #190d1740 62%, transparent 82%);
   pointer-events: none;
 }
 .heroBackdrop { position: absolute; inset: 0 0 0 45%; pointer-events: none; mask-image: linear-gradient(90deg, transparent, #000 22%); }
@@ -99,7 +84,7 @@
 .heroBottom { display: flex; align-items: end; justify-content: space-between; gap: 36px; }
 .heroLead { min-width: 0; max-width: 540px; }
 .intro { max-width: 380px; font-size: 16px; line-height: 1.8; margin: 0 0 28px; color: var(--ink-2); }
-.hero .intro { color: #c5d0d4; font-size: 15px; line-height: 1.8; max-width: 410px; margin: 0; }
+.hero .intro { color: #dfceca; font-size: 15px; line-height: 1.8; max-width: 410px; margin: 0; }
 .heroActions, .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
 .heroActions { margin-top: 25px; }
 .heroShortcuts { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 14px; }
@@ -135,8 +120,8 @@
 }
 .hero .secondary {
   color: #f2ebdf;
-  border-color: #a6bcc370;
-  background: linear-gradient(165deg, #c9dde51a, #34536430), #0c202c;
+  border-color: #c7a8b070;
+  background: linear-gradient(165deg, #e5c9d21a, #64344730), #321e29;
   box-shadow: inset 0 1px 0 #dcecf02b, inset 0 -1px 0 #00000050, 0 4px 12px #00000015;
 }
 .primary svg, .secondary svg { width: 18px; height: 18px; flex-shrink: 0; transition: transform .2s var(--ease-out); }
@@ -156,11 +141,11 @@
   padding: 11px 14px;
   min-height: 44px;
   text-decoration: none;
-  color: #c4d0d2;
+  color: #decbd1;
   font-size: 11px;
   border-radius: 8px;
   border: 1px solid #a2bcc62e;
-  background: #0a1b256e;
+  background: #2b15226e;
   transition: background .2s, color .2s, border-color .2s;
 }
 .experienceTabs a[aria-current] { background: #d9bd8017; border-color: #d0b27388; color: #f1d6a1; box-shadow: inset 0 1px 0 #f6dfac12; }
@@ -194,25 +179,25 @@
 .discoveryCard::after { content: ""; position: absolute; inset: 7px; border: 1px solid #ffffff24; border-radius: 13px; pointer-events: none; background: radial-gradient(360px circle at var(--pointer-x, 50%) var(--pointer-y, 50%), #ffffff0a, transparent 70%); z-index: 2; transition: border-color .25s; }
 .landscapeCard { grid-row: span 2; }
 .landscape { object-fit: cover; object-position: 55% center; z-index: -2; transition: transform .8s var(--ease-out); }
-.landscapeCard::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, #0b221b08 0%, #0a241ee0 20%, #071c17f5 65%, #071c17 100%); }
-.recreation { position: absolute; top: 20px; right: 20px; font-size: 10px; letter-spacing: .04em; padding: 5px 10px; border: 1px solid #e0ebd335; border-radius: 20px; background: #102a21d9; color: #f0efe3; }
+.landscapeCard::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, #2c152008 0%, #29131fe0 20%, #210e19f5 65%, #210e19 100%); }
+.recreation { position: absolute; top: 20px; right: 20px; font-size: 10px; letter-spacing: .04em; padding: 5px 10px; border: 1px solid #e0cbd335; border-radius: 20px; background: #2e1724e6; color: #fff3e3; }
 .cardCopy { position: absolute; inset: auto 32px 31px; z-index: 1; }
-.cardCategory { font-size: 10px; font-weight: 500; letter-spacing: .13em; color: #d0dfd3; }
+.cardCategory { font-size: 10px; font-weight: 500; letter-spacing: .13em; color: #e4d1cd; }
 .cardCopy h3 { font-family: var(--font-display); font-weight: 440; letter-spacing: -.035em; line-height: 1.13; font-size: 37px; margin: 12px 0 18px; text-wrap: balance; }
 .landscapeCard h3 { font-size: clamp(42px, 4vw, 56px); }
-.cardCopy p { max-width: 300px; font-size: 14px; line-height: 1.8; color: #e2e8dc; margin-bottom: 25px; }
+.cardCopy p { max-width: 300px; font-size: 14px; line-height: 1.8; color: #eee3d9; margin-bottom: 25px; }
 .cardAction { display: inline-flex; align-items: center; gap: 17px; font-size: 13px; font-weight: 500; min-height: 44px; }
 .cardAction svg { border: 1px solid #ffffff80; border-radius: 50%; padding: 10px; width: 42px; height: 42px; background: #ffffff0c; box-shadow: inset 0 1px 0 #ffffff24; transition: transform .25s var(--ease-out), background .25s; }
-.skyCard { background: #071824; }
-.skyCard::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(90deg, #071824f5 0%, #071824e6 82%, #07182440 100%); }
+.skyCard { background: var(--sky); }
+.skyCard::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(90deg, #190d17f5 0%, #190d17e6 82%, #190d1740 100%); }
 .skyArt { position: absolute; object-fit: contain; width: 94%; height: 100%; right: -30%; top: -2%; z-index: -2; opacity: .85; transform: rotate(-14deg); transition: transform .7s var(--ease-out); }
 .skyCard .cardCopy { right: 20%; }
-.chronologyCard { background: #e5d8b9; color: #20362f; border-color: #beab83; }
+.chronologyCard { background: var(--raised); color: var(--ink); border-color: var(--line-strong); }
 .chronologyCard::after { border-color: #705c3430; }
 .chronologyCard .cardCopy { inset: auto 32px 24px; }
-.chronologyCard .cardCategory, .chronologyCard .timeTrail { color: #404b38; }
+.chronologyCard .cardCategory, .chronologyCard .timeTrail { color: var(--ink-2); }
 .chronologyCard h3 { font-size: 34px; margin-top: 9px; margin-bottom: 10px; }
-.chronologyCard .cardAction svg { border-color: #65715b; background: #ffffff20; }
+.chronologyCard .cardAction svg { border-color: var(--line-strong); background: #ffffff0a; }
 .timeTrail { position: absolute; top: 25px; right: 32px; left: 32px; display: flex; align-items: center; gap: 10px; font-size: 11px; }
 .timeTrail span { display: flex; gap: 5px; align-items: center; }
 .timeTrail span::before { content: ""; width: 5px; height: 5px; border-radius: 50%; border: 1px solid currentColor; }

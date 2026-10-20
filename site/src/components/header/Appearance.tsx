@@ -14,9 +14,9 @@ const CHANGE = "bc:appearance";
 function stored(): Choice {
   try {
     const t = localStorage.getItem(THEME_KEY);
-    return t === "dia" || t === "noite" ? t : "sistema";
+    return t === "dia" || t === "sistema" ? t : "noite";
   } catch {
-    return "sistema";
+    return "noite";
   }
 }
 
@@ -24,8 +24,7 @@ function stored(): Choice {
  *  it and everything that inherits from it, rather than trusting values it inherited before the switch (iPhone, 19/10). */
 function apply(c: Choice) {
   for (const el of [document.documentElement, document.body]) {
-    if (c === "sistema") el.removeAttribute("data-theme");
-    else el.setAttribute("data-theme", c);
+    el.setAttribute("data-theme", c);
   }
   // the browser chrome: each meta keeps its own scheme under "sistema", else both take the chosen ground
   for (const m of document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')) {
@@ -44,7 +43,7 @@ function subscribe(cb: () => void) {
 }
 
 export function Appearance() {
-  const choice = useSyncExternalStore<Choice>(subscribe, stored, () => "sistema");
+  const choice = useSyncExternalStore<Choice>(subscribe, stored, () => "noite");
   const [open, setOpen] = useState(false);
   const id = useId();
   const root = useRef<HTMLDivElement>(null);
@@ -52,7 +51,7 @@ export function Appearance() {
 
   // A document rendered on the client never ran THEME_SCRIPT: Next.js sends the 404 of a reading route ("/x") as an
   // empty shell that the browser fills in. Apply the stored choice there too, before the first paint.
-  useLayoutEffect(() => apply(stored()), []);
+  useLayoutEffect(() => apply(stored()), [choice]);
 
   useEffect(() => {
     if (!open) return;
@@ -74,8 +73,7 @@ export function Appearance() {
 
   const choose = (c: Choice) => {
     try {
-      if (c === "sistema") localStorage.removeItem(THEME_KEY);
-      else localStorage.setItem(THEME_KEY, c);
+      localStorage.setItem(THEME_KEY, c);
     } catch {}
     apply(c);
     window.dispatchEvent(new Event(CHANGE));
