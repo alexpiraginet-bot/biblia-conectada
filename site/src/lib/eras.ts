@@ -51,6 +51,14 @@ export function yearLabel(year: number): string {
   return year <= 0 ? `${1 - year} a.C.` : `${year} d.C.`;
 }
 
+/** A span of years, short: "4004–1998 a.C.", "26–30 d.C.", "6 a.C.–9 d.C.", or one year. */
+export function yearSpanShort(from: number, to: number): string {
+  if (from === to) return yearLabel(from);
+  if (to <= 0) return `${1 - from}–${1 - to} a.C.`;
+  if (from > 0) return `${from}–${to} d.C.`;
+  return `${yearLabel(from)}–${yearLabel(to)}`;
+}
+
 /** Text that states each era's span on a given axis ("Antiguidade: até 475 d.C."). */
 export function eraSpanLabel(i: number, axis: Axis): string {
   const e = ERAS[i];

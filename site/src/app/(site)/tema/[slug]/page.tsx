@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { CSSProperties } from "react";
+import { Icon } from "@/components/icons";
 import { BlivreText } from "@/components/passage/Passage";
-import { NOT_FOUND_TITLE } from "@/lib/missing";
 import { formatInt } from "@/lib/canon/text";
 import { conexaoPath } from "@/lib/conexao";
+import { NOT_FOUND_TITLE } from "@/lib/missing";
 import { formatRuns } from "@/lib/passage";
-import { grid, verseRef, verseText } from "@/lib/reading";
+import { grid, verseRef } from "@/lib/reading";
+import { themeView } from "@/lib/theme-view";
 import { events, themeBySlug, themeRule, themes, themesMeta } from "@/lib/timeline";
+import { verseTable } from "@/lib/word-index";
 import styles from "../tema.module.css";
 
 export const ensureStatic = "navigation";
@@ -21,6 +25,7 @@ export function generateStaticParams() {
 }
 
 const capital = (s: string) => s.charAt(0).toLocaleUpperCase("pt-BR") + s.slice(1);
+const plural = (n: number, one: string, many: string) => `${formatInt(n)} ${n === 1 ? one : many}`;
 
 export async function generateMetadata({ params }: PageProps<"/tema/[slug]">): Promise<Metadata> {
   const t = themeBySlug((await params).slug);
@@ -39,107 +44,149 @@ const side = (gv: number) => {
 export default async function TemaPage({ params }: PageProps<"/tema/[slug]">) {
   const t = themeBySlug((await params).slug);
   if (!t) notFound();
-  const passages = await Promise.all(
-    t.passages.map(async (p) => {
-      const count = p.to - p.from + 1;
-      const shown = Array.from({ length: Math.min(count, VERSES_PER_PASSAGE) }, (_, i) => p.from + i);
-      return {
-        ...p,
-        label: formatRuns([[p.from, p.to]], grid),
-        first: verseRef(p.from),
-        count,
-        verses: await Promise.all(shown.map(async (gv) => ({ gv, n: verseRef(gv).verse, text: await verseText(gv) }))),
-      };
-    }),
-  );
+  const { text } = await verseTable();
+  const view = await themeView(t);
+  const maxVotes = Math.max(1, ...t.links.slice(0, LINKS_SHOWN).map((l) => l[2]));
   const withTheme = events.filter((e) => e.themes.some((x) => x.slug === t.slug));
   return (
-    <main id="conteudo" className={styles.main}>
+    <main id="conteudo" className={`site-page ${styles.page}`}>
+      <nav aria-label="Trilha">
+        <ol className={`bc-crumbs ${styles.crumbs}`}>
+          <li>
+            <Icon name="chev-l" className={`bc-icon ${styles.crumbIcon}`} />
+            <Link href="/tema">Temas</Link>
+          </li>
+        </ol>
+      </nav>
       <header className={styles.head}>
-        <nav aria-label="Trilha" className={styles.crumbs}>
-          <Link href="/tema">Temas</Link>
-          <span aria-hidden="true">›</span>
-          <span aria-current="page">{t.label}</span>
-        </nav>
-        <p className="kicker">Tema</p>
-        <h1 className={styles.title}>{capital(t.label)}</h1>
-        <p className={styles.lede}>
-          {formatInt(t.passages.length)} passagens do tópico <span lang="en">“{t.topic}”</span> da OpenBible.info Topics, na ordem da nota dos
-          leitores. A palavra “{t.label}” está em {formatInt(t.coverage.with)} delas no texto da Bíblia Livre, e por isso dá o nome ao tema.
+        <h1 className="bc-display">{capital(t.label)}</h1>
+        <p className={`bc-lede ${styles.lede}`}>
+          {formatInt(t.passages.length)} passagens do tópico <span lang="en">“{t.topic}”</span> da OpenBible.info Topics. A palavra “{t.label}”
+          está em {formatInt(t.coverage.with)} delas no texto da Bíblia Livre, e por isso dá o nome ao tema.
         </p>
       </header>
 
       <div className={styles.layout}>
         <div className={styles.primary}>
-          <h2 className={styles.sectionTitle} id="passagens">
-            Passagens <span className={styles.count}>{formatInt(t.passages.length)} passagens</span>
-          </h2>
-          <ol className={styles.passages} aria-labelledby="passagens">
-            {passages.map((p) => (
-              <li key={p.osis} className={styles.passage}>
-                <p className={styles.passageHead}>
-                  <Link href={p.first.path}>{p.label}</Link>
-                  <span className={styles.meta}>nota {formatInt(p.score)}</span>
-                </p>
-                <ol className={styles.verses}>
-                  {p.verses.map((v) => (
-                    <li key={v.gv} value={v.n}>
-                      {p.count > 1 && <span className={styles.num}>{v.n}</span>}
-                      <span className={styles.scripture}>
-                        <BlivreText text={v.text} />
-                      </span>
-                    </li>
-                  ))}
-                </ol>
-                {p.count > p.verses.length && (
-                  <p className={styles.meta}>
-                    Mais {formatInt(p.count - p.verses.length)} versículos em{" "}
-                    <Link href={`/${p.first.book.slug}/${p.first.chapter}`}>
-                      {p.first.book.name} {p.first.chapter}
-                    </Link>
-                    .
-                  </p>
-                )}
-              </li>
-            ))}
-          </ol>
+          <section aria-labelledby="palavras" className={styles.block}>
+            <h2 className="bc-section-title" id="palavras">
+              Palavras destas passagens <small>{plural(view.words.length, "palavra", "palavras")}</small>
+            </h2>
+            <ul className={styles.chips}>
+              {view.words.map((w) => (
+                <li key={w.key}>
+                  <Link href={`/palavra/${w.key}`} className={`bc-chip ${styles.chip}`} aria-label={`${w.label}, em ${plural(w.passages, "passagem", "passagens")}`}>
+                    {w.label} <span className={styles.chipCount}>{formatInt(w.passages)}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <p className={styles.note}>
+              As palavras que estão em mais passagens deste tema (o número), contadas no texto da Bíblia Livre sem as palavras de ligação
+              como “de” e “que”. Cada uma abre os versículos que a têm.
+            </p>
+          </section>
 
-          <h2 className={styles.sectionTitle} id="ligacoes">
-            Ligações entre as passagens <span className={styles.count}>{formatInt(t.links.length)} ligações</span>
-          </h2>
-          {t.links.length ? (
-            <>
-              <ul className={styles.links} aria-labelledby="ligacoes">
-                {t.links.slice(0, LINKS_SHOWN).map(([a, b, votes]) => {
-                  const ra = verseRef(a);
-                  const rb = verseRef(b);
-                  return (
-                    <li key={`${a}-${b}`}>
-                      <Link href={conexaoPath(side(a), side(b))}>
-                        {ra.label} ↔ {rb.label}
-                      </Link>
-                      <span className={styles.meta}>{formatInt(votes)} votos</span>
-                    </li>
-                  );
-                })}
-              </ul>
-              <p className={styles.note}>
-                Pares da OpenBible.info entre versículos de passagens diferentes deste tema; votos somam as duas direções.
-                {t.links.length > LINKS_SHOWN && ` Aqui, as ${formatInt(LINKS_SHOWN)} mais votadas.`}
-              </p>
-            </>
-          ) : (
-            <p className={styles.note}>Nenhuma ligação da OpenBible.info entre versículos de passagens diferentes deste tema.</p>
-          )}
+          <section aria-labelledby="passagens" className={styles.block}>
+            <h2 className="bc-title" id="passagens">
+              Passagens
+            </h2>
+            <p className={styles.rule}>
+              As {formatInt(view.passages.length)} passagens, das mais ligadas às menos ligadas. Ligações: pares da OpenBible.info com ao menos
+              um versículo da passagem. A nota é a dos leitores da OpenBible.info Topics para a passagem neste tópico. A palavra “{t.label}” vai
+              marcada no texto.
+            </p>
+            <ol className={`bc-conns ${styles.passages}`}>
+              {view.passages.map((p) => {
+                const first = verseRef(p.from);
+                const count = p.to - p.from + 1;
+                const shown = Array.from({ length: Math.min(count, VERSES_PER_PASSAGE) }, (_, i) => p.from + i);
+                return (
+                  <li key={p.osis} className="bc-conn">
+                    <Link href={first.path} className="bc-conn__ref">
+                      {formatRuns([[p.from, p.to]], grid)}
+                    </Link>
+                    <span className={`bc-conn__votes ${styles.count}`}>
+                      <span className={`i i-arc ${styles.countIcon}`} aria-hidden="true" />
+                      {plural(p.pairs, "ligação", "ligações")}
+                    </span>
+                    <p className="bc-conn__text">
+                      {shown.map((gv, i) => (
+                        <span key={gv}>
+                          {count > 1 && (
+                            <span className={`bc-verse__n ${styles.verseN}`}>
+                              <span className="visually-hidden">Versículo </span>
+                              {verseRef(gv).verse}
+                            </span>
+                          )}
+                          <BlivreText text={text[gv]} word={t.key} />
+                          {i < shown.length - 1 ? " " : ""}
+                        </span>
+                      ))}
+                    </p>
+                    <p className={styles.passageMeta}>
+                      nota {formatInt(p.score)}
+                      {count > shown.length && (
+                        <>
+                          {" · "}
+                          mais {plural(count - shown.length, "versículo", "versículos")} em{" "}
+                          <Link href={`/${first.book.slug}/${first.chapter}`}>
+                            {first.book.name} {first.chapter}
+                          </Link>
+                        </>
+                      )}
+                    </p>
+                  </li>
+                );
+              })}
+            </ol>
+            <p className={styles.note}>{formatInt(t.passages.length)} passagens do tópico, todas acima.</p>
+          </section>
+
+          <section aria-labelledby="ligacoes" className={styles.block}>
+            <h2 className="bc-title" id="ligacoes">
+              Ligações entre as passagens <small className={styles.titleCount}>{plural(t.links.length, "ligação", "ligações")}</small>
+            </h2>
+            {t.links.length ? (
+              <>
+                <p className={styles.rule}>
+                  Pares da OpenBible.info entre versículos de passagens diferentes deste tema, dos mais votados aos menos votados; votos somam as
+                  duas direções.{t.links.length > LINKS_SHOWN && ` Aqui, os ${formatInt(LINKS_SHOWN)} mais votados.`}
+                </p>
+                <ol className={`bc-conns ${styles.pairs}`}>
+                  {t.links.slice(0, LINKS_SHOWN).map(([a, b, votes]) => {
+                    const ra = verseRef(a);
+                    const rb = verseRef(b);
+                    return (
+                      <li key={`${a}-${b}`} className="bc-conn">
+                        <Link href={conexaoPath(side(a), side(b))} className="bc-conn__ref">
+                          {ra.label}
+                          <Icon name="both" />
+                          <span className="bc-visually-hidden"> e </span>
+                          {rb.label}
+                        </Link>
+                        <span className="bc-conn__votes">
+                          <span className="bc-conn__bar" style={{ "--w": (votes / maxVotes).toFixed(3) } as CSSProperties} aria-hidden="true" />
+                          {plural(votes, "voto", "votos")}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ol>
+              </>
+            ) : (
+              <p className={styles.rule}>Nenhuma ligação da OpenBible.info entre versículos de passagens diferentes deste tema.</p>
+            )}
+          </section>
         </div>
 
         <aside className={styles.aside} aria-labelledby="sobre-tema">
-          <h2 id="sobre-tema" className={styles.asideTitle}>
+          <h2 id="sobre-tema" className="bc-title">
             Sobre este tema
           </h2>
           <p>
-            Fonte: tópico <span lang="en">“{t.topic}”</span> da OpenBible.info Topics. O nome “{t.label}” é a palavra da BLIVRE presente em mais da
-            metade das passagens ({formatInt(t.coverage.with)} de {formatInt(t.coverage.total)}).
+            Fonte: tópico <span lang="en">“{t.topic}”</span> da OpenBible.info Topics. O nome “{t.label}” é a palavra da Bíblia Livre presente em
+            mais da metade das passagens ({formatInt(t.coverage.with)} de {formatInt(t.coverage.total)}); não é tradução.
           </p>
           <p>
             <Link href={`/palavra/${t.key}`} className={styles.asideLink}>
@@ -148,15 +195,12 @@ export default async function TemaPage({ params }: PageProps<"/tema/[slug]">) {
           </p>
           {withTheme.length > 0 && (
             <>
-              <p>
-                Na linha do tempo (passagens com nota {formatInt(themeRule.minScoreForVerse)} ou mais):
-              </p>
+              <h3 className={styles.asideTitle}>Na linha do tempo</h3>
+              <p className={styles.asideNote}>Eventos com uma passagem deste tema de nota {formatInt(themeRule.minScoreForVerse)} ou mais.</p>
               <ul className={styles.events}>
                 {withTheme.map((e) => (
                   <li key={e.id}>
-                    <Link href={`/linha-do-tempo/${e.slug}`} className={styles.asideLink}>
-                      {e.ref}
-                    </Link>
+                    <Link href={`/linha-do-tempo/${e.slug}`}>{e.ref}</Link>
                   </li>
                 ))}
               </ul>

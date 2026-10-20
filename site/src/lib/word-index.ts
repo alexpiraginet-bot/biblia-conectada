@@ -64,15 +64,31 @@ export async function wordPage(key: string): Promise<WordPage | null> {
     }
   }
   linksAmong.sort((a, b) => b[2] - a[2] || a[0] - b[0] || a[1] - b[1]);
+  return { key, label: labelOf(ix, key), verses, linksAmong, degree };
+}
+
+function labelOf(ix: Index, key: string): string {
   const forms = [...(ix.forms.get(key) ?? new Map<string, number>())];
   const lower = new Map<string, number>();
   for (const [w, n] of forms) lower.set(w.toLowerCase(), (lower.get(w.toLowerCase()) ?? 0) + n);
   const alwaysCapital = forms.every(([w]) => w !== w.toLowerCase());
   const pick = (m: [string, number][]) => m.sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0][0];
-  const label = alwaysCapital ? pick(forms) : pick([...lower]);
-  return { key, label, verses, linksAmong, degree };
+  return alwaysCapital ? pick(forms) : pick([...lower]);
+}
+
+/** The word as the BLIVRE writes it most often (the label of its /palavra page), or null when the text lacks it. */
+export async function wordLabel(key: string): Promise<string | null> {
+  const ix = await index();
+  return ix.forms.has(key) ? labelOf(ix, key) : null;
 }
 
 export async function blivreText(gv: number): Promise<string> {
   return (await index()).text[gv];
+}
+
+/** The BLIVRE text and the OpenBible links of every verse, by global index: the same per-book files, read once per
+ *  process (the timeline and theme pages count links over many verses at once). */
+export async function verseTable(): Promise<{ text: readonly string[]; links: readonly (readonly Link[])[] }> {
+  const ix = await index();
+  return { text: ix.text, links: ix.links };
 }
