@@ -821,12 +821,9 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* the whole verse: a link is read in the list, never opened just to be read */
 .itemText {
   grid-column: 1 / -1;
-  display: -webkit-box;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
   font: 400 16px/1.5 var(--font-reading);
   color: var(--ink-reading);
 }

@@ -83,9 +83,15 @@ export function PanelShell({
       }
       const box = sheet.current;
       if (e.key !== "Tab" || !box) return;
-      const items = [...box.querySelectorAll<HTMLElement>(FOCUSABLE)].filter((x) => x.getClientRects().length > 0);
-      if (!items.length) return;
-      const [first, last] = [items[0], items[items.length - 1]];
+      // only the ends matter: the endless list can hold hundreds of links, most of them far from the screen
+      const items = box.querySelectorAll<HTMLElement>(FOCUSABLE);
+      const shown = (x: HTMLElement) => x.getClientRects().length > 0;
+      let i = 0;
+      let j = items.length - 1;
+      while (i < items.length && !shown(items[i])) i++;
+      while (j > i && !shown(items[j])) j--;
+      if (i === items.length) return;
+      const [first, last] = [items[i], items[j]];
       const active = document.activeElement;
       if (!active || !box.contains(active)) {
         e.preventDefault();

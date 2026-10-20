@@ -20,7 +20,8 @@ export async function versesFrom(index: TextIndex, q: string): Promise<WordResul
 /** The verses of the query, from the page's shared index. */
 export const versesOfWord = (q: string) => versesFrom(textIndex, q);
 
-/** A verse's text cut into plain and marked runs (the query's words), at most `maxWords` words around the first mark. */
-export function marked(text: string, query: TextQuery, maxWords = 28): Segment[] {
+/** A verse's text cut into plain and marked runs (the query's words); with `maxWords`, only that many words around the
+ *  first mark. */
+export function marked(text: string, query: TextQuery, maxWords = Infinity): Segment[] {
   return markVerse(text, query, maxWords);
 }

@@ -7,12 +7,9 @@ import { barShare, graphNote, graphPartners, linksLabel, topGroup, verseHeadline
 import { grid, type Link as VerseLink, verseRef, verseText } from "@/lib/reading";
 import { VerseArcs } from "./Arcs";
 import { Featured, MiniMap, PanelHead } from "./FromHere";
-import { HoverPreview } from "./HoverPreview";
+import { LinksFeed } from "./LinksFeed";
 import { Scripture } from "./Scripture";
 import styles from "./reader.module.css";
-
-const WITH_TEXT = 5; // strongest links shown with their text (design §6.1)
-const VISIBLE = 40; // compact rows before "Mostrar mais"
 
 // direction of a link seen from this verse (design system ConnectionRow)
 const DIR = {
@@ -26,14 +23,15 @@ const short = (gv: number) => {
   return `${r.book.abbr} ${r.chapter}:${r.verse}`;
 };
 
-/** One link (ds.css .bc-conn): the other verse, its direction, the votes with a bar, and its text when given. */
-function Row({ link, max, text }: { link: VerseLink; max: number; text?: string }) {
+/** One link (ds.css .bc-conn): the other verse, its direction, the votes with a bar, and its whole text. The rows are
+ *  read in place, so they are not prefetched one by one as the list scrolls past. */
+function Row({ link, max, text }: { link: VerseLink; max: number; text: string }) {
   const [gv, v, d] = link;
   const ref = verseRef(gv);
   const dir = DIR[d as 1 | 2 | 3];
   return (
     <li className="bc-conn">
-      <Link className="bc-conn__ref" href={ref.path}>
+      <Link className="bc-conn__ref" href={ref.path} prefetch={false}>
         {ref.label}
         <span className={`${dir.icon} ${styles.dir}`} />
         <span className="visually-hidden">, {dir.label}</span>
@@ -42,11 +40,9 @@ function Row({ link, max, text }: { link: VerseLink; max: number; text?: string 
         <span className="bc-conn__bar" style={{ "--w": barShare(v, max) } as React.CSSProperties} aria-hidden="true" />
         {votesLabel(v)}
       </span>
-      {text !== undefined && (
-        <p className="bc-conn__text">
-          <Scripture text={text} />
-        </p>
-      )}
+      <p className="bc-conn__text">
+        <Scripture text={text} />
+      </p>
     </li>
   );
 }
@@ -56,8 +52,9 @@ export type NearVerse = { verse: number; links: number };
 
 /**
  * The panel of a verse (/livro/cap/vers): the verse as a quote, the data headline, the mini map and the strongest
- * connection, then every link from the most voted to the least (design §6.1: five with their text, forty more as
- * rows, the rest behind "Mostrar mais"). A verse with no link says so and offers its chapter and its neighbours.
+ * connection, then every link from the most voted to the least, each with its whole text, and under them the endless
+ * list of the links of those links (LinksFeed, design §6.2). A verse with no link says so and offers its chapter and
+ * its neighbours.
  */
 export async function LinksPanel({
   book,
@@ -83,11 +80,7 @@ export async function LinksPanel({
   near: NearVerse[];
 }) {
   const label = `${book.name} ${chapter}:${verse}`;
-  const strongest = links.slice(0, WITH_TEXT);
-  const texts = await Promise.all(strongest.map(([gv]) => verseText(gv)));
-  const rest = links.slice(WITH_TEXT);
-  const visible = rest.slice(0, VISIBLE);
-  const hidden = rest.slice(VISIBLE);
+  const texts = await Promise.all(links.map(([gv]) => verseText(gv)));
   // links come from the pipeline strongest first, canonical order inside a tie
   const ranked = links.map(([key, v]) => ({ key, votes: v }));
   const headline = verseHeadline(ranked, (gv) => verseRef(gv).label);
@@ -158,29 +151,11 @@ export async function LinksPanel({
               {links.length === 1 ? "1 ligação" : `${formatInt(links.length)} ligações`}
               <small>das mais votadas às menos votadas</small>
             </h3>
-            <HoverPreview>
-              <ol className="bc-conns">
-                {strongest.map((l, i) => (
-                  <Row key={l[0]} link={l} max={max} text={texts[i]} />
-                ))}
-                {visible.map((l) => (
-                  <Row key={l[0]} link={l} max={max} />
-                ))}
-              </ol>
-              {hidden.length > 0 && (
-                <details className={styles.more}>
-                  <summary className={`bc-button bc-button--ghost ${styles.moreButton}`}>
-                    <span className={styles.moreShow}>Mostrar mais {formatInt(hidden.length)}</span>
-                    <span className={styles.moreHide}>Mostrar menos</span>
-                  </summary>
-                  <ol className="bc-conns">
-                    {hidden.map((l) => (
-                      <Row key={l[0]} link={l} max={max} />
-                    ))}
-                  </ol>
-                </details>
-              )}
-            </HoverPreview>
+            <ol className="bc-conns">
+              {links.map((l, i) => (
+                <Row key={l[0]} link={l} max={max} text={texts[i]} />
+              ))}
+            </ol>
           </section>
           <VerseArcs gv={grid.verseIndex(book, chapter, verse)} label={label} links={links} />
         </>
@@ -197,6 +172,8 @@ export async function LinksPanel({
           </>
         )}
       </p>
+      {/* keyed by the verse: another verse's page starts its own list, whatever the router keeps mounted */}
+      {links.length > 0 && <LinksFeed key={`${book.slug}/${chapter}/${verse}`} origin={grid.verseIndex(book, chapter, verse)} links={links} />}
     </>
   );
 }

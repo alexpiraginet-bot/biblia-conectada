@@ -125,7 +125,7 @@ Três vozes, OFL, servidas pelo próprio site e carregadas no layout raiz (`--fo
   - Vazio: exemplos para tocar e as últimas buscas do aparelho. Sem resultado: diz o que foi buscado e o próximo passo ("Não achei “João 22”: João tem 21 capítulos.").
   - **Índice de palavras** (gerado no build, `site/scripts/data/search-index.ts`): palavra é uma sequência de letras, sem acento e em minúsculas; todas as palavras ficam, sem lista de palavras vazias. Cada palavra aponta para os versículos em ordem de ligações (o mesmo número das páginas de leitura) e depois em ordem canônica. Várias palavras: todas precisam estar no versículo; frase entre aspas: as palavras em sequência. A palavra é exata ("luz" não acha "luzes").
   - `/buscar` mostra os versículos de 20 em 20 ("Mais resultados"), com `?q=` no endereço. De 75rem, ao lado, "Como buscar": as cinco regras (referência, livro, palavras, frase, tema), com um exemplo cada. Sem JavaScript a página não mostra resultados (o `?q=` só existe no pedido, e a página é estática); um aviso leva à leitura.
-- **Ler:** escolher um versículo acende a contagem e abre as ligações, ordenadas por votos, com o número sempre em texto. Cada versículo é uma rota (`/isaias/9/6`) cujo painel vem pronto do servidor; o texto do capítulo fica no layout e não recarrega ao trocar de versículo.
+- **Ler:** escolher um versículo acende a contagem e abre as ligações, ordenadas por votos, com o número sempre em texto. Cada ligação aparece com o texto inteiro da BLIVRE, sem precisar abrir nada, e embaixo delas a lista continua sem fim (§6.2). Cada versículo é uma rota (`/isaias/9/6`) cujo painel vem pronto do servidor; o texto do capítulo fica no layout e não recarrega ao trocar de versículo.
 - **Painel "A partir deste trecho / deste capítulo":** manchete de dados, mini grafo dos até 6 mais votados (a lista é o caminho acessível), a ligação mais forte em destaque com "Ler lado a lado" e "Ver no Explorar". No celular o painel do capítulo fica depois do texto e espia por baixo ("Ligações de Isaías 9", com quantos capítulos estão ligados) até ser alcançado; some enquanto há um trecho selecionado. "Mais ligados" e o Explorar usam a mesma ordem (`site/src/lib/chapter-rank.ts`).
 - **Barra de seleção:** Copiar (com a referência), Compartilhar, Salvar (só no aparelho) e Explorar. Fica acima das abas e da faixa da Ponte no celular.
 - **Folha (celular):** diálogo com título, foco preso, Esc e "Fechar" visível; voltar fecha a folha. Opaca, em `overlay`, com texto em `ink`.
@@ -136,9 +136,25 @@ Três vozes, OFL, servidas pelo próprio site e carregadas no layout raiz (`--fo
 
 - Ligações por versículo: mediana 15, p90 40, p99 81, máximo 212 (Is 9:6).
 - **Vazio:** 799 versículos não têm ligação na base. O painel diz isso e oferece o capítulo e os vizinhos.
-- **Muito cheio:** 107 versículos têm mais de 100 ligações: as 5 mais votadas com o texto, as 40 seguintes em linhas e o resto atrás de "Mostrar mais N".
+- **Muito cheio:** 107 versículos têm mais de 100 ligações. Todas aparecem com o texto inteiro, sem "Mostrar mais"; a mais cheia, Is 9:6, soma 28.124 caracteres nas 212 ligações. As linhas não são pré-carregadas uma a uma ao passar pela tela (`prefetch={false}`), porque agora se leem ali mesmo.
 - **Erro de rede:** "Não deu para carregar as ligações. Tentar de novo." O que já veio continua funcionando.
-- **Dados reduzidos** (Save-Data): o céu não baixa sozinho; mostra a imagem e "Carregar o céu".
+- **Dados reduzidos** (Save-Data): o céu não baixa sozinho; mostra a imagem e "Carregar o céu". A lista sem fim também não: cada seção vem com "Continuar lendo".
+
+### 6.2 Lista sem fim (20/10)
+
+Pedido do Alex, com a captura da folha no iPhone: "As conexões aqui precisam estar toda visível! Não a pessoa ter que acessar ela para ler! Precisamos de algo fácil para qualquer pessoa adorar rolar e ler! Um ciclo infinito".
+
+- **Todas visíveis:** no painel do versículo, toda ligação traz o texto inteiro (antes eram só as 5 mais votadas). O `check-dist` confere, em cada página de versículo pré-renderizada, que cada linha tem o texto exato da BLIVRE.
+- **Sem fim:** depois das ligações do versículo vem "Continue lendo · as ligações das ligações" (`LinksFeed.tsx`, regra em `site/src/lib/links-feed.ts`):
+  - as ligações de cada versículo da lista, na mesma ordem do painel (das mais votadas às menos), e depois as dos versículos que forem aparecendo: uma busca em largura pelo grafo da OpenBible.info;
+  - cada seção é um versículo que já apareceu (título, "Ligado a Levítico 26:3 · 71 votos" e o texto) e até 8 ligações dele que ainda não apareceram, as mais votadas, cada uma com o texto inteiro;
+  - nenhum versículo aparece duas vezes; ligações sem voto positivo ficam fora da continuação (a lista do próprio versículo mostra todas);
+  - pelas ligações com voto positivo, 30.220 versículos formam um só bloco; fora dele há 33 ilhas de 2 ou 3 versículos. Quando a lista esgota o que alcança, segue pelo próximo versículo da Bíblia (de Apocalipse 22:21 volta a Gênesis 1:1) e diz isso no lugar do "Ligado a…";
+  - a regra está escrita no topo da continuação, com o número de ligações por versículo vindo do código.
+- **Carga:** uma seção entra quando o fim da lista está a uma tela e meia; o observador é refeito depois de cada carga, então uma seção curta puxa a seguinte. Cada seção pede o arquivo de ligações do capítulo do versículo e o texto dos capítulos das ligações (`public/data/verse-links` e `public/data/text`), cada arquivo uma vez por visita. Seções longe da tela não são desenhadas (`content-visibility: auto`). Nada anima ao entrar (§7).
+- **Erro e acesso:** "Não deu para carregar as ligações." com "Tentar de novo"; uma falha não perde nada nem pula versículo (teste). O botão "Continuar lendo" fica no fim da lista para teclado e Save-Data, e a seção pedida por ele recebe o foco no título. Sem JavaScript a continuação não aparece; a lista do versículo, acima, está completa.
+- **Por que em largura:** as primeiras seções abrem, uma a uma, as ligações do próprio versículo (todas as da lista, antes de ir além), então a leitura começa em volta do versículo de onde a pessoa veio.
+- A prévia ao passar o mouse (desktop) saiu: mostrava o mesmo texto que agora está na linha, por cima dele.
 
 ## 7. Movimento
 
@@ -306,7 +322,7 @@ Em 375 e 1440 px, nos temas Noite e Dia (regra 9 do `CLAUDE.md`):
 - **Versículo aberto:**
   - o painel (folha no celular) tem o texto da BLIVRE, "Ler Isaías 53" e "Copiar link";
   - os filtros Todas, Antigo e Novo (o filtro apaga os outros fios e reenquadra);
-  - a lista completa, das mais votadas às menos, 20 por vez, com votos e trecho;
+  - a lista completa, das mais votadas às menos, 20 por vez, com votos e o texto inteiro (sem corte em duas linhas, desde 20/10, §6.2);
   - e "Ver as ligações de Isaías 53 inteiro".
 - **Fios e rótulos:**
   - passar o mouse num fio aceso mostra os dois versículos e os votos (a dica abre do outro lado do ponteiro quando não cabe no quadro, nunca por baixo do painel);

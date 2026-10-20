@@ -657,17 +657,82 @@
   margin-top: var(--space-2);
 }
 
-.moreButton.moreButton {
-  justify-content: flex-start;
-  list-style: none;
+/* ---- the endless list under a verse's links (LinksFeed): a verse already shown, then its strongest links that have not
+   appeared yet, section after section. A section far from the screen skips its rendering. */
+
+.feed {
+  display: grid;
+  gap: var(--space-7);
 }
 
-.moreButton::-webkit-details-marker {
-  display: none;
+.feedHead {
+  display: grid;
+  gap: var(--space-3);
 }
 
-.more[open] .moreShow,
-.more:not([open]) .moreHide {
+.feedRule {
+  margin: 0;
+  font: 400 var(--fs-body) / var(--lh-body) var(--font-ui);
+  color: var(--ink-2);
+}
+
+.hub {
+  display: grid;
+  gap: var(--space-2);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 80rem;
+}
+
+.hubTitle {
+  margin: 0;
+  font: 440 var(--fs-title) / var(--lh-title) var(--font-display);
+  letter-spacing: -0.01em;
+  font-synthesis: none;
+  text-wrap: balance;
+  scroll-margin-top: var(--space-8);
+}
+
+/* the title takes the focus when its section was asked for with the button; it is not a control, so no ring */
+.hubTitle:focus {
+  outline: none;
+}
+
+.hubTitle a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.hubTitle a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.hubWhy,
+.feedNote {
+  margin: 0;
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  color: var(--ink-2);
+}
+
+.hubText {
+  margin: 0 0 var(--space-3);
+  font: 400 var(--fs-quote) / var(--lh-quote) var(--font-reading);
+  color: var(--ink-reading);
+}
+
+/* a hairline between the verse and its links, as under the title of the verse's own list */
+.hub > :global(.bc-conns) {
+  border-top: 1px solid var(--line);
+}
+
+.feedEnd {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-2);
+  min-height: var(--target);
+}
+
+.feedNote:empty {
   display: none;
 }
 
@@ -714,29 +779,4 @@
 .arcsCaption.arcsCaption {
   display: block;
   font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
-}
-
-/* ---- the preview of a linked verse, on hover or focus (desktop) */
-
-.preview {
-  position: fixed;
-  z-index: 45;
-  width: 21.25rem;
-  padding: var(--space-3) var(--space-4);
-  background: var(--overlay);
-  color: var(--ink);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-float);
-}
-
-.previewRef {
-  margin: 0 0 var(--space-1);
-  font: 600 var(--fs-meta) / var(--lh-meta) var(--font-ui);
-}
-
-.previewText {
-  margin: 0;
-  font: 400 var(--fs-scripture-sm) / var(--lh-scripture-sm) var(--font-reading);
-  color: var(--ink-reading);
 }

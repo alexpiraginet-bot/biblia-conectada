@@ -149,7 +149,7 @@ export function WordPanel({
                   <button type="button" className={styles.item} onClick={() => onVerse(gv)}>
                     <span className={styles.itemRef}>{longRef(BASE, gv)}</span>
                     <span className={styles.itemText}>
-                      {t === undefined ? "…" : marked(t, result.query, 16).map((s, i) => (s.mark ? <mark key={i}>{s.text}</mark> : <span key={i}>{s.text}</span>))}
+                      {t === undefined ? "…" : marked(t, result.query).map((s, i) => (s.mark ? <mark key={i}>{s.text}</mark> : <span key={i}>{s.text}</span>))}
                     </span>
                   </button>
                 </li>

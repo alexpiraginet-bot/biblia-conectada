@@ -308,7 +308,7 @@ Os valores do frontmatter são os de `site/src/styles/tokens.json`, literais. Ca
 - **Azul-Marinho da Noite / Pergaminho Liso** (`ground`: #06121b, #f6f1e6): fundo da página, da barra superior, do trilho e das abas. O pergaminho é liso, nunca textura nem moldura.
 - **Painel** (`surface`: #0b1a25, #fcf9f3): o que fica no plano da página: painel de ligações, rodapé, disco do selo.
 - **Elevado** (`raised`: #11232f, #eee6d6): campos, botão secundário, hover, item atual do trilho e da barra de capítulos.
-- **Flutuante** (`overlay`: #14293a, #fffdf8): folha, paleta de busca, menus, faixa que espia, barra de seleção, prévia de versículo.
+- **Flutuante** (`overlay`: #14293a, #fffdf8): folha, paleta de busca, menus, faixa que espia, barra de seleção.
 - **Fio** (`line`: #22374a, #dcd3c2): divisória de lista e borda de painel; não carrega informação sozinho.
 - **Fio de Controle** (`line-strong`: #62798c, #847b6d): borda de campo, de botão secundário e de chip; no mínimo 3:1 nas quatro superfícies.
 - **Tinta** (`ink`: #f2ebdd, #141f1b): interface e títulos. **Tinta de Leitura** (`ink-reading`: #eae3d4, #18231e): só a Escritura, um tom abaixo do `ink` no Noite. **Tinta Secundária** (`ink-2`: #cbc3b6, #3c4540): metadados, legendas, palavras acrescentadas pelos tradutores. As três passam de 7:1 em todas as superfícies.
@@ -334,7 +334,7 @@ Os valores do frontmatter são os de `site/src/styles/tokens.json`, literais. Ca
 ### Hierarchy
 - **Display** (`display`: 440, de 38 a 56px em clamp, 1.05, -0.015em): título de página (livro, capítulo, Explorar, Linha do tempo) e o título da capa. `text-wrap: balance`, `font-synthesis: none`.
 - **Title** (`title`: 440, de 24 a 28px em clamp, 1.2, -0.01em): título de painel e de folha, e o título de seção maior (`.bc-section-title--major`, usado na lista do mapa e nos versículos mais ligados da capa).
-- **Body, Escritura** (`scripture`: Literata 400, de 19 a 21px em clamp, 1.75): o texto bíblico; 19px no celular, 20px a partir de 1024px, 21px a partir de 1440px, na coluna de 36rem (60 a 66 caracteres), com algarismos proporcionais. `quote` (400, 19px, 1.65) é o versículo em foco no topo do painel; `scripture-sm` (400, 17px, 1.6) são trechos em listas, resultados e prévias.
+- **Body, Escritura** (`scripture`: Literata 400, de 19 a 21px em clamp, 1.75): o texto bíblico; 19px no celular, 20px a partir de 1024px, 21px a partir de 1440px, na coluna de 36rem (60 a 66 caracteres), com algarismos proporcionais. `quote` (400, 19px, 1.65) é o versículo em foco no topo do painel; `scripture-sm` (400, 17px, 1.6) são trechos em listas e resultados.
 - **Body, interface** (`lede`: 400, 19px, 1.5; `body`: 400, 17px, 1.55): parágrafo de abertura (até 38rem) e texto corrido da interface, que não é bíblico.
 - **Label** (`ui`: 500, 16px, 1.4; `meta`: 400, 14px, 1.45; `label`: 600, 13px, 1.3): `ui` em botões, abas, itens de lista e referências, em peso 600 nos botões, nas referências e no título de seção de 16px; `meta` em metadados e legendas, nunca menor que 14px no celular; `label` em número de versículo, contagem na pílula, tecla e grupo de resultados, e nomeia os itens do trilho e das abas em peso 500.
 
@@ -362,7 +362,7 @@ Mobile-first de verdade, numa escala de 4px (`space-1` a `space-9`): `space-1` (
 Quase plano. A profundidade vem das quatro superfícies em degrau (`ground`, `surface`, `raised`, `overlay`) e dos fios de 1px; a sombra só aparece no que flutua sobre a página e, de leve, no botão e no campo em repouso. No Noite, quem separa o flutuante da página é a borda `line`; a sombra só dá profundidade. Os anéis em volta de medalhões, discos e selos são aros desenhados, não sombras (ver Shapes).
 
 ### Shadow Vocabulary
-- **Flutuante** (`shadow-float`: `0 16px 48px rgba(0, 0, 0, 0.55)` no Noite, `0 14px 40px rgba(44, 33, 14, 0.16)` no Dia): folha, paleta de busca, menu de aparência, faixa que espia, barra de seleção, prévia de versículo.
+- **Flutuante** (`shadow-float`: `0 16px 48px rgba(0, 0, 0, 0.55)` no Noite, `0 14px 40px rgba(44, 33, 14, 0.16)` no Dia): folha, paleta de busca, menu de aparência, faixa que espia, barra de seleção.
 - **Em repouso** (`shadow-raise`: `0 1px 0 rgba(255, 255, 255, 0.04)` no Noite, `0 1px 2px rgba(44, 33, 14, 0.10)` no Dia): botão principal, campos em repouso (o campo grande da capa, o da Mesa), segmento marcado; some no botão desabilitado.
 
 ### Named Rules
@@ -397,7 +397,7 @@ Firmes e quietos: o principal é o único bloco de cor cheia da área.
 
 ### Cards / Containers
 - **Corner Style:** `radius-lg` (18px) no painel, na folha (cantos de cima), na paleta, no menu e na faixa que espia; `radius-md` (10px) na janela do céu.
-- **Background:** painel em `surface`; folha, paleta, menu, faixa que espia, barra de seleção e prévia em `overlay`, cada um com a sua tinta `ink`; janela do céu em `sky` com `sky-ink`.
+- **Background:** painel em `surface`; folha, paleta, menu, faixa que espia e barra de seleção em `overlay`, cada um com a sua tinta `ink`; janela do céu em `sky` com `sky-ink`.
 - **Shadow Strategy:** painel sem sombra, no plano da página; o resto, `shadow-float` (ver Elevation & Depth).
 - **Border:** 1px `line` em todos; a folha não tem borda embaixo.
 - **Internal Padding:** painel com 24px e 24px entre blocos; folha com 16px dos lados e 24px embaixo mais a área segura, até 86dvh de altura, com uma barra fixa de 52px (alça de 40×4px em `line-strong` e "Fechar"); a folha entra subindo 24px em 220ms sobre o véu.

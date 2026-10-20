@@ -1,8 +1,8 @@
 // Post-build checks of the reading pages (called by check-dist.ts): every number on /ler, on the book pages and on
 // every prerendered chapter and verse page is the one computed from the generated book files (CLAUDE.md rule 3):
 // the books' and chapters' links, the chapter list and pager counts, the meta line, the seal, each verse's links pill,
-// the panel headline and its "Mais ligados" rows; the panel links follow the /conexao and /explorar contracts, the
-// crumbs name the book group, and /salvos ships its static shell.
+// the panel headline and its "Mais ligados" rows; every link of a verse panel carries its whole BLIVRE text; the panel
+// links follow the /conexao and /explorar contracts, the crumbs name the book group, and /salvos ships its static shell.
 import { readFileSync } from "node:fs";
 import { join, sep } from "node:path";
 import { createGrid } from "../../src/lib/canon/grid";
@@ -248,6 +248,14 @@ export function checkReading({
         return `/${l.book.slug}/${l.chapter}/${l.verse}`;
       });
       if (JSON.stringify(rows) !== JSON.stringify(wantRows)) failures.push(`${page}: lists ${rows.length} links, expected the ${links.length} of the data in order`);
+      // each with its whole text, read in place (design §6.1)
+      const nbsp = (t: string) => t.replace(/\u00a0/g, " ");
+      const texts = [...raw.matchAll(/<li class="bc-conn">[\s\S]*?<p class="bc-conn__text">([\s\S]*?)<\/p>/g)].map((m) => textOf(m[1]));
+      const wrong = links.filter(([gv], i) => {
+        const l = grid.locate(gv);
+        return texts[i] !== nbsp(file(l.book.slug).chapters[l.chapter - 1][l.verse - 1].t);
+      }).length;
+      if (wrong || texts.length !== links.length) failures.push(`${page}: ${wrong} of the ${links.length} links lack their whole BLIVRE text (${texts.length} texts)`);
       if (links.length && !text.includes(`${linksLabel(links.length)}das mais votadas às menos votadas`)) failures.push(`${page}: the count of links is missing`);
       if (vranked[0]) {
         const top = grid.locate(vranked[0].key);
@@ -266,5 +274,5 @@ export function checkReading({
   const salvos = html.includes("salvos.html") ? textOf(read("salvos.html")) : "";
   if (!salvos.includes("Ficam só neste aparelho")) failures.push("salvos.html: the on-this-device sentence is missing");
 
-  return `reading numbers on /ler, ${books_} book pages, ${chapters} chapter and ${verses} verse pages (titles, meta lines, chapter lists, pagers, pills, headlines, rows and panel links)`;
+  return `reading numbers on /ler, ${books_} book pages, ${chapters} chapter and ${verses} verse pages (titles, meta lines, chapter lists, pagers, pills, headlines, rows with their texts and panel links)`;
 }
