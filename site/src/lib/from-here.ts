@@ -93,11 +93,6 @@ export function satellitePositions(k: number): { x: number; y: number }[] {
   });
 }
 
-/** Chapter numbers in the rail, zero-padded to the digits of the book's last chapter, at least two: "01", "001". */
-export function padChapter(n: number, chapters: number): string {
-  return String(n).padStart(Math.max(2, String(chapters).length), "0");
-}
-
 /** A title with a no-break space after a book's number ("1 Tessalonicenses 5", "Ligações de 2 Crônicas 6:34"), so
  *  a line never ends on the "1" of a book. */
 export function keepBookNumber(s: string): string {
