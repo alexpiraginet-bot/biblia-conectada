@@ -475,13 +475,20 @@ button.bc-search__item {
 }
 
 /* 404 page (src/components/NotFoundBody.tsx). Here and not in a CSS module: Next.js sends the 404 tree with every page,
-   so a module would be preloaded everywhere. The motif's arc stops short of its second verse; the ways are a ruled
-   list, like /ler (design §10: no grid of cards). */
+   so a module would be preloaded everywhere. The motif's arc stops short of its second verse; the title and the lede
+   are ds.css .bc-display and .bc-lede; the ways are a ruled list (.bc-list, design §10: no grid of cards), each with
+   its icon, its name and what it opens. */
 .not-found {
   width: 100%;
   max-width: calc(var(--column) + 2 * var(--space-4));
   margin: 0 auto;
-  padding: var(--space-8) var(--space-4);
+  padding: var(--space-7) var(--space-4) var(--space-8);
+}
+
+@media (min-width: 64rem) {
+  .not-found {
+    padding-top: var(--space-8);
+  }
 }
 
 .not-found__mark {
@@ -515,54 +522,31 @@ button.bc-search__item {
   stroke-linecap: round;
 }
 
-.not-found__title {
-  font-family: var(--font-display);
-  font-weight: 440;
-  font-synthesis: none;
-  letter-spacing: -0.015em;
-  font-size: clamp(2rem, 6vw, 3rem);
-  line-height: 1.1;
-  margin: 0 0 var(--space-4);
-  text-wrap: balance;
+.not-found .bc-lede {
+  margin: var(--space-4) 0 var(--space-6);
 }
 
-.not-found__lede {
-  color: var(--ink-2);
-  margin: 0 0 var(--space-5);
-  text-wrap: pretty;
+/* each way: its icon in the accent, the name over a line saying where it goes (outweighs .bc-list a) */
+.not-found__ways .not-found__way {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  align-items: start;
+  column-gap: var(--space-3);
 }
 
-.not-found__ways {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  border-top: 1px solid var(--line);
-}
-
-.not-found__way {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 0.1rem;
-  min-height: 2.75rem;
-  padding: 0.7rem 0;
-  color: var(--ink);
-  text-decoration: none;
-  border-bottom: 1px solid var(--line);
-}
-
-.not-found__name {
-  font-weight: 600;
+.not-found__way > .bc-icon {
+  margin-top: 1px;
   color: var(--accent);
 }
 
-.not-found__way:hover .not-found__name {
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
+.not-found__text {
+  display: grid;
+  gap: 2px;
 }
 
 .not-found__note {
-  font-size: var(--fs-ui);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
   color: var(--ink-2);
 }
 

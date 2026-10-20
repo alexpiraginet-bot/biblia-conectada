@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import manifestJson from "@/data/generated/dados-manifest.json";
-import { ChevronRight, DownloadIcon } from "@/components/icons";
+import { DownloadIcon, Icon } from "@/components/icons";
 import { formatInt } from "@/lib/canon/text";
 import { books, credits } from "@/lib/data";
 import { DADOS_BASE, formatBytes, type DadosFile, type DadosManifest } from "@/lib/dados";
@@ -16,7 +16,8 @@ export const metadata: Metadata = {
 };
 
 // Every size, record count and total on this page is read from the bundle's manifest, written by
-// scripts/data/open-data.ts; scripts/check-dist.ts compares the prerendered page with it after each build.
+// scripts/data/open-data.ts; scripts/check-dist.ts compares the prerendered page with it after each build (each file's
+// element, marked data-file, holds its link, its size and its count).
 const manifest = manifestJson as DadosManifest;
 const REPO = "https://github.com/alexpiraginet-bot/biblia-conectada";
 const c = manifest.contagens;
@@ -33,6 +34,8 @@ const textBytes = texts.reduce((s, f) => s + f.bytes, 0);
 const textVerses = texts.reduce((s, f) => s + (f.registros ?? 0), 0);
 const bookName = (caminho: string) => books.find((b) => `texto/${b.slug}.json` === caminho)?.name ?? caminho;
 const href = (f: DadosFile) => `${DADOS_BASE}${f.caminho}`;
+/** tables and the zip are saved; the rest opens in the browser */
+const saved = (f: DadosFile) => f.formato === "csv" || f.formato === "zip";
 
 function Size({ f }: { f: DadosFile }) {
   return <data value={f.bytes}>{formatBytes(f.bytes)}</data>;
@@ -46,19 +49,21 @@ function Records({ f }: { f: DadosFile }) {
   );
 }
 function FileRow({ f }: { f: DadosFile }) {
-  const download = f.formato === "csv" || f.formato === "zip";
   return (
     <li data-file={f.caminho} className={styles.file}>
-      <div className={styles.fileHead}>
-        <a href={href(f)} download={download || undefined} className={styles.fileName}>
-          {f.caminho}
-        </a>
+      <div className={styles.fileText}>
+        <span className={styles.fileName}>{f.caminho}</span>
+        <span className={styles.fileDesc}>{f.titulo}</span>
         <span className={styles.fileMeta}>
           <Size f={f} />
           <Records f={f} />
         </span>
       </div>
-      <p className={styles.fileDesc}>{f.titulo}</p>
+      <a href={href(f)} download={saved(f) || undefined} className={`bc-button bc-button--secondary ${styles.get}`}>
+        {saved(f) ? <DownloadIcon size={20} /> : <Icon name="out" />}
+        {saved(f) ? "Baixar" : "Abrir"}
+        <span className="visually-hidden"> {f.caminho}</span>
+      </a>
     </li>
   );
 }
@@ -90,13 +95,25 @@ console.log(isaias.nome, isaias.capitulos, "capítulos");`;
 
 export default function Dados() {
   return (
-    <main id="conteudo" className={styles.main}>
-      <h1 className={styles.title}>Dados abertos</h1>
-      <p className={styles.lede}>
-        Os dados que este site usa estão aqui para baixar e reutilizar: {n(c.paresLigados)} pares de versículos ligados, com os votos
-        da OpenBible.info, o texto completo da Bíblia Livre e o grafo dos {n(c.capitulos)} capítulos. Tudo sai de código, a partir
-        de fontes livres, e é refeito a cada versão do site.
-      </p>
+    <main id="conteudo" className="site-page">
+      <header className={styles.head}>
+        <h1 className="bc-display">Dados abertos</h1>
+        <p className="bc-lede">
+          Os dados que este site usa estão aqui para baixar e reutilizar: {n(c.paresLigados)} pares de versículos ligados, com os
+          votos da OpenBible.info, o texto completo da Bíblia Livre e o grafo dos {n(c.capitulos)} capítulos. Tudo sai de código, a
+          partir de fontes livres, e é refeito a cada versão do site.
+        </p>
+        <p data-file={zip.caminho} className={styles.all}>
+          <a href={href(zip)} download className="bc-button bc-button--primary">
+            <DownloadIcon size={20} />
+            Baixar tudo (.zip)
+          </a>
+          <span className={styles.fileMeta}>
+            <Size f={zip} />
+            <Records f={zip} />
+          </span>
+        </p>
+      </header>
 
       <div className={styles.layout}>
         <nav aria-labelledby="nesta-pagina" className={styles.toc}>
@@ -114,23 +131,13 @@ export default function Dados() {
 
         <div className={styles.content}>
           <section aria-labelledby="arquivos" className={styles.section}>
-            <h2 id="arquivos" className={styles.h2}>
+            <h2 id="arquivos" className="bc-title">
               Arquivos
             </h2>
             <p>
               Versão {manifest.versao}. As tabelas vêm em CSV (UTF-8, com cabeçalho) e o resto em JSON. O esquema de cada tabela, com
               campos, tipos e chaves, está no <code>datapackage.json</code>, no padrão Frictionless Data Package v2. Tamanhos em
               unidades decimais: 1 MB = 1.000.000 bytes.
-            </p>
-            <p data-file={zip.caminho} className={styles.all}>
-              <a href={href(zip)} download className={styles.allButton}>
-                <DownloadIcon />
-                Baixar tudo (.zip)
-              </a>
-              <span className={styles.fileMeta}>
-                <Size f={zip} />
-                <Records f={zip} />
-              </span>
             </p>
 
             <ul className={styles.files}>
@@ -139,20 +146,20 @@ export default function Dados() {
                   <FileRow key={p} f={file(p)} />
                 ),
               )}
-              <li data-group="texto" className={styles.file}>
-                <div className={styles.fileHead}>
-                  <span className={styles.fileGroup}>texto/</span>
+              <li data-group="texto" className={`${styles.file} ${styles.group}`}>
+                <div className={styles.fileText}>
+                  <span className={styles.fileName}>texto/</span>
+                  <span className={styles.fileDesc}>
+                    Texto da Bíblia Livre, sem alterações: um arquivo por livro ({n(texts.length)} arquivos), com a linha de
+                    crédito dentro de cada um.
+                  </span>
                   <span className={styles.fileMeta}>
                     <data value={textBytes}>{formatBytes(textBytes)}</data> · {n(textVerses)} versículos
                   </span>
                 </div>
-                <p className={styles.fileDesc}>
-                  Texto da Bíblia Livre, sem alterações: um arquivo por livro ({n(texts.length)} arquivos), com a linha de crédito
-                  dentro de cada um.
-                </p>
                 <details className={styles.more}>
                   <summary>
-                    <ChevronRight size={16} className={styles.chevron} />
+                    <Icon name="chev-r" className={`bc-icon ${styles.chevron}`} />
                     Ver os {n(texts.length)} arquivos
                   </summary>
                   <ul className={styles.textFiles}>
@@ -180,7 +187,7 @@ export default function Dados() {
           </section>
 
           <section aria-labelledby="convencoes" className={styles.section}>
-            <h2 id="convencoes" className={styles.h2}>
+            <h2 id="convencoes" className="bc-title">
               O que conta como ligação
             </h2>
             <p>Estas escolhas mudam os números. São as mesmas dos vídeos e do resto do site.</p>
@@ -210,7 +217,7 @@ export default function Dados() {
           </section>
 
           <section aria-labelledby="licenca" className={styles.section}>
-            <h2 id="licenca" className={styles.h2}>
+            <h2 id="licenca" className="bc-title">
               Licença e créditos
             </h2>
             <p>
@@ -232,7 +239,7 @@ export default function Dados() {
           </section>
 
           <section aria-labelledby="usar" className={styles.section}>
-            <h2 id="usar" className={styles.h2}>
+            <h2 id="usar" className="bc-title">
               Como usar
             </h2>
             <p>
@@ -255,11 +262,11 @@ export default function Dados() {
           </section>
 
           <section aria-labelledby="ideias" className={styles.section}>
-            <h2 id="ideias" className={styles.h2}>
+            <h2 id="ideias" className="bc-title">
               Faça com o nosso
             </h2>
             <p>Ideias que estes arquivos já permitem, sem pedir nada a ninguém:</p>
-            <ol className={styles.ideas}>
+            <ul className={styles.ideas}>
               <li>
                 <strong>Mapa de calor livro × livro.</strong> Some as linhas de <code>ligacoes.csv</code> por par de livros (o começo
                 de <code>osis_a</code> e <code>osis_b</code>) e pinte uma grade de {n(c.livros)} por {n(c.livros)}: aparece quais
@@ -294,11 +301,11 @@ export default function Dados() {
                 <strong>Planilha de estudo.</strong> Abra <code>versiculos.csv</code> no LibreOffice ou no Google Planilhas (importando
                 como UTF-8, separado por vírgula) e filtre por livro.
               </li>
-            </ol>
+            </ul>
           </section>
 
           <section aria-labelledby="citar" className={styles.section}>
-            <h2 id="citar" className={styles.h2}>
+            <h2 id="citar" className="bc-title">
               Para citar
             </h2>
             <p>

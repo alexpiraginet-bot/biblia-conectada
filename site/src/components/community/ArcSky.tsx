@@ -1,5 +1,6 @@
-// A window of night sky with arcs on the Gênesis→Apocalipse line, in the style of the reading pages (video 1).
-// No hooks and no server-only imports: server pages and client islands draw the same figure.
+// A window of night sky with arcs on the Gênesis→Apocalipse line (ds.css .bc-window, design §9 ArcWindow), in the
+// style of the reading pages (video 1). No hooks and no server-only imports: server pages and client islands draw the
+// same figure. The sky's inks are the --sky* tokens in both themes; the caption under the window follows the theme.
 import type { CSSProperties, ReactNode } from "react";
 import { arcStrength, arcTone } from "@/lib/arc-style";
 import { BASE } from "@/lib/community/books-client";
@@ -41,7 +42,7 @@ export function ArcSky({
   captionId: string;
   className?: string;
 }) {
-  const nt = BASE.ntStart * 100;
+  const nt = r1(BASE.ntStart * 100);
   const top = arcs.length ? 0 : COMPACT_TOP;
   const height = ARC_BASE + 26 - top;
   // labels sit just above their star; a label close to the previous one goes one row up
@@ -54,25 +55,27 @@ export function ArcSky({
   const many = stars.length > 8;
   // the short band has no room above the line for labels: the window grows by one row per stacked label
   const rows = placed.reduce((m, l) => Math.max(m, l.row + 1), 0);
-  const padTop = !arcs.length && rows ? ({ "--sky-pad-top": `${r1(0.75 + 1.25 * rows)}rem` } as CSSProperties) : undefined;
+  const padTop = !arcs.length && rows ? ({ "--sky-pad-top": `${r1(0.75 + 1.35 * rows)}rem` } as CSSProperties) : undefined;
   return (
     <figure className={`${styles.sky} ${className ?? ""}`}>
-      <div className={styles.skyWindow} style={padTop}>
+      <div className={`bc-window ${styles.skyWindow}`} style={padTop}>
         <svg viewBox={`0 ${top} ${ARC_W} ${height}`} role="img" aria-labelledby={captionId} className={styles.skySvg}>
           <g fill="none" strokeLinecap="round">
             {arcs.map((a, i) => {
               const span = Math.abs(a.x1 - a.x0);
               const s = arcStrength(a.votes ?? 0);
-              const stroke = a.look === "gold" ? "var(--sky-gold)" : a.look === "tone" ? arcTone(span) : "rgb(169 180 200 / 0.5)";
+              const gold = a.look === "gold";
+              const tone = a.look === "tone";
               return (
                 <path
                   key={a.id ?? i}
                   d={arcPath(a.x0, a.x1)}
-                  stroke={stroke}
-                  strokeWidth={a.look === "gold" ? (arcs.length > 8 ? 1.6 : 2.4) : a.look === "tone" ? r1(0.9 + 1.2 * s) : 1}
-                  strokeOpacity={a.dim ? 0.3 : a.look === "faint" ? 0.55 : a.look === "tone" ? Math.round((0.45 + 0.5 * s) * 100) / 100 : 1}
+                  // the stained glass encodes the span (video 1's palette); the rest are the sky's inks
+                  stroke={gold ? "var(--sky-gold)" : tone ? arcTone(span) : undefined}
+                  strokeWidth={gold ? (arcs.length > 8 ? 1.6 : 2.4) : tone ? r1(0.9 + 1.2 * s) : 1}
+                  strokeOpacity={a.dim ? 0.3 : a.look === "faint" ? 0.4 : tone ? Math.round((0.45 + 0.5 * s) * 100) / 100 : 1}
                   vectorEffect="non-scaling-stroke"
-                  className={a.look === "gold" ? styles.skyGold : undefined}
+                  className={gold ? styles.skyGold : tone ? undefined : styles.skyFaint}
                 />
               );
             })}
@@ -104,7 +107,7 @@ export function ArcSky({
                 className={l.gold ? styles.skyLabelGold : undefined}
                 style={{
                   left: `${r1(l.x * 100)}%`,
-                  bottom: `calc(${r1(((ARC_BASE + 26 - ARC_BASE) / height) * 100)}% + ${r1(0.55 + 1.2 * l.row)}rem)`,
+                  bottom: `calc(${r1((26 / height) * 100)}% + ${r1(0.55 + 1.35 * l.row)}rem)`,
                   transform: l.x < 0.06 ? "none" : l.x > 0.94 ? "translateX(-100%)" : "translateX(-50%)",
                 }}
               >

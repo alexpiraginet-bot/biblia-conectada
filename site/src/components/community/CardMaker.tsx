@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import type { CardSpec } from "./card-draw";
 import styles from "./community.module.css";
 
@@ -14,6 +14,7 @@ export function CardMaker({
   shareText,
   alt,
   title = "Cartão de ligação",
+  level = 2,
   intro,
 }: {
   spec: CardSpec;
@@ -22,8 +23,11 @@ export function CardMaker({
   /** what the image shows, for screen readers */
   alt: string;
   title?: string;
+  /** heading level of the section in its page */
+  level?: 2 | 3;
   intro: React.ReactNode;
 }) {
+  const id = useId();
   const ref = useRef<HTMLElement>(null);
   const [made, setMade] = useState<Made | null>(null);
   const [busy, setBusy] = useState(false);
@@ -43,11 +47,16 @@ export function CardMaker({
       const css = (el: Element, name: string) => getComputedStyle(el).getPropertyValue(name).trim();
       const root = document.documentElement;
       const here = ref.current ?? root;
-      const blob = await drawCard(spec, {
-        title: css(root, "--font-display") || "Georgia, serif",
-        ui: css(root, "--font-ui") || "system-ui, sans-serif",
-        scripture: css(here, "--font-reading") || "Georgia, serif",
-      });
+      // the card is night sky in both themes: its inks are the --sky* tokens
+      const blob = await drawCard(
+        spec,
+        {
+          title: css(root, "--font-display") || "Georgia, serif",
+          ui: css(root, "--font-ui") || "system-ui, sans-serif",
+          scripture: css(here, "--font-reading") || "Georgia, serif",
+        },
+        { sky: css(here, "--sky"), ink: css(here, "--sky-ink"), ink2: css(here, "--sky-ink-2"), gold: css(here, "--sky-gold") },
+      );
       setMade({ url: URL.createObjectURL(blob), file: new File([blob], fileName, { type: "image/png" }) });
     } catch {
       setNote("Não deu para desenhar o cartão neste navegador.");
@@ -72,14 +81,15 @@ export function CardMaker({
     }
   }
 
+  const H = level === 2 ? "h2" : "h3";
   return (
-    <section ref={ref} className={styles.card} aria-labelledby="titulo-cartao">
-      <h2 id="titulo-cartao" className={styles.h2}>
+    <section ref={ref} className={styles.card} aria-labelledby={`${id}-t`}>
+      <H id={`${id}-t`} className="bc-title">
         {title}
-      </h2>
-      <p className={styles.lede}>{intro}</p>
+      </H>
+      <p className={styles.prose}>{intro}</p>
       {!made ? (
-        <button type="button" className={styles.buttonQuiet} onClick={make} disabled={busy}>
+        <button type="button" className="bc-button bc-button--secondary" onClick={make} disabled={busy}>
           {busy ? "Desenhando…" : "Fazer o cartão"}
         </button>
       ) : (
@@ -88,11 +98,11 @@ export function CardMaker({
           <img src={made.url} alt={alt} width={1080} height={1350} className={styles.cardPreview} />
           <div className={styles.actions}>
             {canShare(made.file) && (
-              <button type="button" className={styles.button} onClick={() => share(made)}>
+              <button type="button" className="bc-button bc-button--primary" onClick={() => share(made)}>
                 Compartilhar
               </button>
             )}
-            <a href={made.url} download={fileName} className={styles.buttonQuiet}>
+            <a href={made.url} download={fileName} className="bc-button bc-button--secondary">
               Salvar imagem
             </a>
           </div>
