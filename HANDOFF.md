@@ -710,4 +710,11 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
     - o menor contraste nas rotas de leitura, 5,33:1, é o número do versículo aceso no Dia: o mesmo da produção, acima da regra de 4,5:1 do acento;
     - dois testes antigos da escultura mudaram de expectativa: sem GPU, os nomes do eixo agora são os grupos (Pentateuco … Apocalipse), e o rótulo "Imagem salva", que fica 2,4 s, passou a ser lido logo depois do download.
     - Mutação: com a ordem dos votos invertida, sem o filtro de voto positivo ou sem o fim da lista, os testes falham.
+  - **Conferido na prévia da Vercel** (`cfe3bab`):
+    - teste da folha, 27 de 27, com mais um caso: tocar numa ligação abre o versículo dela, e a lista dele começa por ele;
+    - achado nesse caso, e corrigido: o roteador guarda a página do versículo anterior, escondida, então os ids das seções podiam se repetir; cada lista agora usa ids próprios (`useId`).
+  - **Lighthouse no celular, prévia × produção** (3 medições alternadas, mesma máquina):
+    - Lv 26:3: LCP de 2,5 a 2,6 s × 1,8 a 2,5 s, desempenho 95 a 97 × 94 a 97, acessibilidade 100 nos dois. A prévia baixa cerca de 150 KiB a menos (315 × 466 KiB), porque as linhas não são mais pré-carregadas;
+    - `/arcos`: LCP de 1,5 a 1,7 s × 1,5 s, desempenho 99 a 100 × 100;
+    - no servidor local os números saíram piores (LCP de 3,2 s no versículo), mas a produção medida na mesma hora ficou igual à prévia: a diferença era do servidor local, não do código.
   - **Não conferido:** Safari/iOS de verdade (a rolagem com inércia dentro da folha), leitor de tela, GPU de verdade.
