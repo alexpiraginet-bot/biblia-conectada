@@ -68,6 +68,22 @@ export function containsWord(text: string, key: string): boolean {
   return tokenize(text).some((w) => wordKey(w) === key);
 }
 
+/**
+ * The text cut around each occurrence of a word, matched as containsWord matches it: [text, word, text, …], the
+ * occurrences at the odd places, as written. Joined back, the parts give the text unchanged.
+ */
+export function splitOnWord(text: string, key: string): string[] {
+  const out: string[] = [];
+  let last = 0;
+  for (const m of text.matchAll(WORD)) {
+    if (wordKey(m[0]) !== key) continue;
+    out.push(text.slice(last, m.index), m[0]);
+    last = m.index + m[0].length;
+  }
+  out.push(text.slice(last));
+  return out;
+}
+
 export type SharedWord = {
   key: string;
   /** the word as the first text writes it (first occurrence, lowercase unless every occurrence is capitalised) */

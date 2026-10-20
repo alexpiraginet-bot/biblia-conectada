@@ -1,96 +1,66 @@
-/* BLIVRE text outside the reader (linha do tempo, temas, palavras): Literata, the reader's measure and ink */
+/* BLIVRE text outside the reader (linha do tempo, temas, palavras). The reading column and the rows are the design
+   system's (ds.css .bc-scripture, .bc-verse, .bc-conn); this file only places them. */
 
 .passage {
   display: grid;
-  gap: var(--space-5);
+  gap: var(--space-6);
+}
+
+.chapter {
+  min-width: 0;
 }
 
 .chapterTitle {
   margin: 0 0 var(--space-2);
-  font-size: var(--fs-meta);
-  font-weight: 500;
-  letter-spacing: 0.01em;
+  font: 600 var(--fs-meta) / var(--lh-meta) var(--font-ui);
 }
 
 .chapterTitle a {
   display: inline-flex;
   align-items: center;
-  min-height: 2.75rem;
+  min-height: var(--target);
+  color: var(--ink-2);
+  text-decoration: none;
 }
 
-.verses {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  max-width: var(--column);
-}
-
-.verse {
-  display: grid;
-  grid-template-columns: 2rem minmax(0, 1fr);
-  column-gap: 0.5rem;
-  padding: 0.25rem 0;
-}
-
-.num {
-  padding-top: 0.3rem;
+.chapterTitle a:hover {
   color: var(--accent);
-  font-size: var(--fs-meta);
-  font-variant-numeric: tabular-nums;
-  text-align: right;
-}
-
-.scripture {
-  margin: 0;
-  font-family: var(--font-reading), Georgia, serif;
-  font-size: var(--fs-scripture);
-  line-height: 1.7;
-  font-weight: 430;
-  font-variation-settings: "wght" 430;
-  text-wrap: pretty;
-  color: var(--ink);
-  overflow-wrap: anywhere;
+  text-decoration: underline;
 }
 
 .supplied {
   color: var(--ink-2);
 }
 
+/* the link count closing each verse: the design's pill, with the CSS-drawn arc (globals.css .i) */
+.pill {
+  font-variant-numeric: tabular-nums;
+}
+
+.pillIcon {
+  width: 14px;
+  height: 14px;
+}
+
 .rows {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  max-width: calc(var(--column) + 4rem);
+  max-width: calc(var(--column) + var(--space-8));
 }
 
-.row {
-  padding: var(--space-4) 0;
-  border-top: 1px solid var(--line);
+.count {
+  font-variant-numeric: tabular-nums;
 }
 
-.row:first-child {
-  border-top: 0;
-  padding-top: 0;
+.text {
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
 }
 
-.rowHead {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0 var(--space-4);
-  margin: 0 0 0.25rem;
-  font-size: var(--fs-ui);
-}
-
-.rowHead a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 2.75rem;
-  font-weight: 500;
-}
-
-.rowMeta {
-  color: var(--ink-2);
-  font-size: var(--fs-meta);
+/* a word's occurrences, as the search marks them (ds.css .bc-search__snippet mark) */
+.passage mark,
+.rows mark {
+  padding: 0 0.12em;
+  border-radius: 3px;
+  background: var(--highlight);
+  color: var(--ink);
+  box-shadow: inset 0 -2px 0 var(--accent);
 }
