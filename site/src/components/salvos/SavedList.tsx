@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { DownloadIcon, Icon } from "@/components/icons";
 import { formatInt } from "@/lib/canon/text";
 import { exportSalvos, parseSalvos, readRaw, removeSalvo, type Salvo, subscribeSalvos, writeSalvos } from "@/lib/salvos";
 import styles from "./salvos.module.css";
@@ -60,16 +61,27 @@ export function SavedList() {
         Trechos salvos
       </h2>
       {list.length === 0 ? (
-        <p className={styles.empty}>
-          Nenhum trecho salvo neste aparelho. Num capítulo, como <Link href="/genesis/1">Gênesis 1</Link>, selecione um
-          trecho do texto e escolha “Salvar”.
-        </p>
+        <div className={styles.empty}>
+          <Icon name="bookmark" className={`bc-icon ${styles.emptyIcon}`} />
+          <p className={styles.emptyTitle}>Nenhum trecho salvo neste aparelho.</p>
+          <p className={styles.emptyText}>
+            Num capítulo, selecione um trecho do texto e escolha “Salvar”. Ele aparece aqui, com a referência e o dia.
+          </p>
+          <div className={styles.actions}>
+            <Link href="/genesis/1" className="bc-button bc-button--primary">
+              Abrir Gênesis 1
+            </Link>
+            <Link href="/ler" className="bc-button bc-button--secondary">
+              Ver os livros
+            </Link>
+          </div>
+        </div>
       ) : (
         <>
-          <p className={styles.count}>
-            {list.length === 1 ? "1 trecho salvo" : `${formatInt(list.length)} trechos salvos`}, do mais recente
-            ao mais antigo.
-          </p>
+          <h3 className="bc-section-title">
+            {list.length === 1 ? "1 trecho salvo" : `${formatInt(list.length)} trechos salvos`}
+            <small>do mais recente ao mais antigo</small>
+          </h3>
           <ol className={styles.list}>
             {list.map((s) => (
               <li key={s.id} className={styles.item}>
@@ -77,31 +89,32 @@ export function SavedList() {
                   <Link href={s.path} className={styles.ref}>
                     {s.ref}
                   </Link>
-                  <button type="button" className={styles.remove} onClick={() => remove(s)} aria-label={`Apagar ${s.ref}`}>
+                  <button type="button" className={`bc-button bc-button--ghost ${styles.remove}`} onClick={() => remove(s)} aria-label={`Apagar ${s.ref}`}>
                     Apagar
                   </button>
                 </div>
                 <blockquote className={styles.quote}>{s.texto}</blockquote>
-                <p className={styles.when}>Salvo em {dateFmt.format(new Date(s.salvoEm))} · Bíblia Livre (BLIVRE)</p>
+                <p className={`bc-meta ${styles.when}`}>Salvo em {dateFmt.format(new Date(s.salvoEm))} · Bíblia Livre</p>
               </li>
             ))}
           </ol>
           <div className={styles.tools}>
-            <button type="button" className={styles.btn} onClick={download}>
+            <button type="button" className="bc-button bc-button--secondary" onClick={download}>
+              <DownloadIcon />
               Baixar (JSON)
             </button>
             {confirming ? (
               <span className={styles.confirm} role="group" aria-label="Confirmar">
-                <span>
+                <span className={styles.confirmText}>
                   Apagar {list.length === 1 ? "o trecho salvo" : `os ${formatInt(list.length)} trechos salvos`}?
                 </span>
-                <button type="button" className={styles.danger} onClick={clearAll}>
+                <button type="button" className={`bc-button bc-button--secondary ${styles.danger}`} onClick={clearAll}>
                   Apagar tudo
                 </button>
                 <button
                   ref={cancelRef}
                   type="button"
-                  className={styles.btn}
+                  className="bc-button bc-button--secondary"
                   onClick={() => {
                     setConfirming(false);
                     setFocusTo("clear");
@@ -114,7 +127,7 @@ export function SavedList() {
               <button
                 ref={clearRef}
                 type="button"
-                className={styles.btn}
+                className="bc-button bc-button--secondary"
                 onClick={() => {
                   setConfirming(true);
                   setFocusTo("cancel");

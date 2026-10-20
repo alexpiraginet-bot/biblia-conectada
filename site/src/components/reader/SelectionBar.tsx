@@ -2,9 +2,20 @@
 
 import Link from "next/link";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Icon } from "@/components/icons";
 import { addSalvo, cleanQuote, newId, passageRef, quoteWithRef, readSalvos, textFragment, writeSalvos } from "@/lib/salvos";
 import "./highlight.css";
 import styles from "./selection.module.css";
+
+/** "Compartilhar": an arrow leaving a tray, drawn like the design system's icons (24px grid, 1.75 stroke); the set in
+ *  components/icons.tsx has no share icon yet */
+function ShareIcon() {
+  return (
+    <svg className="bc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M12 15V3.5M7.5 8 12 3.5 16.5 8M5 12.5v6A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-6" />
+    </svg>
+  );
+}
 
 type Picked = { from: number; to: number; text: string; top: number; left: number; below: boolean; float: boolean };
 type Note = { text: string; saved?: boolean };
@@ -274,24 +285,24 @@ export function SelectionScope({
         >
           <p className={styles.ref}>{ref}</p>
           <div className={styles.actions}>
-            <button type="button" className={styles.action} onClick={copy} title="Copiar com referência">
-              <span className={`${styles.i} ${styles.iCopy}`} aria-hidden="true" />
+            <button type="button" className={`bc-button bc-button--ghost ${styles.action}`} onClick={copy} title="Copiar com referência">
+              <Icon name="copy" />
               <span>
                 Copiar<span className="visually-hidden"> com referência</span>
               </span>
             </button>
-            <button type="button" className={styles.action} onClick={share}>
-              <span className={`${styles.i} ${styles.iShare}`} aria-hidden="true" />
+            <button type="button" className={`bc-button bc-button--ghost ${styles.action}`} onClick={share}>
+              <ShareIcon />
               <span>Compartilhar</span>
             </button>
-            <button type="button" className={styles.action} onClick={save} title="Salvar trecho">
-              <span className={`${styles.i} ${styles.iSave}`} aria-hidden="true" />
+            <button type="button" className={`bc-button bc-button--ghost ${styles.action}`} onClick={save} title="Salvar trecho">
+              <Icon name="bookmark" />
               <span>
                 Salvar<span className="visually-hidden"> trecho</span>
               </span>
             </button>
-            <Link href={`/explorar/${slug}/${chapter}`} className={styles.action} title="Explorar conexões">
-              <span className={`${styles.i} ${styles.iExplore}`} aria-hidden="true" />
+            <Link href={`/explorar/${slug}/${chapter}`} className={`bc-button bc-button--ghost ${styles.action}`} title="Explorar conexões">
+              <Icon name="explore" />
               <span>
                 Explorar<span className="visually-hidden"> conexões</span>
               </span>
@@ -299,7 +310,7 @@ export function SelectionScope({
           </div>
           <button
             type="button"
-            className={styles.close}
+            className={`bc-icon-button ${styles.close}`}
             aria-label="Fechar"
             onClick={() => {
               document.getSelection()?.removeAllRanges();
@@ -308,10 +319,11 @@ export function SelectionScope({
               setNote(null);
             }}
           >
-            <span className={`${styles.i} ${styles.iClose}`} aria-hidden="true" />
+            <Icon name="close" />
           </button>
           {note && (
             <p className={styles.note}>
+              {note.saved && <Icon name="check" className={`bc-icon ${styles.noteIcon}`} />}
               {note.text}
               {note.saved && (
                 <>

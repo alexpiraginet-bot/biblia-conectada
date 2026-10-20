@@ -1,74 +1,28 @@
-.main {
-  width: 100%;
-  max-width: var(--page-max);
-  margin: 0 auto;
-  padding: var(--space-5) var(--space-4) var(--space-8);
-}
+/* A book's page: the title with the group medallion, the chapter numbers with their links, and the links panel
+   (ds.css .bc-panel) beside them from 64rem. */
 
-.crumbs {
+/* a name too long to sit beside the medallion ("1 Tessalonicenses" on a phone) goes under it */
+.titleRow {
   display: flex;
-  gap: 0.5rem;
+  flex-wrap: wrap;
   align-items: center;
-  color: var(--ink-2);
-  font-size: var(--fs-meta);
-  min-height: 2.75rem;
+  gap: var(--space-3) var(--space-5);
+  margin: var(--space-3) 0 var(--space-3);
 }
 
-.crumbs a {
-  color: var(--ink-2);
+.titleRow > h1 {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
-.crumbs [aria-current] {
-  color: var(--ink);
-}
-
-.title {
-  font-size: var(--fs-display);
-  font-family: var(--font-display);
-  font-weight: 440;
-  font-synthesis: none;
-  letter-spacing: -0.015em;
-  line-height: 1.05;
-  margin: var(--space-2) 0 var(--space-2);
+.medal {
+  --size: 64px;
+  flex: none;
+  margin: 5px;
 }
 
 .meta {
-  color: var(--ink-2);
   margin: 0 0 var(--space-7);
-}
-
-.h2 {
-  font-size: var(--fs-ui);
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  color: var(--ink-2);
-  margin: 0 0 var(--space-4);
-}
-
-.grid {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(2.75rem, 1fr));
-  gap: 0.375rem;
-}
-
-.chapter {
-  display: grid;
-  place-items: center;
-  min-height: 2.75rem;
-  border: 1px solid var(--line);
-  border-radius: 0.5rem;
-  color: var(--ink);
-  text-decoration: none;
-  font-variant-numeric: tabular-nums;
-  transition: border-color 160ms var(--ease-out), color 160ms var(--ease-out);
-}
-
-.chapter:hover {
-  border-color: var(--accent);
-  color: var(--accent);
 }
 
 .cols {
@@ -77,34 +31,104 @@
 }
 
 @media (min-width: 64rem) {
+  .medal {
+    --size: 88px;
+  }
+
   .cols {
-    grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem);
-    column-gap: var(--space-8);
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, 26rem);
+    column-gap: var(--space-7);
     align-items: start;
   }
 }
 
-.links {
-  font-size: var(--fs-ui);
+/* every chapter: its number and its links, with a bar for the links (the aria-label says both in words) */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(4rem, 1fr));
+  gap: var(--space-2);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chapter {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 2px;
+  min-height: 4rem;
+  padding: var(--space-2) var(--space-1) var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  color: var(--ink);
+  text-decoration: none;
+  font-variant-numeric: tabular-nums;
+  transition: border-color var(--dur-fast) ease-out;
+}
+
+.chapter:hover {
+  border-color: var(--accent);
+}
+
+.chapter::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-2);
+  width: calc(4px + var(--w, 0) * 2rem);
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  transform: translateX(-50%);
+}
+
+.chapterN {
+  font: 600 var(--fs-body) / 1.1 var(--font-ui);
+}
+
+.chapterLinks {
+  font: 400 var(--fs-label) / var(--lh-label) var(--font-ui);
+  color: var(--ink-2);
+}
+
+.panel {
+  min-width: 0;
+}
+
+.topList {
+  border-top: 0;
+}
+
+.source {
+  margin: 0;
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  color: var(--ink-3);
 }
 
 .pager {
-  display: flex;
-  justify-content: space-between;
   margin-top: var(--space-8);
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--line);
 }
 
-.pager a {
+/* narrow phones: one book per line, so a long name keeps to one line */
+@media (max-width: 29.99rem) {
+  .pager.pager {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.pagerWay {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
-  min-height: 2.75rem;
-  color: var(--ink-2);
-  text-decoration: none;
+  gap: var(--space-1);
 }
 
-.pager a:hover {
-  color: var(--accent);
+.pager a[rel="next"] .pagerWay {
+  justify-content: flex-end;
+}
+
+.pagerIcon.pagerIcon {
+  width: 16px;
+  height: 16px;
 }

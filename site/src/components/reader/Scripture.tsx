@@ -1,4 +1,4 @@
-import styles from "./reader.module.css";
+import styles from "./scripture.module.css";
 
 // BLIVRE marks words supplied by the translators with [brackets]. The text is shown unchanged (brackets kept);
 // the supplied words are only set in the secondary ink, as study Bibles do with italics.

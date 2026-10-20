@@ -93,18 +93,94 @@ export function satellitePositions(k: number): { x: number; y: number }[] {
   });
 }
 
-/** Chapter numbers in the rail, zero-padded to the digits of the book's last chapter, at least two: "01", "001". */
-export function padChapter(n: number, chapters: number): string {
-  return String(n).padStart(Math.max(2, String(chapters).length), "0");
+/** A title with a no-break space after a book's number ("1 Tessalonicenses 5", "Ligações de 2 Crônicas 6:34"), so
+ *  a line never ends on the "1" of a book. */
+export function keepBookNumber(s: string): string {
+  // a book's number is followed by its capitalised name; "3 votos" is not a book
+  return s.replace(/(^|\s)([1-3]) (?=\p{Lu})/gu, "$1$2 ");
 }
 
-/** The chapters listed in the rail: the current one and two on each side, five in all when the book has them. */
-export function railWindow(chapter: number, chapters: number, radius = 2): number[] {
-  const size = Math.min(chapters, 2 * radius + 1);
-  const first = Math.min(Math.max(1, chapter - radius), chapters - size + 1);
-  return Array.from({ length: size }, (_, i) => first + i);
+/** Length of a count's bar (rail, chapter grid, link rows) as a share of the largest, 0–1, three decimals. */
+export function barShare(n: number, max: number): number {
+  return max > 0 ? Math.round((Math.max(0, n) / max) * 1000) / 1000 : 0;
+}
+
+/** "1 ligação", "830 ligações" */
+export function linksLabel(n: number): string {
+  return `${formatInt(n)} ${n === 1 ? "ligação" : "ligações"}`;
+}
+
+/** The meta line under a chapter title: "21 versículos · 830 ligações · 427 capítulos ligados · Bíblia Livre". */
+export function chapterMeta(verses: number, pairs: number, linkedChapters: number): string {
+  const v = `${formatInt(verses)} ${verses === 1 ? "versículo" : "versículos"}`;
+  const c = `${formatInt(linkedChapters)} ${linkedChapters === 1 ? "capítulo ligado" : "capítulos ligados"}`;
+  return `${v} · ${linksLabel(pairs)} · ${c} · Bíblia Livre`;
 }
 
 export function testamentName(t: "AT" | "NT"): string {
   return t === "AT" ? "Antigo Testamento" : "Novo Testamento";
+}
+
+/**
+ * The chapter seal's dial (design system ChapterSeal): around a disc of radius 52 centred at (68, 68), one tick per
+ * linked chapter at its canonical position (Gênesis 1 at the top, clockwise), longer with more summed votes (log
+ * scale, 3 to 12 units out from radius 58). Ticks are grouped in LEVELS lengths and each level is drawn as one dashed
+ * circle, a few hundred bytes instead of a <line> per chapter; ticks closer than their thickness merge.
+ */
+export const SEAL = { c: 68, disc: 52, ring: 46, from: 58, minLen: 3, maxLen: 12, levels: 5, thickness: 1.25 } as const;
+
+export type SealLevel = {
+  /** radius of the dashed circle and its stroke width (the tick length): ticks run from SEAL.from to r + width / 2 */
+  r: number;
+  width: number;
+  /** stroke-dasharray along the circle, starting at its 3 o'clock point (the circle is turned to start at the top) */
+  dash: string;
+  /** linked chapters drawn on this circle */
+  chapters: number[];
+};
+
+export function sealLevels(partners: readonly { ci: number; votes: number }[], chapterCount: number): SealLevel[] {
+  const max = Math.max(1, ...partners.map((p) => p.votes));
+  const byLevel: number[][] = Array.from({ length: SEAL.levels }, () => []);
+  for (const p of partners) {
+    const f = Math.log1p(Math.max(0, p.votes)) / Math.log1p(max);
+    byLevel[Math.min(SEAL.levels - 1, Math.floor(f * SEAL.levels))].push(p.ci);
+  }
+  const tenth = (x: number) => Math.round(x * 10);
+  const out: SealLevel[] = [];
+  byLevel.forEach((cis, k) => {
+    if (!cis.length) return;
+    const width = Math.round((SEAL.minLen + ((SEAL.maxLen - SEAL.minLen) * (k + 1)) / SEAL.levels) * 10) / 10;
+    const r = Math.round((SEAL.from + width / 2) * 10) / 10;
+    const around = 2 * Math.PI * r;
+    const spans: [number, number][] = [];
+    for (const ci of [...cis].sort((a, b) => a - b)) {
+      const s = ((ci + 0.5) / chapterCount) * around;
+      const a = Math.max(0, s - SEAL.thickness / 2);
+      const b = Math.min(around, s + SEAL.thickness / 2);
+      const last = spans[spans.length - 1];
+      if (last && a <= last[1]) last[1] = Math.max(last[1], b);
+      else spans.push([a, b]);
+    }
+    // in tenths of a unit from rounded cumulative positions, so the rounding never drifts around the circle:
+    // an empty dash, then gap, dash, gap, dash… and a last gap that closes the circle
+    const parts = [0];
+    let at = 0;
+    for (const [a, b] of spans) {
+      parts.push(tenth(a) - at, tenth(b) - tenth(a));
+      at = tenth(b);
+    }
+    parts.push(tenth(around) - at);
+    out.push({ r, width, dash: parts.map((t) => String(t / 10)).join(" "), chapters: cis });
+  });
+  return out;
+}
+
+/** Font size of the book name inside the seal (10 units, smaller for long names) and whether it must be squeezed
+ *  into the ring with textLength. Space Grotesk capitals with the seal's 0.16em tracking: about 0.82 em each. */
+export function sealBookFit(name: string): { size: number; squeeze: number | null } {
+  const ems = [...name].reduce((s, ch) => s + (ch === " " ? 0.46 : 0.82), 0);
+  const room = 80;
+  const size = Math.max(7.5, Math.min(10, Math.floor((room / ems) * 10) / 10));
+  return { size, squeeze: ems * size > room ? room : null };
 }
