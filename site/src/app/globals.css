@@ -325,8 +325,6 @@ input {
 
 /* the count in the "Texto" chip; while the next count loads the last one keeps its width, hidden */
 .site-search__count {
-  display: inline-block;
-  min-width: 2.5ch;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
@@ -395,14 +393,24 @@ button.bc-search__item {
     align-items: stretch;
   }
 
+  /* /buscar on a phone: the box runs to the screen edges, as the palette does, so the scopes and the verses get the
+     whole width */
   .site-search__box--page {
+    width: auto;
     height: auto;
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
+    margin-inline: calc(-1 * var(--space-4));
+    border: 0;
+    border-block: 1px solid var(--line);
+    border-radius: 0;
   }
 
   .site-search .bc-search__foot {
     display: none;
+  }
+
+  /* the four scopes fit a 375px screen, a five-digit count included */
+  .bc-search__scopes .bc-chip {
+    padding-inline: var(--space-3);
   }
 }
 

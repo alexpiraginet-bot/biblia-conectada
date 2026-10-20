@@ -262,10 +262,11 @@ export function SearchPanel({ initial = "", onClose, page = false, urlQuery, she
           {SCOPES.map(([s, label]) => (
             <button key={s} type="button" className="bc-chip" aria-pressed={scope === s} onClick={() => choose(s)}>
               {label}
-              {s === "texto" && count !== null && (
-                // the last count keeps its place while the next one loads, so the chips do not move
-                <span className="site-search__count" data-stale={text.pending || undefined}>
-                  {formatInt(count)}
+              {s === "texto" && textQuery && (
+                // while a count loads, the last one (or a 0 before the first) holds its place, hidden, so the chips
+                // do not move when it arrives
+                <span className="site-search__count" data-stale={count === null || text.pending || undefined}>
+                  {formatInt(count ?? 0)}
                 </span>
               )}
             </button>
