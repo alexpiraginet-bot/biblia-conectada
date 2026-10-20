@@ -1,70 +1,49 @@
-/* /conexao: two passages side by side (stacked on phones), the linking pairs marked. Follows the theme. */
+/* /conexao: two passages side by side (stacked on phones), in Literata at reading size, the linking pairs listed and
+   marked. Tokens only. */
 
 .page {
   width: 100%;
-  max-width: var(--page-max);
+  max-width: calc(var(--page-max) - var(--rail-w));
   margin: 0 auto;
-  padding: var(--space-7) var(--space-4) var(--space-8);
+  padding: var(--space-5) var(--space-4) var(--space-8);
+}
+
+@media (min-width: 64rem) {
+  .page {
+    padding: var(--space-6) var(--space-6) var(--space-9);
+  }
+}
+
+.head {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 48rem;
+  margin-bottom: var(--space-6);
 }
 
 .title {
-  margin: 0 0 var(--space-2);
-  font-family: var(--font-display);
-  font-weight: 440;
-  font-synthesis: none;
-  font-size: clamp(2rem, 5vw, 3.25rem);
-  line-height: 1.08;
-  letter-spacing: -0.015em;
-  text-wrap: balance;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--space-3);
 }
 
-.arrow {
-  font-family: var(--font-ui), system-ui, sans-serif;
-  font-weight: 300;
+.both {
+  width: 0.7em;
+  height: 0.7em;
   color: var(--accent);
-}
-
-.meta {
-  margin: 0;
-  color: var(--ink-2);
-  font-size: var(--fs-ui);
 }
 
 .links {
   display: flex;
   flex-wrap: wrap;
-  column-gap: var(--space-4);
-  margin: var(--space-2) 0 var(--space-5);
-  font-size: var(--fs-ui);
-}
-
-.links a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 2.75rem;
+  gap: var(--space-2) var(--space-3);
+  margin: var(--space-2) 0 0;
 }
 
 .pairs {
-  max-width: 46rem;
+  max-width: 48rem;
   margin-bottom: var(--space-7);
-}
-
-.pairsTitle {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  column-gap: 0.75rem;
-  margin: 0;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--line);
-  font-size: var(--fs-ui);
-  font-weight: 600;
-}
-
-.pairsTitle span {
-  color: var(--ink-2);
-  font-size: var(--fs-meta);
-  font-weight: 400;
 }
 
 .pairRows {
@@ -77,27 +56,47 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  column-gap: 0.5rem;
-  border-bottom: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
-  font-size: var(--fs-ui);
+  justify-content: space-between;
+  gap: 0 var(--space-4);
+  padding: var(--space-1) 0;
+  border-bottom: 1px solid var(--line);
 }
 
-.pairRows a {
+.pairRefs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--space-2);
+}
+
+.pairRefs a {
   display: inline-flex;
   align-items: center;
-  min-height: 2.75rem;
+  min-height: var(--target);
+  font: 600 var(--fs-ui) / 1.3 var(--font-ui);
   color: var(--ink);
   text-decoration: none;
 }
 
-.pairRows a:hover {
+.pairRefs a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.pairIcon {
+  width: 18px;
+  height: 18px;
   color: var(--accent);
 }
 
 .votes {
-  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font: 500 var(--fs-meta) / 1.3 var(--font-ui);
   color: var(--ink-2);
-  font-size: var(--fs-meta);
+  white-space: nowrap;
 }
 
 .cols {
@@ -108,12 +107,10 @@
 @media (min-width: 64rem) {
   .cols {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    column-gap: var(--space-8);
+    column-gap: var(--space-7);
     align-items: start;
   }
-}
 
-@media (min-width: 64rem) {
   .colTitle {
     position: sticky;
     top: var(--bar-h);
@@ -122,15 +119,13 @@
 }
 
 .colTitle {
-  margin: 0 0 var(--space-2);
-  padding: 0.5rem 0;
-  background: var(--ground);
+  margin: 0 0 var(--space-3);
+  padding: var(--space-3) 0;
   border-bottom: 1px solid var(--line);
-  font-family: var(--font-display);
-  font-weight: 440;
+  background: var(--ground);
+  font: 440 var(--fs-title) / var(--lh-title) var(--font-display);
   font-synthesis: none;
-  font-size: var(--fs-title);
-  line-height: 1.15;
+  color: var(--ink);
 }
 
 .colTitle a {
@@ -140,9 +135,12 @@
 
 .colTitle a:hover {
   color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
 }
 
 .verses {
+  max-width: calc(var(--column) + 3rem);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -150,12 +148,12 @@
 
 .verse {
   display: grid;
-  grid-template-columns: 1.75rem minmax(0, 1fr);
-  column-gap: 0.5rem;
-  margin: 0 -0.625rem;
-  padding: 0.5rem 0.625rem;
-  border-radius: 0.625rem;
-  scroll-margin-top: calc(var(--bar-h) + 4rem);
+  grid-template-columns: 2rem minmax(0, 1fr);
+  column-gap: var(--space-2);
+  margin: 0 calc(-1 * var(--space-3));
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  scroll-margin-top: calc(var(--bar-h) + 5rem);
 }
 
 .verse[data-linked] {
@@ -163,37 +161,29 @@
 }
 
 .verse:target {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
 
 .vnum {
-  font-size: 0.75rem;
-  line-height: 2.4;
-  color: var(--ink-2);
+  padding-top: 0.55em;
+  font: 600 var(--fs-label) / 1 var(--font-ui);
+  color: var(--accent);
   text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
-/* on the highlight band the text pair is --ink on --highlight (design §3), so the marks there use the ink */
+/* on the highlight band the marks use the ink, as the text does (design §3: --ink on --highlight) */
 .verse[data-linked] .vnum {
   color: var(--ink);
-  font-weight: 600;
 }
 
 .vtext {
-  margin: 0;
   max-width: var(--column);
-  font-family: var(--font-reading), Georgia, serif;
-  font-size: var(--fs-scripture);
-  line-height: 1.7;
-  font-weight: 430;
-  font-variation-settings: "wght" 430;
+  margin: 0;
+  font: 400 var(--fs-scripture) / var(--lh-scripture) var(--font-reading);
+  color: var(--ink-reading);
   text-wrap: pretty;
-}
-
-[data-theme="dia"] .vtext {
-  font-weight: 400;
-  font-variation-settings: "wght" 400;
 }
 
 .vlinks {
@@ -202,20 +192,27 @@
   flex-wrap: wrap;
   column-gap: var(--space-4);
   margin: 0;
-  font-size: var(--fs-meta);
 }
 
 .vlinks a {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
-  min-height: 2.75rem;
+  gap: var(--space-1);
+  min-height: var(--target);
+  font: 500 var(--fs-meta) / 1.3 var(--font-ui);
   color: var(--ink);
   text-decoration-color: var(--accent);
+  text-underline-offset: 0.2em;
+}
+
+.vlinks svg {
+  width: 16px;
+  height: 16px;
+  color: var(--ink);
 }
 
 .source {
   margin: var(--space-7) 0 0;
-  color: var(--ink-2);
-  font-size: var(--fs-meta);
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  color: var(--ink-3);
 }
