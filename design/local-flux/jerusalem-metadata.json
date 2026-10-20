@@ -1,0 +1,23 @@
+{
+  "asset": "jerusalem.webp",
+  "description": "Recriação artística de uma estrada em direção à Jerusalém antiga",
+  "display_label": "Recriação",
+  "ai_generated": true,
+  "local_only": true,
+  "generator": "ComfyUI",
+  "model": "FLUX.1 dev FP8",
+  "checkpoint": "flux1-dev-fp8.safetensors",
+  "width": 1344,
+  "height": 768,
+  "steps": 24,
+  "seed": 20261023,
+  "prompt_id": "b7156cbe-74f2-4987-a69f-ae9624921087",
+  "source": "C:\\Users\\R2\\IA\\ComfyUI_windows_portable\\ComfyUI\\output\\IA-Local_00033_.png",
+  "source_sha256": "F94DC1BBBCEF6E7A41B2210396B76F67308A83A19745EC5B245EB5F5B20DE6B9",
+  "webp_sha256": "76083FEAA7583F0E7CCEA4134545377BF2BC83DBD5B656566727152E48222D7E",
+  "webp_bytes": 130376,
+  "webp_quality": 82,
+  "webp_effort": 6,
+  "inspected": true,
+  "review_notes": "Visual inspection passed: adult figures only, no text, no modern objects apparent. Artistic representation, not a verified historical reconstruction."
+}

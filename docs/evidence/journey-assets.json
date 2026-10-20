@@ -1,0 +1,47 @@
+{
+  "checkedAt": "2026-10-20T17:26:31.452Z",
+  "count": 8,
+  "totalBytes": 987000,
+  "images": [
+    {
+      "file": "bread-sharing.webp",
+      "bytes": 132264,
+      "sha256": "776660aa38f3a3d5c6fd326f46c57dffdf5f387cc650d20eafaff52c3d95507a"
+    },
+    {
+      "file": "cana-wedding.webp",
+      "bytes": 155952,
+      "sha256": "92f742232420f83098229b34395faa59ba49a514f0afd176e6dde2f0cbfd3a0a"
+    },
+    {
+      "file": "empty-tomb.webp",
+      "bytes": 179836,
+      "sha256": "38b2d642f4b190fc61df544a18e47f150ae25cae1576dd5b0b1d5b7ad806cdef"
+    },
+    {
+      "file": "galilee-dawn.webp",
+      "bytes": 34886,
+      "sha256": "fe6fd639e4d880c909441767e447f7e2dee31aee10bf8160cc93894ffb67cd60"
+    },
+    {
+      "file": "galilee-teaching.webp",
+      "bytes": 128064,
+      "sha256": "df0ec6a0041f23253793668c03b08e686716f49f174a071a160cd248b912b1eb"
+    },
+    {
+      "file": "jerusalem.webp",
+      "bytes": 130376,
+      "sha256": "76083feaa7583f0e7ccea4134545377bf2bc83dbd5b656566727152e48222d7e"
+    },
+    {
+      "file": "jordan-baptism.webp",
+      "bytes": 120944,
+      "sha256": "3db19c9d90e22d06f6fcf16a6930f44d79d90631df1c9aa709d822c79d016be4"
+    },
+    {
+      "file": "nativity.webp",
+      "bytes": 104678,
+      "sha256": "581d943ab360813ebf641fec2e8973e30029176769f1a8b0cfab2e9c0b380167"
+    }
+  ]
+}

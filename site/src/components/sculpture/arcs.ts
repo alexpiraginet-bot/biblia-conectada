@@ -151,6 +151,22 @@ export function chapterLinks(geo: Geometry, set: ArcSet, idx: ChapterIndex, ci: 
   return out.sort((p, q) => q.votes - p.votes || p.here - q.here || p.there - q.there);
 }
 
+/** A readable chapter constellation: the strongest real pair for each destination chapter, in vote order.
+ * The complete list remains available in the reading panel; no synthetic edge is introduced. */
+export function chapterHighlights(geo: Geometry, links: readonly ChapterLink[], limit = 32): ChapterLink[] {
+  const seen = new Set<number>();
+  const out: ChapterLink[] = [];
+  if (limit <= 0) return out;
+  for (const link of [...links].sort((a, b) => b.votes - a.votes || a.there - b.there || a.here - b.here)) {
+    const chapter = geo.chapOfGv[link.there];
+    if (seen.has(chapter)) continue;
+    seen.add(chapter);
+    out.push(link);
+    if (out.length >= limit) break;
+  }
+  return out;
+}
+
 /** Lit arcs for a list of chapter links (the chapter's own light, or a preview of it). */
 export function litLinks(geo: Geometry, nt: Uint8Array, links: readonly ChapterLink[], at: number): Lit {
   const g = new Float32Array(links.length * 4);

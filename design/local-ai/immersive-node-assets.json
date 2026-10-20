@@ -1,0 +1,430 @@
+{
+  "source": "Compiled localhost:3001 DOM; category mapping src/data/medalhoes.json",
+  "note": "Symbols are book-group illustrations, not chapter-specific scenes. Preserve original node IDs and real edges.",
+  "nodes": [
+    {
+      "id": 687,
+      "label": "Isaías 9",
+      "group": "profetas",
+      "src96": "/medalhoes/profetas-96.webp",
+      "src192": "/medalhoes/profetas-192.webp",
+      "categorySymbol": "Ramo de amendoeira"
+    },
+    {
+      "id": 974,
+      "label": "Lucas 2",
+      "group": "evangelhos",
+      "src96": "/medalhoes/evangelhos-96.webp",
+      "src192": "/medalhoes/evangelhos-192.webp",
+      "categorySymbol": "Pães e peixes"
+    },
+    {
+      "id": 932,
+      "label": "Mateus 4",
+      "group": "evangelhos",
+      "src96": "/medalhoes/evangelhos-96.webp",
+      "src192": "/medalhoes/evangelhos-192.webp",
+      "categorySymbol": "Pães e peixes"
+    },
+    {
+      "id": 997,
+      "label": "João 1",
+      "group": "evangelhos",
+      "src96": "/medalhoes/evangelhos-96.webp",
+      "src192": "/medalhoes/evangelhos-192.webp",
+      "categorySymbol": "Pães e peixes"
+    },
+    {
+      "id": 685,
+      "label": "Isaías 7",
+      "group": "profetas",
+      "src96": "/medalhoes/profetas-96.webp",
+      "src192": "/medalhoes/profetas-192.webp",
+      "categorySymbol": "Ramo de amendoeira"
+    },
+    {
+      "id": 973,
+      "label": "Lucas 1",
+      "group": "evangelhos",
+      "src96": "/medalhoes/evangelhos-96.webp",
+      "src192": "/medalhoes/evangelhos-192.webp",
+      "categorySymbol": "Pães e peixes"
+    },
+    {
+      "id": 929,
+      "label": "Mateus 1",
+      "group": "evangelhos",
+      "src96": "/medalhoes/evangelhos-96.webp",
+      "src192": "/medalhoes/evangelhos-192.webp",
+      "categorySymbol": "Pães e peixes"
+    },
+    {
+      "id": 767,
+      "label": "Jeremias 23",
+      "group": "profetas",
+      "src96": "/medalhoes/profetas-96.webp",
+      "src192": "/medalhoes/profetas-192.webp",
+      "categorySymbol": "Ramo de amendoeira"
+    },
+    {
+      "id": 956,
+      "label": "Mateus 28",
+      "group": "evangelhos",
+      "src96": "/medalhoes/evangelhos-96.webp",
+      "src192": "/medalhoes/evangelhos-192.webp",
+      "categorySymbol": "Pães e peixes"
+    },
+    {
+      "id": 688,
+      "label": "Isaías 10",
+      "group": "profetas",
+      "src96": "/medalhoes/profetas-96.webp",
+      "src192": "/medalhoes/profetas-192.webp",
+      "categorySymbol": "Ramo de amendoeira"
+    },
+    {
+      "id": 1004,
+      "label": "João 8",
+      "group": "evangelhos",
+      "src96": "/medalhoes/evangelhos-96.webp",
+      "src192": "/medalhoes/evangelhos-192.webp",
+      "categorySymbol": "Pães e peixes"
+    },
+    {
+      "id": 856,
+      "label": "Daniel 7",
+      "group": "profetas",
+      "src96": "/medalhoes/profetas-96.webp",
+      "src192": "/medalhoes/profetas-192.webp",
+      "categorySymbol": "Ramo de amendoeira"
+    },
+    {
+      "id": 1101,
+      "label": "Efésios 5",
+      "group": "cartas",
+      "src96": "/medalhoes/cartas-96.webp",
+      "src192": "/medalhoes/cartas-192.webp",
+      "categorySymbol": "Carta selada"
+    },
+    {
+      "id": 1185,
+      "label": "Apocalipse 19",
+      "group": "apocalipse",
+      "src96": "/medalhoes/apocalipse-96.webp",
+      "src192": "/medalhoes/apocalipse-192.webp",
+      "categorySymbol": "Porta aberta no céu"
+    },
+    {
+      "id": 704,
+      "label": "Isaías 26",
+      "group": "profetas",
+      "src96": "/medalhoes/profetas-96.webp",
+      "src192": "/medalhoes/profetas-192.webp",
+      "categorySymbol": "Ramo de amendoeira"
+    },
+    {
+      "id": 738,
+      "label": "Isaías 60",
+      "group": "profetas",
+      "src96": "/medalhoes/profetas-96.webp",
+      "src192": "/medalhoes/profetas-192.webp",
+      "categorySymbol": "Ramo de amendoeira"
+    },
+    {
+      "id": 1163,
+      "label": "1 João 5",
+      "group": "cartas",
+      "src96": "/medalhoes/cartas-96.webp",
+      "src192": "/medalhoes/cartas-192.webp",
+      "categorySymbol": "Carta selada"
+    },
+    {
+      "id": 1008,
+      "label": "João 12",
+      "group": "evangelhos",
+      "src96": "/medalhoes/evangelhos-96.webp",
+      "src192": "/medalhoes/evangelhos-192.webp",
+      "categorySymbol": "Pães e peixes"
+    },
+    {
+      "id": 731,
+      "label": "Isaías 53",
+      "group": "profetas",
+      "src96": "/medalhoes/profetas-96.webp",
+      "src192": "/medalhoes/profetas-192.webp",
+      "categorySymbol": "Ramo de amendoeira"
+    },
+    {
+      "id": 522,
+      "label": "Salmos 45",
+      "group": "poesia",
+      "src96": "/medalhoes/poesia-96.webp",
+      "src192": "/medalhoes/poesia-192.webp",
+      "categorySymbol": "Lira"
+    },
+    {
+      "id": 549,
+      "label": "Salmos 72",
+      "group": "poesia",
+      "src96": "/medalhoes/poesia-96.webp",
+      "src192": "/medalhoes/poesia-192.webp",
+      "categorySymbol": "Lira"
+    },
+    {
+      "id": 689,
+      "label": "Isaías 11",
+      "group": "profetas",
+      "src96": "/medalhoes/profetas-96.webp",
+      "src192": "/medalhoes/profetas-192.webp",
+      "categorySymbol": "Ramo de amendoeira"
+    },
+    {
+      "id": 1133,
+      "label": "Hebreus 1",
+      "group": "cartas",
+      "src96": "/medalhoes/cartas-96.webp",
+      "src192": "/medalhoes/cartas-192.webp",
+      "categorySymbol": "Carta selada"
+    },
+    {
+      "id": 706,
+      "label": "Isaías 28",
+      "group": "profetas",
+      "src96": "/medalhoes/profetas-96.webp",
+      "src192": "/medalhoes/profetas-192.webp",
+      "categorySymbol": "Ramo de amendoeira"
+    },
+    {
+      "id": 1121,
+      "label": "1 Timóteo 3",
+      "group": "cartas",
+      "src96": "/medalhoes/cartas-96.webp",
+      "src192": "/medalhoes/cartas-192.webp",
+      "categorySymbol": "Carta selada"
+    },
+    {
+      "id": 1010,
+      "label": "João 14",
+      "group": "evangelhos",
+      "src96": "/medalhoes/evangelhos-96.webp",
+      "src192": "/medalhoes/evangelhos-192.webp",
+      "categorySymbol": "Pães e peixes"
+    },
+    {
+      "id": 1152,
+      "label": "1 Pedro 2",
+      "group": "cartas",
+      "src96": "/medalhoes/cartas-96.webp",
+      "src192": "/medalhoes/cartas-192.webp",
+      "categorySymbol": "Carta selada"
+    },
+    {
+      "id": 1076,
+      "label": "1 Coríntios 15",
+      "group": "cartas",
+      "src96": "/medalhoes/cartas-96.webp",
+      "src192": "/medalhoes/cartas-192.webp",
+      "categorySymbol": "Carta selada"
+    },
+    {
+      "id": 999,
+      "label": "João 3",
+      "group": "evangelhos",
+      "src96": "/medalhoes/evangelhos-96.webp",
+      "src192": "/medalhoes/evangelhos-192.webp",
+      "categorySymbol": "Pães e peixes"
+    },
+    {
+      "id": 851,
+      "label": "Daniel 2",
+      "group": "profetas",
+      "src96": "/medalhoes/profetas-96.webp",
+      "src192": "/medalhoes/profetas-192.webp",
+      "categorySymbol": "Ramo de amendoeira"
+    },
+    {
+      "id": 899,
+      "label": "Miqueias 7",
+      "group": "profetas",
+      "src96": "/medalhoes/profetas-96.webp",
+      "src192": "/medalhoes/profetas-192.webp",
+      "categorySymbol": "Ramo de amendoeira"
+    },
+    {
+      "id": 115,
+      "label": "Levítico 26",
+      "group": "pentateuco",
+      "src96": "/medalhoes/pentateuco-96.webp",
+      "src192": "/medalhoes/pentateuco-192.webp",
+      "categorySymbol": "Rolo fechado"
+    },
+    {
+      "id": 162,
+      "label": "Deuteronômio 10",
+      "group": "pentateuco",
+      "src96": "/medalhoes/pentateuco-96.webp",
+      "src192": "/medalhoes/pentateuco-192.webp",
+      "categorySymbol": "Rolo fechado"
+    },
+    {
+      "id": 48,
+      "label": "Gênesis 49",
+      "group": "pentateuco",
+      "src96": "/medalhoes/pentateuco-96.webp",
+      "src192": "/medalhoes/pentateuco-192.webp",
+      "categorySymbol": "Rolo fechado"
+    },
+    {
+      "id": 26,
+      "label": "Gênesis 27",
+      "group": "pentateuco",
+      "src96": "/medalhoes/pentateuco-96.webp",
+      "src192": "/medalhoes/pentateuco-192.webp",
+      "categorySymbol": "Rolo fechado"
+    },
+    {
+      "id": 185,
+      "label": "Deuteronômio 33",
+      "group": "pentateuco",
+      "src96": "/medalhoes/pentateuco-96.webp",
+      "src192": "/medalhoes/pentateuco-192.webp",
+      "categorySymbol": "Rolo fechado"
+    },
+    {
+      "id": 273,
+      "label": "2 Samuel 7",
+      "group": "historicos",
+      "src96": "/medalhoes/historicos-96.webp",
+      "src192": "/medalhoes/historicos-192.webp",
+      "categorySymbol": "Coroa"
+    },
+    {
+      "id": 223,
+      "label": "Juízes 13",
+      "group": "historicos",
+      "src96": "/medalhoes/historicos-96.webp",
+      "src192": "/medalhoes/historicos-192.webp",
+      "categorySymbol": "Coroa"
+    },
+    {
+      "id": 327,
+      "label": "2 Reis 15",
+      "group": "historicos",
+      "src96": "/medalhoes/historicos-96.webp",
+      "src192": "/medalhoes/historicos-192.webp",
+      "categorySymbol": "Coroa"
+    },
+    {
+      "id": 331,
+      "label": "2 Reis 19",
+      "group": "historicos",
+      "src96": "/medalhoes/historicos-96.webp",
+      "src192": "/medalhoes/historicos-192.webp",
+      "categorySymbol": "Coroa"
+    },
+    {
+      "id": 394,
+      "label": "2 Crônicas 28",
+      "group": "historicos",
+      "src96": "/medalhoes/historicos-96.webp",
+      "src192": "/medalhoes/historicos-192.webp",
+      "categorySymbol": "Coroa"
+    },
+    {
+      "id": 584,
+      "label": "Salmos 107",
+      "group": "poesia",
+      "src96": "/medalhoes/poesia-96.webp",
+      "src192": "/medalhoes/poesia-192.webp",
+      "categorySymbol": "Lira"
+    },
+    {
+      "id": 479,
+      "label": "Salmos 2",
+      "group": "poesia",
+      "src96": "/medalhoes/poesia-96.webp",
+      "src192": "/medalhoes/poesia-192.webp",
+      "categorySymbol": "Lira"
+    },
+    {
+      "id": 566,
+      "label": "Salmos 89",
+      "group": "poesia",
+      "src96": "/medalhoes/poesia-96.webp",
+      "src192": "/medalhoes/poesia-192.webp",
+      "categorySymbol": "Lira"
+    },
+    {
+      "id": 1027,
+      "label": "Atos 10",
+      "group": "atos",
+      "src96": "/medalhoes/atos-96.webp",
+      "src192": "/medalhoes/atos-192.webp",
+      "categorySymbol": "Navio a vela"
+    },
+    {
+      "id": 1037,
+      "label": "Atos 20",
+      "group": "atos",
+      "src96": "/medalhoes/atos-96.webp",
+      "src192": "/medalhoes/atos-192.webp",
+      "categorySymbol": "Navio a vela"
+    },
+    {
+      "id": 1043,
+      "label": "Atos 26",
+      "group": "atos",
+      "src96": "/medalhoes/atos-96.webp",
+      "src192": "/medalhoes/atos-192.webp",
+      "categorySymbol": "Navio a vela"
+    },
+    {
+      "id": 1019,
+      "label": "Atos 2",
+      "group": "atos",
+      "src96": "/medalhoes/atos-96.webp",
+      "src192": "/medalhoes/atos-192.webp",
+      "categorySymbol": "Navio a vela"
+    },
+    {
+      "id": 1022,
+      "label": "Atos 5",
+      "group": "atos",
+      "src96": "/medalhoes/atos-96.webp",
+      "src192": "/medalhoes/atos-192.webp",
+      "categorySymbol": "Navio a vela"
+    },
+    {
+      "id": 1167,
+      "label": "Apocalipse 1",
+      "group": "apocalipse",
+      "src96": "/medalhoes/apocalipse-96.webp",
+      "src192": "/medalhoes/apocalipse-192.webp",
+      "categorySymbol": "Porta aberta no céu"
+    },
+    {
+      "id": 1187,
+      "label": "Apocalipse 21",
+      "group": "apocalipse",
+      "src96": "/medalhoes/apocalipse-96.webp",
+      "src192": "/medalhoes/apocalipse-192.webp",
+      "categorySymbol": "Porta aberta no céu"
+    },
+    {
+      "id": 1184,
+      "label": "Apocalipse 18",
+      "group": "apocalipse",
+      "src96": "/medalhoes/apocalipse-96.webp",
+      "src192": "/medalhoes/apocalipse-192.webp",
+      "categorySymbol": "Porta aberta no céu"
+    },
+    {
+      "id": 1177,
+      "label": "Apocalipse 11",
+      "group": "apocalipse",
+      "src96": "/medalhoes/apocalipse-96.webp",
+      "src192": "/medalhoes/apocalipse-192.webp",
+      "categorySymbol": "Porta aberta no céu"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+# Originals and runtime logs remain on the authoring machine.
+# Web-ready images are versioned in site/public/journey/.
+*.png
+*.log
+*-result.json
+generation-result.json
+*comfy-history.json

@@ -1,0 +1,104 @@
+{
+  "source": "OpenBible.info Bible Geocoding Data",
+  "license": "CC BY 4.0",
+  "input": "fontes/openbible-geo/ancient.jsonl",
+  "sourceSha256": "b8187aa4737e8517ccc090f765d2be11da4c548cd2a59d3cdcb62e952cb8c0f2",
+  "places": [
+    {
+      "ancientId": "a112427",
+      "ancientName": "Bethlehem 1",
+      "slug": "bethlehem-1",
+      "identification": 0,
+      "resolution": 0,
+      "modernId": "m9b8daa",
+      "longitude": 35.207639,
+      "latitude": 31.704306,
+      "alternatives": 1,
+      "sourceUrl": "https://www.openbible.info/geo/ancient/a112427/bethlehem-1"
+    },
+    {
+      "ancientId": "af5884f",
+      "ancientName": "Nazareth",
+      "slug": "nazareth",
+      "identification": 0,
+      "resolution": 0,
+      "modernId": "mb3f688",
+      "longitude": 35.29769,
+      "latitude": 32.70214,
+      "alternatives": 1,
+      "sourceUrl": "https://www.openbible.info/geo/ancient/af5884f/nazareth"
+    },
+    {
+      "ancientId": "a6e060d",
+      "ancientName": "Bethany 2",
+      "slug": "bethany-2",
+      "identification": 0,
+      "resolution": 0,
+      "modernId": "m6b5d69",
+      "longitude": 35.550301,
+      "latitude": 31.837109,
+      "alternatives": 7,
+      "sourceUrl": "https://www.openbible.info/geo/ancient/a6e060d/bethany-2"
+    },
+    {
+      "ancientId": "a031bda",
+      "ancientName": "Cana",
+      "slug": "cana",
+      "identification": 0,
+      "resolution": 0,
+      "modernId": "m7c7d60",
+      "longitude": 35.30269,
+      "latitude": 32.8222,
+      "alternatives": 3,
+      "sourceUrl": "https://www.openbible.info/geo/ancient/a031bda/cana"
+    },
+    {
+      "ancientId": "af2161c",
+      "ancientName": "Capernaum",
+      "slug": "capernaum",
+      "identification": 0,
+      "resolution": 0,
+      "modernId": "m66efd0",
+      "longitude": 35.575,
+      "latitude": 32.881111,
+      "alternatives": 2,
+      "sourceUrl": "https://www.openbible.info/geo/ancient/af2161c/capernaum"
+    },
+    {
+      "ancientId": "a562fcc",
+      "ancientName": "Sea of Galilee",
+      "slug": "sea-of-galilee",
+      "identification": 0,
+      "resolution": 0,
+      "modernId": "m0438ff",
+      "longitude": 35.590033,
+      "latitude": 32.818906,
+      "alternatives": 1,
+      "sourceUrl": "https://www.openbible.info/geo/ancient/a562fcc/sea-of-galilee"
+    },
+    {
+      "ancientId": "aaf03fa",
+      "ancientName": "Jericho 2",
+      "slug": "jericho-2",
+      "identification": 0,
+      "resolution": 0,
+      "modernId": "mdf4652",
+      "longitude": 35.436238,
+      "latitude": 31.851872,
+      "alternatives": 1,
+      "sourceUrl": "https://www.openbible.info/geo/ancient/aaf03fa/jericho-2"
+    },
+    {
+      "ancientId": "a15257a",
+      "ancientName": "Jerusalem",
+      "slug": "jerusalem",
+      "identification": 0,
+      "resolution": 0,
+      "modernId": "m66c5b8",
+      "longitude": 35.234167,
+      "latitude": 31.776667,
+      "alternatives": 1,
+      "sourceUrl": "https://www.openbible.info/geo/ancient/a15257a/jerusalem"
+    }
+  ]
+}

@@ -192,6 +192,18 @@
   z-index: 3;
 }
 
+.links .hoverDim {
+  opacity: 0.3;
+}
+
+.links a {
+  transition: opacity var(--dur-base) var(--ease-out), filter var(--dur-base) var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .links a { transition: none; }
+}
+
 /* medallions and chapters: links centred on their spot; the label plate hangs from their box (canvas units) */
 .stage .hub,
 .stage .node {

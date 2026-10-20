@@ -499,7 +499,7 @@ export class SculptureRenderer {
       gl.useProgram(p.p);
       gl.uniformMatrix4fv(p.u.uMVP, false, m);
       gl.uniform2f(p.u.uRes, W, H);
-      gl.uniform1f(p.u.uHalf, 1.15 * this.dpr);
+      gl.uniform1f(p.u.uHalf, 0.8 * this.dpr);
       gl.uniform1f(p.u.uFlat, FLAT);
       gl.uniform1f(p.u.uGrow, this.grow);
       gl.uniform1f(p.u.uPulse, this.pulse);
@@ -561,12 +561,13 @@ export class SculptureRenderer {
     gl.uniformMatrix4fv(line.u.uMVP, false, m);
     gl.bindVertexArray(this.lineVao);
     const ink = theme === "dia" ? [0.24, 0.18, 0.1] : [0.95, 0.88, 0.74];
-    gl.uniform4f(line.u.uC, ink[0], ink[1], ink[2], theme === "dia" ? 0.55 : 0.5);
+    const axisFade = this.lit ? 0.22 : 1;
+    gl.uniform4f(line.u.uC, ink[0], ink[1], ink[2], (theme === "dia" ? 0.55 : 0.5) * axisFade);
     if (this.lineCount.axis) gl.drawArrays(gl.LINES, 0, this.lineCount.axis);
-    gl.uniform4f(line.u.uC, ink[0], ink[1], ink[2], theme === "dia" ? 0.45 : 0.4);
+    gl.uniform4f(line.u.uC, ink[0], ink[1], ink[2], (theme === "dia" ? 0.45 : 0.4) * axisFade);
     if (this.lineCount.ticks) gl.drawArrays(gl.LINES, this.lineCount.axis, this.lineCount.ticks);
     // the bands of the book groups, a scale under the axis (each vertex carries its band's alpha)
-    gl.uniform4f(line.u.uC, ink[0], ink[1], ink[2], theme === "dia" ? 0.5 : 0.42);
+    gl.uniform4f(line.u.uC, ink[0], ink[1], ink[2], (theme === "dia" ? 0.5 : 0.42) * axisFade);
     if (this.lineCount.bands) gl.drawArrays(gl.TRIANGLES, this.lineCount.axis + this.lineCount.ticks, this.lineCount.bands);
     if (this.mark !== null) {
       const x = this.mark;

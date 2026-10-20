@@ -133,7 +133,7 @@ if (!dados.includes(credits.openBibleCredit)) failures.push("dados.html: OpenBib
 const timeline = checkTimeline({ html, page, textOf, failures });
 
 // Explorar (home and /explorar/isaias/9) and its /conexao page: numbers from the explore data (scripts/checks/explore.ts)
-const explore = checkExplore((rel) => (pages.has(rel) ? page(rel) : null), textOf);
+const explore = checkExplore((rel) => (pages.has(join(rel)) ? page(join(rel)) : null), textOf);
 failures.push(...explore.failures);
 
 // community pages (trail, Ponte, Mesa): pairs, votes and dates are the pipeline's; no bridge before its day

@@ -1,0 +1,36 @@
+{
+  "asset": "bread-sharing.webp",
+  "description": "Recriação artística da partilha de pães e peixes",
+  "display_label": "Recriação",
+  "ai_generated": true,
+  "local_only": true,
+  "generator": "ComfyUI",
+  "model": "FLUX.1 dev FP8",
+  "checkpoint": "flux1-dev-fp8.safetensors",
+  "width": 1344,
+  "height": 768,
+  "steps": 24,
+  "seed": 20261032,
+  "prompt_id": "fd61412f-424a-4e27-9baf-cfe94c28c740",
+  "prompt_file": "bread-sharing-prompt-r3.txt",
+  "source": "C:\\Users\\R2\\IA\\ComfyUI_windows_portable\\ComfyUI\\output\\IA-Local_00042_.png",
+  "source_sha256": "81FB31C66DE3A35FFA045D4DB80BF70B9E3A5F38235B4A2B4EFB7323D3FF2BFF",
+  "webp_sha256": "776660AA38F3A3D5C6FD326F46C57DFFDF5F387CC650D20EAFAFF52C3D95507A",
+  "webp_bytes": 132264,
+  "webp_quality": 82,
+  "webp_effort": 6,
+  "inspected": true,
+  "review_notes": "Two clearly separate fish, bread baskets, seated adults with distant teacher, olive hills. No cacti, text or modern elements. Loaves represent abundance rather than an exact count of the initial five. Artistic representation, not a verified historical reconstruction.",
+  "rejected_candidates": [
+    {
+      "seed": 20261029,
+      "source": "IA-Local_00039_.png",
+      "reason": "Only one visible fish"
+    },
+    {
+      "seed": 20261031,
+      "source": "IA-Local_00041_.png",
+      "reason": "Modern boats appeared in distant lake"
+    }
+  ]
+}

@@ -22,6 +22,7 @@ import {
   arcBuffers,
   axisLines,
   chapterAxis,
+  chapterHighlights,
   chapterLinks,
   focusFlags,
   litLinks,
@@ -90,6 +91,7 @@ export type SculptureInitial = {
 
 /** the view a selection opens on: a little from the left and above, so the bridges and the inner links both show */
 const SELECT_VIEW: Orbit = { yaw: -0.38, pitch: 0.2, dist: 2, target: [0, 0, 0] };
+const DANIEL_NINE = BOOKS.find((book) => book.slug === "daniel")!.firstChapter + 8;
 /** the chapter preview shows its strongest links only (the panel lists all of them) */
 const PREVIEW_LINKS = 80;
 /** a word lights at most this many of the links between its verses, the most voted (the panel counts them all) */
@@ -204,6 +206,9 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
   const [snippets, setSnippets] = useState<ReadonlyMap<number, string>>(new Map());
   // 0: every arc; 1..3: only the arcs with initial.strength[step - 1].min votes or more
   const [strength, setStrength] = useState(0);
+  const [allChapterThreads, setAllChapterThreads] = useState(false);
+  const [viewportRevision, setViewportRevision] = useState(0);
+  const framing = useRef<{ points: Vec3[]; box: Box } | null>(null);
   // the answer for a path or a word in the address (key: its address), or the error of the last try
   const [pathFound, setPathFound] = useState<{ key: string; hops: Hop[] | null } | { key: string; error: true } | null>(null);
   const [wordFound, setWordFound] = useState<{ key: string; result: WordResult | null } | { key: string; error: true } | null>(null);
@@ -220,6 +225,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
     setFilter("todas");
     setShown(PAGE);
     setSheetFull(false);
+    setAllChapterThreads(false);
     setHandover(true);
     // a chapter previewed under a resting pointer would cover the new selection's light until the pointer moved
     setHover(null);
@@ -228,6 +234,20 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
     if (!next) setTrail([]);
     else if (next.kind === "verse" && follow) setTrail((t) => (t[t.length - 1] === next.gv ? t : [...t, next.gv].slice(-12)));
   }, []);
+
+  // Accept a human-readable reference in shared URLs as well as our canonical hash.
+  useEffect(() => {
+    if (window.location.hash) return;
+    const reference = new URLSearchParams(window.location.search).get("v");
+    if (!reference || reference.length > 160) return;
+    let active = true;
+    void import("./query").then(({ readQuery }) => {
+      if (!active || window.location.hash) return;
+      const result = readQuery(reference);
+      if ("sel" in result) choose(result.sel);
+    });
+    return () => { active = false; };
+  }, [choose]);
 
   // ---- what the engine calls back (kept current without re-creating the engine)
   const latest = useRef<{ data: Data | null; labels: { gv: number }[]; pickChapter: (x: number) => void; pickArc: (i: number) => void; arcsIn: boolean; theme: Theme; strength: number }>({
@@ -434,6 +454,8 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
   // ---- a chapter's links (the chapter panel, and the preview under the pointer)
   const chapterCi = sel?.kind === "chapter" ? sel.ci : null;
   const chapterList = useMemo(() => (chapterCi !== null && data && arcs ? chapterLinks(data.geo, arcs.set, arcs.idx, chapterCi) : null), [chapterCi, data, arcs]);
+  const chapterFeatured = useMemo(() => data && chapterList ? chapterHighlights(data.geo, chapterList) : [], [data, chapterList]);
+  const chapterScene = allChapterThreads ? chapterList : chapterFeatured;
   const hoverCi = hover && data ? Math.min(data.geo.nch - 1, Math.max(0, Math.floor(((hover.x + 1) / 2) * data.geo.nch))) : null;
   const preview = useMemo(() => (hoverCi !== null && data && arcs ? { ci: hoverCi, list: chapterLinks(data.geo, arcs.set, arcs.idx, hoverCi), full: arcs.set.full } : null), [hoverCi, data, arcs]);
   useEffect(() => {
@@ -461,11 +483,12 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
   useEffect(() => {
     const e = engine.current;
     if (!e || !data) return;
-    const key = hashOf(sel);
+    const key = `${hashOf(sel)}${sel?.kind === "chapter" ? `:${allChapterThreads ? "all" : "featured"}:${arcs?.set.full ? "full" : "head"}` : ""}`;
     const fresh = key !== flown.current;
     // a word's verses glow as marks on the axis; any other selection has none
     e.setMarks(sel?.kind === "word" && wordResult ? wordMarks(data.geo, wordResult.verses) : null);
     if (!sel) {
+      framing.current = null;
       e.setLit(null);
       if (fresh) e.flyTo({ orbit: HOME_ORBIT, box: homeBox(e.size.width, e.size.height) });
       flown.current = key;
@@ -477,7 +500,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
     // behind a word's many links than behind one verse's
     let growMs = 1100;
     let grow = fresh;
-    let recede = 0.42;
+    let recede = 0.045;
     if (sel.kind === "path") {
       if (!hops) {
         e.setLit(null);
@@ -494,7 +517,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
       }
       lit = litWord(data.geo, data.nt, wordLit.links, WORD_LIT);
       grow = false;
-      recede = 0.32;
+      recede = 0.035;
       const xs = Array.from(wordResult.verses, (gv) => verseAxis(data.geo, gv));
       if (xs.length) points.push([Math.min(...xs), 0, 0], [Math.max(...xs), 0, 0]);
       wordLit.links.slice(0, 400).forEach((l, i) => {
@@ -511,25 +534,26 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
       points.push([x, 0, 0]);
       for (const p of shownPartners) points.push(...arcSamples(x, verseAxis(data.geo, p.gv), pairAngle(data.geo, data.nt, sel.gv, p.gv), 4));
     } else {
-      if (!chapterList) return;
-      lit = litLinks(data.geo, data.nt, chapterList, chapterAxis(data.geo, sel.ci));
-      chapterList.forEach((l, i) => {
-        if (i % 3 === 0) points.push(...arcSamples(verseAxis(data.geo, l.here), verseAxis(data.geo, l.there), pairAngle(data.geo, data.nt, l.here, l.there), 3));
+      if (!chapterList || !chapterScene) return;
+      lit = litLinks(data.geo, data.nt, chapterScene, chapterAxis(data.geo, sel.ci));
+      chapterScene.forEach((l) => {
+        points.push(...arcSamples(verseAxis(data.geo, l.here), verseAxis(data.geo, l.there), pairAngle(data.geo, data.nt, l.here, l.there), 4));
       });
       points.push([chapterAxis(data.geo, sel.ci), 0, 0]);
     }
     e.setLit(lit, grow, growMs, recede);
     if (fresh) {
       const { width, height } = e.size;
-      const top = TOP + 40 + 8;
+      const top = phone ? TOP + 48 : TOP + 16;
       // what the panel (or the sheet) leaves free
       const box: Box = phone
-        ? { x: 0, y: top, w: width, h: Math.max(height * 0.5 - top, 120) }
-        : { x: 16, y: top, w: Math.max(width - Math.min(26 * 16, width * 0.42) - 48, 200), h: height - top - 16 };
-      e.flyTo({ orbit: fitOrbit(points, SELECT_VIEW, box.w / box.h, 0.06), box });
+        ? { x: 12, y: top, w: width - 24, h: Math.max(height * 0.53 - top - 48, 110) }
+        : { x: 28, y: top, w: Math.max(width - Math.min(400, width * 0.38) - 76, 200), h: height - top - 106 };
+      framing.current = { points, box };
+      e.flyTo({ orbit: fitOrbit(points, SELECT_VIEW, box.w / box.h, 0.09), box });
       flown.current = key;
     }
-  }, [sel, partners, chapterList, filter, data, arcs, phone, hops, wordResult, wordLit]);
+  }, [sel, partners, chapterList, chapterScene, allChapterThreads, filter, data, arcs, phone, hops, wordResult, wordLit, viewportRevision]);
 
   // ---- the arc in focus: among the arcs the filter shows, or a path's hop
   useEffect(() => {
@@ -571,6 +595,10 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
       t = window.setTimeout(() => {
         const e = engine.current;
         if (e && !selKey && !e.touched) e.jumpTo({ orbit: HOME_ORBIT, box: homeBox(e.size.width, e.size.height) });
+        else if (e && selKey) {
+          flown.current = "";
+          setViewportRevision((revision) => revision + 1);
+        }
       }, 120);
     });
     ro.observe(stage);
@@ -600,9 +628,9 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
     };
   }, [verse]);
   useEffect(() => {
-    const want = listed
-      .slice(0, shown)
-      .map((p) => p.gv)
+    const want = (sel?.kind === "chapter"
+      ? chapterFeatured.slice(0, 6).map((link) => link.there)
+      : listed.slice(0, shown).map((p) => p.gv))
       .filter((gv) => !snippets.has(gv));
     if (focus >= 0 && partners?.[focus] && !snippets.has(partners[focus].gv)) want.push(partners[focus].gv);
     if (want.length === 0) return;
@@ -620,7 +648,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
     return () => {
       alive = false;
     };
-  }, [listed, shown, snippets, focus, partners]);
+  }, [listed, shown, snippets, focus, partners, sel, chapterFeatured]);
 
   // ---- labels on the axis: the lit verse and its strongest links among those the filter shows; a path's steps, in
   // order; a word's most linked verses
@@ -645,9 +673,11 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
   // a tap on a lit arc: a verse's link opens its card, a path's hop is put in focus; a word's links only show
   const pickArc = useCallback(
     (i: number) => {
-      if (sel?.kind === "verse" || sel?.kind === "path") setFocus(i);
+      if (sel?.kind === "verse") setFocus(listed[i]?.i ?? -1);
+      else if (sel?.kind === "path") setFocus(i);
+      else if (sel?.kind === "chapter" && chapterScene?.[i]) choose({ kind: "verse", gv: chapterScene[i].there });
     },
-    [sel],
+    [sel, chapterScene, choose, listed],
   );
   useEffect(() => {
     latest.current = { data, labels: labelItems, pickChapter, pickArc, arcsIn: !!arcs, theme, strength };
@@ -676,6 +706,19 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
     // a verse with many links, different on every press: one end of an arc among the 2,000 most voted
     const k = Math.floor(Math.random() * Math.min(2000, arcs.set.n));
     choose({ kind: "verse", gv: Math.random() < 0.5 ? arcs.set.a[k] : arcs.set.b[k] });
+  }
+
+  function cameraView(view: "orbital" | "front" | "top") {
+    const e = engine.current;
+    if (!e) return;
+    reach();
+    const base = view === "front" ? { ...SELECT_VIEW, yaw: 0, pitch: 0 }
+      : view === "top" ? { ...SELECT_VIEW, yaw: -0.12, pitch: 1.08 }
+      : SELECT_VIEW;
+    const frame = framing.current;
+    e.flyTo(frame
+      ? { orbit: fitOrbit(frame.points, base, frame.box.w / frame.box.h, 0.09), box: frame.box }
+      : { orbit: { ...HOME_ORBIT, yaw: base.yaw, pitch: base.pitch }, box: homeBox(e.size.width, e.size.height) });
   }
 
   async function copyLink() {
@@ -830,7 +873,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
   };
 
   return (
-    <div className={styles.page}>
+    <div className={styles.page} data-scene-theme={theme}>
       <div ref={stageRef} className={styles.stage} data-state={ready} data-open={sel ? "" : undefined} data-sheet={sheetFull ? "full" : undefined}>
         <canvas
           ref={canvasRef}
@@ -857,6 +900,17 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
         {/* placed by the engine every frame, in this order of priority: the lit verses, then the books' names (where
             the camera is near enough for a name to fit its book), then the groups' (with nothing open) */}
         <div ref={labelsRef} className={styles.labels} aria-hidden="true">
+          {sel?.kind === "chapter" && data && (
+            <>
+              <span data-x={chapterAxis(data.geo, sel.ci)} className={`${styles.pill} ${styles.pillMain}`}>{chapterLabel(sel.ci).label}</span>
+              {chapterFeatured.slice(0, phone ? 4 : 7).map((link) => (
+                <button key={link.there} type="button" tabIndex={-1} data-gv={link.there} className={styles.pill}
+                  onClick={() => choose({ kind: "verse", gv: link.there })}>
+                  {shortRef(BASE, link.there)}
+                </button>
+              ))}
+            </>
+          )}
           {labelItems.map((l) => (
             <button
               key={`${l.gv}-${l.i}-${l.step ?? 0}`}
@@ -920,6 +974,9 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
           } else if (sel?.kind === "word" && wordLit?.links[arcTip.i]) {
             const l = wordLit.links[arcTip.i];
             [a, b, v, more] = [l.a, l.b, l.votes, "os dois têm a palavra"];
+          } else if (sel?.kind === "chapter" && chapterScene?.[arcTip.i]) {
+            const link = chapterScene[arcTip.i];
+            [a, b, v, more] = [link.here, link.there, link.votes, "clique para seguir este versículo"];
           } else return null;
           return (
             <div className={styles.tip} style={{ transform: tipTransform(arcTip.at, arcTip.flip) }} aria-hidden="true">
@@ -945,7 +1002,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
               setQuery(e.target.value);
               setQueryError("");
             }}
-            placeholder="Versículo ou palavra"
+            placeholder="Daniel 9, João 3:16, uma palavra…"
             onFocus={() => void import("./query")}
             autoComplete="off"
             enterKeyHint="go"
@@ -990,16 +1047,21 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
 
         {!sel && (
           <section className={styles.intro} aria-labelledby={`${ids}-h`}>
+            <p className={styles.eyebrow}>A BÍBLIA EM OUTRA DIMENSÃO</p>
             <h1 id={`${ids}-h`} className={styles.title}>
-              Céu de ligações
+              Um céu.<br /><em>Infinitos encontros.</em>
             </h1>
             <p className={styles.lede}>
-              São {formatInt(initial.counts.verses)} versículos e {formatInt(initial.counts.crossrefRows)} referências cruzadas, que ligam{" "}
-              {formatInt(initial.counts.arcs)} pares de versículos diferentes. Cada par é um fio de luz; o versículo com mais ligações é{" "}
-              {initial.top.ref}, com {formatInt(initial.top.links)}.
+              Gire a história. Acenda uma passagem.<br />
+              Siga os fios que aproximam a Palavra.
             </p>
             <ul className={styles.examples}>
-              {initial.examples.map((x) => (
+              <li>
+                <button type="button" className={`${styles.chip} ${styles.chipPrimary}`} onClick={() => choose({ kind: "chapter", ci: DANIEL_NINE })}>
+                  Começar por Daniel 9 <span aria-hidden="true">↗</span>
+                </button>
+              </li>
+              {initial.examples.slice(0, 2).map((x) => (
                 <li key={x.gv}>
                   <button type="button" className={styles.chip} onClick={() => choose({ kind: "verse", gv: x.gv })}>
                     {x.label}
@@ -1012,7 +1074,9 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
                 </button>
               </li>
             </ul>
-            <p className={styles.tryLine}>Ou siga o caminho entre dois versículos, ou acenda uma palavra na Bíblia inteira:</p>
+            <details className={styles.moreWays}>
+            <summary>Mais caminhos para descobrir</summary>
+            <p className={styles.tryLine}>Una dois versículos ou descubra uma palavra pela Bíblia:</p>
             <ul className={styles.examples}>
               <li>
                 <button type="button" className={styles.chip} onClick={() => choose({ kind: "path", from: initial.pathExample.from, to: initial.pathExample.to })}>
@@ -1025,6 +1089,12 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
                 </button>
               </li>
             </ul>
+            <p className={styles.hint}>
+              São {formatInt(initial.counts.verses)} versículos, {formatInt(initial.counts.crossrefRows)} referências cruzadas e{" "}
+              {formatInt(initial.counts.arcs)} pares de versículos diferentes. A passagem mais conectada é{" "}
+              {initial.top.ref}, com {formatInt(initial.top.links)} ligações.
+            </p>
+            </details>
             {ready === "poster" ? (
               <p className={styles.hint}>
                 Este aparelho não desenha a escultura em 3D. Busque um versículo: o texto e as ligações aparecem do mesmo jeito, ou{" "}
@@ -1042,7 +1112,6 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
                 {phone
                   ? "Arraste para girar, use dois dedos para aproximar, toque na linha do meio para abrir um capítulo."
                   : "Arraste para girar, role para aproximar, clique na linha do meio para abrir um capítulo."}{" "}
-                No campo, um caminho se escreve com “até”: “Rt 1:16 até Jo 15:13”.
               </p>
             )}
             {full === "offer" || full === "error" || full === "loading" ? (
@@ -1068,9 +1137,21 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
           </section>
         )}
 
+        {canvasMode && (
+          <div className={styles.cameraTools} role="group" aria-label="Ponto de vista do céu em 3D">
+            <button type="button" onClick={() => cameraView("orbital")} aria-label="Reenquadrar em vista orbital" title="Vista orbital">◈<span>Orbital</span></button>
+            <button type="button" onClick={() => cameraView("front")} aria-label="Vista frontal" title="Vista frontal">◡<span>Frontal</span></button>
+            <button type="button" onClick={() => cameraView("top")} aria-label="Vista de cima" title="Vista de cima">⊙<span>Do alto</span></button>
+            <span className={styles.cameraDivider} />
+            <button type="button" aria-label="Aproximar céu" onClick={() => { reach(); engine.current?.nudge(0, 0, 0.8); }}>+</button>
+            <button type="button" aria-label="Afastar céu" onClick={() => { reach(); engine.current?.nudge(0, 0, 1.25); }}>−</button>
+          </div>
+        )}
+
         {/* the legend stands on its bottom edge: the strength row at its top, and the buttons left of "Céu em 2D", come
             and go (no canvas on this device) without moving anything else */}
-        <div className={styles.legend}>
+        <details className={styles.legend}>
+          <summary>Ajustar o céu <span aria-hidden="true">+</span></summary>
           {canvasMode && !phone && strengthControl}
           {mode === "testamento" ? (
             <ul aria-label="Cores dos fios">
@@ -1104,7 +1185,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
               Céu em 2D
             </Link>
           </p>
-        </div>
+        </details>
 
         {sel && (
           <aside className={styles.panel} aria-labelledby={`${ids}-p`}>
@@ -1122,6 +1203,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
                 <Icon name="close" />
               </button>
             </div>
+            <p className={styles.panelEyebrow}>SIGA AS CONEXÕES</p>
             {sel.kind === "verse" ? (
               <VersePanel
                 gv={sel.gv}
@@ -1149,13 +1231,27 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
                 headingId={`${ids}-p`}
                 headingRef={headingRef}
               />
-            ) : sel.kind === "chapter" ? (
+            ) : sel.kind === "chapter" ? data ? (
               <ChapterPanel
                 ci={sel.ci}
-                nch={data ? data.geo.nch : 0}
-                first={data ? data.geo.chapterFirst[sel.ci] : 0}
-                verses={data ? data.geo.chapterVerses[sel.ci] : 0}
+                nch={data.geo.nch}
+                first={data.geo.chapterFirst[sel.ci]}
+                verses={data.geo.chapterVerses[sel.ci]}
                 links={chapterList}
+                highlights={chapterFeatured.slice(0, 6)}
+                snippets={snippets}
+                sceneControl={chapterList && (
+                  <div className={styles.constellationNote}>
+                    <span>{formatInt(chapterScene?.length ?? 0)} fios {arcs?.set.full ? "em destaque" : "entre os mais votados"}</span>
+                    <button type="button" aria-pressed={allChapterThreads} disabled={full === "loading"} onClick={() => {
+                      if (full === "error" && allChapterThreads) { void loadFull(); return; }
+                      if (!allChapterThreads && !arcs?.set.full) void loadFull();
+                      setAllChapterThreads((value) => !value);
+                    }}>
+                      {full === "loading" ? "Carregando todos os fios…" : full === "error" && allChapterThreads ? "Tentar carregar todos" : allChapterThreads ? "Simplificar o céu" : "Mostrar todos os fios"}
+                    </button>
+                  </div>
+                )}
                 full={!!arcs?.set.full}
                 onVerse={(gv) => choose({ kind: "verse", gv })}
                 onChapter={(ci) => choose({ kind: "chapter", ci })}
@@ -1163,6 +1259,11 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
                 headingId={`${ids}-p`}
                 headingRef={headingRef}
               />
+            ) : (
+              <>
+                <h2 id={`${ids}-p`} ref={headingRef} tabIndex={-1} className={styles.ref}>{chapterLabel(sel.ci).label}</h2>
+                <p className={styles.meta} role="status">Iluminando as conexões deste capítulo…</p>
+              </>
             ) : sel.kind === "path" ? (
               <Suspense fallback={null}>
                 <PathPanel

@@ -11,7 +11,7 @@
   height: calc(100dvh - var(--bar-h) - var(--tabbar-h));
   min-height: 34rem;
   overflow: hidden;
-  background: var(--ground);
+  background: var(--sculpture-ground);
   isolation: isolate;
   /* home.ts homeArea and homeBox in CSS, for the poster and the intro (the box's aspect is space.ts HOME_ASPECT; TOP
      is 76px): from 48rem the area is right of the intro, under the field */
@@ -1161,4 +1161,134 @@
   .mode {
     transition: none;
   }
+}
+
+/* The immersive sky keeps its original poster/camera at rest, and gives selected passages room to breathe. */
+.page[data-scene-theme="noite"] {
+  --surface: #0b1324;
+  --raised: #111d32;
+  --overlay: #0d1629f2;
+  --ink: #fff4e8;
+  --ink-reading: #f6ecdf;
+  --ink-2: #bbc4d7;
+  --ink-3: #9ca9bf;
+  --line: #ffffff17;
+  --line-strong: #ffffff30;
+  --accent: #f2bd67;
+  --accent-fill: #e98943;
+  --on-accent: #1b0d08;
+  --action-fill: #ec8a42;
+  --on-action: #1b0d08;
+  --focus: #f7c97d;
+  --highlight: #f2bd6717;
+}
+
+.search {
+  top: 24px;
+  left: 50%;
+  width: min(480px, calc(100% - 40px));
+  transform: translateX(-50%);
+  gap: 5px;
+  padding: 5px;
+  border: 1px solid var(--line-strong);
+  border-radius: 100px;
+  background: var(--overlay);
+  box-shadow: 0 12px 36px #00000020;
+}
+.search .field { min-height: 43px; border: 0; background: transparent; border-radius: 100px; padding-inline: 16px 8px; font-size: 14px; }
+.search .go { min-height: 43px; padding-inline: 23px; border-radius: 100px; font-size: 14px; }
+.whole { top: 24px; left: 24px; min-height: 54px; background: var(--overlay); font-size: 12px; }
+.trail { top: 88px; left: 24px; right: 440px; }
+.trail button, .trail span { min-height: 30px; font-size: 11px; }
+.intro { left: 42px; bottom: 100px; max-width: min(430px, calc(var(--area-x) - 48px)); }
+.eyebrow, .panelEyebrow { margin: 0 0 20px; color: var(--accent); font: 600 10px/1.4 var(--font-ui); letter-spacing: .18em; }
+.title { font-size: clamp(3rem, 5.1vw, 5.4rem); line-height: .94; letter-spacing: -.055em; margin-bottom: 24px; }
+.title em { font-weight: inherit; }
+.lede { font-size: 16px; line-height: 1.65; color: var(--ink-2); }
+.examples { gap: 7px; margin-top: 22px; }
+.chip { min-height: 42px; padding: 0 15px; font-size: 12px; background: var(--overlay); }
+.chipPrimary { background: var(--action-fill); color: var(--on-action); border-color: transparent; gap: 20px; }
+.moreWays { margin-top: 23px; color: var(--ink-2); }
+.moreWays summary { width: fit-content; cursor: pointer; font: 500 12px/1.5 var(--font-ui); padding-block: 6px; }
+.moreWays .tryLine { font-size: 13px; }
+.moreWays .examples { margin-top: 10px; }
+.hint { font-size: 12px; max-width: 40ch; }
+.intro > .hint { margin-top: 18px; }
+.panel { top: 88px; right: 24px; bottom: 24px; width: min(400px, 38%); padding: 24px; border-radius: 22px; background: var(--overlay); backdrop-filter: blur(20px); box-shadow: 0 18px 70px #00000035; gap: 14px; }
+.panelEyebrow { margin: 0; padding-right: 25px; font-size: 9px; }
+.ref { font-size: clamp(2.5rem, 3.2vw, 3.4rem); letter-spacing: -.035em; line-height: 1; }
+.meta { font-size: 12px; }
+.scripture { font-size: 20px; line-height: 1.6; }
+.item { padding: 18px 0; }
+.itemText { font-size: 15px; line-height: 1.6; }
+.itemRef { color: var(--accent); font-size: 13px; }
+.itemVotes { font-size: 10px; }
+.connectionsHeading { margin: 3px 0 -10px; font: 600 9px/1.4 var(--font-ui); letter-spacing: .14em; color: var(--ink-2); }
+.linkOrigin { grid-column: 1 / -1; display: flex; justify-content: space-between; padding-top: 7px; color: var(--ink-3); font: 500 10px/1.4 var(--font-ui); }
+.chapterVerses summary { padding: 15px 0; color: var(--accent); font: 500 13px/1.4 var(--font-ui); cursor: pointer; }
+.act { font-size: 12px; min-height: 32px; }
+.pill { background: var(--overlay); border-color: var(--line-strong); padding: 7px 11px; font-size: 11px; box-shadow: 0 4px 18px #00000025; }
+.pillMain { background: var(--accent-fill); color: var(--on-accent); font-size: 13px; padding: 9px 14px; }
+.pillAxis { padding: 4px 8px; font-size: 10px; opacity: .75; }
+.constellationNote { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 5px 12px; font: 500 10px/1.45 var(--font-ui); color: var(--ink-2); padding-bottom: 4px; }
+.constellationNote button { width: fit-content; min-height: 28px; border: 0; padding: 0; background: none; color: var(--accent); font: inherit; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.cameraTools { position: absolute; z-index: 3; bottom: 28px; left: 50%; display: flex; align-items: center; gap: 2px; padding: 5px; border: 1px solid var(--line-strong); border-radius: 100px; background: var(--overlay); backdrop-filter: blur(16px); transform: translateX(-50%); }
+.stage[data-open] .cameraTools { left: calc((100% - min(400px, 38%)) / 2); }
+.cameraTools button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-width: 40px; min-height: 40px; padding: 0 12px; border: 0; border-radius: 100px; background: none; color: var(--ink-2); font: 500 20px/1 var(--font-ui); cursor: pointer; }
+.cameraTools button span { font-size: 11px; }
+.cameraTools button:hover { background: var(--raised); color: var(--accent); }
+.cameraDivider { height: 20px; width: 1px; background: var(--line-strong); margin-inline: 3px; }
+.legend, .stage[data-open] .legend { left: auto; right: 24px; bottom: 28px; display: block; max-width: 520px; padding: 12px 16px; border: 1px solid var(--line); border-radius: 18px; background: var(--overlay); font-size: 11px; }
+.stage[data-open] .legend { right: auto; left: 24px; }
+.legend summary { list-style: none; display: flex; align-items: center; gap: 20px; cursor: pointer; min-height: 20px; color: var(--ink-2); font: 500 11px/1.4 var(--font-ui); }
+.legend summary::-webkit-details-marker { display: none; }
+.legend summary span { font-size: 20px; }
+.legend[open] > :not(summary) { margin-top: 14px; }
+.legend[open] { bottom: 28px; }
+.legend ul { gap: 8px 12px; justify-content: flex-start; }
+.legend .mode { min-height: 34px; padding-inline: 12px; font-size: 11px; }
+.legend .strengthNote { font-size: 10px; }
+.legend .filters button { min-height: 30px; font-size: 11px; }
+.stage[data-open] .legend[open] { max-width: min(480px, calc(100% - 470px)); }
+
+@media (min-width: 48rem) and (max-width: 70rem) {
+  .search { left: 38%; width: 340px; }
+  .whole { top: 88px; min-height: 34px; }
+  .trail { top: 130px; }
+  .cameraTools button span { display: none; }
+  .intro { left: 28px; max-width: 300px; }
+}
+
+@media (max-width: 47.99rem) {
+  .stage { min-height: 36rem; }
+  .search { top: 14px; left: 50%; width: calc(100% - 24px); }
+  .search .field { font-size: 16px; padding-inline: 12px 2px; }
+  .search .go { padding-inline: 18px; }
+  .whole { top: 82px; left: 14px; min-height: 32px; padding-inline: 11px; font-size: 10px; }
+  .whole svg { width: 14px; height: 14px; }
+  .trail { top: 84px; left: 140px; right: 12px; }
+  .trail button, .trail span { min-height: 28px; font-size: 9px; }
+  .intro { left: 0; bottom: 0; max-width: none; padding: 24px 24px 82px; }
+  .eyebrow { margin-bottom: 14px; font-size: 8px; }
+  .title { font-size: clamp(2.6rem, 11.5vw, 3.6rem); margin-bottom: 17px; }
+  .lede { font-size: 14px; }
+  .intro .examples { margin-top: 18px; }
+  .chip { min-height: 38px; font-size: 11px; padding-inline: 12px; }
+  .moreWays { margin-top: 15px; }
+  .cameraTools, .stage[data-open] .cameraTools { left: 50%; bottom: 14px; padding: 3px; }
+  .cameraTools button { min-width: 35px; min-height: 35px; padding-inline: 10px; font-size: 18px; }
+  .cameraTools button span { font-size: 9px; }
+  .stage[data-open] .cameraTools { bottom: calc(47% + 8px); }
+  .panel { top: auto; left: 0; right: 0; bottom: 0; width: auto; height: 47%; padding: 0 22px 30px; border-radius: 22px 22px 0 0; gap: 15px; }
+  .panelBar { margin-inline: -22px; padding-inline: 10px; background: var(--overlay); }
+  .panelEyebrow { font-size: 8px; margin-top: -8px; }
+  .ref { font-size: 2.5rem; }
+  .meta { font-size: 11px; }
+  .scripture { font-size: 18px; }
+  .constellationNote { font-size: 10px; padding-bottom: 8px; }
+  .constellationNote button { min-height: 24px; }
+  .legend, .stage[data-open] .legend { display: none; }
+  .pill { font-size: 9px; padding: 5px 7px; }
+  .pillMain { font-size: 11px; padding: 6px 9px; }
+  .phoneTools { display: none; }
 }

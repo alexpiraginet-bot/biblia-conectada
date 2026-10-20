@@ -113,12 +113,14 @@ describe("sculpture posters", () => {
 });
 
 describe("one ground", () => {
-  it("the renderer clears to tokens.json `ground` in both themes, the colour of the stage behind the canvas and the poster", () => {
+  it("the renderer matches the preserved sculpture ground behind the canvas and the original posters", () => {
     const tokens = themeTokens();
     for (const theme of ["noite", "dia"] as const) {
-      const hex = tokens[theme]["--ground"];
+      const hex = tokens[theme]["--sculpture-ground"];
       const want = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
       want.forEach((v, i) => expect(GROUND[theme][i] * 255, `${theme} ${hex}`).toBeCloseTo(v, 6));
     }
+    const stageCss = readFileSync(join(SITE, "src/components/sculpture/sculpture.module.css"), "utf8");
+    expect(stageCss).toMatch(/\.stage\s*\{[^}]*background:\s*var\(--sculpture-ground\)/);
   });
 });

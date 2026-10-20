@@ -32,7 +32,7 @@ describe("fontes/", () => {
       }),
     );
     for (const file of walk(SRC.fontesDir)) {
-      const rel = relative(SRC.fontesDir, file);
+      const rel = relative(SRC.fontesDir, file).replaceAll("\\", "/");
       if (rel === "README.md" || rel === "SHA256SUMS" || rel === "catalogo.json") continue;
       expect(sums.has(rel), `${rel} is not in fontes/SHA256SUMS`).toBe(true);
       expect(createHash("sha256").update(readFileSync(file)).digest("hex"), rel).toBe(sums.get(rel));

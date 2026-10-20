@@ -79,7 +79,7 @@ export function appRoutes(site: string): string[] {
  * the first place where two candidates differ ("/salvos" before "/[livro]").
  */
 export function routeOf(routes: readonly string[], page: string): string | null {
-  const parts = page.replace(/\.html$/, "").split(sep);
+  const parts = page.replace(/\.html$/, "").split(/[\\/]/);
   const path = parts.length === 1 && parts[0] === "index" ? [] : parts;
   const dynamic = (s: string) => s.startsWith("[");
   const fits = routes

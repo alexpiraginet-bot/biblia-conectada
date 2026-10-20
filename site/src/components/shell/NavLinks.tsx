@@ -2,9 +2,17 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import type { ReactNode } from "react";
 import { Icon } from "@/components/icons";
 import { openSearch } from "@/components/search/events";
 import { currentItem, NAV, type NavItem } from "./nav";
+
+/** Explicit route state: Next can keep a previous page hidden in the DOM during navigation. */
+export function SiteShell({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+  const discovery = pathname === "/" || pathname === "/caminhos" || pathname === "/cronologia" || pathname === "/arcos";
+  return <div className="site-shell" data-discovery={discovery ? "" : undefined}>{children}</div>;
+}
 
 // The sections with aria-current on the page's own: a rail on the left from 1024px, a tab bar at the bottom on phones
 // (globals.css shows one or the other, so only one "Seções" landmark is ever exposed).

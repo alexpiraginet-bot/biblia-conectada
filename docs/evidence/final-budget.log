@@ -1,0 +1,36 @@
+
+> biblia-conectada-site@0.1.0 budget
+> tsx scripts/js-budget.ts
+
+┌─────────┬──────────────────────────────────────────┬───────┬──────────┬────────────┬───────────────┬─────────────────────────────────────────────┐
+│ (index) │ kind                                     │ pages │ jsGzipKB │ overBudget │ htmlGzipMaxKB │ largestHtml                                 │
+├─────────┼──────────────────────────────────────────┼───────┼──────────┼────────────┼───────────────┼─────────────────────────────────────────────┤
+│ 0       │ 'arcos'                                  │ 1     │ 163.4    │ ''         │ 9.3           │ 'arcos.html'                                │
+│ 1       │ 'arcos/plano'                            │ 1     │ 151.4    │ ''         │ 9.5           │ 'arcos\\plano.html'                         │
+│ 2       │ 'buscar'                                 │ 1     │ 155.8    │ ''         │ 6.7           │ 'buscar.html'                               │
+│ 3       │ 'caminhos'                               │ 1     │ 154.4    │ ''         │ 19.5          │ 'caminhos.html'                             │
+│ 4       │ 'capítulo'                               │ 1189  │ 148.9    │ ''         │ 53            │ 'salmos\\119.html'                          │
+│ 5       │ 'conexao/[a]/[b]'                        │ 181   │ 144      │ ''         │ 36.9          │ 'conexao\\jeremias-50\\jeremias-51.html'    │
+│ 6       │ 'cronologia'                             │ 1     │ 153      │ ''         │ 17.9          │ 'cronologia.html'                           │
+│ 7       │ 'dados'                                  │ 1     │ 144      │ ''         │ 18.3          │ 'dados.html'                                │
+│ 8       │ 'explorar/[livro]/[cap]'                 │ 200   │ 146.5    │ ''         │ 44.6          │ 'explorar\\salmos\\119.html'                │
+│ 9       │ 'explorar/[livro]/[cap]/[livro2]/[cap2]' │ 37    │ 146.5    │ ''         │ 36.6          │ 'explorar\\joao\\1\\joao\\3.html'           │
+│ 10      │ 'index'                                  │ 1     │ 157.2    │ ''         │ 62.2          │ 'index.html'                                │
+│ 11      │ 'ler'                                    │ 1     │ 144      │ ''         │ 10.7          │ 'ler.html'                                  │
+│ 12      │ 'linha-do-tempo'                         │ 1     │ 144      │ ''         │ 62.3          │ 'linha-do-tempo.html'                       │
+│ 13      │ 'linha-do-tempo/[evento]'                │ 450   │ 144      │ ''         │ 29.2          │ 'linha-do-tempo\\217-isaias-1-1-66-24.html' │
+│ 14      │ 'livro'                                  │ 66    │ 144      │ ''         │ 28            │ 'salmos.html'                               │
+│ 15      │ 'mesa'                                   │ 1     │ 152.7    │ ''         │ 6.5           │ 'mesa.html'                                 │
+│ 16      │ 'palavra'                                │ 1     │ 144.4    │ ''         │ 11.2          │ 'palavra.html'                              │
+│ 17      │ 'palavra/[palavra]'                      │ 85    │ 144      │ ''         │ 25.8          │ 'palavra\\espada.html'                      │
+│ 18      │ 'ponte'                                  │ 1     │ 152.6    │ ''         │ 6.4           │ 'ponte.html'                                │
+│ 19      │ 'ponte/[n]'                              │ 2     │ 152.3    │ ''         │ 7.4           │ 'ponte\\1.html'                             │
+│ 20      │ 'salvos'                                 │ 1     │ 146.5    │ ''         │ 5.6           │ 'salvos.html'                               │
+│ 21      │ 'sobre'                                  │ 1     │ 144      │ ''         │ 10.1          │ 'sobre.html'                                │
+│ 22      │ 'tema'                                   │ 1     │ 144      │ ''         │ 11.8          │ 'tema.html'                                 │
+│ 23      │ 'tema/[slug]'                            │ 85    │ 144      │ ''         │ 15.5          │ 'tema\\misterio.html'                       │
+│ 24      │ 'trilha'                                 │ 1     │ 144      │ ''         │ 6             │ 'trilha.html'                               │
+│ 25      │ 'trilha/antes-do-natal'                  │ 1     │ 147.9    │ ''         │ 10.4          │ 'trilha\\antes-do-natal.html'               │
+│ 26      │ 'trilha/antes-do-natal/[n]'              │ 26    │ 148.8    │ ''         │ 11.3          │ 'trilha\\antes-do-natal\\9.html'            │
+│ 27      │ 'versículo'                              │ 200   │ 152.8    │ ''         │ 61.4          │ 'isaias\\9\\6.html'                         │
+└─────────┴──────────────────────────────────────────┴───────┴──────────┴────────────┴───────────────┴─────────────────────────────────────────────┘

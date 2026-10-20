@@ -40,9 +40,13 @@ export function AtlasNodes({
     !fixed && segments.length >= 2
       ? { key: `${segments[0]}-${segments[1]}`, group: groupOfSlug[segments[0]] ?? fallback.group }
       : fallback;
+  const [preview, setPreview] = useState<Selection | null>(null);
+  const visual = preview ?? sel;
   const node = v.nodes.find((n) => n.key === sel.key);
   const hub = v.hubs.find((h) => h.id === sel.group);
-  const lit = hub ? (node ? `${hub.trunk}L${node.tx} ${node.ty}L${node.cx} ${node.cy}` : hub.trunk) : "";
+  const visualNode = v.nodes.find((n) => n.key === visual.key);
+  const visualHub = v.hubs.find((h) => h.id === visual.group);
+  const lit = visualHub ? (visualNode ? `${visualHub.trunk}L${visualNode.tx} ${visualNode.ty}L${visualNode.cx} ${visualNode.cy}` : visualHub.trunk) : "";
 
   // roving Tab stop: the selected chapter (or its medallion), until the arrows move it
   const home = node ? `n:${node.key}` : hub?.href ? `h:${hub.id}` : `h:${v.hubs.find((h) => h.href)?.id}`;
@@ -84,7 +88,7 @@ export function AtlasNodes({
   };
 
   const hubEl = (h: HubView) => {
-    const isLit = h.id === sel.group;
+    const isLit = h.id === visual.group;
     const style = { ...at(h.x, h.y, v.W, v.H), ...unit(h.s), ...plate(h.label) } as React.CSSProperties;
     const inner = (
       <>
@@ -108,12 +112,16 @@ export function AtlasNodes({
         key={h.id}
         href={h.href}
         aria-label={h.aria}
-        aria-current={isLit && !node ? "true" : undefined}
-        className={`bc-medallion ${styles.hub}${isLit ? " is-lit" : ""}`}
+        aria-current={h.id === sel.group && !node ? "true" : undefined}
+        className={`bc-medallion ${styles.hub}${isLit ? " is-lit" : ""}${preview && !isLit ? ` ${styles.hoverDim}` : ""}`}
         data-hub={h.id}
         data-k={`h:${h.id}`}
         tabIndex={stop === `h:${h.id}` ? 0 : -1}
         style={style}
+        onPointerEnter={(e) => { if (e.pointerType !== "touch") setPreview({ key: h.lead ?? "", group: h.id }); }}
+        onPointerLeave={() => setPreview(null)}
+        onFocus={() => setPreview({ key: h.lead ?? "", group: h.id })}
+        onBlur={() => setPreview(null)}
       >
         {inner}
       </Link>
@@ -129,11 +137,15 @@ export function AtlasNodes({
         href={n.href}
         prefetch={false}
         aria-current={current ? "true" : undefined}
-        className={styles.node}
+        className={`${styles.node}${preview && n.group !== preview.group ? ` ${styles.hoverDim}` : ""}`}
         data-node={n.key}
         data-k={`n:${n.key}`}
         tabIndex={stop === `n:${n.key}` ? 0 : -1}
         style={style}
+        onPointerEnter={(e) => { if (e.pointerType !== "touch") setPreview({ key: n.key, group: n.group }); }}
+        onPointerLeave={() => setPreview(null)}
+        onFocus={() => setPreview({ key: n.key, group: n.group })}
+        onBlur={() => setPreview(null)}
       >
         <span className={styles.disc} aria-hidden="true">
           {n.num}
@@ -150,7 +162,7 @@ export function AtlasNodes({
   return (
     <>
       {lit && (
-        <svg key={`lit-${sel.key}`} className={styles.litLayer} viewBox={`0 0 ${v.W} ${v.H}`} aria-hidden="true">
+        <svg key={`lit-${visual.key}`} className={styles.litLayer} viewBox={`0 0 ${v.W} ${v.H}`} aria-hidden="true">
           <path className={styles.lit} pathLength={1} d={lit} />
         </svg>
       )}
