@@ -14,6 +14,11 @@
   padding-inline: var(--space-4);
 }
 
+/* the capa spreads wider than a page of text: the title, the map and the panel side by side */
+.cover {
+  max-width: calc(var(--page-max) + 2 * var(--space-8));
+}
+
 .cover {
   display: grid;
   gap: var(--space-5);
@@ -24,12 +29,6 @@
 .head {
   display: grid;
   gap: var(--space-3);
-  max-width: 48rem;
-}
-
-.title {
-  font-size: var(--fs-display-xl);
-  line-height: var(--lh-display-xl);
 }
 
 .lede {
@@ -37,7 +36,19 @@
 }
 
 .head :global(.bc-searchbox--hero) {
+  max-width: 48rem;
   margin-top: var(--space-2);
+}
+
+/* phones: a shorter lede, so the map starts in the first screen */
+@media (max-width: 39.99rem) {
+  .cover {
+    gap: var(--space-4);
+  }
+
+  .lede {
+    font-size: var(--fs-body);
+  }
 }
 
 .map {

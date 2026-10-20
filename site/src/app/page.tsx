@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Icon } from "@/components/icons";
 import { AtlasMap } from "@/components/explore/AtlasMap";
-import { ConnectionPanel, connectionFact } from "@/components/explore/ConnectionPanel";
+import { ConnectionPanel } from "@/components/explore/ConnectionPanel";
 import { MapList } from "@/components/explore/MapList";
 import { ScriptureText } from "@/components/explore/ScriptureText";
 import explore from "@/components/explore/explore.module.css";
@@ -11,8 +11,9 @@ import { Peek } from "@/components/home/Peek";
 import peek from "@/components/home/Peek.module.css";
 import { formatInt } from "@/lib/canon/text";
 import { summary } from "@/lib/data";
+import { votesWord } from "@/lib/explore/atlas";
 import { atlasOf, defaultConnection, medals } from "@/lib/explore/atlas-data";
-import { chapterKey, resolveChapter } from "@/lib/explore/data";
+import { chapterKey, pairsText, resolveChapter } from "@/lib/explore/data";
 import { EXPLORE_HOME, EXPLORE_HOME_PATH } from "@/lib/explore/home";
 import { partnersText } from "@/lib/explore/text";
 import { verseText } from "@/lib/reading";
@@ -39,7 +40,7 @@ export default async function Home() {
     <main id="conteudo" className={styles.home}>
       <div className={styles.cover}>
         <div className={styles.head}>
-          <h1 className={`bc-display ${styles.title}`}>Toda passagem abre um mundo.</h1>
+          <h1 className="bc-display">Toda passagem abre um mundo.</h1>
           <p className={`bc-lede ${styles.lede}`}>
             {atlas.centre.label} e os {partnersText(atlas.partners)} a ele, entre as {formatInt(c.crossrefRows)} referências cruzadas
             dos {formatInt(c.verses)} versículos da Bíblia Livre.
@@ -64,7 +65,9 @@ export default async function Home() {
           <span className={peek.title}>
             {top.centre.label} e {top.other.label}
           </span>
-          <span className={peek.sub}>{connectionFact(top)}</span>
+          <span className={peek.sub}>
+            {votesWord(top.votes)} · {pairsText(top.pairs)}
+          </span>
         </span>
         <Icon name="chev-r" className={`bc-icon ${peek.chev}`} />
       </Peek>

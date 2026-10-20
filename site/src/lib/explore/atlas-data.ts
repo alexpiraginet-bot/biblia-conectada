@@ -8,13 +8,13 @@ import type { Book } from "@/lib/canon/types";
 import { books } from "@/lib/data";
 import { medalhaoForBook } from "@/lib/medalhoes";
 import { chapterNeighbours, chapterRef, chapterVerses, grid, type ChapterRef } from "@/lib/reading";
-import { GROUPS, groupPartners, layoutAtlas, NARROW, WIDE, type AtlasGroup, type AtlasLayout, type GroupId } from "./atlas";
+import { GROUPS, groupPartners, layoutAtlas, NARROW, segmentCrossesDisc, WIDE, type AtlasGroup, type AtlasLayout, type GroupId } from "./atlas";
 import { measure } from "./measure";
 import { partnersText } from "./text";
 
 /** Chapters listed under each medallion (the map draws as many of them as fit around it). */
 export const PER_GROUP = WIDE.nodes!.perGroup;
-/** Dotted links drawn among the chapters on the map, strongest first. */
+/** Dotted links drawn among the chapters on the map, at most, strongest first. */
 export const WEB_MAX = 16;
 
 const groupCache = new Map<number, GroupId>();
@@ -74,12 +74,26 @@ async function buildAtlas(book: Book, chapter: number): Promise<Atlas> {
   const texts = { caption: partnersText(ranked.length), chapter: (ci: number) => chapterRef(ci).label, number: (ci: number) => String(chapterRef(ci).chapter) };
   const wide = layoutAtlas(WIDE, groups, texts, measure);
   const narrow = layoutAtlas(NARROW, groups, texts, measure);
-  return { centre, partners: ranked.length, groups, wide, narrow, web: await webOf(wide.nodes.map((n) => n.ci)) };
+  return { centre, partners: ranked.length, groups, wide, narrow, web: await webOf(wide) };
 }
 
-/** Verse pairs and summed votes between every two of the given chapters that are linked. */
-async function webOf(cis: number[]): Promise<[number, number, number, number][]> {
+/**
+ * Verse pairs and summed votes between every two chapters on the wide map that are linked, strongest first; only the
+ * links whose straight line runs clear of the seal and of every other disc are drawn.
+ */
+async function webOf(l: AtlasLayout): Promise<[number, number, number, number][]> {
+  const cis = l.nodes.map((n) => n.ci);
   const set = new Set(cis);
+  const at = new Map(l.nodes.map((n) => [n.ci, n]));
+  const discs = [
+    { x: l.spec.cx, y: l.spec.cy, r: l.rOut + 4 },
+    ...l.hubs.map((h) => ({ x: h.x, y: h.y, r: h.s / 2 + 2 })),
+  ];
+  const clear = (a: number, b: number) => {
+    const p = at.get(a)!, q = at.get(b)!;
+    const others = l.nodes.filter((n) => n.ci !== a && n.ci !== b).map((n) => ({ x: n.x, y: n.y, r: n.s / 2 + 2 }));
+    return [...discs, ...others].every((d) => !segmentCrossesDisc(p.x, p.y, q.x, q.y, d));
+  };
   const out: [number, number, number, number][] = [];
   for (const a of cis) {
     const { book, chapter } = grid.locateChapter(a);
@@ -95,7 +109,7 @@ async function webOf(cis: number[]): Promise<[number, number, number, number][]>
         acc.set(b, e);
       }
     }
-    for (const [b, [pairs, votes]] of acc) out.push([a, b, pairs, votes]);
+    for (const [b, [pairs, votes]] of acc) if (clear(a, b)) out.push([a, b, pairs, votes]);
   }
   return out.sort((x, y) => y[3] - x[3] || y[2] - x[2] || x[0] - y[0] || x[1] - y[1]).slice(0, WEB_MAX);
 }

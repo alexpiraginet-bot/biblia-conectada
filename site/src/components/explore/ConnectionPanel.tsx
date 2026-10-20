@@ -118,10 +118,6 @@ export async function ConnectionPanel({
         </p>
         {quote(b, c.strongest.there, thereText)}
       </div>
-      <ul className={styles.passages} aria-label="Os versículos de cada lado">
-        <Passage chapter={a} verses={c.hereVerses} />
-        <Passage chapter={b} verses={c.thereVerses} />
-      </ul>
       <div className={styles.actions}>
         <Link href={conexaoPath(side(a), side(b))} className="bc-button bc-button--primary">
           <Icon name="side" />
@@ -138,6 +134,10 @@ export async function ConnectionPanel({
           </Link>
         )}
       </div>
+      <ul className={styles.passages} aria-label="Os versículos de cada lado">
+        <Passage chapter={a} verses={c.hereVerses} />
+        <Passage chapter={b} verses={c.thereVerses} />
+      </ul>
       <p className={styles.source}>
         Pares: versículos dos dois capítulos que a OpenBible.info liga entre si. Votos: soma das duas direções. Texto: Bíblia
         Livre (BLIVRE).

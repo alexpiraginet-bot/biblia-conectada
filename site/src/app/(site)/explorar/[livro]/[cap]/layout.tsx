@@ -34,9 +34,8 @@ export default async function ExploreLayout({ params, children }: LayoutProps<"/
       <div className={styles.head}>
         <div className={styles.headText}>
           <h1 className="bc-display">{c.label}</h1>
-          <p className="bc-lede" data-explore-meta="">
-            {partnersText(atlas.partners)} a {c.label}. No mapa, por grupo de livros, os {PER_GROUP} mais votados de cada um; o
-            traço engrossa com a soma dos votos (OpenBible.info).
+          <p className={`bc-lede ${styles.lede}`} data-explore-meta="">
+            {partnersText(atlas.partners)} a {c.label}. Em volta de cada grupo de livros, os {PER_GROUP} mais votados.
           </p>
         </div>
         <p className={styles.headLinks}>
