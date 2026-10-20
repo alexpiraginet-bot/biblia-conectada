@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/header/SiteHeader";
 import { THEME_COLOR, THEME_SCRIPT } from "@/components/header/theme";
 import { SearchHost } from "@/components/search/SearchHost";
+import { PAGE_SEARCH_SCRIPT } from "@/components/search/page-search-script";
 import { SectionRail, TabBar } from "@/components/shell/NavLinks";
 import "@/styles/tokens.css";
 import "@/styles/ds.css";
@@ -55,7 +56,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="pt-BR" className={`${ui.variable} ${display.variable} ${reading.variable}`} suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+        <script dangerouslySetInnerHTML={{ __html: `${THEME_SCRIPT};${PAGE_SEARCH_SCRIPT}` }} />
       </head>
       <body className="bc-root">
         <a className="skip-link" href="#conteudo">

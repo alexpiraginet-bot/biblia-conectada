@@ -176,11 +176,12 @@ export function sealLevels(partners: readonly { ci: number; votes: number }[], c
   return out;
 }
 
-/** Font size of the book name inside the seal (10 units, smaller for long names) and whether it must be squeezed
- *  into the ring with textLength. Space Grotesk capitals with the seal's 0.16em tracking: about 0.82 em each. */
-export function sealBookFit(name: string): { size: number; squeeze: number | null } {
-  const ems = [...name].reduce((s, ch) => s + (ch === " " ? 0.46 : 0.82), 0);
+/** Font size of the book's name inside the seal, as written ("Isaías"; ds.css .bc-seal__book: 12 units, weight 600),
+ *  smaller down to 9 for the long names, and squeezed into the ring with textLength past that. `width` measures a
+ *  text at a size in the interface face (lib/explore/measure.ts, weight 400): 6% is added for the seal's weight. */
+export function sealBookFit(name: string, width: (text: string, px: number) => number): { size: number; squeeze: number | null } {
   const room = 80;
-  const size = Math.max(7.5, Math.min(10, Math.floor((room / ems) * 10) / 10));
-  return { size, squeeze: ems * size > room ? room : null };
+  const at12 = width(name, 12) * 1.06;
+  const size = Math.max(9, Math.min(12, Math.floor((room / at12) * 120) / 10));
+  return { size, squeeze: (at12 * size) / 12 > room ? room : null };
 }

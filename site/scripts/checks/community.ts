@@ -77,7 +77,8 @@ export function checkCommunity(ctx: { html: string[]; page: (rel: string) => str
     const p = page(rel);
     if (!p) continue;
     need(rel, p.text, `Ponte nº ${b.n}`);
-    need(rel, p.text, `${ref(b.start)} → ${ref(b.target)}`);
+    // the heading's arrow is the drawn icon; its text for assistive technology is "até"
+    need(rel, p.text, `${ref(b.start)} até ${ref(b.target)}`);
     need(rel, p.text, `Mínimo: ${formatInt(b.min)} ${b.min === 1 ? "salto" : "saltos"}`);
     need(rel, p.text, b.texts[0]);
     need(rel, p.text, b.texts[1]);
@@ -89,8 +90,8 @@ export function checkCommunity(ctx: { html: string[]; page: (rel: string) => str
   for (let n = built.builtThrough + 1; n <= PONTE_DAYS; n++) {
     if (html.includes(join("ponte", `${n}.html`))) failures.push(`ponte/${n}.html exists before its day`);
     const [s, t] = calendar.bridges[n - 1];
-    const future = `${ref(s)} → ${ref(t)}`;
-    for (const [f, text] of shown) if (text.includes(future)) failures.push(`${f}: shows bridge nº ${n} before its day`);
+    const future = [`${ref(s)} → ${ref(t)}`, `${ref(s)} até ${ref(t)}`];
+    for (const [f, text] of shown) if (future.some((x) => text.includes(x))) failures.push(`${f}: shows bridge nº ${n} before its day`);
   }
 
   // ---- Mesa da semana

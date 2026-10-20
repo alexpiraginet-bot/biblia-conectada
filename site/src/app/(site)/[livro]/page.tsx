@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Crumbs } from "@/components/Crumbs";
 import { Icon } from "@/components/icons";
 import { ChapterArcs } from "@/components/reader/Arcs";
 import { formatInt } from "@/lib/canon/text";
@@ -51,23 +52,14 @@ export default async function LivroPage({ params }: PageProps<"/[livro]">) {
 
   return (
     <main id="conteudo" className={`site-page ${styles.page}`}>
-      <nav aria-label="Trilha">
-        <ol className="bc-crumbs">
-          <li>
-            <Link href="/ler">Livros</Link>
-          </li>
-          <li aria-hidden="true">›</li>
-          {medal && (
-            <>
-              <li>
-                <Link href={`/ler#${medal.id}`}>{medal.category}</Link>
-              </li>
-              <li aria-hidden="true">›</li>
-            </>
-          )}
-          <li aria-current="page">{book.name}</li>
-        </ol>
-      </nav>
+      <Crumbs
+        label="Trilha"
+        items={[
+          { label: "Livros", href: "/ler" },
+          ...(medal ? [{ label: medal.category, href: `/ler#${medal.id}` }] : []),
+          { label: book.name },
+        ]}
+      />
       <div className={styles.titleRow}>
         {medal && (
           // eslint-disable-next-line @next/next/no-img-element -- a 192 px illustration, already sized; next/image adds JS

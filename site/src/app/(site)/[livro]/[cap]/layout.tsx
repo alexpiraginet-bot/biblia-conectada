@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Crumbs } from "@/components/Crumbs";
 import { CenterCurrent } from "@/components/reader/CenterCurrent";
 import { ChapterList, ChapterPager, type PagerChapter } from "@/components/reader/ChapterNav";
 import { ChapterSeal } from "@/components/reader/ChapterSeal";
@@ -43,25 +43,15 @@ export default async function ChapterLayout({ params, children }: LayoutProps<"/
 
       <main id="conteudo" className={styles.main}>
         <article id="leitura" className={styles.text} aria-labelledby="titulo-capitulo">
-          <nav aria-label="Trilha" className={styles.crumbs}>
-            <ol className="bc-crumbs">
-              <li>
-                <Link href="/ler">Livros</Link>
-              </li>
-              <li aria-hidden="true">›</li>
-              {group && (
-                <>
-                  <li>
-                    <Link href={`/ler#${group.id}`}>{group.category}</Link>
-                  </li>
-                  <li aria-hidden="true">›</li>
-                </>
-              )}
-              <li>
-                <Link href={`/${book.slug}`}>{book.name}</Link>
-              </li>
-            </ol>
-          </nav>
+          <Crumbs
+            label="Trilha"
+            className={styles.crumbs}
+            items={[
+              { label: "Livros", href: "/ler" },
+              ...(group ? [{ label: group.category, href: `/ler#${group.id}` }] : []),
+              { label: book.name, href: `/${book.slug}` },
+            ]}
+          />
           <div className={styles.titleRow}>
             <ChapterSeal book={book.name} chapter={chapter} partners={partners} chapterCount={grid.chapterCount} size="var(--seal)" />
             <h1 id="titulo-capitulo" className="bc-display">

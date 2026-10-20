@@ -31,6 +31,14 @@
   width: min(100%, 30rem);
 }
 
+/* phones: one unit per CSS pixel at most (the coins 44 to 50 px, the names 14 px), so at 375 × 812 the eight
+   medallions, their names and the lit stroke all end above the capa's peek and the tab bar */
+@media (max-width: 30rem) {
+  .narrow {
+    width: min(100%, calc(var(--W) * 1px));
+  }
+}
+
 @container atlas (min-width: 760px) {
   .wide {
     display: block;
@@ -299,7 +307,7 @@
   background: var(--raised);
 }
 
-/* --on-accent reads on --lit in both themes: dark on the light gold of Noite, white on the wine of Dia */
+/* --on-accent reads on --lit in both themes: dark on the light gold of Noite, white on the deep bronze of Dia (9.4:1) */
 .node[aria-current] .disc {
   background: var(--lit);
   color: var(--on-accent);

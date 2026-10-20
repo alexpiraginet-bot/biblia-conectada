@@ -19,6 +19,7 @@ import {
   verseHeadline,
 } from "../src/lib/from-here";
 import { formatInt } from "../src/lib/canon/text";
+import { makeMeasure } from "../src/lib/explore/measure";
 import { bookBySlug, chapterNeighbours, chapterPairs, chapterPartners, chapterRef, grid, verseRef } from "../src/lib/reading";
 import { bookFile, books } from "./generated";
 
@@ -203,15 +204,19 @@ describe("chapter seal", () => {
     }
   });
 
-  it("fits the book's name inside the ring, smaller and squeezed only for the long names", () => {
-    expect(sealBookFit("ISAÍAS")).toEqual({ size: 10, squeeze: null });
-    const long = sealBookFit("1 TESSALONICENSES");
-    expect(long.size).toBeLessThan(10);
+  it("fits the book's name inside the ring as written, smaller and squeezed only for the long names", () => {
+    // strict: a character of a book name missing from the font metrics fails here
+    const strict = makeMeasure(true);
+    const width = (text: string, px: number) => strict("ui", text, px);
+    expect(sealBookFit("Isaías", width)).toEqual({ size: 12, squeeze: null });
+    const long = sealBookFit("1 Tessalonicenses", width);
+    expect(long.size).toBe(9);
     expect(long.squeeze).toBe(80);
     for (const b of books()) {
-      const fit = sealBookFit(b.name.toLocaleUpperCase("pt-BR"));
-      expect(fit.size).toBeGreaterThanOrEqual(7.5);
-      expect(fit.size).toBeLessThanOrEqual(10);
+      const fit = sealBookFit(b.name, width);
+      expect(fit.size).toBeGreaterThanOrEqual(9);
+      expect(fit.size).toBeLessThanOrEqual(12);
+      if (fit.squeeze) expect(fit.size).toBe(9);
     }
   });
 });

@@ -262,6 +262,7 @@ export function SelectionScope({
       {picked && (
         <div
           ref={bar}
+          data-selection-bar=""
           role="group"
           aria-label={`Ações para ${ref}`}
           className={styles.bar}

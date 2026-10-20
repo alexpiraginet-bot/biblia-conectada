@@ -126,6 +126,20 @@ input {
   display: none;
 }
 
+/* one search in view: while the capa's or /buscar's own field shows, the bar's entry steps aside (page-search.ts) */
+.site-topbar__search,
+.site-topbar__search-icon {
+  transition:
+    opacity var(--dur-fast) var(--ease-out),
+    visibility var(--dur-fast);
+}
+
+:root[data-page-search] .site-topbar__search,
+:root[data-page-search] .site-topbar__search-icon {
+  visibility: hidden;
+  opacity: 0;
+}
+
 /* phones: the brand on the left, the search icon and the appearance on the right */
 .site-topbar .bc-brand {
   margin-right: auto;
@@ -310,9 +324,10 @@ input {
   display: inline-grid;
 }
 
+/* the label sits at the start of the room kept for the widest count, so the empty part reads as the count's place */
 .site-search__scope > * {
   grid-area: 1 / 1;
-  justify-self: center;
+  justify-self: start;
   white-space: nowrap;
 }
 

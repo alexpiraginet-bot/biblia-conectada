@@ -80,7 +80,7 @@ Use sempre o token, nunca a cor. Cada tema dá todos os valores sem apontar um t
 - **Texto:** `ink` para interface e títulos, `ink-reading` para a Escritura, `ink-2` para metadados, `ink-3` só para notas de fonte. Nunca cinza puro, nunca opacidade em texto.
 - **Ouro e bronze (`accent`):** número de versículo, contagem de ligações, ícone ativo e link em destaque. No Noite é a luz do céu dos vídeos; no Dia é bronze sobre pergaminho.
 - **Ação principal (`action-fill` com `on-action`):** um botão por área. Ouro no Noite, verde no Dia.
-- **Aceso (`accent-strong`, `lit`):** a ligação escolhida e o item selecionado.
+- **Aceso (`accent-strong`, `lit`):** a ligação escolhida e o item selecionado. O mesmo matiz do acento, mais forte: ouro claro no Noite, bronze escuro no Dia (#683c00, no mínimo 7,07:1 nas superfícies do Dia).
 - **Categorias de ligação:** `cat-texto` (referências cruzadas), `cat-interp` (tracejada), `cat-tema` e `cat-historia`. Sempre com rótulo ou padrão de linha junto; a cor nunca é a única pista.
 - **Céu (`sky`, `sky-ink`, `sky-ink-2`, `sky-gold`):** janelas de arcos e o céu completo. Noturnos nos dois temas; no Dia aparecem como janelas emolduradas.
 
@@ -118,14 +118,15 @@ Três vozes, OFL, servidas pelo próprio site e carregadas no layout raiz (`--fo
 ## 6. Interação
 
 - **Busca:** a mesma em todo lugar (`site/src/components/search/`). Abre pelo campo da barra, por Ctrl K (⌘K no Mac) ou /, pela aba Buscar e pelo campo grande da capa; sem JavaScript, esses caminhos levam a `/buscar`. No celular ocupa a tela; no desktop é um diálogo de até 44rem.
+  - Uma busca à vista: na capa e em `/buscar`, o campo da barra sai de cena enquanto o campo da própria página aparece, e volta quando ele passa para baixo da barra (`page-search.ts`). Ctrl K, / e a aba Buscar valem sempre.
   - Entende referência em qualquer forma ("Is 9:6", "isaías 9 6", "Mq 5,2", "1 Co 13") e põe "Ir para Isaías 9:6" no topo; livro pelo começo do nome ("ezeq") ou pela abreviação; palavra e frase no texto da BLIVRE (sem acento e sem diferença de maiúscula); temas.
   - Resultados de texto: a referência, quantas ligações o versículo tem e o trecho em Literata 17px, com a palavra em `<mark>`. Os mais ligados primeiro; "Ver os N versículos" leva a `/buscar`.
   - Teclado: setas escolhem, Enter abre, Esc fecha e devolve o foco a quem abriu. `role="combobox"` sobre `role="listbox"` com `aria-selected`.
   - Vazio: exemplos para tocar e as últimas buscas do aparelho. Sem resultado: diz o que foi buscado e o próximo passo ("Não achei “João 22”: João tem 21 capítulos.").
   - **Índice de palavras** (gerado no build, `site/scripts/data/search-index.ts`): palavra é uma sequência de letras, sem acento e em minúsculas; todas as palavras ficam, sem lista de palavras vazias. Cada palavra aponta para os versículos em ordem de ligações (o mesmo número das páginas de leitura) e depois em ordem canônica. Várias palavras: todas precisam estar no versículo; frase entre aspas: as palavras em sequência. A palavra é exata ("luz" não acha "luzes").
-  - `/buscar` mostra os versículos de 20 em 20 ("Mais resultados"), com `?q=` no endereço. Sem JavaScript a página não mostra resultados (o `?q=` só existe no pedido, e a página é estática); um aviso leva à leitura.
+  - `/buscar` mostra os versículos de 20 em 20 ("Mais resultados"), com `?q=` no endereço. De 75rem, ao lado, "Como buscar": as cinco regras (referência, livro, palavras, frase, tema), com um exemplo cada. Sem JavaScript a página não mostra resultados (o `?q=` só existe no pedido, e a página é estática); um aviso leva à leitura.
 - **Ler:** escolher um versículo acende a contagem e abre as ligações, ordenadas por votos, com o número sempre em texto. Cada versículo é uma rota (`/isaias/9/6`) cujo painel vem pronto do servidor; o texto do capítulo fica no layout e não recarrega ao trocar de versículo.
-- **Painel "A partir deste trecho / deste capítulo":** manchete de dados, mini grafo dos até 6 mais votados (a lista é o caminho acessível), a ligação mais forte em destaque com "Abrir conexão" e "Ver no Explorar". "Mais ligados" e o Explorar usam a mesma ordem (`site/src/lib/chapter-rank.ts`).
+- **Painel "A partir deste trecho / deste capítulo":** manchete de dados, mini grafo dos até 6 mais votados (a lista é o caminho acessível), a ligação mais forte em destaque com "Ler lado a lado" e "Ver no Explorar". No celular o painel do capítulo fica depois do texto e espia por baixo ("Ligações de Isaías 9", com quantos capítulos estão ligados) até ser alcançado; some enquanto há um trecho selecionado. "Mais ligados" e o Explorar usam a mesma ordem (`site/src/lib/chapter-rank.ts`).
 - **Barra de seleção:** Copiar (com a referência), Compartilhar, Salvar (só no aparelho) e Explorar. Fica acima das abas e da faixa da Ponte no celular.
 - **Folha (celular):** diálogo com título, foco preso, Esc e "Fechar" visível; voltar fecha a folha. Opaca, em `overlay`, com texto em `ink`.
 - **Arcos e céu:** escolher capítulo arrastando pela linha de base, pelo seletor livro → capítulo ou pelo teclado (← →, Enter). A seleção entra na URL.
@@ -202,6 +203,16 @@ Em 375 e 1440 px, nos temas Noite e Dia (regra 9 do `CLAUDE.md`):
 - **Estrutura:** trilho de seções no desktop e abas no celular (antes, links no cabeçalho e barra de quatro itens).
 - **Tipografia:** três vozes (Newsreader Display, Literata, Space Grotesk); Cormorant e Space Mono saem da interface.
 - **Tokens:** os nomes antigos (`--bg`, `--text`, `--gold`, `--hairline`, `--space-1` de 8px…) saíram; o código usa só os do `tokens.json`.
+- **Revisão final (20/10):** a revisão independente do site pronto pediu oito correções, todas feitas:
+  - no celular, o mapa da capa ficou na escala do desenho (1 unidade = 1px: moedas de 44 a 50px, nomes de 14px), e os oito medalhões e o traço aceso cabem acima do painel que espia;
+  - uma busca à vista (ver §6);
+  - o capítulo no celular ganhou o painel que espia, com as ligações do capítulo;
+  - "anterior e seguinte" virou uma linha entre filetes (antes, duas caixas), no capítulo, no livro e no evento; e, no Noite, a janela do mapa e dos arcos se abre no próprio painel, sem moldura (nada de caixa dentro de caixa);
+  - o aceso do Dia deixou o vinho e virou bronze escuro, como pede o contrato ("ouro e bronze para números e ligações acesas");
+  - a opção escolhida (busca, Mesa) ganhou contorno inteiro, sem faixa num lado só;
+  - os separadores da trilha de navegação e a seta da Ponte são o ícone desenhado, não "›" e "→" digitados;
+  - na capa, os títulos de seção passaram ao degrau `title`, e de 75rem os versículos mais ligados vêm em duas colunas; `/buscar` ganhou "Como buscar" ao lado.
+  - Junto: o selo do capítulo escreve o livro como no texto ("Isaías", não "ISAÍAS"), igual ao da capa; e o nome acessível dos medalhões do mapa começa pelo que eles mostram (nome e votos), para comando de voz.
 
 ## 14. Pendências para o Alex
 

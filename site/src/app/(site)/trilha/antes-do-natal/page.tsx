@@ -3,6 +3,7 @@ import Link from "next/link";
 import { DeviceNote } from "@/components/community/DeviceNote";
 import { TrailSky, TrailStart } from "@/components/community/TrailSky";
 import styles from "@/components/community/community.module.css";
+import { Crumbs } from "@/components/Crumbs";
 import { formatInt } from "@/lib/canon/text";
 import { trail, verseInfo } from "@/lib/community/data";
 import { formatDateBR } from "@/lib/community/ponte";
@@ -26,15 +27,7 @@ export default function TrailPage() {
   return (
     <main id="conteudo" className="site-page">
       <header className={styles.head}>
-        <nav aria-label="Caminho" className={styles.crumbs}>
-          <ol className="bc-crumbs">
-            <li>
-              <Link href="/trilha">Trilhas</Link>
-            </li>
-            <li aria-hidden="true">›</li>
-            <li aria-current="page">{trail.title}</li>
-          </ol>
-        </nav>
+        <Crumbs label="Caminho" className={styles.crumbs} items={[{ label: "Trilhas", href: "/trilha" }, { label: trail.title }]} />
         <h1 className="bc-display">{trail.title}</h1>
         <p className={`bc-lede ${styles.lede}`} data-check="trail-lede">
           {formatInt(steps.length)} passos, um por dia de {first} a {last}. Cada passo é a ligação mais votada entre um livro

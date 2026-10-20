@@ -91,7 +91,7 @@ export function AtlasNodes({
         {/* eslint-disable-next-line @next/next/no-img-element -- a 96/192 px illustration, already sized; next/image adds JS */}
         <img className="bc-medallion__img" src={h.img.src} srcSet={`${h.img.src} 1x, ${h.img.src2} 2x`} width={96} height={96} alt="" />
         <span className={styles.plate} data-align={h.align}>
-          <span className={styles.plateName}>{h.name}</span>
+          <span className={styles.plateName}>{h.name}</span>{" "}
           {h.meta && <span className={styles.plateSub}>{h.meta}</span>}
         </span>
       </>

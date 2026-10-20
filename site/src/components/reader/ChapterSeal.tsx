@@ -1,7 +1,8 @@
 // The chapter seal (design system ChapterSeal, ds.css .bc-seal): the chapter number in Newsreader inside a disc, the
-// book's name engraved above it, and a dial with one tick per linked chapter at its place from Gênesis (top) to
+// book's name above it as written (as on the capa's seal), and a dial with one tick per linked chapter at its place from Gênesis (top) to
 // Apocalipse, longer with more summed votes (src/lib/from-here.ts sealLevels). Server-rendered SVG, no JavaScript.
 import { formatInt } from "@/lib/canon/text";
+import { measure } from "@/lib/explore/measure";
 import { SEAL, sealBookFit, sealLevels } from "@/lib/from-here";
 import styles from "./reader.module.css";
 
@@ -21,8 +22,7 @@ export function ChapterSeal({
   size: string;
 }) {
   const levels = sealLevels(partners, chapterCount);
-  const name = book.toLocaleUpperCase("pt-BR");
-  const fit = sealBookFit(name);
+  const fit = sealBookFit(book, (text, px) => measure("ui", text, px));
   const n = partners.length;
   const linked = `${formatInt(n)} ${n === 1 ? "capítulo ligado" : "capítulos ligados"}`;
   return (
@@ -46,11 +46,11 @@ export function ChapterSeal({
         x={SEAL.c}
         y={48}
         textAnchor="middle"
-        style={fit.size < 10 ? { fontSize: `${fit.size}px` } : undefined}
+        style={fit.size < 12 ? { fontSize: `${fit.size}px` } : undefined}
         textLength={fit.squeeze ?? undefined}
         lengthAdjust={fit.squeeze ? "spacingAndGlyphs" : undefined}
       >
-        {name}
+        {book}
       </text>
       <text className="bc-seal__numeral" x={SEAL.c} y={90} textAnchor="middle">
         {chapter}

@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import styles from "./Peek.module.css";
 
-// Phones: the selected connection peeks from the bottom of the screen, above the tab bar, and leads to the panel
-// below the map (design §5: "o painel espia por baixo"). It steps aside once the panel is on screen or scrolled past.
+// Phones: a panel further down the page peeks from the bottom of the screen, above the tab bar, and leads to it: the
+// capa's selected connection (design §5: "o painel espia por baixo"), a chapter's links. It steps aside once the
+// panel is on screen or scrolled past.
 export function Peek({ target, children }: { target: string; children: React.ReactNode }) {
   const [away, setAway] = useState(false);
   useEffect(() => {

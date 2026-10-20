@@ -9,6 +9,7 @@ import { Icon, type IconName } from "@/components/icons";
 import { formatInt } from "@/lib/canon/text";
 import type { Book } from "@/lib/canon/types";
 import { createSearch, describe, emptyText, linksLabel, quoted, type Hit, type Scope, type SearchTheme } from "./core";
+import { usePageSearch } from "./page-search";
 import { textIndex, useTextSearch, type TextItem } from "./useTextSearch";
 
 // The box of the search (ds.css .bc-search): the field, the scopes, then the results grouped as you type: reference,
@@ -68,6 +69,9 @@ export function SearchPanel({ initial = "", onClose, page = false, urlQuery, she
   const router = useRouter();
   const id = useId();
   const input = useRef<HTMLInputElement>(null);
+  // /buscar: the top bar's search entry steps aside while this field is on screen
+  const field = useRef<HTMLDivElement>(null);
+  usePageSearch(field, page);
   const [query, setQuery] = useState(initial);
   const [scope, setScope] = useState<Scope>("tudo");
   const [activeKey, setActiveKey] = useState<string | null>(null);
@@ -211,7 +215,7 @@ export function SearchPanel({ initial = "", onClose, page = false, urlQuery, she
   let n = 0;
   return (
     <div className={page ? "bc-search site-search__box site-search__box--page" : "bc-search site-search__box"}>
-      <div className="bc-search__field">
+      <div ref={field} className="bc-search__field">
         <Icon name="search" />
         <input
           ref={input}
@@ -262,9 +266,9 @@ export function SearchPanel({ initial = "", onClose, page = false, urlQuery, she
         <div className="bc-search__scopes" role="group" aria-label="Onde buscar">
           {SCOPES.map(([s, label]) => (
             <button key={s} type="button" className="bc-chip" aria-pressed={scope === s} onClick={() => choose(s)}>
-              {s === "texto" ? (
-                // the widest this label can be (every verse) holds the chip's width, hidden, so a count that arrives
-                // or changes moves no chip
+              {s === "texto" && textQuery ? (
+                // while words are searched, the widest this label can be (every verse) holds the chip's width, hidden,
+                // so a count that arrives or changes moves no chip; a reference has no count, so its chip fits its label
                 <span className="site-search__scope">
                   <span>
                     {label}

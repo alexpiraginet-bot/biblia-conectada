@@ -7,8 +7,8 @@ import { MapList } from "@/components/explore/MapList";
 import { ScriptureText } from "@/components/explore/ScriptureText";
 import explore from "@/components/explore/explore.module.css";
 import { HeroSearch } from "@/components/home/HeroSearch";
-import { Peek } from "@/components/home/Peek";
-import peek from "@/components/home/Peek.module.css";
+import { Peek } from "@/components/peek/Peek";
+import peek from "@/components/peek/Peek.module.css";
 import { formatInt } from "@/lib/canon/text";
 import { summary } from "@/lib/data";
 import { votesWord } from "@/lib/explore/atlas";
@@ -76,7 +76,7 @@ export default async function Home() {
         <MapList atlas={atlas} />
 
         <section className={styles.verses} aria-labelledby="mais-ligados">
-          <h2 id="mais-ligados" className="bc-section-title">
+          <h2 id="mais-ligados" className="bc-section-title bc-section-title--major">
             Os versículos mais ligados
             <small>ligações de cada versículo, das mais às menos</small>
           </h2>

@@ -122,7 +122,11 @@ export function PontePlayer({ intro, builtThrough }: { intro?: BridgeIntro; buil
     <div className={styles.sectionHead}>
       {/* each reference keeps its line; the arrow stays with the start */}
       <h2 className="bc-title">
-        <span className={styles.keep}>{longRef(BASE, info.start)} →</span> <span className={styles.keep}>{longRef(BASE, info.target)}</span>
+        <span className={styles.keep}>
+          {longRef(BASE, info.start)} <Icon name="out" className={`bc-icon ${styles.arrow}`} />
+          <span className="visually-hidden">até</span>
+        </span>{" "}
+        <span className={styles.keep}>{longRef(BASE, info.target)}</span>
       </h2>
       <p className={styles.meta}>
         {intro ? formatDayMonth(info.date) : `Ponte nº ${n} · ${formatDayMonth(info.date)}`}. Mínimo: {hops(info.min)}, pelas

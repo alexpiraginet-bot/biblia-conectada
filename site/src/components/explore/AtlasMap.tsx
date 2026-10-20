@@ -26,8 +26,9 @@ function variantView(atlas: Atlas, l: AtlasLayout): VariantView {
       id: g.id,
       name: t.name,
       meta: t.meta,
+      // starts with the words on the medallion (name, then votes), so a voice command that reads them finds the link
       aria: lead
-        ? `${name}: ${partnersText(g.chapters)}, ${votesWord(g.votes)}. O mais votado é ${lead.label}, com ${votesWord(g.partners[0].votes)}.`
+        ? `${name}, ${votesWord(g.votes)}: ${partnersText(g.chapters)}. O mais votado é ${lead.label}, com ${votesWord(g.partners[0].votes)}.`
         : `${name}: nenhum capítulo ligado.`,
       href: lead ? connectionPath(centre, { slug: lead.book.slug, chapter: lead.chapter }) : null,
       lead: lead ? chapterKey(lead) : null,

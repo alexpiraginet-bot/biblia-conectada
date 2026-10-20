@@ -6,6 +6,7 @@ import { BASE } from "@/lib/community/books-client";
 import { loadCalendar } from "@/lib/community/fetchers";
 import { shortRef } from "@/lib/community/geometry";
 import { PONTE_DAYS, bridgeDate, bridgeHome, bridgeNumber, formatDateBR, saoPauloDate } from "@/lib/community/ponte";
+import { Icon } from "@/components/icons";
 import styles from "./community.module.css";
 
 type Entry = { n: number; date: string; start: number; target: number; min: number };
@@ -46,7 +47,8 @@ export function PonteArchive({ built, builtThrough }: { built: Entry[]; builtThr
           <Link href={bridgeHome(b.n, builtThrough)}>
             <span className={styles.lead}>nº {b.n}</span>
             <span className={`bc-list__name ${styles.name}`}>
-              {shortRef(BASE, b.start)} → {shortRef(BASE, b.target)}
+              {shortRef(BASE, b.start)} <Icon name="out" className={`bc-icon ${styles.arrow}`} />
+              <span className="visually-hidden">até</span> {shortRef(BASE, b.target)}
             </span>
             <span className={styles.count}>
               {formatDateBR(b.date).slice(0, 5)} · mínimo {b.min}

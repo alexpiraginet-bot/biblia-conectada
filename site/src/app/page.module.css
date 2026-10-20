@@ -133,6 +133,25 @@
   border-bottom: 1px solid var(--line);
 }
 
+/* wide screens: the ranked verses in two columns, each at a reading measure (about 60 to 70 characters), so the list
+   no longer runs down one side of an empty page; ranks read across, row by row */
+@media (min-width: 75rem) {
+  .verses {
+    max-width: none;
+  }
+
+  .verseList {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-7);
+    border-top: 0;
+  }
+
+  .verseList li:nth-child(-n + 2) {
+    border-top: 1px solid var(--line);
+  }
+}
+
 .verseHead {
   display: flex;
   flex-wrap: wrap;

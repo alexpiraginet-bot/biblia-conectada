@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { DeviceNote } from "@/components/community/DeviceNote";
 import { PontePlayer } from "@/components/community/PontePlayer";
 import styles from "@/components/community/community.module.css";
+import { Crumbs } from "@/components/Crumbs";
 import { Icon } from "@/components/icons";
 import { NOT_FOUND_TITLE } from "@/lib/missing";
 import { ponteBuilt, verseInfo } from "@/lib/community/data";
@@ -36,15 +37,7 @@ export default async function PonteArchivePage({ params }: PageProps<"/ponte/[n]
   return (
     <main id="conteudo" className="site-page">
       <header className={styles.head}>
-        <nav aria-label="Caminho" className={styles.crumbs}>
-          <ol className="bc-crumbs">
-            <li>
-              <Link href="/ponte">Ponte</Link>
-            </li>
-            <li aria-hidden="true">›</li>
-            <li aria-current="page">nº {b.n}</li>
-          </ol>
-        </nav>
+        <Crumbs label="Caminho" className={styles.crumbs} items={[{ label: "Ponte", href: "/ponte" }, { label: `nº ${b.n}` }]} />
         <h1 className="bc-display">Ponte nº {b.n}</h1>
       </header>
       <div className={styles.section}>

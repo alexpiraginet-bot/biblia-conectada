@@ -175,6 +175,11 @@ export function checkReading({
     if (meta === null || textOf(meta) !== wantMeta) failures.push(`${page}: meta "${meta && textOf(meta)}", expected "${wantMeta}"`);
     const linkedWords = `${formatInt(linked.length)} ${linked.length === 1 ? "capítulo ligado" : "capítulos ligados"}`;
     if (!raw.includes(`aria-label="${book.name} ${chapter}, com ${linkedWords}"`)) failures.push(`${page}: the seal does not say ${linkedWords}`);
+    // the chapter page's peek of its links panel (phones): the same count; verse pages and unlinked chapters have none
+    const peek = element(raw, 'data-peek-count=""');
+    if (parts.length === 2 && linked.length > 0 ? peek === null || textOf(peek) !== linkedWords : peek !== null) {
+      failures.push(`${page}: links peek "${peek && textOf(peek)}", expected ${parts.length === 2 && linked.length > 0 ? `"${linkedWords}"` : "none"}`);
+    }
     const list = element(raw, 'data-chapters=""') ?? "";
     book.verses.forEach((_, i) => {
       const c = i + 1;

@@ -7,6 +7,7 @@ import { DeviceNote } from "@/components/community/DeviceNote";
 import { VersePair } from "@/components/community/Pair";
 import { MarkVisited } from "@/components/community/TrailSky";
 import styles from "@/components/community/community.module.css";
+import { Crumbs } from "@/components/Crumbs";
 import { Icon } from "@/components/icons";
 import { NOT_FOUND_TITLE } from "@/lib/missing";
 import { formatInt } from "@/lib/canon/text";
@@ -55,19 +56,11 @@ export default async function TrailStepPage({ params }: PageProps<"/trilha/antes
     <main id="conteudo" className="site-page">
       <MarkVisited slug={trail.slug} step={s.step} />
       <header className={styles.head}>
-        <nav aria-label="Caminho" className={styles.crumbs}>
-          <ol className="bc-crumbs">
-            <li>
-              <Link href="/trilha">Trilhas</Link>
-            </li>
-            <li aria-hidden="true">›</li>
-            <li>
-              <Link href={`/trilha/${trail.slug}`}>{trail.title}</Link>
-            </li>
-            <li aria-hidden="true">›</li>
-            <li aria-current="page">Passo {s.step}</li>
-          </ol>
-        </nav>
+        <Crumbs
+          label="Caminho"
+          className={styles.crumbs}
+          items={[{ label: "Trilhas", href: "/trilha" }, { label: trail.title, href: `/trilha/${trail.slug}` }, { label: `Passo ${s.step}` }]}
+        />
         <h1 className="bc-display">{stepTitle(s)}</h1>
         <div className={styles.progress}>
           <div className={styles.progressRow}>

@@ -1,18 +1,21 @@
-/* The phone peek of the selected connection (Peek.tsx): an opaque strip above the tab bar, with its own text colour. */
+/* The phone peek of a panel further down (Peek.tsx): an opaque strip with its own text colour, docked on the tab bar
+   across the whole width, its top corners rounded like the edge of a sheet. Nothing of the page shows between the two,
+   so no line of text is ever seen sliced under it. */
 
 .peek {
   position: fixed;
   z-index: 20;
-  left: var(--space-3);
-  right: var(--space-3);
-  bottom: calc(var(--tabbar-h) + var(--space-2));
+  left: 0;
+  right: 0;
+  bottom: var(--tabbar-h);
   display: flex;
   align-items: center;
   gap: var(--space-3);
   min-height: 60px;
-  padding: var(--space-2) var(--space-3) var(--space-2) var(--space-2);
+  padding: var(--space-2) max(var(--space-4), env(safe-area-inset-right, 0px)) var(--space-2) max(var(--space-3), env(safe-area-inset-left, 0px));
   border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
+  border-bottom: 0;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   background: var(--overlay);
   color: var(--ink);
   box-shadow: var(--shadow-float);
@@ -20,6 +23,16 @@
 }
 
 .peek[hidden] {
+  display: none;
+}
+
+/* a bridge in progress (Ponte nº N) keeps its strip above the tab bar (community/strip.module.css): the peek docks on it */
+:global(html[data-ponte-faixa]) .peek {
+  bottom: calc(var(--tabbar-h) + var(--strip-h));
+}
+
+/* the reading's selection bar (reader/SelectionBar.tsx) takes this place while a passage is selected */
+:global(body:has([data-selection-bar])) .peek {
   display: none;
 }
 

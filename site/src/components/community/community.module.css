@@ -42,6 +42,15 @@
   white-space: nowrap;
 }
 
+/* from the start to the target of a bridge: the icon family's arrow, never a typed "→" */
+.arrow {
+  width: 0.8em;
+  height: 0.8em;
+  margin-inline: 0.1em;
+  vertical-align: -0.08em;
+  color: var(--accent);
+}
+
 .prose {
   max-width: 38rem;
   margin: 0;
@@ -522,16 +531,6 @@
   color: var(--ink-2);
   text-align: right;
   font-variant-numeric: tabular-nums;
-}
-
-.list > li > a[aria-current] {
-  box-shadow: inset 3px 0 0 var(--lit);
-  padding-left: var(--space-3);
-}
-
-.list > li > a[aria-current] .name {
-  color: var(--ink);
-  font-weight: 600;
 }
 
 /* a verse of a route under its reference, in the scripture face (lists: 17px, design §4) */

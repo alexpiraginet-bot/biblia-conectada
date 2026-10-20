@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Icon } from "@/components/icons";
+import { Peek } from "@/components/peek/Peek";
+import peek from "@/components/peek/Peek.module.css";
 import { ChapterArcs } from "@/components/reader/Arcs";
 import { Featured, MiniMap, PanelHead } from "@/components/reader/FromHere";
 import { Scripture } from "@/components/reader/Scripture";
 import styles from "@/components/reader/reader.module.css";
 import { formatInt } from "@/lib/canon/text";
 import { conexaoPath } from "@/lib/conexao";
+import { partnersText } from "@/lib/explore/text";
 import { barShare, chapterHeadline, graphNote, graphPartners, mostLinkedRows, topGroup, votesLabel } from "@/lib/from-here";
 import { books } from "@/lib/data";
 import { medalhaoForBook } from "@/lib/medalhoes";
@@ -67,75 +71,98 @@ export default async function ChapterPage({ params }: PageProps<"/[livro]/[cap]"
     return `${r.book.abbr} ${r.chapter}`;
   };
 
+  const lead = top ? medalOf(top.ci) : null;
+
   return (
-    <aside className={`bc-panel ${styles.chapterPanel}`} aria-labelledby="ligados">
-      <PanelHead title={`Ligações de ${label}`} titleId="ligados" />
-      {!top ? (
-        <p className={styles.panelMeta}>Nenhum outro capítulo está ligado a este na base OpenBible.info.</p>
-      ) : (
-        <>
-          <p className={styles.headline} data-headline="">
-            {chapterHeadline(ranked, (ci) => chapterRef(ci).label)}
-          </p>
-          <MiniMap
-            centre={`${book.abbr} ${chapter}`}
-            nodes={graph.shown.map((p) => ({ key: p.key, label: short(p.key), votes: p.votes, medal: medals.get(p.key) ?? null }))}
-            topKey={top.ci}
-            legend="Ligações entre os capítulos: mais grossa, mais votos somados"
-            topLegend={ranked.length === 1 ? "O único capítulo ligado" : topGroup(ranked).length > 1 ? "Um dos mais votados, em destaque" : "O mais votado, em destaque"}
-            note={graphNote(ranked.length, graph.shown.length, graph.tiedOut, "capítulos ligados")}
-            groups={groups}
-          />
-          <Featured
-            a={label}
-            b={top.label}
-            conexao={conexaoPath(
-              { book: book.index, slug: book.slug, chapter },
-              { book: top.book.index, slug: top.book.slug, chapter: top.chapter },
+    <>
+      {top && (
+        // phones: the panel is below the text, so it peeks from the bottom of the screen until it is reached
+        <Peek target="ligados">
+          <span className={peek.marks} aria-hidden="true">
+            <span className={peek.seal}>{chapter}</span>
+            {lead && (
+              // eslint-disable-next-line @next/next/no-img-element -- a 96 px illustration, already sized
+              <img className="bc-medallion__img" src={lead.src} width={96} height={96} alt="" />
             )}
-            explorar={`/explorar/${book.slug}/${chapter}`}
-          />
-          <section className={styles.listSection} aria-labelledby="mais-ligados">
-            <h3 id="mais-ligados" className="bc-section-title">
-              Mais ligados
-              <small>pela soma dos votos dos pares de versículos</small>
-            </h3>
-            <ol className="bc-conns" data-mais-ligados="">
-              {rows.map((r) => (
-                <li key={r.key} className="bc-conn">
-                  <Link className="bc-conn__ref" href={r.ref.path} data-row="">
-                    {r.ref.label}
-                  </Link>
-                  <span className="bc-conn__votes">
-                    <span className="bc-conn__bar" style={{ "--w": barShare(r.votes, max) } as React.CSSProperties} aria-hidden="true" />
-                    {votesLabel(r.votes)}
-                  </span>
-                  <p className="bc-conn__text">
-                    <Link className={styles.connVerse} href={r.verse.path} aria-label={r.verse.label}>
-                      {r.verse.chapter}:{r.verse.verse}
-                    </Link>{" "}
-                    <Scripture text={r.text} />
-                  </p>
-                </li>
-              ))}
-            </ol>
-            {extra > 0 && (
-              <p className={`${styles.panelMeta} ${styles.more}`}>
-                E mais {formatInt(extra)} {extra === 1 ? "capítulo ligado" : "capítulos ligados"}, com menos votos.
-              </p>
-            )}
-          </section>
-          <ChapterArcs ci={book.firstChapter + chapter - 1} label={label} partners={partners} />
-        </>
+          </span>
+          <span className={peek.text}>
+            <span className={peek.title}>Ligações de {label}</span>
+            <span className={peek.sub} data-peek-count="">
+              {partnersText(ranked.length)}
+            </span>
+          </span>
+          <Icon name="chev-r" className={`bc-icon ${peek.chev}`} />
+        </Peek>
       )}
-      <p className={styles.hint}>
-        Abra a contagem no fim de um versículo para ver as ligações dele, ou selecione um trecho para copiar, compartilhar ou
-        salvar.
-      </p>
-      <p className={styles.source}>
-        Ligações: OpenBible.info. Os votos de dois capítulos somam os pares de versículos entre eles; um trecho conta pelo
-        primeiro versículo.
-      </p>
-    </aside>
+      <aside className={`bc-panel ${styles.chapterPanel}`} aria-labelledby="ligados">
+        <PanelHead title={`Ligações de ${label}`} titleId="ligados" />
+        {!top ? (
+          <p className={styles.panelMeta}>Nenhum outro capítulo está ligado a este na base OpenBible.info.</p>
+        ) : (
+          <>
+            <p className={styles.headline} data-headline="">
+              {chapterHeadline(ranked, (ci) => chapterRef(ci).label)}
+            </p>
+            <MiniMap
+              centre={`${book.abbr} ${chapter}`}
+              nodes={graph.shown.map((p) => ({ key: p.key, label: short(p.key), votes: p.votes, medal: medals.get(p.key) ?? null }))}
+              topKey={top.ci}
+              legend="Ligações entre os capítulos: mais grossa, mais votos somados"
+              topLegend={ranked.length === 1 ? "O único capítulo ligado" : topGroup(ranked).length > 1 ? "Um dos mais votados, em destaque" : "O mais votado, em destaque"}
+              note={graphNote(ranked.length, graph.shown.length, graph.tiedOut, "capítulos ligados")}
+              groups={groups}
+            />
+            <Featured
+              a={label}
+              b={top.label}
+              conexao={conexaoPath(
+                { book: book.index, slug: book.slug, chapter },
+                { book: top.book.index, slug: top.book.slug, chapter: top.chapter },
+              )}
+              explorar={`/explorar/${book.slug}/${chapter}`}
+            />
+            <section className={styles.listSection} aria-labelledby="mais-ligados">
+              <h3 id="mais-ligados" className="bc-section-title">
+                Mais ligados
+                <small>pela soma dos votos dos pares de versículos</small>
+              </h3>
+              <ol className="bc-conns" data-mais-ligados="">
+                {rows.map((r) => (
+                  <li key={r.key} className="bc-conn">
+                    <Link className="bc-conn__ref" href={r.ref.path} data-row="">
+                      {r.ref.label}
+                    </Link>
+                    <span className="bc-conn__votes">
+                      <span className="bc-conn__bar" style={{ "--w": barShare(r.votes, max) } as React.CSSProperties} aria-hidden="true" />
+                      {votesLabel(r.votes)}
+                    </span>
+                    <p className="bc-conn__text">
+                      <Link className={styles.connVerse} href={r.verse.path} aria-label={r.verse.label}>
+                        {r.verse.chapter}:{r.verse.verse}
+                      </Link>{" "}
+                      <Scripture text={r.text} />
+                    </p>
+                  </li>
+                ))}
+              </ol>
+              {extra > 0 && (
+                <p className={`${styles.panelMeta} ${styles.more}`}>
+                  E mais {formatInt(extra)} {extra === 1 ? "capítulo ligado" : "capítulos ligados"}, com menos votos.
+                </p>
+              )}
+            </section>
+            <ChapterArcs ci={book.firstChapter + chapter - 1} label={label} partners={partners} />
+          </>
+        )}
+        <p className={styles.hint}>
+          Abra a contagem no fim de um versículo para ver as ligações dele, ou selecione um trecho para copiar, compartilhar ou
+          salvar.
+        </p>
+        <p className={styles.source}>
+          Ligações: OpenBible.info. Os votos de dois capítulos somam os pares de versículos entre eles; um trecho conta pelo
+          primeiro versículo.
+        </p>
+      </aside>
+    </>
   );
 }

@@ -17,7 +17,7 @@ export function MapList({ atlas, level = 2 }: { atlas: Atlas; level?: 2 | 3 }) {
   const id = `lista-${chapterKey(c)}`;
   return (
     <section className={styles.mapList} aria-labelledby={id}>
-      <H id={id} className="bc-section-title">
+      <H id={id} className="bc-section-title bc-section-title--major">
         Os capítulos do mapa
         <small>
           {partnersText(atlas.partners)} a {c.label}, por grupo de livros; em cada grupo, os {PER_GROUP} mais votados
