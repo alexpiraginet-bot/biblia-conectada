@@ -29,8 +29,9 @@ async function renderPoster(job: Job): Promise<{ png: string; partners: number; 
   const canvas = document.createElement("canvas");
   canvas.style.cssText = `display:block;width:${job.width}px;height:${job.height}px`;
   document.body.append(canvas);
-  const r = SkyRenderer.create(canvas);
-  if (!r) throw new Error("no WebGL2");
+  // the posters are drawn with SwiftShader on purpose (headless Chromium, no GPU)
+  const r = SkyRenderer.create(canvas, { allowSoftware: true });
+  if (typeof r === "string") throw new Error(`no WebGL2 renderer: ${r}`);
   r.resize(job.width, job.height, 1);
   r.setGeometry(geo);
   if (job.layer === "sky") {

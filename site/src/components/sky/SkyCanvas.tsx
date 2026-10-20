@@ -30,7 +30,8 @@ export type SkyCanvasProps = {
   /** a new canvas starts (nothing drawn yet) */
   onStart: () => void;
   onMode: (mode: Mode) => void;
-  onFail: () => void;
+  /** no canvas: "software" when the device has no GPU to draw it (the poster stays), else it failed or was lost */
+  onFail: (why: "software" | "unsupported") => void;
 };
 
 const INPUTS = ["pointerdown", "keydown", "wheel", "touchstart"] as const;
@@ -59,15 +60,15 @@ export default function SkyCanvas(props: SkyCanvasProps) {
     canvasRef.current = canvas;
     latest.current.onStart();
     const renderer = SkyRenderer.create(canvas);
-    if (!renderer) {
+    if (typeof renderer === "string") {
       canvas.remove();
       canvasRef.current = null;
-      latest.current.onFail();
+      latest.current.onFail(renderer);
       return;
     }
     rendererRef.current = renderer;
     renderer.onPresent = (mode) => latest.current.onMode(mode);
-    renderer.onLost = () => latest.current.onFail();
+    renderer.onLost = () => latest.current.onFail("unsupported");
     const size = () => {
       const box = canvas.getBoundingClientRect();
       if (box.width > 0) renderer.resize(box.width, box.height, Math.min(window.devicePixelRatio || 1, 2));

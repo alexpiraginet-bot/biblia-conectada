@@ -11,6 +11,15 @@ import * as SH from "./shaders";
 export type Layer = "both" | "sky" | "gold";
 export type Mode = "overlay" | "opaque";
 
+/**
+ * A WebGL renderer name drawn by the CPU: SwiftShader (Chrome without a usable GPU), llvmpipe and softpipe (Mesa), the
+ * Microsoft Basic Render Driver. The sky blocks the page for seconds on these (Lighthouse measured 7 to 10 s), so the
+ * page keeps its poster instead.
+ */
+export function softwareRenderer(name: string): boolean {
+  return /swiftshader|llvmpipe|softpipe|basic render|software rasterizer/i.test(name);
+}
+
 // 99.5th percentile of film.py's dome density (Dome._raster at 1600 px, blurred by 1 px), measured once with the same
 // raster on the full arc file and on the 20,000 most voted arcs. Rendering constants, not figures shown on the page.
 const P99 = { full: 161, head: 27 } as const;
@@ -96,7 +105,11 @@ export class SkyRenderer {
   onLost: (() => void) | null = null;
   onRestored: (() => void) | null = null;
 
-  static create(canvas: HTMLCanvasElement): SkyRenderer | null {
+  /**
+   * The renderer, or why there is none: "unsupported" without WebGL2, "software" when the browser would draw it on the
+   * CPU. `allowSoftware` is for scripts/render-sky-poster.mjs, which renders the posters with SwiftShader on purpose.
+   */
+  static create(canvas: HTMLCanvasElement, { allowSoftware = false } = {}): SkyRenderer | "unsupported" | "software" {
     const gl = canvas.getContext("webgl2", {
       alpha: false,
       antialias: false,
@@ -105,13 +118,29 @@ export class SkyRenderer {
       premultipliedAlpha: true,
       preserveDrawingBuffer: true,
       powerPreference: "high-performance",
+      // the browser refuses a context it would draw much slower than a GPU (Chrome: SwiftShader)
+      failIfMajorPerformanceCaveat: !allowSoftware,
     });
-    if (!gl) return null;
+    if (!gl) {
+      // the same request without the caveat tells a slow device apart from one without WebGL2
+      if (allowSoftware) return "unsupported";
+      const probe = document.createElement("canvas").getContext("webgl2");
+      probe?.getExtension("WEBGL_lose_context")?.loseContext();
+      return probe ? "software" : "unsupported";
+    }
+    if (!allowSoftware) {
+      const info = gl.getExtension("WEBGL_debug_renderer_info");
+      const name = String(info ? gl.getParameter(info.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER));
+      if (softwareRenderer(name)) {
+        gl.getExtension("WEBGL_lose_context")?.loseContext();
+        return "software";
+      }
+    }
     try {
       return new SkyRenderer(canvas, gl);
     } catch {
       gl.getExtension("WEBGL_lose_context")?.loseContext();
-      return null;
+      return "unsupported";
     }
   }
 

@@ -113,7 +113,8 @@ export function Sky({ initial, title, lede }: Props) {
   const [arcs, setArcs] = useState<Arcs | null>(null);
   const [loadError, setLoadError] = useState(false);
   const [full, setFull] = useState<FullState>("idle");
-  const [mode, setMode] = useState<Mode | "none" | "failed">("none");
+  // "software": no GPU to draw the sky (the poster stays on purpose); "failed": no WebGL2, or the context was lost
+  const [mode, setMode] = useState<Mode | "none" | "failed" | "software">("none");
   const [pulseKey, setPulseKey] = useState(0);
   const posterFull = useMedia(POSTER.desktopMedia);
   const intro = useSyncExternalStore(subscribeIntro, readIntro, () => false);
@@ -179,8 +180,8 @@ export function Sky({ initial, title, lede }: Props) {
   }, [intro, hashCi, mode]);
 
   const onMode = useCallback((m: Mode) => setMode(m), []);
-  const onStart = useCallback(() => setMode((m) => (m === "failed" ? m : "none")), []);
-  const onFail = useCallback(() => setMode("failed"), []);
+  const onStart = useCallback(() => setMode((m) => (m === "failed" || m === "software" ? m : "none")), []);
+  const onFail = useCallback((why: "software" | "unsupported") => setMode(why === "software" ? "software" : "failed"), []);
 
   // ------------------------------------------------------------ selection
 
@@ -319,7 +320,7 @@ export function Sky({ initial, title, lede }: Props) {
               <source type="image/avif" srcSet={POSTER.headGold.avif} />
               <img src={POSTER.headGold.webp} width={POSTER.head.w} height={POSTER.head.h} alt="" decoding="async" />
             </picture>
-            {geo && mode !== "failed" ? (
+            {geo && mode !== "failed" && mode !== "software" ? (
               <SkyCanvas
                 geo={geo}
                 partners={initial.partners}
@@ -407,6 +408,9 @@ export function Sky({ initial, title, lede }: Props) {
           {full === "loading" ? <p className={styles.hint}>Carregando o céu completo…</p> : null}
           {mode === "failed" ? (
             <p className={styles.hint}>O céu interativo não abriu neste navegador; a imagem e a lista mostram as mesmas ligações.</p>
+          ) : null}
+          {mode === "software" ? (
+            <p className={styles.hint}>Sem aceleração gráfica neste aparelho, o céu fica na imagem; ela e a lista mostram as mesmas ligações.</p>
           ) : null}
           {loadError ? (
             <>
