@@ -593,8 +593,17 @@
   color: var(--ink-2);
 }
 
-.conns {
-  margin-top: 0;
+/* the reference of a link row is a 44px target without making the row taller */
+.chapterPanel :global(.bc-conn__ref),
+.verseSheet :global(.bc-conn__ref) {
+  position: relative;
+}
+
+.chapterPanel :global(.bc-conn__ref)::after,
+.verseSheet :global(.bc-conn__ref)::after {
+  content: "";
+  position: absolute;
+  inset: -6px -4px;
 }
 
 /* the verse of the strongest pair in a "Mais ligados" row */
