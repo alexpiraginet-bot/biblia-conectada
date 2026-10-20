@@ -294,11 +294,11 @@ Em 375 e 1440 px, nos temas Noite e Dia (regra 9 do `CLAUDE.md`):
 
 ### 15.5 Interação
 
-- **Endereço:** "#isaias/53/5" abre um versículo e "#isaias/53" um capítulo.
+- **Endereço:** "#isaias/53/5" abre um versículo, "#isaias/53" um capítulo, "#caminho/genesis/3/15/apocalipse/12/9" o caminho entre dois versículos e "#palavra/cordeiro" os versículos de uma palavra (§15.9).
   - A troca é por `replaceState`, então não cria histórico; a trilha na página é o caminho de volta.
   - O endereço sobrevive ao recarregar e pode ser compartilhado.
 - **Abrir:**
-  - pelo campo ("Is 53:5", "Jo 3", com o parser do site e erros que dizem o que falta);
+  - pelo campo ("Versículo ou palavra"): "Is 53:5" e "Jo 3" com o parser do site e erros que dizem o que falta; dois versículos com "até" (ou "->", ">") abrem o caminho entre eles; um texto sem número acende a palavra;
   - pelos exemplos;
   - por "Um versículo ao acaso" (uma ponta de um dos 2.000 fios mais votados);
   - clicando na linha do meio, que abre o capítulo sob o ponteiro.
@@ -360,8 +360,74 @@ Em 375 e 1440 px, nos temas Noite e Dia (regra 9 do `CLAUDE.md`):
 | 4 dos 7 rótulos escondidos por colisão em Isaías 53:5 | Rótulos empilham antes de sumir e respeitam o filtro |
 | Trilha de um passo só; histórico que apaga o plano geral | Trilha visível dos últimos 12 versículos, com volta direta |
 | Só tema escuro | Noite (luz) e Dia (gravura em tinta) |
+| Nenhum caminho entre versículos | Caminho entre dois versículos pelas 301.539 ligações, passo a passo, com o texto de cada passo (§15.9.1) |
+| Busca só por referência | Uma palavra acende os versículos que a têm e as ligações entre eles (§15.9.2) |
+| Três nomes no eixo | Os oito grupos de livros em faixas, e os nomes dos livros ao aproximar (§15.9.3) |
+| Filtro fixo de 20 votos, invisível | Força das ligações em quatro degraus, com a contagem de cada um (§15.9.4) |
+| "Compartilhar" copia o link | Imagem da vista em alta resolução, com o que está aceso e os créditos, para salvar ou mandar pelo celular (§15.9.5) |
 
-### 15.9 Não verificado
+### 15.9 Cinco vantagens a mais (20/10)
+
+**Pedido do Alex (20/10):** "Precisamos que o nosso tenha 5 pontos positivos a mais de visual e formas de uso que o que está se referenciando! Precisamos estar a frente de tudo". Ele escolheu as cinco entre oito propostas: duas de uso e três visuais. Nenhuma existe na referência.
+
+#### 15.9.1 Caminho entre dois versículos
+
+- **O que faz:** acende a cadeia mais curta de referências cruzadas que liga um versículo a outro. Gênesis 3:15 chega a Apocalipse 12:9 por João 8:44, em duas ligações.
+- **Regra** (`path.ts`): o menor número de ligações; entre os caminhos mais curtos, o de ligação mais fraca mais votada, depois o de mais votos no total, depois o versículo anterior no cânon.
+  - Só entram ligações com pelo menos 1 voto (`PATH_MIN_VOTES`): uma ligação que os leitores votaram para baixo não é passagem. Ficam 298.512 das 301.539.
+  - O grafo sai do `arcs.bin` (13 ms para montar) e a busca em largura leva uns 3 ms.
+- **Onde se abre:**
+  - no campo ("Gn 3:15 até Ap 12:9");
+  - no painel de um versículo ("Caminho até outro versículo");
+  - no exemplo da introdução.
+  - No celular, que desenha só os 20.000 mais votados, o arquivo completo vem só para achar o caminho, sem ir para o desenho.
+- **O que se vê:** cada salto acende no plano do seu par e cresce depois do anterior (650 ms por salto, de 1,1 a 3,6 s). O pulso de luz corre pela cadeia inteira.
+  - Os passos têm rótulo numerado no eixo.
+  - O painel lista os versículos em ordem, com o texto da BLIVRE. Entre dois passos ficam a ligação e os votos dela (que acendem o fio ao toque), com "Ler lado a lado".
+  - Há também "Inverter", "Copiar link" e "Salvar imagem".
+  - As setas no canvas andam pelos saltos.
+
+#### 15.9.2 Acender uma palavra
+
+- **O que faz:** um texto sem número no campo procura no índice de palavras da busca do site (`public/data/busca/v1`, o mesmo da paleta, 23.540 palavras da BLIVRE, sem acento nem maiúsculas; aspas pedem a frase).
+  - Cada versículo que tem a palavra vira uma marca de luz no eixo, um pente que mostra onde ela se concentra.
+  - As ligações entre dois desses versículos acendem, no máximo as 3.000 mais votadas (`WORD_LIT`).
+  - Exemplo: "cordeiro" está em 93 versículos de 16 livros, com 150 ligações entre eles: 49 no Pentateuco e 26 no Apocalipse.
+- **Painel:**
+  - a contagem;
+  - "Onde aparece", uma barra por grupo de livros;
+  - os versículos, dos mais ligados para os menos, com a palavra marcada;
+  - "Buscar no site", "Copiar link" e "Salvar imagem".
+- No celular, com só os 20.000 mais votados carregados, o painel diz que as ligações contadas são "entre as mais votadas".
+
+#### 15.9.3 Grupos de livros no eixo
+
+- **Os grupos:** os oito dos medalhões (`src/data/medalhoes.json`, do `bookDiv` da Theographic): Pentateuco, Históricos, Poesia, Profetas, Evangelhos, Atos, Cartas e Apocalipse.
+  - A Theographic conta Lamentações entre os poéticos, então os Profetas correm em dois trechos com ela no meio.
+  - O eixo desenha uma faixa por trecho (`axisLines`, alternando a força para os vizinhos se separarem) e nomeia cada grupo uma vez, no trecho mais longo (`groupNames`).
+- **Os nomes:** com a Bíblia inteira, os nomes dos grupos ficam nas duas fileiras junto do eixo, as duas pontas primeiro.
+  - Quando a câmera chega perto (o eixo desenhado com mais de 2,2 vezes a largura do quadro), cada livro cujo nome cabe no seu trecho ganha o nome.
+  - O grupo de um livro nomeado sai.
+- O pôster tem as mesmas faixas (o script do pôster lê o mesmo arquivo).
+
+#### 15.9.4 Força das ligações
+
+- **Os degraus:** Todas, 5+, 25+ e 100+ votos (`STRENGTH_MIN`).
+  - O pipeline conta cada degrau (`summary.json` `strength`): 111.421, 14.248 e 1.726 ligações. `tests/sculpture-plus.test.ts` reconta do `arcs.bin`.
+  - O controle fica na legenda (na introdução, no celular) e diz quantas ligações o degrau mostra.
+- **Desenho:** o arquivo vem ordenado por votos, então cada degrau desenha os primeiros fios de cada balde de raio, sem shader novo.
+  - A exposição tem uma constante por degrau, medida como as outras (§15.3): 162, 33 e 6,6, contra 339 com todos os fios.
+  - No celular, 5+ carrega o arquivo completo (os 111.421 não estão entre os 20.000 mais votados).
+
+#### 15.9.5 Imagem para salvar ou compartilhar
+
+- **O que gera:** "Salvar imagem" (na legenda, em cada painel e na introdução do celular) desenha a vista de novo com o próprio renderizador, em 1080 × 1350 px CSS (4:5, o formato que as redes mostram inteiro).
+  - A densidade é de 2 px por px CSS, ou 1,5 em aparelho leve: 2160 × 2700 ou 1620 × 2025.
+  - A imagem leva os rótulos acesos, o título, os números, o texto da BLIVRE ou os passos do caminho, as barras de uma palavra, o endereço da vista e as linhas de crédito exatas do `credits.json`.
+- **Entrega:** no celular, quando o aparelho compartilha arquivos (Web Share), abre o compartilhar com a imagem; nos outros, baixa o PNG.
+
+### 15.10 Não verificado
 
 - Desempenho em GPU de verdade (desktop, celular médio e fraco): este ambiente só tem SwiftShader.
 - Safari/iOS e Firefox, pinça no toque real, leitor de tela (a ordem de foco e o ARIA foram conferidos no DOM).
+- O compartilhar do celular com a imagem (Web Share com arquivo): o Chromium deste ambiente não tem Web Share; aqui a imagem foi baixada.

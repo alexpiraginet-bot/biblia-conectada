@@ -9,16 +9,15 @@
 // component owns what is selected. Data that changes rarely (the axis, the arcs) is state; refs only reach the engine
 // and the DOM from effects and handlers.
 import Link from "next/link";
-import { useCallback, useEffect, useId, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { lazy, Suspense, useCallback, useEffect, useId, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { Icon } from "@/components/icons";
 import { usePageSearch } from "@/components/search/page-search";
-import { createReferenceParser } from "@/lib/canon/reference";
 import { formatInt } from "@/lib/canon/text";
 import { BASE, BOOKS } from "@/lib/community/books-client";
 import { loadVerseLinks } from "@/lib/community/fetchers";
 import { longRef, shortRef, versePath } from "@/lib/community/geometry";
 import { conexaoPath } from "@/lib/conexao";
-import { buildGeometry, decodeArcs, indexByChapter, type SkyMeta } from "../sky/model";
+import { buildGeometry, decodeArcs, indexByChapter, type ArcSet, type SkyMeta } from "../sky/model";
 import {
   arcBuffers,
   axisLines,
@@ -26,20 +25,28 @@ import {
   chapterLinks,
   focusFlags,
   litLinks,
+  litPath,
   litVerse,
+  litWord,
   newTestament,
   pairAngle,
   partnersFromLinks,
   partnersOf,
+  pathFlags,
   verseAxis,
+  wordLinks,
+  wordMarks,
+  type Hop,
   type Partner,
 } from "./arcs";
 import type { SculptureEngine } from "./engine";
-import { HOME_ORBIT, homeBox, NARROW, NT_START, TOP } from "./home";
+import { groupNames, type AxisGroup } from "./groups";
+import { HOME_ORBIT, homeBox, NARROW, TOP } from "./home";
 import { ChapterPanel, PAGE, VersePanel } from "./Panel";
+import type { Graph } from "./path";
 import { SCULPTURE_POSTER } from "./poster";
 import type { ColorMode, Theme } from "./renderer";
-import { arcSamples, fitOrbit, project, viewMatrix, type Box, type Mat4, type Orbit, type Vec3 } from "./space";
+import { arcSamples, axisX, fitOrbit, project, viewMatrix, type Box, type Mat4, type Orbit, type Vec3 } from "./space";
 import {
   chapterLabel,
   hashOf,
@@ -47,8 +54,8 @@ import {
   parseHash,
   readHash,
   subscribeHash,
-  verseOf,
   verseText,
+  versiculos,
   votos,
   writeHash,
   type Data,
@@ -56,7 +63,13 @@ import {
   type Loaded,
   type Sel,
 } from "./state";
+import type { WordResult } from "./word";
 import styles from "./sculpture.module.css";
+
+// the panels of a path and of a word load when one is opened (the page's own script stays within its budget; they are
+// never on the server's page: a selection lives in the address's fragment)
+const PathPanel = lazy(() => import("./PathPanel").then((m) => ({ default: m.PathPanel })));
+const WordPanel = lazy(() => import("./WordPanel").then((m) => ({ default: m.WordPanel })));
 
 export type SculptureInitial = {
   counts: { verses: number; crossrefRows: number; arcs: number; chapters: number };
@@ -64,19 +77,31 @@ export type SculptureInitial = {
   top: { ref: string; links: number };
   /** verses the intro offers, with their place in the Bible */
   examples: { gv: number; label: string }[];
+  /** what the intro offers to try: a path between two verses and a word */
+  pathExample: { from: number; to: number; label: string };
+  wordExample: string;
+  /** the stretches of the eight book groups along the axis (groups.ts) */
+  groups: AxisGroup[];
+  /** arcs with at least `min` votes (summary.json strength) */
+  strength: { min: number; arcs: number }[];
+  /** the exact credit lines of the links and of the text (credits.json), for the saved image */
+  credits: string[];
 };
 
-const parse = createReferenceParser(BOOKS);
 /** the view a selection opens on: a little from the left and above, so the bridges and the inner links both show */
 const SELECT_VIEW: Orbit = { yaw: -0.38, pitch: 0.2, dist: 2, target: [0, 0, 0] };
 /** the chapter preview shows its strongest links only (the panel lists all of them) */
 const PREVIEW_LINKS = 80;
-/** names on the axis while nothing is selected: its two ends and where the New Testament begins */
-const AXIS_NAMES = [
-  { x: -1, label: BOOKS[0].name },
-  { x: NT_START, label: BOOKS.find((b) => b.testament === "NT")!.name },
-  { x: 1, label: BOOKS[BOOKS.length - 1].name },
-];
+/** a word lights at most this many of the links between its verses, the most voted (the panel counts them all) */
+const WORD_LIT = 3000;
+/** a word's most linked verses get a label on the axis */
+const WORD_LABELS = 5;
+/** chapters on the axis */
+const NCH = BOOKS[BOOKS.length - 1].firstChapter + BOOKS[BOOKS.length - 1].verses.length;
+/** every book's stretch of the axis: its name shows when the camera is near enough for the name to fit in it */
+const BOOK_SPANS = BOOKS.map((b) => ({ name: b.name, first: b.firstChapter, x0: axisX(b.firstChapter / NCH), x1: axisX((b.firstChapter + b.verses.length) / NCH) }));
+/** the first and the last of a list, then the rest: the names placed first are the ones never left out */
+const endsFirst = <T,>(xs: readonly T[]): T[] => (xs.length < 3 ? [...xs] : [xs[0], xs[xs.length - 1], ...xs.slice(1, -1)]);
 // The poster images (poster.ts) as CSS backgrounds: sculpture.module.css picks the theme's and the size's, so only that
 // one is downloaded, and the right one shows before any script runs.
 const imageSet = (img: { avif: string; webp: string }) => `image-set(url("${img.avif}") type("image/avif"), url("${img.webp}") type("image/webp"))`;
@@ -135,7 +160,17 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
   const stageRef = useRef<HTMLDivElement>(null);
   const labelsRef = useRef<HTMLDivElement>(null);
   const fieldRef = useRef<HTMLFormElement>(null);
-  const headingRef = useRef<HTMLHeadingElement>(null);
+  // the panel's heading takes the focus when a selection opens; the panels of a path and of a word load on their own, so
+  // a heading that is not there yet takes it when it arrives
+  const headingEl = useRef<HTMLHeadingElement | null>(null);
+  const wantFocus = useRef(false);
+  const headingRef = useCallback((el: HTMLHeadingElement | null) => {
+    headingEl.current = el;
+    if (el && wantFocus.current) {
+      wantFocus.current = false;
+      el.focus({ preventScroll: true });
+    }
+  }, []);
   const engine = useRef<SculptureEngine | null>(null);
   const ids = useId();
 
@@ -167,6 +202,14 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
   const [fetched, setFetched] = useState<{ gv: number; list: Partner[] } | null>(null);
   const [verseBody, setVerseBody] = useState<{ gv: number; text: string } | null>(null);
   const [snippets, setSnippets] = useState<ReadonlyMap<number, string>>(new Map());
+  // 0: every arc; 1..3: only the arcs with initial.strength[step - 1].min votes or more
+  const [strength, setStrength] = useState(0);
+  // the answer for a path or a word in the address (key: its address), or the error of the last try
+  const [pathFound, setPathFound] = useState<{ key: string; hops: Hop[] | null } | { key: string; error: true } | null>(null);
+  const [wordFound, setWordFound] = useState<{ key: string; result: WordResult | null } | { key: string; error: true } | null>(null);
+  const [saving, setSaving] = useState<"idle" | "busy" | "saved" | "shared" | "error">("idle");
+  // a new try after the network failed a path or a word
+  const [retry, setRetry] = useState(0);
 
   // one search in view: the top bar's entry steps aside while this field shows (page-search.ts)
   usePageSearch(fieldRef);
@@ -187,13 +230,19 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
   }, []);
 
   // ---- what the engine calls back (kept current without re-creating the engine)
-  const latest = useRef<{ data: Data | null; labels: { gv: number }[]; pickChapter: (x: number) => void; arcsIn: boolean; theme: Theme }>({
+  const latest = useRef<{ data: Data | null; labels: { gv: number }[]; pickChapter: (x: number) => void; pickArc: (i: number) => void; arcsIn: boolean; theme: Theme; strength: number }>({
     data,
     labels: [],
     pickChapter: () => {},
+    pickArc: () => {},
     arcsIn: false,
     theme,
+    strength: 0,
   });
+  // every pair (arcs.bin) for the paths, fetched once on a device that draws only the most voted, and the links
+  // graph built from them (path.ts)
+  const fullSet = useRef<Promise<ArcSet> | null>(null);
+  const graph = useRef<{ set: ArcSet; g: Graph } | null>(null);
   // set when the engine has been given arcs as complete as the poster on screen: its next frame replaces the poster
   const posterArmed = useRef(false);
   /** the person reached for the picture (pointer on the axis, a drag, the keyboard): the canvas shows from now on */
@@ -218,7 +267,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
           if (x !== null) reach();
         },
         hoverArc: (i, at) => setArcTip(i < 0 || !at ? null : { i, at, flip: tipFlips(engine.current, at) }),
-        pickArc: (i) => setFocus(i),
+        pickArc: (i) => latest.current.pickArc(i),
         pick: (x) => latest.current.pickChapter(x),
         miss: () => setFocus(-1),
         frame: (m, w, h, box) => {
@@ -237,6 +286,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
         e = made;
         engine.current = made;
         made.setTheme(latest.current.theme);
+        made.setStrength(latest.current.strength);
         // stand at the opening view at once: it is the poster's picture, and a selection in the address flies from it
         made.jumpTo({ orbit: HOME_ORBIT, box: homeBox(made.size.width, made.size.height) });
         if (allowSoftware) (window as Window & { __sculpture?: SculptureEngine }).__sculpture = made;
@@ -289,14 +339,17 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
     }
   }
 
-  // ---- the arcs, the axis, the theme and the colour mode go to the engine
+  // ---- the arcs, the axis, the theme, the colour mode and the strength step go to the engine
+  const groups = initial.groups;
   useEffect(() => {
     const e = engine.current;
     if (!e || !data) return;
-    const lines = axisLines(data.meta, data.geo);
-    e.setLines(lines.axis, lines.ticks);
+    e.setLines(axisLines(data.meta, data.geo, groups));
     e.setChapters(data.geo.nch);
-  }, [data]);
+  }, [data, groups]);
+  useEffect(() => {
+    engine.current?.setStrength(strength);
+  }, [strength]);
   useEffect(() => {
     const e = engine.current;
     if (!e || !data || !arcs) return;
@@ -332,6 +385,52 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
     return fetched?.gv === verse ? fetched.list : null;
   }, [verse, arcs, fetched]);
 
+  // ---- a path: the shortest chain of links between two verses, over every pair (path.ts, loaded when asked for)
+  const pathFrom = sel?.kind === "path" ? sel.from : null;
+  const pathTo = sel?.kind === "path" ? sel.to : null;
+  const pathKey = pathFrom !== null && pathTo !== null ? hashOf({ kind: "path", from: pathFrom, to: pathTo }) : null;
+  useEffect(() => {
+    if (pathFrom === null || pathTo === null || !pathKey || !data) return;
+    let alive = true;
+    (async () => {
+      const every = arcs?.set.full ? arcs.set : await (fullSet.current ??= fetchBin(data.meta.files.full.file).then((b) => decodeArcs(b, true)));
+      const { buildGraph, findPath } = await import("./path");
+      if (graph.current?.set !== every) graph.current = { set: every, g: buildGraph(every, data.geo.nverses) };
+      const found = findPath(graph.current.g, pathFrom, pathTo);
+      if (alive) setPathFound({ key: pathKey, hops: found });
+    })().catch(() => {
+      fullSet.current = null;
+      if (alive) setPathFound({ key: pathKey, error: true });
+    });
+    return () => {
+      alive = false;
+    };
+  }, [pathKey, pathFrom, pathTo, data, arcs, retry]);
+  const hops = pathFound && pathKey && pathFound.key === pathKey && !("error" in pathFound) ? pathFound.hops : undefined;
+  const pathError = !!pathFound && pathFound.key === pathKey && "error" in pathFound;
+
+  // ---- a word: the verses of the BLIVRE that have it (word.ts, the site's word index), and the links between them
+  const wordKey = sel?.kind === "word" ? sel.q : null;
+  useEffect(() => {
+    if (!wordKey) return;
+    let alive = true;
+    import("./word")
+      .then((w) => w.versesOfWord(wordKey))
+      .then((result) => alive && setWordFound({ key: wordKey, result }))
+      .catch(() => alive && setWordFound({ key: wordKey, error: true }));
+    return () => {
+      alive = false;
+    };
+  }, [wordKey, retry]);
+  const wordResult = wordFound && wordKey && wordFound.key === wordKey && !("error" in wordFound) ? wordFound.result : undefined;
+  const wordError = !!wordFound && wordFound.key === wordKey && "error" in wordFound;
+  const wordLit = useMemo(() => {
+    if (!wordResult || !data || !arcs) return null;
+    const has = new Uint8Array(data.geo.nverses);
+    for (const gv of wordResult.verses) has[gv] = 1;
+    return { links: wordLinks(arcs.set, has), full: arcs.set.full };
+  }, [wordResult, data, arcs]);
+
   // ---- a chapter's links (the chapter panel, and the preview under the pointer)
   const chapterCi = sel?.kind === "chapter" ? sel.ci : null;
   const chapterList = useMemo(() => (chapterCi !== null && data && arcs ? chapterLinks(data.geo, arcs.set, arcs.idx, chapterCi) : null), [chapterCi, data, arcs]);
@@ -364,6 +463,8 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
     if (!e || !data) return;
     const key = hashOf(sel);
     const fresh = key !== flown.current;
+    // a word's verses glow as marks on the axis; any other selection has none
+    e.setMarks(sel?.kind === "word" && wordResult ? wordMarks(data.geo, wordResult.verses) : null);
     if (!sel) {
       e.setLit(null);
       if (fresh) e.flyTo({ orbit: HOME_ORBIT, box: homeBox(e.size.width, e.size.height) });
@@ -372,7 +473,36 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
     }
     const points: Vec3[] = [];
     let lit;
-    if (sel.kind === "verse") {
+    // a path's hops grow one after the other; a word's links show at once; the rest of the sculpture recedes more
+    // behind a word's many links than behind one verse's
+    let growMs = 1100;
+    let grow = fresh;
+    let recede = 0.42;
+    if (sel.kind === "path") {
+      if (!hops) {
+        e.setLit(null);
+        return;
+      }
+      lit = litPath(data.geo, data.nt, hops);
+      growMs = Math.min(Math.max(hops.length * 650, 1100), 3600);
+      for (const h of hops) points.push(...arcSamples(verseAxis(data.geo, h.from), verseAxis(data.geo, h.to), pairAngle(data.geo, data.nt, h.from, h.to), 4));
+      points.push([verseAxis(data.geo, sel.from), 0, 0], [verseAxis(data.geo, sel.to), 0, 0]);
+    } else if (sel.kind === "word") {
+      if (!wordResult || !wordLit) {
+        e.setLit(null);
+        return;
+      }
+      lit = litWord(data.geo, data.nt, wordLit.links, WORD_LIT);
+      grow = false;
+      recede = 0.32;
+      const xs = Array.from(wordResult.verses, (gv) => verseAxis(data.geo, gv));
+      if (xs.length) points.push([Math.min(...xs), 0, 0], [Math.max(...xs), 0, 0]);
+      wordLit.links.slice(0, 400).forEach((l, i) => {
+        if (i % 4 === 0) points.push(...arcSamples(verseAxis(data.geo, l.a), verseAxis(data.geo, l.b), pairAngle(data.geo, data.nt, l.a, l.b), 3));
+      });
+      // no verse has the word: the whole Bible, beside the panel
+      if (points.length === 0) points.push([-1, 0, 0], [1, 0, 0]);
+    } else if (sel.kind === "verse") {
       if (!partners) return;
       // the filter keeps only its arcs lit; the list's indices stay those of every partner
       const shownPartners = filter === "todas" ? partners : partners.filter((p) => (data.nt[p.gv] === 1) === (filter === "novo"));
@@ -388,7 +518,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
       });
       points.push([chapterAxis(data.geo, sel.ci), 0, 0]);
     }
-    e.setLit(lit, fresh);
+    e.setLit(lit, grow, growMs, recede);
     if (fresh) {
       const { width, height } = e.size;
       const top = TOP + 40 + 8;
@@ -399,16 +529,21 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
       e.flyTo({ orbit: fitOrbit(points, SELECT_VIEW, box.w / box.h, 0.06), box });
       flown.current = key;
     }
-  }, [sel, partners, chapterList, filter, data, arcs, phone]);
+  }, [sel, partners, chapterList, filter, data, arcs, phone, hops, wordResult, wordLit]);
 
-  // ---- the arc in focus, among the arcs the filter shows
+  // ---- the arc in focus: among the arcs the filter shows, or a path's hop
   useEffect(() => {
     const e = engine.current;
-    if (!e || !partners || !data) return;
+    if (!e || !data) return;
+    if (sel?.kind === "path") {
+      if (hops) e.setFocus(pathFlags(hops.length, focus));
+      return;
+    }
+    if (!partners) return;
     const shownPartners = filter === "todas" ? partners : partners.filter((p) => (data.nt[p.gv] === 1) === (filter === "novo"));
     const at = focus >= 0 ? shownPartners.findIndex((p) => p.gv === partners[focus]?.gv) : -1;
     e.setFocus(focusFlags(shownPartners.length, at));
-  }, [focus, partners, filter, data]);
+  }, [focus, partners, filter, data, sel, hops]);
 
   // ---- without a live canvas the names on the axis still sit on the poster's picture (the same view, home.ts)
   useEffect(() => {
@@ -449,7 +584,8 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
   useEffect(() => {
     if (!selKey) return;
     if (document.activeElement === canvasRef.current) return;
-    headingRef.current?.focus({ preventScroll: true });
+    if (headingEl.current) headingEl.current.focus({ preventScroll: true });
+    else wantFocus.current = true;
   }, [selKey]);
 
   // ---- the verse's text and the snippets of the listed verses
@@ -486,12 +622,18 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
     };
   }, [listed, shown, snippets, focus, partners]);
 
-  // ---- labels on the axis: the lit verse and its strongest links among those the filter shows
-  const labelItems = useMemo(() => {
+  // ---- labels on the axis: the lit verse and its strongest links among those the filter shows; a path's steps, in
+  // order; a word's most linked verses
+  const labelItems = useMemo<{ gv: number; main: boolean; i: number; step?: number }[]>(() => {
+    if (sel?.kind === "path") {
+      if (!hops?.length) return [];
+      return [hops[0].from, ...hops.map((h) => h.to)].map((gv, k) => ({ gv, main: k === 0, i: k === 0 ? -1 : k - 1, step: k + 1 }));
+    }
+    if (sel?.kind === "word") return wordResult ? Array.from(wordResult.verses.subarray(0, WORD_LABELS), (gv) => ({ gv, main: false, i: -1 })) : [];
     if (sel?.kind !== "verse" || !partners) return [];
     const top = listed.slice(0, phone ? 5 : 9);
     return [{ gv: sel.gv, main: true, i: -1 }, ...top.map((p) => ({ gv: p.gv, main: false, i: p.i }))];
-  }, [sel, partners, listed, phone]);
+  }, [sel, partners, listed, phone, hops, wordResult]);
 
   const pickChapter = useCallback(
     (x: number) => {
@@ -500,35 +642,32 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
     },
     [data, choose],
   );
+  // a tap on a lit arc: a verse's link opens its card, a path's hop is put in focus; a word's links only show
+  const pickArc = useCallback(
+    (i: number) => {
+      if (sel?.kind === "verse" || sel?.kind === "path") setFocus(i);
+    },
+    [sel],
+  );
   useEffect(() => {
-    latest.current = { data, labels: labelItems, pickChapter, arcsIn: !!arcs, theme };
+    latest.current = { data, labels: labelItems, pickChapter, pickArc, arcsIn: !!arcs, theme, strength };
   });
   // a new set of pills is placed on the next frame
   useEffect(() => {
     engine.current?.request(false);
   }, [labelItems, sel]);
 
-  // ---- the search field
-  function go(e: React.FormEvent) {
+  // ---- the search field: a verse or a chapter ("Is 53:5", "Jo 3"), a path ("Gn 3:15 até Ap 12:9") or a word of the
+  // text ("cordeiro", "pão da vida"): query.ts reads it (loaded when the field is first used)
+  async function go(e: React.FormEvent) {
     e.preventDefault();
-    const r = query.trim() ? parse(query) : null;
-    if (!r || !r.ok) {
-      setQueryError(
-        !r
-          ? "Escreva um versículo: “Is 53:5”, “Jo 3:16”."
-          : r.error === "book" || r.error === "ambiguous"
-            ? "Não achei esse livro. Tente a abreviação: “Gn”, “Sl”, “Jo”."
-            : r.error === "chapter"
-              ? "Esse capítulo não existe nesse livro."
-              : r.error === "verse"
-                ? "Esse versículo não existe nesse capítulo."
-                : "Escreva livro, capítulo e versículo: “Is 53:5”.",
-      );
+    const asked = (await import("./query")).readQuery(query);
+    if ("error" in asked) {
+      setQueryError(asked.error);
       return;
     }
     setQueryError("");
-    const { book, chapter, verse: v } = r.ref;
-    choose(v ? { kind: "verse", gv: verseOf(book, chapter, v) } : { kind: "chapter", ci: book.firstChapter + chapter - 1 });
+    choose(asked.sel);
     setQuery("");
   }
 
@@ -547,6 +686,54 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
     } catch {}
   }
 
+  /** A path from the verse open to another typed in the panel; gives what is wrong, or null when it opens. */
+  async function openPathTo(from: number, input: string): Promise<string | null> {
+    const asked = (await import("./query")).readPathEnd(from, input);
+    if ("error" in asked) return asked.error;
+    choose(asked.sel);
+    return null;
+  }
+
+  function pickStrength(step: number) {
+    setStrength(step);
+    // the arcs with 5 votes or more are not all among the most voted 20,000 a light device starts with
+    if (step === 1 && !arcs?.set.full && full !== "loading") void loadFull();
+  }
+
+  // ---- the image to save or share (snapshot.ts, loaded when asked for): the view now, what is lit, the credits
+  async function saveImage() {
+    const e = engine.current;
+    if (!e || saving === "busy") return;
+    setSaving("busy");
+    try {
+      const { snapshot, deliver, contentOf } = await import("./snapshot");
+      const content = contentOf({
+        sel,
+        labels: labelItems,
+        data,
+        partners: partners?.length ?? null,
+        verseText: sel?.kind === "verse" && verseBody?.gv === sel.gv ? verseBody.text : null,
+        chapterLinks: chapterList?.length ?? null,
+        full: !!arcs?.set.full,
+        hops,
+        wordVerses: wordResult?.verses ?? null,
+        wordLinks: wordLit?.links.length ?? null,
+        groups,
+        strength: strength > 0 ? initial.strength[strength - 1] : null,
+        counts: initial.counts,
+        credits: initial.credits,
+      });
+      const blob = await snapshot(e, content, lightDevice() ? 1.5 : 2);
+      const name = `biblia-conectada-${hashOf(sel).replace(/^#/, "").replace(/[^a-z0-9]+/gi, "-").toLowerCase() || "ceu-de-ligacoes"}.png`;
+      const done = await deliver(blob, name, content.title);
+      setSaving(done === "cancelled" ? "idle" : done);
+      if (done !== "cancelled") window.setTimeout(() => setSaving("idle"), 2400);
+    } catch {
+      setSaving("error");
+    }
+  }
+  const saveLabel = saving === "busy" ? "Preparando a imagem…" : saving === "saved" ? "Imagem salva" : saving === "shared" ? "Imagem enviada" : saving === "error" ? "Tentar a imagem de novo" : "Salvar imagem";
+
   // ---- keyboard on the canvas: with a verse open the arrows walk its links (Enter follows one); otherwise they walk
   // the chapters (Shift: the books) and Enter opens one. Up and down zoom; Esc steps back.
   function onKey(e: React.KeyboardEvent) {
@@ -562,6 +749,12 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
     }
     if (sel?.kind === "verse" && e.key === "Enter" && focus >= 0 && partners?.[focus]) {
       choose({ kind: "verse", gv: partners[focus].gv });
+      e.preventDefault();
+      return;
+    }
+    // with a path open the arrows walk its hops
+    if (sel?.kind === "path" && hops?.length && (e.key === "ArrowRight" || e.key === "ArrowLeft")) {
+      setFocus((f) => (e.key === "ArrowRight" ? (f + 1) % hops.length : (f - 1 + hops.length) % hops.length));
       e.preventDefault();
       return;
     }
@@ -600,7 +793,35 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
         ? `${longRef(BASE, sel.gv)}: ${ligacoes(partners.length)}.${focus >= 0 && partners[focus] ? ` Em foco: ${longRef(BASE, partners[focus].gv)}, ${votos(partners[focus].votes)}.` : ""}`
         : sel?.kind === "chapter" && chapterList
           ? `${chapterLabel(sel.ci).label}: ${ligacoes(chapterList.length)}.`
-          : "";
+          : sel?.kind === "path" && hops !== undefined
+            ? hops
+              ? `Caminho de ${longRef(BASE, sel.from)} a ${longRef(BASE, sel.to)}: ${ligacoes(hops.length)}.${focus >= 0 && hops[focus] ? ` Em foco: ${longRef(BASE, hops[focus].from)} e ${longRef(BASE, hops[focus].to)}, ${votos(hops[focus].votes)}.` : ""}`
+              : `Não há caminho entre ${longRef(BASE, sel.from)} e ${longRef(BASE, sel.to)}.`
+            : sel?.kind === "word" && wordResult !== undefined
+              ? `“${sel.q}”: ${versiculos(wordResult?.verses.length ?? 0)}.`
+              : "";
+
+  // the canvas draws (or will, once loaded): the controls that act on it show
+  const canvasMode = ready !== "poster" && ready !== "error";
+  const strong = strength > 0 ? initial.strength[strength - 1] : null;
+  const strengthControl = (
+    <div className={styles.strength}>
+      <div className={styles.filters} role="group" aria-label="Força das ligações: mostrar só as mais votadas">
+        {[0, ...initial.strength.map((_, i) => i + 1)].map((step) => (
+          <button key={step} type="button" aria-pressed={strength === step} onClick={() => pickStrength(step)}>
+            {step === 0 ? "Todas" : `${initial.strength[step - 1].min}+`}
+          </button>
+        ))}
+      </div>
+      <p className={styles.strengthNote} aria-live="polite">
+        {strong
+          ? `${ligacoes(strong.arcs)} com ${formatInt(strong.min)} votos ou mais${strength === 1 && full === "loading" ? " (carregando…)" : ""}`
+          : arcs && !arcs.set.full
+            ? `As ${formatInt(arcs.set.n)} mais votadas, de ${formatInt(initial.counts.arcs)}`
+            : `${ligacoes(initial.counts.arcs)}`}
+      </p>
+    </div>
+  );
 
   const focused = sel?.kind === "verse" && focus >= 0 && partners ? partners[focus] : null;
   const side = (gv: number) => {
@@ -616,7 +837,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
           className={styles.canvas}
           tabIndex={0}
           role="img"
-          aria-label="Escultura de luz das referências cruzadas da Bíblia. Setas percorrem os capítulos, ou as ligações do versículo aberto; Enter abre; setas para cima e para baixo aproximam; Esc volta."
+          aria-label="Escultura de luz das referências cruzadas da Bíblia. Setas percorrem os capítulos, as ligações do versículo aberto ou os passos do caminho aberto; Enter abre; setas para cima e para baixo aproximam; Esc volta."
           onKeyDown={onKey}
           onPointerDown={reach}
           onWheel={reach}
@@ -633,26 +854,48 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
           aria-label={ready === "poster" || ready === "error" ? "Escultura de luz das referências cruzadas da Bíblia, vista inteira" : undefined}
           aria-hidden={ready === "poster" || ready === "error" ? undefined : true}
         />
+        {/* placed by the engine every frame, in this order of priority: the lit verses, then the books' names (where
+            the camera is near enough for a name to fit its book), then the groups' (with nothing open) */}
         <div ref={labelsRef} className={styles.labels} aria-hidden="true">
-          {!sel &&
-            AXIS_NAMES.map((n) => (
-              <span key={n.label} data-x={n.x} className={`${styles.pill} ${styles.pillAxis}`}>
-                {n.label}
-              </span>
-            ))}
           {labelItems.map((l) => (
             <button
-              key={`${l.gv}-${l.i}`}
+              key={`${l.gv}-${l.i}-${l.step ?? 0}`}
               type="button"
               tabIndex={-1}
               data-gv={l.gv}
               data-main={l.main ? "" : undefined}
-              className={l.main ? `${styles.pill} ${styles.pillMain}` : l.i === focus ? `${styles.pill} ${styles.pillOn}` : styles.pill}
-              onClick={() => setFocus(l.main ? -1 : l.i)}
+              className={l.main ? `${styles.pill} ${styles.pillMain}` : l.i === focus && sel?.kind !== "word" ? `${styles.pill} ${styles.pillOn}` : styles.pill}
+              onClick={() => (sel?.kind === "word" ? choose({ kind: "verse", gv: l.gv }) : setFocus(l.main ? -1 : l.i))}
             >
+              {l.step !== undefined && <span className={styles.pillStep}>{l.step}</span>}
               {shortRef(BASE, l.gv)}
             </button>
           ))}
+          {BOOK_SPANS.map((b) => (
+            <span
+              key={b.name}
+              data-x={(b.x0 + b.x1) / 2}
+              data-x0={b.x0}
+              data-x1={b.x1}
+              data-group={groups.find((g) => b.first >= g.first && b.first < g.end)?.id}
+              data-tier="book"
+              className={`${styles.pill} ${styles.pillAxis}`}
+            >
+              {b.name}
+            </span>
+          ))}
+          {!sel &&
+            endsFirst(groupNames(groups)).map((g) => (
+              <span
+                key={g.id}
+                data-x={axisX((g.first + g.end) / 2 / NCH)}
+                data-group={g.id}
+                data-tier="group"
+                className={`${styles.pill} ${styles.pillAxis} ${styles.pillGroup}`}
+              >
+                {g.name}
+              </span>
+            ))}
         </div>
         {hover && preview && !phone && (
           <div className={styles.tip} style={{ transform: tipTransform(hover.at, hover.flip) }} aria-hidden="true">
@@ -663,23 +906,36 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
             </span>
           </div>
         )}
-        {arcTip && !phone && sel?.kind === "verse" && partners && (() => {
-          const shownPartners = filter === "todas" || !data ? partners : partners.filter((p) => (data.nt[p.gv] === 1) === (filter === "novo"));
-          const p = shownPartners[arcTip.i];
-          if (!p) return null;
+        {arcTip && !phone && (() => {
+          // the lit arc under the pointer: a verse's link, a path's hop, or one of the links between a word's verses
+          let a: number, b: number, v: number, more: string;
+          if (sel?.kind === "verse" && partners) {
+            const shownPartners = filter === "todas" || !data ? partners : partners.filter((p) => (data.nt[p.gv] === 1) === (filter === "novo"));
+            const p = shownPartners[arcTip.i];
+            if (!p) return null;
+            [a, b, v, more] = [sel.gv, p.gv, p.votes, "clique para ver a ligação"];
+          } else if (sel?.kind === "path" && hops?.[arcTip.i]) {
+            const h = hops[arcTip.i];
+            [a, b, v, more] = [h.from, h.to, h.votes, `passo ${arcTip.i + 1} de ${hops.length}`];
+          } else if (sel?.kind === "word" && wordLit?.links[arcTip.i]) {
+            const l = wordLit.links[arcTip.i];
+            [a, b, v, more] = [l.a, l.b, l.votes, "os dois têm a palavra"];
+          } else return null;
           return (
             <div className={styles.tip} style={{ transform: tipTransform(arcTip.at, arcTip.flip) }} aria-hidden="true">
               <strong>
-                {shortRef(BASE, sel.gv)} e {longRef(BASE, p.gv)}
+                {shortRef(BASE, a)} e {longRef(BASE, b)}
               </strong>
-              <span>{votos(p.votes)} · clique para ver a ligação</span>
+              <span>
+                {votos(v)} · {more}
+              </span>
             </div>
           );
         })()}
 
         <form ref={fieldRef} className={styles.search} role="search" onSubmit={go}>
           <label className="visually-hidden" htmlFor={`${ids}-q`}>
-            Versículo ou capítulo
+            Versículo, capítulo, palavra, ou dois versículos com “até” para o caminho entre eles
           </label>
           <input
             id={`${ids}-q`}
@@ -689,7 +945,8 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
               setQuery(e.target.value);
               setQueryError("");
             }}
-            placeholder="Ir para Isaías 53:5"
+            placeholder="Versículo ou palavra"
+            onFocus={() => void import("./query")}
             autoComplete="off"
             enterKeyHint="go"
             aria-invalid={queryError ? true : undefined}
@@ -755,6 +1012,19 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
                 </button>
               </li>
             </ul>
+            <p className={styles.tryLine}>Ou siga o caminho entre dois versículos, ou acenda uma palavra na Bíblia inteira:</p>
+            <ul className={styles.examples}>
+              <li>
+                <button type="button" className={styles.chip} onClick={() => choose({ kind: "path", from: initial.pathExample.from, to: initial.pathExample.to })}>
+                  {initial.pathExample.label}
+                </button>
+              </li>
+              <li>
+                <button type="button" className={styles.chip} onClick={() => choose({ kind: "word", q: initial.wordExample })}>
+                  “{initial.wordExample}”
+                </button>
+              </li>
+            </ul>
             {ready === "poster" ? (
               <p className={styles.hint}>
                 Este aparelho não desenha a escultura em 3D. Busque um versículo: o texto e as ligações aparecem do mesmo jeito, ou{" "}
@@ -771,7 +1041,8 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
               <p className={styles.hint}>
                 {phone
                   ? "Arraste para girar, use dois dedos para aproximar, toque na linha do meio para abrir um capítulo."
-                  : "Arraste para girar, role para aproximar, clique na linha do meio para abrir um capítulo."}
+                  : "Arraste para girar, role para aproximar, clique na linha do meio para abrir um capítulo."}{" "}
+                No campo, um caminho se escreve com “até”: “Rt 1:16 até Jo 15:13”.
               </p>
             )}
             {full === "offer" || full === "error" || full === "loading" ? (
@@ -785,10 +1056,22 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
                 )}
               </p>
             ) : null}
+            {/* phones have no legend: the strength of the links and the image live here, last, so nothing above moves */}
+            {phone && canvasMode && (
+              <div className={styles.phoneTools}>
+                {strengthControl}
+                <button type="button" className={styles.mode} onClick={() => void saveImage()} disabled={saving === "busy" || ready !== "live"}>
+                  {saveLabel}
+                </button>
+              </div>
+            )}
           </section>
         )}
 
+        {/* the legend stands on its bottom edge: the strength row at its top, and the buttons left of "Céu em 2D", come
+            and go (no canvas on this device) without moving anything else */}
         <div className={styles.legend}>
+          {canvasMode && !phone && strengthControl}
           {mode === "testamento" ? (
             <ul aria-label="Cores dos fios">
               <li>
@@ -807,9 +1090,14 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
             </p>
           )}
           <p className={styles.legendActions}>
-            {ready !== "poster" && ready !== "error" && (
+            {canvasMode && (
               <button type="button" className={styles.mode} aria-pressed={mode === "distancia"} onClick={() => setMode((m) => (m === "testamento" ? "distancia" : "testamento"))}>
                 Cor pela distância
+              </button>
+            )}
+            {canvasMode && (
+              <button type="button" className={styles.mode} onClick={() => void saveImage()} disabled={saving === "busy" || ready !== "live"}>
+                {saveLabel}
               </button>
             )}
             <Link className={styles.mode} href="/arcos/plano">
@@ -856,10 +1144,12 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
                 onChapter={() => data && choose({ kind: "chapter", ci: data.geo.chapOfGv[sel.gv] })}
                 copied={copied}
                 onCopy={() => void copyLink()}
+                save={ready === "live" ? { label: saveLabel, busy: saving === "busy", onSave: () => void saveImage() } : null}
+                onPath={(input) => openPathTo(sel.gv, input)}
                 headingId={`${ids}-p`}
                 headingRef={headingRef}
               />
-            ) : (
+            ) : sel.kind === "chapter" ? (
               <ChapterPanel
                 ci={sel.ci}
                 nch={data ? data.geo.nch : 0}
@@ -869,9 +1159,52 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
                 full={!!arcs?.set.full}
                 onVerse={(gv) => choose({ kind: "verse", gv })}
                 onChapter={(ci) => choose({ kind: "chapter", ci })}
+                save={ready === "live" ? { label: saveLabel, busy: saving === "busy", onSave: () => void saveImage() } : null}
                 headingId={`${ids}-p`}
                 headingRef={headingRef}
               />
+            ) : sel.kind === "path" ? (
+              <Suspense fallback={null}>
+                <PathPanel
+                  key={hashOf(sel)}
+                  from={sel.from}
+                  to={sel.to}
+                  hops={hops}
+                  error={pathError}
+                  onRetry={() => setRetry((r) => r + 1)}
+                  loadingAll={!arcs?.set.full}
+                  focus={focus}
+                  onFocus={setFocus}
+                  onVerse={(gv) => choose({ kind: "verse", gv })}
+                  onSwap={() => choose({ kind: "path", from: sel.to, to: sel.from })}
+                  copied={copied}
+                  onCopy={() => void copyLink()}
+                  save={ready === "live" ? { label: saveLabel, busy: saving === "busy", onSave: () => void saveImage() } : null}
+                  headingId={`${ids}-p`}
+                  headingRef={headingRef}
+                />
+              </Suspense>
+            ) : (
+              <Suspense fallback={null}>
+                <WordPanel
+                  key={sel.q}
+                  q={sel.q}
+                  result={wordResult}
+                  error={wordError}
+                  onRetry={() => setRetry((r) => r + 1)}
+                  links={wordLit?.links.length ?? null}
+                  full={!!arcs?.set.full}
+                  lit={Math.min(wordLit?.links.length ?? 0, WORD_LIT)}
+                  groups={groups}
+                  chapterOf={data ? (gv: number) => data.geo.chapOfGv[gv] : null}
+                  onVerse={(gv) => choose({ kind: "verse", gv })}
+                  copied={copied}
+                  onCopy={() => void copyLink()}
+                  save={ready === "live" ? { label: saveLabel, busy: saving === "busy", onSave: () => void saveImage() } : null}
+                  headingId={`${ids}-p`}
+                  headingRef={headingRef}
+                />
+              </Suspense>
             )}
             <p className={styles.credit}>Ligações sugeridas por leitores na OpenBible.info (CC BY), das mais votadas para as menos. Texto da Bíblia Livre (BLIVRE).</p>
           </aside>
@@ -924,37 +1257,55 @@ const tipTransform = (at: { x: number; y: number }, flip: boolean) =>
 // ---------------------------------------------------------------- labels, placed by the engine every frame
 
 /**
- * Moves the pills to their verses on the axis (no React render per frame). The lit verse first, then the strongest
- * links: a pill that would cover another tries the other side of the axis before it hides.
+ * Moves the pills to their places on the axis (no React render per frame), in the order they come: the lit verses (the
+ * lit verse first, then the strongest links), then the books' names, then the groups'. A pill that would cover another
+ * tries the other side of the axis before it hides. A book's name shows only when the camera is near enough for it to
+ * fit inside its book's stretch of the axis; a group's name only when none of its books' names shows. Every size is
+ * read before any pill moves, so a frame forces one layout, not one per pill.
  */
 function placeLabels(root: HTMLDivElement | null, data: Data | null, m: Mat4, w: number, h: number, box: Box) {
   if (!root || !data) return;
   // pills stay inside the picture's box (never under the panel or the field)
   const left = Math.max(4, box.x), right = Math.min(w - 4, box.x + box.w), top = Math.max(4, box.y), bottom = Math.min(h - 4, box.y + box.h);
   const placed: { l: number; r: number; t: number; b: number }[] = [];
-  const nodes = root.children;
-  for (let k = 0; k < nodes.length; k++) {
-    const el = nodes[k] as HTMLElement;
-    const named = el.dataset.x !== undefined;
-    const ax = named ? Number(el.dataset.x) : verseAxis(data.geo, Number(el.dataset.gv));
+  const nodes = Array.from(root.children) as HTMLElement[];
+  const sizes = nodes.map((el) => [el.offsetWidth, el.offsetHeight] as const);
+  const named = new Set<string>();
+  // books get names once the axis is drawn well over twice as long as the picture is wide (the whole Bible shows the
+  // groups; a camera close to a passage, the books around it)
+  const ends = [project(m, [-1, 0, 0], w, h), project(m, [1, 0, 0], w, h)];
+  const near = !ends[0].front || !ends[1].front || Math.hypot(ends[1].x - ends[0].x, ends[1].y - ends[0].y) >= 2.2 * box.w;
+  nodes.forEach((el, k) => {
+    const [bw, bh] = sizes[k];
+    const d = el.dataset;
+    const tier = d.tier;
+    const ax = d.x !== undefined ? Number(d.x) : verseAxis(data.geo, Number(d.gv));
     const s = project(m, [ax, 0, 0], w, h);
-    const bw = el.offsetWidth, bh = el.offsetHeight;
+    let fits = s.front;
+    if (tier === "book") {
+      const a = project(m, [Number(d.x0), 0, 0], w, h), b = project(m, [Number(d.x1), 0, 0], w, h);
+      fits = fits && near && a.front && b.front && Math.hypot(b.x - a.x, b.y - a.y) >= bw + 12;
+    } else if (tier === "group") fits = fits && !named.has(d.group ?? "");
     let x = s.x - bw / 2;
-    // a book's name at an end of the axis slides inward to stay whole (a verse's label stays centred on its verse)
-    if (named && s.x > left && s.x < right) x = Math.min(Math.max(x, left + 2), right - bw - 2);
+    // a label whose place is near an edge of the picture slides inward to stay whole (it still touches its place)
+    if (s.x > left && s.x < right) x = Math.min(Math.max(x, left + 2), right - bw - 2);
     let shown = false;
     let y = 0;
-    for (const dy of [12, -12 - bh, 12 + bh + 6, -18 - 2 * bh]) {
-      y = s.y + dy;
-      const box = { l: x - 4, r: x + bw + 4, t: y - 2, b: y + bh + 2 };
-      const inside = s.front && x > left && x + bw < right && y > top && y + bh < bottom;
-      if (inside && !placed.some((p) => p.l < box.r && box.l < p.r && p.t < box.b && box.t < p.b)) {
-        placed.push(box);
-        shown = true;
-        break;
+    if (fits) {
+      // the groups' names keep to the two rows next to the axis: on a small picture eight names would bury it
+      for (const dy of tier === "group" ? [12, -12 - bh] : [12, -12 - bh, 12 + bh + 6, -18 - 2 * bh]) {
+        y = s.y + dy;
+        const r = { l: x - 4, r: x + bw + 4, t: y - 2, b: y + bh + 2 };
+        const inside = x > left && x + bw < right && y > top && y + bh < bottom;
+        if (inside && !placed.some((p) => p.l < r.r && r.l < p.r && p.t < r.b && r.t < p.b)) {
+          placed.push(r);
+          shown = true;
+          break;
+        }
       }
     }
+    if (shown && tier === "book" && d.group) named.add(d.group);
     el.style.transform = `translate3d(${Math.round(x)}px, ${Math.round(y)}px, 0)`;
     el.style.visibility = shown ? "visible" : "hidden";
-  }
+  });
 }

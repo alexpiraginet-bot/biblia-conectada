@@ -71,20 +71,27 @@ Licença dos dados derivados: CC BY-SA 4.0, exceto o texto BLIVRE, que segue CC 
 A direção, a calibração da luz e o que ficou melhor que a referência estão em `../design/README.md` §15. O código fica em
 `src/components/sculpture/`:
 
-- `Sculpture.tsx`: o estado da página. A seleção fica no fragmento do endereço (`#isaias/53/5`, `#isaias/53`; `state.ts`),
-  e o componente cuida da carga dos dados, do campo, da trilha, dos rótulos no eixo e do cartão da ligação.
-- `Panel.tsx`: o painel (folha no celular) do versículo e do capítulo.
-- `engine.ts`: a câmera, os gestos, o voo, os quadros e a escolha do que está sob o ponteiro.
+- `Sculpture.tsx`: o estado da página. A seleção fica no fragmento do endereço (`#isaias/53/5`, `#isaias/53`,
+  `#caminho/genesis/3/15/apocalipse/12/9`, `#palavra/cordeiro`; `state.ts`), e o componente cuida da carga dos dados, do
+  campo, da trilha, da força das ligações, dos rótulos no eixo (versículos, livros, grupos) e do cartão da ligação.
+- `Panel.tsx`: o painel (folha no celular) do versículo e do capítulo. `PathPanel.tsx` e `WordPanel.tsx`, os painéis do
+  caminho e da palavra, carregam só quando um deles abre.
+- `engine.ts`: a câmera, os gestos, o voo, os quadros, a escolha do que está sob o ponteiro e a captura para a imagem.
 - `renderer.ts` + `shaders.ts`: o WebGL2 próprio, sem biblioteca.
 - `space.ts`: as contas puras de forma e câmera.
 - `arcs.ts`: dos arquivos do pipeline (os mesmos do céu 2D) para o que se desenha.
 - `home.ts`: a vista de abertura, a mesma do pôster.
+- `groups.ts`: os grupos de livros no eixo (os dos medalhões; a página os lê no servidor).
+- Carregados só quando pedidos: `path.ts` (o caminho mais curto entre dois versículos), `word.ts` (os versículos de uma
+  palavra, pelo índice da busca) e `snapshot.ts` (a imagem para salvar ou compartilhar).
 
-`tests/sculpture.test.ts` confere contra o pipeline:
+`tests/sculpture.test.ts` e `tests/sculpture-plus.test.ts` conferem contra o pipeline:
 
 - os parceiros de cada versículo com os arquivos `verse-links`;
 - as ligações de cada capítulo com o céu 2D;
-- os planos dos fios, a câmera, o enquadramento e os endereços.
+- os planos dos fios, a câmera, o enquadramento e os endereços;
+- as contagens da força das ligações (`summary.json`) com o `arcs.bin`, os grupos no eixo com `medalhoes.json`, o
+  caminho com uma busca em largura independente, e os versículos de uma palavra com o texto da BLIVRE.
 
 Sem GPU de verdade (ou sem WebGL2 com render em ponto flutuante), a página fica no pôster, com busca, painel e lista
 funcionando. Para ver o desenho em software num teste, defina `window.__SCULPTURE_ALLOW_SOFTWARE__ = true` antes da carga;

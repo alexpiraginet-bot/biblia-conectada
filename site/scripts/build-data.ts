@@ -17,6 +17,7 @@ import { buildThemes } from "./data/themes";
 import { buildTimeline } from "./data/timeline";
 import { CROSSREFS_SHA256, OUT, REPO, SITE, SRC, readJson, sha256 } from "./data/sources";
 import { createGrid } from "../src/lib/canon/grid";
+import { STRENGTH_MIN } from "../src/components/sky/model";
 
 const t0 = Date.now();
 const log = (msg: string) => console.log(`[data] ${msg} (${((Date.now() - t0) / 1000).toFixed(1)}s)`);
@@ -332,6 +333,13 @@ const summary = {
     chapterEdges: E,
   },
   topVerses,
+  // the steps of the sculpture's "força das ligações" (/arcos): arcs with at least `min` votes (the sum of both
+  // directions, as in arcs.bin); tests/sculpture-plus.test.ts recounts them from arcs.bin
+  strength: STRENGTH_MIN.map((min) => {
+    let arcs = 0;
+    for (let k = 0; k < N; k++) if (av.getInt16(N * 4 + k * 2, true) >= min) arcs++;
+    return { min, arcs };
+  }),
   definitions: {
     links:
       "parceiros únicos de um versículo, com qualquer voto, sem contar o próprio versículo; um trecho (ex.: Mt 5:3–12) conta pelo primeiro versículo, como nos vídeos",

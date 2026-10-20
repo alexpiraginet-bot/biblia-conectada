@@ -1,7 +1,7 @@
 // The sculpture's stage in the browser: the WebGL renderer, the camera and the pointer. React (Sculpture.tsx) owns what
 // is selected and the panel; this owns frames. A frame is drawn only when something changes: a drag, a flight, a lit
 // selection growing, a resize. While idle nothing runs.
-import { SculptureRenderer, type ArcBuffers, type Lit, type Theme } from "./renderer";
+import { SculptureRenderer, type ArcBuffers, type AxisLines, type Lit, type Theme } from "./renderer";
 import {
   arcPoint,
   arcUnderPointer,
@@ -60,6 +60,7 @@ export class SculptureEngine {
   private flight: Flight | null = null;
   private spin = { yaw: 0, pitch: 0 }; // inertia, radians per frame
   private growStart = -1;
+  private growMs = GROW_MS;
   private pulseStart = -1;
   private raf = 0;
   private settleTimer = 0;
@@ -120,8 +121,31 @@ export class SculptureEngine {
     this.request(false);
   }
 
-  setLines(axis: Float32Array, ticks: Float32Array) {
-    this.r.setLines(axis, ticks);
+  setLines(lines: AxisLines) {
+    this.r.setLines(lines);
+    this.request(false);
+  }
+
+  /** 0: every arc; 1..3: only the arcs with STRENGTH_MIN[step - 1] votes or more (the strongest links). */
+  setStrength(step: number) {
+    this.r.strength = step;
+    this.request(false);
+  }
+
+  /** arcs the last frame drew (the interaction tests read it) */
+  get drawnArcs() {
+    return this.r.drawn;
+  }
+
+  /** verses marked on the axis (a word's), for the interaction tests */
+  get marks() {
+    return this.r.markCount;
+  }
+
+  /** Marks on the axis that glow with the lit arcs (arcs.ts wordMarks), or none. */
+  setMarks(lines: Float32Array | null) {
+    this.r.setMarks(lines);
+    this.request(false);
   }
 
   setTheme(theme: Theme) {
@@ -134,15 +158,17 @@ export class SculptureEngine {
     this.r.movingCap = n;
   }
 
-  /** Light a selection (or nothing). The lit arcs grow from the lit verse unless motion is reduced. */
-  setLit(lit: Lit | null, grow = true) {
+  /** Light a selection (or nothing). The lit arcs grow from the lit verse unless motion is reduced; `ms`: how long the
+   *  growth takes (a path's hops grow one after the other). `recede`: how bright the rest of the sculpture stays. */
+  setLit(lit: Lit | null, grow = true, ms = GROW_MS, recede = 0.42) {
     this.lit = lit;
-    this.litRecede = lit ? 0.42 : 1;
+    this.litRecede = lit ? recede : 1;
     if (this.preview) return;
     this.r.setLit(lit);
     this.r.recede = this.litRecede;
     this.pulseStart = -1;
     this.r.pulse = -1;
+    this.growMs = ms;
     if (lit && grow && !this.reduce) {
       this.r.grow = 0;
       this.growStart = performance.now() + (this.flight ? FLIGHT_MS * 0.35 : 0);
@@ -290,7 +316,7 @@ export class SculptureEngine {
     // the camera moved under a resting pointer: what it points at may have changed
     if (turned && this.rest && this.pointers.size === 0) this.hoverAt(this.rest.x, this.rest.y, true);
     if (this.growStart >= 0) {
-      const g = Math.min(Math.max((now - this.growStart) / GROW_MS, 0), 1);
+      const g = Math.min(Math.max((now - this.growStart) / this.growMs, 0), 1);
       this.r.grow = 1 - Math.pow(1 - g, 3);
       if (g >= 1) {
         this.growStart = -1;
@@ -300,7 +326,7 @@ export class SculptureEngine {
       animating = true;
     }
     if (this.pulseStart >= 0) {
-      const u = (now - this.pulseStart) / PULSE_MS;
+      const u = (now - this.pulseStart) / Math.max(PULSE_MS, this.growMs);
       if (u >= 1) {
         this.pulseStart = -1;
         this.r.pulse = -1;
@@ -496,6 +522,35 @@ export class SculptureEngine {
   measure(p = 0.995, layer: "all" | "hero" = "all") {
     this.drawNow("settled");
     return this.r.densityQuantile(p, layer);
+  }
+
+  /**
+   * The picture at another size, for an image to save or share (snapshot.ts): the same camera, its picture filling a
+   * `width` x `height` CSS px box drawn at `dpr` device px per CSS px, with the light fully grown. Drawn and copied in
+   * one task (the context does not keep its drawing buffer once a frame is shown); then the stage's own size and frame
+   * come back. Returns the copy and the view-projection the labels are placed with.
+   */
+  capture(width: number, height: number, dpr: number): { image: HTMLCanvasElement; m: Mat4 } {
+    const m = viewMatrix({ orbit: this.orbit, box: { x: 0, y: 0, w: width, h: height } }, width, height);
+    let star: { x: number; y: number } | null = null;
+    if (this.lit && this.lit.at !== null) {
+      const s = project(m, [this.lit.at, 0, 0], width, height);
+      if (s.front) star = { x: s.x, y: s.y };
+    }
+    const { grow, pulse } = this.r;
+    this.r.grow = 1;
+    this.r.pulse = -1;
+    this.r.resize(width, height, dpr);
+    this.r.draw(m, pixelsPerUnit(height, this.orbit.dist, dpr), exposureZoom(height, this.orbit.dist), this.orbit.dist, "settled", star);
+    const image = document.createElement("canvas");
+    image.width = this.canvas.width;
+    image.height = this.canvas.height;
+    image.getContext("2d")!.drawImage(this.canvas, 0, 0);
+    this.r.grow = grow;
+    this.r.pulse = pulse;
+    // back to the stage's size; resize() asks for the frame
+    this.resize();
+    return { image, m };
   }
 
   destroy() {

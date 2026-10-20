@@ -4,6 +4,7 @@
 // Nothing runs on its own: the page asks for a frame when the camera, the selection or the size changes. A frame drawn
 // while the camera moves uses fewer segments, a lower resolution and, on slower devices, only the most voted arcs; the
 // frame after the motion settles draws everything.
+import { STRENGTH_MIN } from "../sky/model";
 import { FLAT, type Mat4, type Vec3 } from "./space";
 import * as SH from "./shaders";
 
@@ -11,27 +12,40 @@ export type Theme = "noite" | "dia";
 /** Colour by testament (amber Old, mist New, cream bridges) or by distance (the sky of links' stained glass) */
 export type ColorMode = "testamento" | "distancia";
 
-/** Arc geometry: (xa, xb, theta, weight) per arc, x on the axis in [-1, 1]; colour: (r, g, b, hero) per arc. */
-export type ArcBuffers = { geo: Float32Array; color: Float32Array; n: number };
+/** Arc geometry: (xa, xb, theta, weight) per arc, x on the axis in [-1, 1]; colour: (r, g, b, hero) per arc; the votes
+ *  of each arc (the files are sorted by them, most first). */
+export type ArcBuffers = { geo: Float32Array; color: Float32Array; votes: Int16Array; n: number };
 
-/** The lit arcs: (xLit, xPartner, theta, 1) and (0, 0, 0, focus) per arc, with the lit verse's place on the axis. */
+/**
+ * The lit arcs: (xFrom, xTo, theta, 1) and (start, span, 0, focus) per arc, with the lit verse's place on the axis. An
+ * arc grows from xFrom over its share [start, start + span] of the growth (0, 1 for all at once; a path's hops one
+ * after the other), and the pulse of light runs along the same shares.
+ */
 export type Lit = { geo: Float32Array; flags: Float32Array; n: number; at: number | null };
+
+/** The axis drawn over the frame: the line, the book boundaries (LINES) and the bands of the book groups under it
+ *  (TRIANGLES), (x, y, z, alpha) per vertex. */
+export type AxisLines = { axis: Float32Array; ticks: Float32Array; bands: Float32Array };
 
 export type Quality = "settled" | "moving";
 
 type Prog = { p: WebGLProgram; u: Record<string, WebGLUniformLocation> };
 type Target = { tex: WebGLTexture; fbo: WebGLFramebuffer; w: number; h: number };
-type Bucket = { first: number; count: number; rmax: number; heads: number[] };
+/** `heads`: arcs of the bucket among the most voted HEAD_LEVELS; `strong`: arcs with STRENGTH_MIN votes or more */
+type Bucket = { first: number; count: number; rmax: number; heads: number[]; strong: number[] };
 
 // radius boundaries (units of the axis half length) of the segment buckets; an arc's segments follow its size on screen
 const RADII = [0.002, 0.004, 0.008, 0.016, 0.032, 0.064, 0.128, 0.256, 0.512, 1.01];
 /** arcs drawn while the camera moves on slower devices: the most voted first (the files are sorted by votes) */
 export const HEAD_LEVELS = [30000, 100000] as const;
 // 99.5th percentile of the density over the opening view, measured on the full file at 1440 x 900 with the engine's
-// measure() (the calibration notes are in design/README.md §15); a rendering constant, not a figure on the page
-const P99_HOME = 340;
-/** the same for the hero strands alone (the links with HERO_VOTES or more) */
-const H99_HOME = 38;
+// measure() (the calibration notes are in design/README.md §15); rendering constants, not figures on the page. One per
+// strength step: every arc, then the arcs with STRENGTH_MIN votes or more (fewer arcs pile up less; measured on the
+// same view, 20/10: 162, 33 and 6.6 against 339 for every arc).
+const P99_HOME = [340, 162, 33, 6.6] as const;
+/** the same for the hero strands alone (the links with HERO_VOTES or more: the same strands at the first three steps;
+ *  at 100 votes or more, measured 6.6 where the first steps measured 32.5, scaled to their 38) */
+const H99_HOME = [38, 38, 38, 7.7] as const;
 /** the page's ground (tokens.json `ground`), so the canvas, the poster and the stage behind them never show a seam;
  *  tests/sculpture-poster.test.ts checks it */
 export const GROUND: Record<Theme, Vec3> = { noite: [6 / 255, 18 / 255, 27 / 255], dia: [246 / 255, 241 / 255, 230 / 255] };
@@ -82,6 +96,8 @@ export class SculptureRenderer {
   private litGeoBuf: WebGLBuffer;
   private litFlagBuf: WebGLBuffer;
   private lineBuf: WebGLBuffer;
+  private markBuf: WebGLBuffer;
+  private markVao: WebGLVertexArrayObject;
   private t: Record<"all" | "hero" | "q1" | "q2" | "s1" | "s2" | "lit" | "l1" | "l2", Target> | null = null;
   private dbo: WebGLFramebuffer | null = null;
   private W = 0;
@@ -89,8 +105,12 @@ export class SculptureRenderer {
   private dpr = 1;
   private n = 0;
   private buckets: Bucket[] = [];
+  /** arcs at each strength step: every arc, then those with STRENGTH_MIN votes or more */
+  private strongTotal: number[] = [0, 0, 0, 0];
   private lit: Lit | null = null;
-  private lineCount = { axis: 0, ticks: 0, mark: 0 };
+  private lineCount = { axis: 0, ticks: 0, bands: 0, mark: 0 };
+  /** vertices of the marks on the axis (two per verse: a word's verses), drawn into the lit layer */
+  private marks = 0;
   private lost = false;
   // the sculpture's own layers (density and bloom) are reused while the view stays the same
   private baseKey = "";
@@ -106,6 +126,10 @@ export class SculptureRenderer {
   mark: number | null = null;
   /** arcs the device can draw while moving (all, or one of HEAD_LEVELS) */
   movingCap = Infinity;
+  /** 0: every arc; 1..3: only the arcs with STRENGTH_MIN[strength - 1] votes or more */
+  strength = 0;
+  /** arcs the last frame drew (the interaction tests read it) */
+  drawn = 0;
 
   private constructor(gl: WebGL2RenderingContext) {
     this.gl = gl;
@@ -123,13 +147,20 @@ export class SculptureRenderer {
     this.litGeoBuf = gl.createBuffer()!;
     this.litFlagBuf = gl.createBuffer()!;
     this.lineBuf = gl.createBuffer()!;
+    this.markBuf = gl.createBuffer()!;
     this.arcVao = gl.createVertexArray()!;
     this.litVao = gl.createVertexArray()!;
     this.lineVao = gl.createVertexArray()!;
-    gl.bindVertexArray(this.lineVao);
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.lineBuf);
-    gl.enableVertexAttribArray(0);
-    gl.vertexAttribPointer(0, 4, gl.FLOAT, false, 0, 0);
+    this.markVao = gl.createVertexArray()!;
+    for (const [vao, buf] of [
+      [this.lineVao, this.lineBuf],
+      [this.markVao, this.markBuf],
+    ] as const) {
+      gl.bindVertexArray(vao);
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.enableVertexAttribArray(0);
+      gl.vertexAttribPointer(0, 4, gl.FLOAT, false, 0, 0);
+    }
     gl.bindVertexArray(null);
   }
 
@@ -176,6 +207,9 @@ export class SculptureRenderer {
     const geo = new Float32Array(n * 4);
     const color = new Float32Array(n * 4);
     const heads = RADII.map(() => HEAD_LEVELS.map(() => 0));
+    // the file is sorted by votes, most first, and the bucket sort is stable: inside each bucket the arcs with enough
+    // votes for a strength step are its first ones, as are the most voted for a moving frame
+    const strong = RADII.map(() => STRENGTH_MIN.map(() => 0));
     for (let k = 0; k < n; k++) {
       const j = which[k];
       const d = fill[j]++ * 4;
@@ -184,8 +218,12 @@ export class SculptureRenderer {
       HEAD_LEVELS.forEach((lvl, i) => {
         if (k < lvl) heads[j][i]++;
       });
+      STRENGTH_MIN.forEach((min, i) => {
+        if (arcs.votes[k] >= min) strong[j][i]++;
+      });
     }
-    this.buckets = RADII.map((rmax, j) => ({ first: first[j], count: counts[j], rmax, heads: heads[j] })).filter((b) => b.count > 0);
+    this.buckets = RADII.map((rmax, j) => ({ first: first[j], count: counts[j], rmax, heads: heads[j], strong: strong[j] })).filter((b) => b.count > 0);
+    this.strongTotal = [n, ...STRENGTH_MIN.map((_, i) => this.buckets.reduce((sum, b) => sum + b.strong[i], 0))];
     this.n = n;
     this.baseDirty = true;
     gl.bindVertexArray(this.arcVao);
@@ -247,15 +285,30 @@ export class SculptureRenderer {
     gl.bufferData(gl.ARRAY_BUFFER, flags, gl.DYNAMIC_DRAW);
   }
 
-  /** The axis and the book boundaries: (x, y, z, alpha) per vertex, LINES. */
-  setLines(axis: Float32Array, ticks: Float32Array) {
-    const all = new Float32Array(axis.length + ticks.length + 8);
+  /** The axis, the book boundaries and the bands of the book groups (arcs.ts axisLines). */
+  setLines({ axis, ticks, bands }: AxisLines) {
+    const all = new Float32Array(axis.length + ticks.length + bands.length + 8);
     all.set(axis, 0);
     all.set(ticks, axis.length);
-    this.lineCount = { axis: axis.length / 4, ticks: ticks.length / 4, mark: 2 };
+    all.set(bands, axis.length + ticks.length);
+    this.lineCount = { axis: axis.length / 4, ticks: ticks.length / 4, bands: bands.length / 4, mark: 2 };
     const gl = this.gl;
     gl.bindBuffer(gl.ARRAY_BUFFER, this.lineBuf);
     gl.bufferData(gl.ARRAY_BUFFER, all, gl.DYNAMIC_DRAW);
+  }
+
+  /** verses marked on the axis now (two vertices each) */
+  get markCount() {
+    return this.marks / 2;
+  }
+
+  /** Marks on the axis that glow with the lit arcs (a word's verses): (x, y, z, 1) per vertex, LINES; null for none. */
+  setMarks(lines: Float32Array | null) {
+    this.marks = lines ? lines.length / 4 : 0;
+    if (!lines) return;
+    const gl = this.gl;
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.markBuf);
+    gl.bufferData(gl.ARRAY_BUFFER, lines, gl.DYNAMIC_DRAW);
   }
 
   // ------------------------------------------------------------------ size
@@ -366,12 +419,13 @@ export class SculptureRenderer {
       });
     };
     // exposure: as the camera comes closer the arcs spread over more pixels, so the same density means more
-    const p99 = P99_HOME * zoom;
-    const h99 = H99_HOME * zoom;
+    const strength = Math.min(Math.max(this.strength, 0), STRENGTH_MIN.length);
+    const p99 = P99_HOME[strength] * zoom;
+    const h99 = H99_HOME[strength] * zoom;
 
     // ---- the sculpture itself (density and its bloom): kept from the last frame when the camera has not moved, so a
     // light growing, a hover or a mark costs only the lit layer
-    const key = `${quality}|${zoom.toFixed(5)}|${depthRef.toFixed(5)}|${Array.prototype.map.call(m, (v: number) => v.toFixed(6)).join(",")}`;
+    const key = `${quality}|${strength}|${zoom.toFixed(5)}|${depthRef.toFixed(5)}|${Array.prototype.map.call(m, (v: number) => v.toFixed(6)).join(",")}`;
     if (this.baseDirty || key !== this.baseKey) {
       gl.bindFramebuffer(gl.FRAMEBUFFER, this.dbo);
       gl.viewport(0, 0, W, H);
@@ -387,13 +441,19 @@ export class SculptureRenderer {
         gl.uniform1f(arc.u.uHalf, 0.5 * this.dpr);
         gl.uniform1f(arc.u.uFlat, FLAT);
         gl.uniform1f(arc.u.uDepthRef, depthRef);
-        // fewer arcs while moving: their density is scaled up so the frame keeps its brightness
+        // the strength step keeps the first arcs of each bucket (the most voted); fewer arcs while moving: their
+        // density is scaled up so the frame keeps its brightness
         const level = moving && this.movingCap < this.n ? HEAD_LEVELS.findIndex((l) => l >= this.movingCap) : -1;
-        const drawn = level >= 0 ? this.buckets.reduce((sum, b) => sum + b.heads[level], 0) : this.n;
-        gl.uniform1f(arc.u.uNorm, Math.pow(this.n / Math.max(drawn, 1), 0.7));
+        const countOf = (b: Bucket) => {
+          const base = strength > 0 ? b.strong[strength - 1] : b.count;
+          return level >= 0 ? Math.min(base, b.heads[level]) : base;
+        };
+        const drawn = this.buckets.reduce((sum, b) => sum + countOf(b), 0);
+        this.drawn = drawn;
+        gl.uniform1f(arc.u.uNorm, Math.pow(this.strongTotal[strength] / Math.max(drawn, 1), 0.7));
         gl.bindVertexArray(this.arcVao);
         for (const b of this.buckets) {
-          const count = level >= 0 ? b.heads[level] : b.count;
+          const count = countOf(b);
           if (count === 0) continue;
           const rpx = b.rmax * pxPerUnit;
           let seg = Math.ceil(Math.PI * Math.sqrt(Math.max(rpx, 1) / 2));
@@ -448,6 +508,18 @@ export class SculptureRenderer {
       gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 2 * ((moving ? 48 : 128) + 1), lit.n);
       gl.disable(gl.BLEND);
     }
+    // marks on the axis (a word's verses) light the selection channel too, so they glow and take the lit colour
+    if (this.marks > 0) {
+      gl.enable(gl.BLEND);
+      gl.blendFunc(gl.ONE, gl.ONE);
+      const line = this.progs.line;
+      gl.useProgram(line.p);
+      gl.uniformMatrix4fv(line.u.uMVP, false, m);
+      gl.uniform4f(line.u.uC, 1, 0, 0, 1);
+      gl.bindVertexArray(this.markVao);
+      gl.drawArrays(gl.LINES, 0, this.marks);
+      gl.disable(gl.BLEND);
+    }
     pass(this.progs.down, t.l1, (u) => {
       tex(0, t.lit.tex);
       gl.uniform1i(u.uSrc, 0);
@@ -493,9 +565,12 @@ export class SculptureRenderer {
     if (this.lineCount.axis) gl.drawArrays(gl.LINES, 0, this.lineCount.axis);
     gl.uniform4f(line.u.uC, ink[0], ink[1], ink[2], theme === "dia" ? 0.45 : 0.4);
     if (this.lineCount.ticks) gl.drawArrays(gl.LINES, this.lineCount.axis, this.lineCount.ticks);
+    // the bands of the book groups, a scale under the axis (each vertex carries its band's alpha)
+    gl.uniform4f(line.u.uC, ink[0], ink[1], ink[2], theme === "dia" ? 0.5 : 0.42);
+    if (this.lineCount.bands) gl.drawArrays(gl.TRIANGLES, this.lineCount.axis + this.lineCount.ticks, this.lineCount.bands);
     if (this.mark !== null) {
       const x = this.mark;
-      const at = this.lineCount.axis + this.lineCount.ticks;
+      const at = this.lineCount.axis + this.lineCount.ticks + this.lineCount.bands;
       const h = 0.03;
       gl.bindBuffer(gl.ARRAY_BUFFER, this.lineBuf);
       gl.bufferSubData(gl.ARRAY_BUFFER, at * 16, new Float32Array([x, -h, 0, 1, x, h, 0, 1]));
@@ -530,10 +605,12 @@ export class SculptureRenderer {
     gl.deleteBuffer(this.litGeoBuf);
     gl.deleteBuffer(this.litFlagBuf);
     gl.deleteBuffer(this.lineBuf);
+    gl.deleteBuffer(this.markBuf);
     for (const p of Object.values(this.progs)) gl.deleteProgram(p.p);
     gl.deleteVertexArray(this.arcVao);
     gl.deleteVertexArray(this.litVao);
     gl.deleteVertexArray(this.lineVao);
+    gl.deleteVertexArray(this.markVao);
     // the context itself stays: a canvas gives the same context back, and a lost one would refuse the next renderer
     // (React mounts effects twice in development)
   }

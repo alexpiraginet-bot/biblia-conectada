@@ -17,6 +17,8 @@ export type Summary = {
     versesWithLinks: number;
   };
   topVerses: { gv: number; ref: string; path: string; links: number }[];
+  /** arcs with at least `min` votes, for the sculpture's "força das ligações" (sky/model.ts STRENGTH_MIN) */
+  strength: { min: number; arcs: number }[];
 };
 export const summary = summaryJson as Summary;
 
