@@ -1,0 +1,13 @@
+{
+  "url": "http://localhost:3001/",
+  "browser": "Edge",
+  "initialProgress": "0 points, 0/3, no data deleted",
+  "firstQuestion": "wrong As estrelas, retry correct A luz: 0 points and 1/3",
+  "secondQuestion": "first correct O amor: 20 points and 2/3",
+  "thirdQuestion": "first correct A paz: 40 points and 3/3",
+  "badge": "Primeiras conexões",
+  "reload": "40 points, 3/3 and badge preserved; answers disabled and Ja concluida",
+  "screenshot": "quest-complete.png",
+  "afterReloadText": "SUA JORNADA\nToda descoberta\ncomeça com atenção.\n\nLeia um trecho, encontre a resposta e faça a próxima conexão. Um pequeno percurso para olhar de novo.\n\nCONECTOR\n40\npontos de descoberta\nSemente 0\nExplorador 20\nConector 40\n\n20 pontos por acerto na primeira tentativa. Cada descoberta conta uma vez.\n\n↳\nSalvo neste navegador\n\nPERCURSO DE DESCOBERTAS\n3 DE 3\n✓\n✓\n✓\nLeia. Perceba. Conecte.\nGênesis 1:3 BLIVRE\nE disse Deus: Haja luz; e houve luz.\nO que Deus chama à existência nesta passagem?\n✓\nA luz\n↗\nB\nAs estrelas\n↗\nC\nOs mares\n↗\nConexão descoberta.\nJá concluída\n\nÉ a luz. Gênesis começa com a criação e nos convida a acompanhar cada parte dessa história.\n\nLer no contexto\n↗\n\nDISTINTIVO CONQUISTADO\nPrimeiras conexões\nVocê concluiu este percurso. Continue seguindo os fios da história.",
+  "codeChanged": false
+}

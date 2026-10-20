@@ -1,0 +1,30 @@
+{
+  "asset": "cana-wedding.webp",
+  "description": "Recriação artística de um casamento em Caná, com talhas de pedra",
+  "display_label": "Recriação",
+  "ai_generated": true,
+  "local_only": true,
+  "generator": "ComfyUI",
+  "model": "FLUX.1 dev FP8",
+  "checkpoint": "flux1-dev-fp8.safetensors",
+  "width": 1344,
+  "height": 768,
+  "steps": 24,
+  "seed": 20261027,
+  "prompt_id": "b3d2531c-fe3f-4cdb-8f15-45b4ab3069c8",
+  "prompt_file": "cana-wedding-prompt-r2.txt",
+  "source": "C:\\Users\\R2\\IA\\ComfyUI_windows_portable\\ComfyUI\\output\\IA-Local_00037_.png",
+  "source_sha256": "51051D90BED2E7BAB7D33710586EB7D83320E4472F86966FE40B39E355BCB4AE",
+  "webp_sha256": "92F742232420F83098229B34395FAA59BA49A514F0AFD176E6DDE2F0CBFD3A0A",
+  "webp_bytes": 155952,
+  "webp_quality": 82,
+  "webp_effort": 6,
+  "inspected": true,
+  "review_notes": "Accepted R2: large pale stone jars, adult Jesus in profile, modest ancient robes and low feast table, Mediterranean foliage, no cacti or text visible. Artistic representation, not an archaeological reconstruction.",
+  "rejected_versions": [
+    {
+      "result": "cana-wedding-result.json",
+      "reason": "Cacti and modern-looking clothing"
+    }
+  ]
+}

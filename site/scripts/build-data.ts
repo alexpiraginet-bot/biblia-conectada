@@ -3,7 +3,7 @@
 //   npm run data
 import { mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
-import { join, relative } from "node:path";
+import { join, relative, sep } from "node:path";
 import { loadBlivre, loadCanon } from "./data/canon";
 import { chapterGraph, LAYOUT } from "./data/chapter-graph";
 import { buildCommunity } from "./data/community";
@@ -96,7 +96,7 @@ for (const dir of OUTPUT_DIRS) {
 }
 const written: Record<string, string> = {};
 function write(path: string, data: string | Uint8Array) {
-  const root = OUTPUT_DIRS.find((d) => path.startsWith(d + "/"));
+  const root = OUTPUT_DIRS.find((d) => path.startsWith(d + sep));
   check(root, `output path outside the generated folders: ${path}`);
   const staged = root + STAGE + path.slice(root.length);
   mkdirSync(join(staged, ".."), { recursive: true });

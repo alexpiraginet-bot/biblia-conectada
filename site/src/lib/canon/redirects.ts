@@ -9,11 +9,11 @@ import type { Book } from "./types";
 export const RESERVED = [
   // pages
   "ler", "sobre", "arcos", "explorar", "conexao", "linha-do-tempo", "tema", "palavra", "ponte", "trilha", "mesa",
-  "dados", "salvos", "buscar", "privacidade",
+  "dados", "salvos", "buscar", "privacidade", "caminhos", "cronologia",
   // planned (design/README.md §5, HANDOFF §6)
   "grafo", "mapa", "lugar", "pessoa", "evento", "estudo", "assistente", "og",
   // public folders and framework paths
-  "data", "sky", "sculpture", "medalhoes", "img", "recepcao", "_next", "api", "icon.svg",
+  "data", "sky", "sculpture", "medalhoes", "img", "recepcao", "journey", "_next", "api", "icon.svg",
 ];
 
 export function abbreviationRedirects(books: readonly Pick<Book, "osis" | "name" | "slug">[]) {

@@ -1,0 +1,159 @@
+.journey {
+  --journey-paper: #eee7d7;
+  --journey-paper-light: #f8f3e9;
+  --journey-ink: #263e32;
+  --journey-muted: #5e6656;
+  --journey-water: #ceddd6;
+  --journey-water-ink: #4a6a65;
+  --journey-ochre: #8b572d;
+  --journey-panel: #132e25;
+  --journey-panel-raised: #1b3a2f;
+  --journey-white: #f3eddf;
+  --journey-mint: #c2d6bd;
+  --journey-line: #385348;
+  --journey-meta: #b2c4b7;
+  margin-top: 38px;
+}
+.stopsNav { overflow-x: auto; scrollbar-width: thin; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-bottom: 30px; }
+.stopsNav ol { display: flex; list-style: none; margin: 0; padding: 0; min-width: max-content; }
+.stopsNav li { flex: 1; }
+.stopsNav button { display: flex; align-items: center; gap: 10px; min-height: 66px; padding: 12px 18px; border: 0; border-bottom: 2px solid transparent; background: transparent; color: var(--ink-2); font: 500 13px/1.4 var(--font-ui); cursor: pointer; white-space: nowrap; }
+.stopsNav button span { color: var(--accent); font-size: 11px; font-variant-numeric: tabular-nums; }
+.stopsNav button[aria-current] { border-bottom-color: var(--accent); color: var(--ink); background: color-mix(in srgb, var(--accent) 6%, transparent); }
+.stopsNav button:hover { color: var(--accent); }
+.stopsNav button:focus-visible { outline: 2px solid var(--focus); outline-offset: -4px; }
+.columns { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(340px, 0.85fr); gap: 28px; align-items: start; }
+.mapColumn { position: sticky; top: calc(var(--bar-h) + 20px); }
+.mapFrame { border: 1px solid color-mix(in srgb, var(--journey-ink) 20%, transparent); border-radius: 18px; overflow: hidden; background: var(--journey-paper); color: var(--journey-ink); }
+.mapTitle { display: flex; justify-content: space-between; gap: 16px; padding: 22px 24px 0; font: 500 12px/1.3 var(--font-ui); color: var(--journey-muted); }
+.mapTitle span:last-child { font-size: 10px; }
+.map { position: relative; width: 100%; aspect-ratio: 800/850; overflow: hidden; cursor: grab; }
+.map:active { cursor: grabbing; }
+.mapPlane { position: absolute; inset: 0; width: 100%; height: 100%; transform-origin: 50% 50%; }
+.terrain { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.sea, .lake { fill: var(--journey-water); }
+.waterLines { color: var(--journey-water-ink); }
+.lake, .coast { stroke: color-mix(in srgb, var(--journey-water-ink) 50%, transparent); stroke-width: 1.4; }
+.coast { fill: none; }
+.river { fill: none; stroke: var(--journey-water-ink); stroke-width: 2; opacity: 0.7; }
+.mountains { fill: none; stroke: var(--journey-muted); stroke-width: 1; opacity: 0.2; }
+.regionNames { fill: var(--journey-muted); font: 440 28px var(--font-display); letter-spacing: 3px; text-anchor: middle; opacity: 0.55; }
+.waterNames { fill: var(--journey-water-ink); font: italic 440 21px var(--font-display); letter-spacing: 1px; text-anchor: middle; }
+.itinerary { fill: none; stroke: var(--journey-ochre); stroke-width: 2.2; stroke-linecap: round; stroke-dasharray: 5 8; }
+.walked { opacity: 0.85; }
+.ahead { opacity: 0.35; }
+.routeLight { stroke: var(--journey-ochre); stroke-width: 4; stroke-dasharray: 3 97; opacity: 0; }
+.leaders { stroke: color-mix(in srgb, var(--journey-ink) 38%, transparent); stroke-width: 1; fill: none; }
+.activeLeader { stroke: var(--journey-ochre); stroke-width: 1.5; }
+.point { fill: var(--journey-ochre); stroke: var(--journey-paper-light); stroke-width: 2; }
+.selectedPoint { fill: var(--journey-ochre); stroke: var(--journey-paper-light); stroke-width: 3; }
+.pointRing { fill: none; stroke: var(--journey-ochre); stroke-width: 1; opacity: 0.35; }
+.compass { fill: none; stroke: var(--journey-muted); stroke-width: 0.8; opacity: 0.55; }
+.compass text { fill: var(--journey-muted); stroke: none; font: 500 13px var(--font-ui); text-anchor: middle; }
+.mapStop { position: absolute; display: grid; grid-template-columns: 27px 1fr; align-items: center; column-gap: 7px; translate: -50% -50%; min-height: 46px; max-width: 154px; padding: 7px 10px 7px 7px; border: 1px solid color-mix(in srgb, var(--journey-ink) 18%, transparent); border-radius: 9px; background: var(--journey-paper-light); color: var(--journey-ink); cursor: pointer; text-align: left; box-shadow: 0 3px 7px color-mix(in srgb, var(--journey-ink) 7%, transparent); }
+.mapStop > span { display: grid; grid-row: 1/3; place-items: center; width: 27px; height: 27px; border: 1px solid color-mix(in srgb, var(--journey-ink) 22%, transparent); border-radius: 50%; font: 500 10px/1 var(--font-ui); }
+.mapStop strong { font: 500 12px/1.2 var(--font-ui); }
+.mapStop small { color: var(--journey-muted); font: 400 9px/1.4 var(--font-ui); }
+.mapStop:hover { border-color: var(--journey-ochre); z-index: 3; }
+.mapStop:focus-visible { outline: 2px solid var(--journey-ochre); outline-offset: 3px; z-index: 4; }
+.selectedStop { background: var(--journey-panel); color: var(--journey-white); border-color: var(--journey-panel); z-index: 2; }
+.selectedStop > span { background: var(--journey-mint); color: var(--journey-panel); border-color: var(--journey-mint); }
+.selectedStop small { color: var(--journey-meta); }
+.mapTools { position: absolute; z-index: 5; bottom: 20px; left: 20px; display: flex; padding: 3px; gap: 2px; background: var(--journey-paper-light); border: 1px solid color-mix(in srgb, var(--journey-ink) 20%, transparent); border-radius: 10px; }
+.mapTools button { display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 6px; background: transparent; color: var(--journey-ink); font: 400 22px var(--font-ui); cursor: pointer; }
+.mapTools button:hover { background: var(--journey-water); }
+.mapTools button:focus-visible { outline: 2px solid var(--journey-ochre); outline-offset: -2px; }
+.mapTools button:disabled { opacity: 0.35; cursor: default; }
+.mapStamp { position: absolute; bottom: 36px; right: 23px; font: 400 10px/1.3 var(--font-ui); color: var(--journey-muted); }
+.mapHelp { padding: 17px 24px; margin: 0; border-top: 1px solid color-mix(in srgb, var(--journey-ink) 16%, transparent); font: 400 12px/1.6 var(--font-ui); color: var(--journey-muted); }
+.mapCaution { margin: 15px 10px 0; font: 400 12px/1.6 var(--font-ui); color: var(--ink-3); max-width: 66ch; }
+.detail { scroll-margin-top: calc(var(--bar-h) + 18px); background: var(--journey-panel); color: var(--journey-white); border-radius: 18px; overflow: hidden; border: 1px solid var(--journey-line); }
+.returnToMap { display: none; }
+.detailTop { display: flex; justify-content: space-between; gap: 16px; padding: 22px 26px; border-bottom: 1px solid var(--journey-line); color: var(--journey-meta); font: 400 11px/1.4 var(--font-ui); }
+.detailHeading { padding: 28px 30px 24px; }
+.place { margin: 0 0 14px; color: var(--journey-mint); font: 500 13px/1.4 var(--font-ui); }
+.detailHeading h2 { margin: 0 0 19px; color: var(--journey-white); font: 440 clamp(2rem, 2.3vw, 2.6rem)/1.1 var(--font-display); text-wrap: balance; outline-offset: 5px; }
+.detailHeading h2:focus { outline: none; }
+.context { font: 400 14px/1.75 var(--font-ui); color: var(--journey-meta); margin: 0; }
+.illustration { margin: 0; position: relative; }
+.illustration img { display: block; width: 100%; height: auto; max-height: 260px; object-fit: cover; }
+.illustration figcaption { position: absolute; bottom: 12px; left: 16px; padding: 4px 8px; border-radius: 3px; background: var(--journey-panel); color: var(--journey-white); font: 400 10px/1.4 var(--font-ui); }
+.reading { padding: 27px 30px; }
+.passage h3 { color: var(--journey-mint); font: 500 13px/1.4 var(--font-ui); margin: 0 0 18px; }
+.passage p { color: var(--journey-white); margin: 0 0 14px; font: 400 18px/1.8 var(--font-reading); }
+.verseNumber { color: var(--journey-mint); margin-right: 8px; font: 500 10px/1 var(--font-ui); vertical-align: super; }
+.readLink { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; color: var(--journey-mint); font: 500 13px/1.4 var(--font-ui); text-decoration: none; }
+.textCredit { color: var(--journey-meta); margin: 10px 0 0; font: 400 10px/1.5 var(--font-ui); }
+.moreReadings, .connections { padding: 26px 30px; border-top: 1px solid var(--journey-line); }
+.moreReadings > h3, .connections > h3 { color: var(--journey-white); margin: 0 0 18px; font: 440 25px/1.2 var(--font-display); }
+.parallelNote, .parallelDescription, .connections > p { color: var(--journey-meta); font: 400 12px/1.7 var(--font-ui); margin: 0 0 16px; }
+.parallel { border-top: 1px solid var(--journey-line); }
+.parallel summary { list-style: none; display: flex; justify-content: space-between; align-items: center; min-height: 50px; color: var(--journey-mint); font: 500 13px/1.5 var(--font-ui); cursor: pointer; }
+.parallel summary::-webkit-details-marker { display: none; }
+.parallel summary span { font-size: 20px; }
+.parallel[open] summary span { rotate: 45deg; }
+.parallel .passage h3 { display: none; }
+.parallel .passage p { font-size: 17px; }
+.parallel > a { display: inline-flex; align-items: center; gap: 9px; min-height: 44px; color: var(--journey-mint); font: 500 12px/1.4 var(--font-ui); text-decoration: none; margin-bottom: 12px; }
+.connections ul { list-style: none; padding: 0; margin: 0; }
+.connections li { padding: 20px 0; border-top: 1px solid var(--journey-line); }
+.connections li:last-child { padding-bottom: 0; }
+.connections a { display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 44px; font: 500 13px/1.6 var(--font-ui); color: var(--journey-mint); text-decoration: none; }
+.connections a svg { flex-shrink: 0; }
+.connections blockquote { color: var(--journey-white); font: 400 17px/1.75 var(--font-reading); padding: 0; margin: 12px 0; }
+.connections small { color: var(--journey-meta); font: 400 10px/1.4 var(--font-ui); }
+.locationNote { padding: 22px 30px; border-top: 1px solid var(--journey-line); color: var(--journey-meta); font: 400 11px/1.6 var(--font-ui); }
+.locationNote p { margin: 0 0 10px; }
+.locationNote a { color: var(--journey-mint); text-underline-offset: 3px; }
+.nextStop { display: flex; align-items: stretch; justify-content: space-between; gap: 14px; padding: 14px 23px; border-top: 1px solid var(--journey-line); background: var(--journey-panel-raised); }
+.nextStop button { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; border: 0; background: transparent; color: var(--journey-mint); font: 500 12px/1.5 var(--font-ui); cursor: pointer; }
+.nextStop button svg { flex-shrink: 0; }
+.nextStop button:disabled { opacity: 0.3; cursor: default; }
+.detail a:hover { color: var(--journey-white); }
+.detail a:focus-visible, .detail button:focus-visible, .detail summary:focus-visible { outline: 2px solid var(--journey-mint); outline-offset: 4px; }
+@media (prefers-reduced-motion: no-preference) {
+  .routeLight { animation: trace-route 1.8s ease-out both; }
+  .pointRing { animation: breathe-point 2.4s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
+  .mapStop { transition: background 180ms ease, border-color 180ms ease; }
+}
+@keyframes trace-route { 0% { stroke-dashoffset: 100; opacity: 0; } 20% { opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 0; } }
+@keyframes breathe-point { to { scale: 1.35; opacity: 0.1; } }
+@media (max-width: 1120px) {
+  .columns { grid-template-columns: minmax(0, 1fr) minmax(320px, 0.9fr); gap: 18px; }
+  .mapStop { column-gap: 5px; padding: 6px; max-width: 130px; }
+  .mapStop strong { font-size: 11px; }
+  .detailHeading, .reading, .moreReadings, .connections { padding-inline: 24px; }
+}
+@media (max-width: 900px) {
+  .journey { margin-top: 25px; }
+  .stopsNav { margin-bottom: 22px; }
+  .stopsNav button { min-height: 60px; padding-inline: 15px; }
+  .columns { display: flex; flex-direction: column; gap: 25px; }
+  .mapColumn { position: static; width: 100%; }
+  .map { aspect-ratio: 800/760; }
+  .detail { width: 100%; }
+  .returnToMap { display: flex; align-items: center; gap: 10px; padding: 8px 22px; min-height: 48px; width: 100%; border: 0; border-bottom: 1px solid var(--journey-line); background: var(--journey-panel-raised); color: var(--journey-mint); font: 500 12px/1.5 var(--font-ui); cursor: pointer; }
+}
+@media (max-width: 560px) {
+  .map { aspect-ratio: auto; height: 550px; }
+  .mapTitle { padding: 18px 17px 0; font-size: 10px; }
+  .mapStop { grid-template-columns: 21px 1fr; column-gap: 4px; padding: 5px 6px; min-height: 44px; max-width: 111px; border-radius: 7px; }
+  .mapStop > span { width: 21px; height: 21px; font-size: 9px; }
+  .mapStop strong { font-size: 10px; }
+  .mapStop small { font-size: 8px; }
+  .mapTools { left: 12px; bottom: 13px; }
+  .mapStamp { right: 12px; bottom: 31px; max-width: 80px; text-align: right; font-size: 9px; }
+  .mapHelp { padding: 15px 17px; font-size: 11px; }
+  .mapCaution { font-size: 11px; margin-inline: 2px; }
+  .regionNames { font-size: 30px; }
+  .waterNames { font-size: 24px; }
+  .detailTop { padding: 20px; font-size: 10px; gap: 8px; }
+  .detailHeading, .reading, .moreReadings, .connections, .locationNote { padding-inline: 22px; }
+  .detailHeading h2 { font-size: 32px; }
+  .passage p { font-size: 18px; }
+  .nextStop { padding-inline: 16px; }
+  .nextStop button { font-size: 11px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .journey *, .journey *::before, .journey *::after { animation: none !important; transition: none !important; }
+}

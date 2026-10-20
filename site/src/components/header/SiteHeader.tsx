@@ -12,6 +12,12 @@ export function SiteHeader() {
         <ArcMark />
         <span>Bíblia Conectada</span>
       </Link>
+      <nav className="site-topbar__nav" aria-label="Descubra a Bíblia">
+        <Link href="/#descobrir">Descobrir</Link>
+        <Link href="/caminhos">O mapa</Link>
+        <Link href="/cronologia">A história</Link>
+        <Link href="/#sua-jornada">Minha jornada <span aria-hidden="true">✦</span></Link>
+      </nav>
       <SearchButton />
       <Appearance />
     </header>

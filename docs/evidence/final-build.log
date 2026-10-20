@@ -1,0 +1,129 @@
+
+> biblia-conectada-site@0.1.0 prebuild
+> npm run data
+
+
+> biblia-conectada-site@0.1.0 data
+> tsx scripts/build-data.ts
+
+[data] grid: 66 books, 1189 chapters, 31102 verses; BLIVRE fits (0.2s)
+[data] cross references: 344799 rows, 301584 pairs (45 self), identical to xref.npz (0.8s)
+[data] natal: 2094 pairs, 1561 OT verses in 38 books, identical to natal-stats.json (0.9s)
+[data] chapter graph: 1189 nodes, 142082 edges, ForceAtlas2 300 it. (3.1s)
+[data] linha do tempo: 450 events, 1119 places named from the BLIVRE; 85 themes; reception: 144 + 10 paintings (8.0s)
+[data] search index: 23540 words, 589333 verse entries in 206 shards; largest shard co 35.2 KB gzip, all word shards 795 KB gzip, index.json 36.0 KB gzip (9.2s)
+[data] open data: 78 files in public/dados/v1 (41.4 MB) (11.7s)
+[data] trail: 26 steps from 38 Old Testament books, 2026-11-29 to 2026-12-24 (11.7s)
+[data] ponte: 365 bridges from 2026-10-19 (fewest hops 3: 134, 4: 170, 5: 61); pages up to nº 2 (2026-10-20) (17.3s)
+[data] wrote 3389 files (18.1s)
+{"books":66,"booksOT":39,"booksNT":27,"chapters":1189,"verses":31102,"crossrefRows":344799,"pairs":301584,"selfPairs":45,"arcs":301539,"versesWithAnyRef":30303,"versesWithLinks":30303,"chapterEdges":142082}
+
+> biblia-conectada-site@0.1.0 build
+> vitest run && next build && tsx scripts/check-dist.ts
+
+
+ RUN  v5.0.5 C:/Users/R2/biblia conectada/site
+
+
+ Test Files  30 passed (30)
+      Tests  502 passed (502)
+   Start at  14:24:06
+   Duration  19.12s (tests 91%, import 6%, transform 3%)
+
+▲ Next.js 16.4.2 (Turbopack)
+✓ Running next.config.ts took 48ms
+- Cache Components enabled
+- Partial Prefetching enabled
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1109ms
+  Running TypeScript ...
+  Finished TypeScript in 3.4s ...
+  Collecting page data using 23 workers ...
+  Generating static pages using 23 workers (0/2552) ...
+  Generating static pages using 23 workers (638/2552)
+  Generating static pages using 23 workers (1276/2552)
+  Generating static pages using 23 workers (1914/2552)
+✓ Generating static pages using 23 workers (2552/2552) in 24.6s
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├   /[livro]
+│ ├ ◐ /[livro]
+│ ├ ○ /genesis
+│ ├ ○ /exodo
+│ └ ◐ [+64 more paths]
+├   /[livro]/[cap]
+│ ├ ◐ /[livro]/[cap]
+│ ├ ○ /genesis/1
+│ ├ ○ /genesis/2
+│ └ ◐ [+1187 more paths]
+├   /[livro]/[cap]/[vers]
+│ ├ ◐ /[livro]/[cap]/[vers]
+│ ├ ○ /isaias/9/6
+│ ├ ○ /1-pedro/2/9
+│ └ ◐ [+198 more paths]
+├ ○ /arcos
+├ ○ /arcos/plano
+├ ○ /buscar
+├ ○ /caminhos
+├   /conexao/[a]/[b]
+│ ├ ◐ /conexao/[a]/[b]
+│ ├ ○ /conexao/genesis-49/deuteronomio-33
+│ ├ ○ /conexao/exodo-12/exodo-13
+│ └ ◐ [+179 more paths]
+├ ○ /cronologia
+├ ○ /dados
+├   /explorar/[livro]/[cap]
+│ ├ ◐ /explorar/[livro]/[cap]
+│ ├ ○ /explorar/genesis/49
+│ ├ ○ /explorar/exodo/12
+│ └ ◐ [+198 more paths]
+├   /explorar/[livro]/[cap]/[livro2]/[cap2]
+│ ├ ◐ /explorar/[livro]/[cap]/[livro2]/[cap2]
+│ ├ ○ /explorar/isaias/9/levitico/26
+│ ├ ○ /explorar/isaias/9/juizes/13
+│ └ ◐ [+35 more paths]
+├ ○ /icon.svg
+├ ○ /ler
+├ ○ /linha-do-tempo
+├   /linha-do-tempo/[evento]
+│ ├ ◐ /linha-do-tempo/[evento]
+│ ├ ○ /linha-do-tempo/1-genesis-1-1-2-3
+│ ├ ○ /linha-do-tempo/2-genesis-2-4-25
+│ └ ◐ [+448 more paths]
+├ ○ /mesa
+├ ○ /palavra
+├   /palavra/[palavra]
+│ ├ ◐ /palavra/[palavra]
+│ ├ ○ /palavra/aguia
+│ ├ ○ /palavra/alegria
+│ └ ◐ [+83 more paths]
+├ ○ /ponte
+├   /ponte/[n]
+│ ├ ◐ /ponte/[n]
+│ ├ ○ /ponte/1
+│ └ ○ /ponte/2
+├ ○ /salvos
+├ ○ /sobre
+├ ○ /tema
+├   /tema/[slug]
+│ ├ ◐ /tema/[slug]
+│ ├ ○ /tema/aguia
+│ ├ ○ /tema/alegria
+│ └ ◐ [+83 more paths]
+├ ○ /trilha
+├ ○ /trilha/antes-do-natal
+└   /trilha/antes-do-natal/[n]
+  ├ ◐ /trilha/antes-do-natal/[n]
+  ├ ○ /trilha/antes-do-natal/1
+  ├ ○ /trilha/antes-do-natal/2
+  └ ◐ [+24 more paths]
+
+
+○  (Static)             prerendered as static content
+◐  (Partial Prerender)  prerendered as static HTML with dynamic server-streamed content
+
+[check-dist] credits and lang in 2538 prerendered pages and the static 404 page; home, /arcos and /arcos/plano numbers match summary.json; /dados shows the size and count of the 76 files of the open data manifest; linha do tempo (450 events), 85 themes and their words match the generated data; Explorar and /conexao show the explore data (180 rows checked); trail (26 steps) and Ponte (2 pages) match the community data; reading numbers on /ler, 66 book pages, 1189 chapter and 200 verse pages (titles, meta lines, chapter lists, pagers, pills, headlines, rows with their texts and panel links); search index: 23540 words and 589333 verse entries in 206 shards match the BLIVRE text, ranked by the reading pages' link counts (largest shard co 35.2 KB gzip); /buscar prerendered; the palette's code in no other of 2537 pages; 23313 shipped text files hold none of the 39 protected quotes; 62 browser files hold no medallion provenance

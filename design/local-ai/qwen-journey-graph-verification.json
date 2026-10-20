@@ -1,0 +1,34 @@
+{
+  "review": "qwen-journey-graph-review.json",
+  "model_findings_checked": 5,
+  "model_findings_confirmed": 0,
+  "rejected": [
+    "localStorage.setItem is synchronous; parseJourney deduplicates ids, so the described duplicated-score mechanism is false. A cross-tab race was not reproduced.",
+    "tabIndex=-1 intentionally allows programmatic focus on the prompt heading.",
+    "Touch spotlight is deliberately disabled; this is not a broken touch action.",
+    "Unsaved progress sets memoryOnly=true, so storage events merge rather than discard it.",
+    "Graph node onFocus updates hovered; active derives from hovered and correctly lights its edges."
+  ],
+  "independent_confirmed_finding": {
+    "issue": "Fixed 44px pointer targets overlap other visible node centres on 375px viewport.",
+    "file": "site/src/components/explore/LivingGraph.module.css",
+    "verification": "Edge 375x812: document.elementFromPoint at visual centre of Mateus 4 (242,614) returned node 1004 (Joao 8). Real click selected Joao 8:12. At least 12 node centres hit a different node.",
+    "suggested_fix": "Select closest visual node through surface hit-testing, or reduce mobile node density while preserving sufficient touch targets.",
+    "selector": ".node"
+  },
+  "tests": "journey.test.ts and living-graph.test.ts: 11 passed",
+  "code_changed": false,
+  "parent_fix_retest": {
+    "status": "passed",
+    "viewport": "375x812",
+    "browser": "Edge",
+    "tests": [
+      "Geometric click selection at Mateus 4 (932), Joao 1 (997), Isaias 7 (685) at zoom 1 and 1.2",
+      "Keyboard ArrowRight from Isaias 7 focuses Isaias 60 (738); Enter selects Isaias 60",
+      "Mouse hover over Mateus 4 activates node 932 and four edges without changing selection",
+      "Touch start/end at Joao 1 visual centre at zoom 1.2 selects Joao 1:1"
+    ],
+    "evidence": "docs/evidence/graph-mobile-fixed.png",
+    "notes": "A hot module reload moved the graph during one attempt; remeasured fresh DOM coordinates and repeated successfully. Viewport override reset after QA."
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "asset": "galilee-dawn-flux.png",
+  "description": "Recriação artística do mar da Galileia ao amanhecer",
+  "ai_generated": true,
+  "local_only": true,
+  "generator": "ComfyUI",
+  "model": "FLUX.1 dev FP8",
+  "checkpoint": "flux1-dev-fp8.safetensors",
+  "width": 1344,
+  "height": 768,
+  "steps": 24,
+  "seed": 20261020,
+  "prompt_id": "a0cd7d86-11e6-4bd7-b617-c32678e29030",
+  "source": "C:\\Users\\R2\\IA\\ComfyUI_windows_portable\\ComfyUI\\output\\IA-Local_00030_.png",
+  "seconds": 80.4,
+  "sha256": "016D92C6A6A671BD70DA0A269AA7EE32B618F4EC77C4802409EF5A9B11E153CB",
+  "inspected": "Visual inspection passed: calm teal water, amber horizon, distant boat on right third, open left-side composition, no text or faces.",
+  "usage_note": "Representational landscape; label Recriação. Not a historical photograph or verified archaeological reconstruction.",
+  "webp_sha256": "fe6fd639e4d880c909441767e447f7e2dee31aee10bf8160cc93894ffb67cd60",
+  "webp_bytes": 34886,
+  "prompt_file": "galilee-prompt.txt"
+}

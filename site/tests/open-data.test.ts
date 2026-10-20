@@ -190,7 +190,7 @@ describe("SHA256SUMS", () => {
   });
 
   it("lists every file of the bundle except itself", () => {
-    const files = walk(DIR).map((f) => relative(DIR, f)).filter((f) => f !== "SHA256SUMS").sort();
+    const files = walk(DIR).map((f) => relative(DIR, f).replaceAll("\\", "/")).filter((f) => f !== "SHA256SUMS").sort();
     expect([...listed().keys()].sort()).toEqual(files);
   });
 });

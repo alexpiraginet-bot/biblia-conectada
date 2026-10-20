@@ -1,0 +1,97 @@
+.reader { --chronology-mint: var(--cat-tema); display: grid; grid-template-columns: 17rem minmax(0, 1fr); gap: clamp(1.5rem, 3vw, 3.5rem); padding: 2rem 0 5rem; align-items: start; }
+.moments { position: sticky; top: calc(var(--bar-h) + 1.5rem); }
+.railLabel { display: block; margin: 0 0 1.5rem 0.5rem; text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.63rem; color: var(--ink-3); }
+.moments ol { list-style: none; margin: 0; padding: 0; }
+.moments li { position: relative; }
+.moments li:not(:last-child)::after { position: absolute; content: ""; width: 1px; top: 2.7rem; bottom: -0.25rem; left: 1.2rem; background: var(--line); }
+.moments button { display: flex; align-items: center; gap: 0.9rem; padding: 0.7rem 0; min-height: 4.3rem; border: 0; text-align: left; width: 100%; background: transparent; color: var(--ink-3); cursor: pointer; }
+.stepNumber { display: grid; place-items: center; width: 2.4rem; height: 2.4rem; flex: 0 0 2.4rem; border: 1px solid var(--line); border-radius: 50%; font-size: 0.65rem; background: var(--ground); z-index: 1; transition: background 200ms, border-color 200ms; }
+.moments button small { display: block; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.3rem; }
+.moments button strong { font-size: 0.8rem; font-weight: 500; line-height: 1.4; display: block; }
+.moments button[aria-current] { color: var(--ink); }
+.moments button[aria-current] small { color: var(--chronology-mint); }
+.moments button[aria-current] .stepNumber { background: var(--chronology-mint); color: var(--ground); border-color: var(--chronology-mint); }
+.moments button:hover .stepNumber { border-color: var(--chronology-mint); }
+.mapLink { display: flex; gap: 0.7rem; align-items: center; font-size: 0.73rem; line-height: 1.6; color: var(--chronology-mint); text-decoration: none; padding: 1.2rem 0.2rem; margin-top: 1.3rem; border-top: 1px solid var(--line); }
+.mapLink > span { font-size: 1.4rem; }
+.chapter { min-width: 0; border: 1px solid var(--line); border-radius: 1.1rem; overflow: hidden; background: var(--surface); scroll-margin-top: calc(var(--bar-h) + 1rem); }
+.scene { position: relative; margin: 0; aspect-ratio: 2.2; overflow: hidden; background: var(--raised); }
+.scene img { object-fit: cover; }
+.scene::after { position: absolute; inset: 60% 0 0; content: ""; pointer-events: none; background: linear-gradient(transparent, rgba(4, 18, 16, 0.65)); }
+.scene figcaption { position: absolute; z-index: 1; bottom: 0.8rem; right: 1rem; left: 1rem; text-align: right; font-size: 0.59rem; color: #f4f3e9; letter-spacing: 0.03em; text-shadow: 0 1px 4px #00160e; }
+.chapterBody { padding: clamp(1.3rem, 3.3vw, 3rem); }
+.kicker { display: flex; justify-content: space-between; gap: 1rem; color: var(--chronology-mint); font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.11em; }
+.kicker > span:last-child { color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.chapter h2 { font-family: var(--font-display); font-weight: 440; font-size: clamp(2.1rem, 3vw, 3.2rem); letter-spacing: -0.035em; line-height: 1.13; margin: 1rem 0 0.9rem; }
+.intro { font-size: 0.93rem; color: var(--ink-2); line-height: 1.8; max-width: 41rem; margin: 0 0 2.6rem; }
+.readingHead { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; justify-content: space-between; align-items: baseline; }
+.readingHead h3 { font-size: 0.82rem; font-weight: 500; margin: 0; }
+.readingHead > span { font-size: 0.58rem; letter-spacing: 0.08em; color: var(--ink-3); text-transform: uppercase; }
+.controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.6rem; margin: 1rem 0 1.2rem; }
+.gospels { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.gospels button { min-height: 2.75rem; display: flex; align-items: center; gap: 0.45rem; font-size: 0.73rem; padding: 0.55rem 0.7rem; background: transparent; color: var(--ink-2); border: 1px solid transparent; border-radius: 0.4rem; cursor: pointer; }
+.gospels button > span { width: 4px; height: 4px; border: 1px solid currentColor; border-radius: 50%; }
+.gospels button[data-available="true"] > span { background: currentColor; }
+.gospels button[aria-pressed="true"] { color: var(--chronology-mint); background: color-mix(in srgb, var(--chronology-mint) 8%, transparent); border-color: color-mix(in srgb, var(--chronology-mint) 30%, var(--line)); }
+.gospels button:hover { color: var(--chronology-mint); }
+.compare { display: flex; align-items: center; gap: 0.6rem; min-height: 2.75rem; font-size: 0.68rem; background: transparent; color: var(--ink-3); border: 0; cursor: pointer; padding: 0.5rem 0; }
+.compare[aria-pressed="true"], .compare:hover { color: var(--chronology-mint); }
+.readings { min-height: 16rem; }
+.passage { padding: 1.5rem; border: 1px solid var(--line); border-radius: 0.65rem; background: color-mix(in srgb, var(--chronology-mint) 4%, var(--ground)); animation: appear 200ms ease-out; }
+.passageHead { display: flex; align-items: baseline; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; }
+.passageHead h4 { margin: 0; color: var(--chronology-mint); font-size: 0.78rem; font-weight: 500; }
+.passageHead > span { color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.53rem; }
+.passage blockquote { margin: 1rem 0; font-family: var(--font-reading); font-size: clamp(1.08rem, 1.4vw, 1.25rem); line-height: 1.85; color: var(--ink-reading); }
+.passage blockquote p { margin: 0.55rem 0; }
+.passage sup { font-family: var(--font-ui); font-size: 0.58rem; color: var(--chronology-mint); margin-right: 0.55rem; vertical-align: super; }
+.perspective { color: var(--ink-3); font-size: 0.73rem; line-height: 1.65; padding-top: 0.9rem; border-top: 1px solid var(--line); }
+.readLink { display: inline-flex; align-items: center; gap: 0.8rem; min-height: 2.75rem; font-size: 0.71rem; color: var(--chronology-mint); text-decoration: none; }
+.readLink:hover { text-decoration: underline; }
+.audio { display: flex; align-items: center; flex-wrap: wrap; gap: 0.25rem 1rem; margin-top: 0.8rem; }
+.audio button { display: inline-flex; align-items: center; gap: 0.55rem; min-height: 2.75rem; padding: 0.5rem 0; background: transparent; border: 0; color: var(--chronology-mint); cursor: pointer; font-size: 0.74rem; }
+.audio button > span { font-size: 1.1rem; }
+.audio > span { font-size: 0.62rem; color: var(--ink-3); }
+.comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; }
+.comparison .passage { padding: 1.15rem; }
+.comparison blockquote { font-size: 1.03rem; }
+.absent { display: grid; justify-items: start; padding: 1.75rem; min-height: 16rem; border: 1px dashed var(--line); border-radius: 0.65rem; }
+.absent > span { font-size: 1.6rem; color: var(--chronology-mint); }
+.absent h4 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 440; margin: 0.8rem 0 0; }
+.absent p { color: var(--ink-3); font-size: 0.84rem; line-height: 1.7; max-width: 33rem; }
+.absent a { color: var(--chronology-mint); font-size: 0.75rem; padding: 0.5rem 0; }
+.note { margin-top: 1.3rem; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 1rem 0; }
+.note summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; font-size: 0.72rem; color: var(--ink-3); cursor: pointer; min-height: 2.25rem; list-style: none; }
+.note summary::-webkit-details-marker { display: none; }
+.note summary > span { font-size: 1.2rem; color: var(--chronology-mint); }
+.note[open] summary > span { transform: rotate(45deg); }
+.note p { font-size: 0.8rem; color: var(--ink-2); line-height: 1.75; }
+.note a { font-size: 0.72rem; color: var(--chronology-mint); }
+.pager { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding-top: 1.6rem; }
+.pager button, .pager a { display: inline-flex; align-items: center; justify-content: center; gap: 0.65rem; min-height: 2.9rem; background: transparent; color: var(--ink-2); font-size: 0.73rem; border: 0; cursor: pointer; text-decoration: none; }
+.pager button:last-child, .pager a { background: var(--chronology-mint); color: var(--ground); border-radius: 0.45rem; padding: 0.7rem 1rem; }
+.pager button:disabled { opacity: 0.35; cursor: default; }
+@keyframes appear { from { opacity: 0.4; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 65rem) { .reader { grid-template-columns: 13rem minmax(0, 1fr); } .comparison { grid-template-columns: 1fr; } }
+@media (max-width: 55rem) {
+  .reader { display: block; padding-top: 1rem; }
+  .moments { position: static; margin-bottom: 1.2rem; }
+  .railLabel { margin-bottom: 0.5rem; }
+  .moments ol { display: flex; overflow-x: auto; gap: 0.5rem; padding: 0 0 0.8rem; scrollbar-width: thin; }
+  .moments li { flex: 0 0 12rem; }
+  .moments li::after { display: none; }
+  .moments button { gap: 0.7rem; }
+  .moments button small { font-size: 0.55rem; }
+  .moments button strong { font-size: 0.73rem; }
+  .mapLink { margin: 0; border: 0; padding: 0.5rem 0; font-size: 0.68rem; }
+  .scene { aspect-ratio: 1.65; }
+}
+@media (max-width: 26rem) {
+  .chapterBody { padding: 1rem; }
+  .passage { padding: 1rem; }
+  .gospels { gap: 0; }
+  .gospels button { padding: 0.5rem 0.55rem; }
+  .pager { gap: 0.5rem; }
+  .pager button, .pager a { font-size: 0.65rem; }
+  .kicker { font-size: 0.58rem; letter-spacing: 0.04em; }
+}
+@media (prefers-reduced-motion: reduce) { .reader *, .reader *::before { animation: none; transition: none; } }

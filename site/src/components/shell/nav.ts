@@ -13,6 +13,8 @@ export const NAV: readonly NavItem[] = [
   { href: "/ler", label: "Ler", icon: "book", rail: true, tab: true },
   { href: "/buscar", label: "Buscar", icon: "search", rail: false, tab: true },
   { href: "/linha-do-tempo", label: "Linha do tempo", icon: "time", rail: true, tab: false, nested: true },
+  { href: "/caminhos", label: "Caminhos", icon: "explore", rail: true, tab: false },
+  { href: "/cronologia", label: "A história", icon: "time", rail: true, tab: false },
   { href: "/arcos", label: "Arcos", icon: "arc", rail: true, tab: true, pages: ["/arcos/plano"] },
   { href: "/ponte", label: "Ponte", icon: "bridge", rail: true, tab: true, nested: true },
   { href: "/salvos", label: "Salvos", icon: "bookmark", rail: true, tab: false },

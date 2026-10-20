@@ -126,6 +126,27 @@ input {
   display: none;
 }
 
+.site-topbar__nav { display: none; }
+
+/* The discovery cover uses a spacious horizontal navigation; reading retains its section rail. */
+.site-shell[data-discovery] { grid-template-columns: minmax(0, 1fr); }
+.site-shell[data-discovery] > .site-rail { display: none; }
+.site-shell[data-discovery] .site-topbar { height: 76px; padding-inline: clamp(24px, 5vw, 84px); border-bottom: 1px solid var(--line); }
+.site-shell[data-discovery] .bc-brand { font-size: 16px; letter-spacing: -.04em; }
+.site-shell[data-discovery] .site-topbar__search { display: none; }
+.site-shell[data-discovery] .site-topbar__search-icon { display: flex; margin-left: auto; }
+.site-shell[data-discovery] .appearance { margin-left: 0; }
+@media (min-width: 64rem) {
+  .site-shell[data-discovery] .site-topbar__nav { display: flex; align-items: center; justify-content: center; gap: clamp(20px, 3vw, 45px); margin-inline: auto; padding-left: 45px; }
+  .site-topbar__nav a { display: flex; align-items: center; gap: 8px; min-height: 44px; font-size: 13px; color: var(--ink-2); text-decoration: none; transition: color .2s; }
+  .site-topbar__nav a:hover { color: var(--accent); }
+  .site-topbar__nav a:last-child { color: var(--accent); }
+  .site-shell[data-discovery] .site-topbar__search-icon { margin-left: 0; }
+}
+@media (max-width: 39.99rem) {
+  .site-shell[data-discovery] .site-topbar { height: 66px; padding-inline: 20px; }
+}
+
 /* one search in view: while the capa's or /buscar's own field shows, the bar's entry steps aside (page-search.ts) */
 .site-topbar__search,
 .site-topbar__search-icon {

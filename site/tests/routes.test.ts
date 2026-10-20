@@ -58,9 +58,9 @@ describe("reserved segments", () => {
 });
 
 describe("navigation", () => {
-  it("lists the sections in the planned order: seven in the rail, five tabs on phones", () => {
-    expect(NAV.map((n) => n.href)).toEqual(["/explorar", "/ler", "/buscar", "/linha-do-tempo", "/arcos", "/ponte", "/salvos", "/dados"]);
-    expect(NAV.filter((n) => n.rail).map((n) => n.label)).toEqual(["Explorar", "Ler", "Linha do tempo", "Arcos", "Ponte", "Salvos", "Dados"]);
+  it("includes the illustrated journeys in the rail and keeps five tabs on phones", () => {
+    expect(NAV.map((n) => n.href)).toEqual(["/explorar", "/ler", "/buscar", "/linha-do-tempo", "/caminhos", "/cronologia", "/arcos", "/ponte", "/salvos", "/dados"]);
+    expect(NAV.filter((n) => n.rail).map((n) => n.label)).toEqual(["Explorar", "Ler", "Linha do tempo", "Caminhos", "A história", "Arcos", "Ponte", "Salvos", "Dados"]);
     expect(NAV.filter((n) => n.tab).map((n) => n.label)).toEqual(["Explorar", "Ler", "Buscar", "Arcos", "Ponte"]);
   });
 

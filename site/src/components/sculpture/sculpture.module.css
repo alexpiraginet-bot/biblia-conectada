@@ -11,7 +11,7 @@
   height: calc(100dvh - var(--bar-h) - var(--tabbar-h));
   min-height: 34rem;
   overflow: hidden;
-  background: var(--ground);
+  background: var(--sculpture-ground);
   isolation: isolate;
   /* home.ts homeArea and homeBox in CSS, for the poster and the intro (the box's aspect is space.ts HOME_ASPECT; TOP
      is 76px): from 48rem the area is right of the intro, under the field */

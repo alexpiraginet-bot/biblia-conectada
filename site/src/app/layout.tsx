@@ -5,7 +5,7 @@ import { SiteHeader } from "@/components/header/SiteHeader";
 import { THEME_COLOR, THEME_SCRIPT } from "@/components/header/theme";
 import { SearchHost } from "@/components/search/SearchHost";
 import { PAGE_SEARCH_SCRIPT } from "@/components/search/page-search-script";
-import { SectionRail, TabBar } from "@/components/shell/NavLinks";
+import { SectionRail, SiteShell, TabBar } from "@/components/shell/NavLinks";
 import "@/styles/tokens.css";
 import "@/styles/ds.css";
 import "./globals.css";
@@ -62,7 +62,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <a className="skip-link" href="#conteudo">
           Pular para o conteúdo
         </a>
-        <div className="site-shell">
+        <SiteShell>
           <SectionRail />
           <div className="site-column">
             <SiteHeader />
@@ -70,7 +70,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <SiteFooter />
           </div>
           <TabBar />
-        </div>
+        </SiteShell>
         <SearchHost />
       </body>
     </html>
