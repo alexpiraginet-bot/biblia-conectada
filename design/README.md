@@ -1,6 +1,8 @@
-# Direção de design: Bíblia Conectada (v5, uma história viva)
+# Direção de design: Bíblia Conectada (v6, bordô e ouro)
 
-Status: v5, de 20/10/2026, a partir do PR #9 e da transferência do PR #12. A capa usa azul profundo e ouro, a interface Figtree, os temas verde profundo e papel e as jornadas ilustradas descritas em `docs/NOVA-EXPERIENCIA.md`. O registro da v4 permanece em §13. O hero de ondas e os botões/cards renovados foram publicados pelo PR #14, commit `6bbca4d`, após autorização explícita do Alex. Produção READY e domínio público conferidos em 20/10. Caderno local e ampliação das jornadas continuam no plano de `docs/HANDOFF-CODEX.md`.
+Status: v6, de 20/10/2026, por pedido do Alex: bordô premium com dourado, sem a mudança inesperada para página clara ao abrir a IA. Noite usa base `#211018`, superfície `#2d1722`, dourado `#e5c48c` e marfim `#fff5e6`; Dia usa marfim `#f7f0e5` e tinta bordô `#361b28`. A interface continua Figtree, com Newsreader nos títulos e Literata na Escritura. Novos visitantes começam em Noite; Dia/Noite escolhidos são preservados e Sistema segue o aparelho somente quando explicitamente selecionado. Home, navegação, mapas, cronologia e estudo usam a mesma família de tokens. Cores informativas do canvas 3D e seus pôsteres permanecem coerentes entre si. O registro das versões anteriores permanece abaixo; caderno local e ampliação das jornadas continuam no plano de `docs/HANDOFF-CODEX.md`.
+
+O estudo abre em um diálogo compacto sobre a leitura, com texto recolhível, três estilos e perguntas prontas. Respostas e fontes rolam dentro da conversa; compositor e fechamento permanecem acessíveis. Fechar devolve foco e posição à leitura. O carregamento inicial do site inclui somente o pequeno host: chat, validação do cânon e texto são recuperados após o clique.
 
 **Conferência desta etapa:** build, `check-dist`, lint, TypeScript e orçamento de JS passaram; 541 testes em 35 arquivos, com Node 24 local. Capa: 163.942 bytes de JS inicial gzip (160,1 KiB); `/arcos`: 168.871 bytes (164,9 KiB), inalterado. Capturas do build de produção local em 375 × 812 e 1440 × 900, Dia/Noite, e os fluxos de pausa, busca e seleção foram conferidos. Contraste dos cards corrigido com véus sob o texto, conferido nas capturas e por cálculo conservador: títulos acima de 9:1 e categorias acima de 7:1 mesmo sobre imagem branca. Lighthouse móvel ≥ 90 e LCP não foram medidos: a PageSpeed API retornou `429 quota exceeded`. Prévia respondeu HTTP 200; produção READY com Node 22. Capturas em 375/1440, Dia/Noite, pausa e busca também conferidas no domínio público, sem erros ou avisos no console. Alex autorizou a publicação após ser informado de Lighthouse/LCP pendentes; não há nota de performance comprovada.
 
@@ -38,7 +40,7 @@ Todo número deste documento foi calculado por código. Número que vai para o s
 2. **Toda ligação mostra o número e a regra.** "17 ligações, das mais votadas às menos votadas". Os números vêm do pipeline de dados e têm teste; nenhum é digitado.
 3. **A luz guia a exploração:** pulsos de ouro percorrem conexões reais, ganham destaque na seleção e podem ser pausados. Fora da tela e com movimento reduzido, ficam parados. Nada anima por cima do texto bíblico em leitura.
 4. **Buscar é sempre um gesto.** Do campo da barra, de Ctrl K ou / no desktop, da aba Buscar no celular: a mesma busca entende referência, palavra, livro e tema.
-5. **Os dois temas são de primeira.** Noite e Dia têm a mesma hierarquia e o mesmo contraste. A primeira visita segue o aparelho; a escolha da pessoa fica guardada.
+5. **Os dois temas são de primeira.** Noite e Dia têm a mesma hierarquia e o mesmo contraste. A primeira visita começa em Noite; a escolha explícita da pessoa fica guardada, incluindo Sistema.
 
 ### 1.2 Modo por superfície
 
@@ -83,7 +85,7 @@ Use sempre o token, nunca a cor. Cada tema dá todos os valores sem apontar um t
 - **Superfícies:** `ground` é a página; `surface` o que fica no plano dela (painel do desktop, rodapé); `raised` campos, botões secundários e hover; `overlay` o que flutua (folha do celular, busca, menus) sobre o véu `scrim`.
 - **Texto:** `ink` para interface e títulos, `ink-reading` para a Escritura, `ink-2` para metadados, `ink-3` só para notas de fonte. Nunca cinza puro, nunca opacidade em texto.
 - **Ouro e bronze (`accent`):** número de versículo, contagem de ligações, ícone ativo e link em destaque. No Noite é a luz do céu dos vídeos; no Dia é bronze sobre pergaminho.
-- **Ação principal (`action-fill` com `on-action`):** um botão por área. Ouro no Noite, verde no Dia.
+- **Ação principal (`action-fill` com `on-action`):** um botão por área. Ouro no Noite, bordô no Dia.
 - **Aceso (`accent-strong`, `lit`):** a ligação escolhida e o item selecionado. O mesmo matiz do acento, mais forte: ouro claro no Noite, bronze escuro no Dia (#683c00, no mínimo 7,07:1 nas superfícies do Dia).
 - **Categorias de ligação:** `cat-texto` (referências cruzadas), `cat-interp` (tracejada), `cat-tema` e `cat-historia`. Sempre com rótulo ou padrão de linha junto; a cor nunca é a única pista.
 - **Céu (`sky`, `sky-ink`, `sky-ink-2`, `sky-gold`):** janelas de arcos e o céu completo. Noturnos nos dois temas; no Dia aparecem como janelas emolduradas.

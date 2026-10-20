@@ -1,4 +1,4 @@
-import type { AssistantRequest, AssistantStyle } from "./types";
+import type { AssistantHistoryTurn, AssistantRequest, AssistantStyle } from "./types";
 
 export const MAX_BODY_BYTES = 8192;
 export class AssistantFault extends Error {
@@ -18,15 +18,27 @@ export function isRecord(value: unknown): value is Record<string, unknown> {
 function onlyKeys(value: Record<string, unknown>, keys: string[]) {
   return Object.keys(value).every((key) => keys.includes(key));
 }
+function boundedText(value: unknown, min: number, max: number): value is string {
+  return typeof value === "string" && value.trim().length >= min && value.length <= max &&
+    !/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/.test(value);
+}
 export function parseAssistantRequest(value: unknown): AssistantRequest & { style: AssistantStyle } {
-  if (!isRecord(value) || !onlyKeys(value, ["requestId", "mode", "style", "question", "passage"])) return invalid();
+  if (!isRecord(value) || !onlyKeys(value, ["requestId", "mode", "style", "question", "passage", "history"])) return invalid();
   if (typeof value.requestId !== "string" ||
     !/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value.requestId)) return invalid();
   if (typeof value.mode !== "string" || !["entender", "explorar", "narrar"].includes(value.mode)) return invalid();
   if (value.style !== undefined && (typeof value.style !== "string" ||
     !["simples", "contexto", "cotidiano"].includes(value.style))) return invalid();
-  if (typeof value.question !== "string" || value.question.trim().length < 3 ||
-    value.question.length > 800 || /[\u0000-\u0008\u000B\u000C\u000E-\u001F]/.test(value.question)) return invalid();
+  if (!boundedText(value.question, 3, 800)) return invalid();
+  let history: AssistantHistoryTurn[] = [];
+  if (value.history !== undefined) {
+    if (!Array.isArray(value.history) || value.history.length > 2) return invalid();
+    history = value.history.map((turn) => {
+      if (!isRecord(turn) || !onlyKeys(turn, ["question", "answer"]) ||
+        !boundedText(turn.question, 3, 800) || !boundedText(turn.answer, 1, 2000)) return invalid();
+      return { question: turn.question.trim(), answer: turn.answer.trim() };
+    });
+  }
   const p = value.passage;
   if (!isRecord(p) || !onlyKeys(p, ["book", "chapter", "verse"]) || typeof p.book !== "string" ||
     !/^[a-z0-9-]{2,30}$/.test(p.book) || !Number.isSafeInteger(p.chapter) ||
@@ -38,6 +50,8 @@ export function parseAssistantRequest(value: unknown): AssistantRequest & { styl
     style: (value.style ?? "contexto") as AssistantStyle,
     question: value.question.trim(),
     passage: { book: p.book, chapter: p.chapter as number, ...(p.verse === undefined ? {} : { verse: p.verse as number }) },
+    // Empty history keeps the same fingerprint as older clients that omit it.
+    ...(history.length ? { history } : {}),
   };
 }
 

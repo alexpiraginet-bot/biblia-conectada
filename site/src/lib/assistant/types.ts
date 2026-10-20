@@ -2,6 +2,7 @@
 export type AssistantMode = "entender" | "explorar" | "narrar";
 export type AssistantStyle = "simples" | "contexto" | "cotidiano";
 export type AssistantPassage = { book: string; chapter: number; verse?: number };
+export type AssistantHistoryTurn = { question: string; answer: string };
 export type AssistantRequest = {
   requestId: string;
   mode: AssistantMode;
@@ -9,6 +10,8 @@ export type AssistantRequest = {
   style?: AssistantStyle;
   question: string;
   passage: AssistantPassage;
+  /** At most two previous turns, oldest first. Untrusted context, never source evidence. */
+  history?: AssistantHistoryTurn[];
 };
 export type AssistantCitation = { id: string; reference: string; text: string; href: string };
 export type AssistantBlock = { text: string; citationIds: string[] };

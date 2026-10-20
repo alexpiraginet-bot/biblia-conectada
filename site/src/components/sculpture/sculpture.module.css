@@ -85,7 +85,7 @@
 }
 
 @media (prefers-color-scheme: light) {
-  :root:not([data-theme="noite"]) .poster {
+  :root[data-theme="sistema"] .poster {
     background-image: var(--poster-wide-dia);
   }
 }
@@ -108,7 +108,7 @@
 }
 
 @media (max-width: 47.99rem) and (prefers-color-scheme: light) {
-  :root:not([data-theme="noite"]) .poster {
+  :root[data-theme="sistema"] .poster {
     background-image: var(--poster-phone-dia);
   }
 }
@@ -540,15 +540,15 @@
 }
 
 @media (prefers-color-scheme: light) {
-  :root:not([data-theme="noite"]) .swAt {
+  :root[data-theme="sistema"] .swAt {
     background: #8a5a12;
   }
 
-  :root:not([data-theme="noite"]) .swNt {
+  :root[data-theme="sistema"] .swNt {
     background: #2a4f8f;
   }
 
-  :root:not([data-theme="noite"]) .swBr {
+  :root[data-theme="sistema"] .swBr {
     background: #3a3530;
   }
 }
@@ -1177,25 +1177,7 @@
   }
 }
 
-/* The immersive sky keeps its original poster/camera at rest, and gives selected passages room to breathe. */
-.page[data-scene-theme="noite"] {
-  --surface: #0b1324;
-  --raised: #111d32;
-  --overlay: #0d1629f2;
-  --ink: #fff4e8;
-  --ink-reading: #f6ecdf;
-  --ink-2: #bbc4d7;
-  --ink-3: #9ca9bf;
-  --line: #ffffff17;
-  --line-strong: #ffffff30;
-  --accent: #f2bd67;
-  --accent-fill: #e98943;
-  --on-accent: #1b0d08;
-  --action-fill: #ec8a42;
-  --on-action: #1b0d08;
-  --focus: #f7c97d;
-  --highlight: #f2bd6717;
-}
+/* The canvas keeps its poster/camera; controls inherit the same palette as reading and chat. */
 
 .search {
   top: 24px;
