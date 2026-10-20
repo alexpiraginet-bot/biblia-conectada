@@ -232,6 +232,10 @@
 
 /* ---- periods and events: a spine with a dot per event */
 
+.periods {
+  min-width: 0;
+}
+
 .period {
   margin-top: var(--space-8);
   scroll-margin-top: calc(var(--bar-h) + var(--space-4));

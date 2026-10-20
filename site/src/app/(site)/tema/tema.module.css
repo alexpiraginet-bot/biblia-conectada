@@ -180,6 +180,10 @@ section.rule p {
   color: var(--accent);
 }
 
+.passages {
+  margin-top: var(--space-2);
+}
+
 .verseN {
   margin-left: 0.15em;
 }

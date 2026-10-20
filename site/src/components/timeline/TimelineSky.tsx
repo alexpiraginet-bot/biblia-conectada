@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { formatInt } from "@/lib/canon/text";
 import { conexaoPath } from "@/lib/conexao";
 import { yearLabel, yearSpanShort } from "@/lib/eras";
@@ -22,7 +23,7 @@ const r1 = (n: number) => Math.round(n * 10) / 10;
 const strength = (n: number, max: number) => (max > 0 ? Math.log1p(Math.max(n, 0)) / Math.log1p(max) : 0);
 
 export function TimelineSky({ periods, events, arcs }: { periods: Period<TimelineEvent>[]; events: readonly TimelineEvent[]; arcs: CrossArc[] }) {
-  // x of each event: its period's tenth of the line, the events evenly spaced inside it
+  // x of each event: its period's equal share of the line, the events evenly spaced inside it
   const x = new Map<number, number>();
   periods.forEach((p, k) => p.events.forEach((_, j) => x.set(p.start + j, ((k + (j + 0.5) / p.events.length) / periods.length) * W)));
   const maxPairs = Math.max(...events.map((e) => e.links.pairs));
@@ -111,7 +112,7 @@ export function ArcList({ arcs, events }: { arcs: CrossArc[]; events: readonly T
                 {ra.label} e {rb.label}
               </Link>
               <span className="bc-conn__votes">
-                <span className="bc-conn__bar" style={{ "--w": (a.votes / max).toFixed(3) } as React.CSSProperties} aria-hidden="true" />
+                <span className="bc-conn__bar" style={{ "--w": (a.votes / max).toFixed(3) } as CSSProperties} aria-hidden="true" />
                 {formatInt(a.votes)} votos
               </span>
               <p className={styles.arcEvents}>
