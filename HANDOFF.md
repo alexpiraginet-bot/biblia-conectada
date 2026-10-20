@@ -24,7 +24,7 @@ Tudo o que está marcado como "conferido" foi rodado ou lido em 19/10. O que é 
 **Repo:** `alexpiraginet-bot/biblia-conectada`, público. O Alex criou e deu acesso de escrita ao app do Claude.
 
 **Branch `main`:** commits de 19/10 em cima do "Initial commit" do Alex.
-- `estudos/biblia-referencias/`, `estudos/biblia-natal/`, `estudos/biblia-comentarios/` e `estudos/biblia-joao316/`: código, dados, fontes OFL, mídia gerada (recriações, clipes, narrações), vídeos finais e capas.
+- `estudos/biblia-referencias/`, `estudos/biblia-natal/`, `estudos/biblia-comentarios/`, `estudos/biblia-joao316/` e `estudos/biblia-joao316-ligacoes/`: código, dados, fontes OFL, mídia gerada (recriações, clipes, narrações), vídeos finais e capas.
   - Cópia byte a byte das pastas de trabalho, conferida por SHA-256.
   - Exceções: os textos completos da ACF, AA e NVI (`source/text/`), os caches `__pycache__` e os logs do x264.
 - `fontes/`: traduções livres em português, OpenBible geo, Theographic e STEPBible TIPNR, com `SHA256SUMS`.
@@ -666,6 +666,17 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
     - o pôster coincide com o quadro do motor em 1440 e 375 px; dentro do quadro, a diferença média entre o pôster e o canvas é de 1,5 a 2,8 níveis;
     - capturas em 375 e 1440 px, Noite e Dia: abertura, versículo e capítulo.
   - **Não conferido:** GPU de verdade (desempenho e aparência), Safari/iOS e Firefox, pinça no toque real, leitor de tela.
+- **20/10, manhã, vídeo 5:**
+  - "João 3:16, por dentro" (`estudos/biblia-joao316-ligacoes/`): pedido do Alex: "João 3:16, mas agora detalhando como a
+    ligação tem a ver", no mínimo 5 ligações reais com documentação e como as ligações são feitas, com emoção. No meio,
+    ele pediu Remotion para as animações, cenas ilustradas no clima de um Reel da BibleProject ("algo assim mas
+    melhorado") e "use o nosso site para buscar as referências sempre".
+  - As 80 ligações e os votos foram lidos na página `/joao/3/16` do site e conferidos voto a voto contra a base
+    (`tools/analyze.py`). O "como liga" foi conferido no grego (MorphGNT), no hebraico (OSHB) e na Septuaginta.
+  - Primeiro vídeo da série feito em Remotion (`motion/`, 4.0.532, render pela API Node com o Chromium do Playwright).
+    Ilustrações geradas (GPT Image 2.5 via Higgsfield), estilo próprio, sem rosto de criança, marcadas "ILUSTRAÇÃO".
+  - Para liberar disco, com ok do Alex, foram apagadas duas pastas de teste da sessão (`extract-test` e `pctest`, embalagem
+    do mini Jesus de 14/10).
 - **20/10, tarde, cinco vantagens a mais na escultura e a lista sem fim da leitura:**
   - **Pedido do Alex:** "Precisamos que o nosso tenha 5 pontos positivos a mais de visual e formas de uso que o que está se refenciando! Precisamos estar a frente de tudo".
     - Ele escolheu, entre as opções, caminho entre versículos, imagem para compartilhar, acender uma palavra, grupos de livros no eixo e força das ligações.
