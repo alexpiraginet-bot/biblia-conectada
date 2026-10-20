@@ -2,17 +2,18 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState, useSyncExternalStore, type FormEvent } from "react";
+import { useEffect, useId, useRef, useState, useSyncExternalStore, type FormEvent } from "react";
 import { Icon, type IconName } from "@/components/icons";
-import type { AssistantMode as Mode, AssistantCitation as Citation, AssistantScene as Scene, AssistantSuccess as Answer, AssistantError as ApiError, AssistantRequest as Request } from "@/lib/assistant/types";
+import type { AssistantMode as Mode, AssistantStyle as ExplanationStyle, AssistantCitation as Citation, AssistantScene as Scene, AssistantSuccess as Answer, AssistantError as ApiError, AssistantRequest as Request } from "@/lib/assistant/types";
+import { speakStudyText, speechSnapshot, speechServerSnapshot, speechSupport, stopStudySpeech, subscribeSpeech } from "./study-speech";
 import styles from "./StudyCompanion.module.css";
 
 export type StudyMoment = {
   id: string;
   title: string;
-  place: string;
-  image: string;
-  imageAlt: string;
+  place?: string;
+  image?: string;
+  imageAlt?: string;
   reference: string;
   href: string;
   book: string;
@@ -27,9 +28,13 @@ const MODES: { id: Mode; label: string; description: string; icon: IconName; que
   { id: "narrar", label: "Conte a história", description: "Acompanhe a leitura em cenas.", icon: "time", question: "Conte este episódio em cenas curtas, com linguagem acolhedora e referências ao texto bíblico." },
 ];
 
+const STYLES: { id: ExplanationStyle; label: string; description: string }[] = [
+  { id: "simples", label: "Bem simples", description: "Palavras fáceis, também para crianças." },
+  { id: "contexto", label: "Contexto bíblico", description: "O sentido da passagem e suas conexões." },
+  { id: "cotidiano", label: "No dia a dia", description: "Reflexões para a vida de hoje." },
+];
+
 const noSupport = () => false;
-const subscribeSpeech = () => () => {};
-const speechSupport = () => typeof window !== "undefined" && "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
 const reducedMotion = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const subscribeMotion = (notify: () => void) => {
   const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -37,53 +42,23 @@ const subscribeMotion = (notify: () => void) => {
   return () => media.removeEventListener("change", notify);
 };
 
-function Listen({ text }: { text: string }) {
+function Listen({ text, label = "Ouvir texto" }: { text: string; label?: string }) {
+  const owner = useId();
   const supported = useSyncExternalStore(subscribeSpeech, speechSupport, noSupport);
-  const [speaking, setSpeaking] = useState(false);
-  const [failed, setFailed] = useState(false);
-  const current = useRef<SpeechSynthesisUtterance | null>(null);
+  const speech = useSyncExternalStore(subscribeSpeech, speechSnapshot, speechServerSnapshot);
+  const speaking = speech.owner === owner;
+  const failed = speech.failedOwner === owner;
 
-  useEffect(() => () => {
-    if (!current.current) return;
-    current.current.onend = null;
-    current.current.onerror = null;
-    window.speechSynthesis.cancel();
-    current.current = null;
-  }, []);
+  useEffect(() => () => stopStudySpeech(owner), [owner]);
 
   function toggle() {
-    if (current.current) {
-      current.current.onend = null;
-      current.current.onerror = null;
-      window.speechSynthesis.cancel();
-      current.current = null;
-      setSpeaking(false);
-      return;
-    }
-    try {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "pt-BR";
-      utterance.rate = .94;
-      const voice = window.speechSynthesis.getVoices().find((item) => item.lang.toLowerCase() === "pt-br");
-      if (voice) utterance.voice = voice;
-      utterance.onend = () => { current.current = null; setSpeaking(false); };
-      utterance.onerror = () => { current.current = null; setSpeaking(false); setFailed(true); };
-      current.current = utterance;
-      setFailed(false);
-      setSpeaking(true);
-      window.speechSynthesis.speak(utterance);
-    } catch {
-      current.current = null;
-      setSpeaking(false);
-      setFailed(true);
-    }
+    if (speaking) stopStudySpeech(owner);
+    else speakStudyText(owner, text);
   }
 
-  if (!supported) return null;
   return <div className={styles.listen}>
-    <button type="button" onClick={toggle} aria-pressed={speaking}><Icon name={speaking ? "close" : "text"} />{speaking ? "Parar leitura" : "Ouvir texto"}</button>
-    <span role="status">{failed ? "A voz do aparelho não está disponível agora." : "Voz do aparelho · português"}</span>
+    <button type="button" onClick={toggle} aria-pressed={speaking} disabled={!supported} aria-describedby={`${owner}-voice-status`}><Icon name={speaking ? "close" : "text"} />{speaking ? "Parar leitura" : label}</button>
+    <span id={`${owner}-voice-status`} role="status">{!supported ? "Este navegador não oferece leitura em voz alta." : failed ? "A voz do aparelho não está disponível agora. O texto continua abaixo." : "Voz do aparelho · português"}</span>
   </div>;
 }
 
@@ -130,9 +105,17 @@ function StoryScenes({ scenes, citations }: { scenes: Scene[]; citations: Citati
   </section>;
 }
 
-export function StudyCompanion({ moments, enabled }: { moments: StudyMoment[]; enabled: boolean }) {
+export function StudyCompanion({ moments, enabled, initialPassage, referenceError = false }: {
+  moments: StudyMoment[];
+  enabled: boolean;
+  initialPassage?: StudyMoment;
+  referenceError?: boolean;
+}) {
+  const uid = useId();
+  const passages = initialPassage ? [initialPassage, ...moments] : moments;
   const [mode, setMode] = useState<Mode>("entender");
-  const [momentId, setMomentId] = useState(moments.find((item) => item.id === "cana")?.id ?? moments[0]?.id ?? "");
+  const [style, setStyle] = useState<ExplanationStyle>("contexto");
+  const [momentId, setMomentId] = useState(initialPassage?.id ?? moments.find((item) => item.id === "cana")?.id ?? moments[0]?.id ?? "");
   const [question, setQuestion] = useState(MODES[0].question);
   const [available, setAvailable] = useState(enabled);
   const [availabilityMessage, setAvailabilityMessage] = useState("");
@@ -147,7 +130,7 @@ export function StudyCompanion({ moments, enabled }: { moments: StudyMoment[]; e
   const controller = useRef<AbortController | null>(null);
   const answerHeading = useRef<HTMLHeadingElement>(null);
   const textarea = useRef<HTMLTextAreaElement>(null);
-  const moment = moments.find((item) => item.id === momentId) ?? moments[0];
+  const moment = passages.find((item) => item.id === momentId) ?? passages[0];
   const selectedMode = MODES.find((item) => item.id === mode)!;
 
   useEffect(() => {
@@ -210,10 +193,10 @@ export function StudyCompanion({ moments, enabled }: { moments: StudyMoment[]; e
         answerHeading.current?.scrollIntoView({ behavior: reducedMotion() ? "instant" : "smooth", block: "start" });
       });
     } catch {
-      if (!abort.signal.aborted || controller.current === abort) {
-        setError({ ok: false, code: "provider", message: "A conexão foi interrompida antes da resposta. Tente novamente para verificar esta mesma consulta, sem repeti-la." });
-        setRetryable(true);
-      }
+      // Activity hides routes and aborts their effects while keeping this state.
+      // Preserve the request id on return: the server may already have reserved it.
+      setError({ ok: false, code: "provider", message: "A conexão foi interrompida antes da resposta. Tente novamente para verificar esta mesma consulta, sem repeti-la." });
+      setRetryable(true);
     } finally {
       window.clearTimeout(timeout);
       pending.current = false;
@@ -227,13 +210,18 @@ export function StudyCompanion({ moments, enabled }: { moments: StudyMoment[]; e
     if (!available || !moment || pending.current || error?.code === "in_progress" || question.trim().length < 3 || question.length > 800 || cooldown > 0) return;
     const previous = request.current;
     // The main submit control is also a retry when the failed question is unchanged.
-    const sameRetry = retryable && previous && previous.mode === mode && previous.question === question.trim() &&
+    const sameRetry = retryable && previous && previous.mode === mode && (previous.style ?? "contexto") === style && previous.question === question.trim() &&
       previous.passage.book === moment.book && previous.passage.chapter === moment.chapter && previous.passage.verse === moment.verse;
-    void send(sameRetry ? previous : { requestId: crypto.randomUUID(), mode, question: question.trim(), passage: { book: moment.book, chapter: moment.chapter, verse: moment.verse } });
+    void send(sameRetry ? previous : { requestId: crypto.randomUUID(), mode, style, question: question.trim(), passage: { book: moment.book, chapter: moment.chapter, verse: moment.verse } });
   }
 
   if (!moment) return null;
   return <div className={styles.companion}>
+    <form action="/assistente" method="get" className={styles.referencePicker}>
+      <div><label htmlFor={`${uid}-reference`}>Outro versículo</label><p id={`${uid}-reference-help`}>Digite a referência, como Jeremias 17:8. Os episódios abaixo também servem de atalho.</p></div>
+      <div className={styles.referenceInput}><input id={`${uid}-reference`} name="ref" type="text" defaultValue={initialPassage?.reference ?? ""} placeholder="Jeremias 17:8" maxLength={120} required disabled={loading} aria-describedby={`${uid}-reference-help`} /><button type="submit" disabled={loading}>Escolher<Icon name="out" /></button></div>
+    </form>
+    {referenceError && <p className={styles.referenceError} role="alert">Não encontramos esse versículo. Informe livro, capítulo e versículo válidos, como Jeremias 17:8, ou escolha um dos atalhos de leitura abaixo.</p>}
     <div className={styles.modePicker} role="group" aria-label="Como você quer estudar?">{MODES.map((item, index) => (
       <button key={item.id} type="button" aria-pressed={mode === item.id} disabled={loading} onClick={() => chooseMode(item.id)}>
         <span className={styles.modeNumber}>0{index + 1}</span><Icon name={item.icon} />
@@ -243,22 +231,30 @@ export function StudyCompanion({ moments, enabled }: { moments: StudyMoment[]; e
     <div className={styles.desk}>
       <form className={styles.form} onSubmit={submit}>
         <div className={styles.formHeading}><Icon name={selectedMode.icon} /><h2>{selectedMode.label}</h2></div>
-        <label htmlFor="study-moment">Comece por uma passagem</label>
-        <select id="study-moment" value={momentId} disabled={loading} onChange={(event) => { setMomentId(event.target.value); setAnswer(null); setError(null); setRetryable(false); }}>{moments.map((item) => <option key={item.id} value={item.id}>{item.title} · {item.reference}</option>)}</select>
-        <div className={styles.questionLabel}><label htmlFor="study-question">O que você gostaria de descobrir?</label><span id="question-count">{question.length}/800</span></div>
-        <textarea id="study-question" ref={textarea} value={question} onChange={(event) => { setQuestion(event.target.value); setError(null); setRetryable(false); }} minLength={3} maxLength={800} rows={5} disabled={loading} aria-describedby="question-count study-privacy" required />
-        <p id="study-privacy" className={styles.privacy}>Sua pergunta será enviada à IA para responder sobre esta passagem. Evite incluir informações pessoais.</p>
-        <div className={styles.availability} id="study-availability" data-available={available} role="status"><i aria-hidden="true" /><p>{available ? "Pronto para explorar com você." : availabilityMessage || "A conversa com IA ainda não está disponível. Você já pode ler as passagens e explorar suas fontes."}</p></div>
-        <button className={styles.submit} type="submit" disabled={!available || loading || question.trim().length < 3 || cooldown > 0 || error?.code === "in_progress"} aria-describedby="study-availability">{loading ? "Preparando sua leitura…" : error?.code === "in_progress" ? "Consulta já enviada" : "Abrir a conversa"}<Icon name="out" /></button>
+        <label htmlFor={`${uid}-moment`}>Passagem para estudar</label>
+        <select id={`${uid}-moment`} value={momentId} disabled={loading} onChange={(event) => { setMomentId(event.target.value); setAnswer(null); setError(null); setRetryable(false); }}>
+          {initialPassage && <optgroup label="Seu versículo"><option value={initialPassage.id}>{initialPassage.reference}</option></optgroup>}
+          <optgroup label="Atalhos de leitura">{moments.map((item) => <option key={item.id} value={item.id}>{item.title} · {item.reference}</option>)}</optgroup>
+        </select>
+        <fieldset className={styles.stylePicker} disabled={loading}><legend>Jeito de explicar</legend><div>{STYLES.map((item) => <label key={item.id}>
+          <input type="radio" name={`${uid}-style`} value={item.id} checked={style === item.id} onChange={() => { setStyle(item.id); setAnswer(null); setError(null); setRetryable(false); }} />
+          <span><strong>{item.label}</strong><small>{item.description}</small></span>
+        </label>)}</div></fieldset>
+        <div className={styles.questionLabel}><label htmlFor={`${uid}-question`}>O que você gostaria de descobrir?</label><span id={`${uid}-count`}>{question.length}/800</span></div>
+        <textarea id={`${uid}-question`} ref={textarea} value={question} onChange={(event) => { setQuestion(event.target.value); setError(null); setRetryable(false); }} minLength={3} maxLength={800} rows={5} disabled={loading} aria-describedby={`${uid}-count ${uid}-privacy`} required />
+        <p id={`${uid}-privacy`} className={styles.privacy}>Sua pergunta será enviada à IA para responder sobre esta passagem. Cada envio é uma consulta independente, sem histórico de conversa. Evite incluir informações pessoais.</p>
+        <div className={styles.availability} id={`${uid}-availability`} data-available={available} role="status"><i aria-hidden="true" /><p>{available ? "Pronto para explorar com você." : availabilityMessage || "A conversa com IA ainda não está disponível. Você já pode ler as passagens e explorar suas fontes."}</p></div>
+        <button className={styles.submit} type="submit" disabled={!available || loading || question.trim().length < 3 || cooldown > 0 || error?.code === "in_progress"} aria-describedby={`${uid}-availability`}>{loading ? "Preparando sua leitura…" : error?.code === "in_progress" ? "Consulta já enviada" : "Enviar pergunta"}<Icon name="out" /></button>
         {error && <div className={styles.error} role="alert"><p>{error.message}</p>
           {cooldown > 0 && <span>Tente novamente em {cooldown}s.</span>}
           {retryable && <button type="button" disabled={loading || cooldown > 0} onClick={() => { if (request.current) void send(request.current); }}>Tentar novamente<Icon name="out" /></button>}
-          {error.code === "in_progress" && <><p>A resposta anterior não pode ser recuperada. Você pode mudar sua pergunta ou iniciar uma nova consulta, que contará novamente no limite de uso.</p><button type="button" disabled={!available || loading || cooldown > 0} onClick={() => void send({ requestId: crypto.randomUUID(), mode, question: question.trim(), passage: { book: moment.book, chapter: moment.chapter, verse: moment.verse } })}>Nova consulta<Icon name="out" /></button></>}
+          {error.code === "in_progress" && <><p>A resposta anterior não pode ser recuperada. Você pode mudar sua pergunta ou iniciar uma nova consulta, que contará novamente no limite de uso.</p><button type="button" disabled={!available || loading || cooldown > 0} onClick={() => void send({ requestId: crypto.randomUUID(), mode, style, question: question.trim(), passage: { book: moment.book, chapter: moment.chapter, verse: moment.verse } })}>Nova consulta<Icon name="out" /></button></>}
         </div>}
         <p className={styles.formFoot}>A pergunta abre o caminho. O texto bíblico continua sendo a referência.</p>
       </form>
       <aside className={styles.passage} aria-label="Passagem escolhida">
-        <figure className={styles.cover}><Image key={moment.id} src={moment.image} alt={moment.imageAlt} fill sizes="(max-width: 50rem) 100vw, 600px" loading="eager" unoptimized /><figcaption>{moment.place} · Recriação artística por IA</figcaption></figure>
+        {moment.image && moment.imageAlt ? <figure className={styles.cover}><Image key={moment.id} src={moment.image} alt={moment.imageAlt} fill sizes="(max-width: 50rem) 100vw, 600px" loading="eager" unoptimized /><figcaption>{moment.place} · Recriação artística por IA</figcaption></figure>
+          : <div className={styles.verseHeading}><Icon name="book" /><span>Uma passagem. Tempo para compreender.</span><h2>{moment.reference}</h2><p>Leia com calma e leve suas perguntas ao texto.</p></div>}
         <div className={styles.passageBody}>
           <div className={styles.reference}><span>Leia primeiro</span><Link href={moment.href} prefetch={false}>{moment.reference}<Icon name="out" /></Link></div>
           <blockquote>{moment.verses.map((verse) => <p key={verse.number}><sup>{verse.number}</sup>{verse.text}</p>)}</blockquote>
@@ -268,8 +264,8 @@ export function StudyCompanion({ moments, enabled }: { moments: StudyMoment[]; e
       </aside>
     </div>
     {loading && <section className={styles.loading} aria-busy="true" aria-live="polite"><span>Consultando a passagem e suas conexões…</span><i /><i /><i /></section>}
-    {answer && <section className={styles.answer} aria-labelledby="study-answer-title">
-      <div className={styles.answerHeading}><span>Uma leitura para acompanhar você</span><h2 id="study-answer-title" ref={answerHeading} tabIndex={-1}>{answer.title}</h2><p>Resposta de IA · confira as passagens indicadas.</p></div>
+    {answer && <section className={styles.answer} aria-labelledby={`${uid}-answer-title`}>
+      <div className={styles.answerHeading}><span>Uma leitura para acompanhar você</span><h2 id={`${uid}-answer-title`} ref={answerHeading} tabIndex={-1}>{answer.title}</h2><p>Resposta de IA · confira as passagens indicadas.</p><Listen key={`answer-${answerId}`} label="Ouvir resposta" text={[answer.title, ...(answer.scenes ?? []).map((scene) => `${scene.title}. ${scene.text}`), ...answer.blocks.map((block) => block.text)].join("\n\n")} /></div>
       {answer.scenes?.length ? <StoryScenes key={answerId} scenes={answer.scenes} citations={answer.citations} /> : null}
       <div className={styles.answerColumns}>
         <div className={styles.blocks}>{answer.blocks.map((block, index) => <div key={index}><p>{block.text}</p><CitationLinks ids={block.citationIds} citations={answer.citations} /></div>)}

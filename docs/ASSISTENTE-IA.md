@@ -28,7 +28,9 @@ Os testes automatizados usam dados bíblicos reais e respostas simuladas do prov
 
 Três modos: **entender** explica uma passagem; **explorar** compara suas ligações; **narrar** prepara três cenas breves para leitura ilustrada. A perspectiva é cristã e explicitamente assistida por IA. O sistema não alega fé pessoal, revelação ou autoridade pastoral. Reconhece diferenças de interpretação e limites das fontes.
 
-A interface oferece dez passagens da jornada. Cada envio é independente: não mantém memória de conversa nem histórico persistido. As sugestões preenchem a pergunta, mas não enviam automaticamente. A leitura em voz alta usa a voz do aparelho, somente após acionamento da pessoa.
+A interface aceita qualquer versículo canônico por `/assistente?ref=jeremias/17/8` ou pelo campo de referência, e preserva dez passagens da jornada como atalhos. O servidor valida livro, capítulo e versículo antes de recuperar o texto. Referências inválidas mostram aviso, sem enviar consulta automaticamente. Uma passagem arbitrária mostra seu texto real, sem reutilizar a ilustração de outro episódio como se fosse dela.
+
+Independentemente do modo, há três estilos: **Bem simples**, com palavras familiares também para crianças; **Contexto bíblico**, com os limites das fontes; e **No dia a dia**, com aplicações identificadas como reflexão. Cada envio é independente: não mantém memória de conversa nem histórico persistido. As sugestões preenchem a pergunta, mas não enviam automaticamente. “Ouvir texto” e “Ouvir resposta” usam a voz do aparelho, somente após acionamento da pessoa, com parada e mensagem quando indisponível. O suporte e a voz variam entre navegadores; não há serviço pago de áudio.
 
 O servidor carrega o capítulo BLIVRE selecionado e até oito parceiros realmente presentes nas referências cruzadas. Capítulos com mais de 60 versículos usam uma janela de 40 ao redor do versículo escolhido, identificada no contexto. O modelo recebe texto, referências e IDs; não navega na internet nem usa ferramentas. A seleção de parceiros de um versículo prioriza as ligações desse versículo; uma consulta ao capítulo usa as ligações do recorte completo.
 
@@ -44,7 +46,7 @@ Modelo fixo `claude-opus-5-5`, até 1.600 tokens de saída incluindo pensamento,
 
 O request fixa `inference_geo: "global"` para não herdar uma configuração regional com acréscimo de preço. Região, tier, cache ou campos de cobrança inesperados na resposta impedem a devolução da reserva. [Preço por região de inferência](https://platform.claude.com/docs/en/about-claude/pricing).
 
-A API recebe um UUIDv4 `requestId`, modo, pergunta de 3 a 800 caracteres e `passage: {book, chapter, verse?}`. Corpos JSON são limitados a 8 KiB, inclusive em transferência por partes. O tipo público completo está em `site/src/lib/assistant/types.ts`.
+A API recebe um UUIDv4 `requestId`, modo, estilo opcional `style: "simples" | "contexto" | "cotidiano"`, pergunta de 3 a 800 caracteres e `passage: {book, chapter, verse?}`. O estilo omitido é normalizado para `contexto`; estilos inválidos são rejeitados, e o estilo entra na identidade do pedido. Corpos JSON são limitados a 8 KiB, inclusive em transferência por partes. O tipo público completo está em `site/src/lib/assistant/types.ts`.
 
 `GET /api/assistente` informa disponibilidade sem chamar Anthropic. Ele verifica configuração, ambiente Vercel e os campos básicos do ledger persistente. Não consulta o gasto do mês: pode retornar `available:true` mesmo quando uma nova reserva seria recusada por orçamento. `assistantAvailability()` é apenas a indicação inicial de configuração para a página; o GET confirma essa verificação de execução, não créditos ou uma geração bem-sucedida.
 

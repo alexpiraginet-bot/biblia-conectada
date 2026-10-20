@@ -6,16 +6,17 @@
 // word (PathPanel.tsx, WordPanel.tsx) load on their own.
 import Link from "next/link";
 import { useEffect, useId, useMemo, useState, type ReactNode, type Ref } from "react";
+import { VerseStudyLink } from "@/components/assistant/VerseStudyLink";
 import { Icon } from "@/components/icons";
 import { formatInt } from "@/lib/canon/text";
 import { BASE } from "@/lib/community/books-client";
 import { loadChapterText } from "@/lib/community/fetchers";
-import { longRef } from "@/lib/community/geometry";
+import { longRef, versePath } from "@/lib/community/geometry";
 import type { ChapterLink, Partner } from "./arcs";
-import { chapterLabel, hashOf, ligacoes, votos, type Filter } from "./state";
+import { chapterLabel, hashOf, ligacoes, PAGE, votos, type Filter } from "./state";
 import styles from "./sculpture.module.css";
 
-export const PAGE = 20;
+export { PAGE } from "./state";
 
 type Listed = Partner & { i: number };
 
@@ -140,6 +141,7 @@ export function VersePanel({
       </p>
       <blockquote className={styles.scripture}>{text ?? "…"}</blockquote>
       <p className={styles.actions}>
+        <VerseStudyLink path={versePath(BASE, gv)} label={longRef(BASE, gv)} />
         <Link href={`/${book.slug}/${chapter}`} className={styles.act}>
           Ler {chap}
         </Link>
@@ -166,6 +168,7 @@ export function VersePanel({
                   <span className={styles.itemVotes}>{votos(p.votes)}</span>
                   <span className={styles.itemText}>{snippets.get(p.gv) ?? "…"}</span>
                 </button>
+                <VerseStudyLink path={versePath(BASE, p.gv)} label={longRef(BASE, p.gv)} />
               </li>
             ))}
           </ol>
@@ -221,15 +224,17 @@ export function ChapterPanel({
 }) {
   const c = chapterLabel(ci);
   const [text, setText] = useState<{ ci: number; verses: string[] } | null>(null);
+  const [failed, setFailed] = useState<number | null>(null);
+  const [retry, setRetry] = useState(0);
   useEffect(() => {
     let live = true;
     loadChapterText(c.book.slug, c.chapter)
       .then((t) => live && setText({ ci, verses: t }))
-      .catch(() => undefined);
+      .catch(() => { if (live) setFailed(ci); });
     return () => {
       live = false;
     };
-  }, [ci, c.book.slug, c.chapter]);
+  }, [ci, c.book.slug, c.chapter, retry]);
   const ranked = useMemo(() => {
     if (!links) return [];
     const count = new Array<number>(verses).fill(0);
@@ -249,6 +254,22 @@ export function ChapterPanel({
         {formatInt(verses)} versículos
         {links ? ` · ${ligacoes(links.length)}${full ? "" : " entre as mais votadas"}` : ""}
       </p>
+      <section className={styles.chapterReading} aria-labelledby={`${headingId}-text`}>
+        <div className={styles.chapterReadingHead}>
+          <h3 id={`${headingId}-text`}>Texto de {c.label}</h3><span>Bíblia Livre</span>
+        </div>
+        {lines ? <div className={styles.chapterScroll} role="region" aria-label={`Texto de ${c.label}`} tabIndex={0}>
+          <ol>{lines.map((line, index) => <li key={index}>
+            <button type="button" className={styles.readingNumber} onClick={() => onVerse(first + index)}
+              aria-label={`Ver conexões de ${c.label}:${index + 1}`}>{index + 1}</button>
+            <p>{line}</p>
+            <VerseStudyLink path={`/${c.book.slug}/${c.chapter}/${index + 1}`} label={`${c.label}:${index + 1}`} />
+          </li>)}</ol>
+        </div> : failed === ci ? <p role="status" className={styles.meta}>
+          Não foi possível carregar o texto. <button type="button" className={styles.retryText}
+            onClick={() => { setFailed(null); setRetry((value) => value + 1); }}>Tentar novamente</button>
+        </p> : <p role="status" className={styles.meta}>Carregando texto de {c.label}…</p>}
+      </section>
       {sceneControl}
       <p className={styles.actions}>
         <Link href={c.path} className={styles.act}>
@@ -270,6 +291,7 @@ export function ChapterPanel({
               <span className={styles.itemText}>{snippets.get(link.there) ?? "Carregando passagem…"}</span>
               <span className={styles.linkOrigin}>A partir de {longRef(BASE, link.here)} <span aria-hidden="true">↗</span></span>
             </button>
+            <VerseStudyLink path={versePath(BASE, link.there)} label={longRef(BASE, link.there)} />
           </li>
         ))}
       </ol>
@@ -285,6 +307,7 @@ export function ChapterPanel({
               <span className={styles.itemVotes}>{ligacoes(x.k)}</span>
               <span className={styles.itemText}>{lines?.[x.v - 1] ?? "…"}</span>
             </button>
+            <VerseStudyLink path={versePath(BASE, x.gv)} label={longRef(BASE, x.gv)} />
           </li>
         ))}
       </ol>

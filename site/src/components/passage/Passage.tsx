@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { VerseStudyLink } from "@/components/assistant/VerseStudyLink";
 import type { ReactNode } from "react";
 import { formatInt } from "@/lib/canon/text";
 import { verseRef } from "@/lib/reading";
@@ -78,6 +79,7 @@ export async function PassageText({ verses, label }: { verses: readonly number[]
                   <span className={`i i-arc ${styles.pillIcon}`} />
                   {formatInt(r.links)}
                 </Link>
+                {" "}<VerseStudyLink path={r.path} label={r.label} />
               </li>
             ))}
           </ol>
@@ -106,6 +108,7 @@ export async function VerseRows({ items, word, label }: { items: { gv: number; m
             <p className={`bc-conn__text ${styles.text}`}>
               <BlivreText text={text[it.gv]} word={word} />
             </p>
+            <VerseStudyLink path={r.path} label={r.label} />
           </li>
         );
       })}

@@ -4,9 +4,10 @@
 // and between two steps the link that joins them, with its votes and the way to read both side by side. Loaded when a
 // path is opened; the page (Sculpture.tsx) finds the path (path.ts) and lights it.
 import Link from "next/link";
+import { VerseStudyLink } from "@/components/assistant/VerseStudyLink";
 import { useEffect, useState, type Ref } from "react";
 import { BASE } from "@/lib/community/books-client";
-import { longRef } from "@/lib/community/geometry";
+import { longRef, versePath } from "@/lib/community/geometry";
 import { conexaoPath } from "@/lib/conexao";
 import type { Hop } from "./arcs";
 import { SaveButton, type Save } from "./Panel";
@@ -112,6 +113,7 @@ export function PathPanel({
                 </span>
                 <span className={styles.itemText}>{lines?.[k] ?? "…"}</span>
               </button>
+              <VerseStudyLink path={versePath(BASE, gv)} label={longRef(BASE, gv)} />
               {hops && k < hops.length && (
                 <div className={styles.hop}>
                   <button type="button" className={styles.hopVotes} aria-pressed={focus === k} onClick={() => onFocus(focus === k ? -1 : k)}>

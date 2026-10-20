@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { VerseStudyLink } from "@/components/assistant/VerseStudyLink";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import {
   CHRONOLOGY_FALLBACK_IMAGE,
@@ -94,7 +95,10 @@ function Passage({ passage }: { passage: LoadedGospelPassage }) {
         <span>{passage.relation === "relato" ? "Relato" : "Passagem relacionada"}</span>
       </div>
       <blockquote>{passage.verses.map((verse) => (
-        <p key={verse.number}><sup>{verse.number}</sup>{verse.text}</p>
+        <p key={verse.number}><sup>{verse.number}</sup>{verse.text}<br />
+          <VerseStudyLink path={`/${passage.gospel}/${passage.chapter}/${verse.number}`}
+            label={`${GOSPELS.find((item) => item.id === passage.gospel)!.label} ${passage.chapter}:${verse.number}`} />
+        </p>
       ))}</blockquote>
       <p className={styles.perspective}>{passage.note}</p>
       <Link className={styles.readLink} href={passage.href}>Continuar no texto bíblico <span aria-hidden="true">↗</span></Link>

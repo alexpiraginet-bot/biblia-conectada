@@ -4,10 +4,11 @@
 // eight book groups of the axis), how many links join them, and the verses themselves, most linked first, with the
 // word marked. Loaded when a word is opened; the page (Sculpture.tsx) finds the verses (word.ts) and lights them.
 import Link from "next/link";
+import { VerseStudyLink } from "@/components/assistant/VerseStudyLink";
 import { useEffect, useMemo, useState, type Ref } from "react";
 import { formatInt } from "@/lib/canon/text";
 import { BASE } from "@/lib/community/books-client";
-import { longRef } from "@/lib/community/geometry";
+import { longRef, versePath } from "@/lib/community/geometry";
 import { groupNames, type AxisGroup } from "./groups";
 import { PAGE, SaveButton, type Save } from "./Panel";
 import { ligacoes, verseText, versiculos } from "./state";
@@ -152,6 +153,7 @@ export function WordPanel({
                       {t === undefined ? "…" : marked(t, result.query).map((s, i) => (s.mark ? <mark key={i}>{s.text}</mark> : <span key={i}>{s.text}</span>))}
                     </span>
                   </button>
+                  <VerseStudyLink path={versePath(BASE, gv)} label={longRef(BASE, gv)} />
                 </li>
               );
             })}

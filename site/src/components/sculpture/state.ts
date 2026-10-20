@@ -15,6 +15,8 @@ export type Sel =
 
 /** the longest word query the address keeps */
 export const WORD_MAX = 60;
+/** Number of connected verses revealed at a time in the selection panels. */
+export const PAGE = 20;
 export type Filter = "todas" | "antigo" | "novo";
 /** sky.json read into the axis geometry, with the testament of every verse */
 export type Data = { meta: SkyMeta; geo: Geometry; nt: Uint8Array };
