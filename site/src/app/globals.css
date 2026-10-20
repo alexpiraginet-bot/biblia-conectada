@@ -293,6 +293,21 @@ input {
   box-shadow: none;
 }
 
+/* the keys shown in the top bar box and under the palette read as labels (13px, 600), the words beside them as meta
+   text (14px, ink-2): ds.css draws both a size smaller */
+.bc-searchbox .bc-kbd,
+.bc-search__foot .bc-kbd {
+  min-width: 2rem;
+  height: 1.625rem;
+  font: 600 var(--fs-label) / 1 var(--font-ui);
+}
+
+.bc-search__foot {
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--ink-2);
+}
+
 /* "Procurando…" beside the field: only a wait long enough to notice shows it, and it takes no room from the results */
 .site-search__busy {
   flex: none;
