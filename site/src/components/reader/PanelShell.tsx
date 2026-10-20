@@ -9,13 +9,20 @@ import styles from "./reader.module.css";
 const SHEET = "(max-width: 63.99rem)";
 const FOCUSABLE = 'a[href], button:not([disabled]), summary, [tabindex]:not([tabindex="-1"])';
 
-/** Makes the rest of the page inert (every sibling of `keep` and of its ancestors), leaving open dialogs alone (the
- *  search palette may open over the sheet); returns the undo. */
+/** Makes the rest of the page inert (every sibling of `keep` and of its ancestors), returning the undo. Left alone:
+ *  open dialogs (the search palette may open over the sheet) and what is fixed above the sheet's own layer on purpose
+ *  (the Ponte strip moves over the veil so a bridge in progress stays in view and usable while the next hop is
+ *  chosen, community/strip.module.css). */
 function inertOutside(keep: HTMLElement): () => void {
+  const layer = Number(getComputedStyle(keep).zIndex) || 0;
+  const above = (e: HTMLElement) => {
+    const cs = getComputedStyle(e);
+    return cs.position === "fixed" && Number(cs.zIndex) > layer;
+  };
   const made: HTMLElement[] = [];
   for (let el: HTMLElement | null = keep; el && el !== document.body; el = el.parentElement) {
     for (const sib of el.parentElement?.children ?? []) {
-      if (sib === el || !(sib instanceof HTMLElement) || sib.inert || sib.tagName === "DIALOG" || sib.tagName === "SCRIPT") continue;
+      if (sib === el || !(sib instanceof HTMLElement) || sib.inert || /^(DIALOG|SCRIPT|STYLE)$/.test(sib.tagName) || above(sib)) continue;
       sib.inert = true;
       made.push(sib);
     }

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Icon } from "@/components/icons";
 import type { Book } from "@/lib/canon/types";
-import { barShare, linksLabel } from "@/lib/from-here";
+import { barShare, keepBookNumber, linksLabel } from "@/lib/from-here";
 import type { ChapterRef } from "@/lib/reading";
 import styles from "./reader.module.css";
 
@@ -15,8 +15,8 @@ export function ChapterList({ book, chapter, counts }: { book: Book; chapter: nu
   return (
     <nav aria-label={`Capítulos de ${book.name}`} className={styles.chapters}>
       <p className={styles.chaptersHead}>
-        {book.name}
-        <span>ligações por capítulo</span>
+        Capítulos
+        <span>a barra mostra as ligações</span>
       </p>
       <ol className={`bc-chapterbar ${styles.chapterList}`} data-chapters="">
         {counts.map((n, i) => (
@@ -52,7 +52,7 @@ export function ChapterPager({ prev, next, where }: { prev?: PagerChapter; next?
             <Icon name="chev-l" className={`bc-icon ${styles.pagerIcon}`} />
             Anterior
           </small>
-          <strong>{prev.label}</strong>
+          <strong>{keepBookNumber(prev.label)}</strong>
           <small>{linksLabel(prev.pairs)}</small>
         </Link>
       ) : (
@@ -64,7 +64,7 @@ export function ChapterPager({ prev, next, where }: { prev?: PagerChapter; next?
             Seguinte
             <Icon name="chev-r" className={`bc-icon ${styles.pagerIcon}`} />
           </small>
-          <strong>{next.label}</strong>
+          <strong>{keepBookNumber(next.label)}</strong>
           <small>{linksLabel(next.pairs)}</small>
         </Link>
       ) : (

@@ -5,7 +5,7 @@ import { ChapterArcs } from "@/components/reader/Arcs";
 import { formatInt } from "@/lib/canon/text";
 import type { Book } from "@/lib/canon/types";
 import { books } from "@/lib/data";
-import { barShare, linksLabel, testamentName } from "@/lib/from-here";
+import { barShare, keepBookNumber, linksLabel, testamentName } from "@/lib/from-here";
 import { medalhaoForBook } from "@/lib/medalhoes";
 import { missingPage, NOT_FOUND_TITLE } from "@/lib/missing";
 import { bookBySlug, bookPairs, bookPartners, bookVerseCount, chapterPairs } from "@/lib/reading";
@@ -73,7 +73,7 @@ export default async function LivroPage({ params }: PageProps<"/[livro]">) {
           // eslint-disable-next-line @next/next/no-img-element -- a 192 px illustration, already sized; next/image adds JS
           <img className={`bc-medallion__img ${styles.medal}`} src={medal.src192} width={192} height={192} alt={medal.alt} />
         )}
-        <h1 className="bc-display">{book.name}</h1>
+        <h1 className="bc-display">{keepBookNumber(book.name)}</h1>
       </div>
       <p className={`bc-meta ${styles.meta}`} data-book-meta="">
         {formatInt(book.verses.length)} {single ? "capítulo" : "capítulos"} · {formatInt(bookVerseCount(book))} versículos ·{" "}
@@ -105,7 +105,7 @@ export default async function LivroPage({ params }: PageProps<"/[livro]">) {
 
         <aside aria-labelledby="ligacoes" className={`bc-panel ${styles.panel}`}>
           <h2 id="ligacoes" className="bc-title">
-            Ligações de {book.name}
+            {keepBookNumber(`Ligações de ${book.name}`)}
           </h2>
           {!single && (
             <section aria-labelledby="mais-ligados">
@@ -144,7 +144,7 @@ export default async function LivroPage({ params }: PageProps<"/[livro]">) {
               <Icon name="chev-l" className={`bc-icon ${styles.pagerIcon}`} />
               Livro anterior
             </small>
-            <strong>{prev.book.name}</strong>
+            <strong>{keepBookNumber(prev.book.name)}</strong>
             <small>{linksLabel(prev.pairs)}</small>
           </Link>
         ) : (
@@ -156,7 +156,7 @@ export default async function LivroPage({ params }: PageProps<"/[livro]">) {
               Livro seguinte
               <Icon name="chev-r" className={`bc-icon ${styles.pagerIcon}`} />
             </small>
-            <strong>{next.book.name}</strong>
+            <strong>{keepBookNumber(next.book.name)}</strong>
             <small>{linksLabel(next.pairs)}</small>
           </Link>
         ) : (

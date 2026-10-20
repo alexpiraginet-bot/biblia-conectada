@@ -4,13 +4,13 @@
 // it is hidden from assistive technology, because the list below it holds the same links (design §8).
 import Link from "next/link";
 import { Icon } from "@/components/icons";
-import { satellitePositions } from "@/lib/from-here";
+import { keepBookNumber, satellitePositions } from "@/lib/from-here";
 import styles from "./reader.module.css";
 
 export function PanelHead({ title, titleId }: { title: string; titleId: string }) {
   return (
     <h2 id={titleId} className={`bc-title ${styles.panelTitle}`} tabIndex={-1}>
-      {title}
+      {keepBookNumber(title)}
     </h2>
   );
 }
@@ -109,10 +109,10 @@ export function Featured({ a, b, conexao, explorar }: { a: string; b: string; co
   return (
     <div className={styles.featured}>
       <p className={styles.featuredPair}>
-        <span>{a}</span>
+        <span>{keepBookNumber(a)}</span>
         <Icon name="both" className={`bc-icon ${styles.featuredIcon}`} />
         <span className="visually-hidden"> ligado a </span>
-        <span>{b}</span>
+        <span>{keepBookNumber(b)}</span>
       </p>
       <div className={styles.actions}>
         <Link href={conexao} className="bc-button bc-button--primary">

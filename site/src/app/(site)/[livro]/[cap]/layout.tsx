@@ -7,7 +7,7 @@ import { SelectionScope } from "@/components/reader/SelectionBar";
 import { VerseFocus } from "@/components/reader/VerseFocus";
 import styles from "@/components/reader/reader.module.css";
 import { books } from "@/lib/data";
-import { chapterMeta } from "@/lib/from-here";
+import { chapterMeta, keepBookNumber } from "@/lib/from-here";
 import { medalhaoForBook } from "@/lib/medalhoes";
 import { bookBySlug, type ChapterRef, chapterNumber, chapterPairs, chapterPartners, chapterVerses, grid, neighbours } from "@/lib/reading";
 
@@ -65,7 +65,7 @@ export default async function ChapterLayout({ params, children }: LayoutProps<"/
           <div className={styles.titleRow}>
             <ChapterSeal book={book.name} chapter={chapter} partners={partners} chapterCount={grid.chapterCount} size="var(--seal)" />
             <h1 id="titulo-capitulo" className="bc-display">
-              {book.name} {chapter}
+              {keepBookNumber(`${book.name} ${chapter}`)}
             </h1>
           </div>
           <p className={`bc-meta ${styles.meta}`} data-chapter-meta="">

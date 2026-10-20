@@ -107,6 +107,31 @@
   height: 16px;
 }
 
+/* phones: the chapter bar is the way to the next chapter at the top, so the pager waits at the end of the text, and a
+   title too long to sit beside the seal goes under it */
+@media (max-width: 63.99rem) {
+  .pager[data-where="topo"] {
+    display: none;
+  }
+
+  .titleRow {
+    flex-wrap: wrap;
+    row-gap: var(--space-3);
+  }
+
+  .titleRow > h1 {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
+
+/* narrow phones: one chapter per line, so "1 Tessalonicenses 4" never breaks in three */
+@media (max-width: 29.99rem) {
+  .pager.pager {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 .verses.verses {
   max-width: calc(var(--vnum-w) + var(--space-2) + var(--column));
 }

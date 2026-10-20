@@ -1,11 +1,18 @@
 /* A book's page: the title with the group medallion, the chapter numbers with their links, and the links panel
    (ds.css .bc-panel) beside them from 64rem. */
 
+/* a name too long to sit beside the medallion ("1 Tessalonicenses" on a phone) goes under it */
 .titleRow {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-5);
+  gap: var(--space-3) var(--space-5);
   margin: var(--space-3) 0 var(--space-3);
+}
+
+.titleRow > h1 {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .medal {
@@ -102,6 +109,13 @@
 
 .pager {
   margin-top: var(--space-8);
+}
+
+/* narrow phones: one book per line, so a long name keeps to one line */
+@media (max-width: 29.99rem) {
+  .pager.pager {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .pagerWay {

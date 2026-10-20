@@ -98,6 +98,13 @@ export function padChapter(n: number, chapters: number): string {
   return String(n).padStart(Math.max(2, String(chapters).length), "0");
 }
 
+/** A title with a no-break space after a book's number ("1 Tessalonicenses 5", "Ligações de 2 Crônicas 6:34"), so
+ *  a line never ends on the "1" of a book. */
+export function keepBookNumber(s: string): string {
+  // a book's number is followed by its capitalised name; "3 votos" is not a book
+  return s.replace(/(^|\s)([1-3]) (?=\p{Lu})/gu, "$1$2 ");
+}
+
 /** Length of a count's bar (rail, chapter grid, link rows) as a share of the largest, 0–1, three decimals. */
 export function barShare(n: number, max: number): number {
   return max > 0 ? Math.round((Math.max(0, n) / max) * 1000) / 1000 : 0;

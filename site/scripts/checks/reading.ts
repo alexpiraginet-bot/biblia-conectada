@@ -21,7 +21,7 @@ type Medals = { groups: Record<string, { id: string; category: string }>; bookGr
 export function checkReading({
   html,
   page: read,
-  textOf,
+  textOf: visible,
   failures,
 }: {
   html: readonly string[];
@@ -29,6 +29,8 @@ export function checkReading({
   textOf: (s: string) => string;
   failures: string[];
 }): string {
+  // titles keep a book's number with its name by a no-break space ("1 Tessalonicenses 5", from-here.ts keepBookNumber)
+  const textOf = (s: string) => visible(s).replace(/ /g, " ");
   for (const r of [join("genesis", "1.html"), join("salmos", "119.html"), "salvos.html", "ler.html", "salmos.html"]) {
     if (!html.includes(r)) failures.push(`[reading] ${r} was not prerendered`);
   }

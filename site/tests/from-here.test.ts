@@ -8,6 +8,7 @@ import {
   chapterMeta,
   graphNote,
   graphPartners,
+  keepBookNumber,
   linksLabel,
   satellitePositions,
   SEAL,
@@ -135,6 +136,18 @@ describe("chapter frame", () => {
     expect(chapterMeta(is.verses[8], chapterPairs(is, 9), partners.length)).toBe("21 versículos · 830 ligações · 427 capítulos ligados · Bíblia Livre");
     expect(chapterMeta(1, 1, 1)).toBe("1 versículo · 1 ligação · 1 capítulo ligado · Bíblia Livre");
     expect(linksLabel(3088)).toBe("3.088 ligações");
+  });
+
+  it("keeps a book's number with its name in titles, and nothing else", () => {
+    expect(keepBookNumber("1 Tessalonicenses 5")).toBe("1 Tessalonicenses 5");
+    expect(keepBookNumber("Ligações de 2 Crônicas 6:34")).toBe("Ligações de 2 Crônicas 6:34");
+    expect(keepBookNumber("Isaías 9")).toBe("Isaías 9");
+    expect(keepBookNumber("Salmos 119 · 3 votos")).toBe("Salmos 119 · 3 votos");
+    for (const b of books()) {
+      const t = keepBookNumber(`${b.name} 1`);
+      expect(t.replace(/ /g, " ")).toBe(`${b.name} 1`);
+      expect(t.includes(" ")).toBe(/^[1-3] /.test(b.name));
+    }
   });
 
   it("sizes the bars of the chapter list as a share of the largest, never below zero", () => {
