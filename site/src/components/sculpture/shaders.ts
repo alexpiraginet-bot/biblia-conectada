@@ -107,14 +107,56 @@ in float vS;
 in float vFocus;
 uniform float uHalf;
 uniform float uGrow;
-uniform float uPulse;   // where a pulse of light runs along the arcs, from the lit verse (0) to the partner (1); -1 none
 out vec4 o;
 void main() {
   if (vS > uGrow) discard;
   float cov = clamp(uHalf + 0.5 - abs(vD), 0.0, 1.0);
-  float q = (vS - uPulse) / 0.06;
-  float boost = uPulse > -0.5 ? 1.0 + 2.2 * exp(-q * q) : 1.0;
-  o = vec4(cov * (1.0 - vFocus) * boost, cov * vFocus * boost, 0.0, 0.0);
+  o = vec4(cov * (1.0 - vFocus), cov * vFocus, 0.0, 0.0);
+}`;
+
+// A small overlay follows exactly the same arcPoint/strip as the real connections. The soft cross-section supplies
+// its own halo, so moving light needs neither the full density pass nor the selected arcs' blur passes.
+export const FLOW_VS = /* glsl */ `${ARC_HEAD}
+uniform highp int uSelected;
+out float vD;
+out float vS;
+out float vSeed;
+out float vSpan;
+out float vFocus;
+void main() {
+  float d, t, depth;
+  gl_Position = strip(d, t, depth);
+  vD = d;
+  vSpan = uSelected == 1 && aB.y > 0.0 ? aB.y : 1.0;
+  vS = uSelected == 1 ? aB.x + t * vSpan : t;
+  vFocus = uSelected == 1 ? aB.a : 0.0;
+  vSeed = fract(sin(dot(aA.xyz, vec3(31.17, 83.13, 17.71))) * 43758.5453);
+}`;
+
+export const FLOW_FS = /* glsl */ `#version 300 es
+precision highp float;
+in float vD;
+in float vS;
+in float vSeed;
+in float vSpan;
+in float vFocus;
+uniform float uHalf;
+uniform float uTime;
+uniform float uPulse;
+uniform highp int uSelected;
+out vec4 o;
+void main() {
+  // A path keeps one shared phase: its hops carry the light in order. Ordinary links breathe at offset phases.
+  float head = uSelected == 1
+    ? uPulse - (vSpan > 0.999 ? vSeed * 0.16 : 0.0)
+    : fract(uTime / (6.4 + vSeed * 2.4) + vSeed) * 1.3 - 0.15;
+  float behind = head - vS;
+  float core = exp(-pow(behind / 0.018, 2.0));
+  float tail = smoothstep(0.0, 0.015, behind) * exp(-max(behind, 0.0) / 0.065);
+  float edge = smoothstep(0.0, 0.035, vS) * smoothstep(0.0, 0.035, 1.0 - vS);
+  float cross = exp(-pow(vD / (uHalf * 0.18), 2.0)) + 0.2 * exp(-pow(vD / (uHalf * 0.75), 2.0));
+  float light = (1.75 * core + 0.62 * tail) * cross * edge;
+  o = uSelected == 1 ? vec4(light * (1.0 - vFocus), light * vFocus, 0.0, 0.0) : vec4(0.0, 0.0, light, 0.0);
 }`;
 
 // Full-screen triangle, no attributes.
@@ -207,6 +249,7 @@ uniform sampler2D uQ;     // quarter res bloom
 uniform sampler2D uS;     // 1/16 res bloom
 uniform sampler2D uLit;   // full res lit arcs (r selection, g focus)
 uniform sampler2D uLitQ;  // quarter res glow of the lit arcs
+uniform sampler2D uFlow;  // bounded, moving heads and tails; static sculpture/selection stay cached
 uniform vec2 uRes;
 uniform vec3 uGround;
 uniform float uRecede;    // how bright the sculpture stays while something is lit
@@ -231,6 +274,9 @@ void main() {
   g = 2.5 * (1.0 - exp(-g / 2.5));
   f = 2.5 * (1.0 - exp(-f / 2.5));
   vec3 gold = uLitColor * 0.85 * g + uFocusColor * 0.95 * f;
+  vec3 flow = texture(uFlow, uv).rgb;
+  gold += mix(uLitColor, uFocusColor, 0.65) * flow.r + uFocusColor * flow.g +
+    mix(uLitColor, uFocusColor, 0.28) * flow.b;
   if (uStar.w > 0.0) {
     vec2 d = gl_FragCoord.xy - uStar.xy;
     float r2 = dot(d, d);

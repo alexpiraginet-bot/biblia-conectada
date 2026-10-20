@@ -1,6 +1,8 @@
-# Direção de design: Bíblia Conectada (v4, "Atlas")
+# Direção de design: Bíblia Conectada (v5, uma história viva)
 
-Status: v4, de 19/10/2026 (noite). Substitui a v3 depois do retorno do Alex sobre o site no ar: "muitos problemas de contraste, leitura difícil e dificuldade de pesquisa; não tá nem perto do que queremos". Ele escolheu a direção **Atlas + leitura B + busca C** e o tema **segue o celular**. O que mudou e por quê está em §13; o que falta decidir, em §14.
+Status: v5, de 20/10/2026, a partir do PR #9 e da transferência do PR #12. A capa usa azul profundo e ouro, a interface Figtree, os temas verde profundo e papel e as jornadas ilustradas descritas em `docs/NOVA-EXPERIENCIA.md`. O registro da v4 permanece em §13. O novo hero de ondas, botões de vidro/metal, caderno local e ampliação das jornadas estão planejados em `docs/HANDOFF-CODEX.md`; não estão todos implementados.
+
+**Pedido posterior do Alex:** mais movimento, scroll, botões e cards modernos e “pulsos de luz sobre as linhas das conexões como fibras ópticas”. Esse pedido substitui as restrições históricas da v4 a essas técnicas na capa e nas visualizações. A leitura mantém texto estável, contraste e fontes; o movimento oferece pausa e respeita a preferência do aparelho.
 
 O sistema está no código e é a fonte de verdade:
 
@@ -32,7 +34,7 @@ Todo número deste documento foi calculado por código. Número que vai para o s
 
 1. **O texto vem primeiro.** A Escritura é a coisa mais legível da tela: Literata grande, coluna de 60 a 66 caracteres, contraste de no mínimo 7:1. Nada se desenha atrás dela.
 2. **Toda ligação mostra o número e a regra.** "17 ligações, das mais votadas às menos votadas". Os números vêm do pipeline de dados e têm teste; nenhum é digitado.
-3. **Um só momento orquestrado:** a ligação que acende no mapa (o pulso de ouro). O resto responde à pessoa e não se mexe sozinho.
+3. **A luz guia a exploração:** pulsos de ouro percorrem conexões reais, ganham destaque na seleção e podem ser pausados. Fora da tela e com movimento reduzido, ficam parados. Nada anima por cima do texto bíblico em leitura.
 4. **Buscar é sempre um gesto.** Do campo da barra, de Ctrl K ou / no desktop, da aba Buscar no celular: a mesma busca entende referência, palavra, livro e tema.
 5. **Os dois temas são de primeira.** Noite e Dia têm a mesma hierarquia e o mesmo contraste. A primeira visita segue o aparelho; a escolha da pessoa fica guardada.
 
@@ -68,12 +70,12 @@ Use sempre o token, nunca a cor. Cada tema dá todos os valores sem apontar um t
 
 | Uso | Tokens | Regra | Noite | Dia |
 | --- | --- | --- | --- | --- |
-| Texto e Escritura | `ink`, `ink-reading`, `ink-2` em `ground`, `surface`, `raised`, `overlay`, `highlight` | 7:1 | ≥ 7,52 | ≥ 7,46 |
-| Notas de fonte | `ink-3` nas quatro superfícies | 5:1 | ≥ 6,46 | ≥ 5,39 |
-| Acento e categorias como texto | `accent`, `accent-strong`, `lit`, `cat-*`, `danger` | 4,5:1 | ≥ 7,45 | ≥ 5,62 |
-| Rótulo sobre o botão principal | `on-action` em `action-fill` | 7:1 | 11,21 | 9,77 |
-| Rótulo sobre o acento | `on-accent` em `accent-fill` | 7:1 | 11,21 | 9,77 |
-| Bordas de controle e foco | `line-strong`, `focus` nas superfícies | 3:1 | ≥ 3,29 | ≥ 3,36 |
+| Texto e Escritura | `ink`, `ink-reading`, `ink-2` em `ground`, `surface`, `raised`, `overlay`, `highlight` | 7:1 | ≥ 7,93 | ≥ 7,17 |
+| Notas de fonte | `ink-3` nas quatro superfícies | 5:1 | ≥ 6,49 | ≥ 5,13 |
+| Acento e categorias como texto | `accent`, `accent-strong`, `lit`, `cat-*`, `danger` | 4,5:1 | ≥ 6,67 | ≥ 5,81 |
+| Rótulo sobre o botão principal | `on-action` em `action-fill` | 7:1 | 13,31 | 8,89 |
+| Rótulo sobre o acento | `on-accent` em `accent-fill` | 7:1 | 13,31 | 8,89 |
+| Bordas de controle e foco | `line-strong`, `focus` nas superfícies | 3:1 | ≥ 3,80 | ≥ 3,17 |
 | Céu (sempre noturno) | `sky-ink`, `sky-ink-2`, `sky-gold` sobre `sky` | 7, 4,5 e 3:1 | 16,39 · 9,82 · 13,05 | iguais |
 
 - **Superfícies:** `ground` é a página; `surface` o que fica no plano dela (painel do desktop, rodapé); `raised` campos, botões secundários e hover; `overlay` o que flutua (folha do celular, busca, menus) sobre o véu `scrim`.
@@ -98,7 +100,7 @@ Três vozes, OFL, servidas pelo próprio site e carregadas no layout raiz (`--fo
 
 - **Newsreader Display** (440, instância de título): `display-xl` na capa, `display` no título de página, `title` em painéis e seções. Sem negrito sintético, `text-wrap: balance`.
 - **Literata** (variável 200 a 900): só a Escritura. `scripture` com 19px no celular, 20px de 1024px e 21px de 1440px, entrelinha 1,75. `quote` (19px) para o versículo em foco; `scripture-sm` (17px) em listas e resultados. Nunca abaixo de 17px.
-- **Space Grotesk** (variável 300 a 700): a interface. `lede` 19px, `body` 17px, `ui` 16px peso 500 a 600, `meta` 14px, `label` 13px peso 600. Algarismos tabulares onde números se alinham.
+- **Figtree** (variável, OFL, hospedada no projeto): a interface. `lede` 19px, `body` 17px, `ui` 16px peso 500 a 600, `meta` 14px, `label` 13px peso 600. Algarismos tabulares onde números se alinham. Substituiu Space Grotesk no PR #9.
 - Tamanhos como tokens: `--fs-<estilo>` e `--lh-<estilo>` (rem, os de título e a Escritura fluidos). Medida: `--column` (36rem) para a leitura; texto de interface até 38rem.
 - Hierarquia por tamanho e peso, nunca por caixa-alta ou cor fraca. Sem sobretítulo acima de título. Mais espaço acima de um título do que abaixo.
 
@@ -159,7 +161,8 @@ Pedido do Alex, com a captura da folha no iPhone: "As conexões aqui precisam es
 
 ## 7. Movimento
 
-- `dur-fast` (120ms) para hover e pressão, `dur-base` (220ms) para folha e busca abrindo, `dur-slow` (420ms) para o pulso da ligação acesa, o único momento orquestrado.
+- `dur-fast` (120ms) para hover e pressão, `dur-base` (220ms) para folha e busca abrindo, `dur-slow` (420ms) para transições.
+- Na constelação da capa e no céu 3D, feixes recorrentes com núcleo claro e cauda seguem as arestas dos dados. A câmera não gira sozinha. O botão de luzes permite pausar e retomar; aba oculta, visualização fora da tela e movimento reduzido suspendem a animação.
 - Saída rápida: `ease-out` (`cubic-bezier(0.16, 1, 0.3, 1)`). Tudo começa visível; nada espera rolagem para aparecer.
 - Com `prefers-reduced-motion`, nada se desloca; só a cor muda.
 
@@ -167,14 +170,16 @@ Pedido do Alex, com a captura da folha no iPhone: "As conexões aqui precisam es
 
 - **Acessibilidade:** o contraste do §3, conferido por teste nos tokens e, na página pronta, por auditoria de cada texto contra o fundo de fato pintado, nos dois temas. Foco visível em tudo (anel `focus` de 2px com 2px de afastamento). Teclado completo: busca, folha (foco preso), mapa (setas entre medalhões). Toda visualização tem a lista equivalente em texto. Zoom de 200% e espaçamento de texto aumentado não cortam texto. `<html lang="pt-BR">`; foco no `h1` depois de navegar.
 - **Toque:** alvos de 44×44 px nos controles; referência dentro do texto corrido é link inline (exceção do WCAG 2.5.8).
-- **Performance:** JS por página ≤ 165 KiB gzip (`npm run budget`); a paleta de busca e as visões pesadas carregam na intenção. Páginas de livro e capítulo pré-renderizadas no build (`ensureStatic = "navigation"`).
+- **Performance:** JS inicial declarado no HTML por página ≤ 165 KiB gzip (`npm run budget`, que falha ao exceder o limite). Módulos carregados depois devem ser relatados separadamente e somados ao inicial; adiar não elimina seu custo. A paleta de busca carrega na intenção. Páginas de livro e capítulo são pré-renderizadas no build (`ensureStatic = "navigation"`).
 - **Ícones:** o conjunto do sistema (`Icon` em `site/src/components/icons.tsx`): traço único, grade de 24px, traço 1,75 (2,1 no item atual), sempre com rótulo visível ou `aria-label`. Nada de emoji nem caractere no lugar de ícone.
 
 ## 9. Componentes
 
 `Navigation` (trilho) e `TabBar` (estrutura), `SearchPalette` (busca), `Scripture` e `ChapterNav` (leitura), `ConnectionPanel` e `ConnectionRow` (ligações), `Medallion`, `ChapterSeal` e `ArcWindow` (atlas), `Button`, `Chip`, `Segmented` e `Toast` (ações), `List` e `Footer`. As classes estão em `site/src/styles/ds.css`; a página do design system mostra cada um com dados reais.
 
-## 10. Recusas
+## 10. Recusas históricas da v4
+
+O pedido de 20/10 autoriza vidro/metal nos botões, revelações de scroll, cards e pulsos nas visualizações. As linhas abaixo documentam o critério anterior; não proíbem essa nova direção. Continuam valendo legibilidade, atribuição, dados verdadeiros e desempenho.
 
 | Recusa | Protege |
 |---|---|
@@ -278,8 +283,8 @@ Em 375 e 1440 px, nos temas Noite e Dia (regra 9 do `CLAUDE.md`):
   - a densidade dos fios é somada num alvo de ponto flutuante e passa por uma curva logarítmica;
   - os 14.248 pares com 25 votos ou mais (`HERO_VOTES`) têm camada própria e ficam nítidos por cima da névoa;
   - o brilho (bloom) existe só dentro do canvas, em duas escalas.
-- **Com algo aceso:** a escultura recua (escurece) e só os fios da seleção brilham. Eles crescem a partir do versículo (1,1 s), e um pulso de luz corre deles até os parceiros (1,3 s), uma vez.
-- **Nada se mexe sozinho:** o canvas só desenha quando a câmera, a seleção ou o tamanho mudam (o único momento orquestrado continua sendo o aceso, §1.1).
+- **Com algo aceso:** a escultura recua (escurece) e os fios da seleção brilham. Eles crescem a partir do versículo; feixes recorrentes seguem as curvas, com núcleo claro e cauda dourada. Os caminhos preservam a sequência dos saltos.
+- **Fibra óptica:** uma camada pequena de pulsos anima também a vista geral. A densidade da escultura, o brilho estático e os rótulos são reutilizados enquanto a câmera está parada. O controle de luzes, a preferência de movimento reduzido e a visibilidade suspendem os ciclos.
 
 ### 15.3 Calibração da exposição (para quem mexer no `renderer.ts`)
 
@@ -372,7 +377,7 @@ Em 375 e 1440 px, nos temas Noite e Dia (regra 9 do `CLAUDE.md`):
 | Desenha 11.199 fios de capítulo (pares com uma ligação de 20 votos ou mais) e lista até 25 ligações de saída por versículo, com 5 votos ou mais: Isaías 53:5 mostra 19 | Os 301.539 pares de versículos, nas duas direções; Isaías 53:5 lista as 37 ligações, com votos |
 | Texto de um rascunho sem crédito na página 3D | BLIVRE sem alteração, com crédito no painel |
 | Sem WebGL, a página fica presa no "carregando" | Pôster e lista funcionam sem 3D; aviso com o caminho para o 2D |
-| Redesenha a cena inteira com brilho a cada quadro e gira sozinha | Nada se desenha parado; nada gira sozinho |
+| Redesenha a cena inteira com brilho a cada quadro e gira sozinha | Escultura e brilho estático ficam em cache; só a camada limitada de pulsos se move enquanto visível e permitida. A câmera não gira sozinha |
 | Com seleção aberta, as setas não fazem nada; botões invisíveis no Tab | Setas andam pelas ligações; foco no título do painel; anúncio curto |
 | 4 dos 7 rótulos escondidos por colisão em Isaías 53:5 | Rótulos empilham antes de sumir e respeitam o filtro |
 | Trilha de um passo só; histórico que apaga o plano geral | Trilha visível dos últimos 12 versículos, com volta direta |

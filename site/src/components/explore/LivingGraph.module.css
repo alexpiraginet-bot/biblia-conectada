@@ -51,7 +51,36 @@
 .edge { stroke: var(--sky-ink-2); opacity: var(--edge-strength); transition: opacity 320ms ease, stroke 320ms ease; }
 .litEdge { stroke: var(--sky-gold); opacity: 0.85; }
 .dimEdge { opacity: 0.045; }
-.signal { fill: none; stroke: var(--sky-ink); stroke-width: 2.5; stroke-dasharray: 3 97; stroke-linecap: round; opacity: 0; }
+.pulses { opacity: .65; pointer-events: none; }
+.focusedPulses { opacity: 1; }
+.signal { fill: none; stroke-linecap: round; opacity: 0; }
+.signalGlow {
+  --pulse-start: 18;
+  --pulse-end: -108;
+  --pulse-opacity: .17;
+  stroke: #e4bd7b;
+  stroke-width: 7;
+  stroke-dasharray: 7 193;
+}
+.signalTail {
+  --pulse-start: 24;
+  --pulse-end: -102;
+  --pulse-opacity: .6;
+  stroke: var(--sky-gold);
+  stroke-width: 2;
+  stroke-dasharray: 11 189;
+}
+.signalCore {
+  --pulse-start: 14;
+  --pulse-end: -112;
+  --pulse-opacity: 1;
+  stroke: #fff5d9;
+  stroke-width: 1.8;
+  stroke-dasharray: 1.7 198.3;
+}
+.focusedPulses .signalCore { stroke-width: 2.3; }
+.focusedPulses .signalGlow { --pulse-opacity: .28; stroke-width: 9; }
+.root[data-motion="paused"] *, .root[data-motion="paused"] *::after { animation-play-state: paused !important; }
 .nodes { pointer-events: none; }
 
 .node {
@@ -146,6 +175,7 @@
 .controls button:hover { background: color-mix(in srgb, var(--sky-ink-2) 12%, transparent); }
 .controls button:focus-visible { outline: 2px solid var(--sky-gold); outline-offset: 1px; }
 .controls button:disabled { opacity: 0.35; cursor: default; }
+.controls .lightControl { min-width: 44px; min-height: 44px; color: var(--sky-gold); }
 .hint { position: absolute; bottom: 27px; left: 24px; margin: 0; color: var(--sky-ink-2); font: 400 11px/1.4 var(--font-ui); pointer-events: none; }
 
 .preview {
@@ -190,10 +220,14 @@
   .space { animation: stars-breathe 8s ease-in-out infinite alternate; }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .signal { animation: follow-light 1.65s ease-out both; }
+  .signal { animation: follow-light var(--pulse-duration, 7s) linear var(--pulse-delay, 0s) infinite both; }
   .centre .core::after { content: ""; position: absolute; inset: 3px; border: 1px solid var(--sky-gold); border-radius: 50%; animation: beacon 4.6s ease-out infinite; pointer-events: none; }
 }
-@keyframes follow-light { 0% { stroke-dashoffset: 100; opacity: 0; } 18% { opacity: 0.85; } 100% { stroke-dashoffset: 0; opacity: 0; } }
+@keyframes follow-light {
+  0% { stroke-dashoffset: var(--pulse-start); opacity: 0; }
+  9%, 85% { opacity: var(--pulse-opacity); }
+  100% { stroke-dashoffset: var(--pulse-end); opacity: 0; }
+}
 @keyframes beacon { 0% { transform: scale(0.7); opacity: 0.3; } 75%, 100% { transform: scale(1.6); opacity: 0; } }
 @keyframes stars-breathe { to { opacity: 0.35; } }
 @media (max-width: 42rem) {
@@ -205,7 +239,7 @@
   .node:not(.centre) .core { width: min(var(--node-size), 7px); height: min(var(--node-size), 7px); }
   .controls { right: 12px; bottom: 10px; }
   .controls button { min-width: 44px; }
-  .hint { left: 18px; bottom: 20px; max-width: 40%; font-size: 10px; }
+  .hint { left: 18px; bottom: 20px; max-width: calc(100% - 220px); font-size: 10px; }
   .preview { padding: 21px 20px 17px; }
   .previewTitle { font-size: 26px; }
   .scripture { font-size: 17px; }
@@ -215,6 +249,7 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .root *, .root *::after { animation: none !important; transition: none !important; }
+  .pulses { display: none; }
 }
 
 /* The cover is an instrument to explore, with the selected passage beside the living atlas. */
@@ -301,6 +336,7 @@
   .legend i { display: none; }
   .immersive .controls { right: 0; bottom: 0; }
   .immersive .controls button { min-width: 40px; min-height: 44px; }
+  .immersive .controls .lightControl { min-width: 44px; }
   .panelEyebrow { margin-bottom: 12px; font-size: 9px; }
   .immersive .previewHead { position: absolute; right: 0; top: 25px; }
   .immersive .previewTitle { font-size: 36px; margin-block: 0 14px; }
