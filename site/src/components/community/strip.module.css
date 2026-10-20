@@ -20,13 +20,6 @@
   box-shadow: var(--shadow-raise);
 }
 
-/* phones: the tab bar's top rule is one pixel over --tabbar-h; the strip stays clear of it */
-@media (max-width: 63.99rem) {
-  .strip {
-    bottom: calc(var(--tabbar-h) + 1px);
-  }
-}
-
 /* desktop: the tab bar is gone (--tabbar-h is 0) and the strip leaves the section rail free */
 @media (min-width: 64rem) {
   .strip {

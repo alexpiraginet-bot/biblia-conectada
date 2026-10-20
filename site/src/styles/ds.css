@@ -143,6 +143,7 @@
   background: transparent;
   color: var(--ink-2);
   font: 500 14px/1 var(--font-ui);
+  text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
 }
@@ -1025,7 +1026,7 @@
   border-top: 1px solid var(--line);
 }
 
-.bc-list a {
+.bc-list > li > a {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -1037,11 +1038,11 @@
   text-decoration: none;
 }
 
-.bc-root .bc-list a {
+.bc-root .bc-list > li > a {
   color: var(--ink);
 }
 
-.bc-list a:hover .bc-list__name {
+.bc-list > li > a:hover .bc-list__name {
   color: var(--accent);
 }
 

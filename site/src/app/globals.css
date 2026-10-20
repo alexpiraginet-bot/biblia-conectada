@@ -89,7 +89,8 @@ input {
    tab bar with --tabbar-h. */
 
 :root {
-  --tabbar-h: calc(var(--bar-h) + env(safe-area-inset-bottom, 0px));
+  /* the bar, its 1px top rule (ds.css .bc-tabbar) and the home indicator's area */
+  --tabbar-h: calc(var(--bar-h) + 1px + env(safe-area-inset-bottom, 0px));
 }
 
 .site-shell {
