@@ -38,6 +38,10 @@
   margin: 0;
 }
 
+.keep {
+  white-space: nowrap;
+}
+
 .prose {
   max-width: 38rem;
   margin: 0;
@@ -195,10 +199,13 @@
   pointer-events: none;
 }
 
+/* the steps before this one in the accent, this one taller in the lit colour (its shape says it, not only its
+   colour), the rest in the rule colour */
 .track {
   display: flex;
+  align-items: center;
   gap: 3px;
-  height: 4px;
+  height: 10px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -206,8 +213,9 @@
 
 .track > li {
   flex: 1;
+  height: 4px;
   border-radius: var(--radius-pill);
-  background: var(--line);
+  background: var(--line-strong);
 }
 
 .track > .before {
@@ -215,6 +223,7 @@
 }
 
 .track > .here {
+  height: 10px;
   background: var(--lit);
 }
 
