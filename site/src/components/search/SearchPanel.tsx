@@ -297,6 +297,8 @@ export function SearchPanel({ initial = "", onClose, page = false, urlQuery, she
                 id: `${id}-${i}`,
                 role: "option" as const,
                 "aria-selected": i === active,
+                // the focus stays in the field (combobox): the arrows choose an option, not Tab
+                tabIndex: -1,
                 className: "bc-search__item",
                 onMouseMove: () => setActiveKey(o.key),
               };
