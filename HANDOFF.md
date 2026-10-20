@@ -731,3 +731,10 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
     - leitura rápida simulada no celular (30 s rolando, Lv 26:3), antes (uma rodada na produção do PR #7) × agora (duas rodadas na prévia):
       - 1.200 px/s: 0 seções e a lista parada no fim × 20 seções, sem nunca mostrar "Carregando";
       - 2.400 px/s: "Carregando" na tela em 35 de 119 amostras × 2 de 119, com 42 a 43 seções.
+- **20/10, fim da tarde, PR #8 no ar e um corte de texto na lista sem fim:**
+  - O Alex fez o merge do PR #8 (ef1cdf6). Na produção: teste da folha 28 de 28; rolando a 1.200 px/s, 20 seções sem nunca mostrar "Carregando".
+  - **Achado nas capturas da produção:** com algumas seções carregadas, o texto da lista sem fim passava da borda direita da folha, e os votos sumiam.
+    - Causa (minha, do PR #7): `contain-intrinsic-size: auto 80rem` nas seções. Uma seção que entra longe da tela é pulada antes de ser desenhada e fica com o tamanho intrínseco, que também valia para a largura: 1.280 px. A coluna da lista tomava essa largura.
+    - Reproduzido na produção em 3 de 3 tentativas (folha com 1.296 px de conteúdo para 388 visíveis); com a correção injetada na mesma página, 388 de 388 nas 3.
+  - **Correção:** as seções têm só altura intrínseca (`contain-intrinsic-block-size`), e a coluna da lista é `minmax(0, 1fr)`. Teste novo em `tests/links-feed.test.ts` (falha com o CSS antigo).
+
