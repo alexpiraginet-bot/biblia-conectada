@@ -13,14 +13,21 @@ import { books } from "./generated";
 const app = join(SITE, "src/app");
 const isDir = (p: string) => statSync(p).isDirectory();
 /** top-level route segments: folders of src/app and of its route groups, without dynamic or private ones */
-function segments(dir: string): string[] {
+function segments(dir: string, pagesOnly = false): string[] {
   return readdirSync(dir).flatMap((name) => {
     const p = join(dir, name);
     if (!isDir(p)) return [];
-    if (/^\(.+\)$/.test(name)) return segments(p);
+    if (/^\(.+\)$/.test(name)) return segments(p, pagesOnly);
     if (name.startsWith("[") || name.startsWith("_")) return [];
+    if (pagesOnly && !hasPage(p)) return [];
     return [name];
   });
+}
+
+/** API handlers reserve their URL segment but do not produce an HTML page. */
+function hasPage(dir: string): boolean {
+  return readdirSync(dir).some((name) => /^page\.(tsx|ts|jsx|js)$/.test(name) ||
+    (!name.startsWith("_") && isDir(join(dir, name)) && hasPage(join(dir, name))));
 }
 
 /** The page file that renders a path ("/explorar/isaias/9"), if any: route groups are transparent, static folders come
@@ -104,7 +111,7 @@ describe("route of a prerendered page (npm run budget groups pages by it)", () =
   it("finds a route for every page folder of the app", () => {
     expect(routes).toContain("/");
     expect(routes).toContain("/salvos");
-    for (const s of segments(app)) expect(routes.some((r) => r === `/${s}` || r.startsWith(`/${s}/`)), s).toBe(true);
+    for (const s of segments(app, true)) expect(routes.some((r) => r === `/${s}` || r.startsWith(`/${s}/`)), s).toBe(true);
   });
 });
 
