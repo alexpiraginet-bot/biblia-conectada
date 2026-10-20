@@ -10,6 +10,7 @@ import { checkCommunity } from "./checks/community";
 import { checkExplore } from "./checks/explore";
 import { notFoundPage, prerenderedPages } from "./checks/pages";
 import { checkReading } from "./checks/reading";
+import { checkSearch } from "./checks/search";
 import { checkTimeline } from "./checks/timeline";
 import { findLeaks, loadProtectedQuotes, protectedRuns, textFiles } from "./data/leak-guard";
 import { OUT, SITE, SRC } from "./data/sources";
@@ -126,6 +127,9 @@ const community = checkCommunity({ html, page, textOf, failures });
 // reading pages (rail, panel headline and links) and /salvos: numbers from the book files (scripts/checks/reading.ts)
 const reading = checkReading({ html, page, textOf, failures });
 
+// search: the word index is the text's, /buscar is static, the palette loads on first use (scripts/checks/search.ts)
+const searchCheck = checkSearch({ html, page, textOf, failures });
+
 // rule 1: no run of the ACF/AA quotes in anything the server or the browser receives
 type BookFile = { chapters: { t: string }[][] };
 const books = JSON.parse(readFileSync(join(OUT.generated, "books.json"), "utf8")) as { slug: string }[];
@@ -166,6 +170,7 @@ console.log(
     `Explorar and /conexao show the explore data (${explore.checked} rows checked); ` +
     `trail (${community.trailSteps} steps) and Ponte (${community.pontePages} pages) match the community data; ` +
     `${reading}; ` +
+    `${searchCheck}; ` +
     `${shipped.length} shipped text files hold none of the ${new Set(runs.values()).size} protected quotes; ` +
     `${browserFiles.length} browser files hold no medallion provenance`,
 );
