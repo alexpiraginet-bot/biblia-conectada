@@ -1,14 +1,21 @@
 // Browser-side loading of the public data the community pages need, each file fetched once per page load.
 import type { PonteCalendar, PonteFile } from "./ponte";
 
+/** A file that has not arrived by then is given up: a stalled request never holds a page, and the next call asks again. */
+export const DATA_TIMEOUT_MS = 10_000;
+
 const cache = new Map<string, Promise<unknown>>();
 function get<T>(url: string): Promise<T> {
   let p = cache.get(url) as Promise<T> | undefined;
   if (!p) {
-    p = fetch(url).then((r) => {
-      if (!r.ok) throw new Error(`${url}: ${r.status}`);
-      return r.json() as Promise<T>;
-    });
+    const abort = new AbortController();
+    const timer = setTimeout(() => abort.abort(new Error(`${url}: no answer in ${DATA_TIMEOUT_MS} ms`)), DATA_TIMEOUT_MS);
+    p = fetch(url, { signal: abort.signal })
+      .then((r) => {
+        if (!r.ok) throw new Error(`${url}: ${r.status}`);
+        return r.json() as Promise<T>;
+      })
+      .finally(() => clearTimeout(timer));
     p.catch(() => cache.delete(url));
     cache.set(url, p);
   }
