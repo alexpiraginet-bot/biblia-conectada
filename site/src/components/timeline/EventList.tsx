@@ -52,7 +52,7 @@ export function EventList({ periods, total }: { periods: Period<TimelineEvent>[]
         </span>
         {periods.map((p) => (
           <span key={p.id} data-for={p.id}>
-            {p.label}: {eventos(p.events.length)}, {spanOf(p)}.
+            {p.label}: {eventos(p.events.length)}, {spanOf(p)}
           </span>
         ))}
       </p>

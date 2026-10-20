@@ -32,6 +32,19 @@ export const ensureStatic = "navigation";
 
 /** Verses shown with their text; a longer event lists its chapters instead (up to 1,364 verses). */
 const MAX_VERSES = 40;
+/** Up to this many chapters, each gets a row with "Ler" and "Explorar"; more, and they are numbers under their book. */
+const FEW_CHAPTERS = 4;
+
+function chaptersByBook(chapters: readonly number[]) {
+  const groups: { name: string; chapters: ReturnType<typeof chapterRef>[] }[] = [];
+  for (const ci of chapters) {
+    const c = chapterRef(ci);
+    const last = groups[groups.length - 1];
+    if (last?.name === c.book.name) last.chapters.push(c);
+    else groups.push({ name: c.book.name, chapters: [c] });
+  }
+  return groups;
+}
 
 export function generateStaticParams() {
   return events.map((e) => ({ evento: e.slug }));
@@ -163,24 +176,44 @@ export default async function EventPage({ params }: PageProps<"/linha-do-tempo/[
               <h2 className="bc-section-title" id="capitulos">
                 Capítulos <small>{plural(e.chapters.length, "capítulo", "capítulos")}</small>
               </h2>
-              <ul className={styles.chapters}>
-                {e.chapters.map((ci) => {
-                  const c = chapterRef(ci);
-                  return (
-                    <li key={ci}>
-                      <span className={styles.chapterName}>{c.label}</span>
-                      <span className={styles.chapterLinks}>
-                        <Link href={c.path} aria-label={`Ler ${c.label}`}>
-                          Ler
-                        </Link>
-                        <Link href={`/explorar/${c.book.slug}/${c.chapter}`} aria-label={`Explorar as ligações de ${c.label}`}>
-                          Explorar
-                        </Link>
-                      </span>
-                    </li>
-                  );
-                })}
-              </ul>
+              {e.chapters.length <= FEW_CHAPTERS ? (
+                <ul className={styles.chapters}>
+                  {e.chapters.map((ci) => {
+                    const c = chapterRef(ci);
+                    return (
+                      <li key={ci}>
+                        <span className={styles.chapterName}>{c.label}</span>
+                        <span className={styles.chapterLinks}>
+                          <Link href={c.path} aria-label={`Ler ${c.label}`}>
+                            Ler
+                          </Link>
+                          <Link href={`/explorar/${c.book.slug}/${c.chapter}`} aria-label={`Explorar as ligações de ${c.label}`}>
+                            Explorar
+                          </Link>
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              ) : (
+                <>
+                  {chaptersByBook(e.chapters).map((g) => (
+                    <div key={g.name} className={styles.chapterBook}>
+                      <p className={styles.chapterBookName}>{g.name}</p>
+                      <ul className={styles.chapterNums}>
+                        {g.chapters.map((c) => (
+                          <li key={c.ci}>
+                            <Link href={c.path} aria-label={`Ler ${c.label}`}>
+                              {c.chapter}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                  <p className={styles.note}>Cada número abre o capítulo para ler; lá, Explorar mostra as ligações dele.</p>
+                </>
+              )}
             </section>
           ) : null}
 
@@ -246,6 +279,15 @@ export default async function EventPage({ params }: PageProps<"/linha-do-tempo/[
               </ul>
             </section>
           )}
+
+          {!pilot && (
+            <section className={styles.block} aria-labelledby="recepcao">
+              <h2 className="bc-section-title" id="recepcao">
+                Recepção cultural
+              </h2>
+              <p className={styles.note}>{RECEPTION_EMPTY}</p>
+            </section>
+          )}
         </div>
 
         <aside className={`bc-panel ${styles.panel}`} aria-labelledby="ligacoes">
@@ -260,8 +302,12 @@ export default async function EventPage({ params }: PageProps<"/linha-do-tempo/[
           {e.top.length > 0 ? (
             <>
               <p className={styles.note}>
-                As {formatInt(e.top.length)} mais votadas com versículos de fora, das mais votadas às menos votadas. Votos: leitores da
-                OpenBible.info, somadas as duas direções.
+                {e.top.length === e.links.partners
+                  ? e.top.length === 1
+                    ? "A única com um versículo de fora."
+                    : `Todas as ${formatInt(e.top.length)} com versículos de fora, das mais votadas às menos votadas.`
+                  : `As ${formatInt(e.top.length)} mais votadas com versículos de fora, das mais votadas às menos votadas.`}{" "}
+                Votos: leitores da OpenBible.info, somadas as duas direções.
               </p>
               <ol className="bc-conns">
                 {e.top.map(([gv, votes, from]) => {
@@ -300,7 +346,7 @@ export default async function EventPage({ params }: PageProps<"/linha-do-tempo/[
 
           <section aria-labelledby="eventos-ligados" className={styles.panelSection}>
             <h2 className="bc-section-title" id="eventos-ligados">
-              Eventos ligados <small>{related.length ? `os ${formatInt(related.length)} mais ligados` : "nenhum"}</small>
+              Eventos ligados <small>{related.length ? plural(related.length, "evento", "eventos") : "nenhum"}</small>
             </h2>
             {related.length ? (
               <>
@@ -337,14 +383,14 @@ export default async function EventPage({ params }: PageProps<"/linha-do-tempo/[
         </aside>
       </div>
 
-      <section className={styles.reception} aria-labelledby="recepcao">
-        <div className={styles.receptionHead}>
-          <h2 className="bc-title" id="recepcao">
-            Recepção cultural
-          </h2>
-          {pilot && <p className={styles.panelLede}>{formatInt(pilot.works.length)} pinturas no Wikidata</p>}
-        </div>
-        {pilot ? (
+      {pilot && (
+        <section className={styles.reception} aria-labelledby="recepcao">
+          <div className={styles.receptionHead}>
+            <h2 className="bc-title" id="recepcao">
+              Recepção cultural
+            </h2>
+            <p className={styles.panelLede}>{formatInt(pilot.works.length)} pinturas no Wikidata</p>
+          </div>
           <>
             <p className={styles.receptionLede}>
               Piloto: pinturas que o Wikidata liga a {pilot.label}, em instantâneo. Título em português quando o Wikidata tem; senão, o título
@@ -409,8 +455,9 @@ export default async function EventPage({ params }: PageProps<"/linha-do-tempo/[
                 <ol className={styles.works}>
                   {undated.map((w) => (
                     <li key={w.qid}>
-                      <span className={styles.workYear} aria-label="sem data">
-                        –
+                      <span className={styles.workYear}>
+                        <span aria-hidden="true">–</span>
+                        <span className="visually-hidden">sem data</span>
                       </span>
                       <span className={styles.workMain}>
                         <a href={`https://www.wikidata.org/wiki/${w.qid}`}>{workTitle(w)}</a>
@@ -422,10 +469,8 @@ export default async function EventPage({ params }: PageProps<"/linha-do-tempo/[
               </section>
             )}
           </>
-        ) : (
-          <p className={styles.receptionLede}>{RECEPTION_EMPTY}</p>
-        )}
-      </section>
+        </section>
+      )}
 
       <nav aria-label="Eventos vizinhos" className={`bc-pager ${styles.pager}`}>
         {prev ? (

@@ -139,7 +139,12 @@
   overflow-wrap: anywhere;
 }
 
-/* ---- filter chips: a radio group drawn as ds.css .bc-chip (the checked one is the pressed chip) */
+/* ---- filter chips: a radio group drawn as ds.css .bc-chip (the checked one is the pressed chip). The rules that hide
+   the other periods are written by EventList.tsx under .timeline, from the list of periods. */
+
+.timeline {
+  min-width: 0;
+}
 
 .filter {
   min-width: 0;

@@ -270,6 +270,45 @@
   font: 500 var(--fs-ui) / var(--lh-ui) var(--font-ui);
 }
 
+/* many chapters: their numbers under each book, as a book's index of chapters */
+.chapterBook {
+  margin-top: var(--space-3);
+}
+
+.chapterBookName {
+  margin: 0 0 var(--space-2);
+  font: 500 var(--fs-ui) / var(--lh-ui) var(--font-ui);
+  color: var(--ink);
+}
+
+.chapterNums {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chapterNums a {
+  display: inline-grid;
+  place-items: center;
+  min-width: var(--target);
+  height: var(--target);
+  padding: 0 var(--space-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  color: var(--ink);
+  font: 500 var(--fs-ui) / 1 var(--font-ui);
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+}
+
+.chapterNums a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
 .places {
   display: flex;
   flex-wrap: wrap;
