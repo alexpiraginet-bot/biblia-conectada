@@ -16,20 +16,22 @@ uniform float uTime;
 out vec4 color;
 void main() {
   vec2 uv = gl_FragCoord.xy / uSize;
-  vec2 p = (uv - 0.5) * vec2(uSize.x / uSize.y, 1.0);
-  float x = p.x * (1.0 + length(p) * 0.05);
+  // Keep the complete wave in view, including a narrow mobile stage.
+  float x = (uv.x - 0.5) * 3.0;
   float t = uTime * 0.16;
-  float y = p.y + 0.17;
-  float a = y + sin(x * 1.15 + t) * 0.14;
-  float b = y + sin(x * 1.15 + t + 0.16) * 0.16;
-  float c = y + sin(x * 1.15 + t - 0.18) * 0.12;
-  vec3 waves = vec3(0.0035) / max(abs(vec3(a, b, c)), vec3(0.004));
+  float y = uv.y - 0.48;
+  vec3 distance = abs(vec3(
+    y + sin(x * 1.15 + t) * 0.14,
+    y + sin(x * 1.15 + t + 0.38) * 0.16 + 0.06,
+    y + sin(x * 1.15 + t - 0.22) * 0.12 - 0.06));
+  vec3 waves = vec3(0.005) / (distance + 0.006)
+             + vec3(0.003) / (distance + 0.06);
   vec3 light = waves.x * vec3(1.0, 0.72, 0.32)
-             + waves.y * vec3(0.15, 0.34, 0.78)
-             + waves.z * vec3(0.44, 0.25, 0.68);
-  float edge = smoothstep(0.0, 0.15, uv.x) * smoothstep(0.0, 0.15, 1.0 - uv.x);
-  float veil = 0.20 + 0.35 * smoothstep(0.25, 0.85, uv.x);
-  color = vec4(vec3(0.024, 0.051, 0.102) + light * edge * veil * 1.1, 1.0);
+             + waves.y * vec3(0.18, 0.39, 0.80)
+             + waves.z * vec3(0.49, 0.29, 0.63);
+  float edge = smoothstep(0.0, 0.09, uv.x) * smoothstep(0.0, 0.09, 1.0 - uv.x);
+  vec3 sky = mix(vec3(0.022, 0.047, 0.078), vec3(0.035, 0.080, 0.135), 1.0 - uv.y);
+  color = vec4(sky + light * edge * 0.85, 1.0);
 }`;
 
 type WaveState = "fallback" | "running" | "paused" | "reduced";
@@ -162,7 +164,13 @@ export function WebGLShader() {
     return () => { waves.current?.destroy(); waves.current = null; };
   }, []);
   return <div className={styles.root}>
-    <div className={styles.still} aria-hidden="true" />
+    <div className={styles.still} aria-hidden="true">
+      <svg viewBox="0 0 800 480" preserveAspectRatio="none" focusable="false">
+        <path d="M-40 185C175 140 370 380 840 282" />
+        <path d="M-40 210C170 148 380 342 840 254" />
+        <path d="M-40 166C190 144 370 401 840 300" />
+      </svg>
+    </div>
     <canvas ref={canvas} className={styles.canvas} aria-hidden="true" />
     {state !== "fallback" && <button type="button" className={styles.control}
       aria-pressed={state === "paused"} disabled={state === "reduced"}

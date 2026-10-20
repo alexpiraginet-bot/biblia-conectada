@@ -1,5 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { createHeroWaves } from "../src/components/ui/web-gl-shader";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { createHeroWaves, WebGLShader } from "../src/components/ui/web-gl-shader";
 
 let media: EventTarget & { matches: boolean };
 let doc: EventTarget & { hidden: boolean };
@@ -66,6 +68,15 @@ afterEach(() => {
 });
 
 describe("hero waves lifecycle", () => {
+  it("serves visible wave artwork before JavaScript without an unusable motion control", () => {
+    const html = renderToStaticMarkup(createElement(WebGLShader));
+    expect(html).toContain('viewBox="0 0 800 480"');
+    expect(html.match(/<path /g)).toHaveLength(3);
+    expect(html).toContain('aria-hidden="true"');
+    expect(html).not.toContain("<button");
+    expect(html).not.toContain("data-ready");
+  });
+
   it("draws one triangle only when visible, within the raster and DPR bounds", () => {
     const gl = fakeGL(), canvas = makeCanvas(gl), state = vi.fn();
     control = createHeroWaves(canvas, state);
@@ -126,6 +137,16 @@ describe("hero waves lifecycle", () => {
     gl.getParameter.mockReturnValue("NVIDIA"); gl.getShaderParameter.mockReturnValue(false);
     expect(createHeroWaves(makeCanvas(gl), vi.fn())).toBeNull();
     expect(gl.deleteShader).toHaveBeenCalledTimes(1);
+    expect(rafs.size).toBe(0); expect(vi.getTimerCount()).toBe(0);
+  });
+
+  it("retains the server artwork if the browser refuses context creation", () => {
+    const canvas = makeCanvas(null);
+    vi.mocked(canvas.getContext).mockImplementation(() => { throw new Error("WebGL unavailable"); });
+    const state = vi.fn();
+    expect(createHeroWaves(canvas, state)).toBeNull();
+    expect(canvas.dataset.ready).toBeUndefined();
+    expect(state).not.toHaveBeenCalled();
     expect(rafs.size).toBe(0); expect(vi.getTimerCount()).toBe(0);
   });
 

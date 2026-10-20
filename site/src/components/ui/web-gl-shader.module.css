@@ -8,12 +8,34 @@
 .still, .canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
 .still {
   background:
-    radial-gradient(ellipse 110% 42% at 59% 110%, transparent 68%, #ffcc6b38 68.4%, transparent 69.1%),
-    radial-gradient(ellipse 115% 43% at 57% 110%, transparent 67%, #707bdd29 67.5%, transparent 68.3%),
-    radial-gradient(ellipse 110% 39% at 61% 110%, transparent 69%, #9e76bf24 69.5%, transparent 70.3%),
-    radial-gradient(ellipse at 72% 100%, #182a3c, var(--sky) 72%);
+    radial-gradient(ellipse 62% 36% at 62% 57%, #8b69372e, transparent),
+    radial-gradient(ellipse 75% 47% at 30% 73%, #30598445, transparent),
+    linear-gradient(#06121f, #102a40);
 }
-.canvas { opacity: 0; }
+.still svg { width: 100%; height: 100%; overflow: visible; fill: none; }
+.still path { vector-effect: non-scaling-stroke; stroke-width: 1.7; stroke: #e4b96c; filter: drop-shadow(0 0 7px #e4b96c); }
+.still path:nth-child(2) { stroke: #659bd9; filter: drop-shadow(0 0 9px #659bd9); }
+.still path:nth-child(3) { stroke: #af86bf; filter: drop-shadow(0 0 9px #af86bf); }
+/* Stars remain visible before hydration, without WebGL, and over its still frame. */
+.root::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 12% 22%, #fce6b8 0 1px, transparent 1.7px),
+    radial-gradient(circle at 27% 39%, #bacde8 0 .7px, transparent 1.4px),
+    radial-gradient(circle at 44% 17%, #fce6b8 0 1.1px, transparent 1.8px),
+    radial-gradient(circle at 61% 31%, #e5d9c3 0 .8px, transparent 1.5px),
+    radial-gradient(circle at 78% 13%, #b5cce9 0 1px, transparent 1.8px),
+    radial-gradient(circle at 91% 37%, #fce6b8 0 .9px, transparent 1.6px),
+    radial-gradient(circle at 8% 76%, #91abc8 0 .6px, transparent 1.3px),
+    radial-gradient(circle at 36% 82%, #e5d9c3 0 .7px, transparent 1.4px),
+    radial-gradient(circle at 71% 72%, #b5cce9 0 .6px, transparent 1.4px),
+    radial-gradient(circle at 88% 88%, #fce6b8 0 .7px, transparent 1.4px);
+}
+.canvas { opacity: 0; z-index: 1; }
 .canvas[data-ready="true"] { opacity: 1; }
 .control {
   position: absolute;
