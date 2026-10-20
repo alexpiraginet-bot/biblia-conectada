@@ -539,7 +539,8 @@
 .row .name a {
   display: inline-flex;
   align-items: center;
-  min-height: 2rem;
+  min-height: var(--target);
+  margin-block: calc((2rem - var(--target)) / 2);
   font-weight: 600;
   text-decoration: none;
 }

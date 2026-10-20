@@ -95,10 +95,6 @@
   .toc ol {
     display: block;
   }
-
-  .toc a {
-    min-height: 2.25rem;
-  }
 }
 
 .section {

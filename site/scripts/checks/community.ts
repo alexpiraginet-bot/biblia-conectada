@@ -57,6 +57,12 @@ export function checkCommunity(ctx: { html: string[]; page: (rel: string) => str
     need(rel, p.text, s.ot.text);
     need(rel, p.text, s.nt.text);
     need(rel, p.text, device);
+    // where the step sits in the trail, and the page's one action: the next step (the trail itself after the last)
+    need(rel, p.text, `Passo ${s.step} de ${formatInt(trail.steps.length)}`);
+    const onward = s.step < trail.steps.length ? `/trilha/${trail.slug}/${s.step + 1}` : `/trilha/${trail.slug}`;
+    if (!new RegExp(`<a[^>]*href="${onward}"[^>]*bc-button--primary|<a[^>]*bc-button--primary[^>]*href="${onward}"`).test(p.raw)) {
+      failures.push(`${rel}: the primary action does not lead to ${onward}`);
+    }
     const both = conexaoPath({ book: a.book.index, slug: a.book.slug, chapter: a.chapter }, { book: b.book.index, slug: b.book.slug, chapter: b.chapter });
     if (!p.raw.includes(`href="${both}"`)) failures.push(`${rel}: no link to ${both}`);
   }
@@ -92,6 +98,12 @@ export function checkCommunity(ctx: { html: string[]; page: (rel: string) => str
   if (mesa) {
     need("mesa.html", mesa.text, "Mesa da semana");
     need("mesa.html", mesa.text, device);
+  }
+
+  // ---- the other community pages listed at the end of each one (CommunityWays): the trail's step count
+  for (const rel of ["mesa.html", "ponte.html", "trilha.html"]) {
+    const p = page(rel);
+    if (p) need(rel, p.text, `${formatInt(trail.steps.length)} passos`);
   }
   return { trailSteps: stepPages.length, pontePages: ponteHtml.length };
 }
