@@ -1,5 +1,5 @@
 import { books } from "@/lib/data";
-import { GROUP_NAMES, hubText, NARROW, votesWord, WIDE, type AtlasLayout, type GroupId } from "@/lib/explore/atlas";
+import { GROUP_NAMES, hubText, votesWord, type AtlasLayout, type GroupId } from "@/lib/explore/atlas";
 import { groupOfBook, medals, type Atlas } from "@/lib/explore/atlas-data";
 import { chapterKey } from "@/lib/explore/data";
 import { connectionPath } from "@/lib/explore/home";

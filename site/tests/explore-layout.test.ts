@@ -31,11 +31,11 @@ import { bookFile, books } from "./generated";
 const measure = makeMeasure(true);
 type P = { ci: number; pairs: number; votes: number };
 
-let names: string[] = [];
-let numbers: string[] = [];
+const names: string[] = [];
+const numbers: string[] = [];
 let groupOf: (ci: number) => GroupId = () => "atos";
 /** every linked chapter of every chapter, ranked by the rule the pages state (spelled out again here) */
-let ranked: P[][] = [];
+const ranked: P[][] = [];
 
 beforeAll(() => {
   const b = books();
