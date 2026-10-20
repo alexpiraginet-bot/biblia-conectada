@@ -391,14 +391,14 @@ npx -y skills add leonxlnx/taste-skill --skill design-taste-frontend --agent cla
 5. **Tom do texto** do site. Proposta: claro, de estudo, sem jargão, sem "maior do mundo" sem prova.
 9. **Medalhões no tema Dia** (onda C): as ilustrações foram feitas sobre o azul-marinho do Noite e aparecem como moedas escuras sobre o pergaminho. Manter assim ou gerar uma versão clara.
 10. **Pontes futuras** (onda C): as páginas `/ponte/<n>` só existem até o dia do build, mas `public/data/ponte/calendar.json` e os 365 arquivos `public/data/ponte/<n>.json` já trazem todas as pontes do ano para quem abrir os arquivos. Aceitar (o jogo é de honra) ou servir o calendário aos poucos.
-11. **Design v4 ("Atlas"):** onze escolhas abertas em `design/README.md` §14, entre elas:
+11. **Design v4 ("Atlas"):** doze escolhas abertas em `design/README.md` §14, entre elas:
     - o botão principal verde no Dia;
     - os 10 períodos da linha do tempo;
     - os títulos de evento em inglês;
     - a busca por palavra exata;
-    - o céu emoldurado no Noite;
+    - a escultura de `/arcos`: abrir em Isaías 9:6 aceso ou na Bíblia inteira, e o tema Dia em gravura ou com céu noturno;
     - o mapa da leitura azul-marinho nos dois temas.
-12. **`/arcos` sem GPU:** hoje o céu WebGL roda em software e trava a página (Lighthouse 63 a 69). Proposta: mostrar o pôster parado quando o navegador não tiver GPU de verdade. Troca: aparelhos com GPU bloqueada passam a ver o pôster.
+12. ~~`/arcos` sem GPU~~: feito em 20/10 a pedido do Alex (PR #5). Sem GPU de verdade, o céu fica no pôster; aparelhos com GPU bloqueada também veem o pôster. A escultura 3D segue a mesma regra (design §15.6).
 
 ---
 
@@ -621,3 +621,48 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
   - Procedência dos medalhões: o manifesto guarda prompt, modelo, data e SHA-256; ela aparece em `/sobre`, e `tests/medalhoes.test.ts` confere.
   - `DESIGN.md` e `.impeccable/design.json`: escritos por um agente documentador a partir do código entregue. Ele conferiu por script 48 cores, a escala tipográfica, os raios, os espaços e os componentes contra `tokens.json`: nenhuma divergência. O texto qualitativo veio do contrato de direção e do `design/README.md` v4.
   - LCP no celular (Lighthouse simulado): a mesma página varia ±0,6 s entre medições. Para separar ruído de regressão, comparei 4 a 5 medições alternadas de `/isaias/9/6` no build anterior (média de cerca de 2,9 s) e no corrigido (cerca de 2,6 s): nada piorou. O versículo continua acima da meta de 2,5 s (§5.6), como já estava antes.
+- **20/10, manhã, revisão do Codex, PR #4 e PR #5 no ar:**
+  - Os dois achados do Codex no PR #4 foram corrigidos (be722cb):
+    - enquanto uma busca nova carrega, os resultados de texto da busca anterior ficam na tela, mas inertes, sem virar opção;
+    - "Tirar da mesa" desfaz um voto só.
+  - O PR #4 entrou na `main` (f43f447), e a produção foi conferida com 136 aberturas sem falha.
+  - **Pedido do Alex:** "Keep /arcos on its poster without a real GPU". Feito no PR #5 (f9b0170):
+    - o céu só desenha ao vivo com GPU de verdade (`failIfMajorPerformanceCaveat` e o nome do renderizador);
+    - sem ela, o pôster fica, com o aviso "Sem aceleração gráfica neste aparelho…".
+  - Na produção, a checagem do pôster passou em 20 de 20, e o Lighthouse de `/arcos` deu 91 a 97 de desempenho e 100 de acessibilidade (antes: 63 a 69).
+- **20/10, manhã, escultura de luz em `/arcos`:**
+  - **Pedido do Alex:** a página "Conexões da Bíblia em 3D" do porqueelevive.com (aberta em Isaías 53:5) como conceito: "Atente-se ao nível nisso use a /tasteskill e /rea para fazer igual\nE\nMelhor".
+    - A skill `design-taste-frontend` (tasteskill) foi usada.
+    - Não existe skill "/rea" nesta conta; no lugar dela entrou a `impeccable`.
+  - **Estudo da referência:** só leitura (o código dela não tem licença declarada). As técnicas foram descritas com palavras próprias, e a escultura daqui é código novo, sem biblioteca 3D.
+  - **Entrega** (direção e números em `design/README.md` §15):
+    - `/arcos` virou a escultura de luz em 3D (`site/src/components/sculpture/`), e o céu 2D foi para `/arcos/plano`.
+    - Os 301.539 pares em 3D, com o painel do versículo (texto da BLIVRE e todas as ligações, com votos e filtros), o modo capítulo com anterior e seguinte, o cartão da ligação, a trilha, o endereço `#livro/cap/vers`, o teclado completo e o pôster sem GPU.
+    - Com os pôsteres, o canvas assume quando já desenhou o mesmo tanto.
+  - **Ajustes depois da primeira versão:**
+    - um chão só para canvas, pôster e palco (o `ground` dos tokens, com teste);
+    - o pôster do celular feito com os 20.000 pares que o celular desenha;
+    - o enquadramento passou a centrar a imagem projetada, e não a caixa 3D, e o quadro de abertura passou do aspecto 1,7 para 1,4: em 1440 px a escultura ficou 25% mais larga e 36% mais alta, e no celular 25% maior;
+    - no celular, a introdução cobria a escultura; agora fica abaixo da faixa, com rolagem própria;
+    - o motor WebGL carrega depois da primeira pintura: `/arcos` passou de 169,1 para 160,8 KiB de JS (teto de 165).
+    - achado pelo teste de interação: depois de clicar num capítulo no eixo e digitar um versículo, a prévia do capítulo continuava acesa por cima dos fios do versículo até o mouse se mexer, e o hover dos fios ficava bloqueado. Agora o motor guarda o próprio estado de hover, e toda troca de seleção limpa a prévia.
+    - achado na revisão das capturas: a dica do ponteiro sobre um fio abria por baixo do painel. Agora ela abre do outro lado do ponteiro quando não cabe no quadro.
+    - achado pelo teste de interação: com o ponteiro parado no eixo enquanto a câmera voava, a dica continuava no capítulo de antes e o clique abria outro. Agora o motor reavalia o que está sob o ponteiro a cada quadro em que a câmera se move (voo, inércia, roda). Na roda, ele usa a posição exata do último movimento do ponteiro: o evento de roda só traz o pixel inteiro, e de longe um pixel cobre dois capítulos.
+    - achado pela auditoria: com uma seleção aberta, a página ficava sem `<h1>`, porque a introdução sai para dar lugar ao painel. Agora o título "Céu de ligações" continua na página, oculto à vista.
+    - achado nas capturas do Dia: os fios acesos saíam azuis, e não bronze, porque no Dia a luz vira tinta e a cor estava escrita como a própria tinta, não como o complemento dela. Corrigido para o bronze do `lit` (#683c00), e o foco para sépia quase preto.
+    - LCP no celular: o pôster é o maior elemento da primeira pintura e só era pedido depois do CSS. Agora vem com o documento (`<link rel="preload">` por largura e tema do aparelho), e o LCP simulado caiu de 2,9–3,0 s para 2,3–2,4 s.
+  - **Conferido no build final** (servidor de produção local, Chromium com SwiftShader):
+    - `npm run typecheck`, `lint`, `test` (461 testes) e `build` (`check-dist` em 2.536 páginas, com os números de `/arcos` e `/arcos/plano`);
+    - `npm run budget`: `/arcos` com 160,9 KiB (teto de 165), mais o motor de 9,2 KB gzip carregado depois;
+    - teste de interação com 43 checagens, todas passando:
+      - desktop: arraste, roda, endereço, prévia, clique no eixo, anterior/seguinte, campo e erros, foco no título, 37 ligações de Isaías 53:5, texto da BLIVRE, rótulos, dica e cartão do fio, seguir, trilha, filtro, teclado, `aria-live`, Esc, copiar link;
+      - celular: pôster até os 20.000 fios, oferta do resto, folha em duas alturas;
+      - sem GPU: pôster com os nomes do eixo, aviso, busca e painel funcionando;
+    - auditoria no navegador:
+      - 37 rotas × 375/1440 px × Noite/Dia (148 aberturas);
+      - a única falha de verdade, o `<h1>` que faltava com seleção, foi corrigida e as rotas da escultura auditadas de novo: 32 de 32;
+      - contraste: texto e Escritura acima de 7:1; o mínimo, 5,39:1, é das contagens dos filtros no Dia (notas, regra de 5:1);
+    - Lighthouse em `/arcos`: celular 98 (LCP de 2,3 a 2,4 s, TBT de 50 a 100 ms, CLS 0), desktop 100; acessibilidade 100 nos dois;
+    - o pôster coincide com o quadro do motor em 1440 e 375 px; dentro do quadro, a diferença média entre o pôster e o canvas é de 1,5 a 2,8 níveis;
+    - capturas em 375 e 1440 px, Noite e Dia: abertura, versículo e capítulo.
+  - **Não conferido:** GPU de verdade (desempenho e aparência), Safari/iOS e Firefox, pinça no toque real, leitor de tela.

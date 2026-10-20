@@ -1,4 +1,4 @@
-/* /arcos lives in the page column of the shell (globals.css .site-page); nothing on it may scroll the page sideways */
+/* /arcos: the sculpture's stage fills the column under the top bar, edge to edge; nothing may scroll the page sideways */
 .main {
   overflow-x: clip;
 }

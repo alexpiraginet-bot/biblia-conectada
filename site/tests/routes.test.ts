@@ -121,6 +121,7 @@ describe("current navigation item", () => {
     ["/linha-do-tempo", "/linha-do-tempo"],
     ["/linha-do-tempo/423-lucas-10-25-37", "/linha-do-tempo"],
     ["/arcos", "/arcos"],
+    ["/arcos/plano", "/arcos"],
     ["/ponte", "/ponte"],
     ["/ponte/1", "/ponte"],
     ["/dados", "/dados"],

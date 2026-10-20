@@ -321,7 +321,7 @@ Os valores do frontmatter são os de `site/src/styles/tokens.json`, literais. Ca
 
 **A Regra do Ouro que Conta.** Ouro e bronze marcam o que se conta e o que se segue: números, ligações, o ícone ativo, o que está aceso. Não pintam áreas grandes nem enfeitam; a cor cheia fica no botão principal (`action-fill`, um por área) e nas marcas pequenas de escolha (`accent-fill`).
 
-**A Regra do Céu Noturno.** O céu é noturno nos dois temas. No Dia, é uma janela emoldurada de azul-marinho no pergaminho; no Noite, dentro de um painel ou de uma folha, a janela se abre no próprio painel, sem moldura nem recuo (`--window-inset: 0px`): nunca caixa dentro de caixa.
+**A Regra do Céu Noturno.** O céu é noturno nos dois temas. No Dia, é uma janela emoldurada de azul-marinho no pergaminho; no Noite, dentro de um painel ou de uma folha, a janela se abre no próprio painel, sem moldura nem recuo (`--window-inset: 0px`): nunca caixa dentro de caixa. A exceção é a escultura de luz de `/arcos` (`design/README.md` §15): ela ocupa o palco inteiro sobre o `ground` do tema, como luz no Noite e como gravura em tinta no pergaminho no Dia (decisão aberta em §14 item 12).
 
 ## Typography
 
@@ -368,7 +368,7 @@ Quase plano. A profundidade vem das quatro superfícies em degrau (`ground`, `su
 ### Named Rules
 **A Regra da Superfície Única.** Só uma coisa flutua de cada vez, e ela é opaca: fundo `overlay`, borda `line`, `shadow-float` e a própria cor de texto. A faixa que espia some quando a barra de seleção aparece; texto nunca herda cor através de uma superfície flutuante.
 
-**A Regra do Brilho no Céu.** Nenhum brilho, halo, gradiente, vidro ou desfoque na interface. Luz que soma (`mix-blend-mode: screen`) só nos arcos, dentro da janela do céu.
+**A Regra do Brilho no Céu.** Nenhum brilho, halo, gradiente, vidro ou desfoque na interface. Luz que soma (`mix-blend-mode: screen`) só nos arcos, dentro da janela do céu e do canvas da escultura.
 
 ## Shapes
 

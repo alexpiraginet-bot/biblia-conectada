@@ -47,7 +47,7 @@ O modo diz o que é sucesso para quem está na tela (impeccable).
 | Explorar e conexão | `/explorar/...`, `/conexao/...` | Experience no mapa, Operate no painel | Medalhões e selo; o painel "Conexão selecionada" com ação principal |
 | Linha do tempo, temas, palavras | `/linha-do-tempo`, `/tema`, `/palavra` e filhas | Read | Listas com fio, não grades de cards |
 | Comunidade | `/trilha`, `/ponte`, `/mesa` | Read com uma ação | Um botão principal por área |
-| Céu e dados | `/arcos`, `/dados`, `/sobre` | Experience no céu, Read no resto | O céu é uma janela emoldurada no tema Dia |
+| Céu e dados | `/arcos`, `/arcos/plano`, `/dados`, `/sobre` | Experience na escultura, Read no resto | `/arcos` é a escultura de luz em 3D, no palco inteiro e nos dois temas (§15); o céu 2D, em `/arcos/plano`, é uma janela emoldurada |
 | Busca | paleta (Ctrl K, aba Buscar) e `/buscar` | Operate | Combobox padrão, resultados agrupados |
 
 ## 2. Continuidade com os vídeos
@@ -55,7 +55,7 @@ O modo diz o que é sucesso para quem está na tela (impeccable).
 | Elemento | Valor | De onde |
 |---|---|---|
 | Ouro (luz) | `#FFCC6B` (`sky-gold`) | `GOLD = (1.0, 0.80, 0.42)` em `estudos/*/fx.py` e `film.py` |
-| Vitral dos arcos (curto → longo) | `#2980FF` `#2442FF` `#8C33FF` `#FF2966` `#FF801F` `#FFD15C` | `PAL_C` em `biblia-referencias/film.py`; só dentro do canvas do céu |
+| Vitral dos arcos (curto → longo) | `#2980FF` `#2442FF` `#8C33FF` `#FF2966` `#FF801F` `#FFD15C` | `PAL_C` em `biblia-referencias/film.py`; só dentro do canvas do céu e da escultura ("Cor pela distância", §15) |
 | Céu noturno (vídeo 2) | `#07172D` a `#1C283B` | mediana de quadros em 8 s e 62 s; o `sky` do sistema é `#060D1A` |
 
 A v4 tira Cormorant e Space Mono da interface: as três vozes do sistema (§4) cobrem título, Escritura e interface. O ouro, o céu e os arcos continuam (A3).
@@ -226,6 +226,142 @@ Em 375 e 1440 px, nos temas Noite e Dia (regra 9 do `CLAUDE.md`):
 | 6 | Busca: palavra exata | "luz" não acha "luzes"; alternativa: famílias de palavras. Toda palavra está no índice ("e" sozinho: 24.589 versículos) |
 | 7 | Capa: tamanho do título | `display` (56px) em vez de `display-xl`, para título, mapa e botão principal caberem na primeira tela de 1440px |
 | 8 | Mapa: quantos capítulos desenhar | Até 3 por grupo (cerca de 19 de 24 desenhados; a lista nomeia todos); no celular, os 8 medalhões |
-| 9 | Céu em `/arcos` no tema Noite | Também emoldurado (`bc-window`), como no Dia; alternativa: céu na página inteira no Noite |
+| 9 | Escultura em `/arcos` (§15) | No palco inteiro, nos dois temas; o céu 2D foi para `/arcos/plano`, emoldurado. Abrir em Isaías 9:6 aceso (como o céu 2D abria) ou na Bíblia inteira (como está)? |
 | 10 | `/dados`, 404, comunidade | "Baixar tudo" como botão principal de `/dados`; "Buscar" como primeiro caminho da 404; "Outros caminhos" entre Trilha, Ponte e Mesa |
 | 11 | Mapa da leitura | Azul-marinho nos dois temas (os medalhões no próprio chão) |
+| 12 | Escultura no tema Dia (§15.2) | Gravura em tinta no pergaminho, no palco inteiro (exceção à regra do céu noturno do `DESIGN.md`); alternativa: céu noturno também no Dia |
+
+## 15. Escultura de luz (`/arcos`, 20/10/2026)
+
+**Pedido do Alex (20/10):** a página "Conexões da Bíblia em 3D" do porqueelevive.com (aberta em Isaías 53:5) como conceito: "fazer igual e melhor". A referência foi estudada só de leitura, e o código dela não tem licença declarada. As técnicas foram descritas com palavras próprias, e a escultura daqui é código novo, sem biblioteca 3D. O céu em 2D continua em `/arcos/plano`, com link na legenda.
+
+### 15.1 Forma
+
+- Cada um dos 301.539 pares de versículos da OpenBible.info é um fio de luz: meia elipse sobre o eixo da Bíblia, de Gênesis (à esquerda) a Apocalipse.
+  - Os capítulos têm largura igual, e o versículo fica no ponto proporcional dentro do capítulo. É a mesma geometria do céu 2D (`sky/model.ts`).
+- A altura do fio é 0,62 × a metade da distância (`FLAT`, em `space.ts`).
+- O plano de cada fio gira em torno do eixo conforme a relação (`arcAngle`):
+  - as 67.293 pontes entre os Testamentos sobem, em leque;
+  - as 163.383 ligações dentro do Antigo pendem para trás e para baixo;
+  - as 70.863 dentro do Novo pendem para a frente e para baixo.
+- O plano gira um pouco ao longo do eixo (`TWIST`), e cada par tem um desvio fixo (`pairJitter`), igual em toda carga.
+- O resultado: a cúpula das pontes por cima, a saia âmbar do Antigo atrás e os laços azulados do Novo na frente. A estrutura dos Testamentos se lê de relance.
+
+### 15.2 Luz e cor
+
+| Tema | Chão do palco | Fios: Antigo / Novo / pontes | Aceso |
+|---|---|---|---|
+| Noite | o `ground` do tema (`#06121B`) | âmbar, azul névoa, creme; luz somada | ouro do vídeo (`sky-gold`); o fio em foco quase branco |
+| Dia | o `ground` do tema (`#F6F1E6`) | bronze, azul fundo, grafite; a luz vira tinta, como numa gravura | bronze escuro, o `lit` do Dia (`#683C00`); o fio em foco sépia quase preto |
+
+- No Dia, cada cor de luz é escrita como o complemento da tinta que se quer (o canal que a luz tem absorve): a luz [0,59; 0,76; 1] dá o bronze `#683C00`.
+- O canvas, o pôster e o palco usam o mesmo chão (`GROUND` em `renderer.ts`, conferido contra `tokens.json` em `tests/sculpture-poster.test.ts`): não há emenda entre eles.
+- **Cor pela distância** (botão na legenda): o vitral do vídeo 1 (§2), azul nas ligações curtas e ouro nas longas.
+- **Exposição:**
+  - a densidade dos fios é somada num alvo de ponto flutuante e passa por uma curva logarítmica;
+  - os 14.248 pares com 25 votos ou mais (`HERO_VOTES`) têm camada própria e ficam nítidos por cima da névoa;
+  - o brilho (bloom) existe só dentro do canvas, em duas escalas.
+- **Com algo aceso:** a escultura recua (escurece) e só os fios da seleção brilham. Eles crescem a partir do versículo (1,1 s), e um pulso de luz corre deles até os parceiros (1,3 s), uma vez.
+- **Nada se mexe sozinho:** o canvas só desenha quando a câmera, a seleção ou o tamanho mudam (o único momento orquestrado continua sendo o aceso, §1.1).
+
+### 15.3 Calibração da exposição (para quem mexer no `renderer.ts`)
+
+- `P99_HOME = 340` e `H99_HOME = 38` são o percentil 99,5 da densidade na vista de abertura: o primeiro com todos os fios, o segundo só com os de 25 votos ou mais.
+  - Foram medidos com `engine.measure(0.995, "all")` e `measure(0.995, "hero")`, no arquivo completo, numa janela de 1440 × 900: câmera a 2,41 e quadro de 836 px de altura (`EXPOSURE_REF`, em `space.ts`).
+  - São constantes de desenho, não números da página.
+- `exposureZoom` compensa o tamanho do quadro e a distância da câmera, para a luz não mudar quando a janela ou o zoom mudam.
+- Meça de novo depois de mexer na forma (`FLAT`, `TWIST`, `arcAngle`), nos pesos (`arcWeight`) ou na regra dos fios nítidos:
+  1. abra `/arcos` com `window.__SCULPTURE_ALLOW_SOFTWARE__ = true` definido antes da carga (os scripts de teste fazem isso; também libera o desenho em software);
+  2. espere o arquivo completo;
+  3. chame `window.__sculpture.measure()`.
+
+### 15.4 Câmera e enquadramento
+
+- **Órbita:** guinada, inclinação, distância e alvo, mais o quadro da tela onde a imagem é desenhada.
+- **O quadro e o deslocamento da lente:** o quadro é desenhado por deslocamento da lente (`viewMatrix`, em `space.ts`). Assim a escultura ocupa a área livre sem girar a câmera:
+  - no desktop, à direita da introdução (a coluna dela termina 24 px antes da área, então a luz nunca passa por baixo do texto);
+  - no celular, uma faixa abaixo do campo de busca, da altura da escultura na largura do aparelho; a introdução fica abaixo dela, com rolagem própria, e nunca cobre a escultura;
+  - com seleção, ao lado do painel ou acima da folha.
+- **Abertura:** `HOME_ORBIT` é calculada uma vez (`fitOrbit` sobre o contorno da escultura, num quadro de aspecto 1,4, o da escultura vista dessa posição) e é a mesma no pôster.
+  - `homeArea` dá a área livre, com a mesma conta no TypeScript e no CSS (`sculpture.module.css`, em unidades do contêiner). Por isso o pôster e o primeiro quadro vivo coincidem.
+- **Enquadrar:** `fitOrbit` centra a imagem projetada, não a caixa 3D (a perspectiva e o giro deslocam uma da outra), e aproxima a câmera até a imagem encostar na margem de 3%. Vale para a abertura e para cada seleção.
+- **Voo até a seleção:** 1,15 s, com entrada e saída suaves. O enquadramento cobre o versículo e todos os fios acesos.
+- **Gestos:**
+  - arrastar gira;
+  - roda ou pinça aproxima;
+  - a inércia para sozinha.
+- **Redimensionar:** sem seleção e sem a câmera mexida à mão, a escultura volta ao enquadramento da Bíblia inteira.
+
+### 15.5 Interação
+
+- **Endereço:** "#isaias/53/5" abre um versículo e "#isaias/53" um capítulo.
+  - A troca é por `replaceState`, então não cria histórico; a trilha na página é o caminho de volta.
+  - O endereço sobrevive ao recarregar e pode ser compartilhado.
+- **Abrir:**
+  - pelo campo ("Is 53:5", "Jo 3", com o parser do site e erros que dizem o que falta);
+  - pelos exemplos;
+  - por "Um versículo ao acaso" (uma ponta de um dos 2.000 fios mais votados);
+  - clicando na linha do meio, que abre o capítulo sob o ponteiro.
+- **Prévia:** passar o mouse na linha acende as 80 ligações mais fortes do capítulo e mostra "Isaías 53 · N ligações · clique para abrir". A dica acompanha o que está sob o ponteiro também quando a câmera se move por baixo dele (voo, inércia, roda): o clique abre sempre o capítulo que ela mostra.
+- **Versículo aberto:**
+  - o painel (folha no celular) tem o texto da BLIVRE, "Ler Isaías 53" e "Copiar link";
+  - os filtros Todas, Antigo e Novo (o filtro apaga os outros fios e reenquadra);
+  - a lista completa, das mais votadas às menos, 20 por vez, com votos e trecho;
+  - e "Ver as ligações de Isaías 53 inteiro".
+- **Fios e rótulos:**
+  - passar o mouse num fio aceso mostra os dois versículos e os votos (a dica abre do outro lado do ponteiro quando não cabe no quadro, nunca por baixo do painel);
+  - clicar num fio, num rótulo ou num item da lista põe a ligação em foco e abre o cartão "Seguir para…", "Ler lado a lado" e "Abrir…".
+  - Os rótulos ficam presos ao eixo e empilham (embaixo, em cima, mais embaixo, mais em cima) antes de sumir, sempre dentro do quadro e nunca atrás do painel.
+- **Capítulo aberto:** os versículos do capítulo, ordenados por número de ligações, com o texto, e o capítulo anterior e o seguinte (`bc-pager`, como na leitura). No celular, o toque no eixo cai perto (são 1.189 capítulos numa linha), e o anterior e o seguinte acertam.
+- **Teclado no canvas:**
+  - sem seleção, as setas andam pelos capítulos (Shift: pelos livros) e Enter abre;
+  - com um versículo aberto, as setas andam pelas ligações dele e Enter segue a ligação em foco;
+  - setas para cima e para baixo aproximam;
+  - Esc fecha o foco, depois a seleção.
+  - Abrir algo leva o foco ao título do painel (um `h2`; o `h1` "Céu de ligações" continua na página, oculto à vista, enquanto a introdução sai), e uma região `aria-live` diz o que está aceso ("Isaías 53:5: 37 ligações.").
+- **Folha do celular:** tem meia altura e cheia, com alça e "Fechar" fixos no topo.
+
+### 15.6 Carga e desempenho
+
+- **Ordem de carga:**
+  1. a primeira pintura é o pôster (§15.7);
+  2. depois vêm, juntos, o motor WebGL (`engine.ts`, `renderer.ts` e `shaders.ts`, 9,2 KB gzip, fora do orçamento de JS da página) e o `sky.json`; em seguida, os 20.000 pares mais votados (`sky-head.bin`);
+  3. no desktop, todos os 301.539 (`arcs.bin`).
+  - Aparelhos de toque, janela estreita e Save-Data ficam nos 20.000 e oferecem "Mostrar as 301.539 ligações".
+  - Sem o arquivo completo, as ligações de um versículo vêm do arquivo do capítulo (`verse-links`), com a lista completa do mesmo jeito.
+- **Desenho:**
+  - os fios são instanciados, com segmentos pelo tamanho na tela;
+  - enquanto a câmera se mexe, o quadro usa menos segmentos, menor resolução e só os fios mais votados (100.000; 30.000 nos aparelhos leves);
+  - o quadro seguinte, parado, desenha tudo;
+  - as camadas da escultura são reaproveitadas quando só o aceso muda.
+- **Sem WebGL2, sem render em ponto flutuante ou com WebGL desenhado pela CPU** (SwiftShader, llvmpipe): o pôster fica.
+  - A busca, o painel e a lista funcionam do mesmo jeito, com o aviso e o link para o céu em 2D.
+- **Erro de rede:** se `sky.json` ou os 20.000 pares não chegam, o pôster fica e a introdução diz "Não deu para carregar as ligações." com "Tentar de novo". Se só o arquivo completo falha, os 20.000 continuam e a introdução oferece o resto de novo.
+
+### 15.7 Pôster
+
+- Imagens da vista de abertura feitas com o próprio renderizador, a partir dos dados reais: `site/public/sculpture/{noite,dia}-{854,2002}.{avif,webp}`, por `site/scripts/render-sculpture-poster.mjs`.
+- Ficam no git e não são refeitas no build. Refaça quando mudarem os dados, a forma, a luz ou a câmera de abertura.
+- O do celular (854 px) tem os 20.000 pares mais votados, que é o que o celular desenha; o de 48rem para cima (2002 px) tem todos.
+- O quadro da escultura ocupa os 90% do meio de cada imagem (`box` em `poster.ts`): a borda leva o brilho além do quadro, como o canvas faz, e some antes da beira da imagem. Assim não aparece emenda entre o pôster e o chão.
+- O pôster ocupa a mesma área que o primeiro quadro vivo (`homeArea`) e fica por cima do canvas até o canvas desenhar o mesmo tanto de fios, ou até a pessoa mexer na escultura (ponteiro na linha, arraste, roda, teclado ou uma seleção). Aí some em 420 ms (`dur-slow`).
+- Só a imagem do tema e do tamanho em uso é baixada (fundo CSS com `image-set`, AVIF e WebP). O pôster do celular é pedido junto com o documento (`<link rel="preload">` com `media` pela largura e pelo tema do aparelho), porque é o maior elemento da primeira pintura; quem escolheu à mão um tema diferente do aparelho recebe a imagem certa pelo CSS.
+- Sem canvas vivo, o pôster fica, com os nomes do eixo no lugar; com uma seleção aberta, fica esmaecido atrás do painel.
+
+### 15.8 O que ficou melhor que a referência (medido no estudo)
+
+| Referência | Aqui |
+|---|---|
+| Desenha 11.199 fios de capítulo (pares com uma ligação de 20 votos ou mais) e lista até 25 ligações de saída por versículo, com 5 votos ou mais: Isaías 53:5 mostra 19 | Os 301.539 pares de versículos, nas duas direções; Isaías 53:5 lista as 37 ligações, com votos |
+| Texto de um rascunho sem crédito na página 3D | BLIVRE sem alteração, com crédito no painel |
+| Sem WebGL, a página fica presa no "carregando" | Pôster e lista funcionam sem 3D; aviso com o caminho para o 2D |
+| Redesenha a cena inteira com brilho a cada quadro e gira sozinha | Nada se desenha parado; nada gira sozinho |
+| Com seleção aberta, as setas não fazem nada; botões invisíveis no Tab | Setas andam pelas ligações; foco no título do painel; anúncio curto |
+| 4 dos 7 rótulos escondidos por colisão em Isaías 53:5 | Rótulos empilham antes de sumir e respeitam o filtro |
+| Trilha de um passo só; histórico que apaga o plano geral | Trilha visível dos últimos 12 versículos, com volta direta |
+| Só tema escuro | Noite (luz) e Dia (gravura em tinta) |
+
+### 15.9 Não verificado
+
+- Desempenho em GPU de verdade (desktop, celular médio e fraco): este ambiente só tem SwiftShader.
+- Safari/iOS e Firefox, pinça no toque real, leitor de tela (a ordem de foco e o ARIA foram conferidos no DOM).

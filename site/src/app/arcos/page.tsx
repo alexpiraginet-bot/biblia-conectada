@@ -1,40 +1,63 @@
 import type { Metadata } from "next";
-import { skyInitial } from "@/components/sky/initial";
-import { INTRO_SCRIPT } from "@/components/sky/poster";
-import { Sky } from "@/components/sky/Sky";
+import { SCULPTURE_POSTER } from "@/components/sculpture/poster";
+import { Sculpture, type SculptureInitial } from "@/components/sculpture/Sculpture";
 import { formatInt } from "@/lib/canon/text";
-import { summary } from "@/lib/data";
+import { books, summary } from "@/lib/data";
 import styles from "./page.module.css";
 
-// /arcos: the sky of links (design/README.md §1, §1.2, §6, §7), a window of night sky in the page column. Outside the
-// (site) group (it once floated the header over the sky); the shell comes from the root layout. Every number below
-// comes from src/data/generated/summary.json and public/data/sky.json (scripts/build-data.ts); scripts/check-dist.ts
-// checks them in the built HTML.
+// /arcos: the light sculpture (design/README.md §15), every verse pair of the cross references as a thread of light
+// over the Bible, in 3D. Outside the (site) group: the stage fills the column under the top bar. Every number comes
+// from src/data/generated/summary.json (scripts/build-data.ts); scripts/check-dist.ts checks them in the built HTML.
 const c = summary.counts;
 
 export const metadata: Metadata = {
   title: "Céu de ligações",
-  description: `Os ${formatInt(c.arcs)} pares de versículos ligados pelas referências cruzadas da OpenBible.info, como arcos sobre a Bíblia inteira, de Gênesis a Apocalipse.`,
+  description: `As ${formatInt(c.crossrefRows)} referências cruzadas da OpenBible.info, ${formatInt(c.arcs)} pares de versículos, como uma escultura de luz sobre a Bíblia inteira. Gire, aproxime e siga cada ligação até o texto.`,
 };
 
-export default async function Arcos() {
-  const initial = await skyInitial();
-  const top = summary.topVerses[0];
+/** verses the intro offers first; the most linked verse of the Bible joins them (summary.topVerses) */
+const EXAMPLES: [slug: string, chapter: number, verse: number][] = [
+  ["isaias", 53, 5],
+  ["joao", 3, 16],
+  ["salmos", 23, 1],
+];
 
+function verseIndex(slug: string, chapter: number, verse: number): { gv: number; label: string } {
+  const book = books.find((b) => b.slug === slug);
+  if (!book || chapter > book.verses.length || verse > book.verses[chapter - 1]) throw new Error(`arcos: no verse ${slug} ${chapter}:${verse}`);
+  let gv = book.firstVerse;
+  for (let i = 0; i < chapter - 1; i++) gv += book.verses[i];
+  return { gv: gv + verse - 1, label: `${book.name} ${chapter}:${verse}` };
+}
+
+export default function Arcos() {
+  const top = summary.topVerses[0];
+  const examples = EXAMPLES.map(([s, ch, v]) => verseIndex(s, ch, v));
+  if (!examples.some((x) => x.gv === top.gv)) examples.push({ gv: top.gv, label: top.ref });
+  const initial: SculptureInitial = {
+    counts: { verses: c.verses, crossrefRows: c.crossrefRows, arcs: c.arcs, chapters: c.chapters },
+    top: { ref: top.ref, links: top.links },
+    examples,
+  };
   return (
-    <main id="conteudo" className={`site-page ${styles.main}`}>
-      <script dangerouslySetInnerHTML={{ __html: INTRO_SCRIPT }} />
-      <Sky
-        initial={initial}
-        title="Céu de ligações"
-        lede={
-          <>
-            São {formatInt(c.verses)} versículos e {formatInt(c.crossrefRows)} referências cruzadas, que ligam{" "}
-            {formatInt(c.arcs)} pares de versículos diferentes. Cada arco é um par; o versículo com mais ligações é{" "}
-            {top.ref}, com {formatInt(top.links)}.
-          </>
-        }
-      />
-    </main>
+    <>
+      {/* the phone's poster is the first paint's largest picture: ask for it with the document instead of after the CSS
+          (the theme the device prefers; a theme chosen by hand gets its image from the CSS as usual). React moves these
+          links into the head. Wide screens draw the poster fast enough from the CSS. */}
+      {(["noite", "dia"] as const).map((theme) => (
+        <link
+          key={theme}
+          rel="preload"
+          as="image"
+          href={SCULPTURE_POSTER.phone[theme].avif}
+          type="image/avif"
+          fetchPriority="high"
+          media={`(max-width: 47.99rem) and (prefers-color-scheme: ${theme === "dia" ? "light" : "dark"})`}
+        />
+      ))}
+      <main id="conteudo" className={styles.main}>
+        <Sculpture initial={initial} />
+      </main>
+    </>
   );
 }
