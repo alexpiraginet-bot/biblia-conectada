@@ -660,8 +660,10 @@
 /* ---- the endless list under a verse's links (LinksFeed): a verse already shown, then its strongest links that have not
    appeared yet, section after section. A section far from the screen skips its rendering. */
 
+/* one column as wide as the sheet, whatever a section inside asks for */
 .feed {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-7);
 }
 
@@ -676,11 +678,14 @@
   color: var(--ink-2);
 }
 
+/* a section that comes in far below the screen is skipped before it is ever drawn, and stands in at its intrinsic size:
+   a height only. With "contain-intrinsic-size: auto 80rem" it also stood 80rem wide, the list's column took that width
+   and every text ran past the sheet's edge (production, 20/10). */
 .hub {
   display: grid;
   gap: var(--space-2);
   content-visibility: auto;
-  contain-intrinsic-size: auto 80rem;
+  contain-intrinsic-block-size: auto 80rem;
 }
 
 .hubTitle {
