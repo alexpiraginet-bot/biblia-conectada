@@ -1,11 +1,13 @@
 // Draws a "Cartão de ligação" on this device (canvas, 1080 × 1350): always a pair or a route, never a lone verse,
 // with the arcs on the Gênesis→Apocalipse line and the credits. Loaded only when someone asks for a card.
-// The card is night sky in both themes, like the videos; glow lives inside the canvas only (design §3).
+// The card is night sky in both themes, like the videos; glow lives inside the canvas only (design §3). Its inks are
+// the --sky* tokens, read from the page when the card is made.
 import { ARC_FLATTEN } from "@/lib/community/geometry";
 
 export type CardSpec = {
-  kicker: string;
   title: string;
+  /** where the pair comes from, said under the title ("Antes do Natal, passo 1"): no caps, no kicker (design §4) */
+  context: string;
   /** arcs in gold, positions 0–1 on the baseline */
   arcs: { x0: number; x1: number }[];
   /** stars on the baseline, positions 0–1 */
@@ -19,14 +21,14 @@ export type CardSpec = {
   credit: string;
 };
 export type CardFonts = { title: string; ui: string; scripture: string };
+/** the sky's inks (tokens sky, sky-ink, sky-ink-2, sky-gold); an empty value keeps the token's value below */
+export type CardInks = { sky: string; ink: string; ink2: string; gold: string };
 
 const W = 1080;
 const H = 1350;
 const PAD = 80;
-const SKY = "#060d1a";
-const TEXT = "#f2ebdd";
-const TEXT2 = "#a9b4c8";
-const GOLD = "#ffcc6b";
+// src/styles/tokens.json, the same in both themes: used only when the page gave no value
+const INKS: CardInks = { sky: "#060d1a", ink: "#f2ebdd", ink2: "#aeb9cc", gold: "#ffcc6b" };
 
 type Ctx = CanvasRenderingContext2D;
 
@@ -46,12 +48,11 @@ function wrap(ctx: Ctx, text: string, width: number): string[] {
   return lines;
 }
 
-function spaced(ctx: Ctx, px: number) {
-  // letter spacing where the canvas supports it (kicker in caps, design §4)
-  if ("letterSpacing" in ctx) (ctx as Ctx & { letterSpacing: string }).letterSpacing = `${px}px`;
-}
-
-export async function drawCard(spec: CardSpec, fonts: CardFonts): Promise<Blob> {
+export async function drawCard(spec: CardSpec, fonts: CardFonts, inks: Partial<CardInks> = {}): Promise<Blob> {
+  const SKY = inks.sky || INKS.sky;
+  const TEXT = inks.ink || INKS.ink;
+  const TEXT2 = inks.ink2 || INKS.ink2;
+  const GOLD = inks.gold || INKS.gold;
   await Promise.all([
     document.fonts.load(`440 64px ${fonts.title}`),
     document.fonts.load(`500 28px ${fonts.ui}`),
@@ -67,24 +68,24 @@ export async function drawCard(spec: CardSpec, fonts: CardFonts): Promise<Blob> 
   ctx.fillRect(0, 0, W, H);
   ctx.textBaseline = "alphabetic";
 
-  // kicker and title
-  let y = PAD + 26;
-  ctx.font = `600 26px ${fonts.ui}`;
-  ctx.fillStyle = GOLD;
-  spaced(ctx, 4.5);
-  ctx.fillText(spec.kicker.toUpperCase(), PAD, y);
-  spaced(ctx, 0);
-  let size = 64;
-  let titleLines: string[];
-  do {
+  // the title (two lines at most), then where the pair comes from, in the secondary ink
+  let y = PAD;
+  let size = 68;
+  let titleLines: string[] = [];
+  for (; size >= 40; size -= 4) {
     ctx.font = `440 ${size}px ${fonts.title}`;
     titleLines = wrap(ctx, spec.title, W - 2 * PAD);
-    size -= 4;
-  } while (titleLines.length > 2 && size > 36);
+    if (titleLines.length <= 2) break;
+  }
   ctx.fillStyle = TEXT;
-  y += 30;
   for (const l of titleLines) {
-    y += size * 1.15;
+    y += size * 1.1;
+    ctx.fillText(l, PAD, y);
+  }
+  ctx.font = `500 28px ${fonts.ui}`;
+  ctx.fillStyle = TEXT2;
+  for (const l of wrap(ctx, spec.context, W - 2 * PAD)) {
+    y += 40;
     ctx.fillText(l, PAD, y);
   }
 
@@ -102,7 +103,8 @@ export async function drawCard(spec: CardSpec, fonts: CardFonts): Promise<Blob> 
   const k = Math.min(spec.texts ? 2.2 : 3, (bandH - 20) / (maxRx * ARC_FLATTEN));
   // with the free height, the arcs sit in the middle of it
   const baseY = spec.texts ? bandTop + bandH : bandTop + Math.round((bandH + maxRx * ARC_FLATTEN * k) / 2);
-  ctx.strokeStyle = "rgba(242, 224, 189, 0.45)";
+  ctx.strokeStyle = TEXT2;
+  ctx.globalAlpha = 0.55;
   ctx.lineWidth = 1.5;
   ctx.beginPath();
   ctx.moveTo(PAD, baseY);
@@ -114,6 +116,7 @@ export async function drawCard(spec: CardSpec, fonts: CardFonts): Promise<Blob> 
   ctx.moveTo(X(spec.ntStart), baseY + 6);
   ctx.lineTo(X(spec.ntStart), baseY + 30);
   ctx.stroke();
+  ctx.globalAlpha = 1;
   ctx.font = `500 22px ${fonts.ui}`;
   ctx.fillStyle = TEXT2;
   ctx.textAlign = "center";

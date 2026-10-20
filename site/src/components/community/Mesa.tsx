@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
+import { Icon } from "@/components/icons";
 import { arcStrength, arcTone } from "@/lib/arc-style";
 import { createReferenceParser } from "@/lib/canon/reference";
 import { formatInt } from "@/lib/canon/text";
@@ -11,6 +12,7 @@ import { ARC_BASE, ARC_W, arcPath, baselineTicks, longRef, shortRef, versePath }
 import { mesaLinks, type MesaLink } from "@/lib/community/mesa";
 import { KEYS, readJSON, readRaw, subscribeStore, writeJSON } from "@/lib/community/store";
 import { conexaoPath, parseSide, sideSegment } from "@/lib/conexao";
+import { VersePair } from "./Pair";
 import styles from "./community.module.css";
 import mesa from "./mesa.module.css";
 
@@ -18,6 +20,8 @@ const parse = createReferenceParser(BOOKS);
 const TICKS = baselineTicks(BASE);
 const PER_TURN = 3;
 const PAGE = 30;
+/** passages to tap before anything was opened on this device (the field's examples) */
+const EXAMPLES = ["isaias-9", "joao-1", "salmos-23"];
 
 /** what this device keeps per passage: the links brought (key -> how many people brought it) and this turn's */
 type Table = { brought: Record<string, number>; turn: string[] };
@@ -86,13 +90,20 @@ export function Mesa() {
     }
     setError("");
     setValue("");
-    const key = sideSegment({ slug: r.ref.book.slug, chapter: r.ref.chapter });
-    update((s) => {
-      s.recent = [key, ...s.recent.filter((k) => k !== key)].slice(0, 6);
-    });
-    window.location.hash = key;
+    window.location.hash = sideSegment({ slug: r.ref.book.slug, chapter: r.ref.chapter });
   }
 
+  // every passage opened here (typed, an example or a link to /mesa#isaias-9) joins this device's list
+  const key = passage?.key;
+  useEffect(() => {
+    if (!key) return;
+    update((s) => {
+      if (s.recent[0] !== key) s.recent = [key, ...s.recent.filter((k) => k !== key)].slice(0, 6);
+    });
+  }, [key]);
+
+  const recent = store.recent.map(passageOf).filter((p): p is Passage => !!p);
+  const chips = recent.length ? recent : EXAMPLES.map(passageOf).filter((p): p is Passage => !!p);
   return (
     <>
       <form className={mesa.form} onSubmit={open} role="search" aria-label="Escolher o trecho da reunião">
@@ -111,29 +122,25 @@ export function Mesa() {
             placeholder="Is 9, Jo 1, Sl 23"
             value={value}
             aria-describedby={`${id}-erro`}
+            aria-invalid={error ? true : undefined}
             onChange={(e) => setValue(e.target.value)}
           />
-          <button type="submit" className={styles.button}>
+          <button type="submit" className="bc-button bc-button--primary">
             Abrir
           </button>
         </div>
-        <p id={`${id}-erro`} className={styles.status} aria-live="polite">
+        <p id={`${id}-erro`} className={`${styles.status} ${mesa.error}`} aria-live="polite">
           {error}
         </p>
       </form>
-      {store.recent.length > 0 && (
-        <nav aria-label="Mesas neste aparelho" className={mesa.recent}>
-          <span className={styles.small}>Neste aparelho:</span>
-          {store.recent
-            .map(passageOf)
-            .filter((p): p is Passage => !!p)
-            .map((p) => (
-              <a key={p.key} href={`#${p.key}`} className={styles.buttonQuiet} aria-current={passage?.key === p.key ? "true" : undefined}>
-                {p.label}
-              </a>
-            ))}
-        </nav>
-      )}
+      <nav aria-label={recent.length ? "Mesas neste aparelho" : "Exemplos de trechos"} className={mesa.recent}>
+        <span className={styles.meta}>{recent.length ? "Neste aparelho:" : "Por exemplo:"}</span>
+        {chips.map((p) => (
+          <a key={p.key} href={`#${p.key}`} className="bc-chip" aria-current={passage?.key === p.key ? "true" : undefined}>
+            {p.label}
+          </a>
+        ))}
+      </nav>
       {passage ? <MesaTable key={passage.key} passage={passage} table={store.tables[passage.key] ?? { brought: {}, turn: [] }} /> : null}
     </>
   );
@@ -182,8 +189,8 @@ function MesaTable({ passage, table }: { passage: Passage; table: Table }) {
     };
   }, [sel]);
 
-  if (data === null) return <p className={styles.meta}>Carregando as ligações de {passage.label}…</p>;
-  if (data === "error") return <p className={styles.meta}>Não deu para carregar as ligações. Tente de novo.</p>;
+  if (data === null) return <p className={`${styles.meta} ${styles.section}`}>Carregando as ligações de {passage.label}…</p>;
+  if (data === "error") return <p className={`${styles.meta} ${styles.section}`}>Não deu para carregar as ligações. Tente de novo.</p>;
 
   const brought = Object.keys(table.brought).filter((k) => byKey.has(k));
   const turnLeft = PER_TURN - table.turn.length;
@@ -219,20 +226,23 @@ function MesaTable({ passage, table }: { passage: Passage; table: Table }) {
   const isBrought = (k: string) => k in table.brought;
   const pairLabel = (l: MesaLink) => `${shortRef(BASE, l.here)} e ${shortRef(BASE, l.there)}`;
   const people = (n: number) => (n === 1 ? "" : ` · trazida ${formatInt(n)} vezes`);
+  const nt = Math.round(BASE.ntStart * 1000) / 10;
 
   return (
     <section className={styles.section} aria-labelledby="titulo-mesa">
-      <h2 id="titulo-mesa" className={styles.title}>
-        {passage.label}
-      </h2>
-      <p className={styles.meta}>
-        {formatInt(data.links.length)} {data.links.length === 1 ? "ligação" : "ligações"} com outros capítulos, das mais
-        votadas para as menos votadas (votos: soma das duas direções, de leitores da OpenBible.info).{" "}
-        <Link href={`/${passage.slug}/${passage.chapter}`}>Ler {passage.label}</Link>
-      </p>
+      <div className={styles.sectionHead}>
+        <h2 id="titulo-mesa" className="bc-title">
+          {passage.label}
+        </h2>
+        <p className={styles.meta}>
+          {formatInt(data.links.length)} {data.links.length === 1 ? "ligação" : "ligações"} com outros capítulos, das mais
+          votadas para as menos votadas (votos: soma das duas direções, de leitores da OpenBible.info).{" "}
+          <Link href={`/${passage.slug}/${passage.chapter}`}>Ler {passage.label}</Link>
+        </p>
+      </div>
 
       <figure className={styles.sky}>
-        <div className={styles.skyWindow}>
+        <div className={`bc-window ${styles.skyWindow}`}>
           <svg viewBox={`0 0 ${ARC_W} ${ARC_BASE + 26}`} className={`${styles.skySvg} ${mesa.svg}`} aria-hidden="true">
             <g fill="none" strokeLinecap="round">
               {[...drawn].reverse().map((l) => {
@@ -244,6 +254,7 @@ function MesaTable({ passage, table }: { passage: Passage; table: Table }) {
                     <path d={arcFor(l)} className={mesa.hit} vectorEffect="non-scaling-stroke" />
                     <path
                       d={arcFor(l)}
+                      // lit arcs in the sky's gold; the others in video 1's stained glass, by span
                       stroke={lit ? "var(--sky-gold)" : arcTone(span)}
                       strokeWidth={l.key === selected ? 3.2 : lit ? 2.4 : Math.round((0.9 + 1.2 * s) * 10) / 10}
                       strokeOpacity={lit ? 1 : Math.round((0.35 + 0.55 * s) * 100) / 100}
@@ -261,8 +272,8 @@ function MesaTable({ passage, table }: { passage: Passage; table: Table }) {
             <circle cx={Math.round(chapterX * ARC_W * 10) / 10} cy={ARC_BASE} r={6} className={styles.skyStarGold} />
           </svg>
           <div className={styles.skyScale} aria-hidden="true">
-            <span style={{ left: 0, width: `${BASE.ntStart * 100}%` }}>AT</span>
-            <span style={{ left: `${BASE.ntStart * 100}%`, right: 0 }}>NT</span>
+            <span style={{ left: 0, width: `${nt}%` }}>AT</span>
+            <span style={{ left: `${nt}%`, right: 0 }}>NT</span>
           </div>
         </div>
         <figcaption className={styles.skyCaption}>
@@ -272,39 +283,31 @@ function MesaTable({ passage, table }: { passage: Passage; table: Table }) {
       </figure>
 
       {sel && (
-        <div ref={detail} tabIndex={-1} className={mesa.detail} role="region" aria-label={`Ligação ${pairLabel(sel)}`}>
-          <div className={styles.pair}>
-            <blockquote className={styles.verse}>
-              <p className={styles.verseRef}>
-                <Link href={versePath(BASE, sel.here)}>{longRef(BASE, sel.here)}</Link>
-              </p>
-              <p className={styles.verseText}>{data.texts[BASE.locate(sel.here).verse - 1]}</p>
-            </blockquote>
-            <blockquote className={styles.verse}>
-              <p className={styles.verseRef}>
-                <Link href={versePath(BASE, sel.there)}>{longRef(BASE, sel.there)}</Link>
-              </p>
-              <p className={styles.verseText}>{far[sel.key] ?? "…"}</p>
-            </blockquote>
-          </div>
-          <p className={styles.small}>
+        <div ref={detail} tabIndex={-1} className={`bc-panel ${mesa.detail}`} role="region" aria-label={`Ligação ${pairLabel(sel)}`}>
+          <VersePair
+            a={{ ref: longRef(BASE, sel.here), href: versePath(BASE, sel.here), text: data.texts[BASE.locate(sel.here).verse - 1] }}
+            b={{ ref: longRef(BASE, sel.there), href: versePath(BASE, sel.there), text: far[sel.key] ?? null }}
+            link={`${formatInt(sel.votes)} votos`}
+          />
+          <p className={styles.note}>
             {formatInt(sel.votes)} votos de leitores na OpenBible.info · Bíblia Livre (BLIVRE)
             {isBrought(sel.key) ? people(table.brought[sel.key]) : ""}
           </p>
-          <div className={styles.actions}>
+          <div className={mesa.detailActions}>
             {table.turn.includes(sel.key) ? (
-              <button type="button" className={styles.buttonQuiet} onClick={() => remove(sel.key)}>
+              <button type="button" className="bc-button bc-button--secondary" onClick={() => remove(sel.key)}>
                 Tirar da mesa
               </button>
             ) : (
-              <button type="button" className={styles.button} onClick={() => bring(sel.key)} disabled={turnLeft <= 0}>
+              <button type="button" className="bc-button bc-button--primary" onClick={() => bring(sel.key)} disabled={turnLeft <= 0}>
                 Trazer para a mesa
               </button>
             )}
-            <Link className={styles.buttonQuiet} href={conexaoPath(sideOf(sel.here), sideOf(sel.there))}>
+            <Link className="bc-button bc-button--secondary" href={conexaoPath(sideOf(sel.here), sideOf(sel.there))}>
+              <Icon name="side" />
               Ler os dois lado a lado
             </Link>
-            <button type="button" className={styles.linkButton} onClick={() => setSelected(null)}>
+            <button type="button" className="bc-button bc-button--ghost" onClick={() => setSelected(null)}>
               Fechar
             </button>
           </div>
@@ -312,71 +315,79 @@ function MesaTable({ passage, table }: { passage: Passage; table: Table }) {
       )}
 
       <div className={mesa.turn}>
-        <p className={styles.small} role="status">
+        <p className={styles.meta} role="status">
           {turnLeft > 0
             ? `Quem está com o aparelho pode trazer mais ${turnLeft} ${turnLeft === 1 ? "ligação" : "ligações"}.`
             : "Esta pessoa já trouxe 3 ligações."}
         </p>
-        <button type="button" className={styles.buttonQuiet} onClick={nextPerson} disabled={table.turn.length === 0}>
+        <button type="button" className="bc-button bc-button--secondary" onClick={nextPerson} disabled={table.turn.length === 0}>
           Passar para a próxima pessoa
         </button>
       </div>
 
-      <section className={`${styles.section} ${styles.column}`} aria-labelledby="titulo-na-mesa">
-        <h3 id="titulo-na-mesa" className={styles.h2}>
-          Na mesa
-        </h3>
-        {brought.length === 0 ? (
-          <p className={styles.small}>Ninguém trouxe uma ligação ainda. Escolha um arco ou um item da lista.</p>
-        ) : (
-          <ul className={styles.list}>
-            {brought
-              .map((k) => byKey.get(k)!)
-              .sort((a, b) => b.votes - a.votes || a.here - b.here)
-              .map((l) => (
-                <li key={l.key}>
-                  <button type="button" className={mesa.item} aria-pressed={l.key === selected} onClick={() => setSelected(l.key)}>
-                    <span className={`i i-arc ${mesa.gold}`} aria-hidden="true" />
-                    <span className={styles.rowMain}>{pairLabel(l)}</span>
-                    <span className={styles.rowCount}>
-                      {formatInt(l.votes)} votos{people(table.brought[l.key])}
-                    </span>
-                  </button>
-                </li>
-              ))}
-          </ul>
-        )}
-        {brought.length > 0 && (
-          <button type="button" className={styles.linkButton} onClick={clear}>
-            Limpar esta mesa
-          </button>
-        )}
-      </section>
-
-      <section className={`${styles.section} ${styles.column}`} aria-labelledby="titulo-todas">
-        <h3 id="titulo-todas" className={styles.h2}>
-          Ligações de {passage.label}
-        </h3>
-        <ol className={styles.list}>
-          {visible.map((l) => (
-            <li key={l.key}>
-              <button type="button" className={mesa.item} aria-pressed={l.key === selected} onClick={() => setSelected(l.key)}>
-                {isBrought(l.key) && <span className={`i i-arc ${mesa.gold}`} aria-hidden="true" />}
-                <span className={styles.rowMain}>
-                  {pairLabel(l)}
-                  {isBrought(l.key) && <span className="visually-hidden"> (na mesa)</span>}
-                </span>
-                <span className={styles.rowCount}>{formatInt(l.votes)} votos</span>
+      <div className={mesa.lists}>
+        <section aria-labelledby="titulo-na-mesa">
+          <h3 id="titulo-na-mesa" className={`bc-title ${styles.h2}`}>
+            Na mesa
+          </h3>
+          {brought.length === 0 ? (
+            <p className={styles.meta}>Ninguém trouxe uma ligação ainda. Escolha um arco ou um item da lista.</p>
+          ) : (
+            <ul className={mesa.items}>
+              {brought
+                .map((k) => byKey.get(k)!)
+                .sort((a, b) => b.votes - a.votes || a.here - b.here)
+                .map((l) => (
+                  <li key={l.key}>
+                    <button type="button" className={mesa.item} aria-pressed={l.key === selected} onClick={() => setSelected(l.key)}>
+                      <span className={mesa.mark}>
+                        <span className="i i-arc" aria-hidden="true" />
+                      </span>
+                      <span>{pairLabel(l)}</span>
+                      <span className={styles.count}>
+                        {formatInt(l.votes)} votos{people(table.brought[l.key])}
+                      </span>
+                    </button>
+                  </li>
+                ))}
+            </ul>
+          )}
+          {brought.length > 0 && (
+            <p className={`${styles.actions} ${mesa.after}`}>
+              <button type="button" className="bc-button bc-button--ghost" onClick={clear}>
+                Limpar esta mesa
               </button>
-            </li>
-          ))}
-        </ol>
-        {shown < data.links.length && (
-          <button type="button" className={styles.buttonQuiet} style={{ marginTop: "var(--space-4)" }} onClick={() => setShown((s) => s + PAGE)}>
-            Mostrar mais {formatInt(Math.min(PAGE, data.links.length - shown))}
-          </button>
-        )}
-      </section>
+            </p>
+          )}
+        </section>
+
+        <section aria-labelledby="titulo-todas">
+          <h3 id="titulo-todas" className={`bc-title ${styles.h2}`}>
+            Ligações de {passage.label}
+          </h3>
+          <ol className={mesa.items}>
+            {visible.map((l) => (
+              <li key={l.key}>
+                <button type="button" className={mesa.item} aria-pressed={l.key === selected} onClick={() => setSelected(l.key)}>
+                  <span className={mesa.mark}>{isBrought(l.key) && <span className="i i-arc" aria-hidden="true" />}</span>
+                  <span>
+                    {pairLabel(l)}
+                    {isBrought(l.key) && <span className="visually-hidden"> (na mesa)</span>}
+                  </span>
+                  <span className={styles.count}>{formatInt(l.votes)} votos</span>
+                </button>
+              </li>
+            ))}
+          </ol>
+          {shown < data.links.length && (
+            <p className={`${styles.actions} ${mesa.after}`}>
+              <button type="button" className="bc-button bc-button--secondary" onClick={() => setShown((s) => s + PAGE)}>
+                Mostrar mais {formatInt(Math.min(PAGE, data.links.length - shown))}
+              </button>
+            </p>
+          )}
+        </section>
+      </div>
     </section>
   );
 }

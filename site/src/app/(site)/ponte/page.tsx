@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CommunityWays } from "@/components/community/CommunityWays";
 import { DeviceNote } from "@/components/community/DeviceNote";
 import { PonteArchive } from "@/components/community/PonteArchive";
 import { PontePlayer } from "@/components/community/PontePlayer";
@@ -17,19 +18,19 @@ export const metadata: Metadata = {
 // The page is the same file every day: this device picks today's bridge from the São Paulo date.
 export default function PontePage() {
   return (
-    <main id="conteudo" className={styles.page}>
-      <div className={styles.column}>
-        <h1 className={styles.title}>Ponte</h1>
-        <p className={styles.lede}>
+    <main id="conteudo" className="site-page">
+      <header className={styles.head}>
+        <h1 className="bc-display">Ponte</h1>
+        <p className={`bc-lede ${styles.lede}`}>
           Um par de versículos por dia, o mesmo para todo mundo. Você vai de um ao outro só pelas referências cruzadas,
           lendo cada versículo do caminho. As ligações vêm de leitores da OpenBible.info, não de uma doutrina.
         </p>
-      </div>
-      <section className={styles.column} aria-label="Ponte de hoje">
+      </header>
+      <section className={styles.section} aria-label="Ponte de hoje">
         <PontePlayer builtThrough={ponteBuilt.builtThrough} />
       </section>
-      <section className={`${styles.section} ${styles.column}`} aria-labelledby="titulo-arquivo">
-        <h2 id="titulo-arquivo" className={styles.h2}>
+      <section className={styles.section} aria-labelledby="titulo-arquivo">
+        <h2 id="titulo-arquivo" className={`bc-title ${styles.h2}`}>
           Arquivo
         </h2>
         <PonteArchive
@@ -37,9 +38,8 @@ export default function PontePage() {
           builtThrough={ponteBuilt.builtThrough}
         />
       </section>
-      <div className={styles.column}>
-        <DeviceNote />
-      </div>
+      <CommunityWays current="/ponte" />
+      <DeviceNote />
     </main>
   );
 }

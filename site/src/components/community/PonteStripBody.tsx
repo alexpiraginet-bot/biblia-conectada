@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
+import { Icon } from "@/components/icons";
 import { BASE, verseFromPath } from "@/lib/community/books-client";
 import { linkVotes, loadBridge, loadVerseLinks } from "@/lib/community/fetchers";
 import { shortRef, versePath } from "@/lib/community/geometry";
@@ -19,11 +20,13 @@ const parse = (raw: string | null): PonteStore => {
 };
 const hops = (d: number) => `${d} ${d === 1 ? "salto" : "saltos"}`;
 
-/** While the strip shows, the page reserves its height (and the bottom bar's on phones) below the footer. */
-const RESERVE = `html[data-ponte-faixa]{scroll-padding-bottom:4.5rem}html[data-ponte-faixa] body{padding-bottom:3.75rem}@media (max-width:55.99rem){html[data-ponte-faixa]{scroll-padding-bottom:calc(8rem + env(safe-area-inset-bottom))}html[data-ponte-faixa] body{padding-bottom:calc(7.25rem + env(safe-area-inset-bottom))}}`;
+/** While the strip shows, the page reserves its height below the footer (the column already reserves the phone's tab
+ *  bar). The selection bar of the reading pages sits 3.75rem higher (reader/selection.module.css): the strip is never
+ *  taller than that. */
+const RESERVE = `html[data-ponte-faixa]{scroll-padding-bottom:calc(var(--tabbar-h) + 4.5rem)}html[data-ponte-faixa] body{padding-bottom:3.75rem}`;
 
 /**
- * The bridge strip on the reading pages: "Ponte nº 12 · destino Lc 2:10 · a 2 saltos · mais perto". Every verse page
+ * The bridge strip on the reading pages: "Ponte nº 12 · a 2 saltos / destino Lc 2:10 · mais perto". Every verse page
  * opened from the last verse of the path is a hop when the two verses are linked (the panel's links, any vote);
  * the verse texts stay the page's, so the game is the reading.
  */
@@ -101,27 +104,42 @@ export default function PonteStripBody({ pathname }: { pathname: string }) {
         <p className={styles.text} role="status">
           {p.state === "arrived" ? (
             <>
-              <strong>Ponte nº {p.n}</strong> · chegou a {target} em {hops(taken)}; o mínimo é {p.min}
+              <strong>
+                Ponte nº {p.n} · chegou a {target}
+              </strong>{" "}
+              <span>
+                em {hops(taken)}; o mínimo é {p.min}
+              </span>
             </>
           ) : off ? (
             <>
-              <strong>{shortRef(BASE, unlinked.to)}</strong> não tem ligação com {shortRef(BASE, last)}. Este salto não conta.
+              <strong>Este salto não conta</strong>{" "}
+              <span>
+                {shortRef(BASE, unlinked.to)} não tem ligação com {shortRef(BASE, last)}.
+              </span>
             </>
           ) : (
             <>
-              <strong>Ponte nº {p.n}</strong> · destino {target}
-              {d !== null && <> · a {hops(d)}</>}
-              {move && <> · {move}</>}
+              <strong>
+                Ponte nº {p.n}
+                {d !== null && <> · a {hops(d)}</>}
+              </strong>{" "}
+              <span>
+                destino {target}
+                {move && <> · {move}</>}
+              </span>
             </>
           )}
         </p>
         {off ? (
           <Link href={versePath(BASE, last)} className={styles.action}>
-            Voltar a {shortRef(BASE, last)}
+            <Icon name="chev-l" />
+            <span className={styles.label}>Voltar a {shortRef(BASE, last)}</span>
           </Link>
         ) : (
           <Link href={p.home} className={styles.action}>
-            Ver a ponte
+            <span className={styles.label}>Ver a ponte</span>
+            <Icon name="chev-r" />
           </Link>
         )}
       </div>

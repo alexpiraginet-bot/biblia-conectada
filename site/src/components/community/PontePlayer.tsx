@@ -3,6 +3,7 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Icon } from "@/components/icons";
 import { formatInt } from "@/lib/canon/text";
 import { BASE, chapterOfVerse } from "@/lib/community/books-client";
 import { loadBridge } from "@/lib/community/fetchers";
@@ -15,12 +16,14 @@ import {
   decodeDistances,
   distanceAt,
   formatDateBR,
+  formatDayMonth,
   saoPauloDate,
   type PonteFile,
 } from "@/lib/community/ponte";
 import { KEYS, readPonte, readRaw, subscribeStore, writeJSON, writeRaw, type BridgeProgress, type PonteStore } from "@/lib/community/store";
 import { ArcSky, type SkyArc } from "./ArcSky";
 import { CardMaker } from "./CardMaker";
+import { Blivre, VersePair } from "./Pair";
 import styles from "./community.module.css";
 
 /** What the page knows before any fetch (the prerendered /ponte/<n> pages). */
@@ -43,7 +46,8 @@ function subscribeHash(cb: () => void) {
 
 /**
  * Ponte nº N: the start screen, the bridge in progress and the end screen, for a fixed bridge (/ponte/<n>) or for
- * today's (/ponte, picked from the São Paulo date on this device; /ponte#<n> opens an earlier one).
+ * today's (/ponte, picked from the São Paulo date on this device; /ponte#<n> opens an earlier one). Each screen has
+ * one primary action; the sky window beside it shows where the verses sit in the Bible.
  */
 export function PontePlayer({ intro, builtThrough }: { intro?: BridgeIntro; builtThrough: number }) {
   const router = useRouter();
@@ -115,15 +119,15 @@ export function PontePlayer({ intro, builtThrough }: { intro?: BridgeIntro; buil
   const giveUp = (p: BridgeProgress) => save({ ...p, state: "gaveUp" }, false);
 
   const heading = (
-    <>
-      <p className="kicker">{intro ? formatDateBR(info.date) : `Ponte nº ${n} · ${formatDateBR(info.date)}`}</p>
-      <h2 className={styles.title}>
+    <div className={styles.sectionHead}>
+      <h2 className="bc-title">
         {longRef(BASE, info.start)} → {longRef(BASE, info.target)}
       </h2>
       <p className={styles.meta}>
-        Mínimo: <strong>{hops(info.min)}</strong>, pelas ligações entre versículos (qualquer voto, as mesmas do painel de leitura).
+        {intro ? formatDayMonth(info.date) : `Ponte nº ${n} · ${formatDayMonth(info.date)}`}. Mínimo: {hops(info.min)}, pelas
+        ligações entre versículos (qualquer voto, as mesmas do painel de leitura).
       </p>
-    </>
+    </div>
   );
 
   if (progress && done) {
@@ -155,68 +159,89 @@ export function PontePlayer({ intro, builtThrough }: { intro?: BridgeIntro; buil
     const packed = file && file !== "error" ? decodeDistances(file.dist) : null;
     const last = progress.path[progress.path.length - 1];
     const d = packed ? distanceAt(packed, last) : null;
+    const taken = progress.path.length - 1;
     return (
-      <div>
-        {heading}
-        <p className={styles.lede}>
-          Em andamento neste aparelho: você está em {longRef(BASE, last)}
-          {d !== null && <>, a {hops(d)} do destino</>}, depois de {hops(progress.path.length - 1)}.
-        </p>
-        <PathList path={progress.path} votes={progress.votes} />
-        <div className={styles.actions}>
-          <button type="button" className={styles.button} onClick={() => resume(progress)}>
-            Continuar em {shortRef(BASE, last)}
-          </button>
-          <button type="button" className={styles.buttonQuiet} onClick={() => giveUp(progress)}>
-            Desistir e ver a resposta
-          </button>
+      <div className={styles.split}>
+        <div>
+          {heading}
+          <HopTrack taken={taken} left={d} />
+          <p className={styles.prose}>
+            Em andamento neste aparelho: você está em {longRef(BASE, last)}
+            {d !== null && <>, a {hops(d)} do destino</>}, depois de {hops(taken)}.
+          </p>
+          <PathList path={progress.path} votes={progress.votes} />
+          <div className={styles.actions}>
+            <button type="button" className="bc-button bc-button--primary" onClick={() => resume(progress)}>
+              Continuar em {shortRef(BASE, last)}
+              <Icon name="chev-r" />
+            </button>
+            <button type="button" className="bc-button bc-button--secondary" onClick={() => giveUp(progress)}>
+              Desistir e ver a resposta
+            </button>
+          </div>
         </div>
-        {endpoints}
+        <div className={styles.aside}>{endpoints}</div>
       </div>
     );
   }
 
   return (
-    <div>
-      {heading}
-      <div className={styles.pair}>
-        <blockquote className={styles.verse}>
-          <p className={styles.verseLabel}>Início</p>
-          <p className={styles.verseRef}>{longRef(BASE, info.start)}</p>
-          <p className={styles.verseText}>{info.texts[0]}</p>
-        </blockquote>
-        <blockquote className={styles.verse}>
-          <p className={styles.verseLabel}>Destino</p>
-          <p className={styles.verseRef}>{longRef(BASE, info.target)}</p>
-          <p className={styles.verseText}>{info.texts[1]}</p>
-        </blockquote>
+    <div className={styles.split}>
+      <div>
+        {heading}
+        <VersePair
+          a={{ label: "Início", ref: longRef(BASE, info.start), text: info.texts[0] }}
+          b={{ label: "Destino", ref: longRef(BASE, info.target), text: info.texts[1] }}
+          link={`no mínimo ${hops(info.min)}`}
+        />
+        <div className={styles.actions}>
+          <button type="button" className="bc-button bc-button--primary" onClick={start}>
+            Começar em {shortRef(BASE, info.start)}
+            <Icon name="chev-r" />
+          </button>
+        </div>
+        <p className={`${styles.prose} ${styles.after}`}>
+          Cada salto é uma ligação real entre dois versículos, das referências cruzadas da OpenBible.info: abra o início, escolha
+          uma das ligações dele e siga até o destino. Uma faixa nas páginas de leitura diz a quantos saltos você está e se ficou
+          mais perto ou mais longe. Não há tempo nem placar; quem desiste vê a resposta.
+        </p>
       </div>
-      <div className={styles.actions}>
-        <button type="button" className={styles.button} onClick={start}>
-          Começar em {shortRef(BASE, info.start)}
-        </button>
-      </div>
-      <p className={styles.lede}>
-        Cada salto é uma ligação real entre dois versículos, das referências cruzadas da OpenBible.info: abra o início, escolha
-        uma das ligações dele e siga até o destino. Uma faixa nas páginas de leitura diz a quantos saltos você está e se ficou
-        mais perto ou mais longe. Não há tempo nem placar; quem desiste vê a resposta.
+      <div className={styles.aside}>{endpoints}</div>
+    </div>
+  );
+}
+
+/** Where the bridge stands: one hairline step per hop taken, then the fewest hops left from here. */
+function HopTrack({ taken, left }: { taken: number; left: number | null }) {
+  const total = taken + (left ?? 0);
+  return (
+    <div className={`${styles.progress} ${styles.hops}`}>
+      <p className={styles.progressText}>
+        <strong>
+          {hops(taken)} {taken === 1 ? "dado" : "dados"}
+        </strong>
+        {left !== null && <> · faltam no mínimo {hops(left)}</>}
       </p>
-      {endpoints}
+      {total > 0 && (
+        <ol className={styles.track} aria-hidden="true">
+          {Array.from({ length: total }, (_, i) => (
+            <li key={i} className={i < taken ? styles.before : undefined} />
+          ))}
+        </ol>
+      )}
     </div>
   );
 }
 
 function PathList({ path, votes, gold }: { path: number[]; votes: number[]; gold?: boolean }) {
   return (
-    <ol className={styles.list}>
+    <ol className={`bc-list ${styles.list} ${styles.path}`}>
       {path.map((gv, i) => (
         <li key={`${gv}-${i}`}>
-          <Link href={versePath(BASE, gv)} className={styles.rowLink}>
-            <span className={styles.rowLead}>{i === 0 ? "início" : `${i}º salto`}</span>
-            <span className={styles.rowMain} style={gold && i > 0 ? { color: "var(--accent)" } : undefined}>
-              {longRef(BASE, gv)}
-            </span>
-            {i > 0 && <span className={styles.rowCount}>{formatInt(votes[i - 1])} votos</span>}
+          <Link href={versePath(BASE, gv)} data-gold={gold && i > 0 ? "" : undefined}>
+            <span className={styles.lead}>{i === 0 ? "início" : `${i}º salto`}</span>
+            <span className={`bc-list__name ${styles.name}`}>{longRef(BASE, gv)}</span>
+            {i > 0 ? <span className={styles.count}>{formatInt(votes[i - 1])} votos</span> : <span />}
           </Link>
         </li>
       ))}
@@ -241,7 +266,7 @@ function EndScreen({ file, progress }: { file: PonteFile; progress: BridgeProgre
   ];
   return (
     <>
-      <p className={styles.lede} role="status">
+      <p className={`bc-lede ${styles.lede}`} role="status">
         {arrived ? (
           <>
             Você chegou a {longRef(BASE, file.target)} em {hops(ownHops)}. O mínimo é {hops(file.min)}.
@@ -253,66 +278,74 @@ function EndScreen({ file, progress }: { file: PonteFile; progress: BridgeProgre
         fraco mais votado (o salto mais fraco dela tem {formatInt(weakest)} votos).
       </p>
       <div className={styles.actions}>
-        <Link href={target.path} className={styles.button}>
+        <Link href={target.path} className="bc-button bc-button--primary">
           Ler {target.label}
+          <Icon name="chev-r" />
         </Link>
       </div>
 
       {ownHops > 0 && (
         <section className={styles.section} aria-labelledby="titulo-seu-caminho">
-          <h3 id="titulo-seu-caminho" className={styles.h2}>
+          <h3 id="titulo-seu-caminho" className={`bc-title ${styles.h2}`}>
             Seu caminho
           </h3>
-          <ArcSky
-            captionId="legenda-seu-caminho"
-            arcs={routeArcs(own, "gold", progress.votes)}
-            stars={stars(own, true)}
-            labels={ends}
-            caption={<>Cada arco em ouro é um salto seu, de Gênesis a Apocalipse. A lista abaixo traz os mesmos saltos com os votos.</>}
-          />
-          <PathList path={own} votes={progress.votes} gold />
+          <div className={`${styles.split} ${styles.splitList} ${styles.flush}`}>
+            <div className={styles.aside}>
+              <ArcSky
+                captionId="legenda-seu-caminho"
+                arcs={routeArcs(own, "gold", progress.votes)}
+                stars={stars(own, true)}
+                labels={ends}
+                caption={<>Cada arco em ouro é um salto seu, de Gênesis a Apocalipse. A lista traz os mesmos saltos com os votos.</>}
+              />
+            </div>
+            <PathList path={own} votes={progress.votes} gold />
+          </div>
         </section>
       )}
 
       <section className={styles.section} aria-labelledby="titulo-rota-forte">
-        <h3 id="titulo-rota-forte" className={styles.h2}>
+        <h3 id="titulo-rota-forte" className={`bc-title ${styles.h2}`}>
           Rota mais forte
         </h3>
-        <ArcSky
-          captionId="legenda-rota-forte"
-          arcs={routeArcs(file.strongest, "tone", file.strongestVotes)}
-          stars={stars(file.strongest, false)}
-          labels={ends}
-          caption={<>A cor de cada arco mostra a distância do salto, e a espessura, os votos (soma das duas direções).</>}
-        />
-        <ol className={styles.list}>
-          {file.strongest.map((gv, i) => (
-            <li key={gv}>
-              <div className={styles.row}>
-                <span className={styles.rowLead}>{i === 0 ? "início" : `${i}º salto`}</span>
-                <span className={styles.rowMain}>
+        <div className={`${styles.split} ${styles.splitList} ${styles.flush}`}>
+          <div className={styles.aside}>
+            <ArcSky
+              captionId="legenda-rota-forte"
+              arcs={routeArcs(file.strongest, "tone", file.strongestVotes)}
+              stars={stars(file.strongest, false)}
+              labels={ends}
+              caption={<>A cor de cada arco mostra a distância do salto, e a espessura, os votos (soma das duas direções).</>}
+            />
+          </div>
+          <ol className={`bc-list ${styles.list}`}>
+            {file.strongest.map((gv, i) => (
+              <li key={gv} className={styles.row}>
+                <span className={styles.lead}>{i === 0 ? "início" : `${i}º salto`}</span>
+                <span className={styles.name}>
                   <Link href={versePath(BASE, gv)}>{longRef(BASE, gv)}</Link>
-                  <span className={styles.verseText} style={{ display: "block", fontSize: "1rem" }}>
-                    {file.texts[String(gv)]}
-                  </span>
                 </span>
-                {i > 0 && <span className={styles.rowCount}>{formatInt(file.strongestVotes[i - 1])} votos</span>}
-              </div>
-            </li>
-          ))}
-        </ol>
+                {i > 0 ? <span className={styles.count}>{formatInt(file.strongestVotes[i - 1])} votos</span> : <span />}
+                <p className={styles.rowText}>
+                  <Blivre text={file.texts[String(gv)]} />
+                </p>
+              </li>
+            ))}
+          </ol>
+        </div>
       </section>
 
       {arrived && (
         <CardMaker
+          level={3}
           title="Cartão sem resposta"
           intro="Uma imagem com os seus arcos e o mínimo, sem os versículos do caminho: quem receber pode fazer a mesma ponte. Ela é desenhada neste aparelho; nada é enviado."
           fileName={`biblia-conectada-ponte-${file.n}.png`}
           shareText={`Ponte nº ${file.n}: ${shortRef(BASE, file.start)} → ${shortRef(BASE, file.target)}, mínimo ${hops(file.min)}.`}
           alt={`Cartão da Ponte nº ${file.n}: de ${longRef(BASE, file.start)} a ${longRef(BASE, file.target)}, mínimo ${hops(file.min)}, com os arcos do caminho e sem os versículos dele.`}
           spec={{
-            kicker: `Ponte nº ${file.n}`,
             title: `${longRef(BASE, file.start)} → ${longRef(BASE, file.target)}`,
+            context: `Ponte nº ${file.n}, ${formatDayMonth(file.date)}`,
             arcs: own.slice(1).map((gv, i) => ({ x0: BASE.verseX(own[i]), x1: BASE.verseX(gv) })),
             stars: [BASE.verseX(file.start), BASE.verseX(file.target)],
             bookStarts: BASE.bookStarts,

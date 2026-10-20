@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useSyncExternalStore } from "react";
+import Link from "next/link";
+import { Icon } from "@/components/icons";
 import { KEYS, readRaw, subscribeStore, writeJSON } from "@/lib/community/store";
 import { ArcSky, type SkyArc } from "./ArcSky";
 
@@ -56,6 +58,20 @@ export function TrailSky({ slug, arcs, captionId }: { slug: string; arcs: TrailA
         )
       }
     />
+  );
+}
+
+/** The trail's one action: start at step 1, or go on from the first step not yet opened on this device. */
+export function TrailStart({ slug, steps }: { slug: string; steps: number[] }) {
+  const visited = new Set(useVisited(slug));
+  const left = steps.filter((n) => !visited.has(n));
+  const [label, n] =
+    visited.size === 0 ? ["Começar no passo 1", steps[0]] : left.length ? [`Continuar no passo ${left[0]}`, left[0]] : ["Ler de novo do passo 1", steps[0]];
+  return (
+    <Link href={`/trilha/${slug}/${n}`} className="bc-button bc-button--primary">
+      {label}
+      <Icon name="chev-r" />
+    </Link>
   );
 }
 

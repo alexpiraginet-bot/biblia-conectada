@@ -14,7 +14,7 @@ export function DeviceNote({ children = "O progresso fica só neste aparelho: se
         <>
           <button
             type="button"
-            className={styles.linkButton}
+            className="bc-button bc-button--ghost"
             onClick={() => {
               clearDevice();
               setStep("done");
@@ -22,12 +22,12 @@ export function DeviceNote({ children = "O progresso fica só neste aparelho: se
           >
             Confirmar: apagar tudo
           </button>
-          <button type="button" className={styles.linkButton} onClick={() => setStep("idle")}>
+          <button type="button" className="bc-button bc-button--ghost" onClick={() => setStep("idle")}>
             Cancelar
           </button>
         </>
       ) : (
-        <button type="button" className={styles.linkButton} onClick={() => setStep("confirm")}>
+        <button type="button" className="bc-button bc-button--ghost" onClick={() => setStep("confirm")}>
           Apagar tudo deste aparelho
         </button>
       )}

@@ -1,5 +1,4 @@
+/* /arcos lives in the page column of the shell (globals.css .site-page); nothing on it may scroll the page sideways */
 .main {
-  width: 100%;
-  /* the hero paints the night ground edge to edge; keep the page from scrolling sideways on any width */
   overflow-x: clip;
 }

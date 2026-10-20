@@ -12,8 +12,8 @@ type Entry = { n: number; date: string; start: number; target: number; min: numb
 const noop = () => () => {};
 
 /**
- * Past bridges, newest first. The prerendered list stops at the build day; on later days this device adds the bridges
- * up to today from the calendar (never a future one).
+ * Past bridges, newest first, as a ruled list. The prerendered list stops at the build day; on later days this device
+ * adds the bridges up to today from the calendar (never a future one).
  */
 export function PonteArchive({ built, builtThrough }: { built: Entry[]; builtThrough: number }) {
   const today = useSyncExternalStore(noop, () => saoPauloDate(new Date()), () => null);
@@ -38,17 +38,17 @@ export function PonteArchive({ built, builtThrough }: { built: Entry[]; builtThr
     };
   }, [todayN, builtThrough]);
   const list = [...built, ...extra].filter((b) => b.n <= todayN).reverse();
-  if (!list.length) return <p className={styles.small}>O arquivo começa com a Ponte nº 1.</p>;
+  if (!list.length) return <p className={styles.meta}>O arquivo começa com a Ponte nº 1.</p>;
   return (
-    <ol className={styles.list} reversed>
+    <ol className={`bc-list ${styles.list}`} reversed>
       {list.map((b) => (
         <li key={b.n}>
-          <Link href={bridgeHome(b.n, builtThrough)} className={styles.rowLink}>
-            <span className={styles.rowLead}>nº {b.n}</span>
-            <span className={styles.rowMain}>
+          <Link href={bridgeHome(b.n, builtThrough)}>
+            <span className={styles.lead}>nº {b.n}</span>
+            <span className={`bc-list__name ${styles.name}`}>
               {shortRef(BASE, b.start)} → {shortRef(BASE, b.target)}
             </span>
-            <span className={styles.rowCount}>
+            <span className={styles.count}>
               {formatDateBR(b.date).slice(0, 5)} · mínimo {b.min}
             </span>
           </Link>
