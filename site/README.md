@@ -31,7 +31,7 @@ divergir do que os vídeos publicaram (`stats.json`, `natal-stats.json`, `xref.n
 | `public/data/sky.json` + `sky-head.bin` | Escultura (/arcos) e céu 2D (/arcos/plano): capítulos, livros e os 20.000 arcos mais votados (mesmo formato de `arcs.bin`) |
 | `public/data/chapter-graph.json` + `chapter-edges.bin` | Grafo de capítulos com posições (ForceAtlas2, semente fixa) |
 | `public/data/sky.json` + `sky-head.bin` | Céu da home: livros, capítulos e os 20.000 pares mais votados para a primeira pintura |
-| `public/data/text/<slug>/<cap>.json` | Texto BLIVRE de cada capítulo, para a prévia no hover |
+| `public/data/text/<slug>/<cap>.json` | Texto BLIVRE de cada capítulo, para a lista sem fim das ligações e os painéis da escultura |
 | `public/data/LICENSE.txt` | Licença dos arquivos públicos (texto BLIVRE em CC BY 4.0 Brasil; o resto em CC BY-SA 4.0) |
 | `public/dados/v1/` | Pacote de dados abertos para quem quer criar a partir dos nossos dados (`scripts/data/open-data.ts`): `ligacoes.csv`, `versiculos.csv`, `livros.json`, `capitulos.csv`, `capitulos-arestas.csv`, `texto/`, `estudos/natal.json`, `datapackage.json` (Frictionless v2), `LEIA-ME.md`, `LICENSE.txt`, `SHA256SUMS`, `manifest.json` e um zip com tudo. Documentação: [`../DADOS.md`](../DADOS.md) |
 | `src/data/generated/dados-manifest.json` | Cópia do `manifest.json` do pacote, lida pela página `/dados` |
@@ -49,6 +49,7 @@ divergir do que os vídeos publicaram (`stats.json`, `natal-stats.json`, `xref.n
 
 - `/`: a capa (céu de Isaías 9:6) e, abaixo dela, o Explorar de Isaías 9 (`src/lib/explore/home.ts`).
 - `/ler`, `/<livro>`, `/<livro>/<cap>`, `/<livro>/<cap>/<vers>`: leitura. Livros e capítulos saem no build; versículos, os 200 mais ligados no build e os outros na primeira visita. A seleção de um trecho abre a barra Copiar, Compartilhar, Salvar e Explorar (`src/components/reader/SelectionBar.tsx`).
+- Painel do versículo: todas as ligações com o texto inteiro (`src/components/reader/LinksPanel.tsx`) e, embaixo, a lista sem fim das ligações das ligações (`src/components/reader/LinksFeed.tsx`, regra em `src/lib/links-feed.ts`, teste em `tests/links-feed.test.ts`; design §6.2).
 - `/explorar` redireciona para `/explorar/isaias/9`. `/explorar/<livro>/<cap>`: grafo local do capítulo (os 200 capítulos com mais pares, Isaías 9 e João 1 saem no build; os outros na primeira visita); `/explorar/<livro>/<cap>/<livro2>/<cap2>`: a conexão escolhida, um dos 35 capítulos do grafo (outro par é 404). Medalhões: `public/medalhoes/` e `src/lib/medalhoes.ts`, que só roda no servidor.
 - `/conexao/<a>/<b>`: dois capítulos ou versículos lado a lado, com os pares que os ligam (`src/lib/conexao.ts`); a ordem invertida redireciona para a canônica.
 - `/salvos`: os trechos salvos neste aparelho pela barra de seleção (`localStorage` `bc:salvos:v1`, `src/lib/salvos.ts`).
@@ -71,20 +72,27 @@ Licença dos dados derivados: CC BY-SA 4.0, exceto o texto BLIVRE, que segue CC 
 A direção, a calibração da luz e o que ficou melhor que a referência estão em `../design/README.md` §15. O código fica em
 `src/components/sculpture/`:
 
-- `Sculpture.tsx`: o estado da página. A seleção fica no fragmento do endereço (`#isaias/53/5`, `#isaias/53`; `state.ts`),
-  e o componente cuida da carga dos dados, do campo, da trilha, dos rótulos no eixo e do cartão da ligação.
-- `Panel.tsx`: o painel (folha no celular) do versículo e do capítulo.
-- `engine.ts`: a câmera, os gestos, o voo, os quadros e a escolha do que está sob o ponteiro.
+- `Sculpture.tsx`: o estado da página. A seleção fica no fragmento do endereço (`#isaias/53/5`, `#isaias/53`,
+  `#caminho/genesis/3/15/apocalipse/12/9`, `#palavra/cordeiro`; `state.ts`), e o componente cuida da carga dos dados, do
+  campo, da trilha, da força das ligações, dos rótulos no eixo (versículos, livros, grupos) e do cartão da ligação.
+- `Panel.tsx`: o painel (folha no celular) do versículo e do capítulo. `PathPanel.tsx` e `WordPanel.tsx`, os painéis do
+  caminho e da palavra, carregam só quando um deles abre.
+- `engine.ts`: a câmera, os gestos, o voo, os quadros, a escolha do que está sob o ponteiro e a captura para a imagem.
 - `renderer.ts` + `shaders.ts`: o WebGL2 próprio, sem biblioteca.
 - `space.ts`: as contas puras de forma e câmera.
 - `arcs.ts`: dos arquivos do pipeline (os mesmos do céu 2D) para o que se desenha.
 - `home.ts`: a vista de abertura, a mesma do pôster.
+- `groups.ts`: os grupos de livros no eixo (os dos medalhões; a página os lê no servidor).
+- Carregados só quando pedidos: `path.ts` (o caminho mais curto entre dois versículos), `word.ts` (os versículos de uma
+  palavra, pelo índice da busca) e `snapshot.ts` (a imagem para salvar ou compartilhar).
 
-`tests/sculpture.test.ts` confere contra o pipeline:
+`tests/sculpture.test.ts` e `tests/sculpture-plus.test.ts` conferem contra o pipeline:
 
 - os parceiros de cada versículo com os arquivos `verse-links`;
 - as ligações de cada capítulo com o céu 2D;
-- os planos dos fios, a câmera, o enquadramento e os endereços.
+- os planos dos fios, a câmera, o enquadramento e os endereços;
+- as contagens da força das ligações (`summary.json`) com o `arcs.bin`, os grupos no eixo com `medalhoes.json`, o
+  caminho com uma busca em largura independente, e os versículos de uma palavra com o texto da BLIVRE.
 
 Sem GPU de verdade (ou sem WebGL2 com render em ponto flutuante), a página fica no pôster, com busca, painel e lista
 funcionando. Para ver o desenho em software num teste, defina `window.__SCULPTURE_ALLOW_SOFTWARE__ = true` antes da carga;

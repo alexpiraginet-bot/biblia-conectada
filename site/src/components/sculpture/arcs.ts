@@ -2,7 +2,8 @@
 // sculpture's renderer draws: every pair placed in 3D, coloured by testament or by distance, and the lit arcs of a
 // selection. Pure functions, no DOM; tests/sculpture.test.ts checks them against the pipeline's numbers.
 import { arcTone, arcWeight, HERO_VOTES, type ArcSet, type ChapterIndex, type Geometry, type SkyMeta } from "../sky/model";
-import type { ArcBuffers, ColorMode, Lit, Theme } from "./renderer";
+import type { AxisGroup } from "./groups";
+import type { ArcBuffers, AxisLines, ColorMode, Lit, Theme } from "./renderer";
 import { arcAngle, axisX, pairJitter, relation, type Rel } from "./space";
 
 /** 1 for every verse of the New Testament, from the book table */
@@ -87,7 +88,7 @@ export function arcGeometry(geo: Geometry, set: ArcSet, nt: Uint8Array): Float32
 }
 
 export function arcBuffers(geo: Geometry, set: ArcSet, nt: Uint8Array, theme: Theme, mode: ColorMode): ArcBuffers {
-  return { geo: arcGeometry(geo, set, nt), color: arcColors(geo, set, nt, theme, mode), n: set.n };
+  return { geo: arcGeometry(geo, set, nt), color: arcColors(geo, set, nt, theme, mode), votes: set.votes, n: set.n };
 }
 
 // ---------------------------------------------------------------- what is lit
@@ -162,8 +163,14 @@ export function litLinks(geo: Geometry, nt: Uint8Array, links: readonly ChapterL
   return { geo: g, flags: new Float32Array(links.length * 4), n: links.length, at };
 }
 
-/** Axis and book boundaries for the renderer: (x, y, z, alpha) per vertex, drawn as LINES. */
-export function axisLines(meta: SkyMeta, geo: Geometry): { axis: Float32Array; ticks: Float32Array } {
+/** where the bands of the book groups run under the axis (units of the axis half length), and the gap between bands */
+export const GROUP_BAND = { top: -0.026, bottom: -0.034, gap: 0.0035 } as const;
+
+/**
+ * The axis, the book boundaries (LINES) and, under the axis, one band per book group (TRIANGLES, the groups taking
+ * turns at two strengths so neighbours read apart even where the gap between them is a pixel): (x, y, z, alpha).
+ */
+export function axisLines(meta: SkyMeta, geo: Geometry, groups: readonly AxisGroup[]): AxisLines {
   const axis = new Float32Array([-1, 0, 0, 1, 1, 0, 0, 1]);
   const ticks: number[] = [];
   meta.books.forEach((b, i) => {
@@ -173,5 +180,80 @@ export function axisLines(meta: SkyMeta, geo: Geometry): { axis: Float32Array; t
     const h = b[5] === "NT" && meta.books[i - 1][5] === "AT" ? 0.04 : 0.012;
     ticks.push(x, -h, 0, 1, x, h, 0, 1);
   });
-  return { axis, ticks: new Float32Array(ticks) };
+  const bands: number[] = [];
+  groups.forEach((g, k) => {
+    const x0 = axisX(g.first / geo.nch) + GROUP_BAND.gap / 2;
+    const x1 = axisX(g.end / geo.nch) - GROUP_BAND.gap / 2;
+    const a = k % 2 === 0 ? 1 : 0.62;
+    const { top: y0, bottom: y1 } = GROUP_BAND;
+    bands.push(x0, y0, 0, a, x1, y0, 0, a, x1, y1, 0, a, x0, y0, 0, a, x1, y1, 0, a, x0, y1, 0, a);
+  });
+  return { axis, ticks: new Float32Array(ticks), bands: new Float32Array(bands) };
+}
+
+// ---------------------------------------------------------------- a path between two verses
+
+/** One hop of a path: the verse it leaves, the verse it reaches, and the votes of that link. */
+export type Hop = { from: number; to: number; votes: number };
+
+/** The lit arcs of a path: every hop in its pair's plane, from one step to the next, each growing after the one
+ *  before (its share of the growth), so the light walks from the first verse to the last. */
+export function litPath(geo: Geometry, nt: Uint8Array, hops: readonly Hop[], focus = -1): Lit {
+  const n = hops.length;
+  const g = new Float32Array(n * 4);
+  const flags = new Float32Array(n * 4);
+  hops.forEach((h, i) => {
+    g[i * 4] = verseAxis(geo, h.from);
+    g[i * 4 + 1] = verseAxis(geo, h.to);
+    g[i * 4 + 2] = pairAngle(geo, nt, h.from, h.to);
+    g[i * 4 + 3] = 1;
+    flags[i * 4] = i / n;
+    flags[i * 4 + 1] = 1 / n;
+    flags[i * 4 + 3] = i === focus ? 1 : 0;
+  });
+  return { geo: g, flags, n, at: n ? verseAxis(geo, hops[0].from) : null };
+}
+
+/** Focus flags for a path's arcs (their shares of the growth kept), with hop `focus` (or none, -1) in focus. */
+export function pathFlags(n: number, focus: number): Float32Array {
+  const flags = new Float32Array(n * 4);
+  for (let i = 0; i < n; i++) {
+    flags[i * 4] = i / n;
+    flags[i * 4 + 1] = 1 / n;
+    flags[i * 4 + 3] = i === focus ? 1 : 0;
+  }
+  return flags;
+}
+
+// ---------------------------------------------------------------- the verses of a word
+
+/** The loaded arcs between two verses that both have the word (`has[gv] === 1`), most voted first, and how many. */
+export function wordLinks(set: ArcSet, has: Uint8Array): { a: number; b: number; votes: number }[] {
+  const out: { a: number; b: number; votes: number }[] = [];
+  for (let k = 0; k < set.n; k++) if (has[set.a[k]] === 1 && has[set.b[k]] === 1) out.push({ a: set.a[k], b: set.b[k], votes: set.votes[k] });
+  return out;
+}
+
+/** Lit arcs for a word: the first `cap` of its links (the most voted), all at once, no lit verse. */
+export function litWord(geo: Geometry, nt: Uint8Array, links: readonly { a: number; b: number }[], cap: number): Lit {
+  const n = Math.min(links.length, cap);
+  const g = new Float32Array(n * 4);
+  for (let i = 0; i < n; i++) {
+    const l = links[i];
+    g[i * 4] = verseAxis(geo, l.a);
+    g[i * 4 + 1] = verseAxis(geo, l.b);
+    g[i * 4 + 2] = pairAngle(geo, nt, l.a, l.b);
+    g[i * 4 + 3] = 1;
+  }
+  return { geo: g, flags: new Float32Array(n * 4), n, at: null };
+}
+
+/** A short mark across the axis at every verse of the word (LINES), to glow with the lit layer. */
+export function wordMarks(geo: Geometry, verses: ArrayLike<number>, h = 0.022): Float32Array {
+  const out = new Float32Array(verses.length * 8);
+  for (let i = 0; i < verses.length; i++) {
+    const x = verseAxis(geo, verses[i]);
+    out.set([x, -h, 0, 1, x, h, 0, 1], i * 8);
+  }
+  return out;
 }

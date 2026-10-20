@@ -102,7 +102,7 @@ describe("sculpture data", () => {
   });
 
   it("marks the 65 book boundaries on the axis, the one between the Testaments taller", () => {
-    const { ticks } = axisLines(meta, geo);
+    const { ticks } = axisLines(meta, geo, []);
     expect(ticks.length / 8).toBe(meta.books.length - 1);
     const tall: number[] = [];
     for (let i = 0; i < ticks.length; i += 8) if (ticks[i + 5] > 0.02) tall.push(ticks[i]);

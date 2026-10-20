@@ -794,7 +794,7 @@
       },
       "scripture-sm": {
         "displayName": "Escritura em lista",
-        "purpose": "Trechos em listas, resultados de busca e prévias; nunca menor que 17px."
+        "purpose": "Trechos em listas e resultados de busca; nunca menor que 17px."
       },
       "quote": {
         "displayName": "Versículo em foco",

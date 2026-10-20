@@ -2,9 +2,10 @@
 
 // What the sculpture's panel says (beside the canvas from 48rem, a sheet on phones): one verse with its BLIVRE text and
 // every link it has, most votes first, or one chapter with its verses ranked by links. Presentational: the page
-// (Sculpture.tsx) owns the selection, the focus and the fetching of the verses' text.
+// (Sculpture.tsx) owns the selection, the focus and the fetching of the verses' text. The panels of a path and of a
+// word (PathPanel.tsx, WordPanel.tsx) load on their own.
 import Link from "next/link";
-import { useEffect, useMemo, useState, type RefObject } from "react";
+import { useEffect, useId, useMemo, useState, type Ref } from "react";
 import { Icon } from "@/components/icons";
 import { formatInt } from "@/lib/canon/text";
 import { BASE } from "@/lib/community/books-client";
@@ -17,6 +18,70 @@ import styles from "./sculpture.module.css";
 export const PAGE = 20;
 
 type Listed = Partner & { i: number };
+
+/** "Salvar imagem" (snapshot.ts): its words now, whether it is at work, and what it does; null without a live canvas */
+export type Save = { label: string; busy: boolean; onSave: () => void } | null;
+
+export function SaveButton({ save }: { save: Save }) {
+  if (!save) return null;
+  return (
+    <button type="button" className={styles.act} onClick={save.onSave} disabled={save.busy}>
+      {save.label}
+    </button>
+  );
+}
+
+/** "Caminho até…": a field for the other end of a path from the verse open (the page parses it and opens the path). */
+function PathForm({ onPath }: { onPath: (input: string) => Promise<string | null> }) {
+  const id = useId();
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+  const [error, setError] = useState("");
+  if (!open) {
+    return (
+      <button type="button" className={styles.act} aria-expanded={false} onClick={() => setOpen(true)}>
+        Caminho até outro versículo
+      </button>
+    );
+  }
+  return (
+    <form
+      className={styles.pathForm}
+      onSubmit={(e) => {
+        e.preventDefault();
+        void onPath(value).then((err) => setError(err ?? ""));
+      }}
+    >
+      <label htmlFor={`${id}-to`}>Até qual versículo?</label>
+      <div className={styles.pathRow}>
+        <input
+          id={`${id}-to`}
+          className={styles.field}
+          value={value}
+          onChange={(e) => {
+            setValue(e.target.value);
+            setError("");
+          }}
+          placeholder="Ap 12:9"
+          autoComplete="off"
+          enterKeyHint="go"
+          // the person asked for this field: it takes the focus (the panel's heading had it)
+          autoFocus
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? `${id}-err` : undefined}
+        />
+        <button type="submit" className={styles.go}>
+          Traçar
+        </button>
+      </div>
+      {error && (
+        <p id={`${id}-err`} className={styles.formError} role="alert">
+          {error}
+        </p>
+      )}
+    </form>
+  );
+}
 
 export function VersePanel({
   gv,
@@ -35,6 +100,8 @@ export function VersePanel({
   onChapter,
   copied,
   onCopy,
+  save,
+  onPath,
   headingId,
   headingRef,
 }: {
@@ -54,8 +121,11 @@ export function VersePanel({
   onChapter: () => void;
   copied: boolean;
   onCopy: () => void;
+  save: Save;
+  /** a path from this verse to the one typed: what is wrong with it, or null when it opens */
+  onPath: (input: string) => Promise<string | null>;
   headingId: string;
-  headingRef: RefObject<HTMLHeadingElement | null>;
+  headingRef: Ref<HTMLHeadingElement>;
 }) {
   const { book, chapter } = BASE.locate(gv);
   const chap = `${book.name} ${chapter}`;
@@ -76,7 +146,9 @@ export function VersePanel({
         <button type="button" className={styles.act} onClick={onCopy}>
           {copied ? "Link copiado" : "Copiar link"}
         </button>
+        <SaveButton save={save} />
       </p>
+      <PathForm key={gv} onPath={onPath} />
       {partners && partners.length > 0 && (
         <>
           <div className={styles.filters} role="group" aria-label="Filtrar ligações">
@@ -121,6 +193,7 @@ export function ChapterPanel({
   full,
   onVerse,
   onChapter,
+  save,
   headingId,
   headingRef,
 }: {
@@ -136,8 +209,9 @@ export function ChapterPanel({
   onVerse: (gv: number) => void;
   /** open another chapter (the previous or the next: a tap on the axis lands near, these make it exact) */
   onChapter: (ci: number) => void;
+  save: Save;
   headingId: string;
-  headingRef: RefObject<HTMLHeadingElement | null>;
+  headingRef: Ref<HTMLHeadingElement>;
 }) {
   const c = chapterLabel(ci);
   const [text, setText] = useState<{ ci: number; verses: string[] } | null>(null);
@@ -173,6 +247,7 @@ export function ChapterPanel({
         <Link href={c.path} className={styles.act}>
           Ler {c.label}
         </Link>
+        <SaveButton save={save} />
       </p>
       <nav className={`bc-pager ${styles.pager}`} aria-label="Capítulo anterior e seguinte">
         {ci > 0 ? <PagerLink ci={ci - 1} rel="prev" onChapter={onChapter} /> : <span />}

@@ -122,6 +122,9 @@ export function arcWeight(votes: number): number {
 /** Votes from which film.py draws an arc as a crisper "hero" strand */
 export const HERO_VOTES = 25;
 
+/** The steps of the sculpture's "força das ligações": arcs with at least this many votes (summary.json counts them) */
+export const STRENGTH_MIN = [5, 25, 100] as const;
+
 export type Ranked = { ci: number; count: number };
 export type TopList = {
   items: Ranked[];

@@ -677,3 +677,44 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
     Ilustrações geradas (GPT Image 2.5 via Higgsfield), estilo próprio, sem rosto de criança, marcadas "ILUSTRAÇÃO".
   - Para liberar disco, com ok do Alex, foram apagadas duas pastas de teste da sessão (`extract-test` e `pctest`, embalagem
     do mini Jesus de 14/10).
+- **20/10, tarde, cinco vantagens a mais na escultura e a lista sem fim da leitura:**
+  - **Pedido do Alex:** "Precisamos que o nosso tenha 5 pontos positivos a mais de visual e formas de uso que o que está se refenciando! Precisamos estar a frente de tudo".
+    - Ele escolheu, entre as opções, caminho entre versículos, imagem para compartilhar, acender uma palavra, grupos de livros no eixo e força das ligações.
+    - Pediu o merge do PR #6 antes (feito).
+  - **Entrega na escultura** (direção e números em `design/README.md` §15.9):
+    - caminho entre dois versículos ("Gn 3:15 até Ap 12:9", ou "Caminho até outro versículo" no painel), aceso salto a salto, com o texto de cada passo;
+    - acender uma palavra: todo versículo com ela marcado no eixo, as ligações entre eles acesas e a lista com a palavra destacada;
+    - grupos de livros no eixo (divisões do Theographic), com nomes que dão lugar aos dos livros quando a câmera chega perto;
+    - força das ligações: todas, 5+, 25+ ou 100+ votos, com a contagem de cada degrau saída do `arcs.bin` no build;
+    - imagem para salvar ou compartilhar, com título, texto e créditos: pelo menu de compartilhar no celular, por download no resto;
+    - o que só se usa às vezes (parser, caminho, índice de palavras, imagem e os dois painéis novos) carrega quando é usado;
+    - os pôsteres foram refeitos com as faixas dos grupos.
+  - **Pedido do Alex, com a captura da folha do versículo no iPhone:** "As conexões aqui precisam estar toda visível! Não a pessoa ter que acessar ela para ler! Precisamos de algo fácil para qualquer pessoa adorar rolar e ler! Um ciclo infinito".
+    - A captura era de uma versão antiga (texto cortado em três linhas). A atual também escondia texto: só as 5 mais votadas o mostravam.
+    - Agora toda ligação do versículo traz o texto inteiro, sem "Mostrar mais". A mais cheia, Is 9:6, tem 212 ligações e 28.124 caracteres.
+    - Embaixo vem a lista sem fim (`design/README.md` §6.2):
+      - as ligações de cada versículo da lista, na mesma ordem, e depois as dos que forem aparecendo;
+      - até 8 por versículo, só com voto positivo, sem repetir versículo;
+      - quando uma ilha do grafo se esgota, a lista segue pelo próximo versículo da Bíblia.
+    - Leitura de "ciclo infinito" (suposição minha, sem pergunta ao Alex): seguir as ligações, e não repetir a mesma lista nem só andar para o versículo seguinte. É trocar uma regra em `site/src/lib/links-feed.ts` se ele quiser outra.
+    - As listas da escultura também mostram o versículo inteiro (sem o corte em duas linhas), e a de uma palavra mostra o versículo todo com a palavra marcada.
+    - A prévia ao passar o mouse saiu da leitura: repetia, por cima, o texto que agora está na linha.
+    - Peso das páginas de versículo (HTML gzip, produção → agora): Lv 26:3 de 25,7 para 28,3 KB; Jo 3:16 de 26,2 para 35,0 KB; Is 9:6 de 34,4 para 63,0 KB. As linhas deixaram de ser pré-carregadas uma a uma ao rolar.
+  - **Conferido no build final** (servidor de produção local, Chromium com SwiftShader):
+    - `npm run typecheck`, `lint`, `test` (482 testes, 5 deles da lista sem fim, conferindo a regra contra os arquivos que o navegador baixa) e `build`;
+    - o `check-dist` confere, nas 200 páginas de versículo pré-renderizadas, que cada ligação mostra o texto exato da BLIVRE;
+    - `npm run budget`: versículo com 152,7 KiB de JS e `/arcos` com 163,3 KiB (teto de 165);
+    - teste da folha no navegador, 25 de 25: todas as ligações de Lv 26:3 com texto, seções novas ao rolar na ordem do painel, nenhum versículo repetido em 105, até 8 por seção, nenhuma linha pré-carregada ao rolar, Save-Data só com o botão (e o foco no título da seção), erro de rede com "Tentar de novo", ilha do grafo seguindo pelo próximo versículo, 375 e 1440 px, Noite e Dia;
+    - escultura: os 43 testes de interação de antes e 56 das cinco vantagens (incluindo o texto inteiro nas listas), todos passando;
+    - auditoria no navegador (contraste de cada texto, rolagem lateral, `<h1>`, erros): 6 rotas de leitura e 5 da escultura, em 375/1440 px e Noite/Dia, 44 de 44;
+    - o menor contraste nas rotas de leitura, 5,33:1, é o número do versículo aceso no Dia: o mesmo da produção, acima da regra de 4,5:1 do acento;
+    - dois testes antigos da escultura mudaram de expectativa: sem GPU, os nomes do eixo agora são os grupos (Pentateuco … Apocalipse), e o rótulo "Imagem salva", que fica 2,4 s, passou a ser lido logo depois do download.
+    - Mutação: com a ordem dos votos invertida, sem o filtro de voto positivo ou sem o fim da lista, os testes falham.
+  - **Conferido na prévia da Vercel** (`cfe3bab`):
+    - teste da folha, 27 de 27, com mais um caso: tocar numa ligação abre o versículo dela, e a lista dele começa por ele;
+    - achado nesse caso, e corrigido: o roteador guarda a página do versículo anterior, escondida, então os ids das seções podiam se repetir; cada lista agora usa ids próprios (`useId`).
+  - **Lighthouse no celular, prévia × produção** (3 medições alternadas, mesma máquina):
+    - Lv 26:3: LCP de 2,5 a 2,6 s × 1,8 a 2,5 s, desempenho 95 a 97 × 94 a 97, acessibilidade 100 nos dois. A prévia baixa cerca de 150 KiB a menos (315 × 466 KiB), porque as linhas não são mais pré-carregadas;
+    - `/arcos`: LCP de 1,5 a 1,7 s × 1,5 s, desempenho 99 a 100 × 100;
+    - no servidor local os números saíram piores (LCP de 3,2 s no versículo), mas a produção medida na mesma hora ficou igual à prévia: a diferença era do servidor local, não do código.
+  - **Não conferido:** Safari/iOS de verdade (a rolagem com inércia dentro da folha), leitor de tela, GPU de verdade.

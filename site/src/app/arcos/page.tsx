@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import { axisGroups } from "@/components/sculpture/groups";
 import { SCULPTURE_POSTER } from "@/components/sculpture/poster";
 import { Sculpture, type SculptureInitial } from "@/components/sculpture/Sculpture";
 import { formatInt } from "@/lib/canon/text";
-import { books, summary } from "@/lib/data";
+import { books, credits, summary } from "@/lib/data";
+import { GROUP_NAMES, type GroupId } from "@/lib/explore/atlas";
+import { medalhaoForBook } from "@/lib/medalhoes";
 import styles from "./page.module.css";
 
 // /arcos: the light sculpture (design/README.md §15), every verse pair of the cross references as a thread of light
@@ -21,6 +24,12 @@ const EXAMPLES: [slug: string, chapter: number, verse: number][] = [
   ["joao", 3, 16],
   ["salmos", 23, 1],
 ];
+/** what the intro offers to try: a path between two verses, and a word lit across the Bible */
+const PATH_EXAMPLE: [from: [string, number, number], to: [string, number, number]] = [
+  ["genesis", 3, 15],
+  ["apocalipse", 12, 9],
+];
+const WORD_EXAMPLE = "cordeiro";
 
 function verseIndex(slug: string, chapter: number, verse: number): { gv: number; label: string } {
   const book = books.find((b) => b.slug === slug);
@@ -34,10 +43,26 @@ export default function Arcos() {
   const top = summary.topVerses[0];
   const examples = EXAMPLES.map(([s, ch, v]) => verseIndex(s, ch, v));
   if (!examples.some((x) => x.gv === top.gv)) examples.push({ gv: top.gv, label: top.ref });
+  const [from, to] = PATH_EXAMPLE.map(([s, ch, v]) => verseIndex(s, ch, v));
+  // the eight book groups of the medallions (Theographic's bookDiv), as runs of chapters on the axis
+  const groups = axisGroups(
+    books,
+    (osis) => medalhaoForBook(osis)?.id ?? null,
+    (id) => {
+      const name = GROUP_NAMES[id as GroupId];
+      if (!name) throw new Error(`arcos: no name for the book group ${id}`);
+      return name.short;
+    },
+  );
   const initial: SculptureInitial = {
     counts: { verses: c.verses, crossrefRows: c.crossrefRows, arcs: c.arcs, chapters: c.chapters },
     top: { ref: top.ref, links: top.links },
     examples,
+    pathExample: { from: from.gv, to: to.gv, label: `${from.label} até ${to.label}` },
+    wordExample: WORD_EXAMPLE,
+    groups,
+    strength: summary.strength,
+    credits: [credits.openBibleCredit, credits.blivreCredit],
   };
   return (
     <>

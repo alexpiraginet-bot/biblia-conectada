@@ -82,34 +82,37 @@ void main() {
   oHero = vec4(vC * d * vHero, d * vHero);
 }`;
 
-// The lit arcs: one channel each for the selection (r) and the arc in focus (g).
+// The lit arcs: one channel each for the selection (r) and the arc in focus (g). aB = (start, span, 0, focus): the arc
+// takes the share [start, start + span] of the growth and of the pulse's run (0, 1 for every arc of a verse at once; a
+// path's hops one after the other, so the light walks the chain).
 export const LIT_VS = /* glsl */ `${ARC_HEAD}
 uniform float uGrow;    // 0..1: the arcs grow from the lit verse to their partners as a selection opens
 out float vD;
-out float vT;
+out float vS;
 out float vFocus;
 void main() {
   float d, t, depth;
   gl_Position = strip(d, t, depth);
   vD = d;
-  // aA.x is always the lit verse and the arc runs from aA.x to aA.y, so t is the share of the way from it
-  vT = t;
+  // aA.x is always where the arc starts (the lit verse, or a path's step) and it runs to aA.y: t is the share of its
+  // way, and vS the share of the whole selection's growth this point is at
+  vS = aB.x + t * (aB.y > 0.0 ? aB.y : 1.0);
   vFocus = aB.a;
 }`;
 
 export const LIT_FS = /* glsl */ `#version 300 es
 precision highp float;
 in float vD;
-in float vT;
+in float vS;
 in float vFocus;
 uniform float uHalf;
 uniform float uGrow;
 uniform float uPulse;   // where a pulse of light runs along the arcs, from the lit verse (0) to the partner (1); -1 none
 out vec4 o;
 void main() {
-  if (vT > uGrow) discard;
+  if (vS > uGrow) discard;
   float cov = clamp(uHalf + 0.5 - abs(vD), 0.0, 1.0);
-  float q = (vT - uPulse) / 0.06;
+  float q = (vS - uPulse) / 0.06;
   float boost = uPulse > -0.5 ? 1.0 + 2.2 * exp(-q * q) : 1.0;
   o = vec4(cov * (1.0 - vFocus) * boost, cov * vFocus * boost, 0.0, 0.0);
 }`;

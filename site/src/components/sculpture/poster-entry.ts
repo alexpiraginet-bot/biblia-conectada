@@ -7,8 +7,12 @@
 // ratio of 2: the renderer widens the arcs and the bloom with the ratio, and the exposure follows the box's height.
 // `set` is the arc file the page draws there: the 20,000 most voted pairs on phones (sky-head.bin), every pair from
 // 48rem (arcs.bin).
+import booksJson from "@/data/generated/books.json";
+import medalhoes from "@/data/medalhoes.json";
+import type { Book } from "@/lib/canon/types";
 import { buildGeometry, decodeArcs, type SkyMeta } from "../sky/model";
 import { arcBuffers, axisLines, newTestament } from "./arcs";
+import { axisGroups } from "./groups";
 import { HOME_ORBIT } from "./home";
 import { SCULPTURE_POSTER } from "./poster";
 import { SculptureRenderer, type Theme } from "./renderer";
@@ -81,8 +85,9 @@ async function renderSculpturePoster(job: Job) {
   r.resize(W / DPR, H / DPR, DPR);
   r.theme = theme;
   r.setArcs(arcBuffers(geo, set, nt, theme, "testamento"));
-  const { axis, ticks } = axisLines(meta, geo);
-  r.setLines(axis, ticks);
+  // the book groups' bands under the axis, from the medallions' groups as on the page (groups.ts)
+  const bookGroup = (medalhoes as unknown as { bookGroup: Record<string, string> }).bookGroup;
+  r.setLines(axisLines(meta, geo, axisGroups(booksJson as Book[], (osis) => bookGroup[osis] ?? null, (id) => id)));
   r.setLit(null);
   r.recede = 1;
   // the page's settled frame of the home view (engine.ts drawNow), for a box (H x box) / DPR CSS px tall in the middle
