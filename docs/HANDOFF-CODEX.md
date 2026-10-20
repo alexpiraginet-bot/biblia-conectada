@@ -2,6 +2,8 @@
 
 Escrito pelo Claude a pedido do Alex: "Prepare handoff para o códex seguir". Daqui em diante o Codex conduz. Este é o handoff de transferência que o `docs/claude-coordination.md` ainda não tinha visto: o Claude não tem trabalho aberto no site além do PR deste documento. Tudo marcado como **conferido** foi rodado ou lido nesta data. O que é sugestão está escrito como sugestão.
 
+**Continuidade do Codex, 20/10:** o item 4.1 está implementado localmente na branch `codex/home-immersive-refinement`, com validação parcial descrita abaixo. A revisão de contraste dos cards, Lighthouse, criação do PR em rascunho e prévia da Vercel continuam pendentes; ainda não houve merge desta etapa. O retrato original das 18h43 UTC permanece como histórico.
+
 ## 0. Prompt para colar no Codex
 
 > Leia `AGENTS.md`, `CLAUDE.md` e `docs/HANDOFF-CODEX.md` inteiros antes de mexer em qualquer arquivo. Atualize a `main` e rode `npm run build` em `site/`. Depois siga o plano do §4 do handoff, na ordem: um PR por item, cada um numa branch nova a partir da `main`, com as provas do §7. Fale com o Alex em PT-BR.
@@ -12,9 +14,19 @@ Escrito pelo Claude a pedido do Alex: "Prepare handoff para o códex seguir". Da
 - **Next.js 16** mudou APIs: `site/AGENTS.md` manda ler `site/node_modules/next/dist/docs/` antes de escrever código do site.
 - **Branches:** os seus PRs #9 e #11 entraram na `main` (§2), depois dos #8 e #10. Comece cada item do §4 numa branch nova a partir da `main` atualizada.
 
-## 2. Estado em 20/10, 18h43 UTC (conferido)
+## 2. Estado e continuidade
 
-### `main` = `ddf090a`, toda no ar
+### Item 4.1 — implementação local em revisão (20/10)
+
+- **Branch:** `codex/home-immersive-refinement`, a partir da `main` `a5e741c9` (PR #13 já integrado). Esta entrega altera apenas o site; vídeos e sua automação foram transferidos para uma sessão separada. Não inclui IA, credenciais ou geração de vídeo.
+- **Capa:** hero como janela noturna nos temas Dia e Noite, ondas sutis em ouro/vitral, ações com aparência de metal e vidro em CSS, busca antes da constelação, cards com moldura dupla e card de cronologia em papel. Textos BLIVRE, conexões reais, créditos e o `HomeAtlas` com os dados exigidos pelo `check-dist` permanecem.
+- **Shader:** `site/src/components/ui/web-gl-shader.tsx`, WebGL2 próprio, um triângulo, sem dependências novas; no máximo 30 quadros/s, DPR até 1,5 e raster até 1440 × 900. Pausa manual, movimento reduzido com quadro estático, suspensão com aba oculta/fora da tela e fallback CSS sem WebGL ou após perda de contexto. O canvas é decorativo; o botão de pausa continua acessível. Seis testes verificam seu ciclo de vida.
+- **Conferido localmente:** build, `check-dist`, lint, TypeScript e orçamento de JS; 541 testes em 35 arquivos. Execução local com Node 24; a validação do deploy em Node 22 permanece pendente.
+- **JS inicial, gzip nível 9:** capa **163.942 bytes (160,1 KiB)**; `/arcos` **168.871 bytes (164,9 KiB)**, inalterado. O teto continua em 168.960 bytes (165 KiB). Esta medida não inclui HTML, imagens, fontes, dados ou módulos carregados depois.
+- **Navegador, build de produção local em `http://localhost:3003`:** capturas em 375 × 812 e 1440 × 900, Dia e Noite; pausa/retomada das ondas, busca por João 1:14, Escape com devolução do foco, âncora da constelação e seleção de Gênesis 1 conferidas.
+- **Contraste corrigido e conferido:** véus reais sob o texto dos cards; cálculo conservador sobre imagem branca e brilho máximo do hover: paisagem 7,28:1 na categoria e 9,02:1 no título; céu 8,87:1 e 10,99:1. Capturas do build final confirmam a leitura. **Ainda não aceito:** O requisito Lighthouse móvel ≥ 90 e a comparação de LCP estão **pendentes**: a Google PageSpeed API respondeu `429 quota exceeded`, sem nota ou medição de LCP. Capturas e build não substituem esse aceite. [PR #14](https://github.com/alexpiraginet-bot/biblia-conectada/pull/14) criado em rascunho; prévia da Vercel iniciada, ainda sem conferência final. Nenhum merge desta etapa.
+
+### Retrato histórico: 20/10, 18h43 UTC — `main` = `ddf090a`, toda no ar
 - **PR #7**, `5bbb11a`:
   - na escultura de `/arcos`: caminho entre dois versículos, palavra acesa, grupos de livros no eixo, força das ligações e imagem para compartilhar;
   - na leitura: no painel do versículo, toda ligação com o texto inteiro da BLIVRE, e embaixo a **lista sem fim** (`site/src/components/reader/LinksFeed.tsx`, regra em `site/src/lib/links-feed.ts`, design §6.2).
@@ -37,7 +49,7 @@ Escrito pelo Claude a pedido do Alex: "Prepare handoff para o códex seguir". Da
   - `npm run build`: 529 testes em 33 arquivos; o `check-dist` passou em 2.539 páginas pré-renderizadas e na 404;
   - `npm run budget` (JS por página, gzip, teto de 165 KiB): **`/arcos` 165,0, no teto**; capa 157,8; `/caminhos` 154,4; `/cronologia` 154,0; `/assistente` 153,9; versículo 153,0; capítulo 148,9.
 
-### O que já existe e serve aos pedidos novos
+### Inventário do handoff original (18h43 UTC)
 | Assunto | Onde | Como está |
 |---|---|---|
 | Passagens salvas | `site/src/lib/salvos.ts`, chave `bc:salvos:v1`, página `/salvos` | `localStorage`, só no aparelho |
@@ -66,7 +78,9 @@ Antes disso, no mesmo dia, ele pediu a lista sem fim da leitura: "As conexões a
 
 ### 4.1 Hero e botões/cards novos (a referência do Alex)
 
-**A capa de hoje** é a do PR #9 (§2). O pedido troca o hero, a primeira tela. Sugestão: o resto da capa fica, com os cards no estilo novo.
+**Estado atual:** implementado localmente em `codex/home-immersive-refinement`; conferências e pendências no §2. O shader já ocupa `components/ui`; os efeitos de metal/vidro e a moldura dos cards usam o CSS da capa, sem Tailwind, shadcn ou three.js. Não declarar esta etapa concluída antes dos aceites restantes.
+
+**Base do pedido:** a capa do PR #9. O pedido troca o hero, a primeira tela, e renova os cards. A referência e o plano original abaixo ficam preservados para comparação com a implementação.
 
 **A referência**
 - Fundo preto com linhas de luz que ondulam, desenhadas por um shader em tela cheia:
@@ -95,7 +109,7 @@ Antes disso, no mesmo dia, ele pediu a lista sem fim da leitura: "As conexões a
 
   O custo (dois sistemas de estilo, mais JS) vai para o Alex decidir (§8).
 
-**O que construir**
+**Plano original de construção (registro)**
 - `site/src/components/ui/web-gl-shader.tsx`:
   - **render:** WebGL2 puro com o mesmo fragment shader. A matemática é `0.05 / abs(p.y + sin((x + time) * xScale) * yScale)` por canal, com `x` distorcido por `length(p) * distortion`, e `xScale` 1, `yScale` 0,5, `distortion` 0,05;
   - **cores:** sugiro tingir os três canais com o ouro e o vitral dos vídeos (`sky-gold`, os azuis e o violeta de `PAL_C`, design §2) em vez do RGB puro. Assim a capa continua com a cara dos Reels (anti-objetivo A3);
@@ -115,7 +129,7 @@ Antes disso, no mesmo dia, ele pediu a lista sem fim da leitura: "As conexões a
 - **"Muito scroll e design":** seções ligadas à rolagem, como você já fez no PR #9. Sem prender a rolagem, com o conteúdo visível sem JavaScript, e nada animando por cima de texto em leitura.
 - **Contraste:** sobre o pior quadro do shader, o título precisa de 7:1 e o apoio de 4,5:1, como `sky-ink` e `sky-ink-2` no céu (design §3). Meça com a auditoria do navegador; se uma onda cruzar o texto, ponha um véu atrás dele ou baixe o brilho ali.
 - **Aceite:**
-  - JS da capa ≤ 165 KiB (hoje 157,8);
+  - JS da capa ≤ 165 KiB (base original: 157,8; medição local atual no §2);
   - Lighthouse da capa no celular ≥ 90, sem piorar o LCP de hoje;
   - capturas em 375 e 1440 px, Noite e Dia;
   - movimento reduzido: um quadro parado;
@@ -247,10 +261,8 @@ Tudo fica no aparelho: sem conta, sem servidor. A frase "Ficam só neste aparelh
 
 ## 8. Decisões para o Alex
 
-1. **Paleta do hero:** a referência é preta com linhas de luz em RGB; o Noite do site é verde profundo (tokens v5), e a capa do PR #9 é azul profundo e ouro.
-
-   Sugestão: o hero como uma "janela de céu", sempre noturna nos dois temas, como as janelas do céu da v4, com as ondas em ouro e vitral. O resto segue os temas Noite e Dia.
-2. **Ferramental:** instalar Tailwind v4 + shadcn (e three.js) para colar componentes do 21st.dev sem portar? Ou portar para CSS modules, que é o padrão sugerido (§4.1)?
+1. **Paleta do hero — aplicada localmente no item 4.1:** janela sempre noturna nos dois temas, com ondas em ouro/vitral; o restante segue Dia e Noite. A revisão visual está descrita no §2.
+2. **Ferramental — aplicado no item 4.1:** WebGL2 próprio e CSS modules, sem dependências novas. A alternativa Tailwind/shadcn/three.js acima permanece como registro, não como instalação pendente desta entrega.
 3. **"Memórias":** versículos para decorar, diário pessoal, as conversas com o companheiro de estudo (PR #11), ou mais de um?
 4. **Imagens:** gravuras em domínio público (Doré, Schnorr, Tissot), geração local, ou as duas, com qual estilo dominante?
 5. **Itens de §14 do `design/README.md`** ainda abertos, em especial a escultura abrir na Bíblia inteira ou em Isaías 9:6 (9; o PR #9 acrescentou o atalho para Daniel 9, sem mudar a abertura) e a escultura no Dia (12).

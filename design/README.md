@@ -1,6 +1,8 @@
 # Direção de design: Bíblia Conectada (v5, uma história viva)
 
-Status: v5, de 20/10/2026, a partir do PR #9 e da transferência do PR #12. A capa usa azul profundo e ouro, a interface Figtree, os temas verde profundo e papel e as jornadas ilustradas descritas em `docs/NOVA-EXPERIENCIA.md`. O registro da v4 permanece em §13. O novo hero de ondas, botões de vidro/metal, caderno local e ampliação das jornadas estão planejados em `docs/HANDOFF-CODEX.md`; não estão todos implementados.
+Status: v5, de 20/10/2026, a partir do PR #9 e da transferência do PR #12. A capa usa azul profundo e ouro, a interface Figtree, os temas verde profundo e papel e as jornadas ilustradas descritas em `docs/NOVA-EXPERIENCIA.md`. O registro da v4 permanece em §13. O hero de ondas e os botões/cards renovados estão implementados localmente na branch `codex/home-immersive-refinement`, ainda em revisão, no PR #14 em rascunho, com prévia iniciada e ainda sem conferência final ou merge desta etapa. Caderno local e ampliação das jornadas continuam no plano de `docs/HANDOFF-CODEX.md`.
+
+**Conferência desta etapa:** build, `check-dist`, lint, TypeScript e orçamento de JS passaram; 541 testes em 35 arquivos, com Node 24 local. Capa: 163.942 bytes de JS inicial gzip (160,1 KiB); `/arcos`: 168.871 bytes (164,9 KiB), inalterado. Capturas do build de produção local em 375 × 812 e 1440 × 900, Dia/Noite, e os fluxos de pausa, busca e seleção foram conferidos. Contraste dos cards corrigido com véus sob o texto, conferido nas capturas e por cálculo conservador: títulos acima de 9:1 e categorias acima de 7:1 mesmo sobre imagem branca. Lighthouse móvel ≥ 90 e LCP não foram medidos: a PageSpeed API retornou `429 quota exceeded`. Deploy em Node 22 e prévia da Vercel também estão pendentes. Estes resultados ainda não encerram o aceite.
 
 **Pedido posterior do Alex:** mais movimento, scroll, botões e cards modernos e “pulsos de luz sobre as linhas das conexões como fibras ópticas”. Esse pedido substitui as restrições históricas da v4 a essas técnicas na capa e nas visualizações. A leitura mantém texto estável, contraste e fontes; o movimento oferece pausa e respeita a preferência do aparelho.
 
@@ -44,7 +46,7 @@ O modo diz o que é sucesso para quem está na tela (impeccable).
 
 | Superfície | Rotas | Modo | Consequência |
 |---|---|---|---|
-| Capa | `/` | Experience na primeira tela, Read abaixo | O mapa de Isaías 9 é a primeira coisa; a busca grande logo abaixo do título |
+| Capa | `/` | Experience na primeira tela, Read abaixo | Hero com ondas, ação de leitura e busca antes da constelação; o atlas completo de Isaías 9 permanece na seção expansível |
 | Leitura | `/ler`, `/isaias`, `/isaias/9`, `/isaias/9/6`, `/salvos` | Read | Precisão e contenção; a coluna de texto é calma e o mapa fica na moldura |
 | Explorar e conexão | `/explorar/...`, `/conexao/...` | Experience no mapa, Operate no painel | Medalhões e selo; o painel "Conexão selecionada" com ação principal |
 | Linha do tempo, temas, palavras | `/linha-do-tempo`, `/tema`, `/palavra` e filhas | Read | Listas com fio, não grades de cards |
@@ -113,8 +115,8 @@ Três vozes, OFL, servidas pelo próprio site e carregadas no layout raiz (`--fo
 - Alvo de toque mínimo `target` (44px). Barra superior e barra de abas com `bar-h` (64px) mais a área segura.
 - **Desktop (de 1024px):** trilho de seções à esquerda (`rail-w`, 88px: Explorar, Ler, Linha do tempo, Arcos, Ponte, Salvos, Dados) e barra superior com a marca, a busca larga e a aparência. A leitura é uma grade de três partes: trilho de capítulos, coluna de texto, painel de ligações.
 - **Celular:** barra superior com marca, lupa e aparência; barra de abas embaixo (Explorar, Ler, Buscar, Arcos, Ponte). O que a página fixa embaixo fica acima das abas com `--tabbar-h`. O painel de ligações vira a folha de baixo.
-- **Mapa (capa e Explorar):** o desenho sai de um resolvedor determinístico em unidades do próprio quadro (`site/src/lib/explore/atlas.ts`), que a página escala pela largura; abaixo de 760px vale a versão de celular. No centro o selo do capítulo (um traço no mostrador por capítulo ligado); em órbita os oito medalhões, com tamanho e tronco pela soma dos votos do grupo; até três capítulos mais votados por grupo, sem encostar uns nos outros (a lista abaixo do mapa nomeia todos); pontilhado entre capítulos desenhados que se ligam. Uma tecla de Tab no mapa (o capítulo escolhido); setas entre medalhões e capítulos.
-- **Capa:** o mapa de Isaías 9. No centro o selo do capítulo, em órbita os oito medalhões dos grupos e os capítulos mais votados de cada grupo, com traços de ouro que engrossam com os votos. Ao lado, o painel "Conexão selecionada" (Isaías 9 ⇄ Lucas 2) e o botão "Ler lado a lado". No celular o mapa fica em cima e o painel espia por baixo. A busca grande fica logo abaixo do título.
+- **Atlas de Isaías 9 e Explorar:** o desenho sai de um resolvedor determinístico em unidades do próprio quadro (`site/src/lib/explore/atlas.ts`), que a página escala pela largura; abaixo de 760px vale a versão de celular. No centro o selo do capítulo (um traço no mostrador por capítulo ligado); em órbita os oito medalhões, com tamanho e tronco pela soma dos votos do grupo; até três capítulos mais votados por grupo, sem encostar uns nos outros (a lista abaixo do mapa nomeia todos); pontilhado entre capítulos desenhados que se ligam. Uma tecla de Tab no mapa (o capítulo escolhido); setas entre medalhões e capítulos.
+- **Capa, refinamento local de 20/10:** hero em janela noturna nos dois temas, com ondas ouro/vitral e ações de metal/vidro em CSS. A busca vem antes da constelação `LivingGraph`, que mantém capítulos reais, seleção, texto e lista equivalente. O `HomeAtlas` de Isaías 9 fica no `<details>` ao fim da capa, preservando números, definições e versículos mais ligados. Cards recebem moldura dupla; a cronologia usa papel. As seções e links continuam no HTML, sem prender a rolagem.
 - A página nunca rola de lado; o que é largo (barra de capítulos, chips, tabelas) rola dentro do próprio contêiner.
 
 ## 6. Interação
@@ -162,6 +164,7 @@ Pedido do Alex, com a captura da folha no iPhone: "As conexões aqui precisam es
 ## 7. Movimento
 
 - `dur-fast` (120ms) para hover e pressão, `dur-base` (220ms) para folha e busca abrindo, `dur-slow` (420ms) para transições.
+- **Ondas do hero (branch em revisão):** `components/ui/web-gl-shader.tsx` desenha um triângulo em WebGL2 puro, sem dependências novas, a no máximo 30 quadros/s; DPR até 1,5 e raster limitado a 1440 × 900. O canvas decorativo não recebe foco; o botão de pausa é acessível. Pausa manual e movimento reduzido mantêm um quadro estático; aba oculta e saída da tela cancelam frames/timers. Sem WebGL, com render por software ou após perda de contexto, fica o fundo CSS estático. Seis testes cobrem o ciclo de vida. As ondas são ornamentais; os pulsos da constelação continuam seguindo conexões reais.
 - Na constelação da capa e no céu 3D, feixes recorrentes com núcleo claro e cauda seguem as arestas dos dados. A câmera não gira sozinha. O botão de luzes permite pausar e retomar; aba oculta, visualização fora da tela e movimento reduzido suspendem a animação.
 - Saída rápida: `ease-out` (`cubic-bezier(0.16, 1, 0.3, 1)`). Tudo começa visível; nada espera rolagem para aparecer.
 - Com `prefers-reduced-motion`, nada se desloca; só a cor muda.
