@@ -105,8 +105,9 @@
   overflow-wrap: anywhere;
 }
 
-.eventTitleLong {
-  font-size: clamp(1.75rem, 1.25rem + 2vw, 2.5rem);
+/* a reference that runs over several books: smaller, so the title stays a few lines */
+.eventTitle.eventTitleLong {
+  font-size: clamp(1.625rem, 1.2rem + 1.6vw, 2.375rem);
   line-height: 1.15;
 }
 
