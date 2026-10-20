@@ -3,7 +3,7 @@ import { INPUT_TOKEN_MICROS, MAX_OUTPUT_TOKENS, MODEL, OUTPUT_TOKEN_MICROS } fro
 import { AssistantFault, isRecord } from "./input";
 import { responseSchema } from "./response";
 import type { Grounding } from "./grounding";
-import type { AssistantRequest } from "./types";
+import type { AssistantRequest, AssistantStyle } from "./types";
 
 const SYSTEM = `Você é o companheiro de estudo do Bíblia Conectada, uma IA que ajuda a ler a Bíblia em português brasileiro, com respeito e perspectiva cristã.
 Não alegue ter fé pessoal, revelação, autoridade divina ou substituir pastor, comunidade, tratamento profissional ou discernimento humano.
@@ -14,7 +14,14 @@ Escreva texto simples, acolhedor, concreto e curto, sem HTML, Markdown, URLs, c�
 No modo entender, explique sentido e contexto do trecho. No modo explorar, compare ligações reais e deixe claro o que cada passagem permite observar. No modo narrar, produza exatamente três cenas breves para leitura ilustrada, sem acrescentar ações, diálogos ou detalhes que não estejam nas fontes. São recontos assistidos, não o próprio texto bíblico.
 Responda somente no JSON solicitado. Título até 110 caracteres; 1 a 4 blocos curtos, sugestões até 3 perguntas de 160 caracteres. No modo narrar, um bloco introdutório e três cenas de até 500 caracteres. Não inclua imagens, links, ações ou outras propriedades.`;
 
+const STYLE_INSTRUCTIONS: Record<AssistantStyle, string> = {
+  simples: "Use frases curtas e palavras familiares, acessíveis também a crianças. Explique termos difíceis sem infantilizar nem presumir a idade; não peça idade ou dados pessoais. Trate temas difíceis com cuidado, sem detalhes gráficos desnecessários. Simplifique a explicação, sem alterar as fontes ou inventar falas.",
+  contexto: "Explique o contexto bíblico e as relações entre os textos usando somente as fontes recebidas. Declare os limites do recorte; não invente datas, autoria, costumes ou geografia que essas fontes não sustentem.",
+  cotidiano: "Proponha reflexões para situações comuns, identificadas como possibilidades de aplicação e interpretação, não como fatos do relato ou ordens divinas à pessoa. Não presuma sua vida nem dê aconselhamento profissional. No modo narrar, mantenha as três cenas no relato bíblico; deixe eventual aplicação apenas no bloco introdutório, identificada como reflexão.",
+};
+
 export function providerPayload(request: AssistantRequest, grounding: Grounding) {
+  const style = request.style ?? "contexto";
   return {
     model: MODEL,
     max_tokens: MAX_OUTPUT_TOKENS,
@@ -25,11 +32,11 @@ export function providerPayload(request: AssistantRequest, grounding: Grounding)
       effort: "low",
       format: { type: "json_schema", schema: responseSchema(grounding.citations.map((c) => c.id), request.mode === "narrar") },
     },
-    system: SYSTEM,
+    system: `${SYSTEM}\nEstilo da explicação: ${style}. ${STYLE_INSTRUCTIONS[style]}`,
     messages: [{
       role: "user",
       content: JSON.stringify({
-        mode: request.mode, question: request.question, passage: grounding.label, scope: grounding.scope,
+        mode: request.mode, style, question: request.question, passage: grounding.label, scope: grounding.scope,
         sources: grounding.citations.map(({ id, reference, text }) => ({ id, reference, text })),
         connections: grounding.connections.map(({ from, to }) => ({ from, to })),
       }),

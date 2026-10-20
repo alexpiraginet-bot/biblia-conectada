@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { VerseStudyLink } from "@/components/assistant/VerseStudyLink";
 import { useEffect, useId, useRef, useState, useSyncExternalStore, type CSSProperties, type KeyboardEvent, type PointerEvent } from "react";
 import type { JourneyData, JourneyPassage, JourneyStop } from "@/lib/caminhos";
 import styles from "./AncientJourneyMap.module.css";
@@ -25,7 +26,9 @@ function pathBetween(a: JourneyStop, b: JourneyStop, index: number) {
 function Passage({ passage }: { passage: JourneyPassage }) {
   return <div className={styles.passage}>
     <h3>{passage.label}</h3>
-    {passage.verses.map((v) => <p key={v.gv}><span className={styles.verseNumber}>{v.n}</span>{v.text}</p>)}
+    {passage.verses.map((v) => <p key={v.gv}><span className={styles.verseNumber}>{v.n}</span>{v.text}<br />
+      <VerseStudyLink path={`/${passage.slug}/${passage.chapter}/${v.n}`} label={`${passage.label.split(" ").slice(0, -1).join(" ")} ${passage.chapter}:${v.n}`} />
+    </p>)}
   </div>;
 }
 
@@ -194,6 +197,7 @@ export function AncientJourneyMap({ data }: { data: JourneyData }) {
           <ul>{stop.connections.map((connection) => <li key={`${connection.from}-${connection.to}`}>
             <Link href={connection.href} prefetch={false}><span>{connection.label}</span><Arrow /></Link>
             <blockquote>{connection.text}</blockquote>
+            <VerseStudyLink path={connection.versePath} label={connection.label.split(" · ").at(-1)!} />
             <small>{count(connection.votes)} votos · Ler lado a lado</small>
           </li>)}</ul>
         </div>

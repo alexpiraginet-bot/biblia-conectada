@@ -1,9 +1,12 @@
 /** Public, serializable contract. No provider configuration belongs in this module. */
 export type AssistantMode = "entender" | "explorar" | "narrar";
+export type AssistantStyle = "simples" | "contexto" | "cotidiano";
 export type AssistantPassage = { book: string; chapter: number; verse?: number };
 export type AssistantRequest = {
   requestId: string;
   mode: AssistantMode;
+  /** Omission preserves the contextual explanation used by existing clients. */
+  style?: AssistantStyle;
   question: string;
   passage: AssistantPassage;
 };

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
+import { VerseStudyLink } from "@/components/assistant/VerseStudyLink";
 import { BASE } from "@/lib/community/books-client";
 import { loadChapterText, loadVerseLinks } from "@/lib/community/fetchers";
 import { longRef } from "@/lib/community/geometry";
@@ -57,6 +58,7 @@ function Card({ card, max }: { card: FeedCard; max: number }) {
       <p className="bc-conn__text">
         <Scripture text={card.text} />
       </p>
+      <VerseStudyLink path={pathOf(card.gv)} label={longRef(BASE, card.gv)} />
     </li>
   );
 }
@@ -77,6 +79,7 @@ function Hub({ section, titleId }: { section: FeedSection; titleId: string }) {
       <p className={styles.hubText}>
         <Scripture text={section.text} />
       </p>
+      <VerseStudyLink path={pathOf(section.hub)} label={label} />
       <ol className="bc-conns" aria-label={`Ligações de ${label} que ainda não apareceram`}>
         {section.cards.map((c) => (
           <Card key={c.gv} card={c} max={section.cards[0].votes} />

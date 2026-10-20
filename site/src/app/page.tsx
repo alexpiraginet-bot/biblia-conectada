@@ -60,11 +60,11 @@ export default async function Home() {
               <p className={styles.intro}>Leia uma passagem. Veja as ligações. Descubra o caminho entre elas.</p>
               <div className={styles.heroActions}>
                 <Link href="/ler" className={styles.primary}><Icon name="book" /> Começar a ler <Icon name="out" /></Link>
-                <a href="#atlas-vivo" className={styles.secondary}>Explorar conexões <Icon name="explore" /></a>
+                <Link href="#atlas-vivo" className={styles.secondary}>Explorar conexões <Icon name="explore" /></Link>
               </div>
-              <div className={styles.heroShortcuts}><Link href="/assistente">Estudar com IA <span aria-hidden="true">↗</span></Link><a href="#como-funciona">Como funciona <span aria-hidden="true">↓</span></a></div>
+              <div className={styles.heroShortcuts}><Link href="/assistente">Estudar com IA <span aria-hidden="true">↗</span></Link><Link href="#como-funciona">Como funciona <span aria-hidden="true">↓</span></Link></div>
             </div>
-            <nav className={styles.experienceTabs} aria-label="Escolha uma experiência"><a href="#atlas-vivo" aria-current="true"><Icon name="explore" /> Constelação</a><Link href="/arcos">Céu em 3D <span aria-hidden="true">↗</span></Link><Link href="/caminhos">Mapa de Jesus <span aria-hidden="true">↗</span></Link></nav>
+            <nav className={styles.experienceTabs} aria-label="Escolha uma experiência"><Link href="#atlas-vivo" aria-current="true"><Icon name="explore" /> Constelação</Link><Link href="/arcos">Céu em 3D <span aria-hidden="true">↗</span></Link><Link href="/caminhos">Mapa de Jesus <span aria-hidden="true">↗</span></Link></nav>
           </div>
         </div>
         <section className={`${styles.searchBand} ${styles.heroSearch}`} aria-label="Busque na Bíblia">
@@ -74,7 +74,7 @@ export default async function Home() {
         </section>
         <HomeGuide />
         <div className={styles.heroGraph} id="atlas-vivo"><LivingGraph data={graph} immersive /></div>
-        <a className={styles.scrollHint} href="#descobrir"><span aria-hidden="true">↓</span> Há um mundo para descobrir</a>
+        <Link className={styles.scrollHint} href="#descobrir"><span aria-hidden="true">↓</span> Há um mundo para descobrir</Link>
       </section>
 
       <section id="descobrir" className={styles.discover} aria-labelledby="discover-title">

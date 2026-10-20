@@ -11,6 +11,7 @@
 import Link from "next/link";
 import { lazy, Suspense, useCallback, useEffect, useId, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { Icon } from "@/components/icons";
+import { VerseStudyLink } from "@/components/assistant/VerseStudyLink";
 import { usePageSearch } from "@/components/search/page-search";
 import { formatInt } from "@/lib/canon/text";
 import { BASE, BOOKS } from "@/lib/community/books-client";
@@ -43,7 +44,6 @@ import {
 import type { SculptureEngine } from "./engine";
 import { groupNames, type AxisGroup } from "./groups";
 import { HOME_ORBIT, homeBox, NARROW, TOP } from "./home";
-import { ChapterPanel, PAGE, VersePanel } from "./Panel";
 import type { Graph } from "./path";
 import { SCULPTURE_POSTER } from "./poster";
 import type { ColorMode, Theme } from "./renderer";
@@ -52,6 +52,7 @@ import {
   chapterLabel,
   hashOf,
   ligacoes,
+  PAGE,
   parseHash,
   readHash,
   subscribeHash,
@@ -67,8 +68,10 @@ import {
 import type { WordResult } from "./word";
 import styles from "./sculpture.module.css";
 
-// the panels of a path and of a word load when one is opened (the page's own script stays within its budget; they are
+// Selection panels load when one is opened (the page's own script stays within its budget; they are
 // never on the server's page: a selection lives in the address's fragment)
+const VersePanel = lazy(() => import("./Panel").then((m) => ({ default: m.VersePanel })));
+const ChapterPanel = lazy(() => import("./Panel").then((m) => ({ default: m.ChapterPanel })));
 const PathPanel = lazy(() => import("./PathPanel").then((m) => ({ default: m.PathPanel })));
 const WordPanel = lazy(() => import("./WordPanel").then((m) => ({ default: m.WordPanel })));
 const SculptureControls = lazy(() => import("./SculptureControls").then((m) => ({ default: m.SculptureControls })));
@@ -1210,6 +1213,9 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
               </button>
             </div>
             <p className={styles.panelEyebrow}>SIGA AS CONEXÕES</p>
+            <Suspense fallback={<><h2 id={`${ids}-p`} className={styles.ref}>
+              {sel.kind === "verse" ? longRef(BASE, sel.gv) : sel.kind === "chapter" ? chapterLabel(sel.ci).label : "Passagem selecionada"}
+            </h2><p role="status" className={styles.meta}>Carregando passagem…</p></>}>
             {sel.kind === "verse" ? (
               <VersePanel
                 gv={sel.gv}
@@ -1239,6 +1245,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
               />
             ) : sel.kind === "chapter" ? data ? (
               <ChapterPanel
+                key={sel.ci}
                 ci={sel.ci}
                 nch={data.geo.nch}
                 first={data.geo.chapterFirst[sel.ci]}
@@ -1313,6 +1320,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
                 />
               </Suspense>
             )}
+            </Suspense>
             <p className={styles.credit}>Ligações sugeridas por leitores na OpenBible.info (CC BY), das mais votadas para as menos. Texto da Bíblia Livre (BLIVRE).</p>
           </aside>
         )}
@@ -1329,6 +1337,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
             <blockquote className={styles.cardText}>{snippets.get(focused.gv) ?? "…"}</blockquote>
             <p className={styles.meta}>{votos(focused.votes)} de leitores na OpenBible.info</p>
             <p className={styles.cardActions}>
+              <VerseStudyLink path={versePath(BASE, focused.gv)} label={longRef(BASE, focused.gv)} />
               <button type="button" className={styles.follow} onClick={() => choose({ kind: "verse", gv: focused.gv })}>
                 Seguir para {shortRef(BASE, focused.gv)}
               </button>

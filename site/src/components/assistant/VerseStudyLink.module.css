@@ -1,0 +1,18 @@
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  max-width: 100%;
+  padding: 7px 0;
+  color: inherit;
+  font: 600 12px/1.4 var(--font-ui), sans-serif;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.link:hover { text-decoration-thickness: 2px; }
+.link:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; border-radius: 3px; }
+:global(.bc-conn) > .link { grid-column: 1 / -1; justify-self: start; }

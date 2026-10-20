@@ -66,6 +66,19 @@ describe("assistant boundary and real grounding", () => {
     ]) expect(() => parseAssistantRequest(value)).toThrow();
   });
 
+  it("defaults omitted styles to contexto and accepts only the three explicit styles", () => {
+    const request = input();
+    expect(parseAssistantRequest(request)).toEqual(parseAssistantRequest({ ...request, style: "contexto" }));
+    for (const mode of ["entender", "explorar", "narrar"] as const) {
+      for (const style of ["simples", "contexto", "cotidiano"] as const) {
+        expect(parseAssistantRequest({ ...request, mode, style })).toMatchObject({ mode, style });
+      }
+    }
+    for (const style of [null, "", "Contexto", "narrar", 1, true, [], ["simples"], {}, { toString: "contexto" }]) {
+      expect(() => parseAssistantRequest({ ...request, style })).toThrow();
+    }
+  });
+
   it("bounds chunked bodies even without a trustworthy Content-Length", async () => {
     const request = new Request("https://biblia.test", {
       method: "POST", headers: { "content-type": "application/json" }, body: `"${"a".repeat(9000)}"`,
@@ -121,6 +134,30 @@ describe("assistant boundary and real grounding", () => {
 });
 
 describe("provider contract and conservative billing", () => {
+  it("keeps style separate from mode, grounded sources and fixed provider limits", async () => {
+    const request = input();
+    const grounding = await retrieveGrounding(request);
+    const instructions = {
+      simples: [/acessíveis também a crianças/, /sem infantilizar/, /não peça idade ou dados pessoais/],
+      contexto: [/somente as fontes recebidas/, /não invente datas/],
+      cotidiano: [/possibilidades de aplicação e interpretação/, /não.*ordens divinas/, /não.*aconselhamento profissional/i, /três cenas no relato bíblico/],
+    };
+    for (const mode of ["entender", "explorar", "narrar"] as const) {
+      for (const style of ["simples", "contexto", "cotidiano"] as const) {
+        const payload = providerPayload({ ...request, mode, style }, grounding);
+        expect(payload).toMatchObject({ model: MODEL, max_tokens: MAX_OUTPUT_TOKENS,
+          service_tier: "standard_only", inference_geo: "global", output_config: { effort: "low" } });
+        expect(JSON.parse(payload.messages[0].content)).toMatchObject({ mode, style,
+          sources: grounding.citations.map(({ id, reference, text }) => ({ id, reference, text })) });
+        for (const instruction of instructions[style]) expect(payload.system).toMatch(instruction);
+        expect(payload.system).toContain("perspectiva cristã");
+        expect(payload.system).toContain("Não alegue ter fé pessoal, revelação, autoridade divina");
+        expect(payload.output_config.format.schema.required.includes("scenes")).toBe(mode === "narrar");
+      }
+    }
+    expect(providerPayload(request, grounding)).toEqual(providerPayload({ ...request, style: "contexto" }, grounding));
+  });
+
   it("uses exact Opus model, adaptive low effort, bounded output, standard tier and JSON schema without tools", async () => {
     const request = input();
     const grounding = await retrieveGrounding(request);
@@ -173,6 +210,18 @@ describe("provider contract and conservative billing", () => {
 });
 
 describe("persistent ledger adapter", () => {
+  it("includes normalized style in the fingerprint without changing request identity", async () => {
+    const request = input();
+    const command = vi.fn().mockResolvedValue(["reserved", "100000"]);
+    const normalized = [request, ...["contexto", "simples", "cotidiano"].map((style) => ({ ...request, style }))]
+      .map(parseAssistantRequest);
+    const reservations = await Promise.all(normalized.map((body) => reserve(command, body, "visitor-hmac", 100000)));
+    expect(reservations[0].fingerprint).toBe(reservations[1].fingerprint);
+    expect(new Set(reservations.map((item) => item.fingerprint)).size).toBe(3);
+    expect(new Set(reservations.map((item) => item.key)).size).toBe(1);
+    expect(reservations[0].key).toBe(`bc:{assistant}:request:${request.requestId}`);
+  });
+
   it("reserves via one EVAL sharing a cluster hash tag and never initializes missing state", async () => {
     const command = vi.fn().mockResolvedValue(["reserved", "100000"]);
     const reservation = await reserve(command, input(), "visitor-hmac", 100000, new Date("2026-10-20T23:59:30Z"));
@@ -234,7 +283,33 @@ describe("complete service with no external network", () => {
     expect((await handleStudy(httpRequest(input(), "https://evil.test"))).status).toBe(403);
     expect((await handleStudy(httpRequest({ ...input(), question: "a".repeat(900) }))).status).toBe(400);
     expect((await handleStudy(httpRequest({ ...input(), mode: ["narrar"] }))).status).toBe(400);
+    expect((await handleStudy(httpRequest({ ...input(), style: ["simples"] }))).status).toBe(400);
+    expect((await handleStudy(httpRequest({ ...input(), style: null }))).status).toBe(400);
     expect(fetcher).not.toHaveBeenCalled();
+  });
+
+  it("does not start another generation when a repeated UUID changes style", async () => {
+    const request = input();
+    const grounding = await retrieveGrounding(request);
+    const accepted = new Set<string>();
+    const providerStyles: string[] = [];
+    const fetcher = vi.fn(async (url: string, options: RequestInit) => {
+      const body = JSON.parse(options.body as string);
+      if (url.includes("upstash")) {
+        if (body[2] !== 4) return Response.json({ result: ["settled"] });
+        if (accepted.has(body[4])) return Response.json({ result: ["duplicate"] });
+        accepted.add(body[4]);
+        return Response.json({ result: ["reserved", String(body[8])] });
+      }
+      providerStyles.push(JSON.parse(body.messages[0].content).style);
+      return Response.json(completion(rawAnswer(grounding.citations[0].id)));
+    });
+    vi.stubGlobal("fetch", fetcher);
+    expect((await handleStudy(httpRequest(request))).status).toBe(200);
+    const repeated = await handleStudy(httpRequest({ ...request, style: "cotidiano" }));
+    expect(repeated).toMatchObject({ status: 409, body: { ok: false, code: "in_progress" } });
+    expect(providerStyles).toEqual(["contexto"]);
+    expect(accepted.size).toBe(1);
   });
 
   it("does not reach Anthropic when persistent reservation fails", async () => {

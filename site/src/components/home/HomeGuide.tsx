@@ -57,7 +57,7 @@ const STEPS = [
   {
     label: "Estudo com IA",
     title: "Leve suas perguntas ao texto.",
-    text: "Escolha uma passagem do acervo de estudo e peça contexto, explore conexões ou acompanhe a história em cenas ilustradas, sempre com referências à vista.",
+    text: "Toque em Entender com IA junto a um versículo. Peça uma explicação bem simples, contexto bíblico ou uma reflexão para o dia a dia. Leia ou ouça a resposta, com referências à vista.",
     hint: "A IA apoia o estudo cristão e pode errar. As cenas usam ilustrações do acervo; não são vídeos gerados.",
     href: "/assistente",
     action: "Estudar com IA",
@@ -104,7 +104,7 @@ export function HomeGuide() {
         <div className={styles.intro}>
           <p className={styles.eyebrow}>Seu companheiro de estudo · IA</p>
           <h2 id={`${uid}-title`}>Uma boa pergunta<br />leva mais longe.</h2>
-          <p className={styles.lead}>Apoio para seu estudo cristão, com contexto, conexões e o texto bíblico sempre à vista.</p>
+          <p className={styles.lead}>Ajuda em cada versículo: palavras simples, contexto bíblico ou reflexões para o dia a dia. Em texto e na voz do seu aparelho.</p>
           <Link className={styles.primary} href="/assistente" prefetch={false}>
             Estudar com IA <Icon name="out" />
           </Link>
