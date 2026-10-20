@@ -12,6 +12,7 @@ import { buildExplore } from "./data/explore";
 import { natalPair, natalStudy } from "./data/natal";
 import { buildOpenData, type NatalOut } from "./data/open-data";
 import { buildReception } from "./data/reception";
+import { buildSearchIndex } from "./data/search-index";
 import { buildThemes } from "./data/themes";
 import { buildTimeline } from "./data/timeline";
 import { CROSSREFS_SHA256, OUT, REPO, SITE, SRC, readJson, sha256 } from "./data/sources";
@@ -284,6 +285,9 @@ write(join(OUT.publicData, "LICENSE.txt"), [
   "text/: texto da Bíblia Livre (BLIVRE), sem alterações, sob a licença dela (CC BY 4.0 Brasil).",
   blivreCredit,
   "",
+  "busca/: índice das palavras desse texto (em que versículos e em que lugar do versículo está cada palavra), com os",
+  "versículos ordenados pelas ligações. Dados derivados, sob CC BY-SA 4.0, com o crédito da BLIVRE acima.",
+  "",
   "Os demais arquivos (ligações, votos, posições, grafos) são dados derivados deste projeto, sob CC BY-SA 4.0:",
   "https://creativecommons.org/licenses/by-sa/4.0/deed.pt-br",
   "Referências cruzadas: OpenBible.info (CC BY), https://www.openbible.info/labs/cross-references/",
@@ -298,6 +302,19 @@ const themes = buildThemes({ canon, text: blivre.text, links, write: toGenerated
 const timeline = buildTimeline({ canon, text: blivre.text, links, themes: themes.themes, write: toGenerated });
 const reception = buildReception({ write: toGenerated });
 log(`linha do tempo: ${timeline.events.length} events, ${timeline.placesNamed} places named from the BLIVRE; ${themes.themes.length} themes; reception: ${reception.pilots.map((p) => p.works.length).join(" + ")} paintings`);
+
+// search: the word index of the BLIVRE text (public/data/busca/v1/) and the themes the palette offers (scripts/data/search-index.ts)
+const search = buildSearchIndex({
+  text: blivre.text,
+  links,
+  themes: themes.themes,
+  writePublic: (rel, data) => write(join(OUT.publicData, rel), data),
+  writeGenerated: toGenerated,
+});
+log(
+  `search index: ${search.words} words, ${search.postings} verse entries in ${search.shards} shards; largest shard ${search.largest.shard} ` +
+    `${(search.largest.gzip / 1024).toFixed(1)} KB gzip, all word shards ${(search.gzipTotal / 1024).toFixed(0)} KB gzip, index.json ${(search.indexGzip / 1024).toFixed(1)} KB gzip`,
+);
 
 const summary = {
   counts: {
