@@ -84,10 +84,10 @@ export async function drawCard(spec: CardSpec, fonts: CardFonts, inks: Partial<C
   }
   ctx.font = `500 28px ${fonts.ui}`;
   ctx.fillStyle = TEXT2;
-  for (const l of wrap(ctx, spec.context, W - 2 * PAD)) {
-    y += 40;
+  wrap(ctx, spec.context, W - 2 * PAD).forEach((l, i) => {
+    y += i === 0 ? 50 : 38;
     ctx.fillText(l, PAD, y);
-  }
+  });
 
   // footer, measured first: credit lines at the bottom, the statements right above them
   ctx.font = `400 22px ${fonts.ui}`;

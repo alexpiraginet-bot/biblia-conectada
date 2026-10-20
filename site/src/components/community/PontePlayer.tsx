@@ -318,7 +318,7 @@ function EndScreen({ file, progress }: { file: PonteFile; progress: BridgeProgre
               caption={<>A cor de cada arco mostra a distância do salto, e a espessura, os votos (soma das duas direções).</>}
             />
           </div>
-          <ol className={`bc-list ${styles.list}`}>
+          <ol className={`${styles.list} ${styles.rows}`}>
             {file.strongest.map((gv, i) => (
               <li key={gv} className={styles.row}>
                 <span className={styles.lead}>{i === 0 ? "início" : `${i}º salto`}</span>

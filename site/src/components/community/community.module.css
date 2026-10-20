@@ -448,6 +448,14 @@
   max-width: 44rem;
 }
 
+/* a ruled list whose rows are not links (ds.css .bc-list styles every link inside it as a row) */
+.rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
 /* name and count on one baseline, the name wrapping inside its own column; a leading date or number gets a column of
    its own (the child selector outweighs ds.css .bc-list a) */
 .list > li > a,
