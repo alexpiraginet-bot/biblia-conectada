@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { BASE } from "@/lib/community/books-client";
 import { loadChapterText, loadVerseLinks } from "@/lib/community/fetchers";
@@ -60,11 +60,10 @@ function Card({ card, max }: { card: FeedCard; max: number }) {
 }
 
 /** One verse of the list and its strongest links that have not appeared yet. */
-function Hub({ section }: { section: FeedSection }) {
+function Hub({ section, titleId }: { section: FeedSection; titleId: string }) {
   const label = longRef(BASE, section.hub);
-  const titleId = `seguir-${section.hub}`;
   return (
-    <section className={styles.hub} aria-labelledby={titleId}>
+    <section className={styles.hub} aria-labelledby={titleId} data-hub={section.hub}>
       <h4 id={titleId} className={styles.hubTitle} tabIndex={-1}>
         <Link href={pathOf(section.hub)} prefetch={false}>
           {keepBookNumber(label)}
@@ -93,6 +92,9 @@ function Hub({ section }: { section: FeedSection }) {
  */
 export function LinksFeed({ origin, links }: { origin: number; links: readonly VerseLink[] }) {
   const client = useSyncExternalStore(subscribe, () => true, () => false);
+  // the router keeps the verse left behind in the page, hidden: ids are this list's own, never another page's
+  const uid = useId();
+  const titleOf = (hub: number) => `${uid}seguir-${hub}`;
   const [sections, setSections] = useState<FeedSection[]>([]);
   const [status, setStatus] = useState<Status>("idle");
   const state = useRef<FeedState | null>(null);
@@ -141,8 +143,8 @@ export function LinksFeed({ origin, links }: { origin: number; links: readonly V
   useEffect(() => {
     if (!asked.current || count === 0) return;
     asked.current = false;
-    document.getElementById(`seguir-${sections[count - 1].hub}`)?.focus();
-  }, [count, sections]);
+    document.getElementById(`${uid}seguir-${sections[count - 1].hub}`)?.focus();
+  }, [count, sections, uid]);
 
   return (
     <div className={styles.feed} aria-busy={status === "loading" || undefined}>
@@ -159,7 +161,7 @@ export function LinksFeed({ origin, links }: { origin: number; links: readonly V
         </div>
       )}
       {sections.map((s) => (
-        <Hub key={s.hub} section={s} />
+        <Hub key={s.hub} section={s} titleId={titleOf(s.hub)} />
       ))}
       <div ref={end} className={styles.feedEnd}>
         {client && status === "idle" && (
