@@ -1234,7 +1234,7 @@
 .constellationNote button { width: fit-content; min-height: 28px; border: 0; padding: 0; background: none; color: var(--accent); font: inherit; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 .cameraTools { position: absolute; z-index: 3; bottom: 28px; left: 50%; display: flex; align-items: center; gap: 2px; padding: 5px; border: 1px solid var(--line-strong); border-radius: 100px; background: var(--overlay); backdrop-filter: blur(16px); transform: translateX(-50%); }
 .stage[data-open] .cameraTools { left: calc((100% - min(400px, 38%)) / 2); }
-.cameraTools button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-width: 40px; min-height: 40px; padding: 0 12px; border: 0; border-radius: 100px; background: none; color: var(--ink-2); font: 500 20px/1 var(--font-ui); cursor: pointer; }
+.cameraTools button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-width: 44px; min-height: 44px; padding: 0 12px; border: 0; border-radius: 100px; background: none; color: var(--ink-2); font: 500 20px/1 var(--font-ui); cursor: pointer; }
 .cameraTools button span { font-size: 11px; }
 .cameraTools button:hover { background: var(--raised); color: var(--accent); }
 .cameraDivider { height: 20px; width: 1px; background: var(--line-strong); margin-inline: 3px; }
@@ -1276,7 +1276,7 @@
   .chip { min-height: 38px; font-size: 11px; padding-inline: 12px; }
   .moreWays { margin-top: 15px; }
   .cameraTools, .stage[data-open] .cameraTools { left: 50%; bottom: 14px; padding: 3px; }
-  .cameraTools button { min-width: 35px; min-height: 35px; padding-inline: 10px; font-size: 18px; }
+  .cameraTools button { min-width: 44px; min-height: 44px; padding-inline: 7px; font-size: 18px; }
   .cameraTools button span { font-size: 9px; }
   .stage[data-open] .cameraTools { bottom: calc(47% + 8px); }
   .panel { top: auto; left: 0; right: 0; bottom: 0; width: auto; height: 47%; padding: 0 22px 30px; border-radius: 22px 22px 0 0; gap: 15px; }
@@ -1291,4 +1291,8 @@
   .pill { font-size: 9px; padding: 5px 7px; }
   .pillMain { font-size: 11px; padding: 6px 9px; }
   .phoneTools { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cameraTools .motionToggle { display: none; }
 }

@@ -71,6 +71,7 @@ import styles from "./sculpture.module.css";
 // never on the server's page: a selection lives in the address's fragment)
 const PathPanel = lazy(() => import("./PathPanel").then((m) => ({ default: m.PathPanel })));
 const WordPanel = lazy(() => import("./WordPanel").then((m) => ({ default: m.WordPanel })));
+const SculptureControls = lazy(() => import("./SculptureControls").then((m) => ({ default: m.SculptureControls })));
 
 export type SculptureInitial = {
   counts: { verses: number; crossrefRows: number; arcs: number; chapters: number };
@@ -189,6 +190,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
   const [arcs, setArcs] = useState<Loaded | null>(null);
   const [full, setFull] = useState<"auto" | "offer" | "loading" | "error" | "done">("auto");
   const [mode, setMode] = useState<ColorMode>("testamento");
+  const [lightsPaused, setLightsPaused] = useState(false);
   const [focus, setFocus] = useState(-1);
   const [filter, setFilter] = useState<Filter>("todas");
   const [shown, setShown] = useState(PAGE);
@@ -381,6 +383,9 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
   useEffect(() => {
     engine.current?.setTheme(theme);
   }, [theme]);
+  useEffect(() => {
+    engine.current?.setMotionPaused(lightsPaused);
+  }, [lightsPaused, ready]);
   // light devices draw only the most voted arcs while the camera moves
   useEffect(() => {
     if (full === "done") engine.current?.setMovingCap(lightDevice() ? 30000 : 100000);
@@ -1137,15 +1142,16 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
           </section>
         )}
 
-        {canvasMode && (
-          <div className={styles.cameraTools} role="group" aria-label="Ponto de vista do céu em 3D">
-            <button type="button" onClick={() => cameraView("orbital")} aria-label="Reenquadrar em vista orbital" title="Vista orbital">◈<span>Orbital</span></button>
-            <button type="button" onClick={() => cameraView("front")} aria-label="Vista frontal" title="Vista frontal">◡<span>Frontal</span></button>
-            <button type="button" onClick={() => cameraView("top")} aria-label="Vista de cima" title="Vista de cima">⊙<span>Do alto</span></button>
-            <span className={styles.cameraDivider} />
-            <button type="button" aria-label="Aproximar céu" onClick={() => { reach(); engine.current?.nudge(0, 0, 0.8); }}>+</button>
-            <button type="button" aria-label="Afastar céu" onClick={() => { reach(); engine.current?.nudge(0, 0, 1.25); }}>−</button>
-          </div>
+        {/* Loading is also a canvas mode; wait for the engine so these controls stay out of the initial page script. */}
+        {canvasMode && ready === "live" && (
+          <Suspense fallback={null}>
+            <SculptureControls
+              onView={cameraView}
+              onZoom={(factor) => { reach(); engine.current?.nudge(0, 0, factor); }}
+              onPause={() => setLightsPaused((paused) => !paused)}
+              lightsPaused={lightsPaused}
+            />
+          </Suspense>
         )}
 
         {/* the legend stands on its bottom edge: the strength row at its top, and the buttons left of "Céu em 2D", come

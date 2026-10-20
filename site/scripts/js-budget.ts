@@ -1,8 +1,9 @@
-// Reports the JavaScript each prerendered page makes a modern browser download (gzip -9), excluding the
+// Reports the initial JavaScript declared in each prerendered page's HTML (gzip -9), excluding the
 // `noModule` polyfills that only legacy browsers fetch, grouped by the route that renders the page ("/salvos",
 // "/explorar/[livro]/[cap]"; the reading routes keep their names: livro, capítulo, versículo). HANDOFF.md §5.6 has the
-// measured baseline and the proposed budget (total ≤ 165 KiB); pages over it are flagged, the build does not fail on it
-// yet. Pages are read wherever the build put them (plain or Vercel adapter layout, scripts/checks/pages.ts).
+// measured baseline and the initial budget (≤ 165 KiB); any page over it makes this command fail.
+// Dynamically imported chunks are not included: report their extra cost and combined total separately.
+// Pages are read wherever the build put them (plain or Vercel adapter layout, scripts/checks/pages.ts).
 //   npm run budget   (after npm run build)
 import { readFileSync } from "node:fs";
 import { gzipSync } from "node:zlib";
@@ -10,7 +11,7 @@ import { join } from "node:path";
 import { appRoutes, prerenderedPages, routeOf } from "./checks/pages";
 import { SITE } from "./data/sources";
 
-const BUDGET_KB = 165;
+const BUDGET_BYTES = 165 * 1024;
 const pages = prerenderedPages(SITE);
 const routes = appRoutes(SITE);
 const NAMES: Record<string, string> = { "/": "index", "/[livro]": "livro", "/[livro]/[cap]": "capítulo", "/[livro]/[cap]/[vers]": "versículo" };
@@ -47,9 +48,11 @@ console.table(
     .map(([k, g]) => ({
       kind: k,
       pages: g.pages,
+      jsGzipBytes: g.jsMax,
       jsGzipKB: kb(g.jsMax),
-      overBudget: kb(g.jsMax) > BUDGET_KB ? "SIM" : "",
+      overBudget: g.jsMax > BUDGET_BYTES ? "SIM" : "",
       htmlGzipMaxKB: kb(g.htmlMax),
       largestHtml: g.htmlMaxPage,
     })),
 );
+if ([...groups.values()].some((g) => g.jsMax > BUDGET_BYTES)) process.exitCode = 1;

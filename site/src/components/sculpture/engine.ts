@@ -1,6 +1,6 @@
 // The sculpture's stage in the browser: the WebGL renderer, the camera and the pointer. React (Sculpture.tsx) owns what
-// is selected and the panel; this owns frames. A frame is drawn only when something changes: a drag, a flight, a lit
-// selection growing, a resize. While idle nothing runs.
+// is selected and the panel; this owns frames. A bounded pulse layer moves while visible; the sculpture and labels
+// are reused until the camera, selection or size changes. Hidden, offscreen and paused stages schedule no motion.
 import { SculptureRenderer, type ArcBuffers, type AxisLines, type Lit, type Theme } from "./renderer";
 import {
   arcPoint,
@@ -44,7 +44,7 @@ const TAP_SLOP = 6; // CSS px a tap may move
 const HOVER_PX = 18; // how near the axis the pointer must be to point at it
 const ARC_PX = 9; // how near a lit arc (the arcs are thin: the axis wins when both are this close)
 const FLIGHT_MS = 1150;
-const PULSE_MS = 1300;
+const PULSE_MS = 4800;
 const GROW_MS = 1100;
 
 type Flight = { from: View; to: View; start: number; ms: number };
@@ -64,6 +64,13 @@ export class SculptureEngine {
   private pulseStart = -1;
   private raf = 0;
   private settleTimer = 0;
+  private flowTimer = 0;
+  private flowMs = 0;
+  private flowLast = -1;
+  private frameDirty = true;
+  private inView = true;
+  private motionPaused = false;
+  private hasArcs = false;
   private cssW = 1;
   private cssH = 1;
   private pointers = new Map<number, { x: number; y: number; x0: number; y0: number; t0: number }>();
@@ -83,6 +90,8 @@ export class SculptureEngine {
   private rest: { x: number; y: number } | null = null;
   private reduce = false;
   private ro: ResizeObserver;
+  private io: IntersectionObserver;
+  private motionQuery: MediaQueryList;
   private destroyed = false;
 
   private constructor(canvas: HTMLCanvasElement, r: SculptureRenderer, software: boolean, ev: EngineEvents) {
@@ -90,7 +99,15 @@ export class SculptureEngine {
     this.r = r;
     this.software = software;
     this.ev = ev;
-    this.reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    this.motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    this.reduce = this.motionQuery.matches;
+    this.motionQuery.addEventListener("change", this.onMotion);
+    document.addEventListener("visibilitychange", this.onVisibility);
+    this.io = new IntersectionObserver(([entry]) => {
+      this.inView = entry.isIntersecting;
+      this.onVisibility();
+    });
+    this.io.observe(canvas);
     this.ro = new ResizeObserver(() => this.resize());
     this.ro.observe(canvas);
     this.resize();
@@ -112,6 +129,7 @@ export class SculptureEngine {
   // ------------------------------------------------------------------ inputs from the page
 
   setArcs(arcs: ArcBuffers) {
+    this.hasArcs = arcs.n > 0;
     this.r.setArcs(arcs);
     this.request(false);
   }
@@ -158,6 +176,12 @@ export class SculptureEngine {
     this.r.movingCap = n;
   }
 
+  /** The visible pause control stops decorative motion; direct camera controls remain usable. */
+  setMotionPaused(paused: boolean) {
+    this.motionPaused = paused;
+    this.onMotion();
+  }
+
   /** Light a selection (or nothing). The lit arcs grow from the lit verse unless motion is reduced; `ms`: how long the
    *  growth takes (a path's hops grow one after the other). `recede`: how bright the rest of the sculpture stays. */
   setLit(lit: Lit | null, grow = true, ms = GROW_MS, recede = 0.42) {
@@ -169,14 +193,14 @@ export class SculptureEngine {
     this.pulseStart = -1;
     this.r.pulse = -1;
     this.growMs = ms;
-    if (lit && grow && !this.reduce) {
+    if (lit && lit.n > 0 && grow && !this.reduce && !this.motionPaused) {
       this.r.grow = 0;
       this.growStart = performance.now() + (this.flight ? FLIGHT_MS * 0.35 : 0);
     } else {
       this.r.grow = 1;
       this.growStart = -1;
     }
-    this.request(true);
+    this.request(false);
   }
 
   setFocus(flags: Float32Array) {
@@ -229,9 +253,10 @@ export class SculptureEngine {
     this.request(false);
   }
 
-  /** no flight, no inertia and no frame waiting (the interaction tests wait for this before they aim the pointer) */
+  /** Camera and selection settled; decorative pulse frames never prevent aiming at a real connection. */
   get still() {
-    return !this.flight && this.raf === 0 && Math.abs(this.spin.yaw) + Math.abs(this.spin.pitch) <= 1e-4;
+    return !this.flight && !this.frameDirty && this.growStart < 0 && this.pointers.size === 0 &&
+      performance.now() >= this.movingUntil && Math.abs(this.spin.yaw) + Math.abs(this.spin.pitch) <= 1e-4;
   }
 
   /** true once the person has turned or zoomed the camera by hand (the page then stops reframing on resize) */
@@ -272,6 +297,41 @@ export class SculptureEngine {
 
   // ------------------------------------------------------------------ frames
 
+  private canDraw() {
+    return !this.destroyed && !this.r.contextLost && this.inView && !document.hidden;
+  }
+
+  private stopFrames() {
+    cancelAnimationFrame(this.raf);
+    window.clearTimeout(this.settleTimer);
+    window.clearTimeout(this.flowTimer);
+    this.raf = this.settleTimer = this.flowTimer = 0;
+    this.flowLast = -1;
+  }
+
+  private onVisibility = () => {
+    this.stopFrames();
+    if (this.canDraw()) this.request(false);
+  };
+
+  private onMotion = () => {
+    this.reduce = this.motionQuery.matches;
+    this.stopFrames();
+    if (this.reduce || this.motionPaused) {
+      if (this.flight) {
+        this.orbit = this.flight.to.orbit;
+        this.box = this.flight.to.box;
+        this.flight = null;
+      }
+      this.spin = { yaw: 0, pitch: 0 };
+      this.movingUntil = 0;
+      this.growStart = this.pulseStart = -1;
+      this.r.grow = 1;
+      this.r.pulse = this.r.flowTime = -1;
+    }
+    this.request(false);
+  };
+
   private resize() {
     const rect = this.canvas.getBoundingClientRect();
     this.cssW = Math.max(1, rect.width);
@@ -286,7 +346,11 @@ export class SculptureEngine {
   /** Ask for a frame. `moving`: the camera or the light will keep changing, so draw light and settle afterwards. */
   request(moving: boolean) {
     if (this.destroyed) return;
+    this.frameDirty = true;
     if (moving) this.movingUntil = performance.now() + 120;
+    if (!this.canDraw()) return;
+    window.clearTimeout(this.flowTimer);
+    this.flowTimer = 0;
     if (!this.raf) this.raf = requestAnimationFrame(this.tick);
   }
 
@@ -294,7 +358,12 @@ export class SculptureEngine {
 
   private tick = (now: number) => {
     this.raf = 0;
-    if (this.destroyed || this.r.contextLost) return;
+    if (!this.canDraw()) return;
+    const selection = this.preview ?? this.lit;
+    const flowing = !this.reduce && !this.motionPaused && (selection ? selection.n > 0 : this.hasArcs);
+    if (flowing && this.flowLast >= 0) this.flowMs += Math.min(now - this.flowLast, 80);
+    this.flowLast = flowing ? now : -1;
+    this.r.flowTime = flowing ? this.flowMs / 1000 : -1;
     let animating = false;
     let turned = false;
     if (this.flight) {
@@ -320,32 +389,37 @@ export class SculptureEngine {
       this.r.grow = 1 - Math.pow(1 - g, 3);
       if (g >= 1) {
         this.growStart = -1;
-        // once grown, one pulse of light runs from the lit verse to every partner
-        this.pulseStart = now;
+        this.pulseStart = this.flowMs;
       }
       animating = true;
     }
-    if (this.pulseStart >= 0) {
-      const u = (now - this.pulseStart) / Math.max(PULSE_MS, this.growMs);
-      if (u >= 1) {
-        this.pulseStart = -1;
-        this.r.pulse = -1;
-      } else {
-        this.r.pulse = u * 1.15 - 0.05;
-        animating = true;
-      }
+    if (flowing && (this.preview || this.lit) && this.growStart < 0) {
+      if (this.pulseStart < 0) this.pulseStart = this.flowMs;
+      const u = ((this.flowMs - this.pulseStart) / Math.max(PULSE_MS, this.growMs)) % 1;
+      this.r.pulse = u * 1.45 - 0.15;
+    } else {
+      this.r.pulse = -1;
     }
-    const moving = animating || this.pointers.size > 0 || now < this.movingUntil;
-    this.drawNow(moving ? "moving" : "settled");
+    // Pulse/growth animation does not downgrade the density cache or repeatedly notify React's labels.
+    const moving = turned || this.pointers.size > 0 || now < this.movingUntil;
+    const notify = this.frameDirty || turned;
+    this.frameDirty = false;
+    this.drawNow(moving ? "moving" : "settled", notify);
     if (animating) this.raf = requestAnimationFrame(this.tick);
     else if (moving) {
       // one full frame once the motion stops
       window.clearTimeout(this.settleTimer);
       this.settleTimer = window.setTimeout(() => this.request(false), 140);
+    } else if (flowing) {
+      // Timed RAF: at most about 30 pulse frames/s, with no CPU work while waiting.
+      this.flowTimer = window.setTimeout(() => {
+        this.flowTimer = 0;
+        if (this.canDraw() && !this.raf) this.raf = requestAnimationFrame(this.tick);
+      }, 1000 / 30);
     }
   };
 
-  private drawNow(quality: "moving" | "settled") {
+  private drawNow(quality: "moving" | "settled", notify = true) {
     const m = this.matrix();
     let star: { x: number; y: number } | null = null;
     if (this.lit && this.lit.at !== null) {
@@ -355,7 +429,7 @@ export class SculptureEngine {
     const boxH = this.currentBox().h;
     const dpr = this.canvas.width / this.cssW;
     this.r.draw(m, pixelsPerUnit(boxH, this.orbit.dist, dpr), exposureZoom(boxH, this.orbit.dist), this.orbit.dist, quality, star);
-    this.ev.frame(m, this.cssW, this.cssH, this.currentBox());
+    if (notify) this.ev.frame(m, this.cssW, this.cssH, this.currentBox());
   }
 
   // ------------------------------------------------------------------ pointer
@@ -508,6 +582,7 @@ export class SculptureEngine {
   private onLost = (e: Event) => {
     e.preventDefault();
     this.r.markLost();
+    this.stopFrames();
     this.ev.lost(true);
   };
 
@@ -537,9 +612,9 @@ export class SculptureEngine {
       const s = project(m, [this.lit.at, 0, 0], width, height);
       if (s.front) star = { x: s.x, y: s.y };
     }
-    const { grow, pulse } = this.r;
+    const { grow, pulse, flowTime } = this.r;
     this.r.grow = 1;
-    this.r.pulse = -1;
+    this.r.pulse = this.r.flowTime = -1;
     this.r.resize(width, height, dpr);
     this.r.draw(m, pixelsPerUnit(height, this.orbit.dist, dpr), exposureZoom(height, this.orbit.dist), this.orbit.dist, "settled", star);
     const image = document.createElement("canvas");
@@ -548,6 +623,7 @@ export class SculptureEngine {
     image.getContext("2d")!.drawImage(this.canvas, 0, 0);
     this.r.grow = grow;
     this.r.pulse = pulse;
+    this.r.flowTime = flowTime;
     // back to the stage's size; resize() asks for the frame
     this.resize();
     return { image, m };
@@ -555,9 +631,11 @@ export class SculptureEngine {
 
   destroy() {
     this.destroyed = true;
-    cancelAnimationFrame(this.raf);
-    window.clearTimeout(this.settleTimer);
+    this.stopFrames();
     this.ro.disconnect();
+    this.io.disconnect();
+    this.motionQuery.removeEventListener("change", this.onMotion);
+    document.removeEventListener("visibilitychange", this.onVisibility);
     const c = this.canvas;
     c.removeEventListener("pointerdown", this.onDown);
     c.removeEventListener("pointermove", this.onMove);

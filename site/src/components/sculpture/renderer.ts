@@ -87,7 +87,7 @@ export function isSoftware(gl: WebGL2RenderingContext): boolean {
 
 export class SculptureRenderer {
   private gl: WebGL2RenderingContext;
-  private progs: Record<"arc" | "lit" | "down4" | "down" | "blur" | "final" | "line", Prog>;
+  private progs: Record<"arc" | "lit" | "flow" | "down4" | "down" | "blur" | "final" | "line", Prog>;
   private arcVao: WebGLVertexArrayObject;
   private litVao: WebGLVertexArrayObject;
   private lineVao: WebGLVertexArrayObject;
@@ -98,7 +98,7 @@ export class SculptureRenderer {
   private lineBuf: WebGLBuffer;
   private markBuf: WebGLBuffer;
   private markVao: WebGLVertexArrayObject;
-  private t: Record<"all" | "hero" | "q1" | "q2" | "s1" | "s2" | "lit" | "l1" | "l2", Target> | null = null;
+  private t: Record<"all" | "hero" | "q1" | "q2" | "s1" | "s2" | "lit" | "l1" | "l2" | "flow", Target> | null = null;
   private dbo: WebGLFramebuffer | null = null;
   private W = 0;
   private H = 0;
@@ -115,6 +115,10 @@ export class SculptureRenderer {
   // the sculpture's own layers (density and bloom) are reused while the view stays the same
   private baseKey = "";
   private baseDirty = true;
+  private litKey = "";
+  private litDirty = true;
+  private focusIndex = -1;
+  private uploadedMark = NaN;
   theme: Theme = "noite";
   /** brightness of the sculpture while something is lit (1 = none lit) */
   recede = 1;
@@ -122,6 +126,8 @@ export class SculptureRenderer {
   grow = 1;
   /** where a pulse of light runs along the lit arcs (0 at the lit verse, 1 at the partners), -1 for none */
   pulse = -1;
+  /** Seconds of visible, unpaused motion; -1 disables the pulse overlay altogether. */
+  flowTime = -1;
   /** the axis place of the mark under the pointer, or null */
   mark: number | null = null;
   /** arcs the device can draw while moving (all, or one of HEAD_LEVELS) */
@@ -136,6 +142,7 @@ export class SculptureRenderer {
     this.progs = {
       arc: program(gl, SH.ARC_VS, SH.ARC_FS),
       lit: program(gl, SH.LIT_VS, SH.LIT_FS),
+      flow: program(gl, SH.FLOW_VS, SH.FLOW_FS),
       down4: program(gl, SH.FULL_VS, SH.DOWN4_FS),
       down: program(gl, SH.FULL_VS, SH.DOWN_FS),
       blur: program(gl, SH.FULL_VS, SH.BLUR_FS),
@@ -260,6 +267,9 @@ export class SculptureRenderer {
 
   setLit(lit: Lit | null) {
     this.lit = lit;
+    this.litDirty = true;
+    this.focusIndex = lit ? lit.flags.findIndex((v, i) => i % 4 === 3 && v > 0) : -1;
+    this.focusIndex = Math.floor(this.focusIndex / 4);
     if (!lit || lit.n === 0) return;
     const gl = this.gl;
     gl.bindVertexArray(this.litVao);
@@ -280,6 +290,8 @@ export class SculptureRenderer {
   setFocus(flags: Float32Array) {
     if (!this.lit || flags.length !== this.lit.n * 4) return;
     this.lit.flags = flags;
+    this.litDirty = true;
+    this.focusIndex = Math.floor(flags.findIndex((v, i) => i % 4 === 3 && v > 0) / 4);
     const gl = this.gl;
     gl.bindBuffer(gl.ARRAY_BUFFER, this.litFlagBuf);
     gl.bufferData(gl.ARRAY_BUFFER, flags, gl.DYNAMIC_DRAW);
@@ -287,6 +299,7 @@ export class SculptureRenderer {
 
   /** The axis, the book boundaries and the bands of the book groups (arcs.ts axisLines). */
   setLines({ axis, ticks, bands }: AxisLines) {
+    this.uploadedMark = NaN;
     const all = new Float32Array(axis.length + ticks.length + bands.length + 8);
     all.set(axis, 0);
     all.set(ticks, axis.length);
@@ -305,6 +318,7 @@ export class SculptureRenderer {
   /** Marks on the axis that glow with the lit arcs (a word's verses): (x, y, z, 1) per vertex, LINES; null for none. */
   setMarks(lines: Float32Array | null) {
     this.marks = lines ? lines.length / 4 : 0;
+    this.litDirty = true;
     if (!lines) return;
     const gl = this.gl;
     gl.bindBuffer(gl.ARRAY_BUFFER, this.markBuf);
@@ -325,6 +339,7 @@ export class SculptureRenderer {
     canvas.height = H;
     this.freeTargets();
     this.baseDirty = true;
+    this.litDirty = true;
     const gl = this.gl;
     const target = (w: number, h: number, linear = true): Target => {
       const tex = gl.createTexture()!;
@@ -352,6 +367,7 @@ export class SculptureRenderer {
       lit: target(W, H),
       l1: target(q(W), q(H)),
       l2: target(q(W), q(H)),
+      flow: target(Math.max(1, W >> 1), Math.max(1, H >> 1)),
     };
     // the density pass writes both targets at once
     this.dbo = gl.createFramebuffer();
@@ -486,45 +502,97 @@ export class SculptureRenderer {
       this.baseDirty = false;
     }
 
-    // ---- lit arcs and their glow
-    gl.bindFramebuffer(gl.FRAMEBUFFER, t.lit.fbo);
-    gl.viewport(0, 0, W, H);
+    // ---- static selected arcs and their glow. Time is deliberately absent from this cache key.
+    const lit = this.lit;
+    const bindLit = (first = 0) => {
+      gl.bindVertexArray(this.litVao);
+      gl.bindBuffer(gl.ARRAY_BUFFER, this.litGeoBuf);
+      gl.vertexAttribPointer(0, 4, gl.FLOAT, false, 16, first * 16);
+      gl.bindBuffer(gl.ARRAY_BUFFER, this.litFlagBuf);
+      gl.vertexAttribPointer(1, 4, gl.FLOAT, false, 16, first * 16);
+    };
+    const litKey = `${key}|${this.grow}`;
+    if (this.litDirty || this.litKey !== litKey) {
+      gl.bindFramebuffer(gl.FRAMEBUFFER, t.lit.fbo);
+      gl.viewport(0, 0, W, H);
+      gl.clearColor(0, 0, 0, 0);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.enable(gl.BLEND);
+      gl.blendFunc(gl.ONE, gl.ONE);
+      if (lit && lit.n > 0) {
+        const p = this.progs.lit;
+        gl.useProgram(p.p);
+        gl.uniformMatrix4fv(p.u.uMVP, false, m);
+        gl.uniform2f(p.u.uRes, W, H);
+        gl.uniform1f(p.u.uHalf, 0.8 * this.dpr);
+        gl.uniform1f(p.u.uFlat, FLAT);
+        gl.uniform1f(p.u.uGrow, this.grow);
+        gl.uniform1f(p.u.uSeg, moving ? 48 : 128);
+        bindLit();
+        gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 2 * ((moving ? 48 : 128) + 1), lit.n);
+      }
+      // A word's marks belong to the cached selection, too.
+      if (this.marks > 0) {
+        const line = this.progs.line;
+        gl.useProgram(line.p);
+        gl.uniformMatrix4fv(line.u.uMVP, false, m);
+        gl.uniform4f(line.u.uC, 1, 0, 0, 1);
+        gl.bindVertexArray(this.markVao);
+        gl.drawArrays(gl.LINES, 0, this.marks);
+      }
+      gl.disable(gl.BLEND);
+      pass(this.progs.down, t.l1, (u) => {
+        tex(0, t.lit.tex);
+        gl.uniform1i(u.uSrc, 0);
+      });
+      blur(t.l1, t.l2, 2.0 * this.dpr);
+      this.litKey = litKey;
+      this.litDirty = false;
+    }
+
+    // ---- bounded moving light. Reuses real geometry; no new graph, uploads or blur passes per pulse frame.
+    gl.bindFramebuffer(gl.FRAMEBUFFER, t.flow.fbo);
+    gl.viewport(0, 0, t.flow.w, t.flow.h);
     gl.clearColor(0, 0, 0, 0);
     gl.clear(gl.COLOR_BUFFER_BIT);
-    const lit = this.lit;
-    if (lit && lit.n > 0) {
-      gl.enable(gl.BLEND);
-      gl.blendFunc(gl.ONE, gl.ONE);
-      const p = this.progs.lit;
+    if (this.flowTime >= 0) {
+      const p = this.progs.flow;
       gl.useProgram(p.p);
       gl.uniformMatrix4fv(p.u.uMVP, false, m);
-      gl.uniform2f(p.u.uRes, W, H);
-      gl.uniform1f(p.u.uHalf, 0.8 * this.dpr);
+      gl.uniform2f(p.u.uRes, t.flow.w, t.flow.h);
+      gl.uniform1f(p.u.uHalf, 3.6 * this.dpr * t.flow.w / W);
       gl.uniform1f(p.u.uFlat, FLAT);
-      gl.uniform1f(p.u.uGrow, this.grow);
+      gl.uniform1f(p.u.uTime, this.flowTime);
       gl.uniform1f(p.u.uPulse, this.pulse);
-      gl.uniform1f(p.u.uSeg, moving ? 48 : 128);
-      gl.bindVertexArray(this.litVao);
-      gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 2 * ((moving ? 48 : 128) + 1), lit.n);
-      gl.disable(gl.BLEND);
-    }
-    // marks on the axis (a word's verses) light the selection channel too, so they glow and take the lit colour
-    if (this.marks > 0) {
+      gl.uniform1f(p.u.uSeg, 128);
       gl.enable(gl.BLEND);
       gl.blendFunc(gl.ONE, gl.ONE);
-      const line = this.progs.line;
-      gl.useProgram(line.p);
-      gl.uniformMatrix4fv(line.u.uMVP, false, m);
-      gl.uniform4f(line.u.uC, 1, 0, 0, 1);
-      gl.bindVertexArray(this.markVao);
-      gl.drawArrays(gl.LINES, 0, this.marks);
+      if (lit && lit.n > 0) {
+        if (this.grow >= 1 && this.pulse >= -0.5) {
+          gl.uniform1i(p.u.uSelected, 1);
+          bindLit();
+          gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 258, Math.min(lit.n, 64));
+          // A focused connection beyond the bounded set still gets its own pulse.
+          if (this.focusIndex >= 64) {
+            bindLit(this.focusIndex);
+            gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 258, 1);
+          }
+        }
+      } else if (!lit) {
+        gl.uniform1i(p.u.uSelected, 0);
+        gl.bindVertexArray(this.arcVao);
+        for (const b of this.buckets) {
+          const count = Math.min(4, strength > 0 ? b.strong[strength - 1] : b.count);
+          if (!count) continue;
+          gl.bindBuffer(gl.ARRAY_BUFFER, this.geoBuf);
+          gl.vertexAttribPointer(0, 4, gl.FLOAT, false, 16, b.first * 16);
+          gl.bindBuffer(gl.ARRAY_BUFFER, this.colorBuf);
+          gl.vertexAttribPointer(1, 4, gl.FLOAT, false, 16, b.first * 16);
+          gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 258, count);
+        }
+      }
       gl.disable(gl.BLEND);
     }
-    pass(this.progs.down, t.l1, (u) => {
-      tex(0, t.lit.tex);
-      gl.uniform1i(u.uSrc, 0);
-    });
-    blur(t.l1, t.l2, 2.0 * this.dpr);
 
     // ---- the frame
     const theme = this.theme;
@@ -535,12 +603,14 @@ export class SculptureRenderer {
       tex(3, t.s1.tex);
       tex(4, t.lit.tex);
       tex(5, t.l1.tex);
+      tex(6, t.flow.tex);
       gl.uniform1i(u.uAll, 0);
       gl.uniform1i(u.uHero, 1);
       gl.uniform1i(u.uQ, 2);
       gl.uniform1i(u.uS, 3);
       gl.uniform1i(u.uLit, 4);
       gl.uniform1i(u.uLitQ, 5);
+      gl.uniform1i(u.uFlow, 6);
       gl.uniform2f(u.uRes, W, H);
       gl.uniform1f(u.uP99, p99);
       gl.uniform1f(u.uH99, h99);
@@ -573,8 +643,11 @@ export class SculptureRenderer {
       const x = this.mark;
       const at = this.lineCount.axis + this.lineCount.ticks + this.lineCount.bands;
       const h = 0.03;
-      gl.bindBuffer(gl.ARRAY_BUFFER, this.lineBuf);
-      gl.bufferSubData(gl.ARRAY_BUFFER, at * 16, new Float32Array([x, -h, 0, 1, x, h, 0, 1]));
+      if (x !== this.uploadedMark) {
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.lineBuf);
+        gl.bufferSubData(gl.ARRAY_BUFFER, at * 16, new Float32Array([x, -h, 0, 1, x, h, 0, 1]));
+        this.uploadedMark = x;
+      }
       const c = LIT[theme];
       gl.uniform4f(line.u.uC, c[0], c[1], c[2], 1);
       gl.drawArrays(gl.LINES, at, 2);

@@ -2,13 +2,21 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useId, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent } from "react";
+import { useEffect, useId, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties, type KeyboardEvent, type PointerEvent } from "react";
 import type { LivingGraphData, LivingNode } from "@/lib/explore/living-graph";
 import styles from "./LivingGraph.module.css";
 
 const W = 850, H = 650;
 const int = (n: number) => n.toLocaleString("pt-BR");
 const clamp = (n: number, min: number, max: number) => Math.max(min, Math.min(max, n));
+const motionQuery = "(prefers-reduced-motion: reduce)";
+const subscribeMotion = (notify: () => void) => {
+  const media = window.matchMedia(motionQuery);
+  media.addEventListener("change", notify);
+  return () => media.removeEventListener("change", notify);
+};
+const reducedMotion = () => window.matchMedia(motionQuery).matches;
+const serverMotion = () => true;
 
 function Arrow() {
   return <svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>;
@@ -21,12 +29,45 @@ export function LivingGraph({ data, compact = false, immersive = false, classNam
   const [exploring, setExploring] = useState(false);
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [lightsPaused, setLightsPaused] = useState(false);
+  const reduceMotion = useSyncExternalStore(subscribeMotion, reducedMotion, serverMotion);
+  const root = useRef<HTMLElement>(null);
   const field = useRef<HTMLDivElement>(null);
   const drag = useRef<{ x: number; y: number; px: number; py: number } | null>(null);
   const help = useId(), panel = useId();
   const byId = useMemo(() => new Map(data.nodes.map((n) => [n.id, n])), [data]);
   const current = byId.get(selected) ?? data.nodes[0];
   const active = hovered ?? (exploring ? selected : null);
+  useEffect(() => {
+    const element = root.current, viewport = field.current;
+    if (!element || !viewport) return;
+    let inView = false;
+    const syncMotion = () => {
+      element.dataset.motion = inView && !document.hidden && !reduceMotion && !lightsPaused ? "running" : "paused";
+    };
+    const observer = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      syncMotion();
+    }, { threshold: 0 });
+    observer.observe(viewport);
+    document.addEventListener("visibilitychange", syncMotion);
+    syncMotion();
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", syncMotion);
+      element.dataset.motion = "paused";
+    };
+  }, [lightsPaused, reduceMotion]);
+  // A bounded set of actual edges keeps the light legible, including on a small screen.
+  const pulseEdges = useMemo(() => data.edges
+    .filter((edge) => active === null || edge.source === active || edge.target === active)
+    .toSorted((a, b) => {
+      const prominent = (edge: typeof a) => Number(
+        (edge.source === data.centre || edge.target === data.centre)
+        && byId.get(edge.source)?.prominent && byId.get(edge.target)?.prominent,
+      );
+      return (active === null ? prominent(b) - prominent(a) : 0) || b.votes - a.votes;
+    }).slice(0, active === null ? 12 : 18), [active, byId, data]);
   const neighbours = useMemo(() => {
     const set = new Set<number>();
     if (active === null) return set;
@@ -89,7 +130,7 @@ export function LivingGraph({ data, compact = false, immersive = false, classNam
   const stopPan = () => { drag.current = null; };
 
   return (
-    <section className={`${styles.root} ${compact ? styles.compact : ""} ${immersive ? styles.immersive : ""} ${className}`} aria-label={`Constelação de ligações de ${data.centreLabel}`} data-living-graph="">
+    <section ref={root} className={`${styles.root} ${compact ? styles.compact : ""} ${immersive ? styles.immersive : ""} ${className}`} aria-label={`Constelação de ligações de ${data.centreLabel}`} data-living-graph="" data-motion="paused">
       <div className={styles.graphTop}>
         <span className={styles.liveDot} aria-hidden="true" />
         <span>{immersive ? "ATLAS DE CONEXÕES" : "Uma história. Muitas conexões."}</span>
@@ -112,10 +153,23 @@ export function LivingGraph({ data, compact = false, immersive = false, classNam
                 className={`${styles.edge}${lit ? ` ${styles.litEdge}` : ""}${active !== null && !lit ? ` ${styles.dimEdge}` : ""}`}
                 style={{ "--edge-strength": 0.2 + 0.42 * Math.sqrt(Math.max(0, edge.votes) / maxVotes), strokeWidth: lit ? 1.7 : 0.65 + Math.sqrt(Math.max(0, edge.votes) / maxVotes) * 0.8 } as CSSProperties} />;
             })}
-            {active !== null && data.edges.filter((e) => e.source === active || e.target === active).slice(0, 7).map((edge) => {
-              const a = byId.get(edge.source === active ? edge.source : edge.target)!, b = byId.get(edge.source === active ? edge.target : edge.source)!;
-              return <path key={`pulse:${edge.source}:${edge.target}`} className={styles.signal} pathLength="100" d={curve(a, b)} />;
-            })}
+            <g className={`${styles.pulses} ${active !== null ? styles.focusedPulses : ""}`}>
+              {pulseEdges.map((edge, index) => {
+                const origin = active ?? data.centre;
+                const reverse = edge.target === origin;
+                const a = byId.get(reverse ? edge.target : edge.source)!, b = byId.get(reverse ? edge.source : edge.target)!;
+                const path = curve(a, b);
+                const phase = ((edge.source * 31 + edge.target * 17) % 100) / 100;
+                const duration = active === null ? 5.8 + phase * 2.6 : 2.8 + phase * 1.3;
+                return <g key={`pulse:${active ?? "ambient"}:${edge.source}:${edge.target}`}
+                  data-light-edge={`${edge.source}:${edge.target}`}
+                  style={{ "--pulse-duration": `${duration}s`, "--pulse-delay": `${-(phase * duration + index * 0.37)}s` } as CSSProperties}>
+                  <path className={`${styles.signal} ${styles.signalGlow}`} pathLength="100" d={path} vectorEffect="non-scaling-stroke" />
+                  <path className={`${styles.signal} ${styles.signalTail}`} pathLength="100" d={path} vectorEffect="non-scaling-stroke" />
+                  <path className={`${styles.signal} ${styles.signalCore}`} pathLength="100" d={path} vectorEffect="non-scaling-stroke" />
+                </g>;
+              })}
+            </g>
           </svg>
           <div className={styles.nodes} role="group" aria-label="Capítulos conectados. Use as setas para percorrer o mapa.">
             {data.nodes.map((node) => {
@@ -147,6 +201,15 @@ export function LivingGraph({ data, compact = false, immersive = false, classNam
           <button type="button" onClick={() => setZoom((z) => Math.max(0.8, z - 0.2))} disabled={zoom <= 0.8} aria-label="Afastar mapa">−</button>
           <button type="button" onClick={reset} aria-label="Voltar à visão inicial" title="Voltar à visão inicial">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true"><path d="M5 8a8 8 0 1 1-1 7M5 3v5h5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          </button>
+          <button type="button" className={styles.lightControl} onClick={() => setLightsPaused((paused) => !paused)}
+            disabled={reduceMotion} aria-pressed={lightsPaused || reduceMotion}
+            aria-label={reduceMotion ? "Luzes paradas: movimento reduzido" : lightsPaused ? "Ativar luzes" : "Pausar luzes"}
+            title={reduceMotion ? "Luzes paradas: movimento reduzido" : lightsPaused ? "Ativar luzes" : "Pausar luzes"}>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
+              {lightsPaused || reduceMotion ? <path d="m9 5 10 7-10 7Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+                : <path d="M9 5v14M15 5v14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />}
+            </svg>
           </button>
         </div>
         <p className={styles.hint} id={help}>Passe o mouse. Toque. Siga a luz.<span className="visually-hidden"> Use as setas do teclado para percorrer capítulos, Enter para selecionar e Escape para recomeçar. Arraste o fundo com o mouse para mover o mapa.</span></p>
