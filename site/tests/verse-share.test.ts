@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { VerseActions } from "../src/components/assistant/VerseActions";
-import { verseActionFromEvent } from "../src/components/assistant/StudyHost";
+import { verseActionFromEvent } from "../src/components/assistant/verse-intent-events";
 import { canShareImage, prepareVerseImage, verseShareOptions } from "../src/components/sharing/share-options";
 import { SITE_URL } from "../src/lib/site-identity";
 import { GET } from "../src/app/og/route";

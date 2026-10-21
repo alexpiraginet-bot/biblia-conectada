@@ -207,7 +207,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
   const [copied, setCopied] = useState(false);
   const [sheetFull, setSheetFull] = useState(false);
   const [fetched, setFetched] = useState<{ gv: number; list: Partner[] } | null>(null);
-  const [verseBody, setVerseBody] = useState<{ gv: number; text: string } | null>(null);
+  const [verseBody, setVerseBody] = useState<{ gv: number; text: string | null } | null>(null);
   const [snippets, setSnippets] = useState<ReadonlyMap<number, string>>(new Map());
   // 0: every arc; 1..3: only the arcs with initial.strength[step - 1].min votes or more
   const [strength, setStrength] = useState(0);
@@ -218,7 +218,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
   const [pathFound, setPathFound] = useState<{ key: string; hops: Hop[] | null } | { key: string; error: true } | null>(null);
   const [wordFound, setWordFound] = useState<{ key: string; result: WordResult | null } | { key: string; error: true } | null>(null);
   const [saving, setSaving] = useState<"idle" | "busy" | "saved" | "shared" | "error">("idle");
-  // a new try after the network failed a path or a word
+  // a new try after the network failed a verse, path or word
   const [retry, setRetry] = useState(0);
 
   // one search in view: the top bar's entry steps aside while this field shows (page-search.ts)
@@ -636,11 +636,11 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
     let alive = true;
     verseText(verse)
       .then((text) => alive && setVerseBody({ gv: verse, text }))
-      .catch(() => undefined);
+      .catch(() => alive && setVerseBody({ gv: verse, text: null }));
     return () => {
       alive = false;
     };
-  }, [verse]);
+  }, [verse, retry]);
   useEffect(() => {
     const want = (sel?.kind === "chapter"
       ? chapterFeatured.slice(0, 6).map((link) => link.there)
@@ -1232,6 +1232,8 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
                 nt={data ? data.nt[sel.gv] === 1 : null}
                 partners={partners}
                 text={verseBody?.gv === sel.gv ? verseBody.text : null}
+                textFailed={verseBody?.gv === sel.gv && verseBody.text === null}
+                onTextRetry={() => { setVerseBody(null); setRetry((r) => r + 1); }}
                 snippets={snippets}
                 filter={filter}
                 onFilter={(f) => {

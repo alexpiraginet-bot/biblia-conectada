@@ -17,9 +17,13 @@
 .formats label:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
 .formats span { font-weight: 600; }
 .formats small { color: var(--ink-2); font-size: 11px; }
+.previewToggle { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 44px; margin-top: 8px; padding: 8px 0; border: 0; color: var(--ink); background: transparent; cursor: pointer; font: 600 13px/1.4 var(--font-ui), sans-serif; text-decoration: underline; text-underline-offset: 4px; }
+.previewToggle span { font-size: 19px; text-decoration: none; }
 .preview { display: flex; justify-content: center; margin: 14px 0; overflow: hidden; border: 1px solid var(--line); border-radius: 10px; background: #211018; }
+.previewToggle + .preview { margin-top: 0; }
 .preview img { display: block; width: 100%; height: auto; max-height: 220px; object-fit: contain; }
 .preview[data-format="story"] img { width: auto; max-width: 100%; }
+.preview[data-expanded] img { width: 100%; max-height: none; height: auto; }
 .ready { position: sticky; bottom: -20px; padding: 8px 0; background: var(--surface); }
 .message { min-height: 20px; color: var(--ink-2); font-size: 12px; margin: 12px 0 0; }
 .url { width: 100%; min-height: 44px; margin-top: 10px; padding: 8px; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; }

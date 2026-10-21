@@ -5,6 +5,8 @@ import { SiteHeader } from "@/components/header/SiteHeader";
 import { THEME_COLOR, THEME_SCRIPT } from "@/components/header/theme";
 import { SearchHost } from "@/components/search/SearchHost";
 import { StudyHost } from "@/components/assistant/StudyHost";
+import { VERSE_INTENT_SCRIPT } from "@/components/assistant/verse-intent-script";
+import { VerseIntentFeedback } from "@/components/assistant/VerseIntentFeedback";
 import { InstallHost } from "@/components/install/InstallHost";
 import { PAGE_SEARCH_SCRIPT } from "@/components/search/page-search-script";
 import { SectionRail, SiteShell, TabBar } from "@/components/shell/NavLinks";
@@ -68,11 +70,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-title" content={SITE_SHORT_NAME} />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <link rel="apple-touch-icon" href="/apple-icon.png" sizes="180x180" type="image/png" />
+        <link rel="apple-touch-icon" href="/icons/apple-touch-icon-180-v2.png" sizes="180x180" type="image/png" />
         <link rel="manifest" href="/manifest.webmanifest" />
-        <script dangerouslySetInnerHTML={{ __html: `${THEME_SCRIPT};${PAGE_SEARCH_SCRIPT}` }} />
+        <script dangerouslySetInnerHTML={{ __html: `${THEME_SCRIPT};${PAGE_SEARCH_SCRIPT};${VERSE_INTENT_SCRIPT}` }} />
       </head>
       <body className="bc-root">
+        <VerseIntentFeedback />
         <a className="skip-link" href="#conteudo">
           Pular para o conteúdo
         </a>

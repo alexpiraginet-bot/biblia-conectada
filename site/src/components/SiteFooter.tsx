@@ -14,6 +14,8 @@ export function SiteFooter() {
         {" · "}
         <Link href="/dados">Dados abertos</Link>
         {" · "}
+        <Link href="/sobre#instalar">Instalar no iPhone</Link>
+        {" · "}
         <a href="https://github.com/alexpiraginet-bot/biblia-conectada">Código-fonte</a>
       </p>
     </footer>

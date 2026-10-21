@@ -81,7 +81,9 @@ export function PanelShell({
         router.push(chapterPath, { scroll: false });
         return;
       }
-      const box = sheet.current;
+      // A pending verse-action fallback sits above the sheet and must remain reachable by keyboard.
+      const pending = document.querySelector<HTMLElement>("#verse-intent-feedback:not([hidden]), [data-verse-opening]");
+      const box = pending?.getClientRects().length ? pending : sheet.current;
       if (e.key !== "Tab" || !box) return;
       // only the ends matter: the endless list can hold hundreds of links, most of them far from the screen
       const items = box.querySelectorAll<HTMLElement>(FOCUSABLE);

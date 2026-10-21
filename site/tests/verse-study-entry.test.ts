@@ -27,6 +27,7 @@ describe("verse study entry points", () => {
     const origin = gv("jeremias", 17, 8), other = gv("salmos", 1, 3);
     const html = renderToStaticMarkup(createElement(VersePanel, {
       gv: origin, nt: false, partners: [{ gv: other, votes: 1 }],
+      textFailed: false, onTextRetry: () => {},
       text: bookFile("jeremias").chapters[16][7].t, snippets: new Map([[other, bookFile("salmos").chapters[0][2].t]]),
       filter: "todas", onFilter: () => {}, listed: [{ gv: other, votes: 1, i: 0 }], counts: { todas: 1, antigo: 1, novo: 0 },
       shown: 20, onMore: () => {}, focus: 0, onFocus: () => {}, onChapter: () => {}, copied: false, onCopy: () => {},
