@@ -4,11 +4,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { DeviceNote } from "@/components/community/DeviceNote";
 import { PontePlayer } from "@/components/community/PontePlayer";
+import { PonteHelp } from "@/components/community/PonteHelp";
 import styles from "@/components/community/community.module.css";
 import { Crumbs } from "@/components/Crumbs";
 import { Icon } from "@/components/icons";
 import { NOT_FOUND_TITLE } from "@/lib/missing";
 import { ponteBuilt, verseInfo } from "@/lib/community/data";
+import { pontePractice } from "@/lib/community/ponte-tutorial";
 
 export const ensureStatic = "navigation";
 
@@ -40,6 +42,7 @@ export default async function PonteArchivePage({ params }: PageProps<"/ponte/[n]
       <header className={styles.head}>
         <Crumbs label="Caminho" className={styles.crumbs} items={[{ label: "Ponte", href: "/ponte" }, { label: `nº ${b.n}` }]} />
         <h1 className="bc-display">Ponte nº {b.n}</h1>
+        <PonteHelp example={await pontePractice()} />
       </header>
       <div className={styles.section}>
         <PontePlayer intro={b} builtThrough={ponteBuilt.builtThrough} />
