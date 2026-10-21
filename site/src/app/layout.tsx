@@ -44,8 +44,6 @@ export const metadata: Metadata = {
   ...shareMetadata({ title: SITE_NAME, description: SITE_DESCRIPTION, path: "/" }),
   metadataBase: new URL(SITE_URL),
   title: { default: SITE_NAME, template: `%s · ${SITE_NAME}` },
-  applicationName: SITE_NAME,
-  appleWebApp: { capable: true, title: SITE_SHORT_NAME, statusBarStyle: "default" },
   formatDetection: { telephone: false },
 };
 
@@ -63,6 +61,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="pt-BR" className={`${ui.variable} ${display.variable} ${reading.variable}`} suppressHydrationWarning>
       <head>
+        {/* Installation identity is invariant across routes. Keep it in the static shell so
+            Safari can discover it before dynamic passage metadata, without bypassing the CDN.
+            These tags deliberately have no duplicate in the Metadata API/file conventions. */}
+        <meta name="application-name" content={SITE_NAME} />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content={SITE_SHORT_NAME} />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <link rel="apple-touch-icon" href="/apple-icon.png" sizes="180x180" type="image/png" />
+        <link rel="manifest" href="/manifest.webmanifest" />
         <script dangerouslySetInnerHTML={{ __html: `${THEME_SCRIPT};${PAGE_SEARCH_SCRIPT}` }} />
       </head>
       <body className="bc-root">

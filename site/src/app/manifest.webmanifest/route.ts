@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_SHORT_NAME } from "@/lib/site-identity";
 
-export default function manifest(): MetadataRoute.Manifest {
-  return {
+export function GET() {
+  const manifest: MetadataRoute.Manifest = {
     id: "/",
     name: SITE_NAME,
     short_name: SITE_SHORT_NAME,
@@ -26,4 +26,5 @@ export default function manifest(): MetadataRoute.Manifest {
       { name: "Caminhos de Jesus", short_name: "Mapa", url: "/caminhos", description: "Siga as passagens pelo mapa." },
     ],
   };
+  return Response.json(manifest, { headers: { "Content-Type": "application/manifest+json" } });
 }
