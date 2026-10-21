@@ -40,3 +40,15 @@ Prova adicional anterior à própria hidratação: quatro cenários com todos os
 - Labels secundários do 3D: refinamento posterior de tamanho e colisão.
 - Trechos das conexões no céu ainda usam uma busca agrupada que pode descartar os trechos do grupo se uma requisição falhar; o retry implementado nesta rodada cobre o versículo de origem selecionado.
 - Lighthouse móvel, desempenho de GPU e destinos reais do compartilhamento nativo não foram medidos nesta rodada.
+
+## Publicação
+
+PR #26 integrado em `45290dab4abec0e17379a62656d4c01d438f0df9`. Produção Vercel `dpl_8R2qKd9hchfhQsM2BdLNMzZvXQqy` READY, com o domínio `alexpiraginet-bot-biblia-conectada.vercel.app` presente nos aliases. Prévia do ajuste final `dpl_GrXXeWATWeqmT7x4ZtkVLkoSMMSN` também READY; GET autenticado de Sobre confirmou nome, novo ícone e seção de instalação.
+
+Às 13:11 UTC, seis GETs independentes no domínio principal passaram: páginas de versículo e céu HTTP200/HIT, identidade no head, manifesto com o nome completo e PNGs Apple/Story/horizontal íntegros. SHA e dimensões preservados. `final-audits-http-production.json` guarda a evidência.
+
+Medição do JavaScript inicial **publicado**, gzip9: home **166.145 bytes**, arcos **168.180 bytes**, João 3:16 **158.004 bytes**, todos dentro do limite. A home anterior tinha 169.051 bytes e ultrapassava o teto em 91; a redução pública é de 2.906 bytes. Como na medição local, o custo inline e os módulos adiados ficam discriminados separadamente. `final-audits-public-budget.json` registra cada script, HTML e estado do cache; números de tamanho não são promessas de latência.
+
+Smoke público aprovado: seis primeiros cliques mantiveram `/joao/3/16`, abriram o modal e devolveram foco ao fechar, sem erro HTTP/JavaScript. A janela temporal ocorreu antes do browser de UI. `performance-audit/production/intent-release-qa.json` guarda os casos; os tempos desta amostra sem throttle não representam rede móvel.
+
+UI pública também aprovada em `production/ui-audit/final-public-smoke.json`: prévia de Stories de 315 × 560 px, com PNG real de 1080 × 1920 e ações fixas; rodapé → `/sobre#instalar` mostra os quatro passos; nome e novo ícone confirmados no DOM. O agente principal inspecionou `final-public-preview-375-noite.png`. Nenhuma chamada paga ou envio externo. A instalação no iPhone físico permanece pendente de confirmação. Servidor temporário de QA encerrado.
