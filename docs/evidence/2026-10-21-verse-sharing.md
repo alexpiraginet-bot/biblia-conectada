@@ -35,3 +35,15 @@ Relatório final e 12 capturas: `C:/Users/R2/.codex/visualizations/biblia-conect
 A crítica com `gemma4:12b-it-qat` local apontou espera de geração, foco e diferença entre aparelhos. Esses pontos orientaram os estados de preparação, a revisão independente e o fallback; a resposta do modelo não foi usada como prova de funcionamento.
 
 O compartilhamento por arquivos depende de suporte e permissões do navegador. O segundo gesto explícito preserva a ativação exigida por [`navigator.share`](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share), e a oferta do botão é determinada por [`navigator.canShare`](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/canShare). O teste com mocks não representa uma publicação real nem certifica o menu de um iPhone físico.
+
+## Publicação
+
+PR #25 integrado em `f4ad6ef1c9d5364bf52bd34323346c2d13d6fb2a`. Vercel `dpl_3dAQxQ1fqYsnXLEhuWTtUUNSNTHF` READY, com o alias público confirmado em 21/10 às 12:22 UTC. A fonte publicada é idêntica à validada localmente.
+
+Seis GETs independentes no domínio público passaram: página do versículo, céu, manifesto, ícone Apple e PNGs horizontal/Stories. Nome e ícone no head, manifesto completo e hash do Apple PNG preservados. O Story público tem os mesmos 179150 bytes e SHA256 `604b68b67ae8d4a0c8d5d36eecbb5f4ca3f3a1357ceec927af79b2266f40b391` do aprovado localmente. Relatório: `C:/Users/R2/.codex/visualizations/biblia-conectada-20261021/sharing-production-http.json`.
+
+Smoke público em 375 px: geração da imagem, fechamento, URL, foco e scroll preservados, sem overflow, erro JS ou envio externo. Cache HIT/public e identidade única no head. Evidências em `C:/Users/R2/.codex/visualizations/biblia-conectada-20261020/verse-social-sharing/production/`: `production-share-smoke.json`, `public-share-375-noite.png` e `public-joao-3-16-story.png`.
+
+O primeiro harness expirou esperando o diálogo e não registrou a URL final; esse registro foi preservado em `production-share-smoke-first-attempt.json`. A rodada final aguardou sinais concretos de hidratação. Uma reprodução adicional em navegador novo com a sequência original abriu o diálogo sem falhas de assets, erros ou mudança de URL (`cold-click-diagnostic.json`). A falha inicial não foi reproduzida nem atribuída conclusivamente a uma causa. Alex solicitou auditorias de performance, UI e UX após esta rodada; o comportamento da primeira interação será reavaliado nessa auditoria.
+
+Alex enviou nova captura de instalação no Safari real ainda com a letra B: a entrega dos arquivos foi confirmada, mas o ícone no aparelho permanece uma investigação separada. Não alegar que a instalação física está resolvida.
