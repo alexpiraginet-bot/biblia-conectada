@@ -27,6 +27,12 @@ Prévia final `6f7e046`: Vercel `dpl_5ak3YmDEHN2qxKFTMx9SkgwDKAxW`, **READY**, N
 
 Após a extração do engine, smoke Playwright em 375 e 1440 passou: câmera, zoom, arraste, seleção, limpar query, navegação para fora e Voltar, reload da query e ausência de overflow. Sem erros de página nem POST de IA; `engine-smoke.json`. A seleção usa `replaceState` deliberadamente; o teste não confunde essa operação com uma nova entrada de histórico.
 
+## Publicação
+
+PR #22 integrado por squash em `9049d1e2a7894c4e00e31a4c3e9a1272b0792a2e`, conforme a autorização de Alex para integrar e publicar. Produção Vercel `dpl_vD3AMM92L5KbBijWNXmf8H2x9NQp`, **READY**, alias público `https://alexpiraginet-bot-biblia-conectada.vercel.app` confirmado, sem erro de alias. Em 21/10/2026 UTC (20/10 à noite em Brasília), o domínio público passou cinco páginas com títulos/Apple metadata/capas PNG 1200 × 630, manifesto e quatro ícones. Os hashes de cada ícone publicado coincidem com os arquivos aprovados no repositório; detalhes em `production-release.json` na pasta externa.
+
+Playwright no domínio público, iPhone 375 × 812 emulado: aviso visível, três passos, diálogo 339 × 537, foco interno e nome/ícone corretos; zero erros JS, console, rede, overflow ou POST. Capturas `production/iphone-375-notice.png` e `production/iphone-375-guide.png` inspecionadas; relatório `production/iphone-guide-production.json`. A espera pública de 15,7 s inclui navegação e carregamento, além do atraso de 7 s configurado no componente.
+
 ## Evidência visual e limites
 
 Ícone mestre, recorte maskable e PNGs OG de home, João 3:16, referência longa e conexão inspecionados pelo agente principal. O símbolo cabe na máscara e o texto não ultrapassa a imagem. Parecer auxiliar de Gemma via Ollama destacou cortes, caches e distinção entre nome instalado e título da página; as verificações reais, e não o parecer, sustentam o resultado.
