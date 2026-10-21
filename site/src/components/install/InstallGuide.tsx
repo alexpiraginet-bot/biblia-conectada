@@ -4,6 +4,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { ArcMark } from "../header/ArcMark";
 import { dismissInstall, installDismissed } from "./policy";
 import styles from "./install.module.css";
+import { INSTALL_URL } from "@/lib/site-identity";
 
 function InstallSteps({ onClose }: { onClose: (remember?: boolean) => void }) {
   const dialog = useRef<HTMLDialogElement>(null);
@@ -34,7 +35,8 @@ function InstallSteps({ onClose }: { onClose: (remember?: boolean) => void }) {
       <div><p>No iPhone e no iPad</p><h2 id={title}>A Bíblia, sempre por perto.</h2></div>
       <button type="button" className={styles.close} aria-label="Fechar instruções" onClick={() => close()}>×</button>
     </header>
-    <p className={styles.intro}>Abra este site no <strong>Safari</strong> e siga os passos:</p>
+    <p className={styles.intro}>Abra nossa página de instalação no <strong>Safari</strong>. Ela mostra o ícone antes de adicionar o app.</p>
+    <a className={styles.installLink} href={INSTALL_URL}>Abrir página de instalação <span aria-hidden="true">→</span></a>
     <ol className={styles.steps}>
       <li><span aria-hidden="true">1</span><div>Toque em <strong>Compartilhar</strong> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="M12 15V3m-4 4 4-4 4 4M7 10H4v11h16V10h-3" /></svg><small>O quadrado com a seta para cima; pode estar no menu da página.</small></div></li>
       <li><span aria-hidden="true">2</span><div>Escolha <strong>Adicionar à Tela de Início</strong>.<small>Role as opções de compartilhamento para encontrar.</small></div></li>

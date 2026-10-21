@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { credits } from "@/lib/data";
 import { getTranslation } from "@/lib/translations";
+import { INSTALL_URL } from "@/lib/site-identity";
 
 // Credits required by CLAUDE.md rule 2, in the exact words of ATTRIBUTION.md (the BLIVRE line is read from that
 // file by the data pipeline). The full text is on /sobre.
@@ -17,7 +18,7 @@ export function SiteFooter() {
         {" · "}
         <Link href="/dados">Dados abertos</Link>
         {" · "}
-        <Link href="/sobre#instalar">Instalar no iPhone</Link>
+        <a href={INSTALL_URL}>Instalar no iPhone</a>
         {" · "}
         <a href="https://github.com/alexpiraginet-bot/biblia-conectada">Código-fonte</a>
       </p>
