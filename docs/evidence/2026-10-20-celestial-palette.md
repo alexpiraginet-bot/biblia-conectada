@@ -11,3 +11,11 @@ Depois da PR20, Alex forneceu duas referências e pediu um meio-termo mais discr
 - Renderizações Noite: AVIF 25,5/142,6 kB e WebP 46,2/268,0 kB, celular/desktop; todas abaixo das metas do script. As quatro renderizações passaram pelos checks de dimensão, fundo e presença de cores quentes/frias.
 
 As capturas `rainbow-motion/` da PR20 são intermediárias e não devem ser usadas como aparência final do novo Motion. A produção audiovisual continua na sessão separada. Nenhuma chamada paga ou mudança de credenciais foi feita nesta etapa.
+
+## Validação
+
+- Build completo aprovado: 596 testes em 38 arquivos, TypeScript, geração de rotas e `check-dist`. ESLint e `git diff --check` aprovados.
+- Todas as rotas respeitam o teto de 165 KiB: home 168.509 bytes gzip; `/arcos` 168.498 bytes gzip.
+- Playwright: oito casos home/3D em 375/1440 px e Dia/Noite, mais quatro fallbacks sem WebGL. Todos os checks passaram: distância inicial, três modos distintos, fundo neutro, pausa estável, pulsos ativos, João 3:16 abrindo/fechando e ausência de overflow. Zero erros de página ou chamadas pagas. Relatório `C:/Users/R2/.codex/visualizations/biblia-conectada-20261020/celestial-qa.json`.
+- Agent Browser: captura da home em 1440 × 900 aberta e inspecionada, `celestial-agent-browser-1440.png`. Mestres e imagens de navegador foram revisados separadamente.
+- Parecer auxiliar local de Gemma QAT recomendou espaço negativo e hierarquia de opacidade. O resultado foi decidido pelas referências de Alex e conferido nos renders; o parecer não substitui os testes.
