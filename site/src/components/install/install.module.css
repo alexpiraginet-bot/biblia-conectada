@@ -64,6 +64,7 @@
 .header h2 { margin: 0; font-family: var(--font-display); font-size: 28px; font-weight: 440; line-height: 1.1; }
 .header .close { margin-top: -10px; margin-right: -10px; }
 .intro { margin: 20px 0; color: var(--ink-2); }
+.installLink { display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 44px; margin: 0 0 20px; padding: 10px 16px; border-radius: var(--radius-pill); background: var(--action-fill); color: var(--on-action); font-weight: 600; text-decoration: none; }
 .steps { display: grid; gap: 17px; margin: 0; padding: 0; list-style: none; }
 .steps li { display: flex; align-items: flex-start; gap: 11px; }
 .steps li > span { display: grid; place-items: center; flex: 0 0 28px; height: 28px; border: 1px solid var(--line-strong); border-radius: 50%; color: var(--accent); font-size: 13px; }
