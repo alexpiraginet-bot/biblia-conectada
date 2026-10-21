@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { VerseStudyLink } from "@/components/assistant/VerseStudyLink";
+import { VerseActions } from "@/components/assistant/VerseActions";
 import Image from "next/image";
 import { useEffect, useId, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties, type KeyboardEvent, type PointerEvent } from "react";
 import type { LivingGraphData, LivingNode } from "@/lib/explore/living-graph";
@@ -224,7 +224,7 @@ export function LivingGraph({ data, compact = false, immersive = false, classNam
         </div>
         <h2 className={styles.previewTitle} aria-live="polite" aria-atomic="true">{current.verseLabel}</h2>
         <p className={styles.scripture}>{current.text}</p>
-        <VerseStudyLink path={current.versePath} label={current.verseLabel} />
+        <VerseActions path={current.versePath} label={current.verseLabel} />
         {immersive && <div className={styles.relatedPreview}><p>ESTE CAPÍTULO SE CONECTA A</p>{connections.slice(0, 3).map((edge) => {
           const partner = byId.get(edge.source === selected ? edge.target : edge.source)!;
           return <button key={partner.id} type="button" onClick={() => choose(partner.id)}><span>{partner.label}<small>{int(edge.pairs)} {edge.pairs === 1 ? "referência cruzada" : "referências cruzadas"}</small></span><Arrow /></button>;

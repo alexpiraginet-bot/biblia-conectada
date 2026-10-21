@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { VerseStudyLink } from "@/components/assistant/VerseStudyLink";
+import { VerseActions } from "@/components/assistant/VerseActions";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import {
   CHRONOLOGY_FALLBACK_IMAGE,
@@ -96,7 +96,7 @@ function Passage({ passage }: { passage: LoadedGospelPassage }) {
       </div>
       <blockquote>{passage.verses.map((verse) => (
         <p key={verse.number}><sup>{verse.number}</sup>{verse.text}<br />
-          <VerseStudyLink path={`/${passage.gospel}/${passage.chapter}/${verse.number}`}
+          <VerseActions path={`/${passage.gospel}/${passage.chapter}/${verse.number}`}
             label={`${GOSPELS.find((item) => item.id === passage.gospel)!.label} ${passage.chapter}:${verse.number}`} />
         </p>
       ))}</blockquote>

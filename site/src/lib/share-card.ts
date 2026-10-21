@@ -78,12 +78,12 @@ function side(segment: string): Passage | null {
   return parsed ? passage([parsed.slug, String(parsed.chapter), ...(parsed.verse ? [String(parsed.verse)] : [])]) : null;
 }
 
-async function passageCard(path: string, selected: Passage, eyebrow?: string): Promise<ShareCard> {
+async function passageCard(path: string, selected: Passage, eyebrow?: string, excerptLimit = 205): Promise<ShareCard> {
   const chapter = selected.chapter ?? 1, verse = selected.verse ?? 1;
   return {
     path, kind: "passage", title: selected.reference,
     eyebrow: eyebrow ?? (selected.verse ? "UMA PASSAGEM. NOVAS CONEXÕES." : selected.chapter ? "LEIA O CAPÍTULO" : selected.book.testament === "AT" ? "ANTIGO TESTAMENTO" : "NOVO TESTAMENTO"),
-    description: shareExcerpt(await verseText(selected.book.slug, chapter, verse)),
+    description: shareExcerpt(await verseText(selected.book.slug, chapter, verse), excerptLimit),
     source: `Bíblia Livre (BLIVRE) · ${selected.book.name} ${chapter}:${verse}`,
   };
 }
@@ -97,12 +97,12 @@ function atVerse(gv: number): Passage {
   return { book, chapter, verse, reference: `${book.name} ${chapter}:${verse}` };
 }
 
-async function skyCard(path: string, ref: string): Promise<ShareCard> {
+async function skyCard(path: string, ref: string, excerptLimit: number): Promise<ShareCard> {
   const selection = parseHash(ref);
-  if (selection?.kind === "verse") return passageCard(path, atVerse(selection.gv), "NO CÉU DE CONEXÕES");
+  if (selection?.kind === "verse") return passageCard(path, atVerse(selection.gv), "NO CÉU DE CONEXÕES", excerptLimit);
   if (selection?.kind === "chapter") {
     const { book, chapter } = grid.locateChapter(selection.ci);
-    return passageCard(path, { book, chapter, reference: `${book.name} ${chapter}` }, "NO CÉU DE CONEXÕES");
+    return passageCard(path, { book, chapter, reference: `${book.name} ${chapter}` }, "NO CÉU DE CONEXÕES", excerptLimit);
   }
   if (selection?.kind === "path") return pairCard(path, atVerse(selection.from), atVerse(selection.to), "UM CAMINHO ENTRE PASSAGENS");
   if (selection?.kind === "word") {
@@ -118,17 +118,17 @@ async function skyCard(path: string, ref: string): Promise<ShareCard> {
 }
 
 /** Resolves only known routes and existing source records. Query strings cannot supply image content. */
-export async function resolveShareCard(raw: string): Promise<ShareCard | null> {
+export async function resolveShareCard(raw: string, excerptLimit: 205 | 500 = 205): Promise<ShareCard | null> {
   const parsed = parseSharePath(raw);
   if (!parsed) return null;
   const { pathname: path, ref } = parsed;
   if ((path === "/arcos" || path === "/arcos/plano") && ref !== null) {
-    return skyCard(path, ref);
+    return skyCard(path, ref, excerptLimit);
   }
   if (Object.hasOwn(sections, path)) return { path, ...sections[path] };
   const parts = path.slice(1).split("/");
   const selected = passage(parts);
-  if (selected) return passageCard(path, selected);
+  if (selected) return passageCard(path, selected, undefined, excerptLimit);
   if (parts[0] === "conexao" && parts.length === 3) {
     const a = side(parts[1]), b = side(parts[2]);
     return a && b ? pairCard(path, a, b) : null;
@@ -136,7 +136,7 @@ export async function resolveShareCard(raw: string): Promise<ShareCard | null> {
   if (parts[0] === "explorar") {
     const a = passage(parts.slice(1, 3));
     if (!a?.chapter || (parts.length !== 3 && parts.length !== 5)) return null;
-    if (parts.length === 3) return passageCard(path, a, "ATLAS DE CONEXÕES");
+    if (parts.length === 3) return passageCard(path, a, "ATLAS DE CONEXÕES", excerptLimit);
     const b = passage(parts.slice(3, 5));
     return b?.chapter ? pairCard(path, a, b, "ATLAS DE CONEXÕES") : null;
   }
