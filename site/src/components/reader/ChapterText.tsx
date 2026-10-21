@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { VerseStudyLink } from "@/components/assistant/VerseStudyLink";
+import { VerseActions } from "@/components/assistant/VerseActions";
 import { formatInt } from "@/lib/canon/text";
 import type { Book } from "@/lib/canon/types";
 import type { VerseData } from "@/lib/reading";
@@ -38,7 +38,7 @@ export function ChapterText({ book, chapter, verses }: { book: Book; chapter: nu
                 <span className="i i-arc" />
                 {formatInt(n)}
               </Link>
-              {" "}<VerseStudyLink path={`/${book.slug}/${chapter}/${v.n}`} label={`${book.name} ${chapter}:${v.n}`} />
+              {" "}<VerseActions path={`/${book.slug}/${chapter}/${v.n}`} label={`${book.name} ${chapter}:${v.n}`} />
             </span>
           </li>
         );

@@ -60,15 +60,49 @@ function Card({ card }: { card: ShareCard }) {
   </div>;
 }
 
+/** The whole reading area stays clear of the top/bottom controls in a 9:16 Story. */
+function StoryCard({ card }: { card: ShareCard }) {
+  const longestLine = Math.max(...card.title.split("\n").map((line) => line.length));
+  const titleSize = longestLine > 30 ? 64 : longestLine > 22 ? 76 : 92;
+  const textSize = card.description.length > 350 ? 46 : card.description.length > 240 ? 52 : card.description.length > 140 ? 62 : 76;
+  const shortened = card.source && card.description.endsWith("…");
+  return <div style={{ width: "100%", height: "100%", display: "flex", position: "relative", background: "#211018", color: "#fff5e6", fontFamily: "Figtree", fontWeight: 500 }}>
+    <div style={{ display: "flex", position: "absolute", left: 32, top: 32, width: 1016, height: 1856, border: "1px solid #5d443b", borderRadius: 32, background: "#101014", overflow: "hidden" }}>
+      <ConnectionMotif />
+      <svg width="840" height="380" viewBox="0 0 840 380" style={{ position: "absolute", bottom: 0, left: 0 }} fill="none">
+        <path d="M-80 330C100 -60 680 -70 920 330M-80 330C180 30 620 30 920 330M-80 330C250 130 550 130 920 330" stroke="#e5c48c" strokeWidth="1.5" opacity=".16" />
+        <circle cx="132" cy="161" r="4" fill="#e5c48c" opacity=".5" />
+      </svg>
+    </div>
+    <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", position: "relative", padding: "252px 88px 260px" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 20, flexShrink: 0, paddingBottom: 34, borderBottom: "1px solid #5d443b" }}>
+        <BrandMark /><span style={{ fontSize: 40, letterSpacing: -1 }}>{SITE_NAME}</span>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", flexGrow: 1, padding: "40px 0" }}>
+        <div style={{ display: "flex", color: "#e5c48c", fontSize: 23, lineHeight: 1.4, letterSpacing: 3, marginBottom: 28 }}>{card.eyebrow}</div>
+        <div style={{ display: "flex", fontFamily: "Newsreader", fontWeight: 400, fontSize: titleSize, lineHeight: 1.08, letterSpacing: -1.5, whiteSpace: "pre-line" }}>{card.title}</div>
+        <div style={{ display: "flex", marginTop: 42, fontFamily: "Newsreader", fontWeight: 400, fontSize: textSize, lineHeight: 1.33, color: "#e0d5cc" }}>{card.source ? `“${card.description}”` : card.description}</div>
+        {shortened && <div style={{ display: "flex", marginTop: 24, fontSize: 23, color: "#b8aaa6" }}>Trecho · Leia o versículo completo no site.</div>}
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", flexShrink: 0, gap: 18, paddingTop: 28, borderTop: "1px solid #5d443b" }}>
+        <div style={{ display: "flex", fontSize: 24, lineHeight: 1.4, color: "#b8aaa6" }}>{card.source ?? "Uma história. Tudo se conecta."}</div>
+        <div style={{ display: "flex", fontSize: 26, color: "#e5c48c" }}>Leia. Descubra. Conecte.</div>
+      </div>
+    </div>
+  </div>;
+}
+
 /** Server-only PNG: no remote images, arbitrary text, browser canvas or user secrets. */
 export async function GET(request: Request) {
   const url = new URL(request.url);
+  const format = url.searchParams.get("format") ?? "landscape";
+  if (url.searchParams.getAll("format").length > 1 || (format !== "landscape" && format !== "story")) return new Response("Invalid share format", { status: 400 });
   if (url.searchParams.getAll("path").length > 1) return new Response("Invalid share path", { status: 400 });
-  const card = await resolveShareCard(url.searchParams.get("path") ?? "/");
+  const card = await resolveShareCard(url.searchParams.get("path") ?? "/", format === "story" ? 500 : 205);
   if (!card) return new Response("Share page not found", { status: 404 });
   const [figtree, newsreader] = await fonts;
-  return new ImageResponse(<Card card={card} />, {
-    width: 1200, height: 630,
+  return new ImageResponse(format === "story" ? <StoryCard card={card} /> : <Card card={card} />, {
+    width: format === "story" ? 1080 : 1200, height: format === "story" ? 1920 : 630,
     fonts: [
       { name: "Figtree", data: figtree, weight: 500, style: "normal" },
       { name: "Newsreader", data: newsreader, weight: 400, style: "normal" },

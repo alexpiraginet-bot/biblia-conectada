@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { VerseStudyLink } from "@/components/assistant/VerseStudyLink";
+import { VerseActions } from "@/components/assistant/VerseActions";
 import { Icon } from "@/components/icons";
 import { formatInt } from "@/lib/canon/text";
 import type { Book } from "@/lib/canon/types";
@@ -44,7 +44,7 @@ function Row({ link, max, text }: { link: VerseLink; max: number; text: string }
       <p className="bc-conn__text">
         <Scripture text={text} />
       </p>
-      <VerseStudyLink path={ref.path} label={ref.label} />
+      <VerseActions path={ref.path} label={ref.label} />
     </li>
   );
 }
@@ -99,7 +99,7 @@ export async function LinksPanel({
           <Scripture text={text} />
           <cite>{label} · Bíblia Livre</cite>
         </blockquote>
-        <VerseStudyLink path={`/${book.slug}/${chapter}/${verse}`} label={label} />
+        <VerseActions path={`/${book.slug}/${chapter}/${verse}`} label={label} />
       </div>
 
       {links.length === 0 || !top ? (

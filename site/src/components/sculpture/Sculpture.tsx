@@ -11,7 +11,7 @@
 import Link from "next/link";
 import { lazy, Suspense, useCallback, useEffect, useId, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { Icon } from "@/components/icons";
-import { VerseStudyLink } from "@/components/assistant/VerseStudyLink";
+import { VerseActions } from "@/components/assistant/VerseActions";
 import { usePageSearch } from "@/components/search/page-search";
 import { formatInt } from "@/lib/canon/text";
 import { BASE, BOOKS } from "@/lib/community/books-client";
@@ -1347,7 +1347,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
             <blockquote className={styles.cardText}>{snippets.get(focused.gv) ?? "…"}</blockquote>
             <p className={styles.meta}>{votos(focused.votes)} de leitores na OpenBible.info</p>
             <p className={styles.cardActions}>
-              <VerseStudyLink path={versePath(BASE, focused.gv)} label={longRef(BASE, focused.gv)} />
+              <VerseActions path={versePath(BASE, focused.gv)} label={longRef(BASE, focused.gv)} />
               <button type="button" className={styles.follow} onClick={() => choose({ kind: "verse", gv: focused.gv })}>
                 Seguir para {shortRef(BASE, focused.gv)}
               </button>

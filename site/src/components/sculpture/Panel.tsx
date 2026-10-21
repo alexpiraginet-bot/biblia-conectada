@@ -6,7 +6,7 @@
 // word (PathPanel.tsx, WordPanel.tsx) load on their own.
 import Link from "next/link";
 import { useEffect, useId, useMemo, useState, type ReactNode, type Ref } from "react";
-import { VerseStudyLink } from "@/components/assistant/VerseStudyLink";
+import { VerseActions } from "@/components/assistant/VerseActions";
 import { Icon } from "@/components/icons";
 import { formatInt } from "@/lib/canon/text";
 import { BASE } from "@/lib/community/books-client";
@@ -141,7 +141,7 @@ export function VersePanel({
       </p>
       <blockquote className={styles.scripture}>{text ?? "…"}</blockquote>
       <p className={styles.actions}>
-        <VerseStudyLink path={versePath(BASE, gv)} label={longRef(BASE, gv)} />
+        <VerseActions path={versePath(BASE, gv)} label={longRef(BASE, gv)} />
         <Link href={`/${book.slug}/${chapter}`} className={styles.act}>
           Ler {chap}
         </Link>
@@ -168,7 +168,7 @@ export function VersePanel({
                   <span className={styles.itemVotes}>{votos(p.votes)}</span>
                   <span className={styles.itemText}>{snippets.get(p.gv) ?? "…"}</span>
                 </button>
-                <VerseStudyLink path={versePath(BASE, p.gv)} label={longRef(BASE, p.gv)} />
+                <VerseActions path={versePath(BASE, p.gv)} label={longRef(BASE, p.gv)} />
               </li>
             ))}
           </ol>
@@ -263,7 +263,7 @@ export function ChapterPanel({
             <button type="button" className={styles.readingNumber} onClick={() => onVerse(first + index)}
               aria-label={`Ver conexões de ${c.label}:${index + 1}`}>{index + 1}</button>
             <p>{line}</p>
-            <VerseStudyLink path={`/${c.book.slug}/${c.chapter}/${index + 1}`} label={`${c.label}:${index + 1}`} />
+            <VerseActions path={`/${c.book.slug}/${c.chapter}/${index + 1}`} label={`${c.label}:${index + 1}`} />
           </li>)}</ol>
         </div> : failed === ci ? <p role="status" className={styles.meta}>
           Não foi possível carregar o texto. <button type="button" className={styles.retryText}
@@ -291,7 +291,7 @@ export function ChapterPanel({
               <span className={styles.itemText}>{snippets.get(link.there) ?? "Carregando passagem…"}</span>
               <span className={styles.linkOrigin}>A partir de {longRef(BASE, link.here)} <span aria-hidden="true">↗</span></span>
             </button>
-            <VerseStudyLink path={versePath(BASE, link.there)} label={longRef(BASE, link.there)} />
+            <VerseActions path={versePath(BASE, link.there)} label={longRef(BASE, link.there)} />
           </li>
         ))}
       </ol>
@@ -307,7 +307,7 @@ export function ChapterPanel({
               <span className={styles.itemVotes}>{ligacoes(x.k)}</span>
               <span className={styles.itemText}>{lines?.[x.v - 1] ?? "…"}</span>
             </button>
-            <VerseStudyLink path={versePath(BASE, x.gv)} label={longRef(BASE, x.gv)} />
+            <VerseActions path={versePath(BASE, x.gv)} label={longRef(BASE, x.gv)} />
           </li>
         ))}
       </ol>

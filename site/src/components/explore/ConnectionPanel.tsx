@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { VerseStudyLink } from "@/components/assistant/VerseStudyLink";
+import { VerseActions } from "@/components/assistant/VerseActions";
 import { Icon } from "@/components/icons";
 import { formatInt } from "@/lib/canon/text";
 import { conexaoPath } from "@/lib/conexao";
@@ -96,7 +96,7 @@ export async function ConnectionPanel({
           {r.label}:{v}
         </Link>
       </figcaption>
-      <VerseStudyLink path={`${r.path}/${v}`} label={`${r.label}:${v}`} />
+      <VerseActions path={`${r.path}/${v}`} label={`${r.label}:${v}`} />
     </figure>
   );
 
