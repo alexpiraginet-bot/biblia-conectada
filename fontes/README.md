@@ -1,5 +1,7 @@
 # Fontes abertas
 
+Comparação de traduções e proposta de uma edição própria: [fundação editorial](../docs/traducao-propria/README.md), com inventário reproduzível e piloto não aprovado. O texto principal publicado continua sendo a BLIVRE; a Open NBV completa já está arquivada como fonte, mas ainda não integra a leitura do app.
+
 Cópias exatas das bases livres do projeto: texto bíblico em 7 línguas, hebraico e grego com morfologia e números de Strong, léxicos, versificação, lugares, pessoas, eventos e referências cruzadas. Cada arquivo tem SHA-256 em `SHA256SUMS` e a licença foi lida no próprio arquivo ou no repositório de origem na data da cópia. O índice legível por máquina é `catalogo.json`.
 
 `scripts/fetch_sources.sh` baixa tudo de novo e compara (sai com 1 se algo mudou na origem). Com `--update`, substitui os arquivos. Créditos obrigatórios: `ATTRIBUTION.md`.
