@@ -4,11 +4,12 @@ Direção aprovada por Alex em 20/10/2026: bordô no entorno, céu neutro, doura
 
 ## Nome e símbolo
 
-- Nome completo: **Bíblia Conectada**. Nome curto na tela inicial: **Bíblia**, para evitar o corte do título da página que originou o atalho.
+- Nome completo e nome padrão na tela inicial: **Bíblia Conectada**, por pedido de Alex em 21/10/2026. O sistema operacional pode abreviar visualmente o rótulo conforme o espaço disponível.
 - Símbolo: dois arcos unidos por uma linha, pontos de conexão e estrela. O vetor mestre é `site/src/app/icon.svg`; o cabeçalho e as capas sociais usam o mesmo desenho.
 - Fundo opaco bordô, dourado e marfim; sem letra automática, transparência ou cantos externos pré-recortados. O sistema operacional aplica a máscara do ícone.
-- `npm run icons`, em `site/`, reproduz os PNGs de 192 e 512 pixels, a versão maskable de 512, o Apple Touch Icon de 180 e o favicon ICO de 32/48 a partir do vetor. O símbolo fica dentro do círculo seguro central de 80%.
+- `npm run icons`, em `site/`, reproduz os PNGs de 192 e 512 pixels, a versão maskable de 512, o Apple Touch Icon de 180 e o favicon ICO de 32/48 a partir do vetor. O mesmo PNG Apple também está nos caminhos padrão `/apple-touch-icon.png` e `/apple-touch-icon-precomposed.png`. O símbolo fica dentro do círculo seguro central de 80%.
 - Manifesto com identidade estável `/`, abertura na home, modo standalone, idioma PT-BR e atalhos de leitura, céu e mapa. Não há promessa de leitura offline.
+- Os metadados aguardam resolução no servidor e entram no `<head>` inicial, inclusive nas páginas com seleção dinâmica. Isso permite descobrir ícone, manifesto e nome sem depender de JavaScript. A resposta inicial de rotas dinâmicas aguarda também esses metadados.
 - No navegador do iPhone/iPad, um aviso adiado oferece instruções para adicionar à tela inicial. É dispensável, não aparece no modo standalone e não pede permissão de notificações. Os passos mostram Compartilhar, Adicionar à Tela de Início e Adicionar; a escolha de abrir como app web depende do Safari.
 
 ## Capas dos links

@@ -13,7 +13,12 @@ for (const size of [192, 512]) {
 }
 // The mark (including its endpoints) fits inside the centred 80% safe circle.
 await sharp(source).resize(512, 512).png().toFile(path.join(destination, "app-maskable-512-v1.png"));
-await sharp(source).resize(180, 180).png().toFile(path.join(root, "src/app/apple-icon.png"));
+const appleIcon = await sharp(source).resize(180, 180).png().toBuffer();
+await Promise.all([
+  "src/app/apple-icon.png",
+  "public/apple-touch-icon.png",
+  "public/apple-touch-icon-precomposed.png",
+].map((file) => writeFile(path.join(root, file), appleIcon)));
 
 // ICO containers with PNG entries are supported by modern browsers; include both tab sizes.
 const sizes = [32, 48];
@@ -33,4 +38,4 @@ entries.forEach((entry, index) => {
   offset += entry.length;
 });
 await writeFile(path.join(root, "src/app/favicon.ico"), Buffer.concat([header, ...entries]));
-console.log("Generated 192/512/maskable PNG, Apple 180 PNG and 32/48 ICO from icon.svg.");
+console.log("Generated 192/512/maskable PNG, Apple 180 PNG with root fallbacks and 32/48 ICO from icon.svg.");
