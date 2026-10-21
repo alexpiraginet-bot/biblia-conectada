@@ -68,6 +68,8 @@ const PATHS = {
     </>
   ),
   close: <path d="M6 6l12 12M18 6 6 18" />,
+  heart: <path d="M20.1 5.6a5.1 5.1 0 0 0-7.2 0L12 6.5l-.9-.9a5.1 5.1 0 0 0-7.2 7.2L12 21l8.1-8.2a5.1 5.1 0 0 0 0-7.2Z" />,
+  more: <path d="M5 12h.01M12 12h.01M19 12h.01" strokeWidth="4" />,
   arc: (
     <>
       <path d="M4 17a8 8 0 0 1 16 0" />

@@ -7,9 +7,9 @@ import { StudyCompanion, type StudyMoment } from "@/components/assistant/StudyCo
 import { buildStudyRequest } from "@/components/assistant/StudyChat";
 import type { AssistantSuccess } from "@/lib/assistant/types";
 import { resolveStudyReference } from "@/components/assistant/study-reference";
-import { speakStudyText, speechSnapshot, stopStudySpeech, subscribeSpeech } from "@/components/assistant/study-speech";
 
-afterEach(() => { stopStudySpeech(); vi.unstubAllGlobals(); vi.restoreAllMocks(); });
+
+afterEach(() => { vi.unstubAllGlobals(); vi.restoreAllMocks(); });
 
 describe("study passage selection", () => {
   it.each(["jeremias/17/8", "Jeremias 17:8", "Jr 17:8"])("resolves %s to the exact canonical verse", (input) => {
@@ -56,7 +56,7 @@ describe("study passage selection", () => {
     expect(html).toContain('value="contexto"');
     expect(html).toContain('value="simples"');
     expect(html).toContain('value="cotidiano"');
-    expect(html).toContain("Leitura em voz alta indisponível neste navegador.");
+    expect(html).not.toContain("Voz do aparelho");
     expect(html).toContain("O que este versículo quer dizer?");
     expect(html).toContain('aria-label="Enviar pergunta"');
   });
@@ -89,65 +89,5 @@ describe("bounded chat context", () => {
     const narrated: AssistantSuccess = { ...answer, mode: "narrar", scenes: [{ id: "scene1", title: "Primeira cena", text: "O que foi narrado nesta cena.", citationIds: [], art: { src: "/art.webp", alt: "Arte", caption: "Recriação" }, action: { href: "/jeremias/17/8", label: "Ler passagem" } }] };
     const next = buildStudyRequest(passage, "Explique essa cena", "contexto", "entender", [{ request, answer: narrated }]);
     expect(next.history?.[0].answer).toContain("Primeira cena. O que foi narrado nesta cena.");
-  });
-});
-
-function mockVoice() {
-  class Utterance {
-    onend: (() => void) | null = null;
-    onerror: ((event: { error: string }) => void) | null = null;
-    constructor(public text: string) {}
-  }
-  const synth = { cancel: vi.fn(), speak: vi.fn(), getVoices: vi.fn(() => []) };
-  vi.stubGlobal("SpeechSynthesisUtterance", Utterance);
-  vi.stubGlobal("window", { speechSynthesis: synth, SpeechSynthesisUtterance: Utterance });
-  return synth;
-}
-
-describe("study speech ownership (device voice only)", () => {
-  it("switches players without leaving the previous player active or allowing its cleanup to stop the next", () => {
-    const synth = mockVoice(), changed = vi.fn(), unsubscribe = subscribeSpeech(changed);
-    speakStudyText("passage", "Primeiro texto.");
-    const first = synth.speak.mock.calls[0][0];
-    expect(speechSnapshot().owner).toBe("passage");
-    speakStudyText("answer", "Uma resposta.");
-    const second = synth.speak.mock.calls[1][0];
-    expect(first.onend).toBeNull();
-    expect(first.onerror).toBeNull();
-    expect(speechSnapshot().owner).toBe("answer");
-    const cancels = synth.cancel.mock.calls.length;
-    stopStudySpeech("passage");
-    expect(synth.cancel).toHaveBeenCalledTimes(cancels);
-    expect(speechSnapshot().owner).toBe("answer");
-    second.onend();
-    expect(speechSnapshot().owner).toBeNull();
-    expect(changed).toHaveBeenCalled();
-    unsubscribe();
-  });
-
-  it("clears ownership on explicit stop and reports a voice error separately", () => {
-    const synth = mockVoice();
-    speakStudyText("answer", "Texto.");
-    stopStudySpeech("answer");
-    expect(speechSnapshot()).toEqual({ owner: null, failedOwner: null });
-    speakStudyText("answer", "Outro texto.");
-    synth.speak.mock.calls[1][0].onerror({ error: "voice-unavailable" });
-    expect(speechSnapshot()).toEqual({ owner: null, failedOwner: "answer" });
-  });
-
-  it("reports unsupported voice and speak failures without leaving a player active", () => {
-    speakStudyText("unsupported", "Texto.");
-    expect(speechSnapshot()).toEqual({ owner: null, failedOwner: "unsupported" });
-    const synth = mockVoice();
-    synth.speak.mockImplementation(() => { throw new Error("Voice unavailable"); });
-    speakStudyText("failed", "Texto.");
-    expect(speechSnapshot()).toEqual({ owner: null, failedOwner: "failed" });
-  });
-
-  it("does not report intentional browser interruption as a voice failure", () => {
-    const synth = mockVoice();
-    speakStudyText("answer", "Texto.");
-    synth.speak.mock.calls[0][0].onerror({ error: "interrupted" });
-    expect(speechSnapshot()).toEqual({ owner: null, failedOwner: null });
   });
 });

@@ -71,7 +71,7 @@ export default async function Home() {
                 <Link href="/ler" className={styles.primary}><Icon name="book" /> Começar a ler <Icon name="out" /></Link>
                 <Link href="#atlas-vivo" className={styles.secondary}>Explorar conexões <Icon name="explore" /></Link>
               </div>
-              <div className={styles.heroShortcuts}><Link href="/assistente">Estudar com IA <span aria-hidden="true">↗</span></Link><Link href="/ler/open-nbv">Ler Open Nova Bíblia Viva <span aria-hidden="true">↗</span></Link><Link href="#como-funciona">Como funciona <span aria-hidden="true">↓</span></Link></div>
+              <div className={styles.heroShortcuts}><Link href="/coracao" prefetch={false}>No seu coração <span aria-hidden="true">↗</span></Link><Link href="/ler/open-nbv">Ler Open Nova Bíblia Viva <span aria-hidden="true">↗</span></Link><Link href="#como-funciona">Como funciona <span aria-hidden="true">↓</span></Link></div>
             </div>
             <nav className={styles.experienceTabs} aria-label="Escolha uma experiência"><Link href="#atlas-vivo" aria-current="true"><Icon name="explore" /> Constelação</Link><Link href="/arcos">Céu em 3D <span aria-hidden="true">↗</span></Link><Link href="/caminhos">Mapa de Jesus <span aria-hidden="true">↗</span></Link></nav>
           </div>

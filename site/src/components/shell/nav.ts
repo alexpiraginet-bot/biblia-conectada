@@ -1,22 +1,23 @@
 // The site's sections, in one place (design/README.md, "Estrutura das páginas"). From 1024px the rail on the left
-// lists the items marked `rail`; on phones the tab bar lists the five marked `tab`. "Buscar" is a tab only: on wider
-// screens the search box sits in the top bar. Every item leads to a page that exists (tests/routes.test.ts).
+// lists the items marked `rail`; phones show four `tab` destinations plus a "Mais" disclosure with `more` links.
+// Every item leads to a page that exists (tests/routes.test.ts).
 import booksJson from "@/data/generated/books.json";
 import type { IconName } from "@/components/icons";
 
 /** `nested`: the section has pages below its own address ("/ponte/1"), so those pages count as the section too;
  *  `pages`: the only pages below it, when there are just a few (any other address below stays a 404 in no section) */
-export type NavItem = { href: string; label: string; icon: IconName; rail: boolean; tab: boolean; nested?: boolean; pages?: readonly string[] };
+export type NavItem = { href: string; label: string; icon: IconName; rail: boolean; tab: boolean; more?: boolean; nested?: boolean; pages?: readonly string[] };
 
 export const NAV: readonly NavItem[] = [
   { href: "/explorar", label: "Explorar", icon: "explore", rail: true, tab: true, nested: true },
   { href: "/ler", label: "Ler", icon: "book", rail: true, tab: true },
-  { href: "/buscar", label: "Buscar", icon: "search", rail: false, tab: true },
+  { href: "/coracao", label: "Coração", icon: "heart", rail: true, tab: true },
+  { href: "/buscar", label: "Buscar", icon: "search", rail: false, tab: false, more: true },
   { href: "/linha-do-tempo", label: "Linha do tempo", icon: "time", rail: true, tab: false, nested: true },
   { href: "/caminhos", label: "Caminhos", icon: "explore", rail: true, tab: false },
   { href: "/cronologia", label: "A história", icon: "time", rail: true, tab: false },
   { href: "/arcos", label: "Arcos", icon: "arc", rail: true, tab: true, pages: ["/arcos/plano"] },
-  { href: "/ponte", label: "Ponte", icon: "bridge", rail: true, tab: true, nested: true },
+  { href: "/ponte", label: "Ponte", icon: "bridge", rail: true, tab: false, more: true, nested: true },
   { href: "/salvos", label: "Salvos", icon: "bookmark", rail: true, tab: false },
   { href: "/dados", label: "Dados", icon: "data", rail: true, tab: false },
 ];

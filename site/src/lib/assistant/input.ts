@@ -59,10 +59,10 @@ export function parseAssistantRequest(value: unknown): AssistantRequest & { styl
 }
 
 /** Content-Length is not trusted: stop reading a chunked request at the same bound. */
-export async function readBoundedJson(request: Request): Promise<unknown> {
+export async function readBoundedJson(request: Request, maxBytes = MAX_BODY_BYTES): Promise<unknown> {
   if (!request.headers.get("content-type")?.toLowerCase().startsWith("application/json")) invalid();
   const length = request.headers.get("content-length");
-  if (length && (!/^\d+$/.test(length) || Number(length) > MAX_BODY_BYTES)) invalid();
+  if (length && (!/^\d+$/.test(length) || Number(length) > maxBytes)) invalid();
   if (!request.body) invalid();
   const reader = request.body.getReader();
   const chunks: Uint8Array[] = [];
@@ -72,7 +72,7 @@ export async function readBoundedJson(request: Request): Promise<unknown> {
       const { done, value } = await reader.read();
       if (done) break;
       size += value.byteLength;
-      if (size > MAX_BODY_BYTES) { await reader.cancel(); invalid(); }
+      if (size > maxBytes) { await reader.cancel(); invalid(); }
       chunks.push(value);
     }
     const all = new Uint8Array(size);

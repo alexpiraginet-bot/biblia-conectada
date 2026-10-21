@@ -32,6 +32,7 @@ const sections: Record<string, Omit<ShareCard, "path">> = {
   "/tema": { eyebrow: "TEMAS BÍBLICOS", title: "Um tema.\nMuitos encontros.", description: "Explore passagens reunidas por tema e acompanhe suas ligações no texto bíblico.", kind: "explore" },
   "/palavra": { eyebrow: "PALAVRAS DA BÍBLIA", title: "Uma palavra pode\nabrir um mundo.", description: "Encontre palavras na Bíblia Livre e descubra os textos em que elas aparecem.", kind: "explore" },
   "/assistente": { eyebrow: "COMPANHEIRO DE ESTUDO · IA", title: "Vamos entender\njuntos.", description: "Pergunte sobre uma passagem, explore o contexto e confira as referências no texto bíblico.", kind: "landing" },
+  "/coracao": { eyebrow: "NO SEU CORAÇÃO", title: "Uma pergunta.\nUm caminho pela Palavra.", description: "Encontre passagens a partir do que você está vivendo e reflita à luz dos ensinamentos de Jesus, com auxílio de IA e fontes à vista.", kind: "landing" },
   "/buscar": { eyebrow: "ENCONTRE SEU CAMINHO", title: "O que você quer\ndescobrir hoje?", description: "Busque uma referência, uma palavra ou uma passagem. A próxima conexão começa aqui.", kind: "landing" },
   "/salvos": { eyebrow: "SEU CADERNO", title: "Guarde o que\ntocou você.", description: "Volte às passagens que você salvou neste aparelho e continue sua leitura.", kind: "landing" },
   "/ponte": { eyebrow: "PONTE BÍBLICA", title: "De um versículo\na outro.", description: "Siga as referências cruzadas e encontre um caminho entre duas passagens.", kind: "connection" },

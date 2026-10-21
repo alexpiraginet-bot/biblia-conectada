@@ -1,0 +1,6 @@
+.voice { display: flex; flex-wrap: wrap; align-items: center; column-gap: .65rem; row-gap: .15rem; padding-block: .2rem; color: var(--ink-3); font-size: .75rem; }
+.actions { display: flex; gap: .45rem; flex-wrap: wrap; }
+.actions button { min-height: 44px; padding: .35rem .6rem; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); background: var(--surface); font: inherit; cursor: pointer; }
+.actions button[aria-pressed="true"] { border-color: var(--accent); }
+.actions button:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+.voice small { flex: 1 1 145px; font: inherit; line-height: 1.4; }

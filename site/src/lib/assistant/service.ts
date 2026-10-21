@@ -6,6 +6,8 @@ import { redisCommand, reserve, settle, visitorIdentity } from "./ledger";
 import { callProvider, maximumCostMicros, providerPayload } from "./provider";
 import { validateAnswer } from "./response";
 import type { AssistantResponse } from "./types";
+import { issueVoiceTicket } from "./voice";
+import { voiceProvider } from "./voice-provider";
 
 export async function handleStudy(request: Request): Promise<{ body: AssistantResponse; status: number }> {
   try {
@@ -28,7 +30,10 @@ export async function handleStudy(request: Request): Promise<{ body: AssistantRe
     request.signal.throwIfAborted();
     const result = await callProvider(config.apiKey, payload, request.signal);
     await settle(command, reservation, result.costMicros);
-    return { body: validateAnswer(result.answer, input, grounding), status: 200 };
+    const body = validateAnswer(result.answer, input, grounding);
+    const voice = voiceProvider();
+    if (voice) body.audio = issueVoiceTicket(body, input.requestId, visitor, config.rateSecret, voice.profile);
+    return { body, status: 200 };
   } catch (error) {
     if (error instanceof AssistantFault) {
       return {

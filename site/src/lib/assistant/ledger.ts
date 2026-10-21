@@ -3,7 +3,6 @@ import { createHash, createHmac } from "node:crypto";
 import { isIP } from "node:net";
 import { MONTHLY_LIMIT_MICROS, UNAVAILABLE_MESSAGE, type AssistantConfig } from "./config";
 import { AssistantFault, isRecord } from "./input";
-import type { AssistantRequest } from "./types";
 
 // The hash tag keeps all keys in one Redis cluster slot. Never include deployment IDs.
 export const LEDGER_KEY = "bc:{assistant}:ledger";
@@ -93,8 +92,8 @@ export function visitorIdentity(request: Request, secret: string, env: Readonly<
   return createHmac("sha256", secret).update(address).digest("hex");
 }
 
-export async function reserve(
-  command: RedisCommand, request: AssistantRequest, visitor: string, amount: number, now = new Date(),
+export async function reserve<T extends { requestId: string }>(
+  command: RedisCommand, request: T, visitor: string, amount: number, now = new Date(),
 ): Promise<Reservation> {
   if (!Number.isSafeInteger(amount) || amount < 1 || amount > MONTHLY_LIMIT_MICROS) {
     throw new AssistantFault("unavailable", 503, UNAVAILABLE_MESSAGE);

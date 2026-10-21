@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
-import type { AssistantError, AssistantMode, AssistantRequest, AssistantStyle, AssistantSuccess, AssistantTranslation } from "@/lib/assistant/types";
+import type { AssistantAvailability, AssistantError, AssistantMode, AssistantRequest, AssistantStyle, AssistantSuccess, AssistantTranslation } from "@/lib/assistant/types";
 import { getTranslation } from "@/lib/translations";
-import { StudyAnswer, StudyListen } from "./StudyAnswer";
+import { StudyAnswer } from "./StudyAnswer";
+import { useStudyVoice } from "./use-study-voice";
+import { StudyVoiceControls } from "./StudyVoiceControls";
 import styles from "./StudyChat.module.css";
 
 export type StudyPassage = { book: string; chapter: number; verse: number; reference: string; text: string; translation?: AssistantTranslation };
@@ -37,6 +39,8 @@ export function buildStudyRequest(passage: StudyPassage, question: string, style
 
 export function StudyChat({ passage, enabled = true }: { passage: StudyPassage; enabled?: boolean }) {
   const uid = useId();
+  const voice = useStudyVoice();
+  const setVoiceAvailable = voice.setAvailable;
   const edition = getTranslation(passage.translation ?? "blivre")!;
   const openNbv = passage.translation === "open-nbv";
   const questions = openNbv ? QUESTIONS.map((item) => item.mode === "explorar" ? {
@@ -60,14 +64,15 @@ export function StudyChat({ passage, enabled = true }: { passage: StudyPassage; 
   useEffect(() => {
     const availability = new AbortController();
     fetch("/api/assistente", { cache: "no-store", signal: availability.signal })
-      .then(async (response) => response.ok ? await response.json() as { available: boolean; message: string } : null)
+      .then(async (response) => response.ok ? await response.json() as AssistantAvailability : null)
       .then((status) => {
         if (!status || availability.signal.aborted) return;
         setAvailable(status.available === true);
         setAvailabilityMessage(typeof status.message === "string" ? status.message : "");
+        setVoiceAvailable(status.voice?.available === true);
       }).catch(() => {});
     return () => { availability.abort(); controller.current?.abort(); };
-  }, []);
+  }, [setVoiceAvailable]);
 
   useEffect(() => {
     if (cooldown <= 0) return;
@@ -83,6 +88,7 @@ export function StudyChat({ passage, enabled = true }: { passage: StudyPassage; 
 
   async function send(body: AssistantRequest) {
     if (pending.current || !available || cooldown > 0) return;
+    voice.prepare(body.requestId);
     pending.current = true;
     request.current = body;
     setTurns((current) => current.some((turn) => turn.request.requestId === body.requestId) ? current : [...current, { request: body }]);
@@ -94,6 +100,7 @@ export function StudyChat({ passage, enabled = true }: { passage: StudyPassage; 
       const response = await fetch("/api/assistente", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body), signal: abort.signal });
       const result = await response.json() as AssistantSuccess | AssistantError;
       if (!response.ok || !result.ok) {
+        voice.stop();
         const failure: AssistantError = result.ok ? { ok: false, code: "provider", message: "Não foi possível concluir a resposta agora." } : result;
         setError(failure);
         setCooldown(Math.max(0, Math.min(86400, Math.ceil(failure.retryAfterSeconds ?? 0))));
@@ -101,7 +108,9 @@ export function StudyChat({ passage, enabled = true }: { passage: StudyPassage; 
         return;
       }
       setTurns((current) => current.map((turn) => turn.request.requestId === body.requestId ? { ...turn, answer: result } : turn));
+      voice.receive(body.requestId, result.audio);
     } catch {
+      voice.stop();
       setError({ ok: false, code: "provider", message: "A conexão foi interrompida. Verifique a mesma consulta em Tentar novamente." });
     } finally {
       window.clearTimeout(timeout);
@@ -125,7 +134,6 @@ export function StudyChat({ passage, enabled = true }: { passage: StudyPassage; 
       <summary><span>{passage.text}</span><small>{openNbv ? "Open NBV · " : ""}Ver versículo completo</small></summary>
       <blockquote>{passage.text}</blockquote><span>{edition.name} · {passage.reference}</span>
       {openNbv && <small>{edition.credit} · <a href={edition.licenseUrl} target="_blank" rel="noopener noreferrer">{edition.license}</a><br />{edition.sourceNotice}<br />{edition.trademarkNotice}</small>}
-      <StudyListen text={`${passage.reference}. ${passage.text}`} label="Ouvir versículo" />
       <a href={`/explorar/${passage.book}/${passage.chapter}`} target="_blank" rel="noopener noreferrer">{openNbv ? "Ver conexões do capítulo na BLIVRE" : "Ver conexões em outra aba"} ↗</a>
     </details>
     <fieldset className={styles.styles} disabled={loading}>
@@ -143,7 +151,7 @@ export function StudyChat({ passage, enabled = true }: { passage: StudyPassage; 
       </div>}
       {turns.map((turn, index) => <article className={styles.turn} key={turn.request.requestId} ref={index === turns.length - 1 ? lastTurn : undefined}>
         <div className={styles.question}><span>Você · {STYLES.find((item) => item.id === turn.request.style)?.label}</span><p>{turn.request.question}</p></div>
-        {turn.answer && <StudyAnswer answer={turn.answer} onQuestion={(text) => ask(text)} disabled={loading || !available || cooldown > 0} />}
+        {turn.answer && <StudyAnswer answer={turn.answer} onQuestion={(text) => ask(text)} disabled={loading || !available || cooldown > 0} onListen={voice.replay} />}
         {index === turns.length - 1 && loading && <div className={styles.typing} role="status"><span className={styles.dots} aria-hidden="true"><i /><i /><i /></span><span>Preparando resposta…<small>{openNbv ? "Lendo a Open Nova Bíblia Viva e o contexto do capítulo." : "Lendo a passagem e suas conexões."}</small></span></div>}
       </article>)}
       {error && <div className={styles.error} role="alert"><p>{error.message}</p>
@@ -153,6 +161,7 @@ export function StudyChat({ passage, enabled = true }: { passage: StudyPassage; 
       </div>}
     </div>
     <form className={styles.composer} onSubmit={submit}>
+      <StudyVoiceControls voice={voice} />
       {!available && <p className={styles.unavailable} role="status">{availabilityMessage || "A conversa está indisponível agora. O texto bíblico continua disponível."}</p>}
       <div className={styles.inputRow}>
         <label className={styles.srOnly} htmlFor={`${uid}-question`}>Sua pergunta sobre {passage.reference}</label>

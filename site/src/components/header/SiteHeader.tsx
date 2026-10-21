@@ -16,6 +16,7 @@ export function SiteHeader() {
         <Link href="/#descobrir">Descobrir</Link>
         <Link href="/caminhos">O mapa</Link>
         <Link href="/cronologia">A história</Link>
+        <Link href="/coracao" prefetch={false}>No seu coração</Link>
         <Link href="/#sua-jornada">Minha jornada <span aria-hidden="true">✦</span></Link>
       </nav>
       <SearchButton />

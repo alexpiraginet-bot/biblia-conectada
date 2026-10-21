@@ -65,10 +65,11 @@ describe("reserved segments", () => {
 });
 
 describe("navigation", () => {
-  it("includes the illustrated journeys in the rail and keeps five tabs on phones", () => {
-    expect(NAV.map((n) => n.href)).toEqual(["/explorar", "/ler", "/buscar", "/linha-do-tempo", "/caminhos", "/cronologia", "/arcos", "/ponte", "/salvos", "/dados"]);
-    expect(NAV.filter((n) => n.rail).map((n) => n.label)).toEqual(["Explorar", "Ler", "Linha do tempo", "Caminhos", "A história", "Arcos", "Ponte", "Salvos", "Dados"]);
-    expect(NAV.filter((n) => n.tab).map((n) => n.label)).toEqual(["Explorar", "Ler", "Buscar", "Arcos", "Ponte"]);
+  it("keeps four direct tabs and preserves Search and Ponte in More", () => {
+    expect(NAV.map((n) => n.href)).toEqual(["/explorar", "/ler", "/coracao", "/buscar", "/linha-do-tempo", "/caminhos", "/cronologia", "/arcos", "/ponte", "/salvos", "/dados"]);
+    expect(NAV.filter((n) => n.rail).map((n) => n.label)).toEqual(["Explorar", "Ler", "Coração", "Linha do tempo", "Caminhos", "A história", "Arcos", "Ponte", "Salvos", "Dados"]);
+    expect(NAV.filter((n) => n.tab).map((n) => n.label)).toEqual(["Explorar", "Ler", "Coração", "Arcos"]);
+    expect(NAV.filter((n) => n.more).map((n) => n.label)).toEqual(["Buscar", "Ponte"]);
   });
 
   it("leads every item to a page, following the redirects of next.config.ts (/explorar opens Isaías 9)", async () => {
@@ -122,6 +123,7 @@ describe("current navigation item", () => {
     ["/explorar/isaias/9", "/explorar"],
     ["/explorar/isaias/9/lucas/2", "/explorar"],
     ["/ler", "/ler"],
+    ["/coracao", "/coracao"],
     ["/isaias", "/ler"],
     ["/isaias/9", "/ler"],
     ["/isaias/9/6", "/ler"],
