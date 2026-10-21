@@ -31,6 +31,7 @@ export function StudyHost() {
   const [Dialog, setDialog] = useState<ComponentType<VerseDialogProps> | null>(null);
   const [failed, setFailed] = useState(false);
   useEffect(() => {
+    let opener: HTMLAnchorElement | undefined;
     const close = () => setEntry(null);
     const click = (event: MouseEvent) => {
       const next = verseActionFromEvent(event);
@@ -41,11 +42,17 @@ export function StudyHost() {
       if (typeof HTMLDialogElement === "undefined" || !HTMLDialogElement.prototype.showModal) return;
       event.preventDefault();
       event.stopPropagation();
+      opener = next.opener;
       setEntry(next);
       setFailed(false);
       void import("./VerseDialog").then((module) => setDialog(() => module.VerseDialog)).catch(() => setFailed(true));
     };
-    const key = (event: KeyboardEvent) => { if (event.key === "Escape") close(); };
+    const key = (event: KeyboardEvent) => {
+      // An open dialog owns native Escape. While its chunk loads, consume the key so a reader panel stays open.
+      if (event.key === "Escape" && document.querySelector("[data-verse-opening]")) {
+        event.preventDefault(); event.stopPropagation(); close(); opener?.focus({ preventScroll: true });
+      }
+    };
     document.addEventListener("click", click, true);
     window.addEventListener("popstate", close);
     document.addEventListener("keydown", key);
@@ -57,9 +64,9 @@ export function StudyHost() {
   }, []);
   if (!entry) return null;
   return Dialog ? <Dialog key={`${entry.kind}:${entry.path}`} entry={entry} onClose={() => setEntry(null)} />
-    : <div className={styles.status} role={failed ? "alert" : "status"}>{failed
+    : <div data-verse-opening="" className={styles.status} role={failed ? "alert" : "status"}>{failed
       ? <>Não foi possível abrir. <a href={entry.opener.href}>Abrir em uma página</a></>
       : entry.kind === "share" ? "Abrindo compartilhamento…" : "Abrindo o estudo…"}
-      <button type="button" aria-label="Fechar aviso" onClick={() => setEntry(null)}>×</button>
+      <button type="button" aria-label="Fechar aviso" onClick={() => { entry.opener.focus({ preventScroll: true }); setEntry(null); }}>×</button>
     </div>;
 }
