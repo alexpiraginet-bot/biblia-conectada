@@ -42,3 +42,13 @@ Não há promessa de ignorar o botão silencioso, volume zero, interrupções ou
 - [WebSocket Realtime](https://developers.openai.com/api/docs/guides/voice-websockets?api=realtime), [conversas](https://developers.openai.com/api/docs/guides/realtime-conversations) e [tipos oficiais OpenAI Node](https://github.com/openai/openai-node/blob/master/src/resources/realtime/realtime.ts): formatos de sessão/resposta, `cedar`, PCM24k, eventos de áudio/transcrição e limites de tokens.
 
 Os textos documentais consultados foram guardados fora do repositório em `C:/Users/R2/.codex/visualizations/biblia-conectada-20261021/voice-openai-docs/`.
+
+## Diagnóstico restrito após a primeira prévia
+
+O root informou que seu teste real obteve resposta de texto HTTP 200 em cerca de 8,1 segundos, seguida de voz HTTP 502 em aproximadamente 665 ms. Esse tempo é compatível com uma falha precoce, mas sozinho não prova falha de credencial, quota ou protocolo. A primeira versão não distinguia as causas.
+
+Foi acrescentado um único registro `assistant_voice_failure` por tentativa malsucedida. Campos permitidos: UUID aleatório de correlação, provider/modelo fixos, fase, motivo enumerado, duração, bytes de áudio e contagens de caracteres. O status HTTP só é aceito no intervalo 100–599; códigos externos só são emitidos se estiverem na lista explícita do adaptador, incluindo erros em `response.status_details`. `upstreamParam` aceita somente nomes exatos dos parâmetros enviados, em lista fechada, nunca valores ou caminhos livres. Corpo HTTP, evento, mensagem/stack externo, cabeçalhos, chave, ticket, prompt, texto, transcrição e hashes de conteúdo nunca são registrados.
+
+Fases: conexão, configuração, solicitação, recebimento e verificação. Motivos distinguem handshake HTTP, transporte, fechamento precoce, erro do provider, protocolo, timeout, cancelamento do cliente, teto de áudio, resposta incompleta, uso inválido, transcrição ausente/divergente e PCM inválido. O cliente continua recebendo a mesma mensagem genérica. Não foi alterado o protocolo, a comparação de numerais, o orçamento ou as tentativas.
+
+Verificação desta alteração: 40/40 testes nos dois arquivos server de voz, TypeScript completo e ESLint focal passaram. Os testes exercitam status HTTP, códigos/parâmetros conhecidos e desconhecidos, fases, causas, uma única linha por falha, ausência de logs no sucesso e não exposição de sentinelas privadas colocadas no texto, erro, body e headers. Nenhuma chamada paga foi executada por este agente para essa correção.

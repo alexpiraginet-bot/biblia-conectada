@@ -69,8 +69,11 @@ export function HeartConversation() {
   const request = useRef<CoracaoRequest | null>(null);
   const log = useRef<HTMLDivElement>(null);
   const latest = useRef<HTMLElement>(null);
+  const latestAnswer = useRef<HTMLDivElement>(null);
+  const replyScroll = useRef({ requestId: "", follow: true, top: 0 });
   const input = useRef<HTMLTextAreaElement>(null);
   const disabled = loading || !available || cooldown > 0;
+  const lastAnswer = turns.at(-1)?.answer;
 
   useEffect(() => {
     const availability = new AbortController();
@@ -87,14 +90,27 @@ export function HeartConversation() {
   }, [cooldown]);
 
   useEffect(() => {
-    // Only a new submitted question moves the internal log. A reply never drags the page or a reader back down.
+    // Move only the log, then remember the resulting offset so this programmatic scroll is not reader intent.
     const box = log.current, turn = latest.current;
-    if (box && turn) box.scrollTop += turn.getBoundingClientRect().top - box.getBoundingClientRect().top - 16;
+    if (box && turn) {
+      box.scrollTop += turn.getBoundingClientRect().top - box.getBoundingClientRect().top - 16;
+      replyScroll.current.top = box.scrollTop;
+    }
   }, [turns.length]);
+
+  useEffect(() => {
+    const box = log.current, answer = latestAnswer.current, scroll = replyScroll.current;
+    if (!lastAnswer || !box || !answer || !scroll.requestId) return;
+    // Reveal the beginning, not the end, of the answer unless the reader went back up while waiting.
+    if (scroll.follow) box.scrollTop += answer.getBoundingClientRect().top - box.getBoundingClientRect().top - 12;
+    scroll.requestId = "";
+    scroll.top = box.scrollTop;
+  }, [lastAnswer]);
 
   async function send(body: CoracaoRequest) {
     if (pending.current || !available || cooldown > 0) return;
     pending.current = true;
+    replyScroll.current = { requestId: body.requestId, follow: true, top: log.current?.scrollTop ?? 0 };
     if (voice.available) voice.prepare(body.requestId); else voice.stop();
     request.current = body;
     setTurns((current) => current.some((turn) => turn.request.requestId === body.requestId) ? current : [...current, { request: body }]);
@@ -143,7 +159,8 @@ export function HeartConversation() {
       </fieldset>
       <div className={styles.roomMeta}><span><i aria-hidden="true" /> Busca bíblica com IA</span>{turns.length > 0 && <button type="button" disabled={loading} onClick={restart}>Nova conversa</button>}</div>
     </div>
-    <div ref={log} className={styles.log} role="log" tabIndex={0} aria-label="Suas perguntas e as respostas" aria-live="polite" aria-relevant="additions text">
+    <div ref={log} className={styles.log} role="log" tabIndex={0} aria-label="Suas perguntas e as respostas" aria-live="polite" aria-relevant="additions text"
+      onScroll={(event) => { const scroll = replyScroll.current, top = event.currentTarget.scrollTop; if (scroll.requestId && top < scroll.top - 1) scroll.follow = false; scroll.top = top; }}>
       {!turns.length && <div className={styles.welcome}>
         <div className={styles.welcomeMark} aria-hidden="true"><Icon name="heart" /></div>
         <h2>{mode === "encontrar" ? <>O que está<br /><em>no seu coração?</em></> : <>Como responder<br /><em>com amor e verdade?</em></>}</h2>
@@ -152,7 +169,7 @@ export function HeartConversation() {
       </div>}
       {turns.map((turn, index) => <article key={turn.request.requestId} className={styles.turn} ref={index === turns.length - 1 ? latest : undefined}>
         <div className={styles.question}><span>Você · {turn.request.mode === "jesus" ? "À luz de Jesus" : "Encontrar uma passagem"}</span><p>{turn.request.question}</p></div>
-        {turn.answer && <div className={styles.response}><StudyAnswer answer={{ ...turn.answer, mode: "entender" }} disabled={disabled} onQuestion={(text) => ask(text, turn.answer!.mode)} onListen={voice.replay} />
+        {turn.answer && <div className={styles.response} ref={index === turns.length - 1 ? latestAnswer : undefined}><StudyAnswer answer={{ ...turn.answer, mode: "entender" }} disabled={disabled} onQuestion={(text) => ask(text, turn.answer!.mode)} onListen={voice.replay} />
           {turn.answer.suggestedReply && <PossibleReply text={turn.answer.suggestedReply} />}
         </div>}
         {index === turns.length - 1 && loading && <div className={styles.typing} role="status"><span className={styles.dots} aria-hidden="true"><i /><i /><i /></span><p>Buscando caminhos no texto…<small>A resposta pode levar alguns instantes.</small></p></div>}

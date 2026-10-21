@@ -73,6 +73,22 @@ describe("real licensed text retrieval", () => {
     expect(third.citations.some((c) => c.id === `${parts[0]}:${parts[1]}:${parts[2]}:1`)).toBe(true);
     expect(third.scope).toContain("não comprova autoria histórica");
   });
+  it.each(["open-nbv", "blivre"] as const)("does not cycle back to either retained answer after a second other-passage request in %s", async (translation) => {
+    const first = await retrieveCoracao(input({ translation }));
+    const references = (result: typeof first) => `Passagens consultadas: ${result.citations.map((c) => c.reference).join("; ")}`;
+    const firstTurn = { question, answer: references(first) };
+    const second = await retrieveCoracao(input({ translation, question: "Alguma outra?", history: [firstTurn] }));
+    const third = await retrieveCoracao(input({ translation, question: "Alguma outra?", history: [
+      firstTurn, { question: "Alguma outra?", answer: references(second) },
+    ] }));
+    const alreadyShown = new Set([...first.citations, ...second.citations].map((citation) => citation.id));
+    expect(third.citations.length).toBeGreaterThan(0);
+    expect(third.citations.filter((citation) => alreadyShown.has(citation.id))).toEqual([]);
+    for (const citation of third.citations) {
+      const [edition, slug, chapter, verse] = citation.id.split(":");
+      expect(citation.text).toBe(await translatedVerse(edition, slug, Number(chapter), Number(verse)));
+    }
+  });
   it("retrieves relevant Gospel context for a hater or danger, without importing graph neighbours", async () => {
     for (const question of ["Como responder a um hater que me xingou?", "Estou sofrendo abuso e violência. O que fazer?"]) {
       const result = await retrieveCoracao(input({ question, mode: "jesus" }));

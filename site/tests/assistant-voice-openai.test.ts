@@ -1,5 +1,5 @@
 import { EventEmitter } from "node:events";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { generateOpenAIVoice, maximumOpenAIVoiceCost, OPENAI_VOICE_MODEL, pcmWave, VOICE_OUTPUT_TOKENS, VOICE_SAMPLE_RATE, VOICE_SECONDS, VOICE_TIMEOUT_MS, voiceTranscriptMatches, type VoiceSocketFactory } from "@/lib/assistant/voice-openai";
 import { voiceProvider } from "@/lib/assistant/voice-provider";
 import { VOICE_MAX_CHARACTERS } from "@/lib/assistant/voice";
@@ -24,6 +24,7 @@ function setup(text = "Uma palavra de esperança.") {
   };
   return { socket, signal, factory, pending, begin, finish };
 }
+beforeEach(() => { vi.spyOn(console, "warn").mockImplementation(() => {}); });
 afterEach(() => { vi.useRealTimers(); vi.restoreAllMocks(); });
 
 describe("OpenAI profile and maximum cost", () => {
@@ -107,5 +108,76 @@ describe("one-shot Realtime audio (mock socket, no API calls)", () => {
     await expect(generateOpenAIVoice("test", "x".repeat(VOICE_MAX_CHARACTERS + 1), new AbortController().signal, factory)).rejects.toThrow();
     expect(factory).not.toHaveBeenCalled();
     expect(() => pcmWave(new Uint8Array(3))).toThrow();
+  });
+});
+
+describe("allowlisted voice failure diagnostics", () => {
+  const diagnostic = () => vi.mocked(console.warn).mock.calls.at(-1)?.[1] as Record<string, unknown>;
+  it("records handshake status and phase without reading or logging the response body", async () => {
+    const test = setup("PRIVATE conversation text");
+    const resume = vi.fn();
+    test.socket.emit("unexpected-response", { headers: { Authorization: "Bearer SECRET" } }, {
+      statusCode: 401, resume, body: "SECRET response body", headers: { secret: "SECRET header" },
+    });
+    await expect(test.pending).rejects.toMatchObject({ status: 502 });
+    expect(resume).toHaveBeenCalledTimes(1);
+    expect(diagnostic()).toMatchObject({ phase: "connecting", reason: "handshake_http", upstreamHttpStatus: 401, audioBytes: 0, inputCharacters: 25 });
+    expect(diagnostic().trace).toMatch(/^[a-f0-9-]{36}$/);
+    const logged = JSON.stringify(vi.mocked(console.warn).mock.calls);
+    for (const secret of ["SECRET", "PRIVATE", "test-key", "Authorization", "headers", "stack", "transcript:", "ticket"]) expect(logged).not.toContain(secret);
+    expect(vi.mocked(console.warn)).toHaveBeenCalledTimes(1);
+    test.socket.emit("error", new Error("SECRET after terminate"));
+    expect(vi.mocked(console.warn)).toHaveBeenCalledTimes(1);
+  });
+  it("accepts only known provider error codes; never records message, stack, event or custom code", async () => {
+    for (const code of ["invalid_api_key", "insufficient_quota", "unknown_parameter", "SECRET_untrusted_code"]) {
+      const test = setup("PRIVATE text"); test.socket.event({ type: "session.created" });
+      test.socket.event({ type: "error", error: { code, message: "SECRET payload", stack: "SECRET stack", param: "PRIVATE text" } });
+      await expect(test.pending).rejects.toMatchObject({ message: expect.not.stringContaining("SECRET") });
+      expect(diagnostic()).toMatchObject({ phase: "configuring", reason: "provider_event" });
+      if (code.startsWith("SECRET")) expect(diagnostic()).not.toHaveProperty("upstreamCode");
+      else expect(diagnostic().upstreamCode).toBe(code);
+    }
+    const logged = JSON.stringify(vi.mocked(console.warn).mock.calls);
+    expect(logged).not.toContain("SECRET"); expect(logged).not.toContain("PRIVATE"); expect(logged).not.toContain("test-key");
+  });
+  it("distinguishes timeout, caller abort and transcript mismatch with bounded numeric metadata", async () => {
+    const aborted = setup(); aborted.begin(); aborted.signal.abort();
+    await expect(aborted.pending).rejects.toThrow();
+    expect(diagnostic()).toMatchObject({ phase: "receiving", reason: "caller_abort", audioBytes: 0 });
+    const mismatch = setup(); mismatch.begin(); mismatch.finish("PRIVATE divergent transcript");
+    await expect(mismatch.pending).rejects.toThrow();
+    expect(diagnostic()).toMatchObject({ phase: "verifying", reason: "transcript_mismatch", audioBytes: 4800, transcriptCharacters: 28 });
+    vi.useFakeTimers(); const timeout = setup(); timeout.begin();
+    const rejection = expect(timeout.pending).rejects.toThrow();
+    await vi.advanceTimersByTimeAsync(VOICE_TIMEOUT_MS); await rejection;
+    expect(diagnostic()).toMatchObject({ reason: "timeout", durationMs: VOICE_TIMEOUT_MS });
+    expect(JSON.stringify(vi.mocked(console.warn).mock.calls)).not.toContain("PRIVATE");
+  });
+  it("allows only exact sent parameter names and extracts allowlisted errors from failed status_details", async () => {
+    const invalid = setup(); invalid.socket.event({ type: "session.created" });
+    invalid.socket.event({ type: "error", error: { code: "unknown_parameter", param: "session.reasoning.effort", message: "SECRET" } });
+    await expect(invalid.pending).rejects.toThrow();
+    expect(diagnostic()).toMatchObject({ upstreamCode: "unknown_parameter", upstreamParam: "session.reasoning.effort" });
+    const failed = setup(); failed.begin(); failed.socket.event({ type: "response.done", response: {
+      id: "r1", status: "failed", status_details: { error: { code: "insufficient_quota", param: "SECRET private parameter", message: "SECRET billing" } },
+    } });
+    await expect(failed.pending).rejects.toThrow();
+    expect(diagnostic()).toMatchObject({ phase: "verifying", reason: "response_incomplete", upstreamCode: "insufficient_quota" });
+    expect(diagnostic()).not.toHaveProperty("upstreamParam");
+    const unsafe = setup(); unsafe.begin(); unsafe.socket.event({ type: "response.done", response: {
+      id: "r1", status: "failed", status_details: { error: { code: "SECRET code", param: "session.audio.SECRET", message: "SECRET" } },
+    } });
+    await expect(unsafe.pending).rejects.toThrow();
+    expect(diagnostic()).not.toHaveProperty("upstreamCode"); expect(diagnostic()).not.toHaveProperty("upstreamParam");
+    expect(JSON.stringify(vi.mocked(console.warn).mock.calls)).not.toContain("SECRET");
+  });
+  it("logs neither a success nor a raw transport error", async () => {
+    const success = setup(); success.begin(); success.finish(); await success.pending;
+    expect(console.warn).not.toHaveBeenCalled();
+    const fail = setup(); fail.socket.emit("error", Object.assign(new Error("SECRET from socket"), { code: "ECONNRESET" }));
+    await expect(fail.pending).rejects.toThrow();
+    expect(diagnostic()).toMatchObject({ phase: "connecting", reason: "transport", upstreamCode: "ECONNRESET" });
+    expect(JSON.stringify(vi.mocked(console.warn).mock.calls)).not.toContain("SECRET");
   });
 });

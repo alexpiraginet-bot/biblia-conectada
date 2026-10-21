@@ -114,6 +114,8 @@ export async function retrieveCoracao(input: CoracaoInput): Promise<CoracaoGroun
     return matches;
   };
   const previous = followup ? referenceCoordinates(input.history!.at(-1)!.answer) : [];
+  // "Another" excludes both retained answers; attribution still follows only the latest answer.
+  const previouslyShown = another ? input.history!.flatMap((turn) => referenceCoordinates(turn.answer)) : [];
   for (const [slug, chapter, verse] of referenceCoordinates(input.question)) addAnchor(slug, chapter, verse, 1000);
   for (const topic of SEARCH_TOPICS) {
     if (!topic.match.test(normalized)) continue;
@@ -137,10 +139,10 @@ export async function retrieveCoracao(input: CoracaoInput): Promise<CoracaoGroun
   const ranked = [...scores].filter(([, s]) => s.anchored || (s.matches >= Math.min(2, query.length) && s.score >= 1.2))
     .sort((a, b) => b[1].score - a[1].score || a[0] - b[0]);
   const selected: Row[] = [];
-  let skip = another && !previous.length ? 4 : 0;
+  let skip = another && !previouslyShown.length ? 4 : 0;
   for (const [id] of ranked) {
     const row = data.rows[id];
-    if (another && previous.some(([slug, chapter, verse]) => row.book.slug === slug && row.chapter === chapter && Math.abs(row.verse-verse) <= 4)) continue;
+    if (another && previouslyShown.some(([slug, chapter, verse]) => row.book.slug === slug && row.chapter === chapter && Math.abs(row.verse-verse) <= 4)) continue;
     if (selected.some((other) => row.book.slug === other.book.slug && row.chapter === other.chapter && Math.abs(row.verse-other.verse) <= 4)) continue;
     if (skip > 0) { skip--; continue; }
     selected.push(row);

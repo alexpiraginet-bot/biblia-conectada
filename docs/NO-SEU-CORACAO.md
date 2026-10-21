@@ -1,6 +1,6 @@
 # No seu coração — backend da conversa bíblica
 
-Implementação local em 21/10/2026. Não implica deploy, ativação de voz, teste pago ou aprovação editorial das respostas.
+Implementação em 21/10/2026. Os testes reais na prévia e o estado de publicação estão em `docs/evidence/2026-10-21-heart-conversation-voice.md`; não confundir o estado local abaixo com a configuração ativa de produção.
 
 ## Contrato
 
@@ -14,7 +14,7 @@ Não há streaming parcial de prosa: a resposta inteira é validada antes da ent
 
 ## Modelo e orçamento
 
-Modelo fixo **`claude-sonnet-5-5`**, confirmado na [documentação oficial da Anthropic](https://platform.claude.com/docs/en/models/sonnet-5-5/overview) em 21/10/2026: US$2 por milhão de tokens de entrada e US$10 por milhão de saída. A [nota de migração](https://platform.claude.com/docs/en/models/sonnet-5-5/whats-new-sonnet-5-5) confirma adaptive thinking; esta implementação usa esforço low e limita a saída total a 1.600 tokens, incluindo pensamento. Nenhuma chamada à conta foi feita para testar disponibilidade individual.
+Modelo fixo **`claude-sonnet-5-5`**, confirmado na [documentação oficial da Anthropic](https://platform.claude.com/docs/en/models/sonnet-5-5/overview) em 21/10/2026: US$2 por milhão de tokens de entrada e US$10 por milhão de saída. A [nota de migração](https://platform.claude.com/docs/en/models/sonnet-5-5/whats-new-sonnet-5-5) confirma adaptive thinking; esta implementação usa esforço low e limita a saída total a 1.600 tokens, incluindo pensamento. Duas chamadas reais na prévia confirmaram acesso e retorno válido na conta, em ambos os modos.
 
 A reserva usa bytes serializados como limite conservador de tokens, multiplicador 2 e margem de protocolo, mais a saída máxima. Reserva e settlement reaproveitam o mesmo EVAL, hash `bc:{assistant}:ledger`, teto mensal de **US$20**, mês UTC e limites por visitante do companheiro de estudo. Não se somam US$20 novos. O fingerprint inclui operação, modelo, modo, edição, pergunta e histórico; somente o hash fica no ledger. Uso com dimensões de cobrança inesperadas não libera saldo por estimativa. Não há ferramentas pagas, cache de prompt, modo rápido ou retries automáticos.
 
