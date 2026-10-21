@@ -20,7 +20,9 @@ O parecer local `gemma4:12b-it-qat` sugeriu verificar identidade e erro de carre
 
 ## Validação
 
-Testes de integração do documento, política de instalação e rotas: 76 aprovados. Build completo, auditoria de UI/UX/performance e conferência de publicação registrados ao concluir a rodada.
+Código `b9c1515`: 709 testes em 51 arquivos, build completo, check-dist (3.798 páginas e integridade das edições), TypeScript, ESLint e orçamento aprovados. O documento tem 10.529 bytes brutos / 4.024 bytes gzip, sem bundles externos; seus dois scripts inline somam 635 bytes gzip. O orçamento das páginas principais passou, inclusive `/arcos` em 167.993 bytes gzip, abaixo de 168.960.
+
+A auditoria de UI/UX/performance conferiu 375/1440, Dia/Noite, imagem bloqueada seguida de recarga bem-sucedida, JavaScript desativado e os links do rodapé, Sobre e aviso iPhone. Contraste mínimo: 6,55:1 Dia e 8,01:1 Noite; zero erros JavaScript, overflow, chamadas de IA/vídeo ou terceiros. O agente principal também inspecionou as capturas mobile/desktop e do aviso. Ver `qa/install-audit.json` e capturas na pasta externa. Isso não é um teste nativo de instalação iOS.
 
 Artefatos: `C:/Users/R2/.codex/visualizations/biblia-conectada-20261021/icon-install/`; investigação anterior de HTTP e decodificação em `icon-direct-followup/`.
 
