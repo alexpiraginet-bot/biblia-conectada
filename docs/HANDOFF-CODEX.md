@@ -16,9 +16,9 @@ Escrito pelo Claude a pedido do Alex: "Prepare handoff para o códex seguir". Da
 
 ## 2. Estado e continuidade
 
-### Open Nova Bíblia Viva — integração validada localmente (21/10)
+### Open Nova Bíblia Viva — publicada e conferida (21/10)
 
-Após autorização de Alex, `codex/open-nbv-reader` adiciona leitura integral em `/ler/open-nbv`, com 66 livros, 1.189 capítulos e 31.105 posições, importadas sem reescrita do ZIP já preservado em `fontes/`. Texto, IA, voz do aparelho e imagens de compartilhamento mantêm a edição. A troca de tradução abre o capítulo; conexões da Open NBV são por capítulo, sem equivalência de versículos presumida. Busca por palavras, cronologia e grafos originais continuam BLIVRE. A tradução própria é piloto editorial separado, fora desta integração. Build com 705 testes, tipos, lint, check-dist e orçamento passou; agentes de performance, UI e UX concluíram sem bloqueador, com capturas 375/1440 Dia/Noite. [Evidências e limites](evidence/2026-10-21-open-nbv.md). Publicação será registrada após conferência do domínio público.
+Após autorização de Alex, o PR #28 (`bf608f31805ee26001c8b8972eb3bfce2ad20b9e`) adiciona leitura integral em `/ler/open-nbv`, com 66 livros, 1.189 capítulos e 31.105 posições, importadas sem reescrita do ZIP já preservado em `fontes/`. Texto, IA, voz do aparelho e imagens de compartilhamento mantêm a edição. A troca de tradução abre o capítulo; conexões da Open NBV são por capítulo, sem equivalência de versículos presumida. Busca por palavras, cronologia e grafos originais continuam BLIVRE. A tradução própria é piloto editorial separado, fora desta integração. Build com 705 testes, tipos, lint, check-dist e orçamento passou; agentes de performance, UI e UX concluíram sem bloqueador. Produção `dpl_DQGkFDQ4FzwUK4cgV333e6s9zLaV` READY com alias principal; 64 verificações públicas, capturas 375/1440 Dia/Noite, HTML/PNG/cache e uma resposta real de IA com oito citações da edição conferidos. [Evidências e limites](evidence/2026-10-21-open-nbv.md).
 
 ### Item 4.1 — publicado e conferido (20/10)
 
