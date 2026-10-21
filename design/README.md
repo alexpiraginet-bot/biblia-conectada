@@ -464,3 +464,12 @@ Em 375 e 1440 px, nos temas Noite e Dia (regra 9 do `CLAUDE.md`):
 - Desempenho em GPU de verdade (desktop, celular médio e fraco): este ambiente só tem SwiftShader.
 - Safari/iOS e Firefox, pinça no toque real, leitor de tela (a ordem de foco e o ARIA foram conferidos no DOM).
 - O compartilhar do celular com a imagem (Web Share com arquivo): o Chromium deste ambiente não tem Web Share; aqui a imagem foi baixada.
+
+## 16. No seu coração e navegação flutuante (21/10/2026)
+
+- `/coracao` acolhe uma lembrança, pergunta ou sentimento sem exigir que a pessoa conheça uma referência. A ação principal da capa e a navegação levam ao novo espaço.
+- Dois modos: **Encontrar uma passagem** e **À luz de Jesus**. O segundo recebe uma situação ou comentário, traz uma reflexão com fontes dos evangelhos e pode oferecer uma resposta copiável para adaptar. A interface identifica a ajuda por IA e distingue a sugestão do texto bíblico; não apresenta Jesus falando nem uma revelação.
+- A conversa fica no mesmo painel, com três pontos durante a espera, perguntas iniciais, referências expansíveis, continuação e nova conversa. O contexto mantém até duas trocas, só na memória da página; os limites e o envio aos provedores ficam junto ao campo de mensagem.
+- A navegação móvel é uma pílula flutuante bordô, com ouro, transparência, fallback opaco, área segura e alvos de toque maiores que 44 px. As posições são Explorar, Ler, Coração, Arcos e Mais; Buscar e Ponte continuam em Mais. O menu suporta teclado, Escape, clique externo e restauração do foco.
+- Voz natural: reprodução preparada no gesto de enviar; estados de espera, geração, reprodução, pausa e erro. Pode desligar, parar ou ouvir novamente. Trechos longos são identificados como parciais; a resposta completa continua em texto. O navegador pode exigir novo toque e o site não controla o volume físico do aparelho.
+- Evidência de interface, fontes, performance e limites: `docs/evidence/2026-10-21-heart-conversation-voice.md`. Os testes com voz simulada não comprovam a voz do provedor ou o comportamento em iPhone físico.

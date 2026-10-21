@@ -9,7 +9,7 @@ import type { Book } from "./types";
 export const RESERVED = [
   // pages
   "ler", "sobre", "arcos", "explorar", "conexao", "linha-do-tempo", "tema", "palavra", "ponte", "trilha", "mesa",
-  "dados", "salvos", "buscar", "privacidade", "caminhos", "cronologia", "instalar",
+  "dados", "salvos", "buscar", "privacidade", "caminhos", "cronologia", "instalar", "coracao",
   // planned (design/README.md §5, HANDOFF §6)
   "grafo", "mapa", "lugar", "pessoa", "evento", "estudo", "assistente", "og",
   // public folders and framework paths

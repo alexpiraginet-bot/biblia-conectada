@@ -1,31 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useId, useState, useSyncExternalStore } from "react";
-import type { AssistantSuccess } from "@/lib/assistant/types";
-import { speakStudyText, speechSnapshot, speechServerSnapshot, speechSupport, stopStudySpeech, subscribeSpeech } from "./study-speech";
+import { useState } from "react";
+import type { AssistantAudio, AssistantSuccess } from "@/lib/assistant/types";
 import styles from "./StudyChat.module.css";
 
-const unsupported = () => false;
-export function StudyListen({ text, label = "Ouvir resposta" }: { text: string; label?: string }) {
-  const owner = useId();
-  const supported = useSyncExternalStore(subscribeSpeech, speechSupport, unsupported);
-  const speech = useSyncExternalStore(subscribeSpeech, speechSnapshot, speechServerSnapshot);
-  const speaking = speech.owner === owner;
-  useEffect(() => () => stopStudySpeech(owner), [owner]);
-  return <div className={styles.listen}>
-    <button type="button" disabled={!supported} aria-pressed={speaking} onClick={() => speaking ? stopStudySpeech(owner) : speakStudyText(owner, text)}>{speaking ? "Parar leitura" : label}<span aria-hidden="true">{speaking ? "Ⅱ" : "▷"}</span></button>
-    <small role="status">{!supported ? "Leitura em voz alta indisponível neste navegador." : speech.failedOwner === owner ? "A voz do aparelho não está disponível agora." : "Voz do aparelho"}</small>
-  </div>;
-}
-
-export function StudyAnswer({ answer, onQuestion, disabled }: { answer: AssistantSuccess; onQuestion: (question: string) => void; disabled: boolean }) {
+export function StudyAnswer({ answer, onQuestion, disabled, onListen }: { answer: AssistantSuccess; onQuestion: (question: string) => void; disabled: boolean; onListen?: (audio: AssistantAudio) => void }) {
   const [sceneIndex, setSceneIndex] = useState(0);
   const scene = answer.scenes?.[sceneIndex];
   return <div className={styles.answer}>
     <span className={styles.eyebrow}>Companheiro · IA</span>
     <h3>{answer.title}</h3>
-    <StudyListen text={[answer.title, ...(answer.scenes ?? []).map((item) => `${item.title}. ${item.text}`), ...answer.blocks.map((block) => block.text)].join("\n\n")} />
+    {answer.audio && onListen && <div className={styles.listen}><button type="button" onClick={() => onListen(answer.audio!)}>Ouvir resposta <span aria-hidden="true">▷</span></button><small>{answer.audio.partial ? "Trecho inicial em áudio · " : ""}Voz gerada por IA</small></div>}
     {scene && <section className={styles.story} aria-label="A história em cenas ilustradas">
       <figure><Image src={scene.art.src} alt={scene.art.alt} width={640} height={360} unoptimized /><figcaption>{scene.art.caption}</figcaption></figure>
       <h4>{scene.title}</h4><p>{scene.text}</p>

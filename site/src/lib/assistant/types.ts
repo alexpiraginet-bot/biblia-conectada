@@ -35,7 +35,10 @@ export type AssistantSuccess = {
   scenes?: AssistantScene[];
   notice: string;
   source?: { name: string; credit: string; license: string; licenseUrl: string; sourceNotice?: string; trademarkNotice?: string };
+  /** A short-lived, signed capability for this validated answer only. Not a TTS text box. */
+  audio?: AssistantAudio;
 };
+export type AssistantAudio = { ticket: string; text: string; expiresAt: number; partial: boolean };
 export type AssistantErrorCode = "unavailable" | "limit" | "invalid" | "provider" | "in_progress";
 export type AssistantError = {
   ok: false;
@@ -44,4 +47,4 @@ export type AssistantError = {
   retryAfterSeconds?: number;
 };
 export type AssistantResponse = AssistantSuccess | AssistantError;
-export type AssistantAvailability = { available: boolean; message: string };
+export type AssistantAvailability = { available: boolean; message: string; voice?: { available: boolean; name?: string } };

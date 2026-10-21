@@ -79,8 +79,8 @@ input {
    tab bar with --tabbar-h. */
 
 :root {
-  /* the bar, its 1px top rule (ds.css .bc-tabbar) and the home indicator's area */
-  --tabbar-h: calc(var(--bar-h) + 1px + env(safe-area-inset-bottom, 0px));
+  /* The floating navigation and its breathing room stay above the home indicator. */
+  --tabbar-h: calc(88px + env(safe-area-inset-bottom, 0px));
   /* the Ponte strip (community/strip.module.css); the reading's selection bar sits above it */
   --strip-h: 3.75rem;
 }
@@ -113,13 +113,34 @@ input {
   display: none;
 }
 
-.site-tabbar {
+.bc-root .site-tabbar {
   position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding-left: max(var(--space-2), env(safe-area-inset-left, 0px));
-  padding-right: max(var(--space-2), env(safe-area-inset-right, 0px));
+  left: 50%;
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  width: min(460px, calc(100% - 24px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)));
+  min-height: 64px;
+  padding: 4px;
+  gap: 2px;
+  border: 1px solid color-mix(in srgb, var(--sky-gold) 32%, transparent);
+  border-radius: 30px;
+  background: var(--sky);
+  color: var(--sky-gold);
+  box-shadow: 0 10px 34px #160b1590, inset 0 1px 0 #fff1;
+  isolation: isolate;
+}
+.bc-root .site-tabbar .bc-tabbar__item { min-width: 0; min-height: 54px; gap: 4px; padding: 6px 2px; border-radius: 25px; color: var(--sky-gold); font-size: 11px; font-weight: 550; text-decoration: none; }
+.bc-root .site-tabbar .bc-tabbar__item[aria-current="page"], .site-tabbar__more[data-current] > summary, .site-tabbar__more[open] > summary { background: color-mix(in srgb, var(--sky-gold) 15%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sky-gold) 25%, transparent); }
+.bc-root .site-tabbar .bc-tabbar__item:focus-visible, .site-tabbar__menu-link:focus-visible { outline-color: var(--sky-gold); outline-offset: -2px; }
+.site-tabbar__more { min-width: 0; }
+.site-tabbar__more > summary { cursor: pointer; list-style: none; height: 100%; }
+.site-tabbar__more > summary::-webkit-details-marker { display: none; }
+.site-tabbar__menu { position: absolute; right: 0; bottom: calc(100% + 12px); width: 236px; padding: 12px; border-radius: 22px; border: 1px solid color-mix(in srgb, var(--sky-gold) 35%, transparent); background: var(--sky); color: var(--sky-gold); box-shadow: 0 10px 34px #160b1580; }
+.site-tabbar__menu > p { margin: 0; padding: 6px 12px 10px; color: var(--sky-gold); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+.site-tabbar__menu-link { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 10px 12px; border-radius: 12px; color: var(--sky-gold); font-size: 15px; text-decoration: none; }
+.site-tabbar__menu-link:hover, .site-tabbar__menu-link[aria-current="page"] { background: color-mix(in srgb, var(--sky-gold) 14%, transparent); }
+@supports ((backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px))) {
+  .bc-root .site-tabbar { background: color-mix(in srgb, var(--sky) 91%, transparent); backdrop-filter: blur(20px) saturate(125%); -webkit-backdrop-filter: blur(20px) saturate(125%); }
 }
 
 .site-topbar__search {
@@ -138,7 +159,7 @@ input {
 .site-shell[data-discovery] .appearance { margin-left: 0; }
 .site-shell[data-discovery] .site-topbar { background: var(--ground); color: var(--ink); }
 @media (min-width: 64rem) {
-  .site-shell[data-discovery] .site-topbar__nav { display: flex; align-items: center; justify-content: center; gap: clamp(20px, 3vw, 45px); margin-inline: auto; padding-left: 45px; }
+  .site-shell[data-discovery] .site-topbar__nav { display: flex; align-items: center; justify-content: center; gap: clamp(16px, 2vw, 32px); margin-inline: auto; padding-left: 24px; }
   .site-topbar__nav a { display: flex; align-items: center; gap: 8px; min-height: 44px; font-size: 13px; color: var(--ink-2); text-decoration: none; transition: color .2s; }
   .site-topbar__nav a:hover { color: var(--accent); }
   .site-topbar__nav a:last-child { color: var(--accent); }
