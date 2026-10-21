@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { shareMetadata } from "@/lib/share-metadata";
+import { SITE_URL } from "@/lib/site-identity";
 import { LinksPanel, type NearVerse } from "@/components/reader/LinksPanel";
 import { PanelShell } from "@/components/reader/PanelShell";
 import { graphPartners } from "@/lib/from-here";
@@ -24,10 +26,13 @@ export async function generateMetadata({ params }: PageProps<"/[livro]/[cap]/[ve
   if (!r) return { title: NOT_FOUND_TITLE };
   const label = `${r.book.name} ${r.chapter}:${r.verse}`;
   return {
-    title: label,
-    description: `${label} na Bíblia Livre (BLIVRE) e os versículos ligados a ele.`,
-    alternates: { canonical: `/${r.book.slug}/${r.chapter}` },
-    openGraph: { url: `/${r.book.slug}/${r.chapter}/${r.verse}` },
+    ...shareMetadata({
+      title: label,
+      description: `${label} na Bíblia Livre (BLIVRE) e os versículos ligados a ele.`,
+      path: `/${r.book.slug}/${r.chapter}/${r.verse}`,
+    }),
+    // Preserve the reading SEO: the chapter is canonical, while a shared card opens this exact verse.
+    alternates: { canonical: new URL(`/${r.book.slug}/${r.chapter}`, SITE_URL).href },
   };
 }
 

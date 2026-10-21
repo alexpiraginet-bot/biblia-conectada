@@ -1,4 +1,4 @@
-// What the sculpture page selects and how it is written in the address: "#isaias/53/5" a verse, "#isaias/53" a
+// What the sculpture page selects and how it is written in the address: "?ref=isaias/53/5" a verse, "?ref=isaias/53" a
 // chapter, "#caminho/genesis/3/15/apocalipse/12/9" the path between two verses, "#palavra/cordeiro" the verses of a
 // word. Pure helpers (tests/sculpture.test.ts), plus the cached fetch of a chapter's BLIVRE text.
 import { formatInt } from "@/lib/canon/text";
@@ -96,19 +96,41 @@ export const versiculos = (n: number) => `${formatInt(n)} ${n === 1 ? "versícul
 // ---------------------------------------------------------------- the address as an external store
 
 const listeners = new Set<() => void>();
+const addressChanged = () => writeHash(parseHash(readHash()));
 export function subscribeHash(cb: () => void) {
-  window.addEventListener("hashchange", cb);
+  if (!listeners.size) {
+    window.addEventListener("hashchange", addressChanged);
+    window.addEventListener("popstate", addressChanged);
+  }
   listeners.add(cb);
   return () => {
-    window.removeEventListener("hashchange", cb);
     listeners.delete(cb);
+    if (!listeners.size) {
+      window.removeEventListener("hashchange", addressChanged);
+      window.removeEventListener("popstate", addressChanged);
+    }
   };
 }
-export const readHash = () => window.location.hash;
+export function readHash() {
+  if (window.location.hash) return window.location.hash;
+  const refs = new URLSearchParams(window.location.search).getAll("ref");
+  return refs.length === 1 ? hashOf(parseHash(refs[0])) : "";
+}
+/** The query reaches social crawlers; the fragment preserves existing links and browser selection behavior. */
+export function selectionAddress(address: string, sel: Sel): string {
+  const url = new URL(address);
+  const hash = hashOf(sel);
+  url.searchParams.delete("v");
+  if (hash) url.searchParams.set("ref", hash.slice(1));
+  else url.searchParams.delete("ref");
+  url.hash = hash;
+  return `${url.pathname}${url.search}${url.hash}`;
+}
 /** Writes the selection into the address without a history entry (the trail on the page is the way back). */
 export function writeHash(sel: Sel) {
-  const h = hashOf(sel);
-  window.history.replaceState(null, "", h || window.location.pathname + window.location.search);
+  // Activity can retain this page briefly after navigation. Never rewrite the destination's address.
+  if (window.location.pathname !== "/arcos") return;
+  window.history.replaceState(window.history.state, "", selectionAddress(window.location.href, sel));
   listeners.forEach((f) => f());
 }
 

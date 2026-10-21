@@ -1,10 +1,14 @@
+import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import { SavedList } from "@/components/salvos/SavedList";
 import styles from "@/components/salvos/salvos.module.css";
 
 export const metadata: Metadata = {
-  title: "Salvos",
-  description: "Trechos da Bíblia salvos neste aparelho, só no navegador.",
+  ...shareMetadata({
+    title: "Salvos",
+    description: "Trechos da Bíblia salvos neste aparelho, só no navegador.",
+    path: "/salvos",
+  }),
   robots: { index: false },
 };
 

@@ -1,3 +1,4 @@
+import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { skyInitial } from "@/components/sky/initial";
@@ -13,10 +14,11 @@ import styles from "../page.module.css";
 // public/data/sky.json (scripts/build-data.ts); scripts/check-dist.ts checks them in the built HTML.
 const c = summary.counts;
 
-export const metadata: Metadata = {
-  title: "Céu de ligações em 2D",
-  description: `Os ${formatInt(c.arcs)} pares de versículos ligados pelas referências cruzadas da OpenBible.info, como arcos sobre a Bíblia inteira, de Gênesis a Apocalipse.`,
-};
+export const metadata: Metadata = shareMetadata({
+    title: "Céu de ligações em 2D",
+    description: `Os ${formatInt(c.arcs)} pares de versículos ligados pelas referências cruzadas da OpenBible.info, como arcos sobre a Bíblia inteira, de Gênesis a Apocalipse.`,
+    path: "/arcos/plano",
+  });
 
 export default async function ArcosPlano() {
   const initial = await skyInitial();

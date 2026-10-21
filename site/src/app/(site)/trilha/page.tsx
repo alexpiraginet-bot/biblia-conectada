@@ -1,3 +1,4 @@
+import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CommunityWays } from "@/components/community/CommunityWays";
@@ -8,11 +9,11 @@ import { formatDateBR } from "@/lib/community/ponte";
 
 export const ensureStatic = "navigation";
 
-export const metadata: Metadata = {
-  title: "Trilhas",
-  description: "Trilhas de leitura feitas das ligações entre versículos, com o texto da Bíblia Livre.",
-  alternates: { canonical: "/trilha" },
-};
+export const metadata: Metadata = shareMetadata({
+    title: "Trilhas",
+    description: "Trilhas de leitura feitas das ligações entre versículos, com o texto da Bíblia Livre.",
+    path: "/trilha",
+  });
 
 export default function TrailsPage() {
   return (

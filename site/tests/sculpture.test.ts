@@ -8,17 +8,15 @@ import { OUT } from "../scripts/data/sources";
 import { buildGeometry, decodeArcs, HERO_VOTES, indexByChapter, type ArcSet, type ChapterIndex, type Geometry, type SkyMeta } from "../src/components/sky/model";
 import { arcColors, arcGeometry, axisLines, chapterLinks, litVerse, newTestament, pairAngle, partnersFromLinks, partnersOf, verseAxis } from "../src/components/sculpture/arcs";
 import { HOME_ORBIT, homeArea, homeBox, NT_START } from "../src/components/sculpture/home";
+import { arcUnderPointer, axisUnderPointer, mixView } from "../src/components/sculpture/interaction";
 import {
   arcPoint,
-  arcUnderPointer,
-  axisUnderPointer,
   boxProjection,
   exposureZoom,
   FLAT,
   fitOrbit,
   HOME,
   HOME_ASPECT,
-  mixView,
   project,
   sculptureOutline,
   viewMatrix,

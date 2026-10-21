@@ -1,3 +1,4 @@
+import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -14,10 +15,11 @@ const RULES: { term: string; text: string; example: string }[] = [
   { term: "Tema", text: "Os temas da OpenBible.info, com as passagens de cada um.", example: "misericórdia" },
 ];
 
-export const metadata: Metadata = {
-  title: "Buscar",
-  description: "Busca na Bíblia Conectada: referência (Is 9:6), livro, tema e palavras ou frases do texto da Bíblia Livre.",
-};
+export const metadata: Metadata = shareMetadata({
+    title: "Buscar",
+    description: "Busca na Bíblia Conectada: referência (Is 9:6), livro, tema e palavras ou frases do texto da Bíblia Livre.",
+    path: "/buscar",
+  });
 
 // The search as a page: where the "Buscar" tab and the search box lead without JavaScript, and where "Ver os N
 // versículos" opens. The query is the ?q= of the address, read in the browser, so the page itself stays static; the

@@ -1,14 +1,15 @@
+import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AncientJourneyMap } from "@/components/journey/AncientJourneyMap";
 import { jesusJourney } from "@/lib/caminhos";
 import styles from "./caminhos.module.css";
 
-export const metadata: Metadata = {
-  title: "Pelos caminhos de Jesus",
-  description: "Uma jornada ilustrada pelos lugares dos evangelhos. Explore o mapa, leia o texto bíblico e descubra como cada passagem se conecta a outras.",
-  alternates: { canonical: "/caminhos" },
-};
+export const metadata: Metadata = shareMetadata({
+    title: "Pelos caminhos de Jesus",
+    description: "Uma jornada ilustrada pelos lugares dos evangelhos. Explore o mapa, leia o texto bíblico e descubra como cada passagem se conecta a outras.",
+    path: "/caminhos",
+  });
 export const ensureStatic = "navigation";
 
 export default async function CaminhosPage() {

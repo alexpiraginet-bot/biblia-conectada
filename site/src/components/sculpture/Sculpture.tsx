@@ -4,7 +4,7 @@
 // thread of light over the Bible, in 3D. The canvas is the picture; the panel beside it (a sheet on phones) is the
 // accessible source of truth: the verse, its text, its links and where each one leads.
 //
-// The selection lives in the URL fragment ("#isaias/53/5" a verse, "#isaias/53" a chapter), so a link can open the
+// The selection lives in the URL query and its legacy fragment, so crawlers and visitors can open the
 // sculpture on a verse and the browser keeps it on reload. The engine (engine.ts) owns frames and the pointer; this
 // component owns what is selected. Data that changes rarely (the axis, the arcs) is state; refs only reach the engine
 // and the DOM from effects and handlers.
@@ -242,12 +242,18 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
 
   // Accept a human-readable reference in shared URLs as well as our canonical hash.
   useEffect(() => {
-    if (window.location.hash) return;
-    const reference = new URLSearchParams(window.location.search).get("v");
+    const selected = parseHash(readHash());
+    if (selected) {
+      writeHash(selected);
+      return;
+    }
+    const params = new URLSearchParams(window.location.search);
+    if (params.has("ref")) return;
+    const reference = params.get("v");
     if (!reference || reference.length > 160) return;
     let active = true;
     void import("./query").then(({ readQuery }) => {
-      if (!active || window.location.hash) return;
+      if (!active || readHash()) return;
       const result = readQuery(reference);
       if ("sel" in result) choose(result.sel);
     });

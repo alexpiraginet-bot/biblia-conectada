@@ -1,3 +1,4 @@
+import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { DeviceNote } from "@/components/community/DeviceNote";
@@ -13,11 +14,11 @@ export const ensureStatic = "navigation";
 const first = formatDateBR(trail.firstDate);
 const last = formatDateBR(trail.lastDate);
 
-export const metadata: Metadata = {
-  title: trail.title,
-  description: `${trail.steps.length} pares de versículos entre o Antigo Testamento e os capítulos do nascimento de Jesus (Mateus 1–2, Lucas 1–2), um por dia de ${first} a ${last}, com as ligações da OpenBible.info e o texto da Bíblia Livre.`,
-  alternates: { canonical: `/trilha/${trail.slug}` },
-};
+export const metadata: Metadata = shareMetadata({
+    title: trail.title,
+    description: `${trail.steps.length} pares de versículos entre o Antigo Testamento e os capítulos do nascimento de Jesus (Mateus 1–2, Lucas 1–2), um por dia de ${first} a ${last}, com as ligações da OpenBible.info e o texto da Bíblia Livre.`,
+    path: `/trilha/${trail.slug}`,
+  });
 
 // The trail: what it is, its one action (start, or go on from where this device stopped), the steps as a ruled list and
 // their arcs in a sky window beside it from 64rem. Numbers from the pipeline (scripts/checks/community.ts).

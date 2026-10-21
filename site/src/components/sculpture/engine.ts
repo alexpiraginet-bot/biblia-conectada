@@ -2,16 +2,13 @@
 // is selected and the panel; this owns frames. A bounded pulse layer moves while visible; the sculpture and labels
 // are reused until the camera, selection or size changes. Hidden, offscreen and paused stages schedule no motion.
 import { SculptureRenderer, type ArcBuffers, type AxisLines, type Lit, type Theme } from "./renderer";
+import { arcUnderPointer, axisUnderPointer, easeInOut, mixView } from "./interaction";
 import {
   arcPoint,
-  arcUnderPointer,
-  axisUnderPointer,
   clampOrbit,
   DIST_RANGE,
-  easeInOut,
   exposureZoom,
   HOME,
-  mixView,
   pixelsPerUnit,
   project,
   viewMatrix,

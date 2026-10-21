@@ -1,13 +1,15 @@
+import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { formatInt, stripAccents } from "@/lib/canon/text";
 import { dateBR, themeRule, themes, themesMeta } from "@/lib/timeline";
 import styles from "./tema.module.css";
 
-export const metadata: Metadata = {
-  title: "Temas",
-  description: "Temas da OpenBible.info Topics com rótulo em português tirado do texto da Bíblia Livre.",
-};
+export const metadata: Metadata = shareMetadata({
+    title: "Temas",
+    description: "Temas da OpenBible.info Topics com rótulo em português tirado do texto da Bíblia Livre.",
+    path: "/tema",
+  });
 
 export const ensureStatic = "navigation";
 

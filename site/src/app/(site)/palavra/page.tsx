@@ -1,3 +1,4 @@
+import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { WordSearch } from "@/components/passage/WordSearch";
@@ -6,10 +7,11 @@ import { themes } from "@/lib/timeline";
 import { wordPage, type WordPage } from "@/lib/word-index";
 import styles from "../tema/tema.module.css";
 
-export const metadata: Metadata = {
-  title: "Palavras",
-  description: "Versículos da Bíblia Livre que têm uma palavra, e as ligações entre eles.",
-};
+export const metadata: Metadata = shareMetadata({
+    title: "Palavras",
+    description: "Versículos da Bíblia Livre que têm uma palavra, e as ligações entre eles.",
+    path: "/palavra",
+  });
 
 export const ensureStatic = "navigation";
 

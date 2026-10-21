@@ -1,3 +1,4 @@
+import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { EventList } from "@/components/timeline/EventList";
@@ -10,10 +11,11 @@ import { timelineArcs } from "@/lib/timeline-links";
 import { splitPeriods } from "@/lib/timeline-periods";
 import styles from "./linha.module.css";
 
-export const metadata: Metadata = {
-  title: "Linha do tempo",
-  description: "Os eventos bíblicos do Theographic em ordem cronológica, com o texto da Bíblia Livre e as ligações de cada trecho.",
-};
+export const metadata: Metadata = shareMetadata({
+    title: "Linha do tempo",
+    description: "Os eventos bíblicos do Theographic em ordem cronológica, com o texto da Bíblia Livre e as ligações de cada trecho.",
+    path: "/linha-do-tempo",
+  });
 
 export const ensureStatic = "navigation";
 

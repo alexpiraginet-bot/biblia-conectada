@@ -1,3 +1,4 @@
+import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -53,10 +54,11 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/linha-do-tempo/[evento]">): Promise<Metadata> {
   const e = eventBySlug((await params).evento);
   if (!e) return { title: NOT_FOUND_TITLE };
-  return {
+  return shareMetadata({
     title: e.ref,
     description: `${e.ref} na linha do tempo: ${yearLabel(e.year)} pela cronologia de F. N. Jones (Theographic), texto da Bíblia Livre e ${formatInt(e.links.pairs)} ligações.`,
-  };
+    path: `/linha-do-tempo/${e.slug}`,
+  });
 }
 
 const side = (gv: number) => {

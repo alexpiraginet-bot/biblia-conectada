@@ -1,3 +1,4 @@
+import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -29,11 +30,11 @@ async function resolve(params: Promise<{ n: string }>) {
 export async function generateMetadata({ params }: PageProps<"/trilha/antes-do-natal/[n]">): Promise<Metadata> {
   const s = await resolve(params);
   if (!s) return { title: NOT_FOUND_TITLE };
-  return {
+  return shareMetadata({
     title: `${stepTitle(s)} · ${trail.title}`,
     description: `Passo ${s.step} da trilha ${trail.title}: ${stepTitle(s)}, ${formatInt(s.votes)} votos de leitores na OpenBible.info, no texto da Bíblia Livre.`,
-    alternates: { canonical: `/trilha/${trail.slug}/${s.step}` },
-  };
+    path: `/trilha/${trail.slug}/${s.step}`,
+  });
 }
 
 const stepPath = (n: number) => `/trilha/${trail.slug}/${n}`;

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { shareMetadata } from "@/lib/share-metadata";
 import Link from "next/link";
 import { Crumbs } from "@/components/Crumbs";
 import { Icon } from "@/components/icons";
@@ -20,7 +21,11 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps<"/[livro]">): Promise<Metadata> {
   const book = bookBySlug((await params).livro);
-  return book ? { title: book.name, alternates: { canonical: `/${book.slug}` } } : { title: NOT_FOUND_TITLE };
+  return book ? shareMetadata({
+    title: book.name,
+    description: `Leia ${book.name} na Bíblia Livre (BLIVRE), com os capítulos e as conexões de cada versículo.`,
+    path: `/${book.slug}`,
+  }) : { title: NOT_FOUND_TITLE };
 }
 
 const TOP = 5; // most linked chapters listed, plus any tied with the last

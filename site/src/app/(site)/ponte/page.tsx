@@ -1,3 +1,4 @@
+import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import { CommunityWays } from "@/components/community/CommunityWays";
 import { DeviceNote } from "@/components/community/DeviceNote";
@@ -8,12 +9,11 @@ import { ponteBuilt } from "@/lib/community/data";
 
 export const ensureStatic = "navigation";
 
-export const metadata: Metadata = {
-  title: "Ponte",
-  description:
-    "Um par de versículos por dia, o mesmo para todo mundo: vá de um ao outro só pelas referências cruzadas, lendo cada salto. Sem conta e sem placar.",
-  alternates: { canonical: "/ponte" },
-};
+export const metadata: Metadata = shareMetadata({
+    title: "Ponte",
+    description: "Um par de versículos por dia, o mesmo para todo mundo: vá de um ao outro só pelas referências cruzadas, lendo cada salto. Sem conta e sem placar.",
+    path: "/ponte",
+  });
 
 // The page is the same file every day: this device picks today's bridge from the São Paulo date.
 export default function PontePage() {
