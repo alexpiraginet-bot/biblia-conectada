@@ -15,6 +15,7 @@ import { buildReception } from "./data/reception";
 import { buildSearchIndex } from "./data/search-index";
 import { buildThemes } from "./data/themes";
 import { buildTimeline } from "./data/timeline";
+import { buildTranslations, OPEN_NBV_SOURCE } from "./data/translations";
 import { CROSSREFS_SHA256, OUT, REPO, SITE, SRC, readJson, sha256 } from "./data/sources";
 import { createGrid } from "../src/lib/canon/grid";
 import { STRENGTH_MIN } from "../src/components/sky/model";
@@ -115,6 +116,10 @@ for (const book of canon.books) {
   });
   write(join(OUT.generated, "books", `${book.slug}.json`), json({ osis: book.osis, chapters }));
 }
+
+// Editions keep their own verse positions; the graph remains on the BLIVRE/OpenBible grid.
+const translated = buildTranslations(canon.books, write);
+log(`Open NBV: ${translated.counts.books} books, ${translated.counts.chapters} chapters, ${translated.counts.verses} positions; verse alignment unreviewed`);
 
 // top verses by unique partners (self excluded), canonical order inside a tie. The list never cuts through a tie:
 // it holds every verse with at least as many links as the 12th.
@@ -286,6 +291,10 @@ write(join(OUT.publicData, "LICENSE.txt"), [
   "text/: texto da Bíblia Livre (BLIVRE), sem alterações, sob a licença dela (CC BY 4.0 Brasil).",
   blivreCredit,
   "",
+  "translations/open-nbv/: Biblica® Open Nova Bíblia Viva™, texto preservado, CC BY-SA 4.0.",
+  "Copyright © 2007, 2010 by Biblica, Inc. Fonte: https://ebible.org/poronbv/copyright.htm",
+  "Crédito completo, marca e licença: translations/open-nbv/LICENSE.txt; proveniência e limites: translations/open-nbv/manifest.json.",
+  "",
   "busca/: índice das palavras desse texto (em que versículos e em que lugar do versículo está cada palavra), com os",
   "versículos ordenados pelas ligações. Dados derivados, sob CC BY-SA 4.0, com o crédito da BLIVRE acima.",
   "",
@@ -371,7 +380,7 @@ log(`open data: ${dados.files.length} files in public/dados/v1 (${(dados.files.r
 buildCommunity({ canon, text: blivre.text, links }, write, log);
 
 const inputs = Object.fromEntries(
-  [SRC.blivreZip, SRC.crossrefsTxt, SRC.xrefNpz, SRC.statsJson, SRC.natalStatsJson, SRC.attribution].map((p) => [relative(REPO, p), sha256(p)]),
+  [SRC.blivreZip, OPEN_NBV_SOURCE, SRC.crossrefsTxt, SRC.xrefNpz, SRC.statsJson, SRC.natalStatsJson, SRC.attribution].map((p) => [relative(REPO, p), sha256(p)]),
 );
 writeFileSync(join(OUT.generated + STAGE, "manifest.json"), JSON.stringify({ inputs, outputs: written }, null, 1));
 for (const dir of OUTPUT_DIRS) {

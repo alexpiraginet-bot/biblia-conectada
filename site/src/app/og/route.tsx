@@ -54,8 +54,12 @@ function Card({ card }: { card: ShareCard }) {
       </div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", paddingTop: 15, borderTop: "1px solid #413336", minHeight: 42 }}>
         <span style={{ fontSize: 19, color: "#b8aaa6" }}>{card.source ?? "Uma história. Tudo se conecta."}</span>
-        <div style={{ display: "flex", alignItems: "center", gap: 14, color: "#e5c48c", fontSize: 19 }}><span>Abrir e descobrir</span><svg width="23" height="20" viewBox="0 0 24 20"><path d="M2 10h18m-7-7 7 7-7 7" stroke="#e5c48c" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg></div>
+        {!card.attribution && <div style={{ display: "flex", alignItems: "center", gap: 14, color: "#e5c48c", fontSize: 19 }}><span>Abrir e descobrir</span><svg width="23" height="20" viewBox="0 0 24 20"><path d="M2 10h18m-7-7 7 7-7 7" stroke="#e5c48c" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg></div>}
       </div>
+      {card.attribution && <div style={{ display: "flex", flexDirection: "column", gap: 4, position: "relative", marginTop: 7, fontSize: 15, lineHeight: 1.25, color: "#b8aaa6" }}>
+        <div style={{ display: "flex" }}>{card.attribution}</div>
+        <div style={{ display: "flex" }}>{card.license}</div>
+      </div>}
     </div>
   </div>;
 }
@@ -86,6 +90,10 @@ function StoryCard({ card }: { card: ShareCard }) {
       </div>
       <div style={{ display: "flex", flexDirection: "column", flexShrink: 0, gap: 18, paddingTop: 28, borderTop: "1px solid #5d443b" }}>
         <div style={{ display: "flex", fontSize: 24, lineHeight: 1.4, color: "#b8aaa6" }}>{card.source ?? "Uma história. Tudo se conecta."}</div>
+        {card.attribution && <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 19, lineHeight: 1.35, color: "#b8aaa6" }}>
+          <div style={{ display: "flex" }}>{card.attribution}</div>
+          <div style={{ display: "flex" }}>{card.license}</div>
+        </div>}
         <div style={{ display: "flex", fontSize: 26, color: "#e5c48c" }}>Leia. Descubra. Conecte.</div>
       </div>
     </div>

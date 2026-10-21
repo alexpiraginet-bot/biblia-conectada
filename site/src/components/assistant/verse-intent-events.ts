@@ -6,7 +6,7 @@ export function ordinaryLink(event: MouseEvent, selector: string): HTMLAnchorEle
   const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>(selector) : null;
   return link && !link.hasAttribute("download") && (!link.target || link.target === "_self") ? link : null;
 }
-const valid = (value = "") => /^[a-z0-9-]+\/[1-9]\d{0,2}\/[1-9]\d{0,2}$/.test(value);
+const valid = (value = "") => /^(?:ler\/open-nbv\/)?[a-z0-9-]+\/[1-9]\d{0,2}\/[1-9]\d{0,2}$/.test(value);
 export function studyLinkFromEvent(event: MouseEvent): HTMLAnchorElement | null {
   const link = ordinaryLink(event, "a[data-study-ref]");
   return link && valid(link.dataset.studyRef) ? link : null;

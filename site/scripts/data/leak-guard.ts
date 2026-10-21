@@ -1,7 +1,7 @@
 // Rule 1 of CLAUDE.md: text of protected translations never reaches the site. The only protected text in the
 // repository is the handful of ACF/AA verses the Natal video quotes (estudos/biblia-natal/data/verses.json).
-// The guard cuts each quote into runs of NGRAM words, drops the runs BLIVRE also has anywhere (both descend from
-// Almeida, so they share phrases), and looks for the remaining runs in other text. A partial quote is caught too.
+// The guard cuts each quote into runs of NGRAM words, drops runs also found in the explicitly authorized sources
+// (BLIVRE and the pinned Open NBV can share phrases), and searches other text. A partial quote is caught too.
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { extname, join } from "node:path";
 
@@ -35,10 +35,10 @@ function grams(s: string): string[] {
 
 export type Quote = { label: string; text: string };
 
-/** Runs of NGRAM words of the protected quotes that BLIVRE does not have, mapped to the quote they come from. */
-export function protectedRuns(quotes: Quote[], blivre: Iterable<string>): Map<string, string> {
+/** Protected quote runs absent from explicitly authorized source texts, mapped to the quote they come from. */
+export function protectedRuns(quotes: Quote[], authorizedTexts: Iterable<string>): Map<string, string> {
   const free = new Set<string>();
-  for (const t of blivre) for (const g of grams(t)) free.add(g);
+  for (const t of authorizedTexts) for (const g of grams(t)) free.add(g);
   const runs = new Map<string, string>();
   for (const q of quotes) for (const g of grams(q.text.replace(/"/g, " "))) if (!free.has(g)) runs.set(g, q.label);
   return runs;

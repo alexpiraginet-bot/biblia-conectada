@@ -5,6 +5,7 @@ import { parseSide } from "./conexao";
 import { SITE_NAME } from "./site-identity";
 import { STOPWORDS, isWordSlug, wordKey } from "./words";
 import { parseHash } from "@/components/sculpture/state";
+import { getTranslation, parseTranslationPath } from "./translations";
 
 export type ShareCard = {
   path: string;
@@ -12,6 +13,8 @@ export type ShareCard = {
   title: string;
   description: string;
   source?: string;
+  attribution?: string;
+  license?: string;
   kind: "landing" | "passage" | "connection" | "explore";
 };
 
@@ -126,6 +129,34 @@ export async function resolveShareCard(raw: string, excerptLimit: 205 | 500 = 20
     return skyCard(path, ref, excerptLimit);
   }
   if (Object.hasOwn(sections, path)) return { path, ...sections[path] };
+  const translated = parseTranslationPath(path);
+  if (translated?.id === "open-nbv") {
+    const translation = getTranslation(translated.id)!;
+    const credits = {
+      attribution: [translation.credit, translation.sourceNotice].filter(Boolean).join(" "),
+      license: `${translation.license} · ${translation.licenseUrl}`,
+    };
+    if (!translated.slug) return {
+      path, kind: "landing", title: translation.name, eyebrow: "BÍBLIA EM PORTUGUÊS",
+      description: "Escolha um livro e continue sua leitura nesta edição. Compartilhe uma passagem sem perder sua fonte.",
+      ...credits,
+    };
+    const { translationBooks, translatedVerse } = await import("./translation-reading");
+    const book = translationBooks(translated.id)?.find((item) => item.slug === translated.slug);
+    if (!book) return null;
+    const chapter = translated.chapter ?? 1;
+    const verse = translated.verse ?? 1;
+    const text = await translatedVerse(translated.id, book.slug, chapter, verse);
+    if (text === null) return null;
+    const reference = `${book.name}${translated.chapter ? ` ${chapter}` : ""}${translated.verse ? `:${verse}` : ""}`;
+    return {
+      path, kind: "passage", title: reference,
+      eyebrow: translated.verse ? "UMA PASSAGEM. NOVAS CONEXÕES." : translated.chapter ? "LEIA O CAPÍTULO" : "ESCOLHA UM CAPÍTULO",
+      description: shareExcerpt(text, excerptLimit),
+      source: `${translation.name} · ${book.name} ${chapter}:${verse}`,
+      ...credits,
+    };
+  }
   const parts = path.slice(1).split("/");
   const selected = passage(parts);
   if (selected) return passageCard(path, selected, undefined, excerptLimit);

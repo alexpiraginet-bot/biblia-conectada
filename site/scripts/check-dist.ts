@@ -12,6 +12,9 @@ import { notFoundPage, prerenderedPages } from "./checks/pages";
 import { checkReading } from "./checks/reading";
 import { checkSearch } from "./checks/search";
 import { checkTimeline } from "./checks/timeline";
+import { checkTranslations } from "./checks/translations";
+import { loadOpenNbv } from "./data/translations";
+import type { Book } from "../src/lib/canon/types";
 import { findLeaks, loadProtectedQuotes, protectedRuns, textFiles } from "./data/leak-guard";
 import { OUT, SITE, SRC } from "./data/sources";
 
@@ -141,20 +144,24 @@ const community = checkCommunity({ html, page, textOf, failures });
 
 // reading pages (rail, panel headline and links) and /salvos: numbers from the book files (scripts/checks/reading.ts)
 const reading = checkReading({ html, page, textOf, failures });
+const translations = checkTranslations({ html, page, textOf, failures });
 
 // search: the word index is the text's, /buscar is static, the palette loads on first use (scripts/checks/search.ts)
 const searchCheck = checkSearch({ html, page, textOf, failures });
 
 // rule 1: no run of the ACF/AA quotes in anything the server or the browser receives
 type BookFile = { chapters: { t: string }[][] };
-const books = JSON.parse(readFileSync(join(OUT.generated, "books.json"), "utf8")) as { slug: string }[];
-function* blivre() {
+const books = JSON.parse(readFileSync(join(OUT.generated, "books.json"), "utf8")) as Book[];
+function* licensedTexts() {
   for (const b of books) {
     const f = JSON.parse(readFileSync(join(OUT.generated, "books", `${b.slug}.json`), "utf8")) as BookFile;
     for (const ch of f.chapters) for (const v of ch) yield v.t;
   }
+  // A known authorized source can share phrases with protected editions. The pinned source, not any arbitrary
+  // generated output, supplies the additional allowlist; every shipped file is still scanned.
+  for (const book of loadOpenNbv(books).files) for (const chapter of book.chapters) yield* chapter;
 }
-const runs = protectedRuns(loadProtectedQuotes(SRC.natalVersesJson), blivre());
+const runs = protectedRuns(loadProtectedQuotes(SRC.natalVersesJson), licensedTexts());
 // .next/output is what the Vercel adapter deploys (Build Output API); it exists only in builds made there
 const shipped = [join(SITE, ".next/server"), join(SITE, ".next/static"), join(SITE, ".next/output"), join(SITE, "public")]
   .filter((d) => existsSync(d))
@@ -185,6 +192,7 @@ console.log(
     `Explorar and /conexao show the explore data (${explore.checked} rows checked); ` +
     `trail (${community.trailSteps} steps) and Ponte (${community.pontePages} pages) match the community data; ` +
     `${reading}; ` +
+    `${translations}; ` +
     `${searchCheck}; ` +
     `${shipped.length} shipped text files hold none of the ${new Set(runs.values()).size} protected quotes; ` +
     `${browserFiles.length} browser files hold no medallion provenance`,

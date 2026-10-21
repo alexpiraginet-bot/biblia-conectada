@@ -11,7 +11,7 @@ if(e.defaultPrevented||e.button!==0||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey|
 if(e.target.closest("#verse-intent-feedback button")){e.preventDefault();e.stopPropagation();clear(true);return}
 var a=e.target.closest("a[href]");if(!a||a.hasAttribute("download")||(a.target&&a.target!=="_self"))return;
 var ref=a.dataset.shareRef||a.dataset.studyRef;
-if(!ref||!/^[a-z0-9-]+\/[1-9]\d{0,2}\/[1-9]\d{0,2}$/.test(ref)){clear(false);return}
+if(!ref||!/^(?:ler\/open-nbv\/)?[a-z0-9-]+\/[1-9]\d{0,2}\/[1-9]\d{0,2}$/.test(ref)){clear(false);return}
 var b=box();if(!b)return;
 e.preventDefault();e.stopPropagation();clear(false);pending=a;
 b.children[0].hidden=false;b.children[1].hidden=true;var fallback=b.querySelector("a");fallback.href=a.href;fallback.hidden=true;b.hidden=false;

@@ -7,9 +7,17 @@ import { describe, expect, it } from "vitest";
 import { findLeaks, loadProtectedQuotes, NGRAM, protectedRuns, textFiles } from "../scripts/data/leak-guard";
 import { OUT, SITE, SRC } from "../scripts/data/sources";
 import { bookFile, books } from "./generated";
+import { loadOpenNbv } from "../scripts/data/translations";
 
 function* blivreTexts() {
   for (const b of books()) for (const ch of bookFile(b.slug).chapters) for (const v of ch) yield v.t;
+}
+
+// Read the authorized NBV source itself, with its pinned hash/license checks. Never exempt a generated folder.
+const openNbv = loadOpenNbv(books());
+function* licensedTexts() {
+  yield* blivreTexts();
+  for (const book of openNbv.files) for (const chapter of book.chapters) yield* chapter;
 }
 
 function walk(dir: string): string[] {
@@ -61,10 +69,10 @@ describe("generated data and public/", () => {
     }
   });
 
-  it("does not contain the ACF/AA quotes of the videos, not even in part (runs BLIVRE also has excepted)", () => {
-    const runs = protectedRuns(loadProtectedQuotes(SRC.natalVersesJson), blivreTexts());
+  it("does not contain protected quote runs absent from the authorized BLIVRE and pinned Open NBV sources", () => {
+    const runs = protectedRuns(loadProtectedQuotes(SRC.natalVersesJson), licensedTexts());
     const quoted = new Set(runs.values());
-    expect(quoted.size, "quotes that differ from BLIVRE").toBeGreaterThan(30);
+    expect(quoted.size, "quotes that differ from the authorized sources").toBeGreaterThan(30);
     const files = [...outputs, ...textFiles(join(SITE, "src"))].filter((f) => !f.endsWith(".bin") && !f.endsWith(".woff2"));
     for (const f of files) expect(findLeaks(readFileSync(f, "utf8"), runs), relative(SITE, f)).toEqual([]);
   });
@@ -72,7 +80,7 @@ describe("generated data and public/", () => {
 
 describe("leak guard", () => {
   const quotes = loadProtectedQuotes(SRC.natalVersesJson);
-  const runs = protectedRuns(quotes, blivreTexts());
+  const runs = protectedRuns(quotes, licensedTexts());
 
   it("catches a run of a protected quote inside HTML and inside escaped JSON", () => {
     const [run, label] = [...runs][0];
@@ -83,8 +91,8 @@ describe("leak guard", () => {
     expect(findLeaks(asJson, runs)).toEqual([`${label}: "${run}"`]);
   });
 
-  it("lets BLIVRE through", () => {
-    const leaks = [...blivreTexts()].flatMap((t) => findLeaks(t, runs));
+  it("lets both exact authorized corpora through", () => {
+    const leaks = [...licensedTexts()].flatMap((t) => findLeaks(t, runs));
     expect(leaks).toEqual([]);
   });
 });
