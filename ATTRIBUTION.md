@@ -4,7 +4,9 @@ Este repositório só publica material livre. As fontes abaixo pedem crédito. O
 
 ## Textos bíblicos
 
-### Bíblia Livre (BLIVRE): texto principal do site
+### Bíblia Livre (BLIVRE): edição das rotas originais e do grafo
+
+O aviso abaixo se aplica ao texto identificado como BLIVRE. A leitura em `/ler/open-nbv/` usa a Open Nova Bíblia Viva, com o aviso próprio da seção seguinte. O nome da edição acompanha o texto e as imagens compartilhadas; as edições não são combinadas silenciosamente.
 
 Licença: Creative Commons Atribuição 4.0 Brasil. Crédito sugerido pelos autores, para copiar exatamente:
 

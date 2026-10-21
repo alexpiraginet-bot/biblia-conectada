@@ -1,6 +1,7 @@
 import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { EditionChoice } from "@/components/reader/EditionChoice";
 import { formatInt } from "@/lib/canon/text";
 import type { Book } from "@/lib/canon/types";
 import { books } from "@/lib/data";
@@ -44,6 +45,7 @@ export default async function Ler() {
   return (
     <main id="conteudo" className={`site-page ${styles.page}`}>
       <h1 className="bc-display">Livros</h1>
+      <EditionChoice current="blivre" />
       <p className="bc-lede">
         Os {formatInt(books.length)} livros da Bíblia Livre em {formatInt(groupCount)} grupos: {formatInt(chapters)} capítulos e{" "}
         {formatInt(verses)} versículos. Ao lado de cada livro, os capítulos e as ligações que tocam nele.

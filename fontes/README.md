@@ -12,11 +12,13 @@ Cópias exatas das bases livres do projeto: texto bíblico em 7 línguas, hebrai
 |---|---|---|---|
 | `blivre/` | **Bíblia Livre (BLIVRE)**, texto principal do site | CC BY 4.0 Brasil | 66 livros, 1.189 capítulos, 31.102 versículos, nenhum vazio. **0 diferenças de numeração** |
 | `ebible/porbrbsl/` | Bíblia Portuguesa Mundial | Domínio público (rascunho em revisão) | 81 livros: 15 deuterocanônicos/apócrifos (213 capítulos fora da grade). Nos 66, Rm 16:25–27 aparece como Rm 14:24–26. 29 versículos vazios |
-| `ebible/poronbv/` | Biblica® Open Nova Bíblia Viva™ (2007) | CC BY-SA 4.0 | 66 livros. Versículos a mais: Jz 5:32, 1Sm 20:43, 3Jo 1:15 |
+| `ebible/poronbv/` | Biblica® Open Nova Bíblia Viva™ (2007), leitura integral em `/ler/open-nbv` | CC BY-SA 4.0 | 66 livros, 1.189 capítulos e 31.105 posições com texto. Versículos a mais: Jz 5:32, 1Sm 20:43, 3Jo 1:15 |
 | `ebible/porblt/` | Bíblia Livre Para Todos (só NT) | CC BY-SA 4.0 | 27 livros. A mais: 3Jo 1:15, Ap 12:18. 17 vazios |
 | `ebible/portft/` | Tradução para Tradutores (só NT) | CC BY-SA 4.0 | 27 livros. 47 capítulos com números de versículo faltando (provavelmente agrupados) |
 
 Fora: "Novo Testamento: Versão Fácil de Ler" (`por-WBTC`), marcado como não redistribuível no catálogo do eBible.
+
+**Integração Open NBV, 21/10/2026:** o VPL preservado em `poronbv_vpl.zip` é importado integralmente e sem reescrita. O build confere o SHA-256 da fonte, todos os textos e os avisos de licença. Leitura, IA e compartilhamento mantêm a edição escolhida. A navegação entre capítulos usa a identidade dos livros e capítulos conferida; o alinhamento de versículos entre edições continua não revisado. A busca por palavras, cronologia e grafos existentes continuam usando a BLIVRE. Ver [importação e diferenças de numeração](../docs/open-nbv-alignment.md). Não é a NVI nem uma tradução criada pelo projeto.
 
 ### Línguas originais e antigas
 

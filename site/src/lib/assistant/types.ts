@@ -1,6 +1,8 @@
 /** Public, serializable contract. No provider configuration belongs in this module. */
+import type { TranslationId } from "@/lib/translations";
 export type AssistantMode = "entender" | "explorar" | "narrar";
 export type AssistantStyle = "simples" | "contexto" | "cotidiano";
+export type AssistantTranslation = TranslationId;
 export type AssistantPassage = { book: string; chapter: number; verse?: number };
 export type AssistantHistoryTurn = { question: string; answer: string };
 export type AssistantRequest = {
@@ -8,12 +10,14 @@ export type AssistantRequest = {
   mode: AssistantMode;
   /** Omission preserves the contextual explanation used by existing clients. */
   style?: AssistantStyle;
+  /** Omission retains the existing BLIVRE edition. */
+  translation?: AssistantTranslation;
   question: string;
   passage: AssistantPassage;
   /** At most two previous turns, oldest first. Untrusted context, never source evidence. */
   history?: AssistantHistoryTurn[];
 };
-export type AssistantCitation = { id: string; reference: string; text: string; href: string };
+export type AssistantCitation = { id: string; reference: string; text: string; href: string; source?: string };
 export type AssistantBlock = { text: string; citationIds: string[] };
 export type AssistantScene = AssistantBlock & {
   id: string;
@@ -30,6 +34,7 @@ export type AssistantSuccess = {
   suggestions: string[];
   scenes?: AssistantScene[];
   notice: string;
+  source?: { name: string; credit: string; license: string; licenseUrl: string; sourceNotice?: string; trademarkNotice?: string };
 };
 export type AssistantErrorCode = "unavailable" | "limit" | "invalid" | "provider" | "in_progress";
 export type AssistantError = {

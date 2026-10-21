@@ -64,7 +64,7 @@ export function VerseShare({ path }: { path: string }) {
       <a className={styles.primary} href={options.whatsapp} target="_blank" rel="noopener noreferrer">Enviar link no WhatsApp <span aria-hidden="true">↗</span></a>
       <button type="button" className={styles.secondary} onClick={copy}>Copiar link</button>
     </div>
-    <p className={styles.hint}>O link abre este versículo, com uma capa na prévia.</p>
+    <p className={styles.hint}>{options.attribution ? `O link mantém esta edição: ${options.editionName}.` : "O link abre este versículo, com uma capa na prévia."}</p>
     {copyFallback && <input className={styles.url} aria-label="Link do versículo para copiar" readOnly value={options.url} onFocus={(event) => event.currentTarget.select()} />}
 
     <section className={styles.images} aria-labelledby="share-image-title">
@@ -83,7 +83,7 @@ export function VerseShare({ path }: { path: string }) {
       </button><figure id="share-image-preview" className={styles.preview} data-format={format} data-expanded={expanded || undefined}>
         {/* A local blob is already the final PNG; Next Image would add no benefit here. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={prepared.url} alt={`${format === "story" ? "Story" : "Capa"} de ${options.reference}, com texto da Bíblia Livre (BLIVRE)`}
+        <img src={prepared.url} alt={`${format === "story" ? "Story" : "Capa"} de ${options.reference}, com texto de ${options.editionName}`}
           width={format === "story" ? 1080 : 1200} height={format === "story" ? 1920 : 630} />
       </figure></> : <button type="button" className={styles.prepare} disabled={busy} onClick={prepare}>
         {busy ? "Preparando imagem…" : "Preparar imagem"}<span aria-hidden="true">↓</span>
@@ -94,6 +94,9 @@ export function VerseShare({ path }: { path: string }) {
       </div>}
       <p className={styles.hint}>{format === "story" ? "Escolha o Instagram no menu do aparelho, quando disponível. Ou baixe a imagem e adicione ao seu Story." : "A mesma capa do link, pronta para enviar ou guardar. Trechos longos aparecem com reticências."}</p>
     </section>
+    {options.attribution && <p className={styles.hint}>
+      {options.attribution}{" "}<a href={options.licenseUrl} target="_blank" rel="noopener noreferrer">{options.license}</a>
+    </p>}
     <p className={styles.message} role="status" aria-live="polite">{message}</p>
   </div>;
 }

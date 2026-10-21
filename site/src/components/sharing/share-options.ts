@@ -1,19 +1,33 @@
-import { BASE, verseFromPath } from "@/lib/community/books-client";
+import { BASE, BOOKS, verseFromPath } from "@/lib/community/books-client";
 import { SHARE_IMAGE_VERSION, SITE_NAME, SITE_URL } from "@/lib/site-identity";
+import { getTranslation, parseTranslationPath, translationPath } from "@/lib/translations";
 
 export type ShareFormat = "landscape" | "story";
 export function verseShareOptions(path: string) {
-  const gv = verseFromPath(`/${path}`);
-  if (gv === null) throw new Error("invalid reference");
-  const { book, chapter, verse } = BASE.locate(gv);
-  const canonicalPath = `/${book.slug}/${chapter}/${verse}`;
+  const localPath = path.startsWith("/") ? path : `/${path}`;
+  const selected = parseTranslationPath(localPath);
+  const edition = selected?.id === "open-nbv" ? getTranslation(selected.id) : null;
+  // Only names/slugs come from the shared canon. Verse existence belongs to the
+  // selected edition and is checked by the image endpoint, never the BLIVRE grid.
+  const translatedBook = edition && BOOKS.find((item) => item.slug === selected?.slug);
+  const gv = edition ? null : verseFromPath(localPath);
+  const location = edition && translatedBook && selected?.chapter && selected.verse
+    ? { book: translatedBook, chapter: selected.chapter, verse: selected.verse }
+    : gv === null ? null : BASE.locate(gv);
+  if (!location) throw new Error("invalid reference");
+  const { book, chapter, verse } = location;
+  const canonicalPath = translationPath(edition?.id ?? "blivre", book.slug, chapter, verse);
   const reference = `${book.name} ${chapter}:${verse}`;
   const url = `${SITE_URL}${canonicalPath}`;
   return {
     reference, url,
-    whatsapp: `https://wa.me/?text=${encodeURIComponent(`${reference} · ${SITE_NAME}\n${url}`)}`,
+    editionName: edition?.name ?? "Bíblia Livre (BLIVRE)",
+    attribution: edition ? [edition.credit, edition.sourceNotice, edition.trademarkNotice].filter(Boolean).join(" ") : undefined,
+    license: edition?.license,
+    licenseUrl: edition?.licenseUrl,
+    whatsapp: `https://wa.me/?text=${encodeURIComponent(`${reference}${edition ? ` · ${edition.shortName}` : ""} · ${SITE_NAME}\n${url}`)}`,
     image: (format: ShareFormat) => `/og?${new URLSearchParams({ path: canonicalPath, format, v: SHARE_IMAGE_VERSION })}`,
-    filename: (format: ShareFormat) => `biblia-conectada-${book.slug}-${chapter}-${verse}-${format === "story" ? "stories" : "capa"}.png`,
+    filename: (format: ShareFormat) => `biblia-conectada-${edition ? `${edition.id}-` : ""}${book.slug}-${chapter}-${verse}-${format === "story" ? "stories" : "capa"}.png`,
   };
 }
 

@@ -79,6 +79,7 @@ export function validateAnswer(value: unknown, request: AssistantRequest, ground
     ok: true, mode: request.mode, title, blocks,
     citations: grounding.citations.filter((citation) => used.has(citation.id)),
     suggestions, ...(scenes ? { scenes } : {}),
-    notice: "Interpretação assistida por IA, em perspectiva cristã. Confira as passagens BLIVRE; uma citação válida não garante que a interpretação seja correta.",
+    source: grounding.source,
+    notice: `Interpretação assistida por IA, em perspectiva cristã. Confira as passagens ${request.translation === "open-nbv" ? "da Open Nova Bíblia Viva" : "BLIVRE"}; uma citação válida não garante que a interpretação seja correta.`,
   };
 }

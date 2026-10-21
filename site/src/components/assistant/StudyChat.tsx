@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
-import type { AssistantError, AssistantMode, AssistantRequest, AssistantStyle, AssistantSuccess } from "@/lib/assistant/types";
+import type { AssistantError, AssistantMode, AssistantRequest, AssistantStyle, AssistantSuccess, AssistantTranslation } from "@/lib/assistant/types";
+import { getTranslation } from "@/lib/translations";
 import { StudyAnswer, StudyListen } from "./StudyAnswer";
 import styles from "./StudyChat.module.css";
 
-export type StudyPassage = { book: string; chapter: number; verse: number; reference: string; text: string };
+export type StudyPassage = { book: string; chapter: number; verse: number; reference: string; text: string; translation?: AssistantTranslation };
 type Turn = { request: AssistantRequest; answer?: AssistantSuccess };
 const HISTORY_LIMIT = 2;
 const STYLES: { id: AssistantStyle; label: string; description: string }[] = [
@@ -21,11 +22,13 @@ const QUESTIONS: { label: string; question: string; mode: AssistantMode }[] = [
 
 /** The same request object is kept on retry; historical answers are context, never sources. */
 export function buildStudyRequest(passage: StudyPassage, question: string, style: AssistantStyle, mode: AssistantMode, turns: Turn[]): AssistantRequest {
-  const history = turns.filter((turn) => turn.answer).slice(-HISTORY_LIMIT).map((turn) => ({
+  const history = turns.filter((turn) => turn.answer && (turn.request.translation ?? "blivre") === (passage.translation ?? "blivre") &&
+    turn.request.passage.book === passage.book && turn.request.passage.chapter === passage.chapter && turn.request.passage.verse === passage.verse).slice(-HISTORY_LIMIT).map((turn) => ({
     question: turn.request.question,
     answer: [turn.answer!.title, ...(turn.answer!.scenes ?? []).map((scene) => `${scene.title}. ${scene.text}`), ...turn.answer!.blocks.map((block) => block.text)].join("\n").slice(0, 2000),
   }));
   const body: AssistantRequest = { requestId: crypto.randomUUID(), mode, style, question: question.trim(), passage: { book: passage.book, chapter: passage.chapter, verse: passage.verse } };
+  if (passage.translation === "open-nbv") body.translation = passage.translation;
   if (history.length) body.history = history;
   while (body.history?.length && new TextEncoder().encode(JSON.stringify(body)).byteLength > 8192) body.history.shift();
   if (!body.history?.length) delete body.history;
@@ -34,6 +37,11 @@ export function buildStudyRequest(passage: StudyPassage, question: string, style
 
 export function StudyChat({ passage, enabled = true }: { passage: StudyPassage; enabled?: boolean }) {
   const uid = useId();
+  const edition = getTranslation(passage.translation ?? "blivre")!;
+  const openNbv = passage.translation === "open-nbv";
+  const questions = openNbv ? QUESTIONS.map((item) => item.mode === "explorar" ? {
+    ...item, label: "Como ele se conecta ao capítulo?", question: "Como este versículo se relaciona com o restante deste capítulo na Open Nova Bíblia Viva?",
+  } : item) : QUESTIONS;
   const [style, setStyle] = useState<AssistantStyle>("contexto");
   const [question, setQuestion] = useState("");
   const [turns, setTurns] = useState<Turn[]>([]);
@@ -114,10 +122,11 @@ export function StudyChat({ passage, enabled = true }: { passage: StudyPassage; 
 
   return <div className={styles.chat}>
     <details className={styles.passage}>
-      <summary><span>{passage.text}</span><small>Ver versículo completo</small></summary>
-      <blockquote>{passage.text}</blockquote><span>Bíblia Livre · {passage.reference}</span>
+      <summary><span>{passage.text}</span><small>{openNbv ? "Open NBV · " : ""}Ver versículo completo</small></summary>
+      <blockquote>{passage.text}</blockquote><span>{edition.name} · {passage.reference}</span>
+      {openNbv && <small>{edition.credit} · <a href={edition.licenseUrl} target="_blank" rel="noopener noreferrer">{edition.license}</a><br />{edition.sourceNotice}<br />{edition.trademarkNotice}</small>}
       <StudyListen text={`${passage.reference}. ${passage.text}`} label="Ouvir versículo" />
-      <a href={`/explorar/${passage.book}/${passage.chapter}`} target="_blank" rel="noopener noreferrer">Ver conexões em outra aba ↗</a>
+      <a href={`/explorar/${passage.book}/${passage.chapter}`} target="_blank" rel="noopener noreferrer">{openNbv ? "Ver conexões do capítulo na BLIVRE" : "Ver conexões em outra aba"} ↗</a>
     </details>
     <fieldset className={styles.styles} disabled={loading}>
       <legend>Como você quer entender?</legend>
@@ -129,13 +138,13 @@ export function StudyChat({ passage, enabled = true }: { passage: StudyPassage; 
     <div className={styles.log} ref={log} role="log" tabIndex={0} aria-label="Conversa sobre a passagem" aria-live="polite" aria-relevant="additions text">
       {!turns.length && <div className={styles.welcome}>
         <span className={styles.eyebrow}>Seu companheiro de estudo</span>
-        <h3>Vamos entender juntos.</h3><p>Escolha uma pergunta ou escreva a sua.</p>
-        <div className={styles.prompts}>{QUESTIONS.map((item) => <button type="button" key={item.mode} disabled={!available || cooldown > 0} onClick={() => ask(item.question, item.mode)}>{item.label}<span aria-hidden="true">↗</span></button>)}</div>
+        <h3>Vamos entender juntos.</h3><p>{openNbv ? "Estudo na Open Nova Bíblia Viva, com o contexto deste capítulo." : "Escolha uma pergunta ou escreva a sua."}</p>
+        <div className={styles.prompts}>{questions.map((item) => <button type="button" key={item.mode} disabled={!available || cooldown > 0} onClick={() => ask(item.question, item.mode)}>{item.label}<span aria-hidden="true">↗</span></button>)}</div>
       </div>}
       {turns.map((turn, index) => <article className={styles.turn} key={turn.request.requestId} ref={index === turns.length - 1 ? lastTurn : undefined}>
         <div className={styles.question}><span>Você · {STYLES.find((item) => item.id === turn.request.style)?.label}</span><p>{turn.request.question}</p></div>
         {turn.answer && <StudyAnswer answer={turn.answer} onQuestion={(text) => ask(text)} disabled={loading || !available || cooldown > 0} />}
-        {index === turns.length - 1 && loading && <div className={styles.typing} role="status"><span className={styles.dots} aria-hidden="true"><i /><i /><i /></span><span>Preparando resposta…<small>Lendo a passagem e suas conexões.</small></span></div>}
+        {index === turns.length - 1 && loading && <div className={styles.typing} role="status"><span className={styles.dots} aria-hidden="true"><i /><i /><i /></span><span>Preparando resposta…<small>{openNbv ? "Lendo a Open Nova Bíblia Viva e o contexto do capítulo." : "Lendo a passagem e suas conexões."}</small></span></div>}
       </article>)}
       {error && <div className={styles.error} role="alert"><p>{error.message}</p>
         {cooldown > 0 && <p>Tente novamente em {cooldown}s.</p>}

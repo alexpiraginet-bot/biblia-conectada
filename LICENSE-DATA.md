@@ -13,6 +13,7 @@ Dentro desses mesmos arquivos há partes que **não** mudam de licença:
 
 - **O texto bíblico** (o campo `t` de `books/*.json`, os arquivos de `public/data/text/` e os de `public/dados/v1/texto/`) é a Bíblia Livre sem alterações e continua sob a licença dela, CC BY 4.0 Brasil, com o crédito exato do `ATTRIBUTION.md`.
 - **`credits.json`** reproduz o `ATTRIBUTION.md`: cada crédito segue a licença da fonte que ele descreve.
+- **Open Nova Bíblia Viva:** os arquivos de `public/data/translations/open-nbv/` e `src/data/generated/translations/open-nbv/` reproduzem integralmente e sem alterações o texto da Biblica® Open Nova Bíblia Viva™. Copyright © 2007, 2010 by Biblica, Inc.; CC BY-SA 4.0. "The original Work by its copyright holders is available for free at www.biblica.com and open.bible." A marca Biblica pertence à Biblica, Inc. Esta é uma edição distinta da BLIVRE; seus identificadores de versículos não são IDs do grafo. Créditos completos em `ATTRIBUTION.md` e nos avisos que acompanham os arquivos públicos.
 
 ## Créditos que acompanham os dados
 
@@ -20,6 +21,7 @@ Quem reutilizar estes dados precisa manter os créditos das fontes, além do cr�
 
 - Referências cruzadas: OpenBible.info (CC BY).
 - Texto bíblico: Bíblia Livre (BLIVRE), CC BY 4.0 Brasil. O texto é reproduzido sem alterações.
+- Leitura alternativa: Biblica® Open Nova Bíblia Viva™, CC BY-SA 4.0. O texto é reproduzido sem alterações, com sua própria numeração e avisos.
 - Eventos, datas e lugares da linha do tempo: Theographic Bible Metadata, Viz.Bible (CC BY-SA 4.0), cronologia de Floyd Nolen Jones.
 - Temas: OpenBible.info Topics (CC BY 4.0).
 - Obras de arte da recepção cultural: Wikidata (CC0).

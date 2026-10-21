@@ -23,12 +23,13 @@ function boundedText(value: unknown, min: number, max: number): value is string 
     !/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/.test(value);
 }
 export function parseAssistantRequest(value: unknown): AssistantRequest & { style: AssistantStyle } {
-  if (!isRecord(value) || !onlyKeys(value, ["requestId", "mode", "style", "question", "passage", "history"])) return invalid();
+  if (!isRecord(value) || !onlyKeys(value, ["requestId", "mode", "style", "translation", "question", "passage", "history"])) return invalid();
   if (typeof value.requestId !== "string" ||
     !/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value.requestId)) return invalid();
   if (typeof value.mode !== "string" || !["entender", "explorar", "narrar"].includes(value.mode)) return invalid();
   if (value.style !== undefined && (typeof value.style !== "string" ||
     !["simples", "contexto", "cotidiano"].includes(value.style))) return invalid();
+  if (value.translation !== undefined && value.translation !== "blivre" && value.translation !== "open-nbv") return invalid();
   if (!boundedText(value.question, 3, 800)) return invalid();
   let history: AssistantHistoryTurn[] = [];
   if (value.history !== undefined) {
@@ -48,6 +49,8 @@ export function parseAssistantRequest(value: unknown): AssistantRequest & { styl
     requestId: value.requestId.toLowerCase(),
     mode: value.mode as AssistantRequest["mode"],
     style: (value.style ?? "contexto") as AssistantStyle,
+    // Explicit BLIVRE and older clients have the same fingerprint; other editions never share it.
+    ...(value.translation === "open-nbv" ? { translation: "open-nbv" as const } : {}),
     question: value.question.trim(),
     passage: { book: p.book, chapter: p.chapter as number, ...(p.verse === undefined ? {} : { verse: p.verse as number }) },
     // Empty history keeps the same fingerprint as older clients that omit it.
