@@ -527,6 +527,12 @@
   background: linear-gradient(90deg, #2980ff, #8c33ff, #ff2966, #ff801f, #ffd15c);
 }
 
+.swSpectrum {
+  width: 64px !important;
+  flex-shrink: 0;
+  background: linear-gradient(90deg, #ff3910, #ffe40e, #44ff0e, #0effc9, #0e75ff, #a80eff, #ff0ee0);
+}
+
 :root[data-theme="dia"] .swAt {
   background: #8a5a12;
 }
@@ -1262,7 +1268,7 @@
   .search .go { padding-inline: 18px; }
   .whole { top: 82px; left: 14px; min-height: 32px; padding-inline: 11px; font-size: 10px; }
   .whole svg { width: 14px; height: 14px; }
-  .trail { top: 84px; left: 140px; right: 12px; }
+  .trail { top: 134px; left: 14px; right: 12px; }
   .trail button, .trail span { min-height: 28px; font-size: 9px; }
   .intro { left: 0; bottom: 0; max-width: none; padding: 24px 24px 82px; }
   .eyebrow { margin-bottom: 14px; font-size: 8px; }
@@ -1283,7 +1289,30 @@
   .scripture { font-size: 18px; }
   .constellationNote { font-size: 10px; padding-bottom: 8px; }
   .constellationNote button { min-height: 24px; }
-  .legend, .stage[data-open] .legend { display: none; }
+  .legend, .stage[data-open] .legend {
+    display: block;
+    top: 82px;
+    right: 14px;
+    bottom: auto;
+    left: auto;
+    z-index: 3;
+    max-width: calc(100% - 28px);
+    padding: 0 12px;
+  }
+  .legend summary { min-height: 44px; gap: 12px; }
+  .legend[open], .stage[data-open] .legend[open] {
+    right: 14px;
+    bottom: auto;
+    left: 14px;
+    max-width: none;
+    max-height: calc(53cqh - 94px);
+    padding-bottom: 12px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .legend[open] summary { position: sticky; top: 0; z-index: 1; background: var(--overlay); }
+  .legend .legendActions { display: flex; flex-wrap: wrap; }
+  .legend .mode { min-height: 44px; }
   .pill { font-size: 9px; padding: 5px 7px; }
   .pillMain { font-size: 11px; padding: 6px 9px; }
   .phoneTools { display: none; }

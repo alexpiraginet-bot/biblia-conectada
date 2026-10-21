@@ -3,7 +3,7 @@
 //
 // One arc instance = a triangle strip of 2 * (uSeg + 1) vertices along a half ellipse over the axis, widened in screen
 // space so every arc keeps the same thickness in pixels wherever the camera stands.
-// aA = (xa, xb, theta, weight), aB = (r, g, b, hero) with the arc's colour already chosen on the CPU.
+// aA = (xa, xb, theta, weight), aB = (r, g, b, hero), or (-1, day, 0, hero) for the canonical spectrum.
 
 const ARC_HEAD = /* glsl */ `#version 300 es
 precision highp float;
@@ -53,6 +53,14 @@ out float vD;
 out float vW;
 out vec3 vC;
 out float vHero;
+// A continuous rainbow follows the biblical axis in world space, so it stays attached to the books when orbiting.
+// Evaluating per vertex adds no draw call or texture; every real arc carries the same colours through that axis.
+vec3 spectrum(float position) {
+  float hue = 0.015 + 0.845 * clamp(position, 0.0, 1.0);
+  vec3 bands = clamp(abs(mod(hue * 6.0 + vec3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0, 0.0, 1.0);
+  bands = bands * bands * (3.0 - 2.0 * bands);
+  return mix(vec3(0.055), vec3(1.0), bands);
+}
 void main() {
   float d, t, depth;
   gl_Position = strip(d, t, depth);
@@ -61,7 +69,8 @@ void main() {
   // the far side of the sculpture recedes a little, the near side comes forward: depth without fog
   float near = clamp(uDepthRef / max(depth, 1e-3), 0.7, 1.25);
   vW = aA.w * pow(s, 0.6) * near;
-  vC = aB.rgb;
+  vec3 rainbow = spectrum((arcPoint(t).x + 1.0) * 0.5);
+  vC = aB.r < 0.0 ? (aB.g > 0.5 ? vec3(1.0) - rainbow * 0.85 : rainbow) : aB.rgb;
   vHero = aB.a;
 }`;
 
@@ -291,9 +300,9 @@ void main() {
     vec3 inkLit = -log(clamp(vec3(1.0) - 0.9 * clamp(gold, 0.0, 1.0), 0.02, 1.0));
     c = uGround * exp(-absorb * 1.15) * exp(-inkLit);
   } else {
-    // A selection becomes a dark sky around the real links. At rest the original poster's ground is unchanged.
+    // A selection becomes a dark sky around the real links. At rest the theme ground is unchanged; selection darkens its existing hue.
     float selected = 1.0 - smoothstep(0.06, 0.9, uRecede);
-    vec3 night = mix(uGround, vec3(0.008, 0.012, 0.031), selected);
+    vec3 night = mix(uGround, uGround * 0.45, selected);
     vec2 cell = floor(gl_FragCoord.xy / 54.0);
     vec2 starAt = (cell + vec2(hash(cell), hash(cell + 17.0))) * 54.0;
     float starDot = exp(-dot(gl_FragCoord.xy - starAt, gl_FragCoord.xy - starAt) / 1.4);

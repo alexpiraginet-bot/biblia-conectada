@@ -192,7 +192,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
   const [data, setData] = useState<Data | null>(null);
   const [arcs, setArcs] = useState<Loaded | null>(null);
   const [full, setFull] = useState<"auto" | "offer" | "loading" | "error" | "done">("auto");
-  const [mode, setMode] = useState<ColorMode>("testamento");
+  const [mode, setMode] = useState<ColorMode>("livros");
   const [lightsPaused, setLightsPaused] = useState(false);
   const [focus, setFocus] = useState(-1);
   const [filter, setFilter] = useState<Filter>("todas");
@@ -1162,7 +1162,9 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
         <details className={styles.legend}>
           <summary>Ajustar o céu <span aria-hidden="true">+</span></summary>
           {canvasMode && !phone && strengthControl}
-          {mode === "testamento" ? (
+          {mode === "livros" ? (
+            <p><i className={styles.swSpectrum} /> Cores na ordem dos livros, de Gênesis a Apocalipse</p>
+          ) : mode === "testamento" ? (
             <ul aria-label="Cores dos fios">
               <li>
                 <i className={styles.swAt} /> Dentro do Antigo Testamento
@@ -1181,9 +1183,11 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
           )}
           <p className={styles.legendActions}>
             {canvasMode && (
-              <button type="button" className={styles.mode} aria-pressed={mode === "distancia"} onClick={() => setMode((m) => (m === "testamento" ? "distancia" : "testamento"))}>
-                Cor pela distância
-              </button>
+              <select className={styles.mode} aria-label="Cores do céu" value={mode} onChange={(event) => setMode(event.target.value as ColorMode)}>
+                <option value="livros">Arco-íris dos livros</option>
+                <option value="testamento">Por testamento</option>
+                <option value="distancia">Pela distância</option>
+              </select>
             )}
             {canvasMode && (
               <button type="button" className={styles.mode} onClick={() => void saveImage()} disabled={saving === "busy" || ready !== "live"}>

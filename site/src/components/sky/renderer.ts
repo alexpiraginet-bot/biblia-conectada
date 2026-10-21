@@ -25,7 +25,7 @@ export function softwareRenderer(name: string): boolean {
 const P99 = { full: 161, head: 27 } as const;
 const RECEDE = 0.45; // the unselected sky; design §7 floor is 0.2
 const BAR_OP = 1.0;
-const GROUND = [6 / 255, 13 / 255, 26 / 255] as const; // --sky #060D1A
+const GROUND = [25 / 255, 13 / 255, 23 / 255] as const; // --sky #190d17
 const SEGS = [4, 8, 16, 32, 64, 128] as const;
 const INTRO_MS = 1400;
 const GROW_MS = 1100; // film.py: u = (t - start) / 1.1 s

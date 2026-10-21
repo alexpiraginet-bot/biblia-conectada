@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Icon } from "@/components/icons";
+import { ArcIcon, Icon } from "@/components/icons";
 import { LivingGraph } from "@/components/explore/LivingGraph";
 import { ScriptureText } from "@/components/explore/ScriptureText";
 import { DiscoveryQuest } from "@/components/home/DiscoveryQuest";
@@ -13,6 +13,7 @@ import { summary, verseText } from "@/lib/data";
 import { formatInt } from "@/lib/canon/text";
 import { illustratedAtlasData } from "@/lib/explore/living-graph";
 import type { DiscoveryQuestion } from "@/lib/journey";
+import skyPoster from "../../public/sculpture/noite-854.webp";
 import styles from "./page.module.css";
 
 export default async function Home() {
@@ -89,7 +90,7 @@ export default async function Home() {
             <div className={styles.cardCopy}><span className={styles.cardCategory}>LUGARES QUE CONTAM HISTÓRIAS</span><h3>Pelos caminhos<br />de Jesus.</h3><p>Um mapa, muitas descobertas. Siga os lugares, leia as passagens e encontre as conexões.</p><span className={styles.cardAction}>Explorar o mapa <Icon name="out" /></span></div>
           </Link>
           <Link href="/arcos" className={`${styles.discoveryCard} ${styles.skyCard}`} data-reveal="" data-spotlight="">
-            <Image src="/sculpture/noite-854.webp" alt="" width={854} height={480} sizes="(max-width: 760px) 100vw, 42vw" className={styles.skyArt} />
+            <Image src={skyPoster} alt="" sizes="(max-width: 760px) 100vw, 42vw" className={styles.skyArt} />
             <div className={styles.cardCopy}><span className={styles.cardCategory}>O CÉU DAS CONEXÕES</span><h3>Cada linha,<br />uma descoberta.</h3><span className={styles.cardAction}>Acender o céu <Icon name="out" /></span></div>
           </Link>
           <Link href="/cronologia" className={`${styles.discoveryCard} ${styles.chronologyCard}`} data-reveal="" data-spotlight="">
@@ -101,9 +102,22 @@ export default async function Home() {
       </section>
 
       <section className={styles.skyInterlude} aria-labelledby="sky-title">
-        <div className={styles.skyVista}><Image src="/sculpture/noite-854.webp" alt="Visualização das referências cruzadas da Bíblia como fios de luz." fill sizes="100vw" /></div>
-        <div className={styles.skyStory} data-reveal=""><p className={styles.eyebrow}>VEJA A HISTÓRIA INTEIRA</p><h2 id="sky-title">E se cada conexão<br /><em>acendesse uma estrela?</em></h2><p>Da criação ao Apocalipse, as referências cruzadas formam um céu de histórias. Entre, gire e encontre seu próximo versículo.</p><Link href="/arcos">Entrar no céu em 3D <Icon name="out" /></Link><Link href="/arcos#daniel/9" className={styles.skyExample}>Começar por Daniel 9 <span aria-hidden="true">↗</span></Link></div>
-        <span className={styles.skyCaption}>Cada fio é uma ligação entre versículos · OpenBible.info</span>
+        <div className={styles.skyVista} role="img" aria-label="Visualização das referências cruzadas da Bíblia como fios de luz." />
+        <div className={styles.skyStory} data-reveal="">
+          <p className={styles.skyLabel}><ArcIcon /> O céu das conexões</p>
+          <h2 id="sky-title">Um universo.<br /><span>Tudo conectado.</span></h2>
+          <p>Gire a Bíblia. Toque uma passagem. Veja a história se conectar, de Gênesis a Apocalipse.</p>
+          <Link href="/arcos" className={styles.skyEnter}>Explorar em 3D <Icon name="out" /></Link>
+        </div>
+        <div className={styles.skyFooter}>
+          <div className={styles.skyStarts} aria-label="Comece por uma passagem">
+            <span>Por onde começar?</span>
+            <Link href="/arcos#genesis/1/3">A luz <span>Gn 1:3 ↗</span></Link>
+            <Link href="/arcos#joao/3/16">O amor <span>Jo 3:16 ↗</span></Link>
+            <Link href="/arcos#daniel/9">A promessa <span>Dn 9 ↗</span></Link>
+          </div>
+          <span className={styles.skyCaption}>Conexões reais · OpenBible.info</span>
+        </div>
       </section>
 
       <section className={styles.story} aria-labelledby="story-title">

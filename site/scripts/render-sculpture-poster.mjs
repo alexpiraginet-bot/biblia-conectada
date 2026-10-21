@@ -58,9 +58,9 @@ for (const j of JOBS) {
     throw new Error(`poster.ts ${j.size}.${j.theme}: unexpected paths ${j.avif}, ${j.webp}`);
   }
 }
-// the page's ground under the poster (tokens.json `ground`): the poster's own ground must be the same colour
-const groundToken = JSON.parse(readFileSync(join(SITE, "src/styles/tokens.json"), "utf8")).color.tokens.find((t) => t.name === "ground")?.value;
-if (!groundToken?.noite || !groundToken?.dia) throw new Error("tokens.json has no `ground` colour for both themes");
+// The neutral stage under the poster: the poster and canvas share sculpture-ground, independent of the surrounding UI.
+const groundToken = JSON.parse(readFileSync(join(SITE, "src/styles/tokens.json"), "utf8")).color.tokens.find((t) => t.name === "sculpture-ground")?.value;
+if (!groundToken?.noite || !groundToken?.dia) throw new Error("tokens.json has no `sculpture-ground` colour for both themes");
 const KEEP_PNG = process.env.SCULPTURE_POSTER_PNG;
 if (KEEP_PNG) mkdirSync(KEEP_PNG, { recursive: true });
 
@@ -194,7 +194,7 @@ try {
     // the poster sits on the stage's ground: any other colour would show the box as a seam
     const want = groundToken[job.theme];
     if (rgbOf(want).some((v, i) => v !== s.ground[i])) {
-      throw new Error(`${name}: the poster's ground is ${hex(s.ground)}, the page's ground (tokens.json) is ${want}: renderer.ts GROUND must match it`);
+      throw new Error(`${name}: the poster's ground is ${hex(s.ground)}, sculpture-ground (tokens.json) is ${want}: renderer.ts GROUND must match it`);
     }
 
     const png = join(tmp, `${name}.png`);

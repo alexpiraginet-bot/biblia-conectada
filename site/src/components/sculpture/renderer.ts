@@ -9,8 +9,8 @@ import { FLAT, type Mat4, type Vec3 } from "./space";
 import * as SH from "./shaders";
 
 export type Theme = "noite" | "dia";
-/** Colour by testament (amber Old, mist New, cream bridges) or by distance (the sky of links' stained glass) */
-export type ColorMode = "testamento" | "distancia";
+/** A spectrum along the canonical axis, testament colours, or the sky of links' distance palette. */
+export type ColorMode = "livros" | "testamento" | "distancia";
 
 /** Arc geometry: (xa, xb, theta, weight) per arc, x on the axis in [-1, 1]; colour: (r, g, b, hero) per arc; the votes
  *  of each arc (the files are sorted by them, most first). */
@@ -46,9 +46,9 @@ const P99_HOME = [340, 162, 33, 6.6] as const;
 /** the same for the hero strands alone (the links with HERO_VOTES or more: the same strands at the first three steps;
  *  at 100 votes or more, measured 6.6 where the first steps measured 32.5, scaled to their 38) */
 const H99_HOME = [38, 38, 38, 7.7] as const;
-/** the page's ground (tokens.json `ground`), so the canvas, the poster and the stage behind them never show a seam;
+/** The neutral stage ground (tokens.json `sculpture-ground`), so canvas and poster never show a seam;
  *  tests/sculpture-poster.test.ts checks it */
-export const GROUND: Record<Theme, Vec3> = { noite: [6 / 255, 18 / 255, 27 / 255], dia: [246 / 255, 241 / 255, 230 / 255] };
+export const GROUND: Record<Theme, Vec3> = { noite: [16 / 255, 16 / 255, 20 / 255], dia: [245 / 255, 245 / 255, 247 / 255] };
 // The lit arcs and the arc in focus. In Dia light becomes ink (shaders.ts FINAL_FS: each channel absorbs as much as
 // the light has of it), so Dia's values are the complements of the inks wanted: the dark bronze of tokens.json `lit`
 // (#683c00) for the lit arcs, a sepia near black (#2a1400) for the one in focus.
