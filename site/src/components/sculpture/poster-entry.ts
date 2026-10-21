@@ -31,8 +31,8 @@ async function bin(file: string) {
 
 /** What the PNG holds, so the script can refuse a blank or a wrong picture: the ground (the commonest colour of the
  *  four 8 x 8 corners, the farthest from the sculpture: its glow reaches the middle of the edges), the share of pixels
- *  away from it, and the shares that move from the ground toward red (the amber or bronze Old Testament) and toward
- *  blue (the New): light adds colour in Noite, ink takes the other colour away in Dia. */
+ *  away from it, and the shares that move from the ground toward red and toward blue across the canonical spectrum:
+ *  light adds colour in Noite, ink takes the other colour away in Dia. */
 async function measure(png: string) {
   const bmp = await createImageBitmap(await (await fetch(png)).blob());
   const ctx = new OffscreenCanvas(bmp.width, bmp.height).getContext("2d")!;
@@ -84,7 +84,7 @@ async function renderSculpturePoster(job: Job) {
 
   r.resize(W / DPR, H / DPR, DPR);
   r.theme = theme;
-  r.setArcs(arcBuffers(geo, set, nt, theme, "testamento"));
+  r.setArcs(arcBuffers(geo, set, nt, theme, "livros"));
   // the book groups' bands under the axis, from the medallions' groups as on the page (groups.ts)
   const bookGroup = (medalhoes as unknown as { bookGroup: Record<string, string> }).bookGroup;
   r.setLines(axisLines(meta, geo, axisGroups(booksJson as Book[], (osis) => bookGroup[osis] ?? null, (id) => id)));

@@ -1,5 +1,5 @@
 // From the pipeline's files (public/data/sky.json + arcs.bin, the same ones the sky of links reads) to what the
-// sculpture's renderer draws: every pair placed in 3D, coloured by testament or by distance, and the lit arcs of a
+// sculpture's renderer draws: every pair placed in 3D, coloured along the canon, by testament or distance, and the lit arcs of a
 // selection. Pure functions, no DOM; tests/sculpture.test.ts checks them against the pipeline's numbers.
 import { arcTone, arcWeight, HERO_VOTES, type ArcSet, type ChapterIndex, type Geometry, type SkyMeta } from "../sky/model";
 import type { AxisGroup } from "./groups";
@@ -54,14 +54,17 @@ export function glass(t: number): [number, number, number] {
   return [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f, a[2] + (b[2] - a[2]) * f];
 }
 
-/** Colour and hero flag of every arc, in file order: (r, g, b, hero). */
+/** Colour and hero flag of every arc, in file order: (r, g, b, hero).
+ * Livros uses (-1, day, 0, hero): the shader samples a shared spectrum along the actual canonical axis. Thus all
+ * strands at one biblical position keep the same hue instead of averaging unrelated hues into grey. */
 export function arcColors(geo: Geometry, set: ArcSet, nt: Uint8Array, theme: Theme, mode: ColorMode): Float32Array {
   const out = new Float32Array(set.n * 4);
   const tone = TESTAMENT[theme];
   for (let k = 0; k < set.n; k++) {
     const a = set.a[k], b = set.b[k];
     let c: [number, number, number];
-    if (mode === "testamento") c = tone[relation(nt[a] === 1, nt[b] === 1)];
+    if (mode === "livros") c = [-1, theme === "dia" ? 1 : 0, 0];
+    else if (mode === "testamento") c = tone[relation(nt[a] === 1, nt[b] === 1)];
     else {
       const g = glass(arcTone(Math.abs(geo.xOfGv[b] - geo.xOfGv[a])));
       c = theme === "dia" ? [1 - g[0] * 0.85, 1 - g[1] * 0.85, 1 - g[2] * 0.85] : g;

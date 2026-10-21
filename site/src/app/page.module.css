@@ -28,7 +28,7 @@
   border: 1px solid #c9aeb740;
   border-radius: 20px;
   background: #2d1722;
-  box-shadow: inset 0 1px 0 #e7f4ff0a, 0 24px 64px -48px #000;
+  box-shadow: inset 0 1px 0 #fff3e30a, 0 24px 64px -48px #000;
   overflow: hidden;
 }
 .heroCopy::before {
@@ -36,7 +36,7 @@
   position: absolute;
   inset: 7px;
   z-index: 3;
-  border: 1px solid #c2d2d522;
+  border: 1px solid color-mix(in srgb, var(--sky-ink-2) 14%, transparent);
   border-radius: 13px;
   pointer-events: none;
 }
@@ -122,7 +122,7 @@
   color: #f2ebdf;
   border-color: #c7a8b070;
   background: linear-gradient(165deg, #e5c9d21a, #64344730), #321e29;
-  box-shadow: inset 0 1px 0 #dcecf02b, inset 0 -1px 0 #00000050, 0 4px 12px #00000015;
+  box-shadow: inset 0 1px 0 #fff3e32b, inset 0 -1px 0 #00000050, 0 4px 12px #00000015;
 }
 .primary svg, .secondary svg { width: 18px; height: 18px; flex-shrink: 0; transition: transform .2s var(--ease-out); }
 .primary:active, .secondary:active { transform: translateY(2px); box-shadow: inset 0 1px 4px #00000020; }
@@ -144,15 +144,15 @@
   color: #decbd1;
   font-size: 11px;
   border-radius: 8px;
-  border: 1px solid #a2bcc62e;
+  border: 1px solid color-mix(in srgb, var(--sky-ink-2) 20%, transparent);
   background: #2b15226e;
   transition: background .2s, color .2s, border-color .2s;
 }
 .experienceTabs a[aria-current] { background: #d9bd8017; border-color: #d0b27388; color: #f1d6a1; box-shadow: inset 0 1px 0 #f6dfac12; }
 .experienceTabs svg { width: 16px; height: 16px; }
 .heroGraph { min-width: 0; margin: 20px auto 0; max-width: 1336px; scroll-margin-top: 90px; }
-.scrollHint { display: flex; justify-content: center; align-items: center; gap: 12px; width: fit-content; min-height: 44px; margin: 14px auto 0; color: #bac7cb; text-decoration: none; font-size: 11px; }
-.scrollHint span { display: grid; place-items: center; width: 24px; height: 30px; border: 1px solid #a9b8bc68; border-radius: 16px; font-size: 14px; }
+.scrollHint { display: flex; justify-content: center; align-items: center; gap: 12px; width: fit-content; min-height: 44px; margin: 14px auto 0; color: var(--sky-ink-2); text-decoration: none; font-size: 11px; }
+.scrollHint span { display: grid; place-items: center; width: 24px; height: 30px; border: 1px solid color-mix(in srgb, var(--sky-ink-2) 40%, transparent); border-radius: 16px; font-size: 14px; }
 
 /* Search stays a single, obvious action on a calm surface. */
 .searchBand { display: flex; flex-wrap: wrap; align-items: center; gap: 25px; padding: 27px clamp(24px, 5vw, 84px); border-block: 1px solid var(--home-line); background: var(--surface); color: var(--ink); }
@@ -201,7 +201,7 @@
 .timeTrail { position: absolute; top: 25px; right: 32px; left: 32px; display: flex; align-items: center; gap: 10px; font-size: 11px; }
 .timeTrail span { display: flex; gap: 5px; align-items: center; }
 .timeTrail span::before { content: ""; width: 5px; height: 5px; border-radius: 50%; border: 1px solid currentColor; }
-.timeTrail i { flex: 1; border-top: 1px dashed #67715d80; }
+.timeTrail i { flex: 1; border-top: 1px dashed var(--line-strong); }
 .playStrip { display: flex; align-items: center; gap: 18px; border: 1px solid var(--home-line); border-radius: 16px; margin-top: 20px; padding: 21px 24px; color: var(--ink); text-decoration: none; background: color-mix(in srgb, var(--surface) 55%, transparent); box-shadow: inset 0 1px 0 #ffffff08; transition: background .2s, border-color .2s; }
 .playIcon { display: grid; place-items: center; flex-shrink: 0; width: 46px; height: 46px; border: 1px solid var(--home-line); border-radius: 14px; color: var(--home-accent); background: color-mix(in srgb, var(--home-accent) 7%, transparent); }
 .playStrip > span:nth-child(2) { display: grid; gap: 5px; font-size: 14px; }
@@ -210,21 +210,29 @@
 .playCta { margin-left: auto; display: flex; align-items: center; gap: 14px; font-size: 13px; color: var(--home-accent); }
 .playCta svg { width: 18px; }
 
-/* The wider sky is a reading break, never a moving layer over Scripture. */
-.skyInterlude { position: relative; min-height: 680px; margin-top: 100px; overflow: clip; isolation: isolate; display: flex; align-items: center; color: #f2ebdd; background: #06121b; border-block: 1px solid #b7cbd029; }
-.skyVista { position: absolute; inset: 0 -15% 0 15%; z-index: -2; }
-.skyVista img { object-fit: contain; opacity: .8; }
-.skyInterlude::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #06121b 5%, #06121be8 26%, transparent 75%); z-index: -1; }
-.skyStory { padding: 90px max(28px, calc((100vw - 1200px) / 2)); width: 100%; }
-.skyStory .eyebrow { color: #dcc396; font-size: 10px; margin-bottom: 24px; }
-.skyStory h2 { font: 440 clamp(38px, 4vw, 62px)/1.1 var(--font-display); letter-spacing: -.035em; margin: 0; text-wrap: balance; }
-.skyStory h2 em { font-style: italic; color: #e4bd7b; }
-.skyStory > p:not(.eyebrow) { color: #c0cdd2; font-size: 15px; line-height: 1.85; max-width: 320px; margin: 26px 0; }
-.skyStory > a { display: inline-flex; gap: 23px; align-items: center; min-height: 52px; border: 1px solid #c6b17b; padding: 15px 22px; border-radius: 999px; background: linear-gradient(145deg, #d8c08c12, #152f3e); box-shadow: inset 0 1px 0 #f4e3b520; color: #f1d7a7; text-decoration: none; font-size: 13px; transition: background .2s, color .2s, transform .2s; }
-.skyStory > a svg { width: 16px; }
-.skyStory > a:focus-visible { outline-color: #f1d8a3; }
-.skyStory > a.skyExample { display: flex; width: fit-content; min-height: 44px; margin-top: 12px; padding: 7px 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; color: #c6cbd4; font-size: 13px; }
-.skyCaption { position: absolute; bottom: 25px; right: 30px; left: 30px; text-align: right; font-size: 10px; color: #adbec5; }
+/* A dark viewing stage in both themes; reading surfaces keep their own theme. */
+.skyInterlude { --stage-ground: #101014; position: relative; min-height: 780px; margin-top: 100px; overflow: clip; isolation: isolate; display: flex; flex-direction: column; justify-content: center; color: var(--sky-ink); background: var(--stage-ground); border-block: 1px solid #e5c48c24; }
+.skyVista {
+  --vista-night: image-set(url('/sculpture/noite-2002.avif') type('image/avif'), url('/sculpture/noite-2002.webp') type('image/webp'));
+  position: absolute; inset: 0 -9% 40px 24%; z-index: -2;
+  background: var(--vista-night) center / contain no-repeat;
+}
+.skyInterlude::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--stage-ground) 4%, #101014f2 23%, #101014a8 38%, transparent 60%); z-index: -1; pointer-events: none; }
+.skyStory { padding: 76px max(28px, calc((100vw - 1280px) / 2)) 150px; width: 100%; }
+.skyLabel { display: flex; align-items: center; gap: 11px; margin: 0 0 30px; font: 500 14px/1.4 var(--font-ui); color: var(--sky-gold); }
+.skyLabel svg { width: 23px; height: 23px; }
+.skyStory h2 { font: 650 clamp(46px, 5.4vw, 84px)/1.04 var(--font-ui); letter-spacing: -.055em; margin: 0; max-width: 650px; }
+.skyStory h2 span { color: #e9c8da; }
+.skyStory > p:not(.skyLabel) { color: #decbd5; font-size: 17px; line-height: 1.65; max-width: 325px; margin: 28px 0; }
+.skyEnter { display: inline-flex; align-items: center; gap: 35px; min-height: 56px; padding: 15px 24px; border-radius: 999px; background: var(--sky-gold); color: #29141e; font-size: 15px; font-weight: 650; text-decoration: none; transition: transform .2s, background .2s; }
+.skyEnter svg { width: 20px; height: 20px; }
+.skyFooter { position: absolute; inset: auto max(28px, calc((100vw - 1280px) / 2)) 26px; display: flex; align-items: end; justify-content: space-between; gap: 25px; }
+.skyStarts { display: flex; align-items: center; gap: 12px; }
+.skyStarts > span { max-width: 100px; font-size: 12px; line-height: 1.5; color: #c7aebd; }
+.skyStarts a { display: flex; flex-direction: column; gap: 4px; min-height: 58px; padding: 10px 17px; border: 1px solid #d8b7c735; border-radius: 12px; background: #2b1622dd; color: #fff5e6; text-decoration: none; font-size: 13px; transition: border-color .2s, background .2s; }
+.skyStarts a span { color: #d6b4c8; font-size: 11px; }
+.skyStarts a:focus-visible { outline: 3px solid var(--sky-gold); outline-offset: 4px; }
+.skyCaption { font-size: 11px; color: #c7aebd; }
 
 .story { max-width: 1210px; padding: 130px 45px 60px; margin: auto; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 100px; }
 .storyHeading { position: sticky; align-self: start; top: 160px; }
@@ -260,8 +268,8 @@
   .primary:hover { transform: translateY(-2px); box-shadow: inset 0 1px 0 #fff6dc, inset 0 -2px 0 #8a5b3a45, 0 4px 0 #79572c, 0 12px 26px #00000030; }
   .primary:hover svg { transform: translateX(3px); }
   .secondary:hover { transform: translateY(-2px); border-color: var(--home-accent); }
-  .hero .secondary:hover { border-color: #d4dfe1; background: #213c4b; }
-  .experienceTabs a:hover { background: #c5dbe016; border-color: #c6d9de70; color: #f5efe3; }
+  .hero .secondary:hover { border-color: var(--sky-gold); background: #432735; }
+  .experienceTabs a:hover { background: #e5c48c16; border-color: #e5c48c70; color: var(--sky-ink); }
   .discoveryCard:hover { transform: translateY(-4px); border-color: #f0d29b88; box-shadow: 0 20px 40px #00000025; }
   .discoveryCard:hover::after { border-color: #ffffff55; }
   .landscapeCard:hover .landscape { transform: scale(1.035); }
@@ -270,8 +278,8 @@
   .chronologyCard:hover::after { border-color: #705c3455; }
   .chronologyCard:hover .cardAction svg { background: #fff6de; }
   .playStrip:hover { background: var(--surface); border-color: var(--line-strong); }
-  .skyStory > a:hover { background: #e4bd7b; color: #06121b; transform: translateY(-2px); }
-  .skyStory > a.skyExample:hover { background: transparent; color: #fff4e8; transform: none; }
+  .skyEnter:hover { transform: translateY(-2px); background: #f4dbac; }
+  .skyStarts a:hover { background: #432735; border-color: #e5c48c; }
 }
 
 /* Reveals are progressive: HomeMotion adds the hidden state only below the fold. */
@@ -296,7 +304,10 @@
   .heroActions .primary, .heroActions .secondary { font-size: 12px; padding-inline: 17px; }
   .searchIdeas { display: none; }
   .story { gap: 55px; padding-inline: 45px; }
-  .skyInterlude { min-height: 580px; }
+  .skyInterlude { min-height: 670px; }
+  .skyVista { inset-inline: 21% -18%; }
+  .skyFooter { align-items: start; }
+  .skyCaption { max-width: 130px; text-align: right; line-height: 1.5; }
   .cardCopy h3 { font-size: 32px; }
   .landscapeCard h3 { font-size: 47px; }
   .chronologyCard h3 { font-size: 30px; }
@@ -339,14 +350,19 @@
   .playStrip { padding: 18px; flex-wrap: wrap; gap: 13px; }
   .playStrip > span:nth-child(2) { flex: 1; min-width: 150px; }
   .playCta { margin-left: 59px; font-size: 12px; }
-  .skyInterlude { margin-top: 65px; min-height: 700px; align-items: start; }
-  .skyStory { padding: 52px 24px; }
-  .skyStory h2 { font-size: 42px; }
-  .skyStory > p:not(.eyebrow) { font-size: 14px; max-width: 300px; }
-  .skyVista { inset: 260px -20% -45px -20%; }
-  .skyVista img { object-fit: contain; opacity: 1; }
-  .skyInterlude::after { background: linear-gradient(#06121b 0%, #06121bf5 33%, transparent 70%); }
-  .skyCaption { font-size: 10px; left: 24px; right: 24px; text-align: center; }
+  .skyInterlude { margin-top: 65px; min-height: 810px; justify-content: start; }
+  .skyStory { padding: 42px 24px 0; }
+  .skyLabel { margin-bottom: 20px; font-size: 12px; }
+  .skyStory h2 { font-size: clamp(43px, 9.8vw, 65px); }
+  .skyStory > p:not(.skyLabel) { font-size: 15px; max-width: 310px; margin-block: 20px; }
+  .skyEnter { min-height: 50px; padding: 12px 21px; font-size: 14px; }
+  .skyVista { --vista-night: image-set(url('/sculpture/noite-854.avif') type('image/avif'), url('/sculpture/noite-854.webp') type('image/webp')); inset: 300px -15% 95px; }
+  .skyInterlude::after { background: linear-gradient(var(--stage-ground) 0%, #101014f5 32%, transparent 49%, transparent 80%, var(--stage-ground) 92%); }
+  .skyFooter { inset: auto 24px 23px; display: block; }
+  .skyStarts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .skyStarts > span { grid-column: 1 / -1; max-width: none; }
+  .skyStarts a { padding: 10px; font-size: 12px; }
+  .skyCaption { display: block; max-width: none; margin-top: 14px; font-size: 10px; text-align: left; }
   .story { padding: 80px 24px 15px; grid-template-columns: minmax(0, 1fr); gap: 45px; }
   .storyHeading { position: static; }
   .storyHeading > p:not(.eyebrow) { max-width: 340px; }

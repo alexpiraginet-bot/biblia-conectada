@@ -276,7 +276,7 @@
 .immersive .dimEdge { opacity: .025; }
 .immersive .referenceRings { opacity: .16; stroke-dasharray: 1 6; }
 .immersive .medallion { width: 74px; height: 74px; --node-size: 70px !important; }
-.immersive .medallion .core { width: 100%; height: 100%; padding: 4px; background: #2d1722; border: 1px solid #a8bfb078; outline: 1px solid #a8bfb020; outline-offset: 4px; }
+.immersive .medallion .core { width: 100%; height: 100%; padding: 4px; background: #2d1722; border: 1px solid color-mix(in srgb, var(--sky-gold) 48%, transparent); outline: 1px solid color-mix(in srgb, var(--sky-ink-2) 15%, transparent); outline-offset: 4px; }
 .immersive .medallion .core img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; opacity: .8; transition: opacity .3s; }
 .immersive .medallion.related .core img, .immersive .medallion.selected .core img { opacity: 1; }
 .immersive .centre { width: 106px; height: 106px; --node-size: 106px !important; }

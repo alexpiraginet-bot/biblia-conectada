@@ -81,8 +81,8 @@ describe("sculpture data", () => {
     }
   });
 
-  it("draws the most voted links as hero strands, and the rest as the plain light", () => {
-    const colors = arcColors(geo, full, nt, "noite", "testamento");
+  it.each(["livros", "testamento", "distancia"] as const)("keeps the most voted links as hero strands in %s mode", (mode) => {
+    const colors = arcColors(geo, full, nt, "noite", mode);
     let heroes = 0;
     for (let k = 0; k < full.n; k++) if (colors[k * 4 + 3] === 1) heroes++;
     expect(heroes).toBe(Array.from(full.votes).filter((v) => v >= HERO_VOTES).length);

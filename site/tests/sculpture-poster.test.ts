@@ -1,7 +1,7 @@
 // The light sculpture's posters (public/sculpture/, rendered by scripts/render-sculpture-poster.mjs): every image
 // src/components/sculpture/poster.ts declares is committed, at the declared size, at the opening view's aspect, and the
 // AVIF keeps full chroma and full range (the glow is a slow gradient on a flat ground; subsampling bands it). The
-// renderer clears to the page's ground, so the poster, the loading stage and the live canvas show no seam.
+// renderer clears to the neutral stage ground, so the poster, the loading stage and the live canvas show no seam.
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -112,8 +112,8 @@ describe("sculpture posters", () => {
   });
 });
 
-describe("one ground", () => {
-  it("the renderer matches the preserved sculpture ground behind the canvas and the original posters", () => {
+describe("neutral sculpture stage", () => {
+  it("the renderer, stage and posters share sculpture-ground independently of the surrounding theme", () => {
     const tokens = themeTokens();
     for (const theme of ["noite", "dia"] as const) {
       const hex = tokens[theme]["--sculpture-ground"];
