@@ -15,7 +15,7 @@ for (const size of [192, 512]) {
 await sharp(source).resize(512, 512).png().toFile(path.join(destination, "app-maskable-512-v1.png"));
 const appleIcon = await sharp(source).resize(180, 180).png().toBuffer();
 await Promise.all([
-  "src/app/apple-icon.png",
+  "public/apple-icon.png",
   "public/apple-touch-icon.png",
   "public/apple-touch-icon-precomposed.png",
 ].map((file) => writeFile(path.join(root, file), appleIcon)));
