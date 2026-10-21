@@ -1,3 +1,4 @@
+import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,10 +7,11 @@ import { CHRONOLOGY_SOURCES, EVENT_DATE_CONTEXT, GOSPEL_COMPOSITION, GOSPELS, lo
 import { verseText } from "@/lib/data";
 import styles from "./cronologia.module.css";
 
-export const metadata: Metadata = {
-  title: "A vida de Jesus, de perto · Leitura cronológica",
-  description: "Um percurso ilustrado pela vida de Jesus, com texto da Bíblia Livre, diferentes olhares dos evangelhos e caminhos para o mapa.",
-};
+export const metadata: Metadata = shareMetadata({
+    title: "A vida de Jesus, de perto · Leitura cronológica",
+    description: "Um percurso ilustrado pela vida de Jesus, com texto da Bíblia Livre, diferentes olhares dos evangelhos e caminhos para o mapa.",
+    path: "/cronologia",
+  });
 
 export default async function ChronologyPage() {
   const moments = await loadChronologicalReading(verseText);

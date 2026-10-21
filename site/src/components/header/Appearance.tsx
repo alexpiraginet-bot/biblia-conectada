@@ -1,14 +1,11 @@
 "use client";
 
-import { useEffect, useId, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
-import { Icon, type IconName } from "@/components/icons";
+import { lazy, Suspense, useId, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
+import { Icon } from "@/components/icons";
+import { APPEARANCE_CHOICES as CHOICES } from "./appearance-choices";
 import { type Choice, THEME_COLOR, THEME_KEY } from "./theme";
 
-const CHOICES: { value: Choice; label: string; icon: IconName }[] = [
-  { value: "sistema", label: "Sistema", icon: "device" },
-  { value: "dia", label: "Dia", icon: "sun" },
-  { value: "noite", label: "Noite", icon: "moon" },
-];
+const AppearanceMenu = lazy(() => import("./AppearanceMenu"));
 const CHANGE = "bc:appearance";
 
 function stored(): Choice {
@@ -53,24 +50,6 @@ export function Appearance() {
   // empty shell that the browser fills in. Apply the stored choice there too, before the first paint.
   useLayoutEffect(() => apply(stored()), [choice]);
 
-  useEffect(() => {
-    if (!open) return;
-    const away = (e: PointerEvent) => {
-      if (!root.current?.contains(e.target as Node)) setOpen(false);
-    };
-    const esc = (e: KeyboardEvent) => {
-      if (e.key !== "Escape") return;
-      setOpen(false);
-      button.current?.focus();
-    };
-    document.addEventListener("pointerdown", away);
-    document.addEventListener("keydown", esc);
-    return () => {
-      document.removeEventListener("pointerdown", away);
-      document.removeEventListener("keydown", esc);
-    };
-  }, [open]);
-
   const choose = (c: Choice) => {
     try {
       localStorage.setItem(THEME_KEY, c);
@@ -94,39 +73,9 @@ export function Appearance() {
         <Icon name={current.icon} />
       </button>
       <div id={id} className="appearance__menu" hidden={!open}>
-        <p className="appearance__title" id={`${id}-t`}>
-          Aparência
-        </p>
-        <div
-          className="bc-segmented"
-          role="radiogroup"
-          aria-labelledby={`${id}-t`}
-          onKeyDown={(e) => {
-            const step = e.key === "ArrowRight" || e.key === "ArrowDown" ? 1 : e.key === "ArrowLeft" || e.key === "ArrowUp" ? -1 : 0;
-            if (!step) return;
-            e.preventDefault();
-            const i = (CHOICES.indexOf(current) + step + CHOICES.length) % CHOICES.length;
-            choose(CHOICES[i].value);
-            (e.currentTarget.querySelectorAll("button")[i] as HTMLButtonElement | undefined)?.focus();
-          }}
-        >
-          {CHOICES.map((c) => (
-            <button
-              key={c.value}
-              type="button"
-              role="radio"
-              aria-checked={c.value === choice}
-              tabIndex={c.value === choice ? 0 : -1}
-              onClick={() => choose(c.value)}
-            >
-              <Icon name={c.icon} />
-              {c.label}
-            </button>
-          ))}
-        </div>
-        <p className="appearance__note">
-          {choice === "sistema" ? "Segue o ajuste claro ou escuro do aparelho." : "Guardado neste aparelho."}
-        </p>
+        {open && <Suspense fallback={<p role="status">Abrindo aparência…</p>}>
+          <AppearanceMenu id={id} choice={choice} root={root} button={button} choose={choose} close={() => setOpen(false)} />
+        </Suspense>}
       </div>
     </div>
   );

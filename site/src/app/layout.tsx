@@ -5,8 +5,11 @@ import { SiteHeader } from "@/components/header/SiteHeader";
 import { THEME_COLOR, THEME_SCRIPT } from "@/components/header/theme";
 import { SearchHost } from "@/components/search/SearchHost";
 import { StudyHost } from "@/components/assistant/StudyHost";
+import { InstallHost } from "@/components/install/InstallHost";
 import { PAGE_SEARCH_SCRIPT } from "@/components/search/page-search-script";
 import { SectionRail, SiteShell, TabBar } from "@/components/shell/NavLinks";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_SHORT_NAME, SITE_URL } from "@/lib/site-identity";
+import { shareMetadata } from "@/lib/share-metadata";
 import "@/styles/tokens.css";
 import "@/styles/ds.css";
 import "./globals.css";
@@ -38,9 +41,12 @@ const reading = localFont({
 });
 
 export const metadata: Metadata = {
-  title: { default: "Bíblia Conectada", template: "%s · Bíblia Conectada" },
-  description:
-    "Mapa navegável das ligações da Bíblia: livros, capítulos, versículos e referências cruzadas. Em português, só com fontes livres.",
+  ...shareMetadata({ title: SITE_NAME, description: SITE_DESCRIPTION, path: "/" }),
+  metadataBase: new URL(SITE_URL),
+  title: { default: SITE_NAME, template: `%s · ${SITE_NAME}` },
+  applicationName: SITE_NAME,
+  appleWebApp: { capable: true, title: SITE_SHORT_NAME, statusBarStyle: "default" },
+  formatDetection: { telephone: false },
 };
 
 export const viewport: Viewport = {
@@ -67,6 +73,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <SectionRail />
           <div className="site-column">
             <SiteHeader />
+            <InstallHost />
             {children}
             <SiteFooter />
           </div>

@@ -1,3 +1,4 @@
+import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -34,10 +35,11 @@ const plural = (n: number, one: string, many: string) => `${formatInt(n)} ${n ==
 export async function generateMetadata({ params }: PageProps<"/palavra/[palavra]">): Promise<Metadata> {
   const w = await resolve(params);
   if (!w) return { title: NOT_FOUND_TITLE };
-  return {
+  return shareMetadata({
     title: `“${w.label}” na Bíblia Livre`,
     description: `Os ${formatInt(w.verses.length)} versículos da Bíblia Livre com a palavra “${w.label}” e as ${formatInt(w.linksAmong.length)} ligações entre eles.`,
-  };
+    path: `/palavra/${encodeURIComponent(w.key)}`,
+  });
 }
 
 const side = (gv: number) => {

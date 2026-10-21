@@ -1,3 +1,4 @@
+import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Icon } from "@/components/icons";
@@ -27,11 +28,11 @@ export async function generateMetadata({ params }: PageProps<"/[livro]/[cap]">):
   const book = bookBySlug(livro);
   const chapter = book ? chapterNumber(book, cap) : null;
   if (!book || !chapter) return { title: NOT_FOUND_TITLE };
-  return {
+  return shareMetadata({
     title: `${book.name} ${chapter}`,
     description: `${book.name} ${chapter} na Bíblia Livre (BLIVRE), com as ligações de cada versículo.`,
-    alternates: { canonical: `/${book.slug}/${chapter}` },
-  };
+    path: `/${book.slug}/${chapter}`,
+  });
 }
 
 /** The book-group medallion of a chapter, and its name for the caption: "Evangelhos (pães e peixes)". */

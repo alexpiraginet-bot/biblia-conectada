@@ -1,3 +1,4 @@
+import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { formatInt } from "@/lib/canon/text";
@@ -8,10 +9,11 @@ import { type Medalhao, medalhaoForBook } from "@/lib/medalhoes";
 import { bookPairs, bookVerseCount } from "@/lib/reading";
 import styles from "./ler.module.css";
 
-export const metadata: Metadata = {
-  title: "Ler",
-  description: "Os 66 livros da Bíblia, no texto da Bíblia Livre (BLIVRE), com as ligações de cada versículo.",
-};
+export const metadata: Metadata = shareMetadata({
+    title: "Ler",
+    description: "Os 66 livros da Bíblia, no texto da Bíblia Livre (BLIVRE), com as ligações de cada versículo.",
+    path: "/ler",
+  });
 
 type Group = { medal: Medalhao; books: { book: Book; pairs: number }[] };
 

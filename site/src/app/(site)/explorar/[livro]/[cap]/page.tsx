@@ -1,3 +1,4 @@
+import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import { ConnectionPanel } from "@/components/explore/ConnectionPanel";
 import { NOT_FOUND_TITLE } from "@/lib/missing";
@@ -16,11 +17,11 @@ export async function generateMetadata({ params }: PageProps<"/explorar/[livro]/
   const r = resolveChapter(livro, cap);
   if (!r) return { title: NOT_FOUND_TITLE };
   const label = `${r.book.name} ${r.chapter}`;
-  return {
+  return shareMetadata({
     title: `Explorar ${label}`,
     description: `O mapa de ${label}: os capítulos ligados a ele pelas referências cruzadas da OpenBible.info, por grupo de livros e por votos.`,
-    alternates: { canonical: explorePath(r.book.slug, r.chapter) },
-  };
+    path: explorePath(r.book.slug, r.chapter),
+  });
 }
 
 // No connection chosen yet: the panel shows the most voted linked chapter.

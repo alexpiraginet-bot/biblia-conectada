@@ -1,3 +1,4 @@
+import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -30,10 +31,11 @@ const plural = (n: number, one: string, many: string) => `${formatInt(n)} ${n ==
 export async function generateMetadata({ params }: PageProps<"/tema/[slug]">): Promise<Metadata> {
   const t = themeBySlug((await params).slug);
   if (!t) return { title: NOT_FOUND_TITLE };
-  return {
+  return shareMetadata({
     title: `${capital(t.label)} (tema)`,
     description: `${formatInt(t.passages.length)} passagens do tema “${t.label}” (OpenBible.info Topics), no texto da Bíblia Livre, e as ligações entre elas.`,
-  };
+    path: `/tema/${t.slug}`,
+  });
 }
 
 const side = (gv: number) => {

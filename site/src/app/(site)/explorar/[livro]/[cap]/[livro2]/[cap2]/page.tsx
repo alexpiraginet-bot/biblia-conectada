@@ -1,3 +1,4 @@
+import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ConnectionPanel } from "@/components/explore/ConnectionPanel";
@@ -39,13 +40,11 @@ async function resolve(params: Params) {
 export async function generateMetadata({ params }: PageProps<"/explorar/[livro]/[cap]/[livro2]/[cap2]">): Promise<Metadata> {
   const c = await resolve(params);
   if (!c) return { title: NOT_FOUND_TITLE };
-  return {
+  return shareMetadata({
     title: `${c.centre.label} e ${c.other.label}`,
     description: `A ligação entre ${c.centre.label} e ${c.other.label} nas referências cruzadas da OpenBible.info, com os versículos de cada lado.`,
-    alternates: {
-      canonical: connectionPath({ slug: c.centre.book.slug, chapter: c.centre.chapter }, { slug: c.other.book.slug, chapter: c.other.chapter }),
-    },
-  };
+    path: connectionPath({ slug: c.centre.book.slug, chapter: c.centre.chapter }, { slug: c.other.book.slug, chapter: c.other.chapter }),
+  });
 }
 
 // A chosen connection: any chapter linked to the centre. A chapter with no verse pair to it is not a connection: 404.

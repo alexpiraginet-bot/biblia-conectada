@@ -1,3 +1,4 @@
+import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import { CommunityWays } from "@/components/community/CommunityWays";
 import { DeviceNote } from "@/components/community/DeviceNote";
@@ -6,12 +7,11 @@ import styles from "@/components/community/community.module.css";
 
 export const ensureStatic = "navigation";
 
-export const metadata: Metadata = {
-  title: "Mesa da semana",
-  description:
-    "Para o grupo, num aparelho só: escolha o capítulo da reunião, veja as ligações dele em arcos e traga até três para a conversa. Sem conta.",
-  alternates: { canonical: "/mesa" },
-};
+export const metadata: Metadata = shareMetadata({
+    title: "Mesa da semana",
+    description: "Para o grupo, num aparelho só: escolha o capítulo da reunião, veja as ligações dele em arcos e traga até três para a conversa. Sem conta.",
+    path: "/mesa",
+  });
 
 export default function MesaPage() {
   return (

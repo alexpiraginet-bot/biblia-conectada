@@ -1,0 +1,74 @@
+.notice {
+  position: fixed;
+  z-index: 35;
+  left: 50%;
+  bottom: calc(var(--tabbar-h) + 12px);
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  width: min(360px, calc(100% - 24px));
+  padding-right: 4px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-float);
+}
+
+.open {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+  min-height: 72px;
+  padding: 12px;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+.open strong { display: block; font-size: 14px; line-height: 1.35; }
+.open small { display: block; margin-top: 3px; color: var(--accent); font-size: 13px; }
+.mark { display: grid; place-items: center; flex: 0 0 38px; height: 38px; border-radius: 10px; color: var(--on-action); background: var(--action-fill); }
+.logo { width: 30px; height: 25px; }
+.close { display: grid; place-items: center; flex: 0 0 44px; min-width: 44px; min-height: 44px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--ink-2); font-size: 26px; line-height: 1; cursor: pointer; }
+.close:hover { background: var(--raised); }
+
+/* Wait behind active reading, study/search dialogs and the keyboard. Never overlap their controls. */
+:global(html:has(dialog[open], [aria-modal="true"], input:focus, textarea:focus)) .notice { visibility: hidden; }
+@media (display-mode: standalone), (display-mode: fullscreen) { .notice { display: none; } }
+@media (min-width: 64rem) { .notice { bottom: max(16px, env(safe-area-inset-bottom)); } }
+
+.dialog {
+  width: min(390px, calc(100% - 24px));
+  max-height: calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  margin: auto;
+  padding: 20px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border: 1px solid var(--line-strong);
+  border-radius: 22px;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-float);
+  font-family: var(--font-ui);
+  font-size: 15px;
+  line-height: 1.45;
+}
+.dialog::backdrop { background: var(--scrim); }
+.header { display: flex; align-items: flex-start; gap: 4px; }
+.header > div { flex: 1; }
+.header p { margin: 0 0 8px; color: var(--accent); font-size: 12px; letter-spacing: .05em; }
+.header h2 { margin: 0; font-family: var(--font-display); font-size: 28px; font-weight: 440; line-height: 1.1; }
+.header .close { margin-top: -10px; margin-right: -10px; }
+.intro { margin: 20px 0; color: var(--ink-2); }
+.steps { display: grid; gap: 17px; margin: 0; padding: 0; list-style: none; }
+.steps li { display: flex; align-items: flex-start; gap: 11px; }
+.steps li > span { display: grid; place-items: center; flex: 0 0 28px; height: 28px; border: 1px solid var(--line-strong); border-radius: 50%; color: var(--accent); font-size: 13px; }
+.steps small { display: block; margin-top: 4px; color: var(--ink-2); font-size: 12px; line-height: 1.45; }
+.steps svg { display: inline-block; width: 20px; height: 20px; vertical-align: -4px; color: var(--accent); }
+.tip { margin: 20px 0 16px; padding-top: 14px; border-top: 1px solid var(--line); color: var(--ink-2); font-size: 12px; }
+.done { width: 100%; min-height: 44px; border: 1px solid transparent; border-radius: var(--radius-pill); color: var(--on-action); background: var(--action-fill); font-weight: 600; cursor: pointer; }
+@media (max-height: 600px) { .dialog { padding: 16px; } .header h2 { font-size: 24px; } .intro { margin-block: 14px; } .steps { gap: 12px; } }

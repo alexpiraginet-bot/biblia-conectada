@@ -1,3 +1,4 @@
+import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import manifestJson from "@/data/generated/dados-manifest.json";
 import { DownloadIcon, Icon } from "@/components/icons";
@@ -8,12 +9,11 @@ import styles from "./dados.module.css";
 
 export const ensureStatic = "navigation";
 
-export const metadata: Metadata = {
-  title: "Dados abertos",
-  description:
-    "Baixe as ligações entre os versículos da Bíblia, o texto da Bíblia Livre e o grafo dos capítulos, em CSV e JSON, com licença livre, para criar os seus próprios projetos.",
-  alternates: { canonical: "/dados" },
-};
+export const metadata: Metadata = shareMetadata({
+    title: "Dados abertos",
+    description: "Baixe as ligações entre os versículos da Bíblia, o texto da Bíblia Livre e o grafo dos capítulos, em CSV e JSON, com licença livre, para criar os seus próprios projetos.",
+    path: "/dados",
+  });
 
 // Every size, record count and total on this page is read from the bundle's manifest, written by
 // scripts/data/open-data.ts; scripts/check-dist.ts compares the prerendered page with it after each build (each file's

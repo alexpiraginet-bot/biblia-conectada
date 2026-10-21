@@ -1,3 +1,4 @@
+import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -24,11 +25,11 @@ async function resolve(params: Promise<{ n: string }>) {
 export async function generateMetadata({ params }: PageProps<"/ponte/[n]">): Promise<Metadata> {
   const b = await resolve(params);
   if (!b) return { title: NOT_FOUND_TITLE };
-  return {
+  return shareMetadata({
     title: `Ponte nº ${b.n}`,
     description: `De ${verseInfo(b.start).ref} a ${verseInfo(b.target).ref} pelas referências cruzadas, no mínimo ${b.min} saltos.`,
-    alternates: { canonical: `/ponte/${b.n}` },
-  };
+    path: `/ponte/${b.n}`,
+  });
 }
 
 export default async function PonteArchivePage({ params }: PageProps<"/ponte/[n]">) {

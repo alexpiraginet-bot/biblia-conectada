@@ -13,7 +13,8 @@
     "prebuild": "npm run data",
     "typecheck": "tsc --noEmit",
     "check": "tsx scripts/check-dist.ts",
-    "budget": "tsx scripts/js-budget.ts"
+    "budget": "tsx scripts/js-budget.ts",
+    "icons": "node scripts/build-app-icons.mjs"
   },
   "dependencies": {
     "marked": "18.1.1",

@@ -1,3 +1,4 @@
+import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
@@ -57,11 +58,11 @@ export async function generateMetadata({ params }: PageProps<"/conexao/[a]/[b]">
   // no such passage: the 404 title; the reversed pair redirects to its canonical page, which has the title
   if (!r) return { title: NOT_FOUND_TITLE };
   if (!r.canonical) return {};
-  return {
+  return shareMetadata({
     title: `${r.x.label} e ${r.y.label}`,
     description: `${r.x.label} e ${r.y.label} lado a lado na Bíblia Livre (BLIVRE), com os versículos que a OpenBible.info liga entre os dois.`,
-    alternates: { canonical: `/conexao/${sideSegment(r.x)}/${sideSegment(r.y)}` },
-  };
+    path: `/conexao/${sideSegment(r.x)}/${sideSegment(r.y)}`,
+  });
 }
 
 async function passage(s: Resolved): Promise<{ n: number; gv: number; v: VerseData }[]> {

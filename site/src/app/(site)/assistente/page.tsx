@@ -1,3 +1,4 @@
+import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -9,10 +10,11 @@ import { loadChronologicalReading } from "@/lib/chronological-reading";
 import { books, verseText } from "@/lib/data";
 import styles from "@/components/assistant/StudyCompanion.module.css";
 
-export const metadata: Metadata = {
-  title: "Um companheiro de estudo",
-  description: "Entenda uma passagem, explore suas conexões e acompanhe histórias bíblicas ilustradas, com referências sempre à vista.",
-};
+export const metadata: Metadata = shareMetadata({
+    title: "Um companheiro de estudo",
+    description: "Entenda uma passagem, explore suas conexões e acompanhe histórias bíblicas ilustradas, com referências sempre à vista.",
+    path: "/assistente",
+  });
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 

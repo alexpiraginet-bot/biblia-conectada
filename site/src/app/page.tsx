@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { shareMetadata } from "@/lib/share-metadata";
+import { SITE_NAME } from "@/lib/site-identity";
 import Link from "next/link";
 import { ArcIcon, Icon } from "@/components/icons";
 import { LivingGraph } from "@/components/explore/LivingGraph";
@@ -15,6 +17,12 @@ import { illustratedAtlasData } from "@/lib/explore/living-graph";
 import type { DiscoveryQuestion } from "@/lib/journey";
 import skyPoster from "../../public/sculpture/noite-854.webp";
 import styles from "./page.module.css";
+
+export const metadata = shareMetadata({
+  title: SITE_NAME,
+  description: "Mapa navegável das ligações da Bíblia: livros, capítulos, versículos e referências cruzadas. Em português, só com fontes livres.",
+  path: "/",
+});
 
 export default async function Home() {
   const [graph, promise, birth, light, love, peace] = await Promise.all([
