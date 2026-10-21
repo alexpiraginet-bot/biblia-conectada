@@ -35,16 +35,17 @@ const TESTAMENT: Record<Theme, Record<Rel, [number, number, number]>> = {
   dia: { 0: [0.55, 0.76, 1.0], 1: [0.92, 0.8, 0.5], 2: [0.6, 0.62, 0.66] },
 };
 
-// film.py's stained glass (sky/shaders.ts PALETTE): blue for near links, through violet and red, to gold for far ones
+// Quiet stained glass: short links in blue/violet, middle spans in rose, and the long outer arcs in champagne gold.
+// Span still determines the colour; the palette does not add, hide or reorder any biblical relationship.
 const GLASS: [number, number, number][] = [
-  [0.16, 0.5, 1.0],
-  [0.14, 0.26, 1.0],
-  [0.55, 0.2, 1.0],
-  [1.0, 0.16, 0.4],
-  [1.0, 0.5, 0.12],
-  [1.0, 0.82, 0.36],
+  [0.24, 0.3, 0.6],
+  [0.41, 0.29, 0.7],
+  [0.72, 0.32, 0.62],
+  [0.88, 0.58, 0.42],
+  [1.0, 0.79, 0.45],
+  [1.0, 0.9, 0.65],
 ];
-const GLASS_T = [0, 0.22, 0.42, 0.62, 0.8, 1];
+const GLASS_T = [0, 0.2, 0.38, 0.54, 0.72, 1];
 export function glass(t: number): [number, number, number] {
   const x = Math.min(Math.max(t, 0), 1);
   let i = 0;

@@ -84,7 +84,7 @@ async function renderSculpturePoster(job: Job) {
 
   r.resize(W / DPR, H / DPR, DPR);
   r.theme = theme;
-  r.setArcs(arcBuffers(geo, set, nt, theme, "livros"));
+  r.setArcs(arcBuffers(geo, set, nt, theme, "distancia"));
   // the book groups' bands under the axis, from the medallions' groups as on the page (groups.ts)
   const bookGroup = (medalhoes as unknown as { bookGroup: Record<string, string> }).bookGroup;
   r.setLines(axisLines(meta, geo, axisGroups(booksJson as Book[], (osis) => bookGroup[osis] ?? null, (id) => id)));

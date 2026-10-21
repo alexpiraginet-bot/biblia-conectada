@@ -192,7 +192,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
   const [data, setData] = useState<Data | null>(null);
   const [arcs, setArcs] = useState<Loaded | null>(null);
   const [full, setFull] = useState<"auto" | "offer" | "loading" | "error" | "done">("auto");
-  const [mode, setMode] = useState<ColorMode>("livros");
+  const [mode, setMode] = useState<ColorMode>("distancia");
   const [lightsPaused, setLightsPaused] = useState(false);
   const [focus, setFocus] = useState(-1);
   const [filter, setFilter] = useState<Filter>("todas");
@@ -1178,15 +1178,15 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
             </ul>
           ) : (
             <p>
-              <i className={styles.swGlass} /> Ligações perto (azul) e longe (ouro)
+              <i className={styles.swGlass} /> Arcos curtos em violeta, longos em dourado
             </p>
           )}
           <p className={styles.legendActions}>
             {canvasMode && (
               <select className={styles.mode} aria-label="Cores do céu" value={mode} onChange={(event) => setMode(event.target.value as ColorMode)}>
+                <option value="distancia">Dourado e violeta</option>
                 <option value="livros">Arco-íris dos livros</option>
                 <option value="testamento">Por testamento</option>
-                <option value="distancia">Pela distância</option>
               </select>
             )}
             {canvasMode && (
