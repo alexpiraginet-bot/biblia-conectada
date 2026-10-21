@@ -110,3 +110,13 @@ Prévia `dpl_ALcCFTacZ7vf7Hkk4kNitt1dzr6X`, commit `98f2481`, ficou **READY**. A
 - À luz de Jesus: HTTP 200 em 8.657 ms, com voz explicitamente desligada para isolar o texto. Nove citações reais dos evangelhos foram comparadas ao corpus, incluindo Mateus 5:44–45, Lucas 6:27–28, João 18:22–23 e Mateus 18:15–17. Entregou uma sugestão de resposta firme e respeitosa, separada do texto bíblico. Zero pedidos de áudio nessa segunda execução.
 
 Relatórios externos `live-preview-qa.json` e `live-text-jesus.json` não contêm ticket, chave ou cookie. A primeira execução **falhou na etapa de voz**, embora o texto tenha passado. O adapter ganhou diagnóstico de erro com enums e contagens permitidas, sem texto, chave, ticket, mensagem/stack externo ou eventos completos. Publicação, voz real, escuta e teste no iPhone continuam pendentes até o próximo adendo.
+
+## Adendo final antes da publicação
+
+Fonte `c3d43cb55678069b0bb76eb9bf5b974a3074bdb7`: **773 testes/56 arquivos**, build, tipos, check-dist e orçamento passaram. Coração ficou em 161.444 bytes gzip (157,7 KiB), Arcos preservado em 168.440 bytes. A matriz Playwright 375/1440 Dia/Noite foi repetida e passou, com quatro cenários de IA/WAV simulados claramente identificados.
+
+A resposta agora revela seu início dentro do log ao terminar, sem mover a página ou o foco. Se a pessoa rolou para uma mensagem anterior enquanto aguardava, a posição é preservada. Auditoria independente em `reply-scroll/report.json`: dois viewports, posição do título cerca de 35 px abaixo do topo do log, scroll da página 0 antes/depois e foco TEXTAREA preservado; rolagem anterior preservada exatamente em ambos os casos. Sem provedores nesses testes.
+
+Prévia **`dpl_3Nxnkt7eyoNKTcJBQDBDXAFFiTDA` READY** no SHA acima. Novo teste real confirmou texto HTTP 200 em 7.404 ms. A voz foi recusada antes de gerar áudio: log permitido `phase=connecting`, `reason=provider_event`, `durationMs=174`, `audioBytes=0`, **`upstreamCode=invalid_api_key`**. Esta é uma recusa da credencial pela OpenAI; não prova erro de modelo, protocolo, saldo ou pronúncia. Não houve retry automático. Metadados confirmam `OPENAI_API_KEY` sensível em Production/Preview, atualizado antes desse deploy, sem revelar seu valor.
+
+A publicação segue com a conversa Anthropic disponível e **voz desabilitada em Production**. O usuário foi informado e perguntado se também substituiu o valor na Vercel depois de gerar a nova chave. O áudio real só pode ser liberado após credencial aceita e nova validação; mocks não substituem esse requisito. A primeira falha foi preservada em `live-preview-first.json`; o diagnóstico posterior está em `live-preview-qa.json` e nos logs restritos da Vercel. Não houve instalação ou teste físico no iPhone, nem publicação em redes.

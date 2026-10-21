@@ -270,3 +270,9 @@ Tudo fica no aparelho: sem conta, sem servidor. A frase "Ficam só neste aparelh
 3. **"Memórias":** versículos para decorar, diário pessoal, as conversas com o companheiro de estudo (PR #11), ou mais de um?
 4. **Imagens:** gravuras em domínio público (Doré, Schnorr, Tissot), geração local, ou as duas, com qual estilo dominante?
 5. **Itens de §14 do `design/README.md`** ainda abertos, em especial a escultura abrir na Bíblia inteira ou em Isaías 9:6 (9; o PR #9 acrescentou o atalho para Daniel 9, sem mudar a abertura) e a escultura no Dia (12).
+
+## 9. Continuação de 21/10: conversa e voz (PR31)
+
+`/coracao` acrescenta conversa com Sonnet 5.5, fontes reais Open NBV/BLIVRE e o modo À luz de Jesus. Navegação móvel flutuante revisada; Buscar/Ponte continuam em Mais. Build e 773 testes passaram na fonte `c3d43cb`, prévia READY e três respostas reais de texto conferidas. Evidência detalhada: `docs/evidence/2026-10-21-heart-conversation-voice.md`.
+
+Voz OpenAI implementada com chave exclusivamente server-side, ticket assinado, teto total existente de US$20/mês e subteto de US$5 para voz. A conta recusou a credencial da Vercel com `invalid_api_key`. A variável tem o nome correto, mas isso não comprova validade do valor. Production continua sem ativação da voz; não recuperar nem registrar o segredo. Após o usuário substituir o valor, fazer novo deploy Preview e teste real antes de ativar Production. Não há prova de áudio real, sotaque, autoplay ou silencioso em iPhone.
