@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { randomUUID } from "node:crypto";
 import { Buffer } from "node:buffer";
 import { POST } from "@/app/api/assistente/voz/route";
@@ -25,6 +25,8 @@ const request = (body: unknown, extraHeaders: Record<string, string> = {}) => ne
 const encoded = (audio: { ticket: string; text: string }) => ({ ticket: audio.ticket, text: audio.text });
 function fixtureAudio() { const bytes = new Uint8Array(256); bytes.set([0x49, 0x44, 0x33]); return bytes; }
 function enable() { Object.entries(env).forEach(([key, value]) => vi.stubEnv(key, value)); }
+// Preview/production builds have real flags. Each route test must choose its own state.
+beforeEach(() => { vi.stubEnv("ASSISTANT_VOICE_ENABLED", "false"); });
 afterEach(() => { vi.unstubAllEnvs(); vi.unstubAllGlobals(); vi.restoreAllMocks(); });
 
 describe("provider selection is explicit and disabled by default", () => {
