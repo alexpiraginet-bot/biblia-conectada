@@ -260,6 +260,8 @@ uniform sampler2D uLit;   // full res lit arcs (r selection, g focus)
 uniform sampler2D uLitQ;  // quarter res glow of the lit arcs
 uniform sampler2D uFlow;  // bounded, moving heads and tails; static sculpture/selection stay cached
 uniform vec2 uRes;
+uniform float uDpr;
+uniform vec2 uSkyDrift;  // bounded parallax from the camera orientation, in CSS px; never time-driven
 uniform vec3 uGround;
 uniform float uRecede;    // how bright the sculpture stays while something is lit
 uniform int uDia;
@@ -268,6 +270,19 @@ uniform vec3 uFocusColor;
 uniform vec4 uStar;       // x, y (device px, origin bottom left), radius (px), intensity
 out vec4 o;
 float hash(vec2 p) { return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
+// Decorative stars have no graph meaning. Two sparse layers share this compositor: no particles, buffers or loops.
+vec3 starLayer(vec2 p, float spacing, float threshold, float size) {
+  vec2 cell = floor(p / spacing);
+  float seed = hash(cell + 53.0);
+  vec2 centre = (cell + 0.18 + 0.64 * vec2(hash(cell), hash(cell + 17.0))) * spacing;
+  vec2 delta = p - centre;
+  float r2 = dot(delta, delta);
+  float radius = mix(0.55, 1.15, seed) * size;
+  float core = exp(-r2 / (radius * radius));
+  float halo = 0.12 * exp(-r2 / (18.0 * radius * radius));
+  float light = step(threshold, hash(cell + 37.0)) * (core + halo) * mix(0.18, 0.62, seed);
+  return mix(vec3(0.68, 0.75, 1.0), vec3(1.0, 0.91, 0.74), seed) * light;
+}
 void main() {
   vec2 uv = gl_FragCoord.xy / uRes;
   vec4 all = texture(uAll, uv);
@@ -303,11 +318,12 @@ void main() {
     // A selection becomes a dark sky around the real links. At rest the theme ground is unchanged; selection darkens its existing hue.
     float selected = 1.0 - smoothstep(0.06, 0.9, uRecede);
     vec3 night = mix(uGround, uGround * 0.45, selected);
-    vec2 cell = floor(gl_FragCoord.xy / 54.0);
-    vec2 starAt = (cell + vec2(hash(cell), hash(cell + 17.0))) * 54.0;
-    float starDot = exp(-dot(gl_FragCoord.xy - starAt, gl_FragCoord.xy - starAt) / 1.4);
-    float stars = step(0.77, hash(cell + 37.0)) * starDot * 0.24 * selected;
-    vec3 base = min(night + light + stars * vec3(0.68, 0.77, 1.0), 1.0);
+    vec2 sky = gl_FragCoord.xy / uDpr;
+    vec3 stars = starLayer(sky + uSkyDrift * 0.35, 86.0, 0.7, 0.65) * 0.55 +
+      starLayer(sky + uSkyDrift + 41.0, 149.0, 0.8, 1.2);
+    // Keep the luminous strands in front; stars are quiet sky depth, not additional connection nodes.
+    stars *= 1.0 - smoothstep(0.04, 0.38, max(light.r, max(light.g, light.b))) * 0.85;
+    vec3 base = min(night + light + stars, 1.0);
     c = 1.0 - (1.0 - base) * (1.0 - clamp(gold, 0.0, 1.0));
   }
   // static dither against banding in the glows

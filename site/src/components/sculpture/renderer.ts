@@ -612,6 +612,9 @@ export class SculptureRenderer {
       gl.uniform1i(u.uLitQ, 5);
       gl.uniform1i(u.uFlow, 6);
       gl.uniform2f(u.uRes, W, H);
+      gl.uniform1f(u.uDpr, this.dpr);
+      // The view-projection's w row keeps the camera direction even when the lens shifts or the image is exported.
+      gl.uniform2f(u.uSkyDrift, m[3] * 24, m[7] * 18);
       gl.uniform1f(u.uP99, p99);
       gl.uniform1f(u.uH99, h99);
       gl.uniform3f(u.uGround, ...GROUND[theme]);
