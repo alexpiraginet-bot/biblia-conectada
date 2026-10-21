@@ -37,6 +37,12 @@
   margin: var(--space-2) 0 0;
 }
 
+/* Headings receive reading focus after each scene; interactive controls retain the global focus ring. */
+.header h2:focus,
+.explanation h3:focus {
+  outline: none;
+}
+
 .close {
   display: grid;
   flex: none;

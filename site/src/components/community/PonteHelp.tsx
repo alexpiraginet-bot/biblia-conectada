@@ -19,7 +19,7 @@ export function PonteHelp({ example }: { example: PontePracticeVerse[] }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const sceneHeading = useRef<HTMLHeadingElement>(null);
-  const body = useRef<HTMLDivElement>(null);
+  const content = useRef<HTMLDivElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
   const release = useRef<(() => void) | null>(null);
 
@@ -47,6 +47,7 @@ export function PonteHelp({ example }: { example: PontePracticeVerse[] }) {
     };
     box.showModal();
     box.scrollTop = 0;
+    if (content.current) content.current.scrollTop = 0;
     heading.current?.focus({ preventScroll: true });
   }, []);
 
@@ -65,7 +66,7 @@ export function PonteHelp({ example }: { example: PontePracticeVerse[] }) {
 
   useLayoutEffect(() => {
     if (dialog.current?.open) {
-      if (body.current) body.current.scrollTop = 0;
+      if (content.current) content.current.scrollTop = 0;
       sceneHeading.current?.focus({ preventScroll: true });
     }
   }, [step]);
@@ -93,7 +94,7 @@ export function PonteHelp({ example }: { example: PontePracticeVerse[] }) {
           </div>
           <button type="button" className={styles.close} aria-label="Fechar explicação da Ponte" onClick={dismiss}><Close /></button>
         </header>
-        <div ref={body} className={styles.body} data-paused={paused}>
+        <div ref={content} className={styles.body} data-paused={paused}>
           <div className={styles.explanation}>
             <h3 ref={sceneHeading} tabIndex={-1} aria-describedby={descriptionId}>{title}</h3>
             <p id={descriptionId} className={styles.intro}>{caption}</p>
