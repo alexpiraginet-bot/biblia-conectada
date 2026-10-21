@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "scope": "Local file integrity and VPL structure; not a translation-quality assessment",
+  "sources": [
+    {
+      "id": "blivre",
+      "path": "fontes/blivre/porbr2018_vpl.zip",
+      "sha256": "99b62593c3cc6387bbd4aa6aff11103a5c3f5bda87d6257155bdb6576e3e1231",
+      "matchesRegisteredHash": true,
+      "licenseLabel": "CC-BY (see source notice)",
+      "bookCount": 66,
+      "chapterCount": 1189,
+      "verseRowCount": 31102,
+      "emptyTextCount": 0
+    },
+    {
+      "id": "open-nbv",
+      "path": "fontes/ebible/poronbv/poronbv_vpl.zip",
+      "sha256": "1c43e141446ddd43d8377907c15d1c0c5bfe3dddd29302cd5d676c44f23085c4",
+      "matchesRegisteredHash": true,
+      "licenseLabel": "CC-BY-SA-4.0",
+      "bookCount": 66,
+      "chapterCount": 1189,
+      "verseRowCount": 31105,
+      "emptyTextCount": 0
+    },
+    {
+      "id": "portuguese-world-bible",
+      "path": "fontes/ebible/porbrbsl/porbrbsl_vpl.zip",
+      "sha256": "6bd5a1c9f6d4c5fef38bcc979cd1eb94ea9d4707c1a98718fcb3c89ff4558883",
+      "matchesRegisteredHash": true,
+      "licenseLabel": "Public domain; draft",
+      "bookCount": 81,
+      "chapterCount": 1402,
+      "verseRowCount": 38058,
+      "emptyTextCount": 29
+    },
+    {
+      "id": "free-bible-for-all-nt",
+      "path": "fontes/ebible/porblt/porblt_vpl.zip",
+      "sha256": "387f24c83ff4b262e689b82b8120fdf7118127cc8546badf34b8218f1cf36c74",
+      "matchesRegisteredHash": true,
+      "licenseLabel": "CC-BY-SA-4.0",
+      "bookCount": 27,
+      "chapterCount": 260,
+      "verseRowCount": 7959,
+      "emptyTextCount": 17
+    },
+    {
+      "id": "translation-for-translators-nt",
+      "path": "fontes/ebible/portft/portft_vpl.zip",
+      "sha256": "b4b29fc0106a8655ccf41105e36b82a714124cd6dcd27e7dc002c174da010a5e",
+      "matchesRegisteredHash": true,
+      "licenseLabel": "CC-BY-SA-4.0",
+      "bookCount": 27,
+      "chapterCount": 260,
+      "verseRowCount": 7899,
+      "emptyTextCount": 0
+    },
+    {
+      "id": "wlc",
+      "path": "fontes/ebible/hebwlc/hebwlc_vpl.zip",
+      "sha256": "aa4056204f3db6ee49c9c2b91cd6bb9ae8df2ac7b72d5937f7004cc9ffe57ea3",
+      "matchesRegisteredHash": true,
+      "licenseLabel": "Public domain",
+      "bookCount": 39,
+      "chapterCount": 929,
+      "verseRowCount": 23213,
+      "emptyTextCount": 0
+    },
+    {
+      "id": "sblgnt",
+      "path": "fontes/ebible/grcsbl/grcsbl_vpl.zip",
+      "sha256": "fc9f88e2b6cb37df40bb6e3e64bc1ad1157a5817f3b351795341323e560d9fec",
+      "matchesRegisteredHash": true,
+      "licenseLabel": "CC-BY-4.0",
+      "bookCount": 27,
+      "chapterCount": 260,
+      "verseRowCount": 7939,
+      "emptyTextCount": 0
+    }
+  ],
+  "openNbvAgainstBlivre": {
+    "additionalReferences": [
+      "1SA 20:43",
+      "3JO 1:15",
+      "JDG 5:32"
+    ],
+    "missingReferences": [],
+    "warning": "Reference presence does not prove equivalent text or semantic alignment"
+  },
+  "pilot": {
+    "sourceLinesMatch": true,
+    "unitsCoverSource": true,
+    "markdownMatches": true,
+    "approvedForProduction": false
+  }
+}

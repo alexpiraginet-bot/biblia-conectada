@@ -1,0 +1,38 @@
+{
+  "id": "connected-translation-john-1-pilot",
+  "name": "Tradução Conectada — piloto editorial",
+  "language": "pt-BR",
+  "status": "draft",
+  "approvedForProduction": false,
+  "humanReview": null,
+  "createdOn": "2026-10-21",
+  "assistedByAI": true,
+  "license": "CC-BY-SA-4.0, to the extent of applicable rights; source text retains CC-BY-4.0",
+  "source": {
+    "edition": "SBL Greek New Testament (2010)",
+    "path": "fontes/ebible/grcsbl/grcsbl_vpl.zip",
+    "entry": "grcsbl_vpl.txt",
+    "sha256": "fc9f88e2b6cb37df40bb6e3e64bc1ad1157a5817f3b351795341323e560d9fec",
+    "license": "CC-BY-4.0",
+    "licenseUrl": "https://sblgnt.com/license/",
+    "credit": "SBLGNT © 2010 Society of Biblical Literature and Logos Bible Software"
+  },
+  "sourceVerses": [
+    {"reference": "JOH 1:1", "text": "Ἐν ἀρχῇ ἦν ὁ λόγος, καὶ ὁ λόγος ἦν πρὸς τὸν θεόν, καὶ θεὸς ἦν ὁ λόγος."},
+    {"reference": "JOH 1:2", "text": "οὗτος ἦν ἐν ἀρχῇ πρὸς τὸν θεόν."},
+    {"reference": "JOH 1:3", "text": "πάντα διʼ αὐτοῦ ἐγένετο, καὶ χωρὶς αὐτοῦ ἐγένετο οὐδὲ ἕν. ὃ γέγονεν"},
+    {"reference": "JOH 1:4", "text": "ἐν αὐτῷ ζωὴ ἦν, καὶ ἡ ζωὴ ἦν τὸ φῶς τῶν ἀνθρώπων·"},
+    {"reference": "JOH 1:5", "text": "καὶ τὸ φῶς ἐν τῇ σκοτίᾳ φαίνει, καὶ ἡ σκοτία αὐτὸ οὐ κατέλαβεν."}
+  ],
+  "units": [
+    {"references": ["JOH 1:1"], "text": "No princípio existia a Palavra. A Palavra estava com Deus, e a Palavra era Deus."},
+    {"references": ["JOH 1:2"], "text": "A Palavra estava com Deus no princípio."},
+    {"references": ["JOH 1:3", "JOH 1:4"], "text": "Tudo veio a existir por meio da Palavra; sem ela, nada veio a existir. O que veio a existir nela era vida, e a vida era a luz dos seres humanos."},
+    {"references": ["JOH 1:5"], "text": "A luz brilha na escuridão, e a escuridão não a venceu."}
+  ],
+  "reviewNotes": [
+    {"references": ["JOH 1:1", "JOH 1:2"], "status": "unresolved", "note": "Palavra traduz λόγος. Rever se a escolha e a repetição preservam sentido e referente pessoal no contexto do prólogo, sem acrescentar explicação ao texto."},
+    {"references": ["JOH 1:3", "JOH 1:4"], "status": "unresolved", "note": "A edição local põe ponto após οὐδὲ ἕν e conserva ὃ γέγονεν no fim do verso 3. A unidade foi agrupada; a construção portuguesa é uma proposta provisória, não uma solução aprovada para a ambiguidade sintática. Conferir pontuação, ligação e aparato antes da publicação."},
+    {"references": ["JOH 1:5"], "status": "unresolved", "note": "Venceu é uma escolha provisória para κατέλαβεν. Examinar também a possibilidade de apreender/compreender no contexto; registrar a decisão e a alternativa em nota editorial após revisão."}
+  ]
+}
