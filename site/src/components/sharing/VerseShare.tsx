@@ -10,6 +10,7 @@ export function VerseShare({ path }: { path: string }) {
   const options = verseShareOptions(path);
   const [format, setFormat] = useState<ShareFormat>("story");
   const [prepared, setPrepared] = useState<Prepared | null>(null);
+  const [expanded, setExpanded] = useState(false);
   const [busy, setBusy] = useState(false);
   const [sharing, setSharing] = useState(false);
   const [message, setMessage] = useState("");
@@ -22,7 +23,7 @@ export function VerseShare({ path }: { path: string }) {
     if (next === format) return;
     if (imageUrl.current) URL.revokeObjectURL(imageUrl.current);
     imageUrl.current = null;
-    setPrepared(null); setMessage(""); setFormat(next);
+    setPrepared(null); setExpanded(false); setMessage(""); setFormat(next);
   }
   async function prepare() {
     if (busy) return;
@@ -60,7 +61,7 @@ export function VerseShare({ path }: { path: string }) {
   return <div className={styles.content}>
     <p className={styles.intro}>Uma palavra pode encontrar alguém no momento certo.</p>
     <div className={styles.links}>
-      <a className={styles.primary} href={options.whatsapp} target="_blank" rel="noopener noreferrer">Enviar no WhatsApp <span aria-hidden="true">↗</span></a>
+      <a className={styles.primary} href={options.whatsapp} target="_blank" rel="noopener noreferrer">Enviar link no WhatsApp <span aria-hidden="true">↗</span></a>
       <button type="button" className={styles.secondary} onClick={copy}>Copiar link</button>
     </div>
     <p className={styles.hint}>O link abre este versículo, com uma capa na prévia.</p>
@@ -76,12 +77,15 @@ export function VerseShare({ path }: { path: string }) {
           <small>{value === "story" ? "1080 × 1920" : "1200 × 630"}</small>
         </label>)}
       </fieldset>
-      {prepared ? <figure className={styles.preview} data-format={format}>
+      {prepared ? <><button type="button" className={styles.previewToggle} aria-expanded={expanded}
+        aria-controls="share-image-preview" onClick={() => setExpanded((value) => !value)}>
+        {expanded ? "Reduzir prévia" : "Ampliar prévia"}<span aria-hidden="true">{expanded ? "−" : "+"}</span>
+      </button><figure id="share-image-preview" className={styles.preview} data-format={format} data-expanded={expanded || undefined}>
         {/* A local blob is already the final PNG; Next Image would add no benefit here. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={prepared.url} alt={`${format === "story" ? "Story" : "Capa"} de ${options.reference}, com texto da Bíblia Livre (BLIVRE)`}
           width={format === "story" ? 1080 : 1200} height={format === "story" ? 1920 : 630} />
-      </figure> : <button type="button" className={styles.prepare} disabled={busy} onClick={prepare}>
+      </figure></> : <button type="button" className={styles.prepare} disabled={busy} onClick={prepare}>
         {busy ? "Preparando imagem…" : "Preparar imagem"}<span aria-hidden="true">↓</span>
       </button>}
       {prepared && <div className={styles.ready}>

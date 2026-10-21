@@ -1,8 +1,6 @@
-"use client";
-
 import Link from "next/link";
-import { useId, useRef, useState, type KeyboardEvent } from "react";
 import { Icon } from "@/components/icons";
+import { HomeTour } from "./HomeTour";
 import styles from "./HomeGuide.module.css";
 
 const STEPS = [
@@ -78,32 +76,14 @@ const MODES = [
   ["Conte a história", "Leitura em cenas ilustradas."],
 ] as const;
 
-/** Home-only introduction. Availability is confirmed on /assistente, never inferred here. */
+/** Static introduction and copy stay on the server; the tour keeps its keyboard interactions. */
 export function HomeGuide() {
-  const [active, setActive] = useState(0);
-  const uid = useId();
-  const tabList = useRef<HTMLDivElement>(null);
-  const step = STEPS[active];
-  const panelId = `${uid}-panel`;
-
-  function onTabKeyDown(event: KeyboardEvent<HTMLDivElement>) {
-    let next: number;
-    if (event.key === "ArrowRight") next = (active + 1) % STEPS.length;
-    else if (event.key === "ArrowLeft") next = (active - 1 + STEPS.length) % STEPS.length;
-    else if (event.key === "Home") next = 0;
-    else if (event.key === "End") next = STEPS.length - 1;
-    else return;
-    event.preventDefault();
-    setActive(next);
-    tabList.current?.querySelectorAll<HTMLButtonElement>("button")[next]?.focus();
-  }
-
   return (
-    <section className={styles.guide} id="estudar-com-ia" aria-labelledby={`${uid}-title`}>
+    <section className={styles.guide} id="estudar-com-ia" aria-labelledby="home-study-guide-title">
       <div className={styles.companion}>
         <div className={styles.intro}>
           <p className={styles.eyebrow}>Seu companheiro de estudo · IA</p>
-          <h2 id={`${uid}-title`}>Uma boa pergunta<br />leva mais longe.</h2>
+          <h2 id="home-study-guide-title">Uma boa pergunta<br />leva mais longe.</h2>
           <p className={styles.lead}>Ajuda em cada versículo: palavras simples, contexto bíblico ou reflexões para o dia a dia. Em texto e na voz do seu aparelho.</p>
           <Link className={styles.primary} href="/assistente" prefetch={false}>
             Estudar com IA <Icon name="out" />
@@ -128,43 +108,7 @@ export function HomeGuide() {
           <span><span className={styles.summaryEyebrow}>Um pequeno guia</span><span className={styles.summaryTitle}>Como nossa Bíblia funciona</span></span>
           <span className={styles.expand} aria-hidden="true">+</span>
         </summary>
-        <div className={styles.tourBody}>
-          <div className={styles.tabs} role="tablist" aria-label="Experiências da Bíblia Conectada" ref={tabList} onKeyDown={onTabKeyDown}>
-            {STEPS.map((item, index) => (
-              <button
-                key={item.label}
-                type="button"
-                role="tab"
-                id={`${uid}-tab-${index}`}
-                aria-label={`${index + 1}. ${item.label}`}
-                aria-selected={active === index}
-                aria-controls={panelId}
-                tabIndex={active === index ? 0 : -1}
-                onClick={() => setActive(index)}
-              >
-                <span aria-hidden="true">0{index + 1}</span>
-                <span className={styles.tabLabel}>{item.label}</span>
-              </button>
-            ))}
-          </div>
-
-          <div className={styles.stage} id={panelId} role="tabpanel" aria-labelledby={`${uid}-tab-${active}`} tabIndex={0}>
-            <span className={styles.stageNumber} aria-hidden="true">0{active + 1}</span>
-            <div className={styles.stageCopy}>
-              <p className={styles.stageLabel}>{step.label}</p>
-              <h3>{step.title}</h3>
-              <p className={styles.description}>{step.text}</p>
-              <p className={styles.hint}>{step.hint}</p>
-              <Link className={styles.destination} href={step.href} prefetch={false}>{step.action}<Icon name="out" /></Link>
-            </div>
-          </div>
-
-          <div className={styles.controls}>
-            <button type="button" onClick={() => setActive(active - 1)} disabled={active === 0}><Icon name="chev-l" /><span>Anterior</span></button>
-            <p role="status" aria-live="polite" aria-atomic="true"><span className={styles.srOnly}>{step.label}. Etapa </span>{active + 1} <span>de</span> {STEPS.length}</p>
-            <button type="button" onClick={() => setActive((active + 1) % STEPS.length)}><span>{active === STEPS.length - 1 ? "Recomeçar" : "Próxima"}</span><Icon name="chev-r" /></button>
-          </div>
-        </div>
+        <HomeTour steps={STEPS} />
       </details>
     </section>
   );

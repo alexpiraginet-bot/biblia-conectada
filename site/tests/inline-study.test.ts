@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { studyLinkFromEvent } from "../src/components/assistant/StudyHost";
+import { studyLinkFromEvent } from "../src/components/assistant/verse-intent-events";
 import { VerseStudyLink } from "../src/components/assistant/VerseStudyLink";
 import { loadStudyPassage } from "../src/components/assistant/StudyOverlay";
 

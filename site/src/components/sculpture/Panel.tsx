@@ -89,6 +89,8 @@ export function VersePanel({
   nt,
   partners,
   text,
+  textFailed,
+  onTextRetry,
   snippets,
   filter,
   onFilter,
@@ -110,6 +112,8 @@ export function VersePanel({
   nt: boolean | null;
   partners: Partner[] | null;
   text: string | null;
+  textFailed: boolean;
+  onTextRetry: () => void;
   snippets: ReadonlyMap<number, string>;
   filter: Filter;
   onFilter: (f: Filter) => void;
@@ -139,7 +143,11 @@ export function VersePanel({
         {nt === null ? "" : nt ? "Novo Testamento" : "Antigo Testamento"}
         {partners ? ` · ${ligacoes(partners.length)}` : ""}
       </p>
-      <blockquote className={styles.scripture}>{text ?? "…"}</blockquote>
+      {text !== null ? <blockquote className={styles.scripture}>{text}</blockquote> : textFailed ? (
+        <p role="status" className={styles.meta}>
+          Não foi possível carregar o texto. <button type="button" className={styles.retryText} onClick={onTextRetry}>Tentar novamente</button>
+        </p>
+      ) : <p role="status" className={styles.meta}>Carregando texto de {longRef(BASE, gv)}…</p>}
       <p className={styles.actions}>
         <VerseActions path={versePath(BASE, gv)} label={longRef(BASE, gv)} />
         <Link href={`/${book.slug}/${chapter}`} className={styles.act}>
