@@ -141,6 +141,40 @@ describe("allowlisted voice failure diagnostics", () => {
     const logged = JSON.stringify(vi.mocked(console.warn).mock.calls);
     expect(logged).not.toContain("SECRET"); expect(logged).not.toContain("PRIVATE"); expect(logged).not.toContain("test-key");
   });
+  it.each([
+    ["Incorrect API key provided: SECRET-key.", "authentication"],
+    ["Your organization must be verified to use this model. SECRET organization.", "organization_verification"],
+    ["You exceeded your current quota, please check billing. SECRET project.", "billing_quota"],
+    ["Rate limit reached for SECRET project.", "rate_limit"],
+    ["The model 'SECRET-model' does not exist or you do not have access to it.", "model_access"],
+    ["You have insufficient permissions. Missing scopes: SECRET-scope.", "permissions"],
+    ["Unknown parameter: SECRET-input.", "request_contract"],
+    ["The server encountered an error. SECRET-request.", "provider_fault"],
+  ])("classifies a connection rejection with null code without retaining its message: %s", async (message, category) => {
+    const test = setup("PRIVATE question");
+    test.socket.event({ type: "error", error: { type: "invalid_request_error", code: null, message } });
+    await expect(test.pending).rejects.toMatchObject({ status: 502 });
+    expect(test.socket.send).not.toHaveBeenCalled();
+    expect(test.factory).toHaveBeenCalledTimes(1);
+    expect(diagnostic()).toMatchObject({
+      phase: "connecting", reason: "provider_event", upstreamType: "invalid_request_error",
+      upstreamCodeState: "absent", upstreamCategory: category, upstreamClassification: "message_pattern",
+    });
+    expect(diagnostic()).not.toHaveProperty("upstreamCode");
+    for (const secret of ["SECRET", "PRIVATE", "test-key", message]) expect(JSON.stringify(vi.mocked(console.warn).mock.calls)).not.toContain(secret);
+  });
+  it("prioritizes explicit codes and treats unknown diagnostic fields as unknown", async () => {
+    const typed = setup();
+    typed.socket.event({ type: "error", error: { type: "insufficient_quota", message: "PRIVATE text contains Invalid API key" } });
+    await expect(typed.pending).rejects.toThrow();
+    expect(diagnostic()).toMatchObject({ upstreamType: "insufficient_quota", upstreamCategory: "billing_quota", upstreamClassification: "code_or_type" });
+    const unknown = setup();
+    unknown.socket.event({ type: "error", error: { type: "PRIVATE type", code: "SECRET code", message: { secret: "SECRET value" } } });
+    await expect(unknown.pending).rejects.toThrow();
+    expect(diagnostic()).toMatchObject({ upstreamCodeState: "unrecognized", upstreamTypeState: "unrecognized", upstreamCategory: "unclassified", upstreamClassification: "none" });
+    expect(diagnostic()).not.toHaveProperty("upstreamCode"); expect(diagnostic()).not.toHaveProperty("upstreamType");
+    for (const secret of ["SECRET", "PRIVATE", "test-key"]) expect(JSON.stringify(vi.mocked(console.warn).mock.calls)).not.toContain(secret);
+  });
   it("distinguishes timeout, caller abort and transcript mismatch with bounded numeric metadata", async () => {
     const aborted = setup(); aborted.begin(); aborted.signal.abort();
     await expect(aborted.pending).rejects.toThrow();
