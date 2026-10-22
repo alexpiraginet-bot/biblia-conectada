@@ -4,6 +4,7 @@ import { POST } from "@/app/api/coracao/route";
 import { MONTHLY_LIMIT_MICROS } from "@/lib/assistant/config";
 import { LEDGER_KEY, reserve, RESERVE_LUA, SETTLE_LUA } from "@/lib/assistant/ledger";
 import { CORACAO_MODEL, CORACAO_MAX_OUTPUT_TOKENS } from "@/lib/coracao/config";
+import { CoracaoFailure } from "@/lib/coracao/failure";
 import { parseCoracaoRequest } from "@/lib/coracao/input";
 import { callCoracaoProvider, coracaoMaximumCost, coracaoPayload, parseCoracaoProvider } from "@/lib/coracao/provider";
 import { clarifyCoracao, validateCoracaoAnswer } from "@/lib/coracao/response";
@@ -97,6 +98,17 @@ describe("real licensed text retrieval", () => {
       expect(result.citations.some((c) => c.reference === "João 18:23")).toBe(true);
     }
   });
+  it.each(["open-nbv", "blivre"] as const)("grounds the reported WhatsApp insult in %s without needing a verse reference", async (translation) => {
+    const grounding = await retrieveCoracao(input({ question: "Alguém me xingou no WhatsApp", mode: "jesus", translation }));
+    expect(grounding.citations.map((c) => c.reference)).toEqual(expect.arrayContaining([
+      "Mateus 5:44", "Lucas 6:27", "João 18:23", "Mateus 18:15",
+    ]));
+    for (const citation of grounding.citations) {
+      const [edition, slug, chapter, verse] = citation.id.split(":");
+      expect(edition).toBe(translation);
+      expect(citation.text).toBe(await translatedVerse(translation, slug, Number(chapter), Number(verse)));
+    }
+  });
   it("does not invent a match for unknown words", async () => {
     const request = input({ question: "xqzvtrn pzqxv" });
     const grounding = await retrieveCoracao(request);
@@ -137,7 +149,7 @@ describe("source and interpretation boundary", () => {
 describe("Sonnet price, budget and provider boundary", () => {
   it("uses the verified fixed model, $2/$10 rates and a conservative reserve within the shared $20 ledger", async () => {
     const request = input(), grounding = await retrieveCoracao(request), payload = coracaoPayload(request, grounding);
-    expect(payload).toMatchObject({ model: "claude-sonnet-5-5", max_tokens: 1600, inference_geo: "global", service_tier: "standard_only", thinking: { type: "adaptive" }, output_config: { effort: "low" } });
+    expect(payload).toMatchObject({ model: "claude-sonnet-5-5", max_tokens: 1600, inference_geo: "global", service_tier: "standard_only", thinking: { type: "between_tools" }, output_config: { effort: "low" } });
     expect(payload.system).toContain("NUNCA personifique Jesus");
     expect(payload.system).toContain("não prescreva tolerar abuso");
     expect(payload.system).toContain("retorne kind redirect");
@@ -157,6 +169,17 @@ describe("Sonnet price, budget and provider boundary", () => {
       { input_tokens: 1, output_tokens: CORACAO_MAX_OUTPUT_TOKENS+1 }, { input_tokens: 1, output_tokens: 2, cache_read_input_tokens: 20 },
     ]) expect(parseCoracaoProvider(completion({}, { usage })).costMicros).toBeNull();
     expect(() => parseCoracaoProvider(completion({}, { model: "claude-opus-5-5" }))).toThrow();
+  });
+  it("distinguishes output exhaustion from missing sources, even when truncated output contains valid JSON", () => {
+    const result = parseCoracaoProvider(completion({ kind: "answer" }, {
+      stop_reason: "max_tokens", usage: { input_tokens: 300, output_tokens: 1600, output_tokens_details: { thinking_tokens: 1550 } },
+    }));
+    expect(result).toMatchObject({ answer: null, failure: "output_limit", costMicros: 16_600,
+      diagnostics: { stopReason: "max_tokens", inputTokens: 300, outputTokens: 1600, thinkingTokens: 1550 } });
+    expect(new CoracaoFailure(result.failure!).message).not.toContain("pergunta mais específica");
+    expect(parseCoracaoProvider(completion({}, { stop_reason: "refusal" })).failure).toBe("refusal");
+    expect(parseCoracaoProvider(completion({}, { stop_reason: "private provider text" })).diagnostics.stopReason).toBe("other");
+    expect(parseCoracaoProvider(completion({}, { content: [{ type: "text", text: "{incomplete" }] })).failure).toBe("invalid_json");
   });
   it("makes one provider attempt, forwards cancellation and bounds the response", async () => {
     const request = input(), payload = coracaoPayload(request, await retrieveCoracao(request));
@@ -206,6 +229,52 @@ describe("API failure and idempotency contract with mocked network only", () => 
     expect(first.status).toBe(200); expect((await first.json()).audio).toBeUndefined();
     expect((await POST(request(body))).status).toBe(409);
     expect(calls).toEqual(["reserve", "provider", "settle", "reserve"]);
+  });
+  it("uses Anthropic for a concrete Jesus-mode reply and preserves server-owned Gospel quotations", async () => {
+    enable(); let providerCalls = 0;
+    vi.stubGlobal("fetch", vi.fn(async (url: string, options: RequestInit) => {
+      const args = JSON.parse(options.body as string);
+      if (url.includes("upstash")) return Response.json({ result: args[1] === SETTLE_LUA ? ["settled"] : ["reserved", String(args[8])] });
+      expect(url).toBe("https://api.anthropic.com/v1/messages");
+      expect(options.headers).toMatchObject({ "x-api-key": env.ANTHROPIC_API_KEY });
+      expect(args.thinking).toEqual({ type: "between_tools" });
+      providerCalls++;
+      const sources = JSON.parse(args.messages[0].content).sources as { id: string; reference: string }[];
+      const source = sources.find((source) => source.reference === "João 18:23")!;
+      return Response.json(completion({ kind: "answer", title: "Responder com respeito e firmeza", blocks: [{
+        text: "João 18:23 mostra Jesus questionando uma agressão. Uma possibilidade é falar com firmeza, sem retribuir o insulto.", citationIds: [source.id],
+      }], suggestions: ["Como colocar um limite nessa conversa?"], suggestedReply: "Quero conversar com respeito. Se os insultos continuarem, vou encerrar por aqui." }));
+    }));
+    const response = await POST(request(input({ question: "Alguém me xingou no WhatsApp", mode: "jesus" })));
+    const body = await response.json();
+    expect(response.status).toBe(200);
+    expect(body).toMatchObject({ ok: true, kind: "answer", mode: "jesus" });
+    expect(body.citations).toHaveLength(1);
+    expect(body.citations[0].text).toBe(await translatedVerse("open-nbv", "joao", 18, 23));
+    expect(body.notice).toContain("Não é Jesus falando");
+    expect(providerCalls).toBe(1);
+  });
+  it("settles a truncated response once and logs only fixed diagnostics, never conversation text or credentials", async () => {
+    enable(); const logger = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    const calls: string[] = [];
+    vi.stubGlobal("fetch", vi.fn(async (url: string, options: RequestInit) => {
+      const args = JSON.parse(options.body as string);
+      if (url.includes("upstash")) {
+        calls.push(args[1] === SETTLE_LUA ? "settle" : "reserve");
+        return Response.json({ result: args[1] === SETTLE_LUA ? ["settled"] : ["reserved", String(args[8])] });
+      }
+      calls.push("anthropic");
+      return Response.json(completion({ private: "private generated text" }, { stop_reason: "max_tokens",
+        usage: { input_tokens: 300, output_tokens: 1600, output_tokens_details: { thinking_tokens: 1500 } } }));
+    }));
+    const response = await POST(request(input({ question: "Alguém me xingou no WhatsApp", mode: "jesus" })));
+    expect(response.status).toBe(502);
+    expect((await response.json()).message).toContain("interrompida");
+    expect(calls).toEqual(["reserve", "anthropic", "settle"]);
+    expect(logger).toHaveBeenCalledWith("coracao_failure", expect.objectContaining({ provider: "anthropic",
+      phase: "provider", reason: "output_limit", stopReason: "max_tokens", outputTokens: 1600, thinkingTokens: 1500 }));
+    const logged = JSON.stringify(logger.mock.calls);
+    for (const privateValue of ["Alguém", "WhatsApp", "private generated text", env.ANTHROPIC_API_KEY, env.KV_REST_API_TOKEN]) expect(logged).not.toContain(privateValue);
   });
   it("does not call the provider after budget refusal or an abort during reservation", async () => {
     enable(); const controller = new AbortController();
