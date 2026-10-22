@@ -139,6 +139,10 @@ input {
 .site-tabbar__menu > p { margin: 0; padding: 6px 12px 10px; color: var(--sky-gold); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
 .site-tabbar__menu-link { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 10px 12px; border-radius: 12px; color: var(--sky-gold); font-size: 15px; text-decoration: none; }
 .site-tabbar__menu-link:hover, .site-tabbar__menu-link[aria-current="page"] { background: color-mix(in srgb, var(--sky-gold) 14%, transparent); }
+@media (max-width: 63.99rem) {
+  /* Keep the dock away from the conversation input while the keyboard is in use. */
+  .site-shell:has([data-heart-page] textarea:focus) .site-tabbar { visibility: hidden; pointer-events: none; }
+}
 @supports ((backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px))) {
   .bc-root .site-tabbar { background: color-mix(in srgb, var(--sky) 91%, transparent); backdrop-filter: blur(20px) saturate(125%); -webkit-backdrop-filter: blur(20px) saturate(125%); }
 }

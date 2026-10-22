@@ -12,7 +12,7 @@ export const metadata: Metadata = shareMetadata({
 });
 
 export default function HeartPage() {
-  return <main id="conteudo" className={styles.page}>
+  return <main id="conteudo" className={styles.page} data-heart-page>
     <header className={styles.heading}>
       <span className={styles.mark}><Icon name="heart" /></span>
       <div><p className={styles.eyebrow}>Um espaço para refletir</p><h1>No seu coração</h1></div>
