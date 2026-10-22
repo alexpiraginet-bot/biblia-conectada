@@ -221,7 +221,7 @@ Tudo fica no aparelho: sem conta, sem servidor. A frase "Ficam só neste aparelh
 2. **Créditos visíveis:** em `/sobre` e no rodapé.
 3. **Números:** todo número no site sai de código, com teste.
 4. **Nomes de lugares e pessoas:** saem do texto da BLIVRE.
-5. **Hospedagem:** Vercel em `*.vercel.app`; nada de domínio pago.
+5. **Hospedagem:** Vercel. Alex comprou e autorizou `www.bibliaconectada.company` em 22/10; esse é o domínio principal. Novas compras e mudanças de plano continuam exigindo autorização.
 6. **`estudos/`:** só se lê, não se mexe.
 7. **Segredos:** nenhum no repositório nem em log. O link de compartilhamento da prévia da Vercel (`_vercel_share`) também é segredo.
 8. **Imagens:** sem rosto de criança, e recriação sempre marcada.
@@ -273,6 +273,8 @@ Tudo fica no aparelho: sem conta, sem servidor. A frase "Ficam só neste aparelh
 
 ## 9. Continuação de 21/10: conversa e voz (PR31)
 
+Os registros desta seção são históricos. O diagnóstico mais recente consta no §10.
+
 `/coracao` acrescenta conversa com Sonnet 5.5, fontes reais Open NBV/BLIVRE e o modo À luz de Jesus. Navegação móvel flutuante revisada; Buscar/Ponte continuam em Mais. Build e 773 testes passaram na fonte `c3d43cb`, prévia READY e três respostas reais de texto conferidas. Evidência detalhada: `docs/evidence/2026-10-21-heart-conversation-voice.md`.
 
 Voz OpenAI implementada com chave exclusivamente server-side, ticket assinado, teto total existente de US$20/mês e subteto de US$5 para voz. A conta recusou a credencial da Vercel com `invalid_api_key`. A variável tem o nome correto, mas isso não comprova validade do valor. Production continua sem ativação da voz; não recuperar nem registrar o segredo. Após o usuário substituir o valor, fazer novo deploy Preview e teste real antes de ativar Production. Não há prova de áudio real, sotaque, autoplay ou silencioso em iPhone.
@@ -280,3 +282,15 @@ Voz OpenAI implementada com chave exclusivamente server-side, ticket assinado, t
 **Atualização 22/10:** PR #32 corrige altura e espaçamento do Coração no celular, sugestões e painel de privacidade em telas baixas. Build773, geometria em16contextos e revisão independente Chromium/WebKit passaram. A chave foi substituída após o deploy anterior, porém a nova prévia recebeu novamente `invalid_api_key`, sem áudio; Production mantém voz desligada. [Evidência e limites](evidence/2026-10-22-heart-mobile-geometry.md).
 
 **Estado posterior da mesma rodada:** PRs #32 e #33 publicados em `6d8ab82`, Vercel READY. Seis casos de tela passaram no endereço público. Após nova troca da chave e pedido expresso de publicar para teste, a voz foi habilitada em Preview/Production. Texto real HTTP200; áudio ainda HTTP502 na conexão com a OpenAI, sem código diagnóstico específico nem WAV. A nota anterior de voz desligada é histórica: ela agora está habilitada, porém não validada como funcional. Ferramentas compartilhadas e teste OpenMontage concluídos. [Registro final, caminhos e limites](evidence/2026-10-22-release-and-local-tools.md).
+
+## 10. Domínio e correção do Coração — 22/10
+
+PR #35 integrado em `1c9201d9130c31cdf26a564db4670c14383f68ce`. Domínio principal `https://www.bibliaconectada.company`, apex com redirecionamento 308 preservando caminho e query, HTTPS válido. O host antigo permanece acessível; dados locais não migram entre origens.
+
+Texto continua na Anthropic (`claude-sonnet-5-5`). Na prévia READY, “Alguém me xingou no WhatsApp” retornou HTTP 200 em 8,5 s, com sete citações conferidas contra a Open NBV. Falhas técnicas deixaram de culpar a pergunta; uma nova tentativa após falha confirmada exige ação explícita e avisa sobre o limite.
+
+OpenAI é usada somente para voz. O diagnóstico atual é `insufficient_quota`, antes de gerar áudio; os registros anteriores de `invalid_api_key` são históricos. A voz está habilitada para teste por pedido do Alex, mas não há WAV nem validação de qualidade, autoplay ou silencioso no iPhone. Nenhuma chave foi substituída, cota aumentada ou crédito comprado nesta rodada. Conferir crédito/limites do projeto “Bíblia” na conta OpenAI antes de outra chamada de voz.
+
+Build local: 796 testes em 57 arquivos, tipos, lint, check-dist e orçamento aprovados. Evidência: [registro desta rodada](evidence/2026-10-22-domain-heart-voice-diagnosis.md).
+
+**Produção conferida:** `dpl_nZCBs7SDKhGNmSB3eYiF9qGJS6Bk` READY no domínio novo. A pergunta do print respondeu em 8,1 s pela interface publicada, com sete citações exatas e sugestão para copiar. Seis contextos de tela e dez verificações de domínio/identidade passaram. Voz desligada somente no teste textual para evitar repetir a falha de cota já diagnosticada; configuração da voz permanece habilitada para teste. Servidor local encerrado.
