@@ -6,6 +6,12 @@ set -u
 prev=${VERCEL_GIT_PREVIOUS_SHA:-}
 [ -z "$prev" ] && exit 1
 git cat-file -e "${prev}^{commit}" 2>/dev/null || exit 1
+# A redeploy of the same commit can refresh environment variables or project settings.
+# File diffs cannot detect those changes; only skip a distinct, source-irrelevant commit.
+if [ "$(git rev-parse "${prev}^{commit}")" = "$(git rev-parse HEAD)" ]; then
+  echo "Redeploying the current commit: rebuilding to refresh deployment configuration."
+  exit 1
+fi
 if git diff --quiet "$prev" HEAD -- . ../fontes ../estudos/biblia-referencias/data ../estudos/biblia-natal/data ../ATTRIBUTION.md; then
   echo "No change in site/, fontes/, estudos/*/data or ATTRIBUTION.md since $prev: skipping build."
   exit 0
