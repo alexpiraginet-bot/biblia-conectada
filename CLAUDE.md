@@ -15,7 +15,7 @@ Fale com o Alex em PT-BR. Código, identificadores e mensagens de commit em ingl
 3. **Todo número que aparece no site vem de código**, a partir de `fontes/` e `estudos/*/data/`, com teste que confere. Nada digitado à mão.
    - Afirmações tipo "maior do mundo" só com evidência.
 4. **Nomes em português de lugares e pessoas saem do texto da BLIVRE** dos versículos onde aparecem, com revisão nos mais citados. Nunca traduza de cabeça.
-5. **Deploy:** Vercel em subdomínio gratuito `*.vercel.app`. Comprar domínio ou mudar de plano só com aprovação explícita do Alex.
+5. **Deploy:** Vercel, domínio principal `www.bibliaconectada.company`, comprado e autorizado pelo Alex em 22/10/2026. O host anterior `*.vercel.app` permanece acessível. Novas compras de domínio ou mudanças de plano exigem aprovação explícita do Alex.
 6. **Não mexa em `estudos/`** (pipelines dos vídeos) sem pedido. O site só lê os dados de lá.
    - Não baixe a branch `film-intermediates` (530 MB) sem necessidade.
 7. **Segredos:** nada de `.env`, chave ou token no repositório nem em log.
