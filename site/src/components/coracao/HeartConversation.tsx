@@ -24,7 +24,7 @@ const PROMPTS = {
   ],
 };
 
-/** Retrying preserves the UUID; only completed turns become the bounded conversation context. */
+/** Only completed turns become the bounded conversation context. */
 export function buildHeartRequest(question: string, mode: CoracaoMode, turns: Turn[]): CoracaoRequest {
   const history = turns.filter((turn) => turn.answer && turn.request.mode === mode).slice(-2).map((turn) => {
     const answer = turn.answer!;
@@ -63,6 +63,7 @@ export function HeartConversation() {
   const [availabilityMessage, setAvailabilityMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<AssistantError | null>(null);
+  const [retryKind, setRetryKind] = useState<"same" | "new">("same");
   const [cooldown, setCooldown] = useState(0);
   const controller = useRef<AbortController | null>(null);
   const pending = useRef(false);
@@ -114,7 +115,7 @@ export function HeartConversation() {
     if (voice.available) voice.prepare(body.requestId); else voice.stop();
     request.current = body;
     setTurns((current) => current.some((turn) => turn.request.requestId === body.requestId) ? current : [...current, { request: body }]);
-    setMode(body.mode ?? "encontrar"); setQuestion(""); setError(null); setLoading(true);
+    setMode(body.mode ?? "encontrar"); setQuestion(""); setError(null); setRetryKind("same"); setLoading(true);
     const abort = new AbortController(); controller.current = abort;
     const timeout = window.setTimeout(() => abort.abort("timeout"), 90000);
     try {
@@ -124,6 +125,8 @@ export function HeartConversation() {
       if (!response.ok || !result.ok) {
         voice.stop();
         const failure: AssistantError = result.ok ? { ok: false, code: "provider", message: "Não foi possível concluir esta conversa agora." } : result;
+        // A received failure ended this attempt. A transport failure remains ambiguous and keeps its UUID.
+        if (failure.code === "provider") setRetryKind("new");
         setError(failure); setCooldown(Math.max(0, Math.min(86400, Math.ceil(failure.retryAfterSeconds ?? 0))));
         if (failure.code === "unavailable") setAvailable(false);
         return;
@@ -147,10 +150,12 @@ export function HeartConversation() {
     const previous = request.current;
     const same = previous && previous.question === text.trim() && previous.mode === nextMode;
     if (same && error?.code === "in_progress") return;
-    void send(same && error?.code === "provider" ? previous : buildHeartRequest(text, nextMode, turns));
+    void send(same && error?.code === "provider"
+      ? retryKind === "new" ? { ...previous, requestId: crypto.randomUUID() } : previous
+      : buildHeartRequest(text, nextMode, turns));
   }
   function submit(event: FormEvent<HTMLFormElement>) { event.preventDefault(); ask(question); }
-  function restart() { voice.stop(); setTurns([]); setError(null); request.current = null; setQuestion(""); input.current?.focus({ preventScroll: true }); }
+  function restart() { voice.stop(); setTurns([]); setError(null); setRetryKind("same"); request.current = null; setQuestion(""); input.current?.focus({ preventScroll: true }); }
 
   return <section className={styles.room} aria-label="Conversa No seu coração">
     <div className={styles.roomHeader}>
@@ -175,7 +180,12 @@ export function HeartConversation() {
         {index === turns.length - 1 && loading && <div className={styles.typing} role="status"><span className={styles.dots} aria-hidden="true"><i /><i /><i /></span><p>Buscando caminhos no texto…<small>A resposta pode levar alguns instantes.</small></p></div>}
       </article>)}
       {error && <div className={styles.error} role="alert"><p>{error.message}</p>{cooldown > 0 && <p>Você pode tentar novamente em {cooldown}s.</p>}
-        {error.code === "provider" && <button type="button" disabled={disabled} onClick={() => { if (request.current) void send(request.current); }}>Tentar novamente</button>}
+        {error.code === "provider" && <>
+          {retryKind === "new" && <p>Uma nova tentativa contará como outra consulta no limite de uso.</p>}
+          <button type="button" disabled={disabled} onClick={() => {
+            if (request.current) void send(retryKind === "new" ? { ...request.current, requestId: crypto.randomUUID() } : request.current);
+          }}>{retryKind === "new" ? "Tentar nova resposta" : "Tentar novamente"}</button>
+        </>}
         {error.code === "in_progress" && <><p>Essa consulta já foi recebida. Iniciar outra contará novamente no limite de uso.</p><button type="button" disabled={disabled} onClick={() => { if (request.current) void send({ ...request.current, requestId: crypto.randomUUID() }); }}>Iniciar nova consulta</button></>}
       </div>}
     </div>

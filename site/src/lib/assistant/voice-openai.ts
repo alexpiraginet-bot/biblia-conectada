@@ -52,7 +52,8 @@ function providerFailureMetadata(detail: VoiceFailureDetail) {
     ["provider_fault", ["server_error"], /internal server error|server (?:had|encountered) an error/i],
   ];
   // Prefer explicit codes/types; message matching is only a diagnostic hint.
-  const coded = categories.find(([, codes]) => (code && codes.includes(code)) || (type && codes.includes(type)));
+  const coded = categories.find(([, codes]) => code && codes.includes(code))
+    ?? categories.find(([, codes]) => type && codes.includes(type));
   const matched = coded ?? categories.find(([, , pattern]) => pattern.test(message));
   if (matched) { category = matched[0]; classification = coded ? "code_or_type" : "message_pattern"; }
   return {
