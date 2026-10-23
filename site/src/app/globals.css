@@ -167,7 +167,7 @@ input {
   .site-shell:has([data-heart-page] textarea:focus) .site-tabbar { visibility: hidden; pointer-events: none; }
 }
 @supports ((backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px))) {
-  .bc-root .site-tabbar { background: color-mix(in srgb, var(--sky) 97%, transparent); backdrop-filter: blur(20px) saturate(125%); -webkit-backdrop-filter: blur(20px) saturate(125%); }
+  .bc-root .site-tabbar { background: color-mix(in srgb, var(--sky) 97%, transparent); -webkit-backdrop-filter: blur(20px) saturate(125%); backdrop-filter: blur(20px) saturate(125%); }
 }
 
 .site-topbar__search {

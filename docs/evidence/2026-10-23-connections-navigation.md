@@ -25,6 +25,7 @@ O total do capítulo usa `sky.json`, já carregado. O detalhamento por versícul
 - Cinco cenários adicionais passaram: carregamento/falha/retry sem anunciar zero; busca sobre o versículo e retorno de foco; toque externo; reinício da rolagem ao trocar seleção; primeiro toque anterior à hidratação.
 - WebKit com eventos `tap()` chegou a Mapa de Jesus e Cronologia, fechando o menu. Corrigido um blur sem destino que antes fechava o painel antes do clique.
 - Corrigidos também o espaço da seleção em celulares baixos e a sobreposição do botão de fechar no desktop. Revisões independentes de contagens, UI/UX e performance não encontraram bloqueios restantes.
+- A revisão visual final detectou ausência de blur na pílula do Chromium: a saída CSS preservava apenas a propriedade prefixada, não suportada nesse navegador. A ordem foi corrigida para prefixada antes da propriedade padrão; o build final deve preservar ambas e o estilo calculado é conferido nos navegadores.
 
 ## Custo e limites
 
