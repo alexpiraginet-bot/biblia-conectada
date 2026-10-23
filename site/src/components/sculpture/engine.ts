@@ -2,6 +2,8 @@
 // is selected and the panel; this owns frames. A bounded pulse layer moves while visible; the sculpture and labels
 // are reused until the camera, selection or size changes. Hidden, offscreen and paused stages schedule no motion.
 import { SculptureRenderer, type ArcBuffers, type AxisLines, type Lit, type Theme } from "./renderer";
+import { verseAxis } from "./arcs";
+import type { Data } from "./state";
 import { arcUnderPointer, axisUnderPointer, easeInOut, mixView } from "./interaction";
 import {
   arcPoint,
@@ -643,4 +645,60 @@ export class SculptureEngine {
     c.removeEventListener("webglcontextlost", this.onLost);
     this.r.destroy();
   }
+}
+
+// ---------------------------------------------------------------- labels, placed by the engine every frame
+
+/**
+ * Moves the pills to their places on the axis (no React render per frame), in the order they come: the lit verses (the
+ * lit verse first, then the strongest links), then the books' names, then the groups'. A pill that would cover another
+ * tries the other side of the axis before it hides. A book's name shows only when the camera is near enough for it to
+ * fit inside its book's stretch of the axis; a group's name only when none of its books' names shows. Every size is
+ * read before any pill moves, so a frame forces one layout, not one per pill.
+ */
+export function placeLabels(root: HTMLDivElement | null, data: Data | null, m: Mat4, w: number, h: number, box: Box) {
+  if (!root || !data) return;
+  // pills stay inside the picture's box (never under the panel or the field)
+  const left = Math.max(4, box.x), right = Math.min(w - 4, box.x + box.w), top = Math.max(4, box.y), bottom = Math.min(h - 4, box.y + box.h);
+  const placed: { l: number; r: number; t: number; b: number }[] = [];
+  const nodes = Array.from(root.children) as HTMLElement[];
+  const sizes = nodes.map((el) => [el.offsetWidth, el.offsetHeight] as const);
+  const named = new Set<string>();
+  // books get names once the axis is drawn well over twice as long as the picture is wide (the whole Bible shows the
+  // groups; a camera close to a passage, the books around it)
+  const ends = [project(m, [-1, 0, 0], w, h), project(m, [1, 0, 0], w, h)];
+  const near = !ends[0].front || !ends[1].front || Math.hypot(ends[1].x - ends[0].x, ends[1].y - ends[0].y) >= 2.2 * box.w;
+  nodes.forEach((el, k) => {
+    const [bw, bh] = sizes[k];
+    const d = el.dataset;
+    const tier = d.tier;
+    const ax = d.x !== undefined ? Number(d.x) : verseAxis(data.geo, Number(d.gv));
+    const s = project(m, [ax, 0, 0], w, h);
+    let fits = s.front;
+    if (tier === "book") {
+      const a = project(m, [Number(d.x0), 0, 0], w, h), b = project(m, [Number(d.x1), 0, 0], w, h);
+      fits = fits && near && a.front && b.front && Math.hypot(b.x - a.x, b.y - a.y) >= bw + 12;
+    } else if (tier === "group") fits = fits && !named.has(d.group ?? "");
+    let x = s.x - bw / 2;
+    // a label whose place is near an edge of the picture slides inward to stay whole (it still touches its place)
+    if (s.x > left && s.x < right) x = Math.min(Math.max(x, left + 2), right - bw - 2);
+    let shown = false;
+    let y = 0;
+    if (fits) {
+      // the groups' names keep to the two rows next to the axis: on a small picture eight names would bury it
+      for (const dy of tier === "group" ? [12, -12 - bh] : [12, -12 - bh, 12 + bh + 6, -18 - 2 * bh]) {
+        y = s.y + dy;
+        const r = { l: x - 4, r: x + bw + 4, t: y - 2, b: y + bh + 2 };
+        const inside = x > left && x + bw < right && y > top && y + bh < bottom;
+        if (inside && !placed.some((p) => p.l < r.r && r.l < p.r && p.t < r.b && r.t < p.b)) {
+          placed.push(r);
+          shown = true;
+          break;
+        }
+      }
+    }
+    if (shown && tier === "book" && d.group) named.add(d.group);
+    el.style.transform = `translate3d(${Math.round(x)}px, ${Math.round(y)}px, 0)`;
+    el.style.visibility = shown ? "visible" : "hidden";
+  });
 }

@@ -9,6 +9,17 @@
   position: relative;
 }
 
+.connectionSummary {
+  margin-bottom: var(--space-3);
+  padding: var(--space-3) 0;
+  border-block: 1px solid var(--line);
+  color: var(--ink-2);
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+}
+.connectionSummary p { margin: 0; }
+.connectionSummary p + p { margin-top: var(--space-2); }
+.connectionSummary strong { color: var(--accent); font: 600 var(--fs-body) / var(--lh-body) var(--font-ui); font-variant-numeric: tabular-nums; }
+
 .stage {
   /* a unit of the layout at the current canvas width */
   --u: calc(100cqw / var(--W));

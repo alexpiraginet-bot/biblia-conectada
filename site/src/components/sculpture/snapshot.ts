@@ -17,9 +17,10 @@ export type SnapshotFacts = {
   sel: Sel;
   labels: { gv: number; main: boolean; step?: number }[];
   data: Data | null;
-  /** links of the verse open, of the chapter open */
+  /** Complete counts of the selected verse and chapter, independent of the drawing sample. */
   partners: number | null;
   chapterLinks: number | null;
+  chapterDrawn?: number | null;
   verseText: string | null;
   /** every pair is loaded (else only the most voted) */
   full: boolean;
@@ -43,7 +44,8 @@ export function contentOf(f: SnapshotFacts): SnapshotContent {
   }
   if (sel?.kind === "chapter") {
     const n = f.chapterLinks;
-    return { ...base, title: chapterLabel(sel.ci).label, subtitle: n === null ? "" : `${ligacoes(n)}${f.full ? "" : " entre as mais votadas"}`, body: null };
+    return { ...base, title: chapterLabel(sel.ci).label, subtitle: n === null ? "" : `${ligacoes(n)} na base`,
+      body: f.chapterDrawn == null ? null : `${formatInt(f.chapterDrawn)} arcos em destaque${f.full ? "" : ", da amostra mais votada"}. O total conta pares distintos de versículos, com qualquer voto.` };
   }
   if (sel?.kind === "path") {
     const steps = f.hops?.length ? [f.hops[0].from, ...f.hops.map((h) => h.to)] : [];
