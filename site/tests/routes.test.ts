@@ -4,7 +4,7 @@ import { existsSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import nextConfig from "../next.config";
-import { currentItem, NAV } from "../src/components/shell/nav";
+import { currentItem, MOBILE_MENU, NAV } from "../src/components/shell/nav";
 import { RESERVED } from "../src/lib/canon/redirects";
 import { appRoutes, routeOf } from "../scripts/checks/pages";
 import { SITE } from "../scripts/data/sources";
@@ -65,11 +65,20 @@ describe("reserved segments", () => {
 });
 
 describe("navigation", () => {
-  it("keeps four direct tabs and preserves Search and Ponte in More", () => {
+  it("keeps four comfortable direct tabs and exposes every other section in the mobile menu", () => {
     expect(NAV.map((n) => n.href)).toEqual(["/explorar", "/ler", "/coracao", "/buscar", "/linha-do-tempo", "/caminhos", "/cronologia", "/arcos", "/ponte", "/salvos", "/dados"]);
-    expect(NAV.filter((n) => n.rail).map((n) => n.label)).toEqual(["Explorar", "Ler", "Coração", "Linha do tempo", "Caminhos", "A história", "Arcos", "Ponte", "Salvos", "Dados"]);
+    expect(NAV.filter((n) => n.rail).map((n) => n.label)).toEqual(["Explorar", "Ler", "Coração", "Linha do tempo", "Mapa de Jesus", "Cronologia", "Arcos", "Ponte", "Salvos", "Dados"]);
     expect(NAV.filter((n) => n.tab).map((n) => n.label)).toEqual(["Explorar", "Ler", "Coração", "Arcos"]);
-    expect(NAV.filter((n) => n.more).map((n) => n.label)).toEqual(["Buscar", "Ponte"]);
+    const mobile = [...NAV.filter((n) => n.tab), ...MOBILE_MENU].map((n) => n.href);
+    expect(new Set(mobile).size).toBe(NAV.length);
+    expect(new Set(mobile)).toEqual(new Set(NAV.map((n) => n.href)));
+  });
+
+  it("puts the map and guided chronology first, with descriptions distinct from the events timeline", () => {
+    expect(MOBILE_MENU.slice(0, 2).map((n) => n.href)).toEqual(["/caminhos", "/cronologia"]);
+    expect(MOBILE_MENU.every((n) => n.description)).toBe(true);
+    expect(MOBILE_MENU.find((n) => n.href === "/cronologia")?.description)
+      .not.toBe(MOBILE_MENU.find((n) => n.href === "/linha-do-tempo")?.description);
   });
 
   it("leads every item to a page, following the redirects of next.config.ts (/explorar opens Isaías 9)", async () => {
@@ -129,6 +138,8 @@ describe("current navigation item", () => {
     ["/isaias/9/6", "/ler"],
     ["/linha-do-tempo", "/linha-do-tempo"],
     ["/linha-do-tempo/423-lucas-10-25-37", "/linha-do-tempo"],
+    ["/caminhos", "/caminhos"],
+    ["/cronologia", "/cronologia"],
     ["/arcos", "/arcos"],
     ["/arcos/plano", "/arcos"],
     ["/ponte", "/ponte"],

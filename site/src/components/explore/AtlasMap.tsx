@@ -1,4 +1,5 @@
 import { books } from "@/lib/data";
+import { formatInt } from "@/lib/canon/text";
 import { GROUP_NAMES, hubText, votesWord, type AtlasLayout, type GroupId } from "@/lib/explore/atlas";
 import { groupOfBook, medals, type Atlas } from "@/lib/explore/atlas-data";
 import { chapterKey } from "@/lib/explore/data";
@@ -147,8 +148,14 @@ export function AtlasMap({ atlas, selected, fixed = false }: { atlas: Atlas; sel
   const hint = "Setas para os lados: grupos de livros. Para baixo e para cima: os capítulos do grupo. Enter abre a ligação.";
   const m = medals();
   const shownWeb = atlas.web.some(([a, b]) => atlas.wide.nodes.some((n) => n.ci === a) && atlas.wide.nodes.some((n) => n.ci === b));
+  // Every partner in every group is present here; the map draws only the strongest that fit.
+  const pairs = atlas.groups.reduce((total, group) => total + group.partners.reduce((sum, partner) => sum + partner.pairs, 0), 0);
   return (
     <div className={styles.atlas}>
+      <div className={styles.connectionSummary} data-chapter-connections={pairs}>
+        <p><strong>{formatInt(pairs)} conexões</strong> com <strong>{partnersText(atlas.partners)}</strong></p>
+        <p>Pares de versículos de {c.label} com outros capítulos, contando todos os votos. O mapa destaca os mais votados por grupo.</p>
+      </div>
       <Stage atlas={atlas} l={atlas.wide} fallback={selected} fixed={fixed} label={label} hint={hint} />
       <Stage atlas={atlas} l={atlas.narrow} fallback={selected} fixed={fixed} label={label} hint={hint} />
       <ul className={styles.legend} aria-label="Legenda do mapa">

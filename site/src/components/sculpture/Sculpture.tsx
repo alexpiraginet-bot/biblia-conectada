@@ -41,13 +41,13 @@ import {
   type Hop,
   type Partner,
 } from "./arcs";
-import type { SculptureEngine } from "./engine";
+import type { SculptureEngine, placeLabels } from "./engine";
 import { groupNames, type AxisGroup } from "./groups";
 import { HOME_ORBIT, homeBox, NARROW, TOP } from "./home";
 import type { Graph } from "./path";
 import { SCULPTURE_POSTER } from "./poster";
 import type { ColorMode, Theme } from "./renderer";
-import { arcSamples, axisX, fitOrbit, project, viewMatrix, type Box, type Mat4, type Orbit, type Vec3 } from "./space";
+import { arcSamples, axisX, fitOrbit, viewMatrix, type Box, type Orbit, type Vec3 } from "./space";
 import {
   chapterLabel,
   hashOf,
@@ -165,6 +165,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const labelsRef = useRef<HTMLDivElement>(null);
+  const labelPlacer = useRef<typeof placeLabels | null>(null);
   const fieldRef = useRef<HTMLFormElement>(null);
   // the panel's heading takes the focus when a selection opens; the panels of a path and of a word load on their own, so
   // a heading that is not there yet takes it when it arrives
@@ -206,7 +207,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
   const [queryError, setQueryError] = useState("");
   const [copied, setCopied] = useState(false);
   const [sheetFull, setSheetFull] = useState(false);
-  const [fetched, setFetched] = useState<{ gv: number; list: Partner[] } | null>(null);
+  const [fetched, setFetched] = useState<{ gv: number; list: Partner[] | null } | null>(null);
   const [verseBody, setVerseBody] = useState<{ gv: number; text: string | null } | null>(null);
   const [snippets, setSnippets] = useState<ReadonlyMap<number, string>>(new Map());
   // 0: every arc; 1..3: only the arcs with initial.strength[step - 1].min votes or more
@@ -290,8 +291,10 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
     let alive = true;
     let e: SculptureEngine | null = null;
     let live = false;
-    const start = import("./engine").then(({ SculptureEngine }) => {
+    const start = import("./engine").then(({ SculptureEngine, placeLabels }) => {
       if (!alive) return;
+      // The poster needs the same layout even when create() cannot obtain a real GPU.
+      labelPlacer.current = placeLabels;
       const made = SculptureEngine.create(canvas, {
         hover: (x, at) => {
           setHover(x === null || !at ? null : { x, at, flip: tipFlips(engine.current, at) });
@@ -408,11 +411,11 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
     const { book, chapter, verse: v } = BASE.locate(verse);
     loadVerseLinks(book.slug, chapter)
       .then((links) => alive && setFetched({ gv: verse, list: partnersFromLinks(links[v - 1] ?? []) }))
-      .catch(() => alive && setFetched({ gv: verse, list: [] }));
+      .catch(() => alive && setFetched({ gv: verse, list: null }));
     return () => {
       alive = false;
     };
-  }, [verse, arcs]);
+  }, [verse, arcs, retry]);
   const partners = useMemo<Partner[] | null>(() => {
     if (verse === null) return null;
     if (arcs?.set.full) return partnersOf(arcs.set, verse);
@@ -590,7 +593,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
     const place = () => {
       const w = stage.clientWidth, h = stage.clientHeight;
       const box = homeBox(w, h);
-      placeLabels(labelsRef.current, data, viewMatrix({ orbit: HOME_ORBIT, box }, w, h), w, h, box);
+      labelPlacer.current?.(labelsRef.current, data, viewMatrix({ orbit: HOME_ORBIT, box }, w, h), w, h, box);
     };
     place();
     const ro = new ResizeObserver(place);
@@ -770,7 +773,8 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
         data,
         partners: partners?.length ?? null,
         verseText: sel?.kind === "verse" && verseBody?.gv === sel.gv ? verseBody.text : null,
-        chapterLinks: chapterList?.length ?? null,
+        chapterLinks: sel?.kind === "chapter" && data ? data.geo.chapterPairs[sel.ci] : null,
+        chapterDrawn: chapterScene?.length ?? null,
         full: !!arcs?.set.full,
         hops,
         wordVerses: wordResult?.verses ?? null,
@@ -848,8 +852,8 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
       ? chapterLabel(cursor).label
       : sel?.kind === "verse" && partners
         ? `${longRef(BASE, sel.gv)}: ${ligacoes(partners.length)}.${focus >= 0 && partners[focus] ? ` Em foco: ${longRef(BASE, partners[focus].gv)}, ${votos(partners[focus].votes)}.` : ""}`
-        : sel?.kind === "chapter" && chapterList
-          ? `${chapterLabel(sel.ci).label}: ${ligacoes(chapterList.length)}.`
+        : sel?.kind === "chapter" && data
+          ? `${chapterLabel(sel.ci).label}: ${ligacoes(data.geo.chapterPairs[sel.ci])} na base.`
           : sel?.kind === "path" && hops !== undefined
             ? hops
               ? `Caminho de ${longRef(BASE, sel.from)} a ${longRef(BASE, sel.to)}: ${ligacoes(hops.length)}.${focus >= 0 && hops[focus] ? ` Em foco: ${longRef(BASE, hops[focus].from)} e ${longRef(BASE, hops[focus].to)}, ${votos(hops[focus].votes)}.` : ""}`
@@ -969,8 +973,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
           <div className={styles.tip} style={{ transform: tipTransform(hover.at, hover.flip) }} aria-hidden="true">
             <strong>{chapterLabel(preview.ci).label}</strong>
             <span>
-              {ligacoes(preview.list.length)}
-              {preview.full ? "" : " entre as mais votadas"} · clique para abrir
+              {data && ligacoes(data.geo.chapterPairs[preview.ci])} na base · clique para abrir
             </span>
           </div>
         )}
@@ -1207,7 +1210,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
         </details>
 
         {sel && (
-          <aside className={styles.panel} aria-labelledby={`${ids}-p`}>
+          <aside key={selKey} className={styles.panel} aria-labelledby={`${ids}-p`}>
             <div className={styles.panelBar}>
               <button
                 type="button"
@@ -1222,7 +1225,6 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
                 <Icon name="close" />
               </button>
             </div>
-            <p className={styles.panelEyebrow}>SIGA AS CONEXÕES</p>
             <Suspense fallback={<><h2 id={`${ids}-p`} className={styles.ref}>
               {sel.kind === "verse" ? longRef(BASE, sel.gv) : sel.kind === "chapter" ? chapterLabel(sel.ci).label : "Passagem selecionada"}
             </h2><p role="status" className={styles.meta}>Carregando passagem…</p></>}>
@@ -1231,6 +1233,8 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
                 gv={sel.gv}
                 nt={data ? data.nt[sel.gv] === 1 : null}
                 partners={partners}
+                linksFailed={!arcs?.set.full && fetched?.gv === sel.gv && fetched.list === null}
+                onLinksRetry={() => { setFetched(null); setRetry((r) => r + 1); }}
                 text={verseBody?.gv === sel.gv ? verseBody.text : null}
                 textFailed={verseBody?.gv === sel.gv && verseBody.text === null}
                 onTextRetry={() => { setVerseBody(null); setRetry((r) => r + 1); }}
@@ -1262,12 +1266,12 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
                 nch={data.geo.nch}
                 first={data.geo.chapterFirst[sel.ci]}
                 verses={data.geo.chapterVerses[sel.ci]}
-                links={chapterList}
+                total={data.geo.chapterPairs[sel.ci]}
                 highlights={chapterFeatured.slice(0, 6)}
                 snippets={snippets}
                 sceneControl={chapterList && (
                   <div className={styles.constellationNote}>
-                    <span>{formatInt(chapterScene?.length ?? 0)} fios {arcs?.set.full ? "em destaque" : "entre os mais votados"}</span>
+                    <span>{formatInt(chapterScene?.length ?? 0)} {ready === "live" ? "arcos em destaque" : "pares em destaque"}{!arcs?.set.full && " · amostra mais votada"}</span>
                     <button type="button" aria-pressed={allChapterThreads} disabled={full === "loading"} onClick={() => {
                       if (full === "error" && allChapterThreads) { void loadFull(); return; }
                       if (!allChapterThreads && !arcs?.set.full) void loadFull();
@@ -1277,7 +1281,6 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
                     </button>
                   </div>
                 )}
-                full={!!arcs?.set.full}
                 onVerse={(gv) => choose({ kind: "verse", gv })}
                 onChapter={(ci) => choose({ kind: "chapter", ci })}
                 save={ready === "live" ? { label: saveLabel, busy: saving === "busy", onSave: () => void saveImage() } : null}
@@ -1287,7 +1290,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
             ) : (
               <>
                 <h2 id={`${ids}-p`} ref={headingRef} tabIndex={-1} className={styles.ref}>{chapterLabel(sel.ci).label}</h2>
-                <p className={styles.meta} role="status">Iluminando as conexões deste capítulo…</p>
+                <p className={styles.meta} role="status">{ready === "error" ? <>Não foi possível carregar a contagem. <button type="button" className={styles.retryText} onClick={() => window.location.reload()}>Tentar de novo</button></> : "Carregando a contagem de conexões deste capítulo…"}</p>
               </>
             ) : sel.kind === "path" ? (
               <Suspense fallback={null}>
@@ -1381,59 +1384,3 @@ function tipFlips(e: SculptureEngine | null, at: { x: number }) {
 }
 const tipTransform = (at: { x: number; y: number }, flip: boolean) =>
   `translate3d(${flip ? `calc(${Math.round(at.x - 14)}px - 100%)` : `${Math.round(at.x + 14)}px`}, ${Math.round(at.y - 56)}px, 0)`;
-
-// ---------------------------------------------------------------- labels, placed by the engine every frame
-
-/**
- * Moves the pills to their places on the axis (no React render per frame), in the order they come: the lit verses (the
- * lit verse first, then the strongest links), then the books' names, then the groups'. A pill that would cover another
- * tries the other side of the axis before it hides. A book's name shows only when the camera is near enough for it to
- * fit inside its book's stretch of the axis; a group's name only when none of its books' names shows. Every size is
- * read before any pill moves, so a frame forces one layout, not one per pill.
- */
-function placeLabels(root: HTMLDivElement | null, data: Data | null, m: Mat4, w: number, h: number, box: Box) {
-  if (!root || !data) return;
-  // pills stay inside the picture's box (never under the panel or the field)
-  const left = Math.max(4, box.x), right = Math.min(w - 4, box.x + box.w), top = Math.max(4, box.y), bottom = Math.min(h - 4, box.y + box.h);
-  const placed: { l: number; r: number; t: number; b: number }[] = [];
-  const nodes = Array.from(root.children) as HTMLElement[];
-  const sizes = nodes.map((el) => [el.offsetWidth, el.offsetHeight] as const);
-  const named = new Set<string>();
-  // books get names once the axis is drawn well over twice as long as the picture is wide (the whole Bible shows the
-  // groups; a camera close to a passage, the books around it)
-  const ends = [project(m, [-1, 0, 0], w, h), project(m, [1, 0, 0], w, h)];
-  const near = !ends[0].front || !ends[1].front || Math.hypot(ends[1].x - ends[0].x, ends[1].y - ends[0].y) >= 2.2 * box.w;
-  nodes.forEach((el, k) => {
-    const [bw, bh] = sizes[k];
-    const d = el.dataset;
-    const tier = d.tier;
-    const ax = d.x !== undefined ? Number(d.x) : verseAxis(data.geo, Number(d.gv));
-    const s = project(m, [ax, 0, 0], w, h);
-    let fits = s.front;
-    if (tier === "book") {
-      const a = project(m, [Number(d.x0), 0, 0], w, h), b = project(m, [Number(d.x1), 0, 0], w, h);
-      fits = fits && near && a.front && b.front && Math.hypot(b.x - a.x, b.y - a.y) >= bw + 12;
-    } else if (tier === "group") fits = fits && !named.has(d.group ?? "");
-    let x = s.x - bw / 2;
-    // a label whose place is near an edge of the picture slides inward to stay whole (it still touches its place)
-    if (s.x > left && s.x < right) x = Math.min(Math.max(x, left + 2), right - bw - 2);
-    let shown = false;
-    let y = 0;
-    if (fits) {
-      // the groups' names keep to the two rows next to the axis: on a small picture eight names would bury it
-      for (const dy of tier === "group" ? [12, -12 - bh] : [12, -12 - bh, 12 + bh + 6, -18 - 2 * bh]) {
-        y = s.y + dy;
-        const r = { l: x - 4, r: x + bw + 4, t: y - 2, b: y + bh + 2 };
-        const inside = x > left && x + bw < right && y > top && y + bh < bottom;
-        if (inside && !placed.some((p) => p.l < r.r && r.l < p.r && p.t < r.b && r.t < p.b)) {
-          placed.push(r);
-          shown = true;
-          break;
-        }
-      }
-    }
-    if (shown && tier === "book" && d.group) named.add(d.group);
-    el.style.transform = `translate3d(${Math.round(x)}px, ${Math.round(y)}px, 0)`;
-    el.style.visibility = shown ? "visible" : "hidden";
-  });
-}

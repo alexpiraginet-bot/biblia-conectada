@@ -14,8 +14,8 @@ export function SiteHeader() {
       </Link>
       <nav className="site-topbar__nav" aria-label="Descubra a Bíblia">
         <Link href="/#descobrir">Descobrir</Link>
-        <Link href="/caminhos">O mapa</Link>
-        <Link href="/cronologia">A história</Link>
+        <Link href="/caminhos">Mapa de Jesus</Link>
+        <Link href="/cronologia">Cronologia</Link>
         <Link href="/coracao" prefetch={false}>No seu coração</Link>
         <Link href="/#sua-jornada">Minha jornada <span aria-hidden="true">✦</span></Link>
       </nav>

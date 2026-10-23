@@ -10,15 +10,32 @@ import { VerseActions } from "@/components/assistant/VerseActions";
 import { Icon } from "@/components/icons";
 import { formatInt } from "@/lib/canon/text";
 import { BASE } from "@/lib/community/books-client";
-import { loadChapterText } from "@/lib/community/fetchers";
+import { loadChapterText, loadVerseLinks } from "@/lib/community/fetchers";
 import { longRef, versePath } from "@/lib/community/geometry";
 import type { ChapterLink, Partner } from "./arcs";
+import { chapterConnectionCounts } from "./connection-counts";
 import { chapterLabel, hashOf, ligacoes, PAGE, votos, type Filter } from "./state";
 import styles from "./sculpture.module.css";
 
 export { PAGE } from "./state";
 
 type Listed = Partner & { i: number };
+
+/** Kept beside the selected reference, above the text, even while its reading sheet scrolls. */
+export function ConnectionCount({ total, failed = false, onRetry, children }: {
+  total: number | null;
+  failed?: boolean;
+  onRetry?: () => void;
+  children?: ReactNode;
+}) {
+  return <div className={styles.connectionCount} aria-live="polite" data-connection-total={total ?? undefined}>
+    {total !== null ? <>
+      <p><strong>{formatInt(total)} {total === 1 ? "conexão" : "conexões"}</strong> <span>na base</span></p>
+      {children}
+    </> : failed ? <p role="status">Contagem indisponível. <button type="button" className={styles.retryText} onClick={onRetry}>Tentar de novo</button></p>
+      : <p role="status">Contando conexões…</p>}
+  </div>;
+}
 
 /** "Salvar imagem" (snapshot.ts): its words now, whether it is at work, and what it does; null without a live canvas */
 export type Save = { label: string; busy: boolean; onSave: () => void } | null;
@@ -88,6 +105,8 @@ export function VersePanel({
   gv,
   nt,
   partners,
+  linksFailed,
+  onLinksRetry,
   text,
   textFailed,
   onTextRetry,
@@ -111,6 +130,8 @@ export function VersePanel({
   gv: number;
   nt: boolean | null;
   partners: Partner[] | null;
+  linksFailed?: boolean;
+  onLinksRetry?: () => void;
   text: string | null;
   textFailed: boolean;
   onTextRetry: () => void;
@@ -136,13 +157,15 @@ export function VersePanel({
   const chap = `${book.name} ${chapter}`;
   return (
     <>
+      <header className={styles.selectionHeader}>
       <h2 id={headingId} ref={headingRef} tabIndex={-1} className={styles.ref}>
         {longRef(BASE, gv)}
       </h2>
-      <p className={styles.meta}>
-        {nt === null ? "" : nt ? "Novo Testamento" : "Antigo Testamento"}
-        {partners ? ` · ${ligacoes(partners.length)}` : ""}
-      </p>
+      <ConnectionCount total={partners?.length ?? null} failed={linksFailed} onRetry={onLinksRetry}>
+        <p>{filter === "todas" ? "Versículos conectados · todos os votos" : `${formatInt(listed.length)} no filtro ${filter === "antigo" ? "Antigo" : "Novo"} Testamento`}</p>
+      </ConnectionCount>
+      </header>
+      {nt !== null && <p className={styles.meta}>{nt ? "Novo Testamento" : "Antigo Testamento"}</p>}
       {text !== null ? <blockquote className={styles.scripture}>{text}</blockquote> : textFailed ? (
         <p role="status" className={styles.meta}>
           Não foi possível carregar o texto. <button type="button" className={styles.retryText} onClick={onTextRetry}>Tentar novamente</button>
@@ -200,11 +223,10 @@ export function ChapterPanel({
   nch,
   first,
   verses,
-  links,
+  total,
   highlights,
   snippets,
   sceneControl,
-  full,
   onVerse,
   onChapter,
   save,
@@ -217,12 +239,11 @@ export function ChapterPanel({
   /** global index of the chapter's verse 1, and how many verses it has */
   first: number;
   verses: number;
-  links: ChapterLink[] | null;
+  /** Complete pair count from sky.json, independent of the canvas's loaded sample. */
+  total: number;
   highlights: readonly ChapterLink[];
   snippets: ReadonlyMap<number, string>;
   sceneControl: ReactNode;
-  /** false while only the most voted arcs are loaded */
-  full: boolean;
   onVerse: (gv: number) => void;
   /** open another chapter (the previous or the next: a tap on the axis lands near, these make it exact) */
   onChapter: (ci: number) => void;
@@ -234,6 +255,9 @@ export function ChapterPanel({
   const [text, setText] = useState<{ ci: number; verses: string[] } | null>(null);
   const [failed, setFailed] = useState<number | null>(null);
   const [retry, setRetry] = useState(0);
+  const [connections, setConnections] = useState<{ ci: number; counts: ReturnType<typeof chapterConnectionCounts> | null } | null>(null);
+  const [countsRetry, setCountsRetry] = useState(0);
+  const [showVerses, setShowVerses] = useState(false);
   useEffect(() => {
     let live = true;
     loadChapterText(c.book.slug, c.chapter)
@@ -243,25 +267,35 @@ export function ChapterPanel({
       live = false;
     };
   }, [ci, c.book.slug, c.chapter, retry]);
+  useEffect(() => {
+    if (!showVerses) return;
+    let live = true;
+    loadVerseLinks(c.book.slug, c.chapter)
+      .then((rows) => { if (live) setConnections({ ci, counts: chapterConnectionCounts(first, rows) }); })
+      .catch(() => { if (live) setConnections({ ci, counts: null }); });
+    return () => { live = false; };
+  }, [ci, c.book.slug, c.chapter, first, countsRetry, showVerses]);
+  const complete = connections?.ci === ci ? connections.counts : null;
+  const countsFailed = connections?.ci === ci && connections.counts === null;
   const ranked = useMemo(() => {
-    if (!links) return [];
-    const count = new Array<number>(verses).fill(0);
-    for (const l of links) count[l.here - first]++;
-    return count
+    if (!complete) return [];
+    return complete.byVerse
       .map((k, v) => ({ gv: first + v, v: v + 1, k }))
       .filter((x) => x.k > 0)
       .sort((p, q) => q.k - p.k || p.v - q.v);
-  }, [links, first, verses]);
+  }, [complete, first]);
   const lines = text?.ci === ci ? text.verses : null;
   return (
     <>
+      <header className={styles.selectionHeader}>
       <h2 id={headingId} ref={headingRef} tabIndex={-1} className={styles.ref}>
         {c.label}
       </h2>
-      <p className={styles.meta}>
-        {formatInt(verses)} versículos
-        {links ? ` · ${ligacoes(links.length)}${full ? "" : " entre as mais votadas"}` : ""}
-      </p>
+      <ConnectionCount total={total}>
+        <p>Pares de versículos · todos os votos</p>
+      </ConnectionCount>
+      </header>
+      {sceneControl}
       <section className={styles.chapterReading} aria-labelledby={`${headingId}-text`}>
         <div className={styles.chapterReadingHead}>
           <h3 id={`${headingId}-text`}>Texto de {c.label}</h3><span>Bíblia Livre</span>
@@ -278,7 +312,6 @@ export function ChapterPanel({
             onClick={() => { setFailed(null); setRetry((value) => value + 1); }}>Tentar novamente</button>
         </p> : <p role="status" className={styles.meta}>Carregando texto de {c.label}…</p>}
       </section>
-      {sceneControl}
       <p className={styles.actions}>
         <Link href={c.path} className={styles.act}>
           Ler {c.label}
@@ -303,8 +336,9 @@ export function ChapterPanel({
           </li>
         ))}
       </ol>
-      <details className={styles.chapterVerses}>
+      <details className={styles.chapterVerses} onToggle={(event) => setShowVerses(event.currentTarget.open)}>
       <summary>Versículos de {c.label}</summary>
+      {!complete && <p className={styles.meta} role="status">{countsFailed ? <>As contagens por versículo estão indisponíveis. <button type="button" className={styles.retryText} onClick={() => { setConnections(null); setCountsRetry((value) => value + 1); }}>Tentar de novo</button></> : "Carregando conexões por versículo…"}</p>}
       <ol className={styles.list}>
         {ranked.map((x) => (
           <li key={x.gv}>
@@ -320,6 +354,7 @@ export function ChapterPanel({
         ))}
       </ol>
       </details>
+      <p className={styles.meta}>{formatInt(verses)} versículos · O total inclui ligações dentro deste capítulo, contadas uma vez. Trechos contam pelo primeiro versículo.</p>
     </>
   );
 }

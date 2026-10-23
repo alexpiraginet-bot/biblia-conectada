@@ -658,7 +658,7 @@
   position: absolute;
   top: var(--space-2);
   right: var(--space-2);
-  z-index: 1;
+  z-index: 3;
 }
 
 .grip {
@@ -707,6 +707,29 @@
   margin: 0;
   font: 400 14px/1.45 var(--font-ui);
   color: var(--ink-2);
+}
+
+.selectionHeader {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: grid;
+  flex-shrink: 0;
+  gap: 8px;
+  margin: -4px -4px 0;
+  padding: 4px 4px 12px;
+  background: var(--overlay);
+  border-bottom: 1px solid var(--line);
+}
+
+.connectionCount { font: 400 13px/1.4 var(--font-ui); color: var(--ink-2); }
+.connectionCount p { margin: 0; }
+.connectionCount strong { color: var(--accent); font-size: 17px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.connectionCount .retryText { padding: 0; }
+.selectionHeader .ref { font-size: clamp(1.5rem, 2.2vw, 2rem); line-height: 1.15; }
+
+@media (max-width: 47.99rem) {
+  .selectionHeader { top: 48px; }
 }
 
 .scripture {
@@ -1263,6 +1286,8 @@
 
 @media (max-width: 47.99rem) {
   .stage { min-height: 36rem; }
+  /* A selected passage must stay above the dock even on short phones. */
+  .stage[data-open] { min-height: 0; }
   .search { top: 14px; left: 50%; width: calc(100% - 24px); }
   .search .field { font-size: 16px; padding-inline: 12px 2px; }
   .search .go { padding-inline: 18px; }
