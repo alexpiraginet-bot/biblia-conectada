@@ -480,3 +480,9 @@ Em 375 e 1440 px, nos temas Noite e Dia (regra 9 do `CLAUDE.md`):
 - O menu deriva de todas as seções que não têm aba direta, sem uma segunda lista que possa omitir funcionalidades. Cabe na largura da pílula, limita a altura à tela disponível e permite rolagem interna. Escape, toque externo, seleção e botão fecham o painel; a abertura com `details` também funciona antes do JavaScript.
 - Em Arcos, referência e total ficam juntos no topo da leitura e permanecem visíveis na rolagem. Trocar a passagem reinicia a posição do painel. O total do capítulo vem do índice completo já carregado, separado dos arcos em destaque; falha ao buscar conexões de um versículo não é apresentada como zero.
 - Uma conexão é um par distinto de versículos, com qualquer quantidade de votos. Pares internos contam uma vez no capítulo. No Explorar, o resumo informa os pares com **outros capítulos** e quantos capítulos estão conectados; por isso esse total pode ser menor que o de Arcos. Os testes recontam os dados completos, sem usar a amostra desenhada como referência.
+
+### Leitura móvel em Arcos — 23/10/2026
+
+O painel de leitura usa 56% do palco móvel e se amplia com **Ampliar leitura**. Há uma única rolagem no celular; referência e contagem permanecem compactas no topo. **Voltar ao céu** restaura a vista dividida. Controles da amostra ficam em **Ajustar o céu**, sem empurrar o texto para baixo; créditos continuam abaixo do palco, no fluxo da página.
+
+A navegação flutuante de Arcos se recolhe após 1,5 segundo de inatividade e retorna ao toque, movimento, rolagem ou teclado. Menu aberto, gesto pressionado e foco visível mantêm os controles disponíveis. O gesto que a revela não é interceptado, e a mudança não desloca o texto. Fora de Arcos, a navegação continua visível.
