@@ -59,17 +59,17 @@ describe("complete connection counts", () => {
     expect(render({ total: 1 })).toContain("1 conexão");
   });
 
-  it("shows the chapter's complete total before its text, independently of a small drawing sample", () => {
+  it("shows the chapter's complete total before its text, even without any highlighted links", () => {
     const book = books().find((b) => b.slug === "2-corintios")!;
     const ci = book.firstChapter + 5;
     const html = renderToStaticMarkup(createElement(ChapterPanel, {
       ci, nch: geo.nch, first: geo.chapterFirst[ci], verses: geo.chapterVerses[ci], total: geo.chapterPairs[ci],
-      highlights: [], snippets: new Map(), sceneControl: createElement("p", null, "2 arcos em destaque"),
+      highlights: [], snippets: new Map(),
       onVerse: () => {}, onChapter: () => {}, save: null, headingId: "chapter", headingRef: null,
     }));
     expect(html).toContain(`data-connection-total="${geo.chapterPairs[ci]}"`);
     expect(html.indexOf("data-connection-total")).toBeLessThan(html.indexOf("Texto de 2 Coríntios 6"));
-    expect(html).toContain("2 arcos em destaque");
+    expect(html).toContain("789 conexões");
   });
 
   it("keeps the full verse count when its list is filtered, and does not call network failure zero", () => {

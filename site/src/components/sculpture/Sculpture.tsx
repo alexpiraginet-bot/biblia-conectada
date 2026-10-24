@@ -564,7 +564,7 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
       const top = phone ? TOP + 48 : TOP + 16;
       // what the panel (or the sheet) leaves free
       const box: Box = phone
-        ? { x: 12, y: top, w: width - 24, h: Math.max(height * 0.53 - top - 48, 110) }
+        ? { x: 12, y: 108, w: width - 24, h: Math.max(height * 0.44 - 108 - 52, 32) }
         : { x: 28, y: top, w: Math.max(width - Math.min(400, width * 0.38) - 76, 200), h: height - top - 106 };
       framing.current = { points, box };
       e.flyTo({ orbit: fitOrbit(points, SELECT_VIEW, box.w / box.h, 0.09), box });
@@ -1170,6 +1170,18 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
             and go (no canvas on this device) without moving anything else */}
         <details className={styles.legend}>
           <summary>Ajustar o céu <span aria-hidden="true">+</span></summary>
+          {sel?.kind === "chapter" && chapterList && (
+            <div className={styles.constellationNote}>
+              <span>{formatInt(chapterScene?.length ?? 0)} {ready === "live" ? "arcos em destaque" : "pares em destaque"}{!arcs?.set.full && " · amostra mais votada"}</span>
+              <button type="button" aria-pressed={allChapterThreads} disabled={full === "loading"} onClick={() => {
+                if (full === "error" && allChapterThreads) { void loadFull(); return; }
+                if (!allChapterThreads && !arcs?.set.full) void loadFull();
+                setAllChapterThreads((value) => !value);
+              }}>
+                {full === "loading" ? "Carregando todos os fios…" : full === "error" && allChapterThreads ? "Tentar carregar todos" : allChapterThreads ? "Simplificar o céu" : "Mostrar todos os fios"}
+              </button>
+            </div>
+          )}
           {canvasMode && !phone && strengthControl}
           {mode === "livros" ? (
             <p><i className={styles.swSpectrum} /> Cores na ordem dos livros, de Gênesis a Apocalipse</p>
@@ -1216,10 +1228,11 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
                 type="button"
                 className={styles.grip}
                 aria-expanded={sheetFull}
-                aria-label={sheetFull ? "Reduzir o painel" : "Expandir o painel"}
+                aria-label={sheetFull ? "Voltar ao céu" : "Ampliar leitura"}
                 onClick={() => setSheetFull((f) => !f)}
               >
-                <span />
+                <span aria-hidden="true">{sheetFull ? "↓" : "↑"}</span>
+                {sheetFull ? "Voltar ao céu" : "Ampliar leitura"}
               </button>
               <button type="button" className={styles.close} onClick={() => choose(null)} aria-label="Fechar e voltar à Bíblia inteira">
                 <Icon name="close" />
@@ -1269,18 +1282,6 @@ export function Sculpture({ initial }: { initial: SculptureInitial }) {
                 total={data.geo.chapterPairs[sel.ci]}
                 highlights={chapterFeatured.slice(0, 6)}
                 snippets={snippets}
-                sceneControl={chapterList && (
-                  <div className={styles.constellationNote}>
-                    <span>{formatInt(chapterScene?.length ?? 0)} {ready === "live" ? "arcos em destaque" : "pares em destaque"}{!arcs?.set.full && " · amostra mais votada"}</span>
-                    <button type="button" aria-pressed={allChapterThreads} disabled={full === "loading"} onClick={() => {
-                      if (full === "error" && allChapterThreads) { void loadFull(); return; }
-                      if (!allChapterThreads && !arcs?.set.full) void loadFull();
-                      setAllChapterThreads((value) => !value);
-                    }}>
-                      {full === "loading" ? "Carregando todos os fios…" : full === "error" && allChapterThreads ? "Tentar carregar todos" : allChapterThreads ? "Simplificar o céu" : "Mostrar todos os fios"}
-                    </button>
-                  </div>
-                )}
                 onVerse={(gv) => choose({ kind: "verse", gv })}
                 onChapter={(ci) => choose({ kind: "chapter", ci })}
                 save={ready === "live" ? { label: saveLabel, busy: saving === "busy", onSave: () => void saveImage() } : null}

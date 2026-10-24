@@ -1285,13 +1285,13 @@
 }
 
 @media (max-width: 47.99rem) {
-  .stage { min-height: 36rem; }
-  /* A selected passage must stay above the dock even on short phones. */
+  .stage { height: calc(100dvh - var(--bar-h)); min-height: 36rem; }
+  /* The dock floats over this surface; its reservation belongs at the end of the scroll, not below the stage. */
   .stage[data-open] { min-height: 0; }
-  .search { top: 14px; left: 50%; width: calc(100% - 24px); }
+  .search { top: 8px; left: 50%; width: calc(100% - 24px); }
   .search .field { font-size: 16px; padding-inline: 12px 2px; }
   .search .go { padding-inline: 18px; }
-  .whole { top: 82px; left: 14px; min-height: 32px; padding-inline: 11px; font-size: 10px; }
+  .whole { top: 64px; left: 14px; min-height: 44px; padding-inline: 11px; font-size: 10px; }
   .whole svg { width: 14px; height: 14px; }
   .trail { top: 134px; left: 14px; right: 12px; }
   .trail button, .trail span { min-height: 28px; font-size: 9px; }
@@ -1305,18 +1305,36 @@
   .cameraTools, .stage[data-open] .cameraTools { left: 50%; bottom: 14px; padding: 3px; }
   .cameraTools button { min-width: 44px; min-height: 44px; padding-inline: 7px; font-size: 18px; }
   .cameraTools button span { font-size: 9px; }
-  .stage[data-open] .cameraTools { bottom: calc(47% + 8px); }
-  .panel { top: auto; left: 0; right: 0; bottom: 0; width: auto; height: 47%; padding: 0 22px 30px; border-radius: 22px 22px 0 0; gap: 15px; }
-  .panelBar { margin-inline: -22px; padding-inline: 10px; background: var(--overlay); }
+  .stage[data-open] .cameraTools { bottom: calc(56% + 4px); }
+  .panel { top: auto; left: 0; right: 0; bottom: 0; width: auto; height: 56%; padding: 0 18px var(--tabbar-h); scroll-padding-top: 112px; border-radius: 22px 22px 0 0; gap: 8px; }
+  .panel > * { flex-shrink: 0; }
+  .stage[data-sheet="full"] .panel { height: calc(100% - 8px); }
+  .stage[data-sheet="full"] .cameraTools { visibility: hidden; }
+  .panelBar { min-height: 44px; grid-template-columns: 1fr 44px; margin-inline: -18px; padding-inline: 10px; background: var(--overlay); }
+  .grip { grid-column: 1; justify-self: start; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: auto; min-height: 44px; padding-inline: 8px; color: var(--accent); font: 600 12px/1.2 var(--font-ui); }
+  .grip span { width: auto; height: auto; background: none; font-size: 18px; }
+  .panelBar .close { grid-column: 2; }
+  .selectionHeader { top: 44px; gap: 2px; padding-block: 2px 8px; }
+  .selectionHeader .ref { font-size: 23px; }
+  .connectionCount { font-size: 11px; }
+  .connectionCount strong { font-size: 14px; }
+  .chapterReading { margin: 0 0 12px; border-top: 0; }
+  .chapterReadingHead { padding: 0 0 6px; }
+  .chapterReadingHead h3 { font-size: 11px; font-weight: 500; color: var(--ink-2); }
+  .chapterScroll { max-height: none; overflow: visible; padding-right: 0; }
+  .chapterScroll li { grid-template-columns: 30px minmax(0, 1fr); gap: 0; scroll-margin-top: 112px; }
+  .chapterScroll li > p { padding-top: 3px; }
+  .readingNumber { min-width: 44px; margin-left: -7px; }
+  .chapterScroll li > span { grid-column: 2; }
   .panelEyebrow { font-size: 8px; margin-top: -8px; }
   .ref { font-size: 2.5rem; }
   .meta { font-size: 11px; }
   .scripture { font-size: 18px; }
   .constellationNote { font-size: 10px; padding-bottom: 8px; }
-  .constellationNote button { min-height: 24px; }
+  .constellationNote button { min-height: 44px; }
   .legend, .stage[data-open] .legend {
     display: block;
-    top: 82px;
+    top: 64px;
     right: 14px;
     bottom: auto;
     left: auto;
@@ -1326,11 +1344,12 @@
   }
   .legend summary { min-height: 44px; gap: 12px; }
   .legend[open], .stage[data-open] .legend[open] {
+    z-index: 6;
     right: 14px;
     bottom: auto;
     left: 14px;
     max-width: none;
-    max-height: calc(53cqh - 94px);
+    max-height: calc(100cqh - 76px);
     padding-bottom: 12px;
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -1345,4 +1364,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .cameraTools .motionToggle { display: none; }
+}
+
+@media (max-width: 22.49rem) {
+  .cameraTools button span { display: none; }
 }

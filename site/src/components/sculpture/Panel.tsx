@@ -161,9 +161,7 @@ export function VersePanel({
       <h2 id={headingId} ref={headingRef} tabIndex={-1} className={styles.ref}>
         {longRef(BASE, gv)}
       </h2>
-      <ConnectionCount total={partners?.length ?? null} failed={linksFailed} onRetry={onLinksRetry}>
-        <p>{filter === "todas" ? "Versículos conectados · todos os votos" : `${formatInt(listed.length)} no filtro ${filter === "antigo" ? "Antigo" : "Novo"} Testamento`}</p>
-      </ConnectionCount>
+      <ConnectionCount total={partners?.length ?? null} failed={linksFailed} onRetry={onLinksRetry} />
       </header>
       {nt !== null && <p className={styles.meta}>{nt ? "Novo Testamento" : "Antigo Testamento"}</p>}
       {text !== null ? <blockquote className={styles.scripture}>{text}</blockquote> : textFailed ? (
@@ -184,6 +182,7 @@ export function VersePanel({
       <PathForm key={gv} onPath={onPath} />
       {partners && partners.length > 0 && (
         <>
+          <p className={styles.meta}>{filter === "todas" ? "Versículos conectados · todos os votos" : `${formatInt(listed.length)} no filtro ${filter === "antigo" ? "Antigo" : "Novo"} Testamento`}</p>
           <div className={styles.filters} role="group" aria-label="Filtrar ligações">
             {(["todas", "antigo", "novo"] as const).map((f) => (
               <button key={f} type="button" aria-pressed={filter === f} disabled={counts[f] === 0} onClick={() => onFilter(f)}>
@@ -226,7 +225,6 @@ export function ChapterPanel({
   total,
   highlights,
   snippets,
-  sceneControl,
   onVerse,
   onChapter,
   save,
@@ -243,7 +241,6 @@ export function ChapterPanel({
   total: number;
   highlights: readonly ChapterLink[];
   snippets: ReadonlyMap<number, string>;
-  sceneControl: ReactNode;
   onVerse: (gv: number) => void;
   /** open another chapter (the previous or the next: a tap on the axis lands near, these make it exact) */
   onChapter: (ci: number) => void;
@@ -291,11 +288,8 @@ export function ChapterPanel({
       <h2 id={headingId} ref={headingRef} tabIndex={-1} className={styles.ref}>
         {c.label}
       </h2>
-      <ConnectionCount total={total}>
-        <p>Pares de versículos · todos os votos</p>
-      </ConnectionCount>
+      <ConnectionCount total={total} />
       </header>
-      {sceneControl}
       <section className={styles.chapterReading} aria-labelledby={`${headingId}-text`}>
         <div className={styles.chapterReadingHead}>
           <h3 id={`${headingId}-text`}>Texto de {c.label}</h3><span>Bíblia Livre</span>
@@ -354,7 +348,7 @@ export function ChapterPanel({
         ))}
       </ol>
       </details>
-      <p className={styles.meta}>{formatInt(verses)} versículos · O total inclui ligações dentro deste capítulo, contadas uma vez. Trechos contam pelo primeiro versículo.</p>
+      <p className={styles.meta}>{formatInt(verses)} versículos · Pares de versículos de todos os votos. O total inclui ligações dentro deste capítulo, contadas uma vez. Trechos contam pelo primeiro versículo.</p>
     </>
   );
 }
