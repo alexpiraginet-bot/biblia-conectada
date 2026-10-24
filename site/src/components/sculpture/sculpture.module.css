@@ -1365,3 +1365,7 @@
 @media (prefers-reduced-motion: reduce) {
   .cameraTools .motionToggle { display: none; }
 }
+
+@media (max-width: 22.49rem) {
+  .cameraTools button span { display: none; }
+}
