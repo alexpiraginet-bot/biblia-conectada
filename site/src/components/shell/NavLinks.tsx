@@ -11,7 +11,7 @@ import { currentItem, MOBILE_MENU, NAV, type NavItem } from "./nav";
 export function SiteShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const discovery = pathname === "/" || pathname === "/caminhos" || pathname === "/cronologia" || pathname === "/arcos" || pathname === "/assistente" || pathname === "/coracao";
-  return <div className="site-shell" data-discovery={discovery ? "" : undefined}>{children}</div>;
+  return <div className="site-shell" data-discovery={discovery ? "" : undefined} data-immersive={pathname === "/arcos" ? "" : undefined}>{children}</div>;
 }
 
 // The sections with aria-current on the page's own: a rail on the left from 1024px, a tab bar at the bottom on phones
@@ -56,7 +56,17 @@ export function TabBar() {
   const pathname = usePathname();
   const current = currentItem(pathname);
   const more = useRef<HTMLDetailsElement>(null);
+  const bar = useRef<HTMLElement>(null);
   const menuCurrent = MOBILE_MENU.find((n) => n.href === current);
+  useEffect(() => {
+    if (pathname !== "/arcos") return;
+    let active = true;
+    let stop: (() => void) | undefined;
+    void import("./idle-navigation").then(({ idleNavigation }) => {
+      if (active && bar.current) stop = idleNavigation(bar.current);
+    });
+    return () => { active = false; stop?.(); };
+  }, [pathname]);
   useEffect(() => {
     function outside(event: PointerEvent) {
       const menu = more.current;
@@ -70,7 +80,7 @@ export function TabBar() {
     return () => document.removeEventListener("pointerdown", outside);
   }, []);
   return (
-    <nav className="bc-tabbar site-tabbar" aria-label="Seções">
+    <nav ref={bar} className="bc-tabbar site-tabbar" aria-label="Seções">
       {NAV.filter((n) => n.tab).map((n) => (
         <Item key={n.href} n={n} current={current} className="bc-tabbar__item" />
       ))}

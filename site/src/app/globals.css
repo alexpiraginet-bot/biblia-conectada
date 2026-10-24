@@ -132,6 +132,18 @@ input {
 .bc-root .site-tabbar .bc-tabbar__item { min-width: 0; min-height: 54px; gap: 4px; padding: 6px 2px; border-radius: 25px; color: var(--sky-gold); font-size: 11px; font-weight: 550; text-decoration: none; }
 .bc-root .site-tabbar .bc-tabbar__item[aria-current="page"], .site-tabbar__more[data-current] > summary, .site-tabbar__more[open] > summary { background: color-mix(in srgb, var(--sky-gold) 15%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sky-gold) 25%, transparent); }
 .bc-root .site-tabbar .bc-tabbar__item:focus-visible, .site-tabbar__menu-link:focus-visible { outline-color: var(--sky-gold); outline-offset: -2px; }
+.site-shell[data-immersive] .site-tabbar { transition: opacity 180ms ease, translate 180ms ease; }
+.site-shell[data-immersive] .site-tabbar[data-waking] { pointer-events: none; }
+@media (max-width: 63.99rem) {
+  .site-shell[data-immersive] .site-tabbar[data-idle]:not(:has(:focus-visible, details[open])) {
+    opacity: 0;
+    translate: 0 calc(100% + 24px + env(safe-area-inset-bottom, 0px));
+    pointer-events: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-shell[data-immersive] .site-tabbar { transition: none; }
+}
 .site-tabbar__more { min-width: 0; }
 .site-tabbar__more > summary { cursor: pointer; list-style: none; height: 100%; }
 .site-tabbar__more > summary::-webkit-details-marker { display: none; }
@@ -195,6 +207,11 @@ input {
 @media (max-width: 39.99rem) {
   .site-shell[data-discovery] { --bar-h: 66px; }
   .site-shell[data-discovery] .site-topbar { height: 66px; padding-inline: 20px; }
+}
+
+@media (max-width: 47.99rem) {
+  .site-shell[data-immersive] { --bar-h: calc(54px + env(safe-area-inset-top, 0px)); }
+  .site-shell[data-immersive] .site-topbar { height: var(--bar-h); }
 }
 
 /* one search in view: while the capa's or /buscar's own field shows, the bar's entry steps aside (page-search.ts) */
