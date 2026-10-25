@@ -13,7 +13,7 @@
   "Moisés, Davi, profetas e apóstolos que nunca se conheceram. Séculos de distância. Uma só história.",
   "E em laranja: duzentas e vinte e três vezes, o Novo repete o Antigo palavra por palavra.",
   "Isaías escreveu: Eis que a virgem conceberá.",
-  "Séculos depois, Mateus conta: aconteceu.",
+  "Séculos depois, Mateus escreve as mesmas palavras: Eis que a virgem conceberá, e dará à luz um filho. Emanuel: Deus conosco.",
   "Em Nazaré, deram a Jesus o livro do profeta Isaías.",
   "Ele leu: O Espírito do Senhor está sobre mim.",
   "Fechou o livro. E disse:",
@@ -1294,21 +1294,7 @@
     },
     {
      "line": 13,
-     "k": [
-      113,
-      117
-     ],
-     "t": [
-      55.56,
-      58.38
-     ],
-     "p_pt": 0.999,
-     "p_en": 0.0,
-     "p_es": 0.0,
-     "lang": "pt",
-     "sim": 1.0,
-     "lp": -0.004,
-     "heard": "Séculos depois, Mateus conta. Aconteceu."
+     "missing": true
     },
     {
      "line": 14,
@@ -2679,21 +2665,7 @@
     },
     {
      "line": 13,
-     "k": [
-      113,
-      117
-     ],
-     "t": [
-      57.94,
-      60.98
-     ],
-     "p_pt": 0.999,
-     "p_en": 0.0,
-     "p_es": 0.0,
-     "lang": "pt",
-     "sim": 1.0,
-     "lp": -0.005,
-     "heard": "Séculos depois, Mateus conta. Aconteceu."
+     "missing": true
     },
     {
      "line": 14,
@@ -4064,21 +4036,7 @@
     },
     {
      "line": 13,
-     "k": [
-      113,
-      117
-     ],
-     "t": [
-      55.68,
-      59.16
-     ],
-     "p_pt": 0.997,
-     "p_en": 0.002,
-     "p_es": 0.001,
-     "lang": "pt",
-     "sim": 1.0,
-     "lp": -0.178,
-     "heard": "Séculos depois, Mateus conta aconteceu."
+     "missing": true
     },
     {
      "line": 14,
@@ -4694,6 +4652,560 @@
     }
    ],
    "dur": 9.84
+  },
+  "l131": {
+   "words": [
+    {
+     "w": "Olá",
+     "t0": 0.0,
+     "t1": 0.18,
+     "p": 0.985
+    },
+    {
+     "w": "pessoal,",
+     "t0": 0.18,
+     "t1": 0.58,
+     "p": 0.641
+    },
+    {
+     "w": "tudo",
+     "t0": 0.8,
+     "t1": 0.92,
+     "p": 1.0
+    },
+    {
+     "w": "bem?",
+     "t0": 0.92,
+     "t1": 1.12,
+     "p": 1.0
+    },
+    {
+     "w": "Vamos",
+     "t0": 1.56,
+     "t1": 1.94,
+     "p": 0.999
+    },
+    {
+     "w": "começar.",
+     "t0": 1.94,
+     "t1": 2.46,
+     "p": 1.0
+    },
+    {
+     "w": "Séculos",
+     "t0": 2.96,
+     "t1": 3.64,
+     "p": 0.993
+    },
+    {
+     "w": "depois,",
+     "t0": 3.64,
+     "t1": 3.96,
+     "p": 1.0
+    },
+    {
+     "w": "Mateus",
+     "t0": 4.4,
+     "t1": 4.76,
+     "p": 0.986
+    },
+    {
+     "w": "escreve",
+     "t0": 4.76,
+     "t1": 5.18,
+     "p": 1.0
+    },
+    {
+     "w": "as",
+     "t0": 5.18,
+     "t1": 5.36,
+     "p": 1.0
+    },
+    {
+     "w": "mesmas",
+     "t0": 5.36,
+     "t1": 5.82,
+     "p": 1.0
+    },
+    {
+     "w": "palavras.",
+     "t0": 5.82,
+     "t1": 6.3,
+     "p": 1.0
+    },
+    {
+     "w": "Eis",
+     "t0": 6.68,
+     "t1": 7.3,
+     "p": 0.993
+    },
+    {
+     "w": "que",
+     "t0": 7.3,
+     "t1": 7.42,
+     "p": 1.0
+    },
+    {
+     "w": "a",
+     "t0": 7.42,
+     "t1": 7.56,
+     "p": 1.0
+    },
+    {
+     "w": "Virgem",
+     "t0": 7.56,
+     "t1": 7.9,
+     "p": 0.991
+    },
+    {
+     "w": "conceberá",
+     "t0": 7.9,
+     "t1": 8.54,
+     "p": 0.999
+    },
+    {
+     "w": "e",
+     "t0": 8.54,
+     "t1": 8.84,
+     "p": 0.973
+    },
+    {
+     "w": "dará",
+     "t0": 8.84,
+     "t1": 9.1,
+     "p": 1.0
+    },
+    {
+     "w": "à",
+     "t0": 9.1,
+     "t1": 9.22,
+     "p": 0.971
+    },
+    {
+     "w": "luz",
+     "t0": 9.22,
+     "t1": 9.42,
+     "p": 0.999
+    },
+    {
+     "w": "um",
+     "t0": 9.42,
+     "t1": 9.58,
+     "p": 1.0
+    },
+    {
+     "w": "filho,",
+     "t0": 9.58,
+     "t1": 9.94,
+     "p": 0.89
+    },
+    {
+     "w": "Emmanuel,",
+     "t0": 10.32,
+     "t1": 10.68,
+     "p": 0.969
+    },
+    {
+     "w": "Deus",
+     "t0": 11.46,
+     "t1": 11.7,
+     "p": 1.0
+    },
+    {
+     "w": "conosco.",
+     "t0": 11.7,
+     "t1": 12.26,
+     "p": 0.992
+    }
+   ],
+   "lines": [
+    {
+     "line": 0,
+     "k": [
+      0,
+      5
+     ],
+     "t": [
+      0.0,
+      2.46
+     ],
+     "p_pt": 0.999,
+     "p_en": 0.0,
+     "p_es": 0.0,
+     "lang": "pt",
+     "sim": 1.0,
+     "lp": -0.077,
+     "heard": "Olá pessoal, tudo bem? Vamos começar."
+    },
+    {
+     "line": 1,
+     "missing": true
+    },
+    {
+     "line": 2,
+     "missing": true
+    },
+    {
+     "line": 3,
+     "missing": true
+    },
+    {
+     "line": 4,
+     "missing": true
+    },
+    {
+     "line": 5,
+     "missing": true
+    },
+    {
+     "line": 6,
+     "missing": true
+    },
+    {
+     "line": 7,
+     "missing": true
+    },
+    {
+     "line": 8,
+     "missing": true
+    },
+    {
+     "line": 9,
+     "missing": true
+    },
+    {
+     "line": 10,
+     "missing": true
+    },
+    {
+     "line": 11,
+     "missing": true
+    },
+    {
+     "line": 12,
+     "missing": true
+    },
+    {
+     "line": 13,
+     "k": [
+      6,
+      26
+     ],
+     "t": [
+      2.96,
+      12.26
+     ],
+     "p_pt": 0.999,
+     "p_en": 0.0,
+     "p_es": 0.0,
+     "lang": "pt",
+     "sim": 0.952,
+     "lp": -0.012,
+     "heard": "Séculos depois, Mateus escreve as mesmas palavras. Eis que a Virgem conceberá e dará à luz um filho, Emmanuel, Deus conosco."
+    },
+    {
+     "line": 14,
+     "missing": true
+    },
+    {
+     "line": 15,
+     "missing": true
+    },
+    {
+     "line": 16,
+     "missing": true
+    },
+    {
+     "line": 17,
+     "missing": true
+    },
+    {
+     "line": 18,
+     "missing": true
+    },
+    {
+     "line": 19,
+     "missing": true
+    }
+   ],
+   "dur": 12.4
+  },
+  "l132": {
+   "words": [
+    {
+     "w": "Olá,",
+     "t0": 0.0,
+     "t1": 0.22,
+     "p": 0.992
+    },
+    {
+     "w": "pessoal,",
+     "t0": 0.44,
+     "t1": 0.58,
+     "p": 1.0
+    },
+    {
+     "w": "tudo",
+     "t0": 0.82,
+     "t1": 0.92,
+     "p": 1.0
+    },
+    {
+     "w": "bem?",
+     "t0": 0.92,
+     "t1": 1.12,
+     "p": 1.0
+    },
+    {
+     "w": "Vamos",
+     "t0": 1.56,
+     "t1": 1.86,
+     "p": 1.0
+    },
+    {
+     "w": "começar.",
+     "t0": 1.86,
+     "t1": 2.36,
+     "p": 1.0
+    },
+    {
+     "w": "Séculos",
+     "t0": 2.94,
+     "t1": 3.6,
+     "p": 0.992
+    },
+    {
+     "w": "depois,",
+     "t0": 3.6,
+     "t1": 3.92,
+     "p": 1.0
+    },
+    {
+     "w": "Mateus",
+     "t0": 4.52,
+     "t1": 4.82,
+     "p": 0.993
+    },
+    {
+     "w": "escreve",
+     "t0": 4.82,
+     "t1": 5.26,
+     "p": 1.0
+    },
+    {
+     "w": "as",
+     "t0": 5.26,
+     "t1": 5.4,
+     "p": 1.0
+    },
+    {
+     "w": "mesmas",
+     "t0": 5.4,
+     "t1": 5.76,
+     "p": 1.0
+    },
+    {
+     "w": "palavras.",
+     "t0": 5.76,
+     "t1": 6.24,
+     "p": 1.0
+    },
+    {
+     "w": "Eis",
+     "t0": 6.58,
+     "t1": 7.08,
+     "p": 0.992
+    },
+    {
+     "w": "que",
+     "t0": 7.08,
+     "t1": 7.22,
+     "p": 1.0
+    },
+    {
+     "w": "a",
+     "t0": 7.22,
+     "t1": 7.38,
+     "p": 1.0
+    },
+    {
+     "w": "Virgem",
+     "t0": 7.38,
+     "t1": 7.72,
+     "p": 0.995
+    },
+    {
+     "w": "conceberá",
+     "t0": 7.72,
+     "t1": 8.38,
+     "p": 1.0
+    },
+    {
+     "w": "e",
+     "t0": 8.38,
+     "t1": 8.78,
+     "p": 0.724
+    },
+    {
+     "w": "dará",
+     "t0": 8.78,
+     "t1": 9.06,
+     "p": 1.0
+    },
+    {
+     "w": "à",
+     "t0": 9.06,
+     "t1": 9.2,
+     "p": 0.98
+    },
+    {
+     "w": "luz",
+     "t0": 9.2,
+     "t1": 9.38,
+     "p": 0.999
+    },
+    {
+     "w": "um",
+     "t0": 9.38,
+     "t1": 9.52,
+     "p": 1.0
+    },
+    {
+     "w": "filho.",
+     "t0": 9.52,
+     "t1": 9.86,
+     "p": 0.845
+    },
+    {
+     "w": "Emmanuel,",
+     "t0": 10.3,
+     "t1": 10.92,
+     "p": 0.931
+    },
+    {
+     "w": "Deus",
+     "t0": 11.54,
+     "t1": 11.86,
+     "p": 1.0
+    },
+    {
+     "w": "conosco.",
+     "t0": 11.86,
+     "t1": 12.42,
+     "p": 0.988
+    }
+   ],
+   "lines": [
+    {
+     "line": 0,
+     "k": [
+      0,
+      5
+     ],
+     "t": [
+      0.0,
+      2.36
+     ],
+     "p_pt": 0.999,
+     "p_en": 0.0,
+     "p_es": 0.0,
+     "lang": "pt",
+     "sim": 1.0,
+     "lp": -0.001,
+     "heard": "Olá, pessoal, tudo bem? Vamos começar."
+    },
+    {
+     "line": 1,
+     "missing": true
+    },
+    {
+     "line": 2,
+     "missing": true
+    },
+    {
+     "line": 3,
+     "missing": true
+    },
+    {
+     "line": 4,
+     "missing": true
+    },
+    {
+     "line": 5,
+     "missing": true
+    },
+    {
+     "line": 6,
+     "missing": true
+    },
+    {
+     "line": 7,
+     "missing": true
+    },
+    {
+     "line": 8,
+     "missing": true
+    },
+    {
+     "line": 9,
+     "missing": true
+    },
+    {
+     "line": 10,
+     "missing": true
+    },
+    {
+     "line": 11,
+     "missing": true
+    },
+    {
+     "line": 12,
+     "missing": true
+    },
+    {
+     "line": 13,
+     "k": [
+      6,
+      26
+     ],
+     "t": [
+      2.94,
+      12.42
+     ],
+     "p_pt": 0.999,
+     "p_en": 0.0,
+     "p_es": 0.0,
+     "lang": "pt",
+     "sim": 0.952,
+     "lp": -0.03,
+     "heard": "Séculos depois, Mateus escreve as mesmas palavras. Eis que a Virgem conceberá e dará à luz um filho. Emmanuel, Deus conosco."
+    },
+    {
+     "line": 14,
+     "missing": true
+    },
+    {
+     "line": 15,
+     "missing": true
+    },
+    {
+     "line": 16,
+     "missing": true
+    },
+    {
+     "line": 17,
+     "missing": true
+    },
+    {
+     "line": 18,
+     "missing": true
+    },
+    {
+     "line": 19,
+     "missing": true
+    }
+   ],
+   "dur": 12.56
   }
  }
 }

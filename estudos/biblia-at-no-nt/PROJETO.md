@@ -11,7 +11,10 @@ Jo 1:1 abre os exemplos. O primeiro corte (73 s, com Malaquias, 85,6% e o grego 
 `source/narr/v2-longo/` (tomadas) e fora do git (vídeo, em `renders/.film/`). Às 10:01: "Não acha muito grande? Faz
 uma versão resumida também" (`renders/antigo-dentro-do-novo-curto.mp4`, as mesmas tomadas, só as falas de
 `script.SHORT`). Às 10:05: fecho novo, "Comenta tua passagem favorita. Ela pode virar o próximo vídeo. E manda pra quem
-precisa ver isso." (só essa frase foi regravada, `source/narr/cta*.mp3`; o resto é a tomada 1).
+precisa ver isso." (só essa frase foi regravada, `source/narr/cta*.mp3`). Às 10:32: "a ligação não ficou bem
+entendível": Gn 1:1 → Jo 1:1 voltou pra curta e Mateus 1:23 passou a ser lido inteiro ("Mateus escreve as mesmas
+palavras…", regravada sozinha em `source/narr/l13*.mp3`); os dois pares aparecem com os versículos lado a lado na tela
+e as palavras iguais acesas. O resto da narração é a tomada 1.
 
 ## Entregáveis
 Só a versão resumida foi renderizada e entregue (Alex, 10:17: "fazer só o mais curto"). A completa existe no roteiro e
@@ -97,7 +100,7 @@ e Isaías lidera por versículo entre os dois (6,6 contra 4,7).
 python3 -I tools/analyze.py      # data/stats.json + data/lines.npz (confere tudo o que o roteiro diz)
 python3 -I tools/layers.py       # camadas de luz + data/layout.json (~40 s)
 # narração: 3 tomadas do script.PROMPT -> source/narr/take*.mp3 (Higgsfield)
-python3 -I tools/takes.py        # avalia as tomadas (Whisper); --cta só as tomadas do fecho regravado
+python3 -I tools/takes.py        # avalia as tomadas (Whisper); --extra só as frases regravadas sozinhas (fecho e Mateus 1:23)
 python3 -I narration.py          # renders/.film/narr.wav + narr.json
 python3 -I tools/motion_data.py  # motion/src/data.json
 python3 -I tools/check.py        # dito = mostrado = dados = BLIVRE

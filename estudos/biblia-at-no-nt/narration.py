@@ -47,12 +47,12 @@ _attach_orphans()
 SR = 48000
 HEAD = 0.15                      # the hook is spoken over frame 0
 MAX_PAUSE = 0.20                 # pauses inside a line (commas) are shortened to this...
-KEEP_PAUSE = {3: 0.24, 8: 0.30, 9: 0.26, 10: 0.34, 13: 0.30, 16: 0.40, 18: 0.36}   # ...except the dramatic ones
-TEMPO = {1: 1.00, 2: 1.04, 3: 1.06, 4: 1.16, 5: 1.12, 6: 1.22, 7: 1.18, 8: 1.16, 9: 1.20, 10: 1.14, 11: 1.22, 12: 1.12,
-         13: 1.10, 14: 1.16, 15: 1.08, 16: 1.02, 17: 0.98, 18: 1.04, 19: 1.10}
+KEEP_PAUSE = {3: 0.24, 8: 0.30, 9: 0.26, 10: 0.34, 12: 0.28, 13: 0.34, 16: 0.40, 18: 0.36}   # ...except the dramatic ones
+TEMPO = {1: 1.00, 2: 1.04, 3: 1.06, 4: 1.14, 5: 1.10, 6: 1.22, 7: 1.18, 8: 1.16, 9: 1.20, 10: 1.14, 11: 1.22, 12: 1.08,
+         13: 1.06, 14: 1.16, 15: 1.08, 16: 1.02, 17: 0.98, 18: 1.04, 19: 1.10}
 GAP = {1: 0.28, 2: 0.35, 3: 0.35, 4: 0.12, 5: 0.32, 6: 0.28, 7: 0.25, 8: 0.25, 9: 0.28, 10: 0.38, 11: 0.28, 12: 0.25,
        13: 0.38, 14: 0.20, 15: 0.25, 16: 0.50, 17: 0.60, 18: 0.50, 19: 0.30}
-OVERRIDE = {i: "take1" for i in range(1, 19)}   # the film is take1; line 19 (re-recorded CTA) is chosen by score among the takes that have it
+OVERRIDE = {i: "take1" for i in range(1, 19) if i != 13}   # the film is take1; lines 13 and 19 (re-recorded alone) are chosen by score
 
 
 def score(r):
@@ -71,7 +71,7 @@ SIM_MIN = {6: 0.85, 7: 0.85, 8: 0.85, 11: 0.85}
 
 # one take for the whole film when possible (consistent delivery: the complaint about video 1 was the accent *changing*);
 # per-line fallback only where that take fails
-MAIN = max((n for n in TK["takes"] if complete(n) and not n.startswith("cta")),
+MAIN = max((n for n in TK["takes"] if complete(n) and not n.startswith(("cta", "l13"))),
            key=lambda n: np.mean([score(r) for r in TK["takes"][n]["lines"][1:]]), default=None)
 
 
@@ -128,7 +128,9 @@ def cut(name, li, tempo):
     if name not in CH: CH[name] = chunks(name)
     # the previous *present* line of this take (in a CTA-only take, line 0 precedes line 19)
     prev = next((tk["lines"][j] for j in range(li - 1, -1, -1) if not tk["lines"][j].get("missing")), None)
-    k0 = prev["k"][1] + 1 if prev else r["k"][0]
+    # absorb at most 3 orphan words before the line ("Comenta a" in a CTA take); a whole re-recorded line left in the
+    # full take (its words are now "missing" for the script) stays out
+    k0 = prev["k"][1] + 1 if prev and r["k"][0] - prev["k"][1] - 1 <= 3 else r["k"][0]
     k1 = r["k"][1]
     mids = [(W_[k]["t0"] + W_[k]["t1"]) / 2 for k in range(k0, k1 + 1)]
     mine = [c for c in CH[name] if any(c[0] - 0.02 <= m <= c[1] + 0.02 for m in mids)]

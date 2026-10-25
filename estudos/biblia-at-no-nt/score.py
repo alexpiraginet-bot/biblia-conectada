@@ -164,10 +164,11 @@ def build():
     # ---- Isaías 7:14 -> Mateus 1:23: the orange thread draws under a riser; "aconteceu" lands on a hit + light chord
     ch(mus, "Bb", T[12] - 0.05, tMat13 + 0.1, 0.36, a=0.2, r=0.4, bright=0.9)
     place(mus, bell(hz("D5"), 0.045, 3.0), W(12, "eis") + 0.02, -0.3)
-    place(sfx, riser(max(0.6, tMat13 - T[13] + 0.3), 0.12), T[13] - 0.3)
+    place(sfx, riser(max(0.6, W(13, "eis") - T[13] + 0.3), 0.12), T[13] - 0.3)
     ch(mus, "F", tMat13 - 0.05, T[14] + 0.1, 0.44, a=0.08, r=0.6, bright=1.1)
-    place(sfx, sub_hit(0.40, 1.3), W(13, "aconteceu") - 0.03)
-    place(mus, bell(hz("A5"), 0.06, 3.4), W(13, "aconteceu") + 0.02, 0.3)
+    place(mus, bell(hz("D5"), 0.045, 3.0), W(13, "eis") + 0.02, 0.3)          # Mateus: the same words, the same bell
+    place(sfx, sub_hit(0.40, 1.3), W(13, "emanuel") - 0.03)
+    place(mus, bell(hz("A5"), 0.06, 3.4), W(13, "deus") + 0.02, 0.3)
     # ---- Nazareth: a low drone and a quiet heartbeat; a bell as he reads
     place(sfx, whoosh(1.2, 0.12, False), T[14] - 0.4, -0.2)
     chord(mus, V["Dlow"], T[14] - 0.1, LE(16) - T[14] + 0.3, 0.38, a=0.8, r=0.4, bright=0.7)

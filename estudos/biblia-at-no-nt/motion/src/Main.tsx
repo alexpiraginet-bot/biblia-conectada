@@ -75,8 +75,8 @@ const buildCam = (): KF[] => {
   add(T(3) + 0.9, [540, 760, 1.0]);
   if (has(4)) {
     add(T(4) - 0.1, [540, 740, 1.0]);
-    add(T(4) + 1.2, [540, 410, 1.5]);           // up to Gn 1:1 -> Jo 1:1
-    add(T(6) - 0.05, [540, 400, 1.56]);
+    add(T(4) + 1.2, [540, 330, 1.45]);           // up to Gn 1:1 -> Jo 1:1 (the pair panel sits above)
+    add(T(6) - 0.05, [540, 320, 1.5]);
   }
   add(T(6) + 0.9, FULL);                      // the count: everything
   add(T(7), FULL);
@@ -97,9 +97,9 @@ const buildCam = (): KF[] => {
     add(T(11) + 0.8, FULL);
   }
   add(T(12), FULL);
-  add(T(12) + 0.9, [im[0][0] + 160, im[0][1] - 60, 1.7]);     // Isaías 7:14
-  add(tMat13 - 0.1, [im[0][0] + 170, im[0][1] - 60, 1.7]);
-  add(tMat13 + 0.5, [im[im.length - 1][0] - 150, im[im.length - 1][1] + 80, 1.7]);   // -> Mateus 1:23
+  add(T(12) + 0.9, [im[0][0] + 160, im[0][1] - 260, 1.6]);     // Isaías 7:14 (the pair panel sits above)
+  add(tMat13 - 0.1, [im[0][0] + 170, im[0][1] - 260, 1.6]);
+  add(tMat13 + 0.5, [im[im.length - 1][0] - 150, im[im.length - 1][1] - 160, 1.6]);   // -> Mateus 1:23
   add(T(14) - 0.15, [540, 760, 0.98]);
   add(tHoje - 0.05, [isa61[0] + 60, isa61[1], 2.2]);
   add(tHoje + 2.2, [540, 780, 0.95]);
@@ -317,6 +317,48 @@ const GreekRow: React.FC<{label: string; words: {w: string; lit: boolean}[]; p: 
   );
 };
 
+// Two verses, one from each Testament, with the words they share lit in the same colour: the link you can see.
+const BL = data.blivre as Record<string, string>;
+const VerseLit: React.FC<{text: string; lit: string[]; color: string; p: number; size?: number}> = ({text, lit, color, p, size = 38}) => {
+  const lower = text.toLowerCase();
+  const spans: {s: number; e: number}[] = [];
+  for (const frag of lit) {
+    const i = lower.indexOf(frag.toLowerCase());
+    if (i >= 0) spans.push({s: i, e: i + frag.length});
+  }
+  spans.sort((x, y) => x.s - y.s);
+  const parts: React.ReactNode[] = [];
+  let k = 0;
+  spans.forEach((sp, n) => {
+    if (sp.s > k) parts.push(<span key={`p${n}`}>{text.slice(k, sp.s)}</span>);
+    const on = p > n / Math.max(1, spans.length);
+    parts.push(<span key={`l${n}`} style={{color: on ? color : undefined, fontWeight: on ? 600 : 440, textShadow: on ? `0 0 18px ${color}99` : undefined}}>{text.slice(sp.s, sp.e)}</span>);
+    k = sp.e;
+  });
+  if (k < text.length) parts.push(<span key="tail">{text.slice(k)}</span>);
+  return <div style={{fontFamily: F.title, fontSize: size, lineHeight: 1.28, color: "rgba(242,235,221,0.72)"}}>{parts}</div>;
+};
+const Pair: React.FC<{a: number; top?: number; kicker: string; color: string; left: [string, string]; right: [string, string]; lit: string[]; pL: number; pR: number; size?: number; note?: string}> = ({
+  a, top = 110, kicker, color, left, right, lit, pL, pR, size, note,
+}) =>
+  a <= 0 ? null : (
+    <div style={{position: "absolute", left: 60, right: 60, top, opacity: a, translate: `0px ${(1 - a) * 24}px`,
+      background: "rgba(5,18,25,0.88)", border: `1px solid ${color}55`, borderRadius: 28, padding: "24px 32px",
+      display: "flex", flexDirection: "column", gap: 14, boxShadow: "0 18px 60px rgba(0,0,0,0.45)"}}>
+      <div style={{fontFamily: F.ui, fontWeight: 700, fontSize: 26, letterSpacing: "0.16em", textTransform: "uppercase", color}}>{kicker}</div>
+      <div style={{display: "flex", flexDirection: "column", gap: 4}}>
+        <div style={{fontFamily: F.mono, fontSize: 21, letterSpacing: "0.08em", color: "rgba(242,235,221,0.6)"}}>{left[0]}</div>
+        <VerseLit text={left[1]} lit={lit} color={color} p={pL} size={size} />
+      </div>
+      <div style={{height: 1, background: `linear-gradient(90deg, ${color}00, ${color}99, ${color}00)`}} />
+      <div style={{display: "flex", flexDirection: "column", gap: 4}}>
+        <div style={{fontFamily: F.mono, fontSize: 21, letterSpacing: "0.08em", color: "rgba(242,235,221,0.6)"}}>{right[0]}</div>
+        <VerseLit text={right[1]} lit={lit} color={color} p={pR} size={size} />
+      </div>
+      {note ? <div style={{fontFamily: F.ui, fontSize: 26, color, fontWeight: 600}}>{note}</div> : null}
+    </div>
+  );
+
 const Panel: React.FC<{children: React.ReactNode; a: number; top?: number}> = ({children, a, top = 120}) =>
   a <= 0 ? null : (
     <div style={{position: "absolute", left: 60, right: 60, top, opacity: a, translate: `0px ${(1 - a) * 24}px`,
@@ -441,12 +483,11 @@ const Overlays: React.FC<{t: number; focus: number | null}> = ({t, focus}) => {
         <Big size={84}>Cada fio é <span style={{color: GOLD}}>Deus</span></Big>
         <Sub size={40}>ligando um versículo ao outro</Sub>
       </Head>
-      {/* L4-5: Gn 1:1 -> Jo 1:1 */}
-      <Head t={t} a={T(5)} b={T(6) - 0.1} top={170}>
-        <Kicker>Gênesis 1:1 → João 1:1</Kicker>
-        <Count t={t} a={T(5)} b={T(5) + 0.9} to={data.famous["Gen.1.1~John.1.1"]} size={120} suffix=" votos" />
-        <Sub size={32}>{`o ${data.rankGen1John1}º par mais votado entre o Antigo e o Novo`}</Sub>
-      </Head>
+      {/* L4-5: Gn 1:1 -> Jo 1:1, the two verses with "No princípio" lit in both */}
+      <Pair a={on(4, win(t, wordT(4, "principio") - 0.1, T(6) - 0.12, 0.2))} kicker={`Gênesis 1:1 → João 1:1 · ${fmt(data.famous["Gen.1.1~John.1.1"])} votos`} color={GOLD}
+        left={["GÊNESIS 1:1", BL["Gen.1.1"]]} right={["JOÃO 1:1", BL["John.1.1"]]} lit={["No princípio"]}
+        pL={ramp(t, wordT(4, "principio") - 0.05, wordT(4, "principio") + 0.3)} pR={ramp(t, wordT(5, "principio") - 0.05, wordT(5, "principio") + 0.3)} size={40}
+        note={t > wordT(5, "palavra") ? `o ${data.rankGen1John1}º par mais votado entre o Antigo e o Novo` : undefined} />
       {/* L6: the count */}
       <Head t={t} a={T(6)} b={T(7) - 0.05} top={150}>
         <Count t={t} a={T(6) - 0.05} b={T(6) + 1.5} to={data.otNt} size={168} />
@@ -488,12 +529,11 @@ const Overlays: React.FC<{t: number; focus: number | null}> = ({t, focus}) => {
         <Big size={60}>palavra por palavra</Big>
         <Sub size={22} color="rgba(242,235,221,0.75)">{`${data.literal.nGram}+ palavras gregas iguais em sequência · Septuaginta × Novo Testamento`}</Sub>
       </Head>
-      {/* L12-13: Is 7:14 -> Mt 1:23 */}
-      <Head t={t} a={T(12)} b={T(14) - 0.1} top={140}>
-        <Kicker color={ORANGE}>Isaías 7:14 → Mateus 1:23</Kicker>
-        <Big size={72}>{t < tMat13 ? "Isaías escreveu…" : "Mateus conta: aconteceu."}</Big>
-        <Sub size={30} color={ORANGE}>{`${data.greek714.nLit} palavras gregas iguais, na mesma ordem`}</Sub>
-      </Head>
+      {/* L12-13: Is 7:14 -> Mt 1:23, the same words lit in orange in both */}
+      <Pair a={on(12, win(t, T(12) + 0.05, T(14) - 0.12, 0.2))} kicker="Isaías 7:14 → Mateus 1:23 · séculos depois" color={ORANGE}
+        left={["ISAÍAS 7:14", BL["Isa.7.14"]]} right={["MATEUS 1:23", BL["Matt.1.23"]]} lit={["eis que a virgem conceberá"]}
+        pL={ramp(t, wordT(12, "eis") - 0.05, wordT(12, "eis") + 0.3)} pR={ramp(t, wordT(13, "eis") - 0.05, wordT(13, "eis") + 0.3)} size={34}
+        note={t > wordT(13, "eis") ? `as mesmas palavras · ${data.greek714.nLit} palavras gregas iguais, na mesma ordem` : undefined} />
       {/* L18: the point */}
       <Head t={t} a={tDeus - 0.1} b={T(19) - 0.1} top={150}>
         <Kicker>isso não é coincidência</Kicker>

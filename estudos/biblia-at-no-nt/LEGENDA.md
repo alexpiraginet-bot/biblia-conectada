@@ -2,6 +2,8 @@
 
 Parece fibra óptica. Mas é o Antigo Testamento dentro do Novo. E cada fio é Deus ligando um versículo ao outro.
 
+Tipo: "No princípio criou Deus os céus e a terra" (Gênesis 1:1) ligado a "No princípio era a Palavra" (João 1:1).
+
 67.293 vezes o Novo aponta pro Antigo. Todos os 39 livros. Nenhum ficou de fora.
 
 Moisés, Davi, profetas e apóstolos que nunca se conheceram. Séculos de distância. Uma só história.
@@ -11,7 +13,7 @@ Moisés, Davi, profetas e apóstolos que nunca se conheceram. Séculos de distâ
 • No Novo, quem mais puxa o Antigo é Mateus.
 • Em laranja: 223 vezes o Novo repete o Antigo palavra por palavra no grego (5 ou mais palavras iguais, na mesma ordem, Septuaginta × Novo Testamento).
 
-Isaías escreveu: "Eis que a virgem conceberá." Séculos depois, Mateus conta: aconteceu.
+Isaías escreveu: "Eis que a virgem conceberá." Séculos depois, Mateus escreve as mesmas palavras: "Eis que a virgem conceberá, e dará à luz um filho… Emanuel: Deus conosco."
 
 Em Nazaré, deram a Jesus o livro do profeta Isaías. Ele leu "O Espírito do Senhor está sobre mim", fechou o livro e disse:
 "Hoje esta escritura se cumpriu em vossos ouvidos." (Lucas 4:21)
@@ -30,7 +32,7 @@ Ligações e votos: OpenBible.info (CC BY), todas no site Bíblia Conectada. Gre
 
 Comentário fixado (sugestão): "Comenta a tua passagem favorita (livro, capítulo e versículo). As mais comentadas viram o próximo vídeo, com o mapa de ligações delas."
 
-O vídeo publicado é a versão resumida (`renders/antigo-dentro-do-novo-curto.mp4`, ~49 s). A completa (~72 s) não foi renderizada: o Alex decidiu usar só a curta (25/10, 10:17). Os números da legenda que a curta não fala (Salmos, Isaías, Mateus) continuam verdadeiros e conferidos.
+O vídeo publicado é a versão resumida (`renders/antigo-dentro-do-novo-curto.mp4`, ~60 s). A completa (~72 s) não foi renderizada: o Alex decidiu usar só a curta (25/10, 10:17). Os números da legenda que a curta não fala (Salmos, Isaías, Mateus) continuam verdadeiros e conferidos.
 
 Resposta pronta para "mas no gráfico do Gladd quem lidera é Isaías": "Os dois estão certos! O gráfico dele conta citações e alusões. O nosso conta referências cruzadas (a base aberta da OpenBible, que vem do Tesouro do Conhecimento das Escrituras). Salmos é o maior livro da Bíblia (2.461 versículos), então soma mais ligações no total. Por versículo, Isaías passa: 6,6 contra 4,7. 🙏"
 
