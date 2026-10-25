@@ -851,3 +851,5 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
     ligação. Respostas prontas para as duas objeções em `LEGENDA.md`.
   - Para liberar disco, foram apagados os intermediários antigos dos vídeos 1 a 4 em `hf-test/videos/*/renders/.film`
     (fora do repo, refeitos pelo pipeline de cada vídeo).
+
+- **25/10, Codex, motion enviado por Alex:** branch `codex/living-story-motion`, seção da home Sua história também se conecta. ZIP preservado e renderizado fielmente, com digital, portal e rede ilustrativa sobre a Bíblia. Entrada para Coração, leitura e conexões reais; vídeo leve e silencioso, controles de pausa/replay/etapas e preferências de movimento/dados respeitadas. Vinte testes focados e oito cenários de desenvolvimento passaram; validação de produção em curso. Registro em `docs/LIVING-STORY.md` e `docs/evidence/2026-10-25-living-story.md`. Atualizações do Claude em estudos foram incorporadas sem edição; sem chamadas pagas ou publicação social.

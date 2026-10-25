@@ -486,3 +486,9 @@ Em 375 e 1440 px, nos temas Noite e Dia (regra 9 do `CLAUDE.md`):
 O painel de leitura usa 56% do palco móvel e se amplia com **Ampliar leitura**. Há uma única rolagem no celular; referência e contagem permanecem compactas no topo. **Voltar ao céu** restaura a vista dividida. Controles da amostra ficam em **Ajustar o céu**, sem empurrar o texto para baixo; créditos continuam abaixo do palco, no fluxo da página.
 
 A navegação flutuante de Arcos se recolhe após 1,5 segundo de inatividade e retorna ao toque, movimento, rolagem ou teclado. Menu aberto, gesto pressionado e foco visível mantêm os controles disponíveis. O gesto que a revela não é interceptado, e a mudança não desloca o texto. Fora de Arcos, a navegação continua visível.
+
+## 18. Sua história também se conecta (25/10/2026)
+
+O motion editável fornecido por Alex entra na home como convite para **No seu coração**, após a busca. A digital, o portal e a rede são recriação artística, separada da constelação de dados. Ação principal Encontrar uma passagem; alternativas para ler e explorar conexões reais. O visitante pode seguir imediatamente, sem esperar o filme.
+
+A arte mantém preto neutro, ouro/violeta e livro inteiro; o entorno segue a marca. Vídeo silencioso com reprodução única, pausa, repetição e seleção de formas. Fora da tela/aba, pausa; com movimento reduzido ou economia de dados, começa estático. Nenhum Three.js ou GSAP entra no site. Copy, destinos e pôster permanecem sem JavaScript. Decisão e limites em `docs/LIVING-STORY.md`; procedência dos derivados em `design/living-story/`.
