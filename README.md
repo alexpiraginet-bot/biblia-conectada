@@ -118,6 +118,7 @@ Detalhes, contagens conferidas e o que ficou de fora: [`fontes/README.md`](fonte
 | 3 | [**Os versículos de vocês**](estudos/biblia-comentarios/) | Resposta aos comentários do vídeo 1: 19 versículos pedidos, cada um com o próprio mapa e o @ de quem pediu. Juntos, se ligam a 1.024 versículos em 59 livros |
 | 4 | [**Antes de João 3:16**](estudos/biblia-joao316/) | A ligação mais votada de João 3:14 é com Números 21: um arco de 862 capítulos pra trás, a serpente de bronze erguida numa haste e a haste que vira cruz. Só depois vem João 3:16 |
 | 5 | [**João 3:16, por dentro**](estudos/biblia-joao316-ligacoes/) | Cinco das 80 ligações de João 3:16, cada uma com o "como liga" conferido no grego e no hebraico: Romanos 5:8 (1.146 votos), 1 João 4:9, Gênesis 22 (a primeira vez que a Bíblia diz "amar"), João 1:29 e Romanos 8:32. Cenas ilustradas e gráficos animados no Remotion |
+| 6 | [**O Antigo dentro do Novo**](estudos/biblia-at-no-nt/) | 67.293 ligações entre os 39 livros do Antigo e os 27 do Novo, desenhadas como fios de luz. Salmos é o livro mais ligado (11.484). Em laranja, 223 pares em que o Novo repete o Antigo palavra por palavra no grego (Septuaginta × SBLGNT). Fecha em Lucas 4, com "Hoje esta escritura se cumpriu" |
 
 Cada pasta tem o código que renderiza o vídeo do zero (arcos rasterizados em NumPy, trilha sintetizada, narração cortada por pausas), os dados e um `PROJETO.md` com as decisões. Como rodar: [`estudos/README.md`](estudos/README.md).
 

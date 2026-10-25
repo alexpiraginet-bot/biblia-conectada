@@ -828,3 +828,16 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
 - **23/10, Codex, espaço de leitura e menu em repouso — PR #38:** Arcos móvel ocupa a janela até o limite inferior; painel com uma rolagem, referência/contagem compactas e Ampliar leitura/Voltar ao céu. Dock se recolhe após 1,5 s e retorna ao gesto, rolagem ou teclado, preservando o toque no texto; menu aberto e foco mantêm controles disponíveis. Ajustar o céu contém a seleção da amostra. Fonte `2013dde`: build com 806 testes, tipos, lint, check-dist, orçamento e 16 casos locais passaram; revisão independente de gesto 2/2 e controles 4/4. Prévia `dpl_4WY8YRLNXKUnVcjANoPApkCp4hZy` READY e 8 casos hospedados aprovados. JS Arcos 168.491 B gzip9, módulo adiado 536 B. Evidência em `docs/evidence/2026-10-23-mobile-reading-space.md`. Sem chamadas pagas ou mudança nos trabalhos de vídeo; iPhone físico e FPS não verificados.
 
 - **23/10, Codex, PR #38 publicado e conferido:** squash `0435dbc34905a7d0beac53508d187158ccdef820`; Vercel `dpl_51ysMakYJmSyUZvM1RJZCxMsEHbD` READY com SHA e domínio `www.bibliaconectada.company` confirmados. Oito cenários públicos Chromium/WebKit em 375/1440, Dia/Noite, e cinco GETs passaram. Leitura ampliada, contagem, menu após 1,5 s e retorno ao toque/movimento/rolagem aprovados; sem deslocamento do texto ou perda do primeiro toque. JS inicial Arcos 168.726 B gzip9, abaixo do teto. Relatórios e prints em `reading-space/production`, referenciados na evidência da entrega. Revisões independentes de performance e UI/UX sem bloqueadores; Safari físico e FPS continuam fora da validação. Servidor local encerrado; vídeos preservados.
+
+- **25/10, manhã, vídeo 6:**
+  - "O Antigo dentro do Novo" (`estudos/biblia-at-no-nt/`): o Alex mandou o print de um post com o gráfico do Dr. Ben
+    Gladd (AT × NT, citações e alusões) e pediu um vídeo com esse visual, muito movimento e rolagem, com gancho no molde
+    do vídeo 1. O gancho ficou "Parece fibra óptica. Mas é o Antigo Testamento dentro do Novo." (escolha do Alex, com a
+    análise no `PROJETO.md`). A narração é do Andre, a voz do vídeo 1.
+  - Os números do Gladd não foram usados, porque não são dados abertos. O gráfico é nosso: 67.293 pares AT↔NT da
+    OpenBible, desenhados em NumPy (`tools/layers.py`). As linhas laranja são calculadas por código: 223 pares com 5+
+    palavras gregas iguais em sequência (Septuaginta × SBLGNT) que a OpenBible já liga. O vídeo não chama isso de
+    "citações". O gráfico do Gladd leva crédito como inspiração, na legenda e no fim do vídeo.
+  - `motion/node_modules` é um link para o do vídeo 5. Ficou fora do git (`.gitignore`).
+  - Para liberar disco, foram apagados os intermediários antigos dos vídeos 1 a 4 em `hf-test/videos/*/renders/.film`
+    (fora do repo, refeitos pelo pipeline de cada vídeo).

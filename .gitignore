@@ -22,9 +22,13 @@ estudos/*/renders/.film/*
 !estudos/*/renders/.film/keys.json
 !estudos/*/renders/.film/render.log
 estudos/*/renders/.stills/
+# Vídeo 6: camadas de luz geradas por tools/layers.py e as imagens brutas (as usadas estão em motion/public/img)
+estudos/biblia-at-no-nt/motion/public/layers/
+estudos/biblia-at-no-nt/source/img/
 
 # Site
 node_modules/
+estudos/*/motion/node_modules
 site/dist/
 site/.astro/
 site/.vercel/

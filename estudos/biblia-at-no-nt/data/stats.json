@@ -1,0 +1,920 @@
+{
+ "n_pairs": 301539,
+ "ot_nt": 67293,
+ "ot_nt_votes_gt0": 66228,
+ "ot_books": [
+  {
+   "i": 0,
+   "osis": "Gen",
+   "pt": "Gênesis",
+   "links": 4080,
+   "verses": 1533,
+   "per_verse": 2.66
+  },
+  {
+   "i": 1,
+   "osis": "Exod",
+   "pt": "Êxodo",
+   "links": 2821,
+   "verses": 1213,
+   "per_verse": 2.33
+  },
+  {
+   "i": 2,
+   "osis": "Lev",
+   "pt": "Levítico",
+   "links": 2047,
+   "verses": 859,
+   "per_verse": 2.38
+  },
+  {
+   "i": 3,
+   "osis": "Num",
+   "pt": "Números",
+   "links": 1921,
+   "verses": 1288,
+   "per_verse": 1.49
+  },
+  {
+   "i": 4,
+   "osis": "Deut",
+   "pt": "Deuteronômio",
+   "links": 2719,
+   "verses": 959,
+   "per_verse": 2.84
+  },
+  {
+   "i": 5,
+   "osis": "Josh",
+   "pt": "Josué",
+   "links": 832,
+   "verses": 658,
+   "per_verse": 1.26
+  },
+  {
+   "i": 6,
+   "osis": "Judg",
+   "pt": "Juízes",
+   "links": 782,
+   "verses": 618,
+   "per_verse": 1.27
+  },
+  {
+   "i": 7,
+   "osis": "Ruth",
+   "pt": "Rute",
+   "links": 212,
+   "verses": 85,
+   "per_verse": 2.49
+  },
+  {
+   "i": 8,
+   "osis": "1Sam",
+   "pt": "1 Samuel",
+   "links": 1497,
+   "verses": 810,
+   "per_verse": 1.85
+  },
+  {
+   "i": 9,
+   "osis": "2Sam",
+   "pt": "2 Samuel",
+   "links": 991,
+   "verses": 695,
+   "per_verse": 1.43
+  },
+  {
+   "i": 10,
+   "osis": "1Kgs",
+   "pt": "1 Reis",
+   "links": 1622,
+   "verses": 816,
+   "per_verse": 1.99
+  },
+  {
+   "i": 11,
+   "osis": "2Kgs",
+   "pt": "2 Reis",
+   "links": 1279,
+   "verses": 719,
+   "per_verse": 1.78
+  },
+  {
+   "i": 12,
+   "osis": "1Chr",
+   "pt": "1 Crônicas",
+   "links": 806,
+   "verses": 942,
+   "per_verse": 0.86
+  },
+  {
+   "i": 13,
+   "osis": "2Chr",
+   "pt": "2 Crônicas",
+   "links": 1329,
+   "verses": 822,
+   "per_verse": 1.62
+  },
+  {
+   "i": 14,
+   "osis": "Ezra",
+   "pt": "Esdras",
+   "links": 358,
+   "verses": 280,
+   "per_verse": 1.28
+  },
+  {
+   "i": 15,
+   "osis": "Neh",
+   "pt": "Neemias",
+   "links": 700,
+   "verses": 406,
+   "per_verse": 1.72
+  },
+  {
+   "i": 16,
+   "osis": "Esth",
+   "pt": "Ester",
+   "links": 267,
+   "verses": 167,
+   "per_verse": 1.6
+  },
+  {
+   "i": 17,
+   "osis": "Job",
+   "pt": "Jó",
+   "links": 2554,
+   "verses": 1070,
+   "per_verse": 2.39
+  },
+  {
+   "i": 18,
+   "osis": "Ps",
+   "pt": "Salmos",
+   "links": 11484,
+   "verses": 2461,
+   "per_verse": 4.67
+  },
+  {
+   "i": 19,
+   "osis": "Prov",
+   "pt": "Provérbios",
+   "links": 3993,
+   "verses": 915,
+   "per_verse": 4.36
+  },
+  {
+   "i": 20,
+   "osis": "Eccl",
+   "pt": "Eclesiastes",
+   "links": 952,
+   "verses": 222,
+   "per_verse": 4.29
+  },
+  {
+   "i": 21,
+   "osis": "Song",
+   "pt": "Cânticos",
+   "links": 745,
+   "verses": 117,
+   "per_verse": 6.37
+  },
+  {
+   "i": 22,
+   "osis": "Isa",
+   "pt": "Isaías",
+   "links": 8468,
+   "verses": 1292,
+   "per_verse": 6.55
+  },
+  {
+   "i": 23,
+   "osis": "Jer",
+   "pt": "Jeremias",
+   "links": 4008,
+   "verses": 1364,
+   "per_verse": 2.94
+  },
+  {
+   "i": 24,
+   "osis": "Lam",
+   "pt": "Lamentações",
+   "links": 313,
+   "verses": 154,
+   "per_verse": 2.03
+  },
+  {
+   "i": 25,
+   "osis": "Ezek",
+   "pt": "Ezequiel",
+   "links": 3117,
+   "verses": 1273,
+   "per_verse": 2.45
+  },
+  {
+   "i": 26,
+   "osis": "Dan",
+   "pt": "Daniel",
+   "links": 2128,
+   "verses": 357,
+   "per_verse": 5.96
+  },
+  {
+   "i": 27,
+   "osis": "Hos",
+   "pt": "Oseias",
+   "links": 811,
+   "verses": 197,
+   "per_verse": 4.12
+  },
+  {
+   "i": 28,
+   "osis": "Joel",
+   "pt": "Joel",
+   "links": 267,
+   "verses": 73,
+   "per_verse": 3.66
+  },
+  {
+   "i": 29,
+   "osis": "Amos",
+   "pt": "Amós",
+   "links": 414,
+   "verses": 146,
+   "per_verse": 2.84
+  },
+  {
+   "i": 30,
+   "osis": "Obad",
+   "pt": "Obadias",
+   "links": 49,
+   "verses": 21,
+   "per_verse": 2.33
+  },
+  {
+   "i": 31,
+   "osis": "Jonah",
+   "pt": "Jonas",
+   "links": 205,
+   "verses": 48,
+   "per_verse": 4.27
+  },
+  {
+   "i": 32,
+   "osis": "Mic",
+   "pt": "Miqueias",
+   "links": 626,
+   "verses": 105,
+   "per_verse": 5.96
+  },
+  {
+   "i": 33,
+   "osis": "Nah",
+   "pt": "Naum",
+   "links": 94,
+   "verses": 47,
+   "per_verse": 2.0
+  },
+  {
+   "i": 34,
+   "osis": "Hab",
+   "pt": "Habacuque",
+   "links": 237,
+   "verses": 56,
+   "per_verse": 4.23
+  },
+  {
+   "i": 35,
+   "osis": "Zeph",
+   "pt": "Sofonias",
+   "links": 256,
+   "verses": 53,
+   "per_verse": 4.83
+  },
+  {
+   "i": 36,
+   "osis": "Hag",
+   "pt": "Ageu",
+   "links": 143,
+   "verses": 38,
+   "per_verse": 3.76
+  },
+  {
+   "i": 37,
+   "osis": "Zech",
+   "pt": "Zacarias",
+   "links": 1483,
+   "verses": 211,
+   "per_verse": 7.03
+  },
+  {
+   "i": 38,
+   "osis": "Mal",
+   "pt": "Malaquias",
+   "links": 683,
+   "verses": 55,
+   "per_verse": 12.42
+  }
+ ],
+ "nt_books": [
+  {
+   "i": 39,
+   "osis": "Matt",
+   "pt": "Mateus",
+   "links": 8696,
+   "verses": 1071,
+   "per_verse": 8.12
+  },
+  {
+   "i": 40,
+   "osis": "Mark",
+   "pt": "Marcos",
+   "links": 2379,
+   "verses": 678,
+   "per_verse": 3.51
+  },
+  {
+   "i": 41,
+   "osis": "Luke",
+   "pt": "Lucas",
+   "links": 7673,
+   "verses": 1151,
+   "per_verse": 6.67
+  },
+  {
+   "i": 42,
+   "osis": "John",
+   "pt": "João",
+   "links": 5373,
+   "verses": 879,
+   "per_verse": 6.11
+  },
+  {
+   "i": 43,
+   "osis": "Acts",
+   "pt": "Atos",
+   "links": 7028,
+   "verses": 1007,
+   "per_verse": 6.98
+  },
+  {
+   "i": 44,
+   "osis": "Rom",
+   "pt": "Romanos",
+   "links": 4804,
+   "verses": 433,
+   "per_verse": 11.09
+  },
+  {
+   "i": 45,
+   "osis": "1Cor",
+   "pt": "1 Coríntios",
+   "links": 2795,
+   "verses": 437,
+   "per_verse": 6.4
+  },
+  {
+   "i": 46,
+   "osis": "2Cor",
+   "pt": "2 Coríntios",
+   "links": 2216,
+   "verses": 257,
+   "per_verse": 8.62
+  },
+  {
+   "i": 47,
+   "osis": "Gal",
+   "pt": "Gálatas",
+   "links": 1043,
+   "verses": 149,
+   "per_verse": 7.0
+  },
+  {
+   "i": 48,
+   "osis": "Eph",
+   "pt": "Efésios",
+   "links": 2149,
+   "verses": 155,
+   "per_verse": 13.86
+  },
+  {
+   "i": 49,
+   "osis": "Phil",
+   "pt": "Filipenses",
+   "links": 1051,
+   "verses": 104,
+   "per_verse": 10.11
+  },
+  {
+   "i": 50,
+   "osis": "Col",
+   "pt": "Colossenses",
+   "links": 775,
+   "verses": 95,
+   "per_verse": 8.16
+  },
+  {
+   "i": 51,
+   "osis": "1Thess",
+   "pt": "1 Tessalonicenses",
+   "links": 864,
+   "verses": 89,
+   "per_verse": 9.71
+  },
+  {
+   "i": 52,
+   "osis": "2Thess",
+   "pt": "2 Tessalonicenses",
+   "links": 540,
+   "verses": 47,
+   "per_verse": 11.49
+  },
+  {
+   "i": 53,
+   "osis": "1Tim",
+   "pt": "1 Timóteo",
+   "links": 1201,
+   "verses": 113,
+   "per_verse": 10.63
+  },
+  {
+   "i": 54,
+   "osis": "2Tim",
+   "pt": "2 Timóteo",
+   "links": 821,
+   "verses": 83,
+   "per_verse": 9.89
+  },
+  {
+   "i": 55,
+   "osis": "Titus",
+   "pt": "Tito",
+   "links": 501,
+   "verses": 46,
+   "per_verse": 10.89
+  },
+  {
+   "i": 56,
+   "osis": "Phlm",
+   "pt": "Filemom",
+   "links": 52,
+   "verses": 25,
+   "per_verse": 2.08
+  },
+  {
+   "i": 57,
+   "osis": "Heb",
+   "pt": "Hebreus",
+   "links": 4559,
+   "verses": 303,
+   "per_verse": 15.05
+  },
+  {
+   "i": 58,
+   "osis": "Jas",
+   "pt": "Tiago",
+   "links": 1951,
+   "verses": 108,
+   "per_verse": 18.06
+  },
+  {
+   "i": 59,
+   "osis": "1Pet",
+   "pt": "1 Pedro",
+   "links": 1843,
+   "verses": 105,
+   "per_verse": 17.55
+  },
+  {
+   "i": 60,
+   "osis": "2Pet",
+   "pt": "2 Pedro",
+   "links": 902,
+   "verses": 61,
+   "per_verse": 14.79
+  },
+  {
+   "i": 61,
+   "osis": "1John",
+   "pt": "1 João",
+   "links": 1008,
+   "verses": 105,
+   "per_verse": 9.6
+  },
+  {
+   "i": 62,
+   "osis": "2John",
+   "pt": "2 João",
+   "links": 45,
+   "verses": 13,
+   "per_verse": 3.46
+  },
+  {
+   "i": 63,
+   "osis": "3John",
+   "pt": "3 João",
+   "links": 50,
+   "verses": 14,
+   "per_verse": 3.57
+  },
+  {
+   "i": 64,
+   "osis": "Jude",
+   "pt": "Judas",
+   "links": 365,
+   "verses": 25,
+   "per_verse": 14.6
+  },
+  {
+   "i": 65,
+   "osis": "Rev",
+   "pt": "Apocalipse",
+   "links": 6609,
+   "verses": 404,
+   "per_verse": 16.36
+  }
+ ],
+ "ot_books_linked": 39,
+ "nt_books_linked": 27,
+ "top_ot": [
+  "Salmos",
+  "Isaías",
+  "Gênesis",
+  "Jeremias",
+  "Provérbios"
+ ],
+ "top_nt": [
+  "Mateus",
+  "Lucas",
+  "Atos",
+  "Apocalipse",
+  "João"
+ ],
+ "densest_ot": {
+  "pt": "Malaquias",
+  "per_verse": 12.42,
+  "links": 683,
+  "verses": 55,
+  "next": "Zacarias",
+  "next_per_verse": 7.03
+ },
+ "nt_verses": 7957,
+ "nt_verses_linked": 6808,
+ "ot_verses": 23145,
+ "ot_verses_linked": 14937,
+ "nt_share": 0.8556,
+ "famous": {
+  "Gen.1.1~John.1.1": 724,
+  "Isa.7.14~Matt.1.23": 333,
+  "Isa.61.1~Luke.4.18": 549,
+  "Mal.3.1~Matt.11.10": 62,
+  "Mal.3.1~Mark.1.2": 60
+ },
+ "top_ot_nt": [
+  [
+   "Isaías 41:10",
+   "Filipenses 4:13",
+   1477
+  ],
+  [
+   "Jeremias 1:5",
+   "Romanos 8:29",
+   1232
+  ],
+  [
+   "Isaías 44:3",
+   "Atos 2:17",
+   919
+  ],
+  [
+   "Provérbios 4:23",
+   "Lucas 6:45",
+   891
+  ],
+  [
+   "Gênesis 1:1",
+   "João 1:1",
+   724
+  ],
+  [
+   "Isaías 40:29",
+   "Filipenses 4:13",
+   627
+  ],
+  [
+   "Provérbios 4:23",
+   "Mateus 12:34",
+   587
+  ],
+  [
+   "Jeremias 15:16",
+   "Apocalipse 10:9",
+   572
+  ],
+  [
+   "Salmos 23:1",
+   "Filipenses 4:19",
+   566
+  ],
+  [
+   "Ezequiel 36:26",
+   "2 Coríntios 5:17",
+   565
+  ]
+ ],
+ "rank_gen1_john1": 5,
+ "rank_isa61_luke4": 11,
+ "literal": {
+  "n_gram": 5,
+  "pairs": 223,
+  "nt_verses": 193,
+  "ot_verses": 175,
+  "raw_lxx_matches": 415,
+  "ot_books": {
+   "Gênesis": 29,
+   "Êxodo": 14,
+   "Números": 1,
+   "Deuteronômio": 21,
+   "Josué": 1,
+   "2 Samuel": 1,
+   "2 Reis": 1,
+   "1 Crônicas": 2,
+   "2 Crônicas": 1,
+   "Ester": 1,
+   "Salmos": 67,
+   "Provérbios": 7,
+   "Isaías": 46,
+   "Jeremias": 7,
+   "Daniel": 5,
+   "Oseias": 3,
+   "Joel": 5,
+   "Amós": 4,
+   "Jonas": 1,
+   "Habacuque": 2,
+   "Zacarias": 3,
+   "Malaquias": 1
+  },
+  "nt_books": {
+   "Mateus": 34,
+   "Marcos": 16,
+   "Lucas": 20,
+   "João": 5,
+   "Atos": 38,
+   "Romanos": 30,
+   "1 Coríntios": 6,
+   "2 Coríntios": 3,
+   "Gálatas": 2,
+   "Efésios": 7,
+   "Hebreus": 48,
+   "Tiago": 2,
+   "1 Pedro": 6,
+   "Apocalipse": 6
+  },
+  "examples": {
+   "Isa.7.14~Matt.1.23": {
+    "lxx": "ISA 7:14",
+    "nt_words": [
+     "Ἰδοὺ",
+     "ἡ",
+     "παρθένος",
+     "ἐν",
+     "γαστρὶ",
+     "ἕξει",
+     "καὶ",
+     "τέξεται",
+     "υἱόν",
+     "καὶ",
+     "καλέσουσιν",
+     "τὸ",
+     "ὄνομα",
+     "αὐτοῦ",
+     "Ἐμμανουήλ",
+     "ὅ",
+     "ἐστιν",
+     "μεθερμηνευόμενον",
+     "Μεθ’",
+     "ἡμῶν",
+     "ὁ",
+     "θεός"
+    ],
+    "lit": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9
+    ],
+    "lxx_text": "διὰ τοῦτο δώσει Κύριος αὐτὸς ὑμῖν σημεῖον· ἰδοὺ ἡ παρθένος ἐν γαστρὶ ἕξει, καὶ τέξεται υἱόν, καὶ καλέσεις τὸ ὄνομα αὐτοῦ Ἐμμανουήλ·"
+   },
+   "Isa.61.1~Luke.4.18": {
+    "lxx": "ISA 61:1",
+    "nt_words": [
+     "Πνεῦμα",
+     "κυρίου",
+     "ἐπ’",
+     "ἐμέ",
+     "οὗ",
+     "εἵνεκεν",
+     "ἔχρισέν",
+     "με",
+     "εὐαγγελίσασθαι",
+     "πτωχοῖς",
+     "ἀπέσταλκέν",
+     "με",
+     "κηρύξαι",
+     "αἰχμαλώτοις",
+     "ἄφεσιν",
+     "καὶ",
+     "τυφλοῖς",
+     "ἀνάβλεψιν",
+     "ἀποστεῖλαι",
+     "τεθραυσμένους",
+     "ἐν",
+     "ἀφέσει"
+    ],
+    "lit": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17
+    ],
+    "lxx_text": "ΠΝΕΥΜΑ Κυρίου ἐπ᾿ ἐμέ, οὗ εἵνεκεν ἔχρισέ με· εὐαγγελίσασθαι πτωχοῖς ἀπέσταλκέ με, ἰάσασθαι τοὺς συντετριμένους τὴν καρδίαν, κηρύξαι αἰχμαλώτοις ἄφεσιν καὶ τυφλοῖς ἀνάβλεψιν,"
+   }
+  },
+  "longest": [
+   [
+    "Isaías 6:10",
+    "Mateus 13:15",
+    31
+   ],
+   [
+    "Isaías 6:10",
+    "Atos 28:27",
+    31
+   ],
+   [
+    "Isaías 54:1",
+    "Gálatas 4:27",
+    20
+   ],
+   [
+    "Salmos 45:7",
+    "Hebreus 1:9",
+    20
+   ],
+   [
+    "Jeremias 31:34",
+    "Hebreus 8:11",
+    20
+   ],
+   [
+    "Salmos 2:2",
+    "Atos 4:26",
+    19
+   ],
+   [
+    "Isaías 61:1",
+    "Lucas 4:18",
+    18
+   ],
+   [
+    "Joel 2:32",
+    "Atos 2:20",
+    17
+   ],
+   [
+    "Salmos 16:9",
+    "Atos 2:26",
+    17
+   ],
+   [
+    "Jeremias 31:32",
+    "Hebreus 8:9",
+    17
+   ],
+   [
+    "Jeremias 31:33",
+    "Hebreus 8:10",
+    17
+   ],
+   [
+    "Isaías 53:7",
+    "Atos 8:32",
+    16
+   ]
+  ]
+ },
+ "site": {
+  "base": "https://alexpiraginet-bot-biblia-conectada.vercel.app",
+  "fetched": "2026-10-25",
+  "pages": [
+   "joao-1-1",
+   "lucas-24-27",
+   "lucas-4-18",
+   "lucas-4-21",
+   "malaquias-3-1",
+   "mateus-1-23"
+  ],
+  "all_votes_match": true
+ },
+ "blivre": {
+  "Gen.1.1": "No princípio criou Deus os céus e a terra.",
+  "John.1.1": "No princípio era a Palavra, e a Palavra estava junto de Deus, e a Palavra era Deus.",
+  "Isa.7.14": "Por isso o Senhor, ele mesmo, vos dará um sinal: eis que a virgem conceberá, e fará nascer um filho, e ela chamará seu nome Emanuel.",
+  "Matt.1.23": "Eis que a virgem conceberá, e dará à luz um filho, e chamarão seu nome Emanuel, que traduzido é: Deus conosco.",
+  "Isa.61.1": "O Espírito do Senhor DEUS está sobre mim; pois o SENHOR me ungiu, para dar boas novas aos mansos; ele me enviou para sarar aos feridos de coração, para anunciar liberdade aos cativos, e libertação aos prisioneiros.",
+  "Luke.4.17": "Foi-lhe dado o livro do profeta Isaías; e quando abriu o livro, achou o lugar onde estava escrito:",
+  "Luke.4.18": "O Espírito do Senhor [está] sobre mim, porque ele me ungiu para evangelizar os pobres, me enviou para curar os contritos de coração;",
+  "Luke.4.20": "Ele fechou o livro, e devolveu-o ao assistente, e se sentou. Os olhos de todos na sinagoga estavam fixos nele.",
+  "Luke.4.21": "Então ele começou a lhes dizer: Hoje esta escritura se cumpriu em vossos ouvidos.",
+  "Luke.24.27": "E começando de Moisés, e por todos os profetas, lhes declarava em todas as Escrituras o que estava [escrito] sobre ele.",
+  "Mal.3.1": "Eis que eu enviarei o meu mensageiro, que preparará o caminho adiante de mim; e de repente virá a seu templo o Senhor a quem vós buscais, o mensageiro do pacto a quem vós desejais. Eis que ele vem,diz o SENHOR dos exércitos."
+ },
+ "chapter_counts": {
+  "Gen": 50,
+  "Exod": 40,
+  "Lev": 27,
+  "Num": 36,
+  "Deut": 34,
+  "Josh": 24,
+  "Judg": 21,
+  "Ruth": 4,
+  "1Sam": 31,
+  "2Sam": 24,
+  "1Kgs": 22,
+  "2Kgs": 25,
+  "1Chr": 29,
+  "2Chr": 36,
+  "Ezra": 10,
+  "Neh": 13,
+  "Esth": 10,
+  "Job": 42,
+  "Ps": 150,
+  "Prov": 31,
+  "Eccl": 12,
+  "Song": 8,
+  "Isa": 66,
+  "Jer": 52,
+  "Lam": 5,
+  "Ezek": 48,
+  "Dan": 12,
+  "Hos": 14,
+  "Joel": 3,
+  "Amos": 9,
+  "Obad": 1,
+  "Jonah": 4,
+  "Mic": 7,
+  "Nah": 3,
+  "Hab": 3,
+  "Zeph": 3,
+  "Hag": 2,
+  "Zech": 14,
+  "Mal": 4,
+  "Matt": 28,
+  "Mark": 16,
+  "Luke": 24,
+  "John": 21,
+  "Acts": 28,
+  "Rom": 16,
+  "1Cor": 16,
+  "2Cor": 13,
+  "Gal": 6,
+  "Eph": 6,
+  "Phil": 4,
+  "Col": 4,
+  "1Thess": 5,
+  "2Thess": 3,
+  "1Tim": 6,
+  "2Tim": 4,
+  "Titus": 3,
+  "Phlm": 1,
+  "Heb": 13,
+  "Jas": 5,
+  "1Pet": 5,
+  "2Pet": 3,
+  "1John": 5,
+  "2John": 1,
+  "3John": 1,
+  "Jude": 1,
+  "Rev": 22
+ }
+}
