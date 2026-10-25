@@ -16,9 +16,9 @@ Escrito pelo Claude a pedido do Alex: "Prepare handoff para o códex seguir". Da
 
 ## 2. Estado e continuidade
 
-### Motion enviado por Alex — integração em validação (25/10)
+### Motion enviado por Alex — publicado e conferido (25/10)
 
-Branch `codex/living-story-motion`: seção da home **Sua história também se conecta**, a partir do ZIP editável enviado por Alex. Movimento fiel digital/portal/rede sobre a Bíblia; entrada para Coração, leitura e conexões reais. Player pequeno e adiado, vídeo silencioso, pausa/replay e seleção de formas, sem trazer Three/GSAP para o site. Arte identificada como recriação ilustrativa. Fontes originais preservadas. Vinte testes focados e oito cenários de desenvolvimento passaram; build e publicação em validação. [Decisão](LIVING-STORY.md) e [evidências](evidence/2026-10-25-living-story.md). Os estudos 6/7 atualizados pelo Claude foram incorporados sem edição.
+PR #39, squash `9ec27c634e54e2ac4175cd528aca74959b4b86a5`, Vercel `dpl_8dKX7QCChUBnNSt6oNf3pHcdhoTg` READY no domínio principal. Seção da home **Sua história também se conecta**, a partir do ZIP editável enviado por Alex. Movimento fiel digital/portal/rede sobre a Bíblia; entrada para Coração, leitura e conexões reais. Vídeo silencioso de 12 s/2,54 MB, controlador adiado, pausa/replay e seleção de formas, sem Three/GSAP no frontend. Arte identificada como recriação ilustrativa; originais preservados. Build com 826 testes, tipos, lint, check-dist e orçamento passou. Oito cenários públicos Chromium/WebKit, 375/1440, Dia/Noite passaram; cinco rotas HTTP 200/HIT, hashes dos assets e Range 206 conferidos. JS inicial público home 167.500 B/Arcos 168.726 B gzip9, abaixo do teto. O limite de mídia da prévia protegida foi isolado e não se repetiu em produção; Safari em iPhone físico e FPS não verificados. [Decisão](LIVING-STORY.md) e [evidências](evidence/2026-10-25-living-story.md). Estudos 6/7 do Claude incorporados sem edição; sem chamadas pagas ou publicação social.
 
 ### Leitura móvel e menu em repouso — publicados e conferidos (23/10)
 
