@@ -8,7 +8,8 @@
 | `biblia-joao316/` | **Antes de João 3:16** (19/10/2026, 1080×1920, 30 fps, 57,6 s) | Remake do episódio 02 no padrão do vídeo 1: o arco de João 3:14 até Números 21 (862 capítulos pra trás), a serpente de bronze e a cruz desenhadas em luz nas duas pontas. Narração do Andre |
 | `biblia-joao316-ligacoes/` | **João 3:16, por dentro** (20/10/2026, 1080×1920, 30 fps) | Cinco ligações de João 3:16 com o "como liga" documentado (votos do site + grego, hebraico e Septuaginta), cenas ilustradas e gráficos animados no Remotion (`motion/`). Narração do Andre |
 | `biblia-at-no-nt/` | **O Antigo dentro do Novo** (25/10/2026, 1080×1920, 30 fps; completa ~72 s e resumida ~49 s) | As 67.293 ligações AT↔NT como fios de luz entre duas colunas de livros (gráfico calculado em NumPy, câmera e rolagem no Remotion). Em laranja, os 223 pares que repetem 5+ palavras gregas em sequência (Septuaginta × SBLGNT). Narração do Andre |
-| `biblia-salmo22/` | **Não foi um grito. Foi uma citação.** (25/10/2026, 1080×1920, 30 fps, ~48 s) | Salmo 22 na cruz: a frase conhecida vira a primeira linha do salmo; quatro pares da base com os versículos lado a lado e as palavras iguais acesas; o salmo inteiro rola até o último verso; "Está consumado" sozinho. Quase sem música: batimento que desacelera, silêncio, um acorde. Narração do Andre |
+| `biblia-salmo22/` | **Não foi um grito. Foi uma citação.** (25/10/2026, 1080×1920, 30 fps, ~48 s) | Salmo 22 na cruz: a frase conhecida vira a primeira linha do salmo (o rótulo vira de Mateus para Salmo); quatro pares da base, um por vez, com a linha de luz e os votos; o salmo inteiro rola até o último verso; "Está consumado". Só tipografia e motion (versão 3). Narração do Andre |
+| `biblia-marca/` | **A outra marca** (25/10/2026, 1080×1920, 60 fps, ~51 s) | Apocalipse 13 e 22 sem partido: a marca fica na mão e na testa, o lugar de Deuteronômio 6:8 (9 votos); a besta pede adoração; no último capítulo o nome de Deus volta à testa (Ap 13:17 ↔ 22:4, 6 votos). Tipografia cinética com corte seco a cada fala, flash e tremida nos impactos. Narração do Andre |
 
 **Números do vídeo 2:**
 - 2.094 ligações do AT chegam aos 4 capítulos do nascimento (Mt 1–2 e Lc 1–2, 180 versículos).
@@ -51,6 +52,7 @@ cd ../biblia-joao316 && python3 -I tools/analyze.py && python3 -I tools/check.py
 cd ../biblia-joao316-ligacoes && python3 -I tools/analyze.py && python3 -I tools/check.py   # idem, + site == base, grego/hebraico
 cd ../biblia-at-no-nt && python3 -I tools/analyze.py && python3 -I tools/check.py           # idem, + grego literal LXX × SBLGNT
 cd ../biblia-salmo22 && python3 -I tools/analyze.py && python3 -I tools/check.py            # idem, + hebraico do Salmo 22
+cd ../biblia-marca && python3 -I tools/analyze.py && python3 -I tools/check.py              # idem, + nenhum partido na fala, na tela e na paleta
 ```
 
 O pipeline completo de cada vídeo está no `PROJETO.md` da pasta.

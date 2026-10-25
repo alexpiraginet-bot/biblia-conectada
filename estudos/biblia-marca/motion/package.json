@@ -1,0 +1,17 @@
+{
+  "name": "salmo22-motion",
+  "private": true,
+  "description": "Remotion composition of \"Não foi um grito. Foi uma citação.\" (video 7). Rendered with render.mjs (Node API, no Studio).",
+  "type": "module",
+  "scripts": {
+    "still": "node render.mjs --still",
+    "render": "node render.mjs"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.532",
+    "@remotion/renderer": "4.0.532",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "remotion": "4.0.532"
+  }
+}

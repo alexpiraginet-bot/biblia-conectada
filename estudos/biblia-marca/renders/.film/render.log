@@ -1,0 +1,85 @@
+Detected differing memory amounts:
+Memory reported by CGroup: 8796093017641.50 MB
+Memory reported by /proc/meminfo: 6754.30 MB
+Memory reported by Node: 6754.30 MB
+You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
+Using the lower amount of memory for calculation.
+Detected differing memory amounts:
+Memory reported by CGroup: 8796093017580.14 MB
+Memory reported by /proc/meminfo: 6723.83 MB
+Memory reported by Node: 6723.83 MB
+You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
+Using the lower amount of memory for calculation.
+Detected differing memory amounts:
+Memory reported by CGroup: 8796093017639.83 MB
+Memory reported by /proc/meminfo: 6706.30 MB
+Memory reported by Node: 6706.30 MB
+You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
+Using the lower amount of memory for calculation.
+Detected differing memory amounts:
+Memory reported by CGroup: 8796093017629.41 MB
+Memory reported by /proc/meminfo: 6705.95 MB
+Memory reported by Node: 6705.95 MB
+You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
+Using the lower amount of memory for calculation.
+render 0%
+Detected differing memory amounts:
+Memory reported by CGroup: 8796093017558.84 MB
+Memory reported by /proc/meminfo: 6692.63 MB
+Memory reported by Node: 6692.63 MB
+You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
+Using the lower amount of memory for calculation.
+Detected differing memory amounts:
+Memory reported by CGroup: 8796093017553.29 MB
+Memory reported by /proc/meminfo: 6689.68 MB
+Memory reported by Node: 6689.68 MB
+You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
+Using the lower amount of memory for calculation.
+render 5%
+render 10%
+render 15%
+render 20%
+render 25%
+render 30%
+render 35%
+render 40%
+render 45%
+render 50%
+render 55%
+render 60%
+render 65%
+render 70%
+render 75%
+render 80%
+render 85%
+render 90%
+render 100%
+video /home/claude/biblia-conectada/estudos/biblia-marca/renders/.film/video.mp4
+Detected differing memory amounts:
+Memory reported by CGroup: 8796093016427.98 MB
+Memory reported by /proc/meminfo: 4767.14 MB
+Memory reported by Node: 4767.14 MB
+You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
+Using the lower amount of memory for calculation.
+Detected differing memory amounts:
+Memory reported by CGroup: 8796093016409.79 MB
+Memory reported by /proc/meminfo: 4681.40 MB
+Memory reported by Node: 4681.40 MB
+You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
+Using the lower amount of memory for calculation.
+Detected differing memory amounts:
+Memory reported by CGroup: 8796093016305.32 MB
+Memory reported by /proc/meminfo: 4617.29 MB
+Memory reported by Node: 4617.29 MB
+You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
+Using the lower amount of memory for calculation.
+Detected differing memory amounts:
+Memory reported by CGroup: 8796093016416.44 MB
+Memory reported by /proc/meminfo: 4617.84 MB
+Memory reported by Node: 4617.84 MB
+You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
+Using the lower amount of memory for calculation.
+cover /home/claude/biblia-conectada/estudos/biblia-marca/renders/.stills/cover.png
+two-pass 4168 kbps (crf file was 342.5 MB)
+{"out": "renders/a-outra-marca.mp4", "frames": 3075, "dur": 51.25, "mb": 27.54, "audio_in": [-16.9, -1.7], "audio_tries": [[-14.1, -1.9, -2.0, 2.9]]}
+ALL DONE

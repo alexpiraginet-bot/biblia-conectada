@@ -1,0 +1,58 @@
+{
+ "pairs": [
+  {
+   "a": "Rev.13.16",
+   "b": "Deut.6.8",
+   "a_pt": "Apocalipse 13:16",
+   "b_pt": "Deuteronômio 6:8",
+   "votes": 9
+  },
+  {
+   "a": "Rev.13.17",
+   "b": "Rev.22.4",
+   "a_pt": "Apocalipse 13:17",
+   "b_pt": "Apocalipse 22:4",
+   "votes": 6
+  }
+ ],
+ "rev13_rev22": [
+  [
+   "Apocalipse 13:17",
+   "Apocalipse 22:4",
+   6
+  ],
+  [
+   "Apocalipse 13:8",
+   "Apocalipse 22:19",
+   3
+  ]
+ ],
+ "blivre": {
+  "Deut.6.6": "E estas palavras que eu te mando hoje, estarão sobre teu coração:",
+  "Deut.6.8": "E hás de atá-las por sinal em tua mão, e estarão por frontais entre teus olhos:",
+  "Rev.13.12": "E ela exercita todo o poder da primeira besta em sua presença; e faz que a terra e os que nela habitam, adorem à primeira besta, cuja ferida mortal havia sido curada.",
+  "Rev.13.15": "E foi-lhe concedido dar espírito à imagem da besta, para que a imagem da besta também falasse, e fizesse que todos os que não adorassem à imagem da besta fossem mortos.",
+  "Rev.13.16": "E fez com que todos, os pequenos e os grandes, os ricos e os pobres, os livres e os escravos, fosse lhes dada uma marca sobre sua mão direita ou sobre suas testas.",
+  "Rev.13.17": "E que ninguém possa comprar ou vender, a não ser aquele que tenha a marca ou o nome da besta, ou o número do nome dela.",
+  "Rev.13.4": "E adoraram ao dragão, ao qual tinha dado poder à besta; e [também] adoraram à besta, dizendo: “Quem [é] semelhante à besta? Quem pode batalhar contra ela?”",
+  "Rev.13.8": "E todos os que habitam sobre a terra a adorarão, o nomes dos quais não estão escritos no livro da vida do Cordeiro, que foi morto desde a fundação do mundo.",
+  "Rev.22.4": "E eles verão o rosto dele, e o nome dele [estará] em suas testas."
+ },
+ "worship_in_rev13": [
+  "13:4",
+  "13:8",
+  "13:12",
+  "13:15"
+ ],
+ "site": {
+  "base": "https://www.bibliaconectada.company",
+  "fetched": "2026-10-25",
+  "pages": [
+   "apocalipse-13-16",
+   "apocalipse-13-17",
+   "apocalipse-22-4",
+   "deuteronomio-6-8"
+  ],
+  "all_votes_match": true
+ }
+}

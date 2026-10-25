@@ -11,12 +11,13 @@ me desamparaste?" é a primeira linha do Salmo 22, escrito séculos antes da cru
 "porque ele assim fez". Na cruz: "Está consumado". Jesus, morrendo, estava apontando para o salmo.
 
 ## Entregáveis
-- `renders/nao-foi-um-grito.mp4`: 1080×1920, 30 fps, 1.443 quadros (48,2 s), 27,85 MB. Áudio medido no AAC: −14,2 LUFS,
-  pico real −1,8 dBTP. A voz fica de 15 a 30 dB acima da trilha em toda fala (mediana 21,3).
+- `renders/nao-foi-um-grito.mp4` (versão 3, 25/10 à noite): 1080×1920, 30 fps, 1.445 quadros (48,2 s), 27,91 MB. Áudio
+  medido no AAC: −14,1 LUFS, pico real −1,9 dBTP (`renders/.film/render.log`).
 - Conferência (`tools/check.py`: ALL OK; `tools/verify_audio.py`): o Whisper ouve o vídeo pronto e acerta 99,1% do
-  roteiro em ordem; os 6 primeiros segundos saem como português (0,999). Diferenças só de grafia ("pra" ouvido como
-  "para", "por quê" como "o porquê"). Ninguém ouviu de ouvido ainda.
-- `renders/capa-nao-foi-um-grito.jpg`: a capa, que é o frame 0 (a frase conhecida, em branco no preto).
+  roteiro em ordem (109/109 palavras); os 6 primeiros segundos saem como português (0,999). Diferenças só de grafia
+  ("pra" ouvido como "para", "por quê" como "o porquê"). Ninguém ouviu de ouvido ainda.
+- `renders/capa-nao-foi-um-grito.jpg`: a capa, o frame de 6,3 s (a frase com o rótulo já virado para SALMO 22:1 e
+  "Foi uma citação." em ouro).
 - `LEGENDA.md`: legenda, comentário fixado e duas respostas prontas para as objeções previsíveis.
 
 ## O que o vídeo diz e de onde vem (`data/stats.json`, `tools/analyze.py`)

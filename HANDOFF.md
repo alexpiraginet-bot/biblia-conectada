@@ -851,6 +851,22 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
     ligação. Respostas prontas para as duas objeções em `LEGENDA.md`.
   - Para liberar disco, foram apagados os intermediários antigos dos vídeos 1 a 4 em `hf-test/videos/*/renders/.film`
     (fora do repo, refeitos pelo pipeline de cada vídeo).
+  - Visual: v2 (livro aceso + fios em Three.js, do pacote "Motion fluido V2" do Alex) foi recusada ("montagem péssima",
+    "tire a Bíblia", "se não cria tudo do zero"). A v3 é só tipografia e motion em DOM/CSS no Remotion, sem raster e sem
+    WebGL; `Filaments.tsx`, `book.png` e o `three` saíram. Render 48,2 s, 27,9 MB, −14,1 LUFS; Whisper 109/109 palavras.
+- **25/10, noite, vídeo 8 "A outra marca" (`estudos/biblia-marca/`):**
+  - O Alex pediu "um polêmico com ligação política do Apocalipse 13 com o Apocalipse 22, relacionando aos partidos hoje
+    em disputa". Era o dia do 2º turno (Lula × Flávio Bolsonaro). O Claude recusou dizer que um partido é a besta (o texto
+    não diz; seria conteúdo partidário no dia da eleição) e propôs o polêmico que o texto sustenta e pega os dois lados; o
+    Alex respondeu "Faz" e "muito movimento e cortes marcantes".
+  - Fala: a marca fica na mão e na testa (Ap 13:16), o lugar onde Dt 6:8 manda atar a palavra de Deus (par da base, 9
+    votos); a besta pede adoração (Ap 13:4, 8, 12, 15); no último capítulo o nome de Deus volta à testa (Ap 13:17 ↔ 22:4,
+    6 votos). Fecho: "A pergunta não é em quem você votou. É qual nome está na sua testa."
+  - `tools/check.py` falha se aparecer partido, candidato ou rótulo ideológico na narração, no `data.json` ou no
+    `Main.tsx`, ou vermelho/verde na paleta. Postar só depois do resultado (sugestão em `LEGENDA.md`).
+  - Forma: 60 fps, um plano por fala ou por palavra-chave, corte seco, punch-in, tremida e flash nos impactos, planos
+    invertidos (papel) nas batidas, palavras "fantasma" que acendem quando são ditas. Trilha com pulso em ré menor, clique
+    em cada corte, sub e braam nos impactos, contador de capítulos 13→22 com um tique por capítulo, ré maior em Ap 22:4.
 
 - **25/10, Codex, motion enviado por Alex:** branch `codex/living-story-motion`, seção da home Sua história também se conecta. ZIP preservado e renderizado fielmente, com digital, portal e rede ilustrativa sobre a Bíblia. Entrada para Coração, leitura e conexões reais; vídeo leve e silencioso, controles de pausa/replay/etapas e preferências de movimento/dados respeitadas. Vinte testes focados e oito cenários de desenvolvimento passaram; validação de produção em curso. Registro em `docs/LIVING-STORY.md` e `docs/evidence/2026-10-25-living-story.md`. Atualizações do Claude em estudos foram incorporadas sem edição; sem chamadas pagas ou publicação social.
 
