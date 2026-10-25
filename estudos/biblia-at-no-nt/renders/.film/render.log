@@ -1,39 +1,39 @@
-data.json: 21760 bytes; duration 48.577 s; 13 lines 
+data.json: 23866 bytes; duration 60.291 s; 15 lines 
 Detected differing memory amounts:
-Memory reported by CGroup: 8796093018515.22 MB
-Memory reported by /proc/meminfo: 6788.64 MB
-Memory reported by Node: 6788.64 MB
+Memory reported by CGroup: 8796093018717.52 MB
+Memory reported by /proc/meminfo: 6830.53 MB
+Memory reported by Node: 6830.53 MB
 You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
 Using the lower amount of memory for calculation.
 Detected differing memory amounts:
-Memory reported by CGroup: 8796093018456.99 MB
-Memory reported by /proc/meminfo: 6742.55 MB
-Memory reported by Node: 6742.55 MB
+Memory reported by CGroup: 8796093018656.23 MB
+Memory reported by /proc/meminfo: 6784.04 MB
+Memory reported by Node: 6784.04 MB
 You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
 Using the lower amount of memory for calculation.
 Detected differing memory amounts:
-Memory reported by CGroup: 8796093018513.89 MB
-Memory reported by /proc/meminfo: 6712.54 MB
-Memory reported by Node: 6712.54 MB
+Memory reported by CGroup: 8796093018715.56 MB
+Memory reported by /proc/meminfo: 6765.99 MB
+Memory reported by Node: 6765.99 MB
 You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
 Using the lower amount of memory for calculation.
 Detected differing memory amounts:
-Memory reported by CGroup: 8796093018503.58 MB
-Memory reported by /proc/meminfo: 6712.45 MB
-Memory reported by Node: 6712.45 MB
+Memory reported by CGroup: 8796093018699.52 MB
+Memory reported by /proc/meminfo: 6770.62 MB
+Memory reported by Node: 6770.62 MB
 You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
 Using the lower amount of memory for calculation.
 render 0%
 Detected differing memory amounts:
-Memory reported by CGroup: 8796093018401.91 MB
-Memory reported by /proc/meminfo: 6652.59 MB
-Memory reported by Node: 6652.59 MB
+Memory reported by CGroup: 8796093018642.99 MB
+Memory reported by /proc/meminfo: 6765.73 MB
+Memory reported by Node: 6765.73 MB
 You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
 Using the lower amount of memory for calculation.
 Detected differing memory amounts:
-Memory reported by CGroup: 8796093018400.09 MB
-Memory reported by /proc/meminfo: 6652.82 MB
-Memory reported by Node: 6652.82 MB
+Memory reported by CGroup: 8796093018634.49 MB
+Memory reported by /proc/meminfo: 6761.54 MB
+Memory reported by Node: 6761.54 MB
 You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
 Using the lower amount of memory for calculation.
 render 5%
@@ -57,105 +57,30 @@ render 90%
 render 100%
 video /home/claude/biblia-conectada/estudos/biblia-at-no-nt/renders/.film/video-curto.mp4
 Detected differing memory amounts:
-Memory reported by CGroup: 8796093018473.04 MB
-Memory reported by /proc/meminfo: 6838.61 MB
-Memory reported by Node: 6838.61 MB
+Memory reported by CGroup: 8796093018634.29 MB
+Memory reported by /proc/meminfo: 6957.37 MB
+Memory reported by Node: 6957.37 MB
 You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
 Using the lower amount of memory for calculation.
 Detected differing memory amounts:
-Memory reported by CGroup: 8796093018411.86 MB
-Memory reported by /proc/meminfo: 6789.45 MB
-Memory reported by Node: 6789.45 MB
+Memory reported by CGroup: 8796093018573.45 MB
+Memory reported by /proc/meminfo: 6918.24 MB
+Memory reported by Node: 6918.24 MB
 You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
 Using the lower amount of memory for calculation.
 Detected differing memory amounts:
-Memory reported by CGroup: 8796093018461.76 MB
-Memory reported by /proc/meminfo: 6772.19 MB
-Memory reported by Node: 6772.19 MB
+Memory reported by CGroup: 8796093018623.02 MB
+Memory reported by /proc/meminfo: 6900.39 MB
+Memory reported by Node: 6900.39 MB
 You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
 Using the lower amount of memory for calculation.
 Detected differing memory amounts:
-Memory reported by CGroup: 8796093018401.27 MB
-Memory reported by /proc/meminfo: 6775.08 MB
-Memory reported by Node: 6775.08 MB
+Memory reported by CGroup: 8796093018562.86 MB
+Memory reported by /proc/meminfo: 6900.63 MB
+Memory reported by Node: 6900.63 MB
 You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
 Using the lower amount of memory for calculation.
 cover /home/claude/biblia-conectada/estudos/biblia-at-no-nt/renders/.stills/cover-curto.png
-two-pass 4406 kbps (crf file was 96.5 MB)
-{"out": "renders/antigo-dentro-do-novo-curto.mp4", "frames": 1458, "dur": 48.6, "mb": 27.81, "audio_in": [-17.1, -2.4], "audio_tries": [[-14.1, -1.9, -2.0, 3.1]]}
-data.json: 25717 bytes; duration 72.38 s; 19 lines 
-Detected differing memory amounts:
-Memory reported by CGroup: 8796093018343.00 MB
-Memory reported by /proc/meminfo: 6835.19 MB
-Memory reported by Node: 6835.19 MB
-You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
-Using the lower amount of memory for calculation.
-Detected differing memory amounts:
-Memory reported by CGroup: 8796093018281.94 MB
-Memory reported by /proc/meminfo: 6785.12 MB
-Memory reported by Node: 6785.12 MB
-You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
-Using the lower amount of memory for calculation.
-Detected differing memory amounts:
-Memory reported by CGroup: 8796093018341.02 MB
-Memory reported by /proc/meminfo: 6765.43 MB
-Memory reported by Node: 6765.43 MB
-You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
-Using the lower amount of memory for calculation.
-Detected differing memory amounts:
-Memory reported by CGroup: 8796093018332.64 MB
-Memory reported by /proc/meminfo: 6764.69 MB
-Memory reported by Node: 6764.69 MB
-You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
-Using the lower amount of memory for calculation.
-render 0%
-Detected differing memory amounts:
-Memory reported by CGroup: 8796093018256.84 MB
-Memory reported by /proc/meminfo: 6749.46 MB
-Memory reported by Node: 6749.46 MB
-You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
-Using the lower amount of memory for calculation.
-Detected differing memory amounts:
-Memory reported by CGroup: 8796093018256.84 MB
-Memory reported by /proc/meminfo: 6749.46 MB
-Memory reported by Node: 6749.46 MB
-You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
-Using the lower amount of memory for calculation.
-render 5%
-ProtocolError: Protocol error (Page.bringToFront): Target closed. https://www.remotion.dev/docs/target-closed
-    at CDPSession._onClosed (file:///home/claude/biblia-conectada/estudos/biblia-joao316-ligacoes/motion/node_modules/@remotion/renderer/dist/esm/index.mjs:1859:36)
-    at #onClose (file:///home/claude/biblia-conectada/estudos/biblia-joao316-ligacoes/motion/node_modules/@remotion/renderer/dist/esm/index.mjs:1773:15)
-    at WebSocket.<anonymous> (file:///home/claude/biblia-conectada/estudos/biblia-joao316-ligacoes/motion/node_modules/@remotion/renderer/dist/esm/index.mjs:3873:22)
-    at callListener (/home/claude/biblia-conectada/estudos/biblia-joao316-ligacoes/motion/node_modules/ws/lib/event-target.js:290:14)
-    at WebSocket.onClose (/home/claude/biblia-conectada/estudos/biblia-joao316-ligacoes/motion/node_modules/ws/lib/event-target.js:220:9)
-    at WebSocket.emit (node:events:519:28)
-    at WebSocket.emitClose (/home/claude/biblia-conectada/estudos/biblia-joao316-ligacoes/motion/node_modules/ws/lib/websocket.js:279:10)
-    at Socket.socketOnClose (/home/claude/biblia-conectada/estudos/biblia-joao316-ligacoes/motion/node_modules/ws/lib/websocket.js:1360:15)
-    at Socket.emit (node:events:519:28)
-    at TCP.<anonymous> (node:net:346:12) {
-  code: undefined,
-  originalMessage: ''
-}
-The browser crashed while rendering frame 234, retrying 1 more times. Learn more about this error under https://www.remotion.dev/docs/target-closed
-The browser crashed while rendering frame 233, retrying 1 more times. Learn more about this error under https://www.remotion.dev/docs/target-closed
-Killed previous browser and making new one
-Detected differing memory amounts:
-Memory reported by CGroup: 8796093017988.06 MB
-Memory reported by /proc/meminfo: 6436.30 MB
-Memory reported by Node: 6438.29 MB
-You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
-Using the lower amount of memory for calculation.
-Detected differing memory amounts:
-Memory reported by CGroup: 8796093017909.43 MB
-Memory reported by /proc/meminfo: 6398.59 MB
-Memory reported by Node: 6398.59 MB
-You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
-Using the lower amount of memory for calculation.
-Detected differing memory amounts:
-Memory reported by CGroup: 8796093017909.43 MB
-Memory reported by /proc/meminfo: 6398.59 MB
-Memory reported by Node: 6398.59 MB
-You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
-Using the lower amount of memory for calculation.
-Made new browser
-render 10%
+two-pass 3512 kbps (crf file was 109.0 MB)
+{"out": "renders/antigo-dentro-do-novo-curto.mp4", "frames": 1809, "dur": 60.3, "mb": 27.79, "audio_in": [-17.0, -2.3], "audio_tries": [[-14.2, -1.7, -2.0, 3.0]]}
+ALL DONE

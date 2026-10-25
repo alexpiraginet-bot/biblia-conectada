@@ -19,11 +19,11 @@ e as palavras iguais acesas. O resto da narração é a tomada 1.
 ## Entregáveis
 Só a versão resumida foi renderizada e entregue (Alex, 10:17: "fazer só o mais curto"). A completa existe no roteiro e
 no pipeline (sem `CUT`), mas não há MP4 dela no repo.
-- `renders/antigo-dentro-do-novo-curto.mp4`: 1080×1920, 30 fps, 1.458 quadros (48,6 s), 27,81 MB. Áudio medido no
-  AAC: −14,1 LUFS, pico real −1,9 dBTP.
-- Conferência final (`CUT=curto tools/verify_audio.py`): o Whisper ouve o vídeo pronto e acerta 98,8% do roteiro em
-  ordem; toda fala ≥ 0,90 de similaridade; os 6 primeiros segundos saem como português (0,999). A única diferença é
-  "pro" ouvido como "para o".
+- `renders/antigo-dentro-do-novo-curto.mp4`: 1080×1920, 30 fps, 1.809 quadros (60,3 s), 27,79 MB. Áudio medido no
+  AAC: −14,2 LUFS, pico real −1,7 dBTP.
+- Conferência final (`CUT=curto tools/verify_audio.py`): o Whisper ouve o vídeo pronto e acerta 98,1% do roteiro em
+  ordem; toda fala ≥ 0,90 de similaridade; os 6 primeiros segundos saem como português (0,999). Diferenças só de grafia:
+  "pro" ouvido como "para o", "Emanuel" como "Emmanuel".
 - `renders/capa-antigo-dentro-do-novo-curto.jpg`: a capa, que é o frame 0 (o gancho).
 - `LEGENDA.md`: a legenda, o comentário fixado e uma resposta pronta para quem citar o gráfico do Gladd.
 
