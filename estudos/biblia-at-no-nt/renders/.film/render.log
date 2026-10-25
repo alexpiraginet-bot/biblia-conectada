@@ -1,0 +1,57 @@
+Detected differing memory amounts:
+Memory reported by CGroup: 8796093020331.93 MB
+Memory reported by /proc/meminfo: 6705.38 MB
+Memory reported by Node: 6705.38 MB
+You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
+Using the lower amount of memory for calculation.
+Detected differing memory amounts:
+Memory reported by CGroup: 8796093020270.65 MB
+Memory reported by /proc/meminfo: 6654.20 MB
+Memory reported by Node: 6654.20 MB
+You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
+Using the lower amount of memory for calculation.
+Detected differing memory amounts:
+Memory reported by CGroup: 8796093020330.63 MB
+Memory reported by /proc/meminfo: 6635.51 MB
+Memory reported by Node: 6635.51 MB
+You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
+Using the lower amount of memory for calculation.
+Detected differing memory amounts:
+Memory reported by CGroup: 8796093020323.26 MB
+Memory reported by /proc/meminfo: 6635.63 MB
+Memory reported by Node: 6635.63 MB
+You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
+Using the lower amount of memory for calculation.
+render 0%
+Detected differing memory amounts:
+Memory reported by CGroup: 8796093020259.37 MB
+Memory reported by /proc/meminfo: 6638.85 MB
+Memory reported by Node: 6638.85 MB
+You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
+Using the lower amount of memory for calculation.
+Detected differing memory amounts:
+Memory reported by CGroup: 8796093020259.37 MB
+Memory reported by /proc/meminfo: 6638.85 MB
+Memory reported by Node: 6638.85 MB
+You might have inadvertently set the --memory flag of `docker run` to a value that is higher than the global Docker memory limit.
+Using the lower amount of memory for calculation.
+render 5%
+render 10%
+render 15%
+render 20%
+render 25%
+render 30%
+render 35%
+render 40%
+render 45%
+render 50%
+render 55%
+render 60%
+render 65%
+render 70%
+render 75%
+render 80%
+render 85%
+render 90%
+render 100%
+video /home/claude/biblia-conectada/estudos/biblia-at-no-nt/renders/.film/video.mp4

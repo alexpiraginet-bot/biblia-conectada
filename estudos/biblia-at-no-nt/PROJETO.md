@@ -8,7 +8,11 @@ visualizações" (é o Andre, o mesmo preset) e "'Parece fibra óptica' acho que
 escolher" (escolhido: ver Gancho).
 
 ## Entregáveis
-- `renders/antigo-dentro-do-novo.mp4`: o vídeo, 1080×1920, 30 fps.
+- `renders/antigo-dentro-do-novo.mp4`: 1080×1920, 30 fps, 2.192 quadros (73,07 s), 27,99 MB. Áudio medido no AAC:
+  −14,2 LUFS, pico real −1,8 dBTP. A voz fica de 14 a 30 dB acima da trilha em todas as falas (mediana 19,4).
+- Conferência final (`tools/verify_audio.py`): o Whisper ouve o vídeo pronto e acerta 98,1% do roteiro, em ordem; os 6
+  primeiros segundos saem como português (0,999). As únicas diferenças são de grafia: "pro" vira "para o" e "Malaquias"
+  vira "Malakias".
 - `renders/capa-antigo-dentro-do-novo.jpg`: a capa, que é o frame 0 (o gancho).
 - `LEGENDA.md`: a legenda, o comentário fixado e uma resposta pronta para quem citar o gráfico do Gladd.
 
