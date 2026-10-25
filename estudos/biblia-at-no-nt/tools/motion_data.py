@@ -28,15 +28,14 @@ def fmt(n):
     return f"{n:,}".replace(",", ".")
 
 
-TAIL = 3.4                                    # the end card stays after the last word
+TAIL = 2.6                                    # the end card stays after the last word
 # captions show numbers and references as written (the voice says them in words for the TTS)
-DISPLAY = [("sessenta e sete mil, duzentas e noventa e três", fmt(S["ot_nt"])),
+DISPLAY = [("Sessenta e sete mil, duzentas e noventa e três", fmt(S["ot_nt"])),
            ("Onze mil, quatrocentas e oitenta e quatro", fmt(S["ot_books"][OSIS.index("Ps")]["links"])),
            ("trinta e nove livros", f"{S['ot_books_linked']} livros"),
-           ("Mais de oito em cada dez", "Mais de 8 em cada 10"),
-           ("Isaías sete, catorze", "Isaías 7:14")]
+           ("duzentas e vinte e três", str(S["literal"]["pairs"]))]
 assert S["ot_nt"] == 67293 and S["ot_books"][OSIS.index("Ps")]["links"] == 11484 and S["ot_books_linked"] == 39
-assert 0.8 < S["nt_share"] < 0.9
+assert S["literal"]["pairs"] == 223
 
 
 def display(text):

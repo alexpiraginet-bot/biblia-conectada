@@ -5,7 +5,10 @@ Coalition, versão 3.0): "Seguindo mesmo conceito de roteiro e gancho do nosso v
 arco-íris', quero fazer um agora sobre esse tema com esse visual, com muito movimento! Motion, scroll para alta retenção!
 Entregue capa, legenda e tudo pronto". Depois: "Use mesmo narrador desse primeiro vídeo que tivemos 1 milhão de
 visualizações" (é o Andre, o mesmo preset) e "'Parece fibra óptica' acho que fica melhor, analise todas as variáveis para
-escolher" (escolhido: ver Gancho).
+escolher" (escolhido: ver Gancho). Às 09:15: "mais curto e emocionante do começo ao fim", com o tema central sendo como
+Deus guiou as Escrituras, e que isso é uma das provas; os dados e as linhas ficam ("isso aí é bem atrativo"); Gn 1:1 →
+Jo 1:1 abre os exemplos. O primeiro corte (73 s, com Malaquias, 85,6% e o grego palavra por palavra na tela) ficou em
+`source/narr/v2-longo/` (tomadas) e fora do git (vídeo, em `renders/.film/`).
 
 ## Entregáveis
 - `renders/antigo-dentro-do-novo.mp4`: 1080×1920, 30 fps, 2.192 quadros (73,07 s), 27,99 MB. Áudio medido no AAC:
@@ -30,16 +33,16 @@ As tomadas da primeira versão ficaram em `source/narr/v1-isso-nao-e/`, caso alg
 ## O que o vídeo diz e de onde vem (tudo de `data/stats.json`, `tools/analyze.py`)
 | Fala | Dado |
 |---|---|
-| 67.293 ligações | pares únicos da OpenBible.info com um versículo nos 39 livros do AT e o outro nos 27 do NT (de 301.539 pares) |
-| 39 livros, todos | 39/39 do AT e 27/27 do NT têm ligação |
-| Mais de 8 em cada 10 versículos do Novo | 6.808 de 7.957 (85,6%) têm ao menos uma ligação com o AT |
-| Salmos, 11.484 · Isaías, 8.468 | os dois livros do AT com mais ligações ao NT |
-| Malaquias, pelo tamanho | 683 ligações em 55 versículos = 12,4 por versículo, o maior do AT (Zacarias vem depois, com 7,0) |
-| Mateus | o livro do NT com mais ligações ao AT: 8.696 |
 | Gênesis 1:1 → João 1:1 | 724 votos, o 5º par mais votado entre AT e NT (confere com /joao/1/1 do site) |
-| Laranja: 223 pares | ver abaixo |
+| 67.293 vezes | pares únicos da OpenBible.info com um versículo nos 39 livros do AT e o outro nos 27 do NT (de 301.539 pares) |
+| Todos os 39 livros | 39/39 do AT (e 27/27 do NT) têm ligação |
+| Salmos, 11.484 · depois Isaías | os dois livros do AT com mais ligações ao NT (Isaías: 8.468) |
+| Mateus | o livro do NT com mais ligações ao AT: 8.696 |
+| "Moisés, Davi, profetas e apóstolos que nunca se conheceram. Séculos de distância." | afirmação geral sobre a autoria tradicional dos livros, sem número; não vem da base |
+| Laranja: 223 vezes | ver abaixo |
 | Isaías 7:14 → Mateus 1:23 | 10 palavras gregas iguais em sequência (Septuaginta × SBLGNT), 333 votos |
 | Isaías 61:1 → Lucas 4:18 | 18 das 22 palavras gregas de Lc 4:18 em sequência com Is 61:1, 549 votos (confere com /lucas/4/18) |
+| "Isso não é coincidência. É Deus guiando cada linha." | a leitura de fé do vídeo, dita como tal; não é um dado |
 
 **Laranja: "palavra por palavra, no grego".** Um par entra quando o versículo do NT (SBLGNT, MorphGNT) e o do AT na
 Septuaginta (eBible `grclxx`, domínio público) têm uma sequência de 5 ou mais palavras idênticas. A comparação ignora
@@ -62,9 +65,10 @@ e Isaías lidera por versículo entre os dois (6,6 contra 4,7).
 - **Remotion 4.0.532** (`motion/`):
   - Uma câmera percorre o gráfico com zoom, rolagem e chicotes, sempre na palavra da narração. Ela nunca para: tem
     flutuação e "respiração".
-  - A rolagem desce pelos 39 livros com o nome do livro correndo no topo, um trilho de progresso e um tique por livro.
+  - A rolagem desce pelos 39 livros em 2 s ("Todos os trinta e nove livros") com o nome do livro correndo no topo,
+    um trilho de progresso e um tique por livro.
   - Há contadores e luzes que viajam por fios reais.
-  - O grego acende palavra por palavra, só nas palavras iguais.
+  - Títulos entram e saem dentro do tempo da própria fala, sem sobreposição na troca.
 - **Cenas ilustradas** (`scroll.jpg`, `eyes.jpg`): geradas com GPT Image 2.5 via Higgsfield, no estilo de pincel do
   vídeo 5 (a referência de estilo foi `walk.jpg` do vídeo 5). Aparecem só adultos, sem rosto de criança, e toda cena
   tem a marca "ILUSTRAÇÃO".
@@ -79,9 +83,9 @@ e Isaías lidera por versículo entre os dois (6,6 contra 4,7).
   - órgão em ré menor;
   - um tique por livro na rolagem;
   - impactos em Salmos, Malaquias e Mateus;
-  - um sino por palavra grega que acende;
-  - silêncio depois de "fixos nele";
-  - ré maior no "Hoje esta escritura se cumpriu".
+  - subida longa e coro de sinos em "Uma só história";
+  - silêncio depois de "E disse:";
+  - ré maior no "Hoje esta escritura se cumpriu", e o acorde mais cheio em "É Deus guiando cada linha".
 
 ## Como rodar
 ```bash

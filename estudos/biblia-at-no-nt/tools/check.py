@@ -33,24 +33,23 @@ rank = sorted(S["ot_books"], key=lambda b: -b["links"])
 # 1. quotes
 for i, (ref, frags) in QUOTES.items():
     for f in frags:
-        need(f in LINES[i] and f in S["blivre"][ref], f"linha {i}: “{f}” = BLIVRE {ref}")
+        need(f in LINES[i] and f.lower() in S["blivre"][ref].lower(), f"linha {i}: “{f}” = BLIVRE {ref}")
 # 2. what the voice says
-need("sessenta e sete mil, duzentas e noventa e três" in LINES[6] and S["ot_nt"] == 67293, "linha 6: 67.293 pares AT↔NT")
-need("Mais de oito em cada dez" in LINES[7] and 0.8 < S["nt_verses_linked"] / S["nt_verses"] < 0.9,
-     f"linha 7: mais de 8 em 10 versículos do NT ({S['nt_verses_linked']}/{S['nt_verses']})")
-need("trinta e nove livros" in LINES[8] and S["ot_books_linked"] == 39, "linha 8: 39 livros do AT, todos ligados")
-need("Salmos" in LINES[9] and rank[0]["pt"] == "Salmos" and "Onze mil, quatrocentas e oitenta e quatro" in LINES[9]
-     and rank[0]["links"] == 11484, "linha 9: Salmos é o 1º, 11.484")
-need("Isaías" in LINES[10] and rank[1]["pt"] == "Isaías", "linha 10: Isaías é o 2º")
-need("pelo tamanho" in LINES[11] and "último" in LINES[11] and S["densest_ot"]["pt"] == "Malaquias"
-     and S["ot_books"][-1]["pt"] == "Malaquias", "linha 11: por versículo, Malaquias (o último livro do AT) é o 1º")
-need("Mateus" in LINES[12] and S["top_nt"][0] == "Mateus", "linha 12: Mateus é o livro do NT mais ligado ao AT")
-need(S["literal"]["examples"]["Isa.7.14~Matt.1.23"] is not None and "Isaías sete, catorze" in LINES[14],
-     "linha 14: Is 7:14 → Mt 1:23 palavra por palavra no grego (LXX × SBLGNT)")
-need(S["literal"]["examples"]["Isa.61.1~Luke.4.18"] is not None and "livro do profeta Isaías" in LINES[15],
-     "linhas 15-16: Lc 4:18 repete Is 61:1 palavra por palavra no grego")
-need("Cada fio liga um versículo do Antigo a um do Novo" in LINES[3] and S["famous"]["Gen.1.1~John.1.1"] == 724,
-     "linhas 3-5: Gn 1:1 ↔ Jo 1:1 é um par da base (724 votos)")
+need("Sessenta e sete mil, duzentas e noventa e três" in LINES[6] and S["ot_nt"] == 67293, "linha 6: 67.293 pares AT↔NT")
+need("trinta e nove livros" in LINES[7] and "Nenhum ficou de fora" in LINES[7] and S["ot_books_linked"] == 39,
+     "linha 7: 39 livros do AT, todos ligados")
+need("Salmos" in LINES[8] and rank[0]["pt"] == "Salmos" and "Onze mil, quatrocentas e oitenta e quatro" in LINES[8]
+     and rank[0]["links"] == 11484, "linha 8: Salmos é o 1º, 11.484")
+need("Isaías" in LINES[9] and rank[1]["pt"] == "Isaías" and "Mateus" in LINES[9] and S["top_nt"][0] == "Mateus",
+     "linha 9: Isaías é o 2º do AT; Mateus é o 1º do NT")
+need("duzentas e vinte e três" in LINES[11] and S["literal"]["pairs"] == 223,
+     "linha 11: 223 pares palavra por palavra no grego (LXX × SBLGNT)")
+need(S["literal"]["examples"]["Isa.7.14~Matt.1.23"] is not None and "Eis que a virgem conceberá" in S["blivre"]["Matt.1.23"],
+     "linhas 12-13: Is 7:14 → Mt 1:23 é um dos pares literais; Mateus repete a frase")
+need(S["literal"]["examples"]["Isa.61.1~Luke.4.18"] is not None and "livro do profeta Isaías" in LINES[14],
+     "linhas 14-17: Lc 4:18 repete Is 61:1 palavra por palavra no grego")
+need("No princípio" in LINES[4] and "No princípio" in LINES[5] and S["famous"]["Gen.1.1~John.1.1"] == 724,
+     "linhas 4-5: Gn 1:1 ↔ Jo 1:1 é um par da base (724 votos)")
 need(S["site"]["all_votes_match"], "votos mostrados = páginas do site (source/site/*.html)")
 # 3. data.json == stats.json, and Main.tsx has no hand-typed numbers
 need(D["otNt"] == S["ot_nt"] and D["ntLinked"] == S["nt_verses_linked"] and D["ntVerses"] == S["nt_verses"]

@@ -1,63 +1,63 @@
-== take1 (81.6 s, 181 words)
-  L00   0.00-  2.32 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.07 | Olá pessoal, tudo bem? Vamos começar.
-  L01   2.72-  4.20 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.02 | Parece fibra ótica,
-  L02   4.46-  7.28 pt=0.999 en=0.001 es=0.000 sim=1.00 lp=-0.01 | mas é o Antigo Testamento dentro do Novo.
-  L03   7.64- 11.06 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.01 | Cada fio liga um versículo do Antigo a um do Novo.
-  L04  11.52- 14.86 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.09 | Tipo, no princípio criou Deus os céus e a Terra.
-  L05  15.34- 18.06 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.03 | Ligado a, no princípio, era a Palavra.
-  L06  18.46- 22.20 pt=0.999 en=0.000 es=0.000 sim=0.95 lp=-0.01 | São 67 .293 ligações.
-  L07  22.74- 26.94 pt=1.000 en=0.000 es=0.000 sim=0.88 lp=-0.02 | Mais de oito em cada dez versículos do Novo apontam para o Antigo.
-  L08  27.54- 29.88 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.02 | Desce comigo pelos 39 livros.
-  L09  30.00- 35.12 pt=0.999 en=0.000 es=0.000 sim=0.90 lp=-0.06 | O mais ligado? Salmos, 11 .484.
-  L10  35.52- 37.02 pt=0.999 en=0.001 es=0.000 sim=1.00 lp=-0.00 | Depois, Isaías.
-  L11  37.38- 41.98 pt=0.999 en=0.000 es=0.000 sim=0.88 lp=-0.05 | Mas, pelo tamanho, nenhum aponta mais para o novo que o último. Malaqu
-  L12  42.44- 46.12 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.01 | Do outro lado, quem mais puxa o antigo? Mateus.
-  L13  46.56- 51.36 pt=0.999 en=0.001 es=0.000 sim=1.00 lp=-0.01 | E em laranja? Quando o novo repete o antigo palavra por palavra, no gr
-  L14  51.90- 57.42 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.02 | Isaías 7, 14. E Mateus repete? Eis que a Virgem conceberá.
-  L15  57.88- 61.40 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Em Nazaré, deram a Jesus o livro do profeta Isaías.
-  L16  61.76- 67.62 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.06 | Ele leu, O Espírito do Senhor está sobre mim, porque ele me ungiu para
-  L17  68.00- 73.20 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Ele fechou o livro. Os olhos de todos na sinagoga estavam fixos nele.
-  L18  73.48- 77.60 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.01 | E disse, Hoje esta escritura se cumpriu em vossos ouvidos.
-  L19  77.92- 81.32 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.02 | Qual livro do antigo você ainda não leu? Comenta!
-== take2 (82.5 s, 181 words)
-  L00   0.00-  2.50 pt=0.992 en=0.006 es=0.001 sim=1.00 lp=-0.16 | Olá pessoal, tudo bem? Vamos começar.
-  L01   2.94-  4.54 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.01 | Parece fibra óptica,
-  L02   4.84-  7.56 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | mas é o Antigo Testamento dentro do Novo.
-  L03   8.02- 11.50 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Cada fio liga um versículo do Antigo a um do Novo.
-  L04  12.04- 15.66 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.04 | Tipo, no princípio criou Deus os céus e a terra.
-  L05  16.14- 18.70 pt=0.996 en=0.002 es=0.001 sim=1.00 lp=-0.03 | Ligado a, no princípio era a palavra.
-  L06  19.58- 23.04 pt=0.999 en=0.000 es=0.000 sim=0.95 lp=-0.02 | São 67 .293 ligações.
-  L07  23.50- 27.38 pt=1.000 en=0.000 es=0.000 sim=0.88 lp=-0.03 | Mais de oito em cada dez versículos do Novo apontam para o Antigo.
-  L08  28.10- 30.28 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.03 | Desce comigo pelos 39 livros.
-  L09  30.50- 35.74 pt=0.999 en=0.000 es=0.000 sim=0.90 lp=-0.01 | O mais ligado? Salmos, 11 .484.
-  L10  36.24- 37.76 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Depois, Isaías.
-  L11  38.18- 42.92 pt=1.000 en=0.000 es=0.000 sim=0.88 lp=-0.11 | Mas pelo tamanho, nenhum aponta mais para o novo que o último, Malaqui
-  L12  43.52- 47.32 pt=0.999 en=0.001 es=0.000 sim=1.00 lp=-0.00 | Do outro lado, quem mais puxa o antigo? Mateus.
-  L13  48.10- 52.54 pt=0.998 en=0.001 es=0.000 sim=1.00 lp=-0.04 | E em laranja, quando o novo repete o antigo palavra por palavra no gre
-  L14  53.18- 58.52 pt=0.999 en=0.001 es=0.000 sim=1.00 lp=-0.07 | Isaías 7, 14. E Mateus repete. Eis que a Virgem conceberá.
-  L15  58.92- 62.46 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Em Nazaré, deram a Jesus o livro do profeta Isaías.
-  L16  62.88- 68.72 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.04 | Ele leu, O Espírito do Senhor está sobre mim, porque Ele me ungiu para
-  L17  69.14- 73.80 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Ele fechou o livro. Os olhos de todos na sinagoga estavam fixos nele.
-  L18  74.08- 78.42 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.01 | E disse, Hoje esta escritura se cumpriu em vossos ouvidos.
-  L19  78.86- 82.30 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.03 | Qual livro do antigo você ainda não leu? Comenta.
-== take3 (80.9 s, 181 words)
-  L00   0.00-  2.60 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Olá, pessoal! Tudo bem? Vamos começar.
-  L01   2.98-  4.68 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.02 | Parece fibra ótica,
-  L02   5.06-  7.78 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | mas é o Antigo Testamento dentro do Novo.
-  L03   8.22- 11.56 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Cada fio liga um versículo do Antigo a um do Novo.
-  L04  11.90- 15.26 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.11 | Tipo, no princípio criou Deus os céus e a terra.
-  L05  15.82- 18.32 pt=0.999 en=0.001 es=0.000 sim=1.00 lp=-0.05 | Ligado a, no princípio era a palavra.
-  L06  18.80- 22.42 pt=0.999 en=0.000 es=0.000 sim=0.95 lp=-0.01 | São 67 .293 ligações.
-  L07  22.90- 26.90 pt=0.999 en=0.000 es=0.000 sim=0.88 lp=-0.02 | Mais de oito em cada dez versículos do Novo apontam para o Antigo.
-  L08  27.28- 29.84 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.01 | Desce comigo pelos 39 livros.
-  L09  30.00- 34.98 pt=0.999 en=0.000 es=0.000 sim=0.90 lp=-0.04 | O mais ligado? Salmos, 11 .484.
-  L10  35.48- 36.94 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Depois, Isaías.
-  L11  37.70- 42.20 pt=0.999 en=0.000 es=0.000 sim=0.88 lp=-0.04 | Mas, pelo tamanho, nenhum aponta mais para o Novo que o último, Malaqu
-  L12  42.68- 45.94 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.02 | Do outro lado, quem mais puxa o Antigo? Mateus.
-  L13  46.62- 51.42 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.01 | E em laranja, quando o Novo repete o Antigo palavra por palavra, no gr
-  L14  52.12- 57.00 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.09 | Isaías 7 ,14. E Mateus repete, Eis que a Virgem conceberá.
-  L15  57.00- 61.16 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.01 | Em Nazaré, deram a Jesus o livro do profeta Isaías.
-  L16  61.58- 67.30 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.05 | Ele leu, O Espírito do Senhor está sobre mim, porque ele me ungiu para
-  L17  67.66- 72.54 pt=0.999 en=0.001 es=0.000 sim=1.00 lp=-0.00 | Ele fechou o livro. Os olhos de todos na sinagoga estavam fixos nele.
-  L18  72.78- 77.04 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.01 | E disse, Hoje esta escritura se cumpriu em vossos ouvidos.
-  L19  77.34- 80.66 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.02 | Qual livro do antigo você ainda não leu? Comenta!
+== take1 (80.1 s, 172 words)
+  L00   0.00-  2.36 pt=0.999 en=0.001 es=0.000 sim=1.00 lp=-0.08 | Olá pessoal, tudo bem? Vamos começar.
+  L01   2.78-  4.38 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.03 | Parece fibra óptica,
+  L02   4.56-  7.28 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.01 | mas é o Antigo Testamento dentro do Novo.
+  L03   7.66- 10.54 pt=0.999 en=0.001 es=0.000 sim=1.00 lp=-0.00 | Cada fio é Deus ligando um versículo ao outro.
+  L04  10.96- 14.32 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.05 | Tipo, no princípio criou Deus os céus e a terra.
+  L05  14.76- 17.32 pt=0.997 en=0.002 es=0.001 sim=1.00 lp=-0.04 | Ligado a, no princípio era a palavra.
+  L06  19.12- 22.80 pt=0.999 en=0.000 es=0.000 sim=0.87 lp=-0.01 | 67 .293 vezes, o Novo aponta para o Antigo.
+  L07  23.16- 26.56 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Todos os 39 livros, nenhum ficou de fora.
+  L08  26.56- 31.82 pt=0.999 en=0.001 es=0.000 sim=0.90 lp=-0.01 | O mais ligado? Salmos. 11 .484.
+  L09  32.22- 37.44 pt=0.999 en=0.001 es=0.000 sim=1.00 lp=-0.01 | Depois, Isaías. E do outro lado, quem mais puxa o antigo? Mateus.
+  L10  37.92- 44.84 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Moisés, Davi, profetas e apóstolos que nunca se conheceram. Séculos de
+  L11  45.26- 51.08 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.02 | E em laranja? 223 vezes. O novo repete o antigo palavra por palavra.
+  L12  51.56- 54.84 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.01 | Isaías escreveu. Eis que a Virgem conceberá.
+  L13  55.56- 58.38 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Séculos depois, Mateus conta. Aconteceu.
+  L14  58.68- 62.22 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Em Nazaré, deram a Jesus o livro do profeta Isaías.
+  L15  62.54- 65.56 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.01 | Ele leu, O Espírito do Senhor está sobre mim.
+  L16  65.96- 67.92 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Fechou o livro. E disse,
+  L17  68.50- 71.46 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.05 | Hoje esta escritura se cumpriu em vossos ouvidos.
+  L18  71.76- 76.36 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Isso não é coincidência. É Deus guiando cada linha, do começo ao fim.
+  L19  76.82- 79.90 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.01 | Qual livro do antigo você ainda não leu? Comenta.
+== take2 (83.5 s, 172 words)
+  L00   0.00-  2.44 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Olá, pessoal! Tudo bem? Vamos começar.
+  L01   2.88-  4.58 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Parece fibra óptica,
+  L02   4.74-  7.92 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | mas é o Antigo Testamento dentro do Novo.
+  L03   8.28- 11.46 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Cada fio é Deus ligando um versículo ao outro.
+  L04  11.98- 15.50 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.03 | Tipo, no princípio criou Deus os céus e a terra.
+  L05  15.96- 18.80 pt=0.999 en=0.001 es=0.000 sim=1.00 lp=-0.04 | Ligado a, no princípio, era a palavra.
+  L06  20.70- 24.26 pt=1.000 en=0.000 es=0.000 sim=0.87 lp=-0.07 | 67 .293 vezes o Novo aponta para o Antigo.
+  L07  24.70- 27.92 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Todos os 39 livros, nenhum ficou de fora.
+  L08  27.92- 33.36 pt=0.998 en=0.001 es=0.001 sim=0.90 lp=-0.01 | O mais ligado? Salmos, 11 .484.
+  L09  33.86- 39.30 pt=0.999 en=0.001 es=0.000 sim=1.00 lp=-0.01 | Depois, Isaías. E do outro lado, quem mais puxa o antigo? Mateus.
+  L10  39.80- 46.90 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Moisés, Davi, profetas e apóstolos que nunca se conheceram, séculos de
+  L11  47.44- 53.44 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.04 | E em laranja, 223 vezes, o novo repete o antigo palavra por palavra.
+  L12  54.12- 57.24 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.05 | Isaías escreveu, Eis que a Virgem conceberá.
+  L13  57.94- 60.98 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.01 | Séculos depois, Mateus conta. Aconteceu.
+  L14  61.28- 65.08 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Em Nazaré, deram a Jesus o livro do profeta Isaías.
+  L15  65.40- 68.48 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.02 | Ele leu, O Espírito do Senhor está sobre mim.
+  L16  68.84- 70.78 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Fechou o livro. E disse,
+  L17  71.32- 74.32 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.02 | Hoje esta escritura se cumpriu em vossos ouvidos.
+  L18  74.70- 79.34 pt=1.000 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Isso não é coincidência. É Deus guiando cada linha, do começo ao fim.
+  L19  79.98- 83.18 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.02 | Qual livro do antigo você ainda não leu? Comenta.
+== take3 (81.8 s, 172 words)
+  L00   0.00-  2.30 pt=0.999 en=0.001 es=0.000 sim=1.00 lp=-0.08 | Olá pessoal, tudo bem? Vamos começar.
+  L01   2.80-  4.38 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.01 | Parece fibra óptica,
+  L02   4.56-  7.20 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.01 | mas é o Antigo Testamento dentro do Novo.
+  L03   7.60- 10.90 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Cada fio é Deus ligando um versículo ao outro.
+  L04  11.32- 14.60 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.02 | Tipo, no princípio criou Deus os céus e a terra.
+  L05  15.28- 17.72 pt=0.999 en=0.001 es=0.000 sim=1.00 lp=-0.06 | Ligado a, no princípio, era a palavra.
+  L06  19.80- 23.40 pt=1.000 en=0.000 es=0.000 sim=0.87 lp=-0.01 | 67 .293 vezes, o Novo aponta para o Antigo.
+  L07  23.86- 26.82 pt=0.998 en=0.001 es=0.001 sim=1.00 lp=-0.00 | Todos os 39 livros, nenhum ficou de fora.
+  L08  27.12- 32.10 pt=0.998 en=0.001 es=0.001 sim=0.90 lp=-0.06 | O mais ligado? Salmos. 11 .484
+  L09  32.10- 37.96 pt=0.997 en=0.002 es=0.001 sim=1.00 lp=-0.22 | Depois, Isaías E do outro lado, quem mais puxa o antigo? Mateus
+  L10  37.96- 45.62 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.02 | Moisés, Davi, profetas e apóstolos que nunca se conheceram Séculos de 
+  L11  45.62- 51.84 pt=0.999 en=0.001 es=0.000 sim=1.00 lp=-0.03 | E em laranja, 223 vezes, o novo repete o antigo palavra por palavra
+  L12  51.84- 55.68 pt=0.999 en=0.001 es=0.000 sim=1.00 lp=-0.02 | Isaías escreveu Eis que a Virgem conceberá
+  L13  55.68- 59.16 pt=0.997 en=0.002 es=0.001 sim=1.00 lp=-0.18 | Séculos depois, Mateus conta aconteceu.
+  L14  59.64- 63.38 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Em Nazaré, deram a Jesus o livro do profeta Isaías.
+  L15  63.80- 66.88 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.02 | Ele leu, O Espírito do Senhor está sobre mim.
+  L16  67.36- 69.20 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.10 | Fechou o livro e disse,
+  L17  69.84- 72.72 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.01 | Hoje esta escritura se cumpriu em vossos ouvidos.
+  L18  73.14- 77.68 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Isso não é coincidência. É Deus guiando cada linha, do começo ao fim.
+  L19  78.36- 81.48 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.01 | Qual livro do antigo você ainda não leu? Comenta!

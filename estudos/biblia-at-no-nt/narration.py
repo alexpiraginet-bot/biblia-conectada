@@ -42,11 +42,11 @@ _attach_orphans()
 SR = 48000
 HEAD = 0.15                      # the hook is spoken over frame 0
 MAX_PAUSE = 0.20                 # pauses inside a line (commas) are shortened to this...
-KEEP_PAUSE = {9: 0.30, 11: 0.24, 12: 0.30, 16: 0.26, 17: 0.40, 18: 0.30}   # ...except the dramatic ones
-TEMPO = {1: 1.00, 2: 1.04, 3: 1.14, 4: 1.08, 5: 1.06, 6: 1.12, 7: 1.16, 8: 1.10, 9: 1.08, 10: 1.04, 11: 1.16, 12: 1.12,
-         13: 1.16, 14: 1.10, 15: 1.08, 16: 1.06, 17: 1.02, 18: 0.98, 19: 1.06}
-GAP = {1: 0.30, 2: 0.45, 3: 0.25, 4: 0.15, 5: 0.40, 6: 0.30, 7: 0.35, 8: 0.20, 9: 0.30, 10: 0.25, 11: 0.40, 12: 0.35,
-       13: 0.30, 14: 0.45, 15: 0.25, 16: 0.30, 17: 0.45, 18: 0.75, 19: 0.30}
+KEEP_PAUSE = {3: 0.24, 8: 0.30, 9: 0.26, 10: 0.34, 13: 0.30, 16: 0.40, 18: 0.36}   # ...except the dramatic ones
+TEMPO = {1: 1.00, 2: 1.04, 3: 1.06, 4: 1.16, 5: 1.12, 6: 1.22, 7: 1.18, 8: 1.16, 9: 1.20, 10: 1.14, 11: 1.22, 12: 1.12,
+         13: 1.10, 14: 1.16, 15: 1.08, 16: 1.02, 17: 0.98, 18: 1.04, 19: 1.10}
+GAP = {1: 0.28, 2: 0.35, 3: 0.35, 4: 0.12, 5: 0.32, 6: 0.28, 7: 0.25, 8: 0.25, 9: 0.28, 10: 0.38, 11: 0.28, 12: 0.25,
+       13: 0.38, 14: 0.20, 15: 0.25, 16: 0.50, 17: 0.60, 18: 0.50, 19: 0.30}
 OVERRIDE = {}                    # line -> take name, if a listening pass ever disagrees with the metric
 
 
@@ -61,7 +61,7 @@ def complete(name):
 
 
 # numbers come back as digits ("67.293", "8 em cada 10"), "pro" as "para o"
-SIM_MIN = {6: 0.85, 7: 0.85, 9: 0.85, 11: 0.85, 14: 0.85}
+SIM_MIN = {6: 0.85, 7: 0.85, 8: 0.85, 11: 0.85}
 
 
 # one take for the whole film when possible (consistent delivery: the complaint about video 1 was the accent *changing*);
