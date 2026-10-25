@@ -36,25 +36,32 @@ Todas as citações são texto literal da Bíblia Livre; os votos batem com as p
 (כארי "como leão" × "perfuraram" na Septuaginta). "Ele fez" (עשה) e "está consumado" (τετέλεσται) não são a mesma
 palavra; o vídeo diz "termina assim", não "mesma palavra". As duas respostas prontas estão em `LEGENDA.md`.
 
-## Forma
-- **Visual:** quase preto (`#04070C`), texto e silêncio. Frame 0: a frase conhecida em branco. "Isso não foi um grito" em
-  branco, "Foi uma citação" em ouro. A frase sobe e vira o cabeçalho da coluna esquerda (SALMO 22, com o hebraico
-  אלי אלי למה עזבתני embaixo); à direita, A CRUZ (Mateus 27 · João 19). Quatro pares, um por fala, cada um com os dois
-  versículos lado a lado, as palavras iguais acesas em ouro e um fio entre as colunas com os votos. Em "começa no
-  abandono", o salmo inteiro (31 versos) rola pela tela até parar no 31, com a última palavra em hebraico (עָשָׂה). Corte
-  para preto: "Está consumado." sozinho, branco e depois ouro. Fecho: "Manda pra quem só conhece a primeira frase."
-- **Som:** sem música até o fim. Um sub grave e um batimento cardíaco que desacelera (0,95 s → 1,45 s) sob os pares; um
-  tique quando cada fio chega; uma subida enquanto o salmo rola; silêncio total depois de "ele assim fez"; UM acorde em
-  ré maior em "Está consumado", segurado até o fim com poucos sinos. Ducking sob a voz como nos outros vídeos.
-- **Narração:** Andre (ElevenLabs via Higgsfield, preset `f1e8226e-2248-4d5f-b43c-0a79e9949dbf`), 3 tomadas, ritmo 1,0
-  (nada acelerado: este filme ganha por peso), 128 palavras.
-- **Legendas:** só nas falas que não estão na tela como versículo (3, 4 e 9).
+## Forma (versão 2, 25/10 à tarde)
+A primeira versão era só texto no preto e uma trilha quase inaudível no celular; o Alex: "não tem nada atrativo
+visualmente" e "o som também tá parecendo ruim". Ele mandou o pacote "Bíblia Conectada — Motion fluido V2" (livro aberto
+com fios de luz em Three.js, paleta ouro → magenta → violeta) e disse "tá no seu comando".
+- **Visual:** um livro aberto aceso na base (`motion/public/img/book.png`, recorte da arte aprovada que veio no pacote,
+  `source/art/arte-livro.png`, sem os textos dela) e fios de luz em geometria Three.js (`motion/src/Filaments.tsx`):
+  150 curvas × 70 pontos cujos vértices mudam a cada quadro, com faíscas correndo e bloom. Quatro formas, misturadas
+  pelo tempo da narração: fibras soltas subindo do livro (gancho); um **feixe em arco** ligando o versículo do Salmo
+  (em cima, à esquerda) ao do Evangelho (embaixo, à direita), um par por vez; uma **coluna** subindo ao lado do salmo
+  rolando; e a **rede aberta** em "Está consumado". Câmera fixa. Os fios são metáfora visual; o que é dado são os pares
+  e os votos escritos na tela.
+- **Render:** Remotion com WebGL no Chromium headless (`chromiumOptions: {gl: "angle"}` em `render.mjs`). O Three.js
+  entra como dependência do `package.json` deste estudo (0.170.0, MIT), instalado no `node_modules` compartilhado.
+- **Som:** tapete de órgão em ré menor desde o frame 0, audível em médios (voicing dobrado uma oitava acima); batimento
+  cardíaco como acento, desacelerando; um sino quando cada versículo do Evangelho responde; dominante e subida longa na
+  rolagem do salmo; 0,8 s de silêncio; ré maior cheio em "Está consumado", até o fim.
+- **Narração:** Andre (ElevenLabs via Higgsfield, preset `f1e8226e-2248-4d5f-b43c-0a79e9949dbf`), tomada 3 inteira,
+  ritmo 1,0, 128 palavras.
+- **Legendas:** só nas falas que não estão na tela como versículo (4 e 9).
 
 ## Como rodar
 ```bash
 python3 -I tools/analyze.py      # data/stats.json (confere pares, votos do site, BLIVRE, hebraico)
 # narração: 3 tomadas do script.PROMPT -> source/narr/take*.mp3 (Higgsfield)
 python3 -I tools/takes.py        # avalia as tomadas (Whisper)
+# cd motion && npm install --no-save three@0.170.0   (o node_modules é o link para o do vídeo 5)
 python3 -I narration.py          # renders/.film/narr.wav + narr.json
 python3 -I tools/motion_data.py  # motion/src/data.json
 python3 -I tools/check.py        # dito = mostrado = dados = BLIVRE

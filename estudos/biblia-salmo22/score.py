@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Score + sound design for "Não foi um grito. Foi uma citação." (video 7), with the instruments of video 1 (sound.py).
 
-Almost no music: a sub drone and a heartbeat that slows down, one pair at a time, under the four pairs; a soft riser as
-the psalm scrolls; total silence after "ele assim fez"; then ONE chord in D major on "Está consumado", held to the end
-with a few bells. Ducked under the voice as in the other films.
+Second version (25/10, 15:00: the first one was almost all below 300 Hz and vanished on a phone). A breathing organ bed in
+D minor from frame 0, audible in the mids; the heartbeat as an accent that slows through the pairs; a bell when each
+gospel verse answers; a dominant and a long riser as the psalm scrolls; 0.8 s of silence; D MAJOR full on "Está
+consumado", held to the end with bells. Ducked under the voice as in the other films.
 
   python3 score.py  -> renders/.film/mix.wav (+ score.wav)
 """
@@ -36,6 +37,20 @@ def W(i, word, nth=0):
     return (hits[nth] if len(hits) > nth else hits[0] if hits else {"t0": T[i]})["t0"]
 
 
+V = {"Dm": ["D2", "A2", "D3", "F3", "A3"], "Bb": ["Bb1", "F2", "Bb2", "D3", "F3"], "F": ["F2", "C3", "F3", "A3", "C4"],
+     "Gm": ["G1", "D2", "G2", "Bb2", "D3"], "A": ["A1", "E2", "A2", "C#3", "E3"],
+     "D": ["D2", "A2", "D3", "F#3", "A3", "D4", "F#4", "A4"]}
+
+
+def up(notes):                                   # the same voicing one octave higher (mids a phone can play)
+    return [n[:-1] + str(int(n[-1]) + 1) for n in notes]
+
+
+def ch(buf, name, t_on, t_off, amp, **kw):
+    chord(buf, V[name], t_on, max(0.3, t_off - t_on), amp, **kw)
+    chord(buf, up(V[name][1:]), t_on, max(0.3, t_off - t_on), amp * 0.5, **{**kw, "bright": kw.get("bright", 1.0) * 1.1})
+
+
 def heartbeat(sfx, t0, t1, p0=0.95, p1=1.45, amp=0.14):
     """lub-dub, the period growing from p0 to p1 between t0 and t1 (same curve as Main.tsx heartbeat())"""
     t = t0
@@ -48,37 +63,50 @@ def heartbeat(sfx, t0, t1, p0=0.95, p1=1.45, amp=0.14):
 def build():
     mus = np.zeros((2, N), np.float32)
     sfx = np.zeros((2, N), np.float32)
-    tCit, tFez, tCons = W(2, "citacao"), W(10, "fez"), T[11]
-    # ---- the sentence in the dark: a sub drone, the first heartbeat
-    chord(mus, ["D1", "D2"], 0.0, T[10] - 0.1, 0.34, a=1.5, r=0.6, bright=0.55)
-    heartbeat(sfx, 0.3, T[10] - 0.4)
-    # ---- "Foi uma citação.": one low hit, a thin shimmer
+    tCit, tSalmo, tFez, tCons, tTudo = W(2, "citacao"), W(3, "salmo"), W(10, "fez"), T[11], W(12, "tudo")
+    # ---- a bed you can hear on a phone: breathing organ in D minor from frame 0 (mids and highs, as videos 1 and 6),
+    #      plus a sub under it; the heartbeat is an accent on top, slowing down through the pairs
+    chord(mus, ["D1", "D2"], 0.0, T[10] - 0.1, 0.30, a=1.5, r=0.6, bright=0.55)
+    ch(mus, "Dm", 0.0, T[3] + 0.2, 0.34, a=1.4, r=0.8, bright=0.95)
+    place(mus, shimmer(2.4, 1175, 2350, 0.03), 0.1, 0.3)
+    heartbeat(sfx, 0.4, T[10] - 0.5, amp=0.11)
+    # ---- "Foi uma citação.": one hit, a bell, the chord brightens
     place(sfx, sub_hit(0.30, 1.4), tCit - 0.04)
-    place(mus, shimmer(2.0, 880, 1760, 0.025), tCit + 0.05, 0.0)
-    # ---- the columns: a quiet minor pad enters under "mil anos antes"
-    chord(mus, ["D2", "A2", "F3"], W(3, "mil") - 0.1, T[9] - W(3, "mil") + 0.3, 0.22, a=1.2, r=0.8, bright=0.7)
-    place(mus, bell(hz("D5"), 0.035, 3.0), W(3, "salmo") + 0.02, -0.2)
-    # ---- the four pairs: a tick when each thread lands (Main.tsx: thread drawn t0+0.5 .. t0+1.2)
-    for li in (5, 6, 7, 8):
-        place(sfx, tick(0.05, 1900), T[li] + 1.2, 0.0)
-        place(mus, bell(hz(["A4", "D5", "F5", "A5"][li - 5]), 0.028, 2.6), T[li] + 1.22, -0.3 + 0.2 * (li - 5))
-    # ---- the psalm scrolls: a riser to the last line, then silence
-    place(sfx, riser(max(0.8, tFez - T[9] - 0.3), 0.10), T[9] + 0.3)
+    place(mus, bell(hz("D5"), 0.05, 3.2), tCit + 0.02, 0.0)
+    place(mus, shimmer(2.0, 880, 1760, 0.03), tCit + 0.05, 0.0)
+    # ---- the first pair and "mil anos antes": VI, then iv, slow and wide
+    ch(mus, "Bb", T[3] - 0.05, T[5] + 0.1, 0.36, a=0.8, r=0.8, bright=0.95)
+    place(mus, bell(hz("A5"), 0.04, 3.0), tSalmo + 0.02, -0.2)
+    place(sfx, whoosh(1.0, 0.10, True), tSalmo + 0.9, 0.3)
+    place(mus, bell(hz("F5"), 0.04, 3.0), tSalmo + 1.15, 0.3)
+    # ---- the four pairs: the chord walks (Gm, Dm, Bb, F); a tick when the bundle lands, a bell when the gospel answers
+    for n, li in enumerate((5, 6, 7, 8)):
+        ch(mus, ["Gm", "Dm", "Bb", "F"][n], T[li] - 0.05, (T[li + 1] if li < 8 else T[9]) + 0.1, 0.36, a=0.4, r=0.6, bright=0.95)
+        place(sfx, whoosh(0.8, 0.08, True), T[li] + 0.4, -0.3 + 0.2 * n)
+        place(sfx, tick(0.05, 1900), T[li] + 1.15, 0.0)
+        place(mus, bell(hz(["A4", "D5", "F5", "A5"][n]), 0.04, 2.8), T[li] + 1.18, -0.3 + 0.2 * n)
+    # ---- the psalm scrolls: dominant held, a long riser to the last line
+    ch(mus, "A", T[9] - 0.05, tFez + 0.5, 0.40, a=0.4, r=0.5, bright=1.0)
+    place(sfx, riser(max(0.8, tFez - T[9] - 0.2), 0.12), T[9] + 0.2)
     place(sfx, whoosh(1.2, 0.10, False), T[9] + 0.2, 0.0)
-    place(mus, bell(hz("A5"), 0.04, 3.4), tFez + 0.03, 0.0)
-    # ---- "Está consumado.": ONE chord, D major, held to the end
-    chord(mus, ["D1", "A1", "D2", "A2", "D3", "F#3", "A3", "D4"], tCons - 0.12, DUR - tCons + 0.8, 0.46, a=0.5, r=3.0, bright=1.05)
-    place(sfx, sub_hit(0.70, 2.2), tCons - 0.10)
-    place(mus, shimmer(3.6, 880, 1760, 0.04), tCons + 0.3, 0.0)
+    place(mus, bell(hz("A5"), 0.05, 3.4), tFez + 0.03, 0.0)
+    place(sfx, sub_hit(0.3, 1.2), tFez - 0.02)
+    # ---- 0.8 s of silence, a swell back in, then D MAJOR on "Está consumado", full, held to the end
+    place(sfx, riser(max(0.5, tCons - tFez - 0.9), 0.10), tFez + 0.9)
+    chord(mus, ["D1", "A1", "D2", "A2", "D3"], tCons - 0.2, DUR - tCons + 0.8, 0.42, a=0.5, r=3.0, bright=1.0)
+    ch(mus, "D", tCons - 0.12, DUR - tCons + 0.8, 0.52, a=0.7, r=3.0, bright=1.12)
+    place(sfx, braam(0.40), tCons - 0.18); place(sfx, sub_hit(0.75, 2.2), tCons - 0.12)
+    place(mus, shimmer(3.6, 880, 1760, 0.05), tCons + 0.2, 0.0)
     for r_, nn in enumerate(["D5", "F#5", "A5", "D6"]):
-        place(mus, bell(hz(nn), 0.05, 4.0), LE(11) + 0.1 + 0.22 * r_, -0.5 + 0.33 * r_)
-    place(mus, bell(hz("A5"), 0.04, 3.6), W(12, "tudo") + 0.03, 0.2)
+        place(mus, bell(hz(nn), 0.055, 4.0), LE(11) + 0.1 + 0.22 * r_, -0.5 + 0.33 * r_)
+    place(mus, bell(hz("A5"), 0.045, 3.6), tTudo + 0.03, 0.2)
+    place(mus, shimmer(2.6, 1175, 2350, 0.04), tTudo + 0.05, 0.0)
     place(mus, bell(hz("D6"), 0.05, 4.5), LE(13) + 0.1, -0.2)
-    mus, sfx = reverb(mus, 4.2, 0.45), reverb(sfx, 1.8, 0.18)
-    gate = np.ones(N, np.float32)                     # silence from "ele assim fez" to "Está consumado"
-    g0, g1, g2 = int((tFez + 0.5) * SR), int((tFez + 0.9) * SR), int((tCons - 0.15) * SR)
+    mus, sfx = reverb(mus, 4.0, 0.42), reverb(sfx, 1.8, 0.18)
+    gate = np.ones(N, np.float32)                     # the short silence between "ele assim fez" and "Está consumado"
+    g0, g1, g2 = int((tFez + 0.35) * SR), int((tFez + 0.65) * SR), int((tFez + 0.9) * SR)
     gate[g0:g1] = np.linspace(1, 0, g1 - g0); gate[g1:g2] = 0.0
-    mus *= gate[None, :]; sfx *= gate[None, :]
+    mus *= gate[None, :]; sfx[:, g0:g2] *= gate[g0:g2]
     b_, a_ = signal.butter(2, 32 / (SR / 2), "high")
     w0 = 2 * np.pi * 2500 / SR; A_ = 10 ** (-4.5 / 40); al = np.sin(w0) / (2 * 0.9)
     pb = np.array([1 + al * A_, -2 * np.cos(w0), 1 - al * A_]); pa = np.array([1 + al / A_, -2 * np.cos(w0), 1 - al / A_])

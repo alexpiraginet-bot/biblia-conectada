@@ -10,17 +10,18 @@ import {renderMedia, renderStill, selectComposition} from "@remotion/renderer";
 const here = path.dirname(fileURLToPath(import.meta.url));
 const browserExecutable = "/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell";
 const serveUrl = await bundle({entryPoint: path.join(here, "src/index.ts")});
-const composition = await selectComposition({serveUrl, id: "Main", browserExecutable});
+const chromiumOptions = {gl: "angle"};
+const composition = await selectComposition({serveUrl, id: "Main", browserExecutable, chromiumOptions});
 const arg = process.argv.indexOf("--still");
 if (process.argv.includes("--cover")) {
   const output = path.join(here, `../renders/.stills/cover${process.env.CUT === "curto" ? "-curto" : ""}.png`);
-  await renderStill({composition, serveUrl, output, frame: 0, browserExecutable});
+  await renderStill({composition, serveUrl, output, frame: 0, browserExecutable, chromiumOptions});
   console.log("cover", output);
 } else if (arg > 0) {
   const times = (process.argv[arg + 1] || "0").split(",").map(Number);
   for (const t of times) {
     const output = path.join(here, `../renders/.stills/still-${t.toFixed(2)}.png`);
-    await renderStill({composition, serveUrl, output, frame: Math.min(composition.durationInFrames - 1, Math.round(t * composition.fps)), browserExecutable});
+    await renderStill({composition, serveUrl, output, frame: Math.min(composition.durationInFrames - 1, Math.round(t * composition.fps)), browserExecutable, chromiumOptions});
     console.log("still", output);
   }
 } else {
@@ -28,7 +29,7 @@ if (process.argv.includes("--cover")) {
   const output = path.join(here, `../renders/.film/video${suffix}.mp4`);
   let last = -1;
   await renderMedia({
-    composition, serveUrl, codec: "h264", crf: 15, muted: true, outputLocation: output, browserExecutable,
+    composition, serveUrl, codec: "h264", crf: 15, muted: true, outputLocation: output, browserExecutable, chromiumOptions,
     concurrency: 2, imageFormat: "jpeg", jpegQuality: 92,
     onProgress: ({progress}) => {
       const p = Math.floor(progress * 20);
