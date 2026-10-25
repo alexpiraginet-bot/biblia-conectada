@@ -1,7 +1,7 @@
 {
-  "name": "joao316-ligacoes-motion",
+  "name": "salmo22-motion",
   "private": true,
-  "description": "Remotion composition of \"Jo\u00e3o 3:16, por dentro\" (video 5). Rendered with render.mjs (Node API, no Studio).",
+  "description": "Remotion composition of \"Não foi um grito. Foi uma citação.\" (video 7). Rendered with render.mjs (Node API, no Studio).",
   "type": "module",
   "scripts": {
     "still": "node render.mjs --still",
@@ -12,7 +12,6 @@
     "@remotion/renderer": "4.0.532",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "remotion": "4.0.532",
-    "three": "0.170.0"
+    "remotion": "4.0.532"
   }
 }

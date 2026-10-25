@@ -1,7 +1,7 @@
 // Render "Não foi um grito. Foi uma citação." with the Remotion Node API (no Studio).
 //   node render.mjs                 -> ../renders/.film/video.mp4 (silent master; audio is mixed by score.py/finalize.py)
 //   node render.mjs --still 0,12.5  -> ../renders/.stills/still-<t>.png
-//   node render.mjs --cover         -> ../renders/.stills/cover.png (frame 0: the hook)
+//   node render.mjs --cover         -> ../renders/.stills/cover.png (6.3 s: the sentence with its label flipped, "Foi uma citação.")
 import path from "node:path";
 import {fileURLToPath} from "node:url";
 import {bundle} from "@remotion/bundler";
@@ -10,12 +10,12 @@ import {renderMedia, renderStill, selectComposition} from "@remotion/renderer";
 const here = path.dirname(fileURLToPath(import.meta.url));
 const browserExecutable = "/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell";
 const serveUrl = await bundle({entryPoint: path.join(here, "src/index.ts")});
-const chromiumOptions = {gl: "angle"};
+const chromiumOptions = {};
 const composition = await selectComposition({serveUrl, id: "Main", browserExecutable, chromiumOptions});
 const arg = process.argv.indexOf("--still");
 if (process.argv.includes("--cover")) {
   const output = path.join(here, `../renders/.stills/cover${process.env.CUT === "curto" ? "-curto" : ""}.png`);
-  await renderStill({composition, serveUrl, output, frame: 0, browserExecutable, chromiumOptions});
+  await renderStill({composition, serveUrl, output, frame: Math.round(6.3 * composition.fps), browserExecutable, chromiumOptions});
   console.log("cover", output);
 } else if (arg > 0) {
   const times = (process.argv[arg + 1] || "0").split(",").map(Number);
