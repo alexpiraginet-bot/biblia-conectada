@@ -1,0 +1,133 @@
+{
+ "first_line": {
+  "pair": "Ps.22.1~Matt.27.46",
+  "votes": 126,
+  "mark": 85,
+  "partners_top": [
+   [
+    126,
+    "Mateus 27:46"
+   ],
+   [
+    85,
+    "Marcos 15:34"
+   ],
+   [
+    34,
+    "Hebreus 5:7"
+   ],
+   [
+    21,
+    "Salmos 22:16"
+   ],
+   [
+    21,
+    "Salmos 10:1"
+   ],
+   [
+    19,
+    "Lucas 24:44"
+   ]
+  ]
+ },
+ "pairs": [
+  {
+   "ps": "Ps.22.7",
+   "nt": "Matt.27.39",
+   "ps_pt": "Salmos 22:7",
+   "nt_pt": "Mateus 27:39",
+   "votes": 5
+  },
+  {
+   "ps": "Ps.22.8",
+   "nt": "Matt.27.43",
+   "ps_pt": "Salmos 22:8",
+   "nt_pt": "Mateus 27:43",
+   "votes": 15
+  },
+  {
+   "ps": "Ps.22.18",
+   "nt": "John.19.24",
+   "ps_pt": "Salmos 22:18",
+   "nt_pt": "João 19:24",
+   "votes": 60
+  },
+  {
+   "ps": "Ps.22.15",
+   "nt": "John.19.28",
+   "ps_pt": "Salmos 22:15",
+   "nt_pt": "João 19:28",
+   "votes": 81
+  }
+ ],
+ "no_pair": {
+  "Ps.22.31~John.19.30": null
+ },
+ "psalm22": [
+  "Salmo de Davi para o regente, como em “cerva da manhã”: Deus meu, Deus meu, por que me desamparaste? Longe [estás] de meu livramento [e] das palavras de meu gemido.",
+  "Deus meu, eu clamo de dia, e tu não me respondes; também [clamo] de noite, e não tenho sossego.",
+  "Porém tu és Santo, que habitas [nos] louvores de Israel.",
+  "Nossos pais confiaram em ti; eles confiaram, e tu os livraste.",
+  "Eles clamaram a ti, e escaparam [do perigo] ; eles confiaram em ti, e não foram envergonhados.",
+  "Mas eu sou um verme, e não um homem; [sou] humilhado pelos homens, e desprezado pelo povo.",
+  "Todos os que me veem zombam de mim; abrem os lábios [e] sacodem a cabeça, [dizendo] :",
+  "Ele confiou no “SENHOR”; [agora] que ele o salve e o liberte; pois se agrada nele.",
+  "Tu és o que me tiraste do ventre; [e] o que me deu segurança, [estando eu] junto aos seios de minha mãe.",
+  "Eu fui lançado sobre ti desde [que saí d] o útero; desde o ventre de minha mãe tu [és] meu Deus.",
+  "Não fiques longe de mim, porque a minha angústia está perto; pois não há quem [me] ajude.",
+  "Muitos touros me cercaram; fortes de Basã me rodearam.",
+  "Abriram contra mim suas bocas, [como] leão que despedaça e ruge.",
+  "Eu me derramei como água, e todos os meus ossos se soltaram uns dos outros; meu coração é como cera, [e] se derreteu por entre meus órgãos.",
+  "Minha força se secou como um caco de barro, e minha língua está grudada no céu da boca; e tu me pões no pó da morte;",
+  "Porque cães ficaram ao meu redor; uma multidão de malfeitores me cercou; perfuraram minhas mãos e meus pés.",
+  "Eu poderia contar todos os meus ossos; eles estão [me] olhando, e prestando atenção em mim.",
+  "Eles repartem entre si minhas roupas; e sobre minha vestimenta eles lançam sortes.",
+  "Porém tu, SENHOR, não fiques longe; força minha, apressa-te para me socorrer.",
+  "Livra minha alma da espada; [e] minha vida da violência do cão.",
+  "Salva-me da boca do leão; e responde-me dos chifres dos touros selvagens.",
+  "[Então] eu contarei teu nome a meus irmãos; no meio da congregação eu te louvarei.",
+  "Vós que temeis ao SENHOR, louvai a ele! E vós, de toda a semente de Jacó, glorificai a ele! Prestai culto a ele, vós de toda a semente de Israel.",
+  "Porque ele não desprezou nem abominou a aflição do aflito, nem escondeu seu rosto dele; mas sim, quando [o aflito] clamou, ele [o] ouviu.",
+  "Meu louvor será para ti na grande congregação; eu pagarei meus juramentos perante os que o temem.",
+  "Os humilhados comerão, e ficarão fartos; louvarão ao SENHOR aqueles que o buscam; vosso coração viverá para sempre.",
+  "Todos os extremos da terra se lembrarão [disso] , e se converterão ao SENHOR; e todas as gerações das nações adorarão diante de ti.",
+  "Porque o reino [pertence] ao SENHOR; e ele governa sobre as nações.",
+  "Todos os ricos da terra comerão e adorarão, [e] perante o rosto dele se prostrarão todos os que descem ao pó, e [que] não podem manter viva sua alma.",
+  "A descendência o servirá; ela será contada ao Senhor, para a geração [seguinte] .",
+  "Chegarão, e anunciarão a justiça dele ao povo que nascer, porque ele [assim] fez."
+ ],
+ "blivre": {
+  "John.19.24": "Disseram pois uns aos outros: Não a partamos, mas lancemos sortes sobre ela, de quem será; para que se cumprisse a Escritura, que diz: Entre si partiram minhas roupas, e sobre minha veste lançaram sortes. Os soldados, pois, fizeram isto.",
+  "John.19.28": "Depois disto, sabendo Jesus que já todas as coisas estavam feitas, para que a Escritura se cumprisse, ele disse: Tenho sede.",
+  "John.19.30": "Quando pois Jesus tomou o vinagre, disse: Está consumado; e abaixando a cabeça, deu o Espírito.",
+  "Mark.15.34": "E na hora nona, Jesus exclamou em alta voz: ELOÍ, ELOÍ, LAMÁ SABACTÂNI, que traduzido é: Deus meu, Deus meu, por que me desamparaste?",
+  "Matt.27.39": "Os que passavam blasfemavam dele, balançando suas cabeças,",
+  "Matt.27.43": "Confiou em Deus, livre-o agora, se lhe quer bem; pois disse: “Sou Filho de Deus”.",
+  "Matt.27.46": "E perto da hora nona, Jesus gritou em alta voz: Eli, Eli, lamá sabactâni?, Isto é: Deus meu, Deus meu, porque me desamparaste?",
+  "Ps.22.1": "Salmo de Davi para o regente, como em “cerva da manhã”: Deus meu, Deus meu, por que me desamparaste? Longe [estás] de meu livramento [e] das palavras de meu gemido.",
+  "Ps.22.15": "Minha força se secou como um caco de barro, e minha língua está grudada no céu da boca; e tu me pões no pó da morte;",
+  "Ps.22.18": "Eles repartem entre si minhas roupas; e sobre minha vestimenta eles lançam sortes.",
+  "Ps.22.31": "Chegarão, e anunciarão a justiça dele ao povo que nascer, porque ele [assim] fez.",
+  "Ps.22.7": "Todos os que me veem zombam de mim; abrem os lábios [e] sacodem a cabeça, [dizendo] :",
+  "Ps.22.8": "Ele confiou no “SENHOR”; [agora] que ele o salve e o liberte; pois se agrada nele."
+ },
+ "hebrew": {
+  "Ps.22.1": "אֵלִ֣י אֵ֭לִי לָמָ֣ה עֲזַבְתָּ֑נִי רָח֥וֹק מִֽ֝ישׁוּעָתִ֗י דִּבְרֵ֥י שַׁאֲגָתִֽי",
+  "Ps.22.31": "יָ֭בֹאוּ וְיַגִּ֣ידוּ צִדְקָת֑וֹ לְעַ֥ם נ֝וֹלָ֗ד כִּ֣י עָשָֽׂה",
+  "note": "OSHB numbers the title as 22:1",
+  "last_word": "עָשָֽׂה",
+  "first_words": "אֵלִ֣י אֵ֭לִי לָמָ֣ה עֲזַבְתָּ֑נִי"
+ },
+ "site": {
+  "base": "https://alexpiraginet-bot-biblia-conectada.vercel.app",
+  "fetched": "2026-10-25",
+  "pages": [
+   "joao-19-24",
+   "mateus-27-46",
+   "salmos-22-1",
+   "salmos-22-15",
+   "salmos-22-18"
+  ],
+  "all_votes_match": true
+ }
+}
