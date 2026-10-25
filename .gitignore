@@ -19,6 +19,7 @@ Thumbs.db
 # Intermediários pesados de render: vão para o GitHub Release "film-intermediates" (ver HANDOFF.md)
 estudos/*/renders/.film/*
 !estudos/*/renders/.film/narr.json
+!estudos/*/renders/.film/narr-curto.json
 !estudos/*/renders/.film/keys.json
 !estudos/*/renders/.film/render.log
 estudos/*/renders/.stills/
