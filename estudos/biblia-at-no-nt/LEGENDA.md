@@ -29,7 +29,7 @@ O vídeo publicado é a versão resumida (`renders/antigo-dentro-do-novo-curto.m
 Resposta pronta para "mas no gráfico do Gladd quem lidera é Isaías": "Os dois estão certos! O gráfico dele conta citações e alusões. O nosso conta referências cruzadas (a base aberta da OpenBible, que vem do Tesouro do Conhecimento das Escrituras). Salmos é o maior livro da Bíblia (2.461 versículos), então soma mais ligações no total. Por versículo, Isaías passa: 6,6 contra 4,7. 🙏"
 
 Notas:
-- A primeira linha tem 105 caracteres e cabe antes do "mais" do Instagram (corte em cerca de 125). Versão resumida da legenda a pedido do Alex (12:33, "resuma e deixe mais viral"); a longa ficou no histórico do git.
+- A primeira linha tem 100 caracteres e cabe antes do "mais" do Instagram (corte em cerca de 125). Versão resumida da legenda a pedido do Alex (12:33, "resuma e deixe mais viral"); a longa ficou no histórico do git.
 - Todo número vem de `data/stats.json` (`tools/analyze.py`). Os votos mostrados no vídeo batem com as páginas do site salvas em `source/site/` (25/10).
 - "Palavra por palavra": um par entra quando o versículo do Novo (SBLGNT) e o do Antigo na Septuaginta têm uma sequência de 5 ou mais palavras gregas idênticas (sem acentos e sem pontuação, com pelo menos 3 palavras que não são artigo, pronome ou partícula), e a OpenBible já liga os dois. É uma contagem por código e não substitui um índice de citações feito à mão, por isso o vídeo não chama esses pares de "citações".
 - Os números do gráfico do Gladd (841 de Isaías e outros) não aparecem no vídeo, porque não são dados abertos e foram medidos de outro jeito.
