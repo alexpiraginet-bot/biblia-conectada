@@ -11,7 +11,11 @@ me desamparaste?" é a primeira linha do Salmo 22, escrito séculos antes da cru
 "porque ele assim fez". Na cruz: "Está consumado". Jesus, morrendo, estava apontando para o salmo.
 
 ## Entregáveis
-- `renders/nao-foi-um-grito.mp4`: 1080×1920, 30 fps (números finais abaixo, em "Conferência").
+- `renders/nao-foi-um-grito.mp4`: 1080×1920, 30 fps, 1.443 quadros (48,2 s), 27,85 MB. Áudio medido no AAC: −14,2 LUFS,
+  pico real −1,8 dBTP. A voz fica de 15 a 30 dB acima da trilha em toda fala (mediana 21,3).
+- Conferência (`tools/check.py`: ALL OK; `tools/verify_audio.py`): o Whisper ouve o vídeo pronto e acerta 99,1% do
+  roteiro em ordem; os 6 primeiros segundos saem como português (0,999). Diferenças só de grafia ("pra" ouvido como
+  "para", "por quê" como "o porquê"). Ninguém ouviu de ouvido ainda.
 - `renders/capa-nao-foi-um-grito.jpg`: a capa, que é o frame 0 (a frase conhecida, em branco no preto).
 - `LEGENDA.md`: legenda, comentário fixado e duas respostas prontas para as objeções previsíveis.
 
