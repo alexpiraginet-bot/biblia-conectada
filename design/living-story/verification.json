@@ -1,0 +1,91 @@
+{
+  "video": {
+    "bytes": 2540919,
+    "sha256": "5eac3d4d24e7b058c0ce9b3eb144b56582a993ecf505a8fc9570d3f23b62183f",
+    "width": 720,
+    "height": 1080,
+    "durationSeconds": 12,
+    "fps": 30,
+    "framesDecoded": 360,
+    "audioStreams": 0,
+    "fullDecodeErrors": [],
+    "codec": "H.264 High level 3.1",
+    "pixelFormat": "yuv420p"
+  },
+  "mp4Atoms": [
+    {
+      "type": "ftyp",
+      "offset": 0,
+      "bytes": 32
+    },
+    {
+      "type": "moov",
+      "offset": 32,
+      "bytes": 5137
+    },
+    {
+      "type": "free",
+      "offset": 5169,
+      "bytes": 8
+    },
+    {
+      "type": "mdat",
+      "offset": 5177,
+      "bytes": 2535742
+    }
+  ],
+  "faststart": true,
+  "samples": [
+    {
+      "frame": 36,
+      "time": 1.2,
+      "decodedSha256": "a001feec919d172bf464fe660afb373baf3f5e2fb19a36495e2c22ca4559e3b7",
+      "meanAbsoluteRgbError": 4.888139146090535,
+      "psnrDb": 27.28730374461424
+    },
+    {
+      "frame": 198,
+      "time": 6.6,
+      "decodedSha256": "e9d16c4e5f556ddfe771bdde9eb9b2da0b3cab45122ab8b4cf485261b39ee0f9",
+      "meanAbsoluteRgbError": 3.316302297668038,
+      "psnrDb": 29.359360372514477
+    },
+    {
+      "frame": 342,
+      "time": 11.4,
+      "decodedSha256": "04ff322eb4982a6d07c708fb7b7fbfd536fb6ab52cb8b92ed4050072972f402f",
+      "meanAbsoluteRgbError": 5.7371622085048015,
+      "psnrDb": 25.853612514871223
+    }
+  ],
+  "adjacentFrameMotion": [
+    {
+      "framePair": [
+        36,
+        37
+      ],
+      "timeDeltaSeconds": 0.03333333333333333,
+      "pixelsChangedByMoreThan2": 245741,
+      "changedFraction": 0.3160249485596708
+    },
+    {
+      "framePair": [
+        198,
+        199
+      ],
+      "timeDeltaSeconds": 0.03333333333333333,
+      "pixelsChangedByMoreThan2": 160147,
+      "changedFraction": 0.20595036008230452
+    },
+    {
+      "framePair": [
+        342,
+        343
+      ],
+      "timeDeltaSeconds": 0.03333333333333333,
+      "pixelsChangedByMoreThan2": 212395,
+      "changedFraction": 0.2731417181069959
+    }
+  ],
+  "visualReview": "Decoded frames 36, 198, 342 inspected separately; no claim of continuous human playback review or physical iPhone validation."
+}

@@ -10,6 +10,7 @@ import { HeroSearch } from "@/components/home/HeroSearch";
 import { HomeAtlas } from "@/components/home/HomeAtlas";
 import { HomeMotion } from "@/components/home/HomeMotion";
 import { HomeGuide } from "@/components/home/HomeGuide";
+import { LivingStory } from "@/components/home/LivingStory";
 import { WebGLShader } from "@/components/ui/web-gl-shader";
 import { summary, verseText } from "@/lib/data";
 import { formatInt } from "@/lib/canon/text";
@@ -81,6 +82,7 @@ export default async function Home() {
           <div className={styles.searchField}><HeroSearch text="Um versículo, uma palavra, um livro..." /></div>
           <div className={styles.searchIdeas}><span>Que tal...</span>{["amor", "paz", "esperança"].map((word) => <Link key={word} href={`/buscar?q=${encodeURIComponent(word)}`}>{word} <span aria-hidden="true">↗</span></Link>)}</div>
         </section>
+        <LivingStory />
         <HomeGuide />
         <div className={styles.heroGraph} id="atlas-vivo"><LivingGraph data={graph} immersive /></div>
         <Link className={styles.scrollHint} href="#descobrir"><span aria-hidden="true">↓</span> Há um mundo para descobrir</Link>

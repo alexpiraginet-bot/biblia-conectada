@@ -1,0 +1,309 @@
+{
+  "started": "2026-10-25T18:16:22.516Z",
+  "mode": "frames",
+  "sourceIndexSha256": "c2625c377229b5097a306ce3c91af1a2dcb8b302c18b27f8d8d2206d4d4d5347",
+  "fps": 30,
+  "duration": 12,
+  "browser": "155.0.8059.85",
+  "renderer": {
+    "name": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+    "contextLost": false
+  },
+  "samples": [
+    {
+      "frame": 0,
+      "time": 0,
+      "file": "frame-0000.png",
+      "sha256": "f5dfbcf44232e9664c2e77205d519c05d7bcb377320de9a627825c158d7c2fee",
+      "proof": {
+        "time": 0,
+        "camera": [
+          0,
+          0,
+          10
+        ],
+        "vertexSample": [
+          0.5865153670310974,
+          -1.5834192037582397,
+          -0.29379498958587646,
+          0.5840752720832825,
+          -1.5840150117874146,
+          -0.2931019067764282,
+          0.5816137790679932,
+          -1.5845564603805542,
+          -0.2924235761165619
+        ],
+        "curves": 700,
+        "vertices": 110600
+      }
+    },
+    {
+      "frame": 36,
+      "time": 1.2,
+      "file": "frame-0036.png",
+      "sha256": "ac9f4c5cf74af1926de7648a9ea8eae272c6ed0216762ab2f8688ede088b2d37",
+      "proof": {
+        "time": 1.2,
+        "camera": [
+          0,
+          0,
+          10
+        ],
+        "vertexSample": [
+          0.8056007027626038,
+          -1.724325180053711,
+          0.28753143548965454,
+          0.802388608455658,
+          -1.7251006364822388,
+          0.28852349519729614,
+          0.7991915345191956,
+          -1.7258315086364746,
+          0.28948867321014404
+        ],
+        "curves": 700,
+        "vertices": 110600
+      }
+    },
+    {
+      "frame": 66,
+      "time": 2.2,
+      "file": "frame-0066.png",
+      "sha256": "417c81b9c9950c84b5751124685b1727936fce09aaf8ee6f451aa83f586d7140",
+      "proof": {
+        "time": 2.2,
+        "camera": [
+          0,
+          0,
+          10
+        ],
+        "vertexSample": [
+          0.49489089846611023,
+          -1.7574684619903564,
+          0.44729626178741455,
+          0.4917360246181488,
+          -1.7574942111968994,
+          0.44690409302711487,
+          0.4885777533054352,
+          -1.7574771642684937,
+          0.4465186893939972
+        ],
+        "curves": 700,
+        "vertices": 110600
+      }
+    },
+    {
+      "frame": 138,
+      "time": 4.6,
+      "file": "frame-0138.png",
+      "sha256": "0c8bce638ffe0c1bae864337977c0ba4ccd1f28177e2f18fa405e985862aa6e4",
+      "proof": {
+        "time": 4.6,
+        "camera": [
+          0,
+          0,
+          10
+        ],
+        "vertexSample": [
+          0.4487925171852112,
+          -1.5493683815002441,
+          0.7363491058349609,
+          0.4460945725440979,
+          -1.55028235912323,
+          0.73996901512146,
+          0.44339820742607117,
+          -1.5511761903762817,
+          0.7428308129310608
+        ],
+        "curves": 700,
+        "vertices": 110600
+      }
+    },
+    {
+      "frame": 198,
+      "time": 6.6,
+      "file": "frame-0198.png",
+      "sha256": "0f78998f28e2902f9f16dafcb825837f51b90680ff6a2587d0a8fada8d3a16df",
+      "proof": {
+        "time": 6.6,
+        "camera": [
+          0,
+          0,
+          10
+        ],
+        "vertexSample": [
+          0.14382915198802948,
+          -1.4790233373641968,
+          0.7856550812721252,
+          0.14091934263706207,
+          -1.4790070056915283,
+          0.7853149175643921,
+          0.1380213052034378,
+          -1.478986382484436,
+          0.7849739193916321
+        ],
+        "curves": 700,
+        "vertices": 110600
+      }
+    },
+    {
+      "frame": 270,
+      "time": 9,
+      "file": "frame-0270.png",
+      "sha256": "3e7804464ce98540690494d108a3d8243875d279c0786d42ed9eeeadcf9089c9",
+      "proof": {
+        "time": 9,
+        "camera": [
+          0,
+          0,
+          10
+        ],
+        "vertexSample": [
+          1.3223172426223755,
+          -0.4564807415008545,
+          0.08734847605228424,
+          1.2934086322784424,
+          -0.4282168447971344,
+          0.0841459259390831,
+          1.2642121315002441,
+          -0.3996456265449524,
+          0.08037674427032471
+        ],
+        "curves": 700,
+        "vertices": 110600
+      }
+    },
+    {
+      "frame": 342,
+      "time": 11.4,
+      "file": "frame-0342.png",
+      "sha256": "60cc0f7aff5d64e59119dcee98a47fa2c7ddd613122f3a9c2b84335d3d000da1",
+      "proof": {
+        "time": 11.4,
+        "camera": [
+          0,
+          0,
+          10
+        ],
+        "vertexSample": [
+          1.4756449460983276,
+          -0.29804691672325134,
+          0.2600797712802887,
+          1.4408098459243774,
+          -0.25364020466804504,
+          0.2521345615386963,
+          1.406301736831665,
+          -0.20916980504989624,
+          0.2450917810201645
+        ],
+        "curves": 700,
+        "vertices": 110600
+      }
+    },
+    {
+      "frame": 359,
+      "time": 11.966666666666667,
+      "file": "frame-0359.png",
+      "sha256": "3e3fa8d9c1e265eb419b28894240b2e06707dbc54a8fee1d7a69552e99044edb",
+      "proof": {
+        "time": 11.966666666666667,
+        "camera": [
+          0,
+          0,
+          10
+        ],
+        "vertexSample": [
+          1.5500717163085938,
+          -0.289883017539978,
+          0.31300264596939087,
+          1.5151433944702148,
+          -0.24807511270046234,
+          0.3079809844493866,
+          1.480209231376648,
+          -0.20586271584033966,
+          0.30364924669265747
+        ],
+        "curves": 700,
+        "vertices": 110600
+      }
+    }
+  ],
+  "errors": [],
+  "failedRequests": [],
+  "filesServed": {
+    "index.html": {
+      "bytes": 10307,
+      "sha256": "c2625c377229b5097a306ce3c91af1a2dcb8b302c18b27f8d8d2206d4d4d5347"
+    },
+    "assets/settings.js": {
+      "bytes": 1112,
+      "sha256": "d2163f063156912326a833015403ecac2da8676ca3070e6d2ca3ca2e9b03009e"
+    },
+    "assets/gsap.min.js": {
+      "bytes": 72927,
+      "sha256": "92bb9a96476f983d212a2bc4f54c889039c1696dd4461d40a736860938570fbb"
+    },
+    "assets/fingerprint-data.js": {
+      "bytes": 190596,
+      "sha256": "9cb5d5832a1ecb4754ee2eb3b405c217c7f7edc99b3e7b516a510d6fd6950439"
+    },
+    "assets/suspense.wav": {
+      "bytes": 2304044,
+      "sha256": "0ca9782c1ebb1eabc0d7f2f80b6cb99686fa32223fcf8bbc0255272f54dca80d"
+    },
+    "assets/vendor/three.module.js": {
+      "bytes": 603113,
+      "sha256": "c8211c69345d2e9949dc7a8ac969380497aa0600a5a8ac6a459c8cd02dd9cb8a"
+    },
+    "assets/vendor/addons/postprocessing/EffectComposer.js": {
+      "bytes": 8477,
+      "sha256": "4b8c855f28eed2570bed898adc0ab89c585a8a281ecb6d905c09d00697f9f50a"
+    },
+    "assets/vendor/addons/postprocessing/RenderPass.js": {
+      "bytes": 4112,
+      "sha256": "fd91229aacc5830e3984b0f2bdefcf566163ea028f4c1f1ab233fa6665a133ac"
+    },
+    "assets/vendor/addons/postprocessing/UnrealBloomPass.js": {
+      "bytes": 14388,
+      "sha256": "d92742959879b461f25348b2abddc7ca0d48527e7718340bcfa29fa771e2799a"
+    },
+    "assets/vendor/addons/postprocessing/OutputPass.js": {
+      "bytes": 4029,
+      "sha256": "f5b81c96e76b6b28b4b3ba8c41c4aeb982b1e03f3d82883242d951b2ab082fa2"
+    },
+    "assets/vendor/addons/shaders/CopyShader.js": {
+      "bytes": 729,
+      "sha256": "a33057d5ac91c43304c186ac0e8816e62bb2ed471d3a00ff3018dfd5c0389718"
+    },
+    "assets/vendor/addons/postprocessing/ShaderPass.js": {
+      "bytes": 3228,
+      "sha256": "e2500a5913b26bbf5148ceaae644c6edcff06a18b01494ee37bf856353d2ab9d"
+    },
+    "assets/vendor/addons/postprocessing/MaskPass.js": {
+      "bytes": 4694,
+      "sha256": "7cd08eee9d5d6f5578beaddbdcbe9c384f6873810af27f22ab7db3ceeb127aa3"
+    },
+    "assets/vendor/addons/shaders/LuminosityHighPassShader.js": {
+      "bytes": 1291,
+      "sha256": "5044f780b6e6cf863947f64c36fe1587132f7fbe395ada863cd1e5f0388dcf1e"
+    },
+    "assets/vendor/addons/shaders/OutputShader.js": {
+      "bytes": 1876,
+      "sha256": "353479f77a8d7e2629d49ccac9fc2f5dbfdda5442e0adf867b00377a2fcb0cb2"
+    },
+    "assets/vendor/addons/postprocessing/Pass.js": {
+      "bytes": 4218,
+      "sha256": "444b409c235ead986893c472e720da1b779a56985c7d10b279c7944b52bd61c5"
+    },
+    "assets/vendor/three.core.js": {
+      "bytes": 1403455,
+      "sha256": "eb077d2417f61d3e6d9264c317cabc4ea35769ed6b0ab533067292a550784c20"
+    },
+    "assets/fingerprint.png": {
+      "bytes": 2524226,
+      "sha256": "7f72cd070b3631d9608769ae9d559760ee2e0521f3a3e854f8b50d6aa6810b26"
+    }
+  },
+  "ok": true,
+  "finished": "2026-10-25T18:18:23.999Z"
+}

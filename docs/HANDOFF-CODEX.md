@@ -16,6 +16,10 @@ Escrito pelo Claude a pedido do Alex: "Prepare handoff para o códex seguir". Da
 
 ## 2. Estado e continuidade
 
+### Motion enviado por Alex — integração em validação (25/10)
+
+Branch `codex/living-story-motion`: seção da home **Sua história também se conecta**, a partir do ZIP editável enviado por Alex. Movimento fiel digital/portal/rede sobre a Bíblia; entrada para Coração, leitura e conexões reais. Player pequeno e adiado, vídeo silencioso, pausa/replay e seleção de formas, sem trazer Three/GSAP para o site. Arte identificada como recriação ilustrativa. Fontes originais preservadas. Vinte testes focados e oito cenários de desenvolvimento passaram; build e publicação em validação. [Decisão](LIVING-STORY.md) e [evidências](evidence/2026-10-25-living-story.md). Os estudos 6/7 atualizados pelo Claude foram incorporados sem edição.
+
 ### Leitura móvel e menu em repouso — publicados e conferidos (23/10)
 
 PR #38, squash `0435dbc34905a7d0beac53508d187158ccdef820`, Vercel `dpl_51ysMakYJmSyUZvM1RJZCxMsEHbD` READY no domínio `www.bibliaconectada.company`. Em Arcos móvel, painel maior e com rolagem única, cabeçalho de referência/contagem compacto e botão Ampliar leitura/Voltar ao céu. A pílula some após 1,5 s e reaparece ao toque, movimento, rolagem ou teclado, sem deslocar o texto nem consumir o primeiro toque. Menu aberto e foco de teclado mantêm a navegação disponível. Mapa de Jesus e Cronologia estão no menu completo; as outras rotas preservam o menu visível. Build com 806 testes, lint e orçamento passou; 16 casos locais, oito na prévia e oito públicos aprovados. Arcos público usa 168.726 B gzip9 inicial, abaixo do teto de 168.960 B, com módulo adiado discriminado. Revisões independentes de performance e UI/UX concluídas. Safari em iPhone físico e FPS não medidos; a limitação gráfica anterior de WebKit com movimento reduzido permanece documentada. [Evidências](evidence/2026-10-23-mobile-reading-space.md).
