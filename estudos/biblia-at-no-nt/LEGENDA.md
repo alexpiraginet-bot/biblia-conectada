@@ -30,7 +30,7 @@ Ligações e votos: OpenBible.info (CC BY), todas no site Bíblia Conectada. Gre
 
 Comentário fixado (sugestão): "Comenta a tua passagem favorita (livro, capítulo e versículo). As mais comentadas viram o próximo vídeo, com o mapa de ligações delas."
 
-Versão resumida (`renders/antigo-dentro-do-novo-curto.mp4`, ~49 s): mesma legenda. Se for postar as duas, a curta vai como Reel e a completa fica pro YouTube/salvos; ou testa a curta primeiro e solta a completa como "versão estendida".
+O vídeo publicado é a versão resumida (`renders/antigo-dentro-do-novo-curto.mp4`, ~49 s). A completa (~72 s) não foi renderizada: o Alex decidiu usar só a curta (25/10, 10:17). Os números da legenda que a curta não fala (Salmos, Isaías, Mateus) continuam verdadeiros e conferidos.
 
 Resposta pronta para "mas no gráfico do Gladd quem lidera é Isaías": "Os dois estão certos! O gráfico dele conta citações e alusões. O nosso conta referências cruzadas (a base aberta da OpenBible, que vem do Tesouro do Conhecimento das Escrituras). Salmos é o maior livro da Bíblia (2.461 versículos), então soma mais ligações no total. Por versículo, Isaías passa: 6,6 contra 4,7. 🙏"
 

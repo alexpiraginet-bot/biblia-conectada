@@ -14,7 +14,8 @@ uma versão resumida também" (`renders/antigo-dentro-do-novo-curto.mp4`, as mes
 precisa ver isso." (só essa frase foi regravada, `source/narr/cta*.mp3`; o resto é a tomada 1).
 
 ## Entregáveis
-As duas versões saem do mesmo pipeline; `CUT=curto` escolhe a resumida (ver "Como rodar").
+Só a versão resumida foi renderizada e entregue (Alex, 10:17: "fazer só o mais curto"). A completa existe no roteiro e
+no pipeline (sem `CUT`), mas não há MP4 dela no repo.
 - `renders/antigo-dentro-do-novo.mp4`: 1080×1920, 30 fps, 2.192 quadros (73,07 s), 27,99 MB. Áudio medido no AAC:
   −14,2 LUFS, pico real −1,8 dBTP. A voz fica de 14 a 30 dB acima da trilha em todas as falas (mediana 19,4).
 - Conferência final (`tools/verify_audio.py`): o Whisper ouve o vídeo pronto e acerta 98,1% do roteiro, em ordem; os 6
