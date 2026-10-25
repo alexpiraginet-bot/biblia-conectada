@@ -65,7 +65,7 @@ def complete(name):
 
 
 # numbers come back as digits ("67.293", "8 em cada 10"), "pro" as "para o"
-SIM_MIN = {3: 0.85}
+SIM_MIN = {3: 0.85, 13: 0.85}   # "pra" is heard as "para"
 
 
 # one take for the whole film when possible (consistent delivery: the complaint about video 1 was the accent *changing*);

@@ -843,5 +843,11 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
     compartilhamento ("Comenta tua passagem favorita. Ela pode virar o próximo vídeo."). As duas versões saem do mesmo
     pipeline (`CUT=curto`). Só a frase do fecho foi regravada (`source/narr/cta*.mp3`).
   - `motion/node_modules` é um link para o do vídeo 5. Ficou fora do git (`.gitignore`).
+- **25/10, tarde, vídeo 7 (ideia do Claude):**
+  - O Alex pediu um formato "100% seu", com gancho muito forte, 30-40 s. A proposta aceita: "Não foi um grito. Foi uma
+    citação." (`estudos/biblia-salmo22/`): a frase da cruz é a primeira linha do Salmo 22 e o salmo descreve a cena.
+    Quatro pares reais da base, texto e silêncio, batimento que desacelera, um acorde só no "Está consumado".
+  - Decisões de honestidade: Sl 22:16 fora (leitura disputada); Sl 22:31 → Jo 19:30 dito como "termina assim", não como
+    ligação. Respostas prontas para as duas objeções em `LEGENDA.md`.
   - Para liberar disco, foram apagados os intermediários antigos dos vídeos 1 a 4 em `hf-test/videos/*/renders/.film`
     (fora do repo, refeitos pelo pipeline de cada vídeo).

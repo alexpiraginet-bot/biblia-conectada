@@ -1,0 +1,45 @@
+== take1 (47.4 s, 113 words)
+  L00   0.00-  2.42 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Olá, pessoal, tudo bem? Vamos começar.
+  L01   3.14-  6.20 pt=0.998 en=0.001 es=0.000 sim=1.00 lp=-0.02 | Deus meu, Deus meu, por que me desamparaste?
+  L02   6.68-  9.22 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Isso não foi um grito, foi uma citação.
+  L03   9.84- 14.48 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | É a primeira linha do Salmo 22, escrito mil anos antes da cruz.
+  L04  14.76- 16.64 pt=0.999 en=0.001 es=0.000 sim=1.00 lp=-0.00 | E o Salmo descreve a cena.
+  L05  17.06- 19.40 pt=0.999 en=0.001 es=0.000 sim=1.00 lp=-0.06 | Zombam de mim e sacodem a cabeça.
+  L06  19.96- 22.02 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.13 | Confiou no Senhor que Ele o salve.
+  L07  22.68- 25.02 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Repartem minhas roupas e lançam sortes.
+  L08  25.44- 27.72 pt=0.998 en=0.001 es=0.000 sim=1.00 lp=0.00 | Minha língua está grudada no céu da boca.
+  L09  28.38- 31.66 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.07 | Esse Salmo começa no abandono e termina assim.
+  L10  32.28- 36.54 pt=0.999 en=0.001 es=0.000 sim=1.00 lp=-0.01 | Anunciarão a justiça dele ao povo que nascer, porque ele assim fez.
+  L11  36.92- 38.20 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.01 | Está consumado.
+  L12  38.78- 44.56 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.05 | Jesus não estava perguntando por quê. Estava dizendo, olhem o Salmo, e
+  L13  45.42- 47.34 pt=0.999 en=0.000 es=0.000 sim=0.88 lp=-0.01 | Manda para quem só conhece a primeira frase.
+== take2 (48.3 s, 113 words)
+  L00   0.00-  2.42 pt=0.998 en=0.001 es=0.000 sim=1.00 lp=-0.11 | Olá pessoal, tudo bem? Vamos começar.
+  L01   3.12-  6.24 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.01 | Deus meu, Deus meu, por que me desamparaste?
+  L02   6.82-  9.48 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Isso não foi um grito, foi uma citação.
+  L03  10.20- 14.84 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | É a primeira linha do Salmo 22, escrito mil anos antes da cruz.
+  L04  15.48- 17.06 pt=0.998 en=0.002 es=0.000 sim=1.00 lp=-0.00 | E o Salmo descreve a cena.
+  L05  17.52- 19.78 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.02 | Zombam de mim e sacodem a cabeça.
+  L06  20.52- 22.72 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.16 | Confiou no Senhor que Ele o salve.
+  L07  23.52- 25.94 pt=0.999 en=0.001 es=0.000 sim=1.00 lp=-0.00 | Repartem minhas roupas e lançam sortes.
+  L08  26.40- 28.70 pt=0.999 en=0.001 es=0.000 sim=1.00 lp=0.00 | Minha língua está grudada no céu da boca.
+  L09  28.70- 32.62 pt=0.998 en=0.001 es=0.000 sim=1.00 lp=-0.10 | Esse Salmo começa no abandono e termina assim.
+  L10  33.32- 37.30 pt=0.999 en=0.001 es=0.000 sim=1.00 lp=-0.01 | Anunciarão a justiça dele ao povo que nascer, porque ele assim fez.
+  L11  37.66- 38.94 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Está consumado.
+  L12  39.54- 45.12 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.05 | Jesus não estava perguntando por quê. Estava dizendo, olhem o Salmo, e
+  L13  46.10- 48.22 pt=0.999 en=0.000 es=0.000 sim=0.88 lp=-0.01 | Manda para quem só conhece a primeira frase.
+== take3 (47.2 s, 113 words)
+  L00   0.00-  2.48 pt=0.989 en=0.008 es=0.002 sim=1.00 lp=-0.00 | Olá, pessoal! Tudo bem? Vamos começar!
+  L01   3.14-  6.12 pt=0.998 en=0.001 es=0.001 sim=1.00 lp=-0.01 | Deus meu, Deus meu, por que me desamparaste?
+  L02   6.60-  9.20 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Isso não foi um grito, foi uma citação.
+  L03   9.46- 14.20 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | É a primeira linha do Salmo 22, escrito mil anos antes da cruz.
+  L04  14.40- 16.16 pt=0.997 en=0.002 es=0.001 sim=1.00 lp=-0.00 | E o Salmo descreve a cena.
+  L05  16.66- 19.06 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.03 | Zombam de mim e sacodem a cabeça.
+  L06  19.60- 21.86 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.05 | Confiou no Senhor, que Ele o salve.
+  L07  22.54- 25.00 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.00 | Repartem minhas roupas e lançam sortes.
+  L08  25.36- 27.72 pt=0.999 en=0.001 es=0.000 sim=1.00 lp=0.00 | Minha língua está grudada no céu da boca.
+  L09  28.44- 31.58 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.09 | Esse Salmo começa no abandono e termina assim.
+  L10  32.18- 36.42 pt=0.999 en=0.001 es=0.000 sim=1.00 lp=-0.01 | Anunciarão a justiça dele ao povo que nascer, porque ele assim fez.
+  L11  36.74- 38.08 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.01 | Está consumado.
+  L12  38.52- 44.20 pt=0.999 en=0.000 es=0.000 sim=1.00 lp=-0.05 | Jesus não estava perguntando por quê. Estava dizendo, olhem o Salmo. E
+  L13  44.98- 47.04 pt=0.999 en=0.000 es=0.000 sim=0.88 lp=-0.01 | Manda para quem só conhece a primeira frase.

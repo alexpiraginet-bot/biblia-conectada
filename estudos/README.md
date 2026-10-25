@@ -8,6 +8,7 @@
 | `biblia-joao316/` | **Antes de João 3:16** (19/10/2026, 1080×1920, 30 fps, 57,6 s) | Remake do episódio 02 no padrão do vídeo 1: o arco de João 3:14 até Números 21 (862 capítulos pra trás), a serpente de bronze e a cruz desenhadas em luz nas duas pontas. Narração do Andre |
 | `biblia-joao316-ligacoes/` | **João 3:16, por dentro** (20/10/2026, 1080×1920, 30 fps) | Cinco ligações de João 3:16 com o "como liga" documentado (votos do site + grego, hebraico e Septuaginta), cenas ilustradas e gráficos animados no Remotion (`motion/`). Narração do Andre |
 | `biblia-at-no-nt/` | **O Antigo dentro do Novo** (25/10/2026, 1080×1920, 30 fps; completa ~72 s e resumida ~49 s) | As 67.293 ligações AT↔NT como fios de luz entre duas colunas de livros (gráfico calculado em NumPy, câmera e rolagem no Remotion). Em laranja, os 223 pares que repetem 5+ palavras gregas em sequência (Septuaginta × SBLGNT). Narração do Andre |
+| `biblia-salmo22/` | **Não foi um grito. Foi uma citação.** (25/10/2026, 1080×1920, 30 fps, ~48 s) | Salmo 22 na cruz: a frase conhecida vira a primeira linha do salmo; quatro pares da base com os versículos lado a lado e as palavras iguais acesas; o salmo inteiro rola até o último verso; "Está consumado" sozinho. Quase sem música: batimento que desacelera, silêncio, um acorde. Narração do Andre |
 
 **Números do vídeo 2:**
 - 2.094 ligações do AT chegam aos 4 capítulos do nascimento (Mt 1–2 e Lc 1–2, 180 versículos).
@@ -29,6 +30,10 @@
 - 67.293 pares AT↔NT; 6.808 dos 7.957 versículos do NT (85,6%) têm ligação com o AT. Salmos lidera (11.484), Isaías vem em 2º (8.468), e Malaquias é o mais denso (12,4 por versículo). No NT, Mateus lidera (8.696).
 - 223 pares "palavra por palavra no grego" (5+ palavras iguais em sequência, Septuaginta × SBLGNT, confirmados na OpenBible). Entre eles, Is 7:14 → Mt 1:23 e Is 61:1 → Lc 4:18.
 
+**Números do vídeo 7:**
+- Sl 22:1 ↔ Mt 27:46 é o par mais votado de Sl 22:1 (126 votos). Os quatro pares do filme: 22:7↔Mt 27:39 (5), 22:8↔Mt 27:43 (15), 22:18↔Jo 19:24 (60), 22:15↔Jo 19:28 (81).
+- Sl 22:16 ("perfuraram") ficou fora (leitura hebraica disputada); Sl 22:31 → Jo 19:30 não é chamado de ligação.
+
 **Onde está o resto:**
 - Cada pasta tem `PROJETO.md` (decisões, dados, pipeline), `LEGENDA.md` (legenda do post) e o código.
 - `renders/` traz o vídeo final e a capa.
@@ -45,6 +50,7 @@ cd ../biblia-comentarios && python3 -I tools/analyze.py && python3 -I tools/chec
 cd ../biblia-joao316 && python3 -I tools/analyze.py && python3 -I tools/check.py       # idem, + citações == BLIVRE
 cd ../biblia-joao316-ligacoes && python3 -I tools/analyze.py && python3 -I tools/check.py   # idem, + site == base, grego/hebraico
 cd ../biblia-at-no-nt && python3 -I tools/analyze.py && python3 -I tools/check.py           # idem, + grego literal LXX × SBLGNT
+cd ../biblia-salmo22 && python3 -I tools/analyze.py && python3 -I tools/check.py            # idem, + hebraico do Salmo 22
 ```
 
 O pipeline completo de cada vídeo está no `PROJETO.md` da pasta.
