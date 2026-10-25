@@ -7,7 +7,7 @@
 | `biblia-comentarios/` | **Os versículos de vocês** (19/10/2026, 1080×1920, 30 fps, 62,2 s) | Resposta aos comentários do vídeo 1: os 19 versículos pedidos, cada um com as próprias ligações e o @ de quem pediu. Narração do mesmo narrador (Andre) |
 | `biblia-joao316/` | **Antes de João 3:16** (19/10/2026, 1080×1920, 30 fps, 57,6 s) | Remake do episódio 02 no padrão do vídeo 1: o arco de João 3:14 até Números 21 (862 capítulos pra trás), a serpente de bronze e a cruz desenhadas em luz nas duas pontas. Narração do Andre |
 | `biblia-joao316-ligacoes/` | **João 3:16, por dentro** (20/10/2026, 1080×1920, 30 fps) | Cinco ligações de João 3:16 com o "como liga" documentado (votos do site + grego, hebraico e Septuaginta), cenas ilustradas e gráficos animados no Remotion (`motion/`). Narração do Andre |
-| `biblia-at-no-nt/` | **O Antigo dentro do Novo** (25/10/2026, 1080×1920, 30 fps) | As 67.293 ligações AT↔NT como fios de luz entre duas colunas de livros (gráfico calculado em NumPy, câmera e rolagem no Remotion). Em laranja, os 223 pares que repetem 5+ palavras gregas em sequência (Septuaginta × SBLGNT). Narração do Andre |
+| `biblia-at-no-nt/` | **O Antigo dentro do Novo** (25/10/2026, 1080×1920, 30 fps; completa ~72 s e resumida ~49 s) | As 67.293 ligações AT↔NT como fios de luz entre duas colunas de livros (gráfico calculado em NumPy, câmera e rolagem no Remotion). Em laranja, os 223 pares que repetem 5+ palavras gregas em sequência (Septuaginta × SBLGNT). Narração do Andre |
 
 **Números do vídeo 2:**
 - 2.094 ligações do AT chegam aos 4 capítulos do nascimento (Mt 1–2 e Lc 1–2, 180 versículos).

@@ -10,8 +10,14 @@ import {C, F} from "./theme";
 const FPS = data.fps;
 const LAY = data.layout;
 type Line = (typeof data.lines)[number];
-const LINE = (i: number): Line => data.lines.find((l) => l.i === i)!;
+// a line missing from this cut (the short version, script.SHORT) starts and ends where the next present line starts
+const has = (i: number) => data.lines.some((l) => l.i === i);
+const LINE = (i: number): Line => {
+  const l = data.lines.find((x) => x.i === i) ?? data.lines.find((x) => x.i > i);
+  return l ? (has(i) ? l : {...l, t1: l.t0, words: []}) : {...data.lines[data.lines.length - 1], t0: data.duration, t1: data.duration, words: []};
+};
 const T = (i: number) => LINE(i).t0;
+const on = (i: number, v: number) => (has(i) ? v : 0);
 const norm = (s: string) =>
   s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]/g, "");
 const wordT = (i: number, w: string, nth = 0): number => {
@@ -67,24 +73,29 @@ const buildCam = (): KF[] => {
   add(T(2) - 0.15, [540, 960, 1.22]);
   add(T(3) - 0.1, FULL);
   add(T(3) + 0.9, [540, 760, 1.0]);
-  add(T(4) - 0.1, [540, 740, 1.0]);
-  add(T(4) + 1.2, [540, 410, 1.5]);           // up to Gn 1:1 -> Jo 1:1
-  add(T(6) - 0.05, [540, 400, 1.56]);
+  if (has(4)) {
+    add(T(4) - 0.1, [540, 740, 1.0]);
+    add(T(4) + 1.2, [540, 410, 1.5]);           // up to Gn 1:1 -> Jo 1:1
+    add(T(6) - 0.05, [540, 400, 1.56]);
+  }
   add(T(6) + 0.9, FULL);                      // the count: everything
   add(T(7), FULL);
   add(T(7) + 0.5, [330, OTY[0], 2.3]);        // "todos os 39 livros": a fast scroll down the whole column
   add(T(7) + 2.4, [330, OTY[iMal], 2.3]);
   add(tPs - 0.35, [330, OTY[iMal] - 60, 2.2]);
-  add(tPs, [330, OTY[iPs], 2.8]);             // Salmos: punch in
-  add(tPs + 0.5, [330, OTY[iPs], 2.6]);
-  add(tOnze + 1.0, [560, OTY[iPs] + 40, 1.3]);
-  add(tIs, [560, OTY[iIs], 1.3]);
-  add(tMt - 0.45, [560, OTY[iIs] + 60, 1.3]);
-  add(tMt, [760, 430, 1.55]);                 // whip to Mateus
-  add(T(10) - 0.1, [760, 440, 1.6]);
-  add(T(10) + 0.9, [540, 790, 0.9]);          // "séculos de distância": pull back, the whole weave
-  add(T(11) - 0.05, [540, 790, 0.9]);
-  add(T(11) + 0.8, FULL);
+  if (!has(8)) { add(T(11) - 0.05, [330, OTY[iMal] - 60, 2.2]); add(T(11) + 0.8, FULL); }
+  if (has(8)) add(tPs, [330, OTY[iPs], 2.8]);             // Salmos: punch in
+  if (has(8)) {
+    add(tPs + 0.5, [330, OTY[iPs], 2.6]);
+    add(tOnze + 1.0, [560, OTY[iPs] + 40, 1.3]);
+    add(tIs, [560, OTY[iIs], 1.3]);
+    add(tMt - 0.45, [560, OTY[iIs] + 60, 1.3]);
+    add(tMt, [760, 430, 1.55]);                 // whip to Mateus
+    add(T(10) - 0.1, [760, 440, 1.6]);
+    add(T(10) + 0.9, [540, 790, 0.9]);          // "séculos de distância": pull back, the whole weave
+    add(T(11) - 0.05, [540, 790, 0.9]);
+    add(T(11) + 0.8, FULL);
+  }
   add(T(12), FULL);
   add(T(12) + 0.9, [im[0][0] + 160, im[0][1] - 60, 1.7]);     // Isaías 7:14
   add(tMat13 - 0.1, [im[0][0] + 170, im[0][1] - 60, 1.7]);
@@ -245,6 +256,7 @@ const Kicker: React.FC<{children: React.ReactNode; color?: string}> = ({children
 // a headline that pops in (scale + rise) and leaves
 const Head: React.FC<{t: number; a: number; b: number; children: React.ReactNode; top?: number}> = ({t, a, b, children, top = 150}) => {
   // in and out live inside [a, b], so two consecutive heads never overlap
+  if (b - a < 0.3) return null;                 // a line cut from this version
   const k = Math.min(interpolate(t, [a, a + 0.18], [0, 1], clamp), interpolate(t, [b - 0.16, b], [1, 0], clamp));
   if (k <= 0) return null;
   const p = a <= 0 ? 1 : ramp(t, a, a + 0.3);
@@ -331,7 +343,7 @@ const Stage: React.FC = () => {
   let blue = t < T(6) ? dimA : 0.16;
   const blueSweep = t < T(7) ? sweep6 : 0;
   if (t >= T(7)) blue = interpolate(t, [T(7), T(7) + 0.5], [1, 0.5], clamp);
-  if (t >= T(10)) blue = interpolate(t, [T(10), T(10) + 0.8], [0.5, 0.9], clamp);
+  if (t >= T(10) && has(10)) blue = interpolate(t, [T(10), T(10) + 0.8], [0.5, 0.9], clamp);
   if (t >= T(11)) blue = interpolate(t, [T(11), T(11) + 0.6], [0.9, 0.22], clamp);
   if (t >= tHoje) blue = interpolate(t, [tHoje, tHoje + 1.5], [0.22, 0.1], clamp);
   const orange0 = interpolate(t, [T(3) - 0.2, T(3) + 0.4], [0.85, 0], clamp);
@@ -339,13 +351,13 @@ const Stage: React.FC = () => {
   const orangeA = t < T(12) ? 1 : t < tHoje ? interpolate(t, [T(12), T(12) + 0.6], [1, 0.4], clamp) : interpolate(t, [tHoje, tHoje + 1.5], [0.4, 0.55], clamp);
   const goldSweep = interpolate(t, [tHoje - 0.05, tHoje + 1.8], [0, 1], {...clamp, easing: Easing.inOut(Easing.cubic)});
   const hl = {
-    psalms: win(t, tPs - 0.05, tIs - 0.1, 0.25),
-    isaiah: win(t, tIs - 0.05, tMt - 0.3, 0.3),
+    psalms: on(8, win(t, tPs - 0.05, tIs - 0.1, 0.25)),
+    isaiah: on(9, win(t, tIs - 0.05, tMt - 0.3, 0.3)),
     malachi: 0,
-    matthew: win(t, tMt - 0.1, T(10) + 0.5, 0.3),
+    matthew: on(9, win(t, tMt - 0.1, T(10) + 0.5, 0.3)),
   };
   // labels
-  const scrollOn = t > T(7) + 0.3 && t < tPs - 0.3;
+  const scrollOn = t > T(7) + 0.3 && t < (has(8) ? tPs - 0.3 : T(11) - 0.2);
   const focus = scrollOn ? (cy - LAY.y0) / ((LAY.y1 - LAY.y0) / LAY.ot.length) - 0.5 : null;
   const hot: Record<string, number> = {
     [`ot${iPs}`]: hl.psalms, [`ot${iIs}`]: hl.isaiah, [`nt${iMt}`]: hl.matthew,
@@ -353,17 +365,17 @@ const Stage: React.FC = () => {
   const labelsShow = t < T(14) ? 1 : interpolate(t, [tHoje, tHoje + 1], [0, 0.85], clamp);
   // threads
   const gj = curve("Gen.1.1~John.1.1"), im = curve("Isa.7.14~Matt.1.23"), il = curve("Isa.61.1~Luke.4.18");
-  const pGJ = interpolate(t, [T(4) - 0.1, T(5) + 0.4], [0, 1], {...clamp, easing: Easing.inOut(Easing.cubic)}) * win(t, T(4) - 0.2, T(6) + 0.4, 0.3);
+  const pGJ = on(4, interpolate(t, [T(4) - 0.1, T(5) + 0.4], [0, 1], {...clamp, easing: Easing.inOut(Easing.cubic)}) * win(t, T(4) - 0.2, T(6) + 0.4, 0.3));
   const pIM = interpolate(t, [T(12) + 0.2, tMat13 + 0.9], [0, 1], {...clamp, easing: Easing.inOut(Easing.cubic)}) * win(t, T(12), T(14) + 0.3, 0.3);
   const pIL = interpolate(t, [tHoje - 0.6, tHoje + 0.6], [0, 1], {...clamp, easing: Easing.inOut(Easing.cubic)});
   // lights
-  const pulseBlue = Math.max(win(t, 0, T(3) + 0.1, 0.4), win(t, T(6) + 1.2, T(7) + 0.2, 0.4) * 0.8, win(t, T(10), T(11) + 0.2, 0.5), interpolate(t, [tHoje + 1.2, tHoje + 2.2], [0, 0.5], clamp));
+  const pulseBlue = Math.max(win(t, 0, T(3) + 0.1, 0.4), win(t, T(6) + 1.2, T(7) + 0.2, 0.4) * 0.8, on(10, win(t, T(10), T(11) + 0.2, 0.5)), interpolate(t, [tHoje + 1.2, tHoje + 2.2], [0, 0.5], clamp));
   const pulseOr = Math.max(win(t, 0, T(3) + 0.1, 0.4) * 0.7, win(t, tLar + 1.2, T(14) + 0.3, 0.4));
   const pulseGold = interpolate(t, [tHoje + 0.8, tHoje + 2], [0, 1], clamp);
   // flash on the punch-in words
   const flash = Math.max(...[tPs, tMt, tMat13, tHoje, tDeus].map((x) => interpolate(t, [x - 0.02, x + 0.03, x + 0.25], [0, 0.22, 0], clamp)));
   // warm breath over the weave for "séculos de distância" and the end
-  const warm = Math.max(win(t, T(10) - 0.2, T(11) - 0.1, 0.6), interpolate(t, [tDeus - 0.3, tDeus + 0.8], [0, 1], clamp));
+  const warm = Math.max(on(10, win(t, T(10) - 0.2, T(11) - 0.1, 0.6)), interpolate(t, [tDeus - 0.3, tDeus + 0.8], [0, 1], clamp));
 
   return (
     <AbsoluteFill style={{backgroundColor: BG, overflow: "hidden"}}>
@@ -389,8 +401,8 @@ const Stage: React.FC = () => {
         </svg>
         <Nodes show={labelsShow * interpolate(t, [T(2) - 0.2, T(2) + 0.2], [0.5, 1], clamp)} />
         <Labels t={t} focus={focus} hot={hot} show={labelsShow} />
-        <Chip x={gj[0][0]} y={gj[0][1] + 34} text="Gênesis 1:1" side="r" a={win(t, wordT(4, "principio") - 0.1, T(6) + 0.2, 0.25)} />
-        <Chip x={gj[gj.length - 1][0]} y={gj[gj.length - 1][1] + 34} text="João 1:1" side="l" a={win(t, wordT(5, "principio") - 0.1, T(6) + 0.2, 0.25)} />
+        <Chip x={gj[0][0]} y={gj[0][1] + 34} text="Gênesis 1:1" side="r" a={on(4, win(t, wordT(4, "principio") - 0.1, T(6) + 0.2, 0.25))} />
+        <Chip x={gj[gj.length - 1][0]} y={gj[gj.length - 1][1] + 34} text="João 1:1" side="l" a={on(5, win(t, wordT(5, "principio") - 0.1, T(6) + 0.2, 0.25))} />
         <Chip x={im[0][0]} y={im[0][1]} text="Isaías 7:14" side="l" color={ORANGE} size={26} a={win(t, T(12), T(14) + 0.2, 0.25)} />
         <Chip x={im[im.length - 1][0]} y={im[im.length - 1][1]} text="Mateus 1:23" side="r" color={ORANGE} size={26} a={win(t, tMat13, T(14) + 0.2, 0.25)} />
         <Chip x={il[0][0]} y={il[0][1]} text="Isaías 61:1" side="l" color="#FFFFFF" size={24} a={win(t, tHoje - 0.3, data.duration, 0.25)} />
@@ -405,7 +417,7 @@ const Stage: React.FC = () => {
 const Overlays: React.FC<{t: number; focus: number | null}> = ({t, focus}) => {
   const tPs = wordT(8, "salmos"), tIs = wordT(9, "isaias"), tMt = wordT(9, "mateus"), tLar = wordT(11, "laranja");
   const tMat13 = wordT(13, "mateus"), tHoje = wordT(17, "hoje"), tDeus = wordT(18, "deus");
-  const scrimA = Math.max(win(t, -1, T(3) + 0.1, 0.3), win(t, T(5) - 0.2, T(14), 0.3), win(t, tHoje + 2.2, data.duration + 1, 0.4));
+  const scrimA = Math.max(win(t, -1, T(3) + 0.1, 0.3), win(t, (has(5) ? T(5) : T(6)) - 0.2, T(14), 0.3), win(t, tHoje + 2.2, data.duration + 1, 0.4));
   const hookP = ramp(t, -0.2, 0.15);
   const bookNow = focus === null ? 0 : Math.max(0, Math.min(LAY.ot.length - 1, Math.round(focus)));
   const deusP = ramp(t, tDeus - 0.05, tDeus + 0.5);
@@ -441,12 +453,12 @@ const Overlays: React.FC<{t: number; focus: number | null}> = ({t, focus}) => {
         <Sub size={40}>vezes o Novo aponta pro Antigo</Sub>
       </Head>
       {/* L7: all 39 books, the scroll */}
-      <Head t={t} a={T(7)} b={tPs - 0.1} top={140}>
+      <Head t={t} a={T(7)} b={(has(8) ? tPs : T(11)) - 0.1} top={140}>
         <Kicker>{`todos os ${data.otBooks} livros do Antigo`}</Kicker>
         <Big size={96}>{LAY.ot[bookNow].pt}</Big>
         <div style={{fontFamily: F.mono, fontWeight: 700, fontSize: 52, color: GOLD}}>{fmt(LAY.ot[bookNow].links)}</div>
       </Head>
-      <Rail t={t} focus={focus ?? 0} a={win(t, T(7) + 0.4, tPs - 0.2, 0.3)} />
+      <Rail t={t} focus={focus ?? 0} a={win(t, T(7) + 0.4, (has(8) ? tPs : T(11)) - 0.2, 0.3)} />
       {/* L8-9: Salmos, Isaías, Mateus */}
       <Head t={t} a={tPs} b={tIs - 0.05} top={140}>
         <Kicker>{`nº ${data.psalms.rank} do Antigo`}</Kicker>
@@ -563,8 +575,9 @@ const End: React.FC<{start: number}> = ({start}) => {
       <div style={{position: "absolute", left: 70, right: 70, top: 150, opacity: a, translate: `0px ${(1 - a) * 30}px`, textAlign: "center",
         display: "flex", flexDirection: "column", gap: 18, alignItems: "center"}}>
         <Kicker>{`${fmt(data.otNt)} ligações · ${data.otBooks} + ${data.ntBooks} livros`}</Kicker>
-        <Big size={84}>Qual livro do Antigo você ainda não leu?</Big>
-        <div style={{fontFamily: F.ui, fontWeight: 700, fontSize: 56, color: GOLD}}>Comenta.</div>
+        <Big size={78}>Comenta tua passagem favorita.</Big>
+        <div style={{fontFamily: F.ui, fontWeight: 700, fontSize: 52, color: GOLD}}>Ela pode virar o próximo vídeo.</div>
+        <div style={{fontFamily: F.ui, fontWeight: 500, fontSize: 40, color: INK, opacity: 0.9, marginTop: 6}}>E manda pra quem precisa ver isso.</div>
       </div>
       <div style={{position: "absolute", left: 0, right: 0, top: 1500, height: 420, opacity: a,
         background: `linear-gradient(to bottom, rgba(5,18,25,0) 0%, ${BG} 32%)`}} />

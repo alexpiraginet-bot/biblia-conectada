@@ -7,8 +7,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 WORK = ROOT / "renders/.film"
-VID, MIX = WORK / "video.mp4", WORK / "mix.wav"
-OUT = ROOT / "renders/antigo-dentro-do-novo.mp4"
+import os
+CUT = os.environ.get("CUT", ""); SUFFIX = "-curto" if CUT == "curto" else ""
+VID, MIX = WORK / f"video{SUFFIX}.mp4", WORK / f"mix{SUFFIX}.wav"
+OUT = ROOT / f"renders/antigo-dentro-do-novo{SUFFIX}.mp4"
 MAX_MB = 29.0
 
 
@@ -31,7 +33,7 @@ def dur(p):
 vdur = dur(VID)
 i_in, tp_in = r128(MIX)
 gain, ceiling, tries = -14.0 - i_in, -2.0, []
-aac = WORK / "a.m4a"
+aac = WORK / f"a{SUFFIX}.m4a"
 for _ in range(5):
     chain = (f"atrim=0:{vdur:.3f},lowpass=f=18000:p=2,aresample=192000,volume={gain:.2f}dB,"
              f"alimiter=limit={10 ** (ceiling / 20):.4f}:attack=1.5:release=80:level=false:latency=true,aresample=48000")
@@ -43,7 +45,7 @@ for _ in range(5):
 
 size_mb = VID.stat().st_size / 1e6
 vin = VID
-v2 = WORK / "video2.mp4"
+v2 = WORK / f"video2{SUFFIX}.mp4"
 if v2.exists() and v2.stat().st_mtime > VID.stat().st_mtime and "--reencode" not in sys.argv:
     vin = v2; print(f"reusing {v2.name} (the picture did not change)")
 elif size_mb > MAX_MB - 1.2:
@@ -51,9 +53,9 @@ elif size_mb > MAX_MB - 1.2:
     enc = ["-c:v", "libx264", "-preset", "slow", "-tune", "film", "-pix_fmt", "yuv420p", "-profile:v", "high", "-b:v", f"{kbps}k",
            "-maxrate", f"{int(kbps * 1.6)}k", "-bufsize", f"{kbps * 2}k", "-colorspace", "bt709", "-color_primaries", "bt709",
            "-color_trc", "bt709", "-color_range", "tv"]
-    log = str(WORK / "x264")
+    log = str(WORK / f"x264{SUFFIX}")
     run(["ffmpeg", "-y", "-hide_banner", "-nostats", "-i", str(VID), *enc, "-pass", "1", "-passlogfile", log, "-an", "-f", "null", "-"])
-    vin = WORK / "video2.mp4"
+    vin = WORK / f"video2{SUFFIX}.mp4"
     run(["ffmpeg", "-y", "-hide_banner", "-nostats", "-i", str(VID), *enc, "-pass", "2", "-passlogfile", log, "-an", str(vin)])
     print(f"two-pass {kbps} kbps (crf file was {size_mb:.1f} MB)")
 run(["ffmpeg", "-y", "-hide_banner", "-nostats", "-i", str(vin), "-i", str(aac), "-map", "0:v:0", "-map", "1:a:0", "-c", "copy",

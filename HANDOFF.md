@@ -838,6 +838,10 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
     OpenBible, desenhados em NumPy (`tools/layers.py`). As linhas laranja são calculadas por código: 223 pares com 5+
     palavras gregas iguais em sequência (Septuaginta × SBLGNT) que a OpenBible já liga. O vídeo não chama isso de
     "citações". O gráfico do Gladd leva crédito como inspiração, na legenda e no fim do vídeo.
+  - Segundo corte (09:15-10:05): o Alex pediu mais curto e emocionante, com Deus guiando as Escrituras no centro desde o
+    início, mantendo os dados e as linhas; depois uma versão resumida (~49 s) e um fecho que puxe comentário e
+    compartilhamento ("Comenta tua passagem favorita. Ela pode virar o próximo vídeo."). As duas versões saem do mesmo
+    pipeline (`CUT=curto`). Só a frase do fecho foi regravada (`source/narr/cta*.mp3`).
   - `motion/node_modules` é um link para o do vídeo 5. Ficou fora do git (`.gitignore`).
   - Para liberar disco, foram apagados os intermediários antigos dos vídeos 1 a 4 em `hf-test/videos/*/renders/.film`
     (fora do repo, refeitos pelo pipeline de cada vídeo).

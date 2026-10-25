@@ -19,7 +19,7 @@
   "Fechou o livro. E disse:",
   "Hoje esta escritura se cumpriu em vossos ouvidos.",
   "Isso não é coincidência. É Deus guiando cada linha, do começo ao fim.",
-  "Qual livro do Antigo você ainda não leu? Comenta."
+  "Comenta tua passagem favorita. Ela pode virar o próximo vídeo. E manda pra quem precisa ver isso."
  ],
  "takes": {
   "take1": {
@@ -1402,21 +1402,7 @@
     },
     {
      "line": 19,
-     "k": [
-      163,
-      171
-     ],
-     "t": [
-      76.82,
-      79.9
-     ],
-     "p_pt": 0.999,
-     "p_en": 0.0,
-     "p_es": 0.0,
-     "lang": "pt",
-     "sim": 1.0,
-     "lp": -0.013,
-     "heard": "Qual livro do antigo você ainda não leu? Comenta."
+     "missing": true
     }
    ],
    "dur": 80.08
@@ -2801,21 +2787,7 @@
     },
     {
      "line": 19,
-     "k": [
-      163,
-      171
-     ],
-     "t": [
-      79.98,
-      83.18
-     ],
-     "p_pt": 0.999,
-     "p_en": 0.0,
-     "p_es": 0.0,
-     "lang": "pt",
-     "sim": 1.0,
-     "lp": -0.016,
-     "heard": "Qual livro do antigo você ainda não leu? Comenta."
+     "missing": true
     }
    ],
    "dur": 83.52
@@ -4200,24 +4172,528 @@
     },
     {
      "line": 19,
+     "missing": true
+    }
+   ],
+   "dur": 81.76
+  },
+  "cta1": {
+   "words": [
+    {
+     "w": "Olá,",
+     "t0": 0.0,
+     "t1": 0.26,
+     "p": 0.983
+    },
+    {
+     "w": "pessoal!",
+     "t0": 0.48,
+     "t1": 0.66,
+     "p": 0.998
+    },
+    {
+     "w": "Tudo",
+     "t0": 0.98,
+     "t1": 1.1,
+     "p": 0.999
+    },
+    {
+     "w": "bem?",
+     "t0": 1.1,
+     "t1": 1.34,
+     "p": 0.999
+    },
+    {
+     "w": "Vamos",
+     "t0": 1.8,
+     "t1": 2.22,
+     "p": 0.998
+    },
+    {
+     "w": "começar!",
+     "t0": 2.22,
+     "t1": 2.7,
+     "p": 1.0
+    },
+    {
+     "w": "Comenta",
+     "t0": 3.18,
+     "t1": 3.82,
+     "p": 0.982
+    },
+    {
+     "w": "a",
+     "t0": 3.82,
+     "t1": 3.98,
+     "p": 0.603
+    },
+    {
+     "w": "tua",
+     "t0": 3.98,
+     "t1": 4.02,
+     "p": 0.73
+    },
+    {
+     "w": "passagem",
+     "t0": 4.02,
+     "t1": 4.52,
+     "p": 0.999
+    },
+    {
+     "w": "favorita.",
+     "t0": 4.52,
+     "t1": 5.08,
+     "p": 1.0
+    },
+    {
+     "w": "Ela",
+     "t0": 5.26,
+     "t1": 5.74,
+     "p": 0.998
+    },
+    {
+     "w": "pode",
+     "t0": 5.74,
+     "t1": 6.04,
+     "p": 1.0
+    },
+    {
+     "w": "virar",
+     "t0": 6.04,
+     "t1": 6.4,
+     "p": 0.999
+    },
+    {
+     "w": "o",
+     "t0": 6.4,
+     "t1": 6.48,
+     "p": 0.994
+    },
+    {
+     "w": "próximo",
+     "t0": 6.48,
+     "t1": 6.8,
+     "p": 1.0
+    },
+    {
+     "w": "vídeo.",
+     "t0": 6.8,
+     "t1": 7.22,
+     "p": 0.999
+    },
+    {
+     "w": "E",
+     "t0": 7.6,
+     "t1": 8.08,
+     "p": 0.999
+    },
+    {
+     "w": "manda",
+     "t0": 8.08,
+     "t1": 8.42,
+     "p": 0.999
+    },
+    {
+     "w": "para",
+     "t0": 8.42,
+     "t1": 8.54,
+     "p": 0.672
+    },
+    {
+     "w": "quem",
+     "t0": 8.54,
+     "t1": 8.74,
+     "p": 1.0
+    },
+    {
+     "w": "precisa",
+     "t0": 8.74,
+     "t1": 9.18,
+     "p": 0.999
+    },
+    {
+     "w": "ver",
+     "t0": 9.18,
+     "t1": 9.44,
+     "p": 0.999
+    },
+    {
+     "w": "isso.",
+     "t0": 9.44,
+     "t1": 9.74,
+     "p": 0.999
+    }
+   ],
+   "lines": [
+    {
+     "line": 0,
      "k": [
-      163,
-      171
+      0,
+      5
      ],
      "t": [
-      78.36,
-      81.48
+      0.0,
+      2.7
      ],
      "p_pt": 0.999,
      "p_en": 0.0,
      "p_es": 0.0,
      "lang": "pt",
      "sim": 1.0,
-     "lp": -0.015,
-     "heard": "Qual livro do antigo você ainda não leu? Comenta!"
+     "lp": -0.004,
+     "heard": "Olá, pessoal! Tudo bem? Vamos começar!"
+    },
+    {
+     "line": 1,
+     "missing": true
+    },
+    {
+     "line": 2,
+     "missing": true
+    },
+    {
+     "line": 3,
+     "missing": true
+    },
+    {
+     "line": 4,
+     "missing": true
+    },
+    {
+     "line": 5,
+     "missing": true
+    },
+    {
+     "line": 6,
+     "missing": true
+    },
+    {
+     "line": 7,
+     "missing": true
+    },
+    {
+     "line": 8,
+     "missing": true
+    },
+    {
+     "line": 9,
+     "missing": true
+    },
+    {
+     "line": 10,
+     "missing": true
+    },
+    {
+     "line": 11,
+     "missing": true
+    },
+    {
+     "line": 12,
+     "missing": true
+    },
+    {
+     "line": 13,
+     "missing": true
+    },
+    {
+     "line": 14,
+     "missing": true
+    },
+    {
+     "line": 15,
+     "missing": true
+    },
+    {
+     "line": 16,
+     "missing": true
+    },
+    {
+     "line": 17,
+     "missing": true
+    },
+    {
+     "line": 18,
+     "missing": true
+    },
+    {
+     "line": 19,
+     "k": [
+      8,
+      23
+     ],
+     "t": [
+      3.98,
+      9.74
+     ],
+     "p_pt": 0.998,
+     "p_en": 0.001,
+     "p_es": 0.0,
+     "lang": "pt",
+     "sim": 0.909,
+     "lp": -0.046,
+     "heard": "tua passagem favorita. Ela pode virar o próximo vídeo. E manda para quem precisa ver isso."
     }
    ],
-   "dur": 81.76
+   "dur": 9.84
+  },
+  "cta2": {
+   "words": [
+    {
+     "w": "Olá,",
+     "t0": 0.0,
+     "t1": 0.24,
+     "p": 0.964
+    },
+    {
+     "w": "pessoal!",
+     "t0": 0.44,
+     "t1": 0.58,
+     "p": 0.998
+    },
+    {
+     "w": "Tudo",
+     "t0": 0.9,
+     "t1": 1.0,
+     "p": 0.998
+    },
+    {
+     "w": "bem?",
+     "t0": 1.0,
+     "t1": 1.22,
+     "p": 0.999
+    },
+    {
+     "w": "Vamos",
+     "t0": 1.7,
+     "t1": 2.02,
+     "p": 0.997
+    },
+    {
+     "w": "começar!",
+     "t0": 2.02,
+     "t1": 2.46,
+     "p": 1.0
+    },
+    {
+     "w": "Comenta",
+     "t0": 2.94,
+     "t1": 3.58,
+     "p": 0.98
+    },
+    {
+     "w": "a",
+     "t0": 3.58,
+     "t1": 3.7,
+     "p": 0.659
+    },
+    {
+     "w": "tua",
+     "t0": 3.7,
+     "t1": 3.76,
+     "p": 0.712
+    },
+    {
+     "w": "passagem",
+     "t0": 3.76,
+     "t1": 4.3,
+     "p": 0.999
+    },
+    {
+     "w": "favorita.",
+     "t0": 4.3,
+     "t1": 4.92,
+     "p": 0.999
+    },
+    {
+     "w": "Ela",
+     "t0": 5.12,
+     "t1": 5.56,
+     "p": 0.998
+    },
+    {
+     "w": "pode",
+     "t0": 5.56,
+     "t1": 5.82,
+     "p": 0.999
+    },
+    {
+     "w": "virar",
+     "t0": 5.82,
+     "t1": 6.16,
+     "p": 1.0
+    },
+    {
+     "w": "o",
+     "t0": 6.16,
+     "t1": 6.24,
+     "p": 0.993
+    },
+    {
+     "w": "próximo",
+     "t0": 6.24,
+     "t1": 6.64,
+     "p": 1.0
+    },
+    {
+     "w": "vídeo.",
+     "t0": 6.64,
+     "t1": 7.08,
+     "p": 0.999
+    },
+    {
+     "w": "E",
+     "t0": 7.5,
+     "t1": 8.0,
+     "p": 0.999
+    },
+    {
+     "w": "manda",
+     "t0": 8.0,
+     "t1": 8.3,
+     "p": 0.999
+    },
+    {
+     "w": "para",
+     "t0": 8.3,
+     "t1": 8.42,
+     "p": 0.554
+    },
+    {
+     "w": "quem",
+     "t0": 8.42,
+     "t1": 8.6,
+     "p": 1.0
+    },
+    {
+     "w": "precisa",
+     "t0": 8.6,
+     "t1": 9.0,
+     "p": 0.999
+    },
+    {
+     "w": "ver",
+     "t0": 9.0,
+     "t1": 9.2,
+     "p": 0.999
+    },
+    {
+     "w": "isso.",
+     "t0": 9.2,
+     "t1": 9.54,
+     "p": 0.998
+    }
+   ],
+   "lines": [
+    {
+     "line": 0,
+     "k": [
+      0,
+      5
+     ],
+     "t": [
+      0.0,
+      2.46
+     ],
+     "p_pt": 0.999,
+     "p_en": 0.001,
+     "p_es": 0.0,
+     "lang": "pt",
+     "sim": 1.0,
+     "lp": -0.007,
+     "heard": "Olá, pessoal! Tudo bem? Vamos começar!"
+    },
+    {
+     "line": 1,
+     "missing": true
+    },
+    {
+     "line": 2,
+     "missing": true
+    },
+    {
+     "line": 3,
+     "missing": true
+    },
+    {
+     "line": 4,
+     "missing": true
+    },
+    {
+     "line": 5,
+     "missing": true
+    },
+    {
+     "line": 6,
+     "missing": true
+    },
+    {
+     "line": 7,
+     "missing": true
+    },
+    {
+     "line": 8,
+     "missing": true
+    },
+    {
+     "line": 9,
+     "missing": true
+    },
+    {
+     "line": 10,
+     "missing": true
+    },
+    {
+     "line": 11,
+     "missing": true
+    },
+    {
+     "line": 12,
+     "missing": true
+    },
+    {
+     "line": 13,
+     "missing": true
+    },
+    {
+     "line": 14,
+     "missing": true
+    },
+    {
+     "line": 15,
+     "missing": true
+    },
+    {
+     "line": 16,
+     "missing": true
+    },
+    {
+     "line": 17,
+     "missing": true
+    },
+    {
+     "line": 18,
+     "missing": true
+    },
+    {
+     "line": 19,
+     "k": [
+      8,
+      23
+     ],
+     "t": [
+      3.7,
+      9.54
+     ],
+     "p_pt": 0.996,
+     "p_en": 0.002,
+     "p_es": 0.001,
+     "lang": "pt",
+     "sim": 0.909,
+     "lp": -0.059,
+     "heard": "tua passagem favorita. Ela pode virar o próximo vídeo. E manda para quem precisa ver isso."
+    }
+   ],
+   "dur": 9.84
   }
  }
 }

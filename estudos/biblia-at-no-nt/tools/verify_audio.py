@@ -13,7 +13,11 @@ from script import LINES  # noqa: E402
 import json  # noqa: E402
 from takes import norm  # noqa: E402
 
-MP4 = ROOT / "renders/antigo-dentro-do-novo.mp4"
+import os
+CUT = os.environ.get("CUT", ""); SUFFIX = "-curto" if CUT == "curto" else ""
+from script import SHORT  # noqa: E402
+USE = SHORT if CUT == "curto" else list(range(1, len(LINES)))
+MP4 = ROOT / f"renders/antigo-dentro-do-novo{SUFFIX}.mp4"
 raw = subprocess.run(["ffmpeg", "-v", "error", "-i", str(MP4), "-vn", "-ac", "1", "-ar", "16000", "-f", "f32le", "-"],
                      capture_output=True, check=True).stdout
 x = np.frombuffer(raw, np.float32).copy()
@@ -22,7 +26,7 @@ m = WhisperModel("mobiuslabsgmbh/faster-whisper-large-v3-turbo", device="cpu", c
 lang, prob, allp = m.detect_language(x[:16000 * 6])
 segs, _ = m.transcribe(x, language="pt", beam_size=2, condition_on_previous_text=False)
 heard = " ".join(s.text.strip() for s in segs)
-want = norm(" ".join(LINES[1:]))
+want = norm(" ".join(LINES[i] for i in USE))
 got = norm(heard)
 sm = SequenceMatcher(a=want, b=got, autojunk=False)
 print(f"first 6 s language: {lang} {prob:.3f} | top: " + ", ".join(f"{l} {p:.3f}" for l, p in sorted(allp, key=lambda kv: -kv[1])[:3]))
@@ -33,7 +37,7 @@ for tag, a0, a1, b0, b1 in sm.get_opcodes():
 print("HEARD:", heard)
 
 # Long-form Whisper can skip a whole window under music; check every line on its own slot of the final mix too
-NARR = json.load(open(ROOT / "renders/.film/narr.json"))
+NARR = json.load(open(ROOT / f"renders/.film/narr{SUFFIX}.json"))
 bad = 0
 for L in NARR["lines"]:
     a, b = int(max(0, L["t0"] - 0.10) * 16000), int((L["t1"] + 0.20) * 16000)

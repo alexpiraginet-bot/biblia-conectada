@@ -14,11 +14,15 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
-from script import LINES, QUOTES  # noqa: E402
+import os
+from script import LINES, QUOTES, SHORT  # noqa: E402
+
+CUT = os.environ.get("CUT", ""); SUFFIX = "-curto" if CUT == "curto" else ""
+USE = SHORT if CUT == "curto" else list(range(1, len(LINES)))
 
 S = json.load(open(ROOT / "data/stats.json"))
 D = json.load(open(ROOT / "motion/src/data.json"))
-N = json.load(open(ROOT / "renders/.film/narr.json"))
+N = json.load(open(ROOT / f"renders/.film/narr{SUFFIX}.json"))
 ok = True
 
 
@@ -32,6 +36,7 @@ ot = {b["pt"]: b for b in S["ot_books"]}
 rank = sorted(S["ot_books"], key=lambda b: -b["links"])
 # 1. quotes
 for i, (ref, frags) in QUOTES.items():
+    if i not in USE: continue
     for f in frags:
         need(f in LINES[i] and f.lower() in S["blivre"][ref].lower(), f"linha {i}: “{f}” = BLIVRE {ref}")
 # 2. what the voice says
@@ -73,7 +78,7 @@ def numbers(t):
 bad = [t.strip() for t in text_nodes + strings if t.strip() and not numbers(t) <= allowed]
 need(not bad, f"Main.tsx: nenhum número digitado na tela {bad if bad else ''}")
 # 4. the real narration
-need(not N.get("provisional") and not D.get("provisional") and len(N["lines"]) == len(LINES) - 1,
+need(not N.get("provisional") and not D.get("provisional") and [L["i"] for L in N["lines"]] == USE and D.get("cut", "") == CUT,
      "narr.json é a narração real (não a linha do tempo de teste)")
 for L in N["lines"]:
     if L["text"] != LINES[L["i"]]:

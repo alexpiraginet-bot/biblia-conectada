@@ -14,7 +14,9 @@ sys.path.insert(0, str(ROOT))
 from script import QUOTES  # noqa: E402
 
 S = json.load(open(ROOT / "data/stats.json")); LAY = json.load(open(ROOT / "data/layout.json"))
-N = json.load(open(ROOT / "renders/.film/narr.json"))
+import os
+CUT = os.environ.get("CUT", ""); SUFFIX = "-curto" if CUT == "curto" else ""
+N = json.load(open(ROOT / f"renders/.film/narr{SUFFIX}.json"))
 REF = json.load(open(ROOT.parent / "biblia-referencias/data/stats.json"))
 OSIS, PT = REF["osis"], REF["books_pt"]
 
@@ -96,6 +98,7 @@ out = {
     "greek714": greek("Isa.7.14~Matt.1.23", 14, 16), "greek611": greek("Isa.61.1~Luke.4.18", 21, 22),
     "blivre": S["blivre"], "site": S["site"],
 }
+out["cut"] = CUT
 assert out["famous"]["Gen.1.1~John.1.1"] == 724 and out["literal"]["pairs"] == 223 and out["matthew"]["links"] == 8696
 assert out["malachi"]["pt"] == "Malaquias" and out["isaiah"]["links"] == 8468
 dst = ROOT / "motion/src/data.json"

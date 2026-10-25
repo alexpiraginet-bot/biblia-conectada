@@ -8,9 +8,13 @@ visualizações" (é o Andre, o mesmo preset) e "'Parece fibra óptica' acho que
 escolher" (escolhido: ver Gancho). Às 09:15: "mais curto e emocionante do começo ao fim", com o tema central sendo como
 Deus guiou as Escrituras, e que isso é uma das provas; os dados e as linhas ficam ("isso aí é bem atrativo"); Gn 1:1 →
 Jo 1:1 abre os exemplos. O primeiro corte (73 s, com Malaquias, 85,6% e o grego palavra por palavra na tela) ficou em
-`source/narr/v2-longo/` (tomadas) e fora do git (vídeo, em `renders/.film/`).
+`source/narr/v2-longo/` (tomadas) e fora do git (vídeo, em `renders/.film/`). Às 10:01: "Não acha muito grande? Faz
+uma versão resumida também" (`renders/antigo-dentro-do-novo-curto.mp4`, as mesmas tomadas, só as falas de
+`script.SHORT`). Às 10:05: fecho novo, "Comenta tua passagem favorita. Ela pode virar o próximo vídeo. E manda pra quem
+precisa ver isso." (só essa frase foi regravada, `source/narr/cta*.mp3`; o resto é a tomada 1).
 
 ## Entregáveis
+As duas versões saem do mesmo pipeline; `CUT=curto` escolhe a resumida (ver "Como rodar").
 - `renders/antigo-dentro-do-novo.mp4`: 1080×1920, 30 fps, 2.192 quadros (73,07 s), 27,99 MB. Áudio medido no AAC:
   −14,2 LUFS, pico real −1,8 dBTP. A voz fica de 14 a 30 dB acima da trilha em todas as falas (mediana 19,4).
 - Conferência final (`tools/verify_audio.py`): o Whisper ouve o vídeo pronto e acerta 98,1% do roteiro, em ordem; os 6
@@ -92,7 +96,7 @@ e Isaías lidera por versículo entre os dois (6,6 contra 4,7).
 python3 -I tools/analyze.py      # data/stats.json + data/lines.npz (confere tudo o que o roteiro diz)
 python3 -I tools/layers.py       # camadas de luz + data/layout.json (~40 s)
 # narração: 3 tomadas do script.PROMPT -> source/narr/take*.mp3 (Higgsfield)
-python3 -I tools/takes.py        # avalia as tomadas (Whisper)
+python3 -I tools/takes.py        # avalia as tomadas (Whisper); --cta só as tomadas do fecho regravado
 python3 -I narration.py          # renders/.film/narr.wav + narr.json
 python3 -I tools/motion_data.py  # motion/src/data.json
 python3 -I tools/check.py        # dito = mostrado = dados = BLIVRE
@@ -100,5 +104,7 @@ python3 score.py                 # trilha + mix
 cd motion && node render.mjs && node render.mjs --cover && cd ..
 python3 finalize.py              # -14 LUFS, pico real <= -1 dBTP, <= 29 MB
 python3 -I tools/verify_audio.py # o Whisper ouve o vídeo final e compara com o roteiro
+# a versão resumida: os mesmos passos de narration.py em diante com CUT=curto no ambiente
+# (narr-curto.json, mix-curto.wav, video-curto.mp4, antigo-dentro-do-novo-curto.mp4, capa-...-curto.jpg)
 ```
 `motion/node_modules` é um link para o do vídeo 5 (mesmas versões travadas no `package-lock.json`).

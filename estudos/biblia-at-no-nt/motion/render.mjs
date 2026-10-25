@@ -13,7 +13,7 @@ const serveUrl = await bundle({entryPoint: path.join(here, "src/index.ts")});
 const composition = await selectComposition({serveUrl, id: "Main", browserExecutable});
 const arg = process.argv.indexOf("--still");
 if (process.argv.includes("--cover")) {
-  const output = path.join(here, "../renders/.stills/cover.png");
+  const output = path.join(here, `../renders/.stills/cover${process.env.CUT === "curto" ? "-curto" : ""}.png`);
   await renderStill({composition, serveUrl, output, frame: 0, browserExecutable});
   console.log("cover", output);
 } else if (arg > 0) {
@@ -24,7 +24,8 @@ if (process.argv.includes("--cover")) {
     console.log("still", output);
   }
 } else {
-  const output = path.join(here, "../renders/.film/video.mp4");
+  const suffix = process.env.CUT === "curto" ? "-curto" : "";
+  const output = path.join(here, `../renders/.film/video${suffix}.mp4`);
   let last = -1;
   await renderMedia({
     composition, serveUrl, codec: "h264", crf: 15, muted: true, outputLocation: output, browserExecutable,

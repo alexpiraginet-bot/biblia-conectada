@@ -18,8 +18,8 @@ Em Nazaré, deram a Jesus o livro do profeta Isaías. Ele leu "O Espírito do Se
 
 Isso não é coincidência. É Deus guiando cada linha, do começo ao fim.
 
-💬 Comenta: qual livro do Antigo você ainda não leu?
-📤 Manda pra quem acha que o Antigo Testamento ficou pra trás
+💬 Comenta tua passagem favorita: ela pode virar o próximo vídeo
+📤 Manda pra quem precisa ver isso
 💾 Salva e lê Isaías 61 junto com Lucas 4
 
 Ligações e votos: OpenBible.info (CC BY), todas no site Bíblia Conectada. Grego: SBLGNT e Septuaginta (domínio público). Citações: Bíblia Livre (BLIVRE). O gráfico foi inspirado no do Dr. Ben Gladd (Carson Center / The Gospel Coalition), mas a base de dados aqui é outra, aberta. Ilustrações geradas por IA; narração com voz sintética.
@@ -28,7 +28,9 @@ Ligações e votos: OpenBible.info (CC BY), todas no site Bíblia Conectada. Gre
 
 ---
 
-Comentário fixado (sugestão): "Qual livro do Antigo você ainda não leu? E qual livro você quer ver ligado ao Novo no próximo vídeo?"
+Comentário fixado (sugestão): "Comenta a tua passagem favorita (livro, capítulo e versículo). As mais comentadas viram o próximo vídeo, com o mapa de ligações delas."
+
+Versão resumida (`renders/antigo-dentro-do-novo-curto.mp4`, ~49 s): mesma legenda. Se for postar as duas, a curta vai como Reel e a completa fica pro YouTube/salvos; ou testa a curta primeiro e solta a completa como "versão estendida".
 
 Resposta pronta para "mas no gráfico do Gladd quem lidera é Isaías": "Os dois estão certos! O gráfico dele conta citações e alusões. O nosso conta referências cruzadas (a base aberta da OpenBible, que vem do Tesouro do Conhecimento das Escrituras). Salmos é o maior livro da Bíblia (2.461 versículos), então soma mais ligações no total. Por versículo, Isaías passa: 6,6 contra 4,7. 🙏"
 

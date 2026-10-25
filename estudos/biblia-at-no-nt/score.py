@@ -21,14 +21,28 @@ from sound import SR, rng, hz, place, chord, sub_hit, braam, riser, whoosh, bell
 
 ROOT = Path(__file__).resolve().parent
 WORK = ROOT / "renders/.film"
-NJ = json.load(open(WORK / "narr.json"))
+import os
+CUT = os.environ.get("CUT", ""); SUFFIX = "-curto" if CUT == "curto" else ""
+NJ = json.load(open(WORK / f"narr{SUFFIX}.json"))
 LAY = json.load(open(ROOT / "data/layout.json"))
 TAIL = 2.6                                       # same tail as tools/motion_data.py (end card)
 DUR = NJ["duration"] + TAIL
 N = int(SR * (DUR + 0.5))
 LN = {L["i"]: L for L in NJ["lines"]}
-T = {i: L["t0"] for i, L in LN.items()}
-LE = lambda i: LN[i]["t1"]
+_USE = sorted(LN)
+_T0 = {i: L["t0"] for i, L in LN.items()}
+
+
+class _T(dict):
+    """start of line i; a line missing from this cut starts (and ends) where the next present line starts"""
+    def __missing__(self, i):
+        nxt = [k for k in _USE if k > i]
+        return _T0[nxt[0]] if nxt else DUR
+
+
+T = _T(_T0)
+LE = lambda i: LN[i]["t1"] if i in LN else T[i]
+HAS = lambda i: i in LN
 
 
 def nrm(s):
@@ -38,12 +52,14 @@ def nrm(s):
 
 def W(i, word, nth=0):
     """start time of the nth spoken word of line i that starts with `word` (same rule as Main.tsx wordT)"""
+    if i not in LN: return T[i]
     hits = [w for w in LN[i]["words"] if nrm(w["w"]).startswith(nrm(word))]
     return (hits[nth] if len(hits) > nth else hits[0] if hits else {"t0": T[i]})["t0"]
 
 
 def AFTER(i, word):
     """start of the word after the match (Main.tsx afterT: Whisper writes numbers as digits)"""
+    if i not in LN: return T[i]
     ws = LN[i]["words"]
     k = next((n for n, w in enumerate(ws) if nrm(w["w"]).startswith(nrm(word))), -1)
     return ws[k + 1]["t0"] if 0 <= k < len(ws) - 1 else T[i]
@@ -194,7 +210,7 @@ MUS_GAIN, SFX_GAIN = 0.20, 0.30
 
 def mixdown():
     mus, sfx = build()
-    voice = read_mono(WORK / "narr.wav"); v = np.zeros(N, np.float32); v[:len(voice)] = voice[:N]
+    voice = read_mono(WORK / f"narr{SUFFIX}.wav"); v = np.zeros(N, np.float32); v[:len(voice)] = voice[:N]
     env = np.sqrt(signal.lfilter([1 - 0.995], [1, -0.995], v ** 2))
     thr = 0.02; d = np.clip(env / thr, 0, 1)
     duck = np.empty_like(d); g = 0.0
@@ -208,7 +224,7 @@ def mixdown():
     music = (mus * MUS_GAIN + sfx * SFX_GAIN) * mgain[None, :]
     out = music + np.stack([v, v])
     print("mix peak (float, pre-limiter):", round(float(np.abs(out).max()), 3))
-    sf.write(str(WORK / "mix.wav"), out.T, SR, subtype="FLOAT"); sf.write(str(WORK / "score.wav"), music.T, SR, subtype="FLOAT")
+    sf.write(str(WORK / f"mix{SUFFIX}.wav"), out.T, SR, subtype="FLOAT"); sf.write(str(WORK / f"score{SUFFIX}.wav"), music.T, SR, subtype="FLOAT")
     return out
 
 

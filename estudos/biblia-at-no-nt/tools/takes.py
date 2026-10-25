@@ -21,7 +21,7 @@ NARR = ROOT / "source/narr"
 sys.path.insert(0, str(ROOT))
 from script import LINES  # noqa: E402  (spoken text of every line, warm-up first)
 
-TAKES = sorted(NARR.glob("take*.mp3"))
+TAKES = sorted(NARR.glob("take*.mp3")) + sorted(NARR.glob("cta*.mp3"))
 UNITS = ["zero", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove", "dez", "onze", "doze", "treze",
          "catorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"]
 TENS = {2: "vinte", 3: "trinta", 4: "quarenta", 5: "cinquenta", 6: "sessenta", 7: "setenta", 8: "oitenta", 9: "noventa"}
@@ -63,7 +63,14 @@ def main():
     m = WhisperModel("mobiuslabsgmbh/faster-whisper-large-v3-turbo", device="cpu", compute_type="int8", cpu_threads=2)
     script_tok = [(li, w) for li, L in enumerate(LINES) for w in norm(L)]
     out = {"lines": LINES, "takes": {}}
-    for tp in TAKES:
+    takes = TAKES
+    if "--cta" in sys.argv:
+        # only the re-recorded CTA takes (cta*.mp3) are transcribed; the existing takes keep their lines 1-18 and lose line 19
+        out = json.load(open(NARR / "takes.json")); out["lines"] = LINES
+        for tk in out["takes"].values():
+            tk["lines"][19] = {"line": 19, "missing": True}
+        takes = sorted(NARR.glob("cta*.mp3"))
+    for tp in takes:
         x = load16(tp)
         segs, info = m.transcribe(x, language="pt", word_timestamps=True, beam_size=2, vad_filter=False,
                                   condition_on_previous_text=False)
@@ -99,6 +106,8 @@ def main():
             res.append({"line": li, "k": [k0, k1], "t": [t0, t1], "p_pt": round(ap.get("pt", 0.0), 3),
                         "p_en": round(ap.get("en", 0.0), 3), "p_es": round(ap.get("es", 0.0), 3), "lang": lang,
                         "sim": round(sim, 3), "lp": round(lp, 3), "heard": heard})
+        if "--cta" in sys.argv:      # a CTA take holds only the warm-up and line 19; a stray 1-word match elsewhere is noise
+            res = [r if r["line"] in (0, 19) else {"line": r["line"], "missing": True} for r in res]
         out["takes"][tp.stem] = {"words": words, "lines": res, "dur": round(len(x) / 16000, 3)}
         print(f"== {tp.stem} ({len(x) / 16000:.1f} s, {len(words)} words)")
         for r in res:

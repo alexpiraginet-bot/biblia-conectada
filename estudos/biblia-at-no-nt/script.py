@@ -33,9 +33,13 @@ LINES = [
     "Fechou o livro. E disse:",                                                    # 16 Lc 4:20
     "Hoje esta escritura se cumpriu em vossos ouvidos.",                           # 17 Lc 4:21 (D major)
     "Isso não é coincidência. É Deus guiando cada linha, do começo ao fim.",       # 18 the point
-    "Qual livro do Antigo você ainda não leu? Comenta.",                           # 19 CTA
+    "Comenta tua passagem favorita. Ela pode virar o próximo vídeo. E manda pra quem precisa ver isso.",  # 19 CTA (Alex, 10:05)
 ]
 PROMPT = " ... ".join(LINES)
+# line 19 was re-recorded alone (take4: warm-up + the new CTA); the other lines come from take1
+PROMPT_CTA = " ... ".join([LINES[0], LINES[19]])
+# "Faz uma versão resumida também" (Alex, 25/10 10:01): the same takes, these lines only (~45 s). CUT=curto in the pipeline.
+SHORT = [1, 2, 3, 6, 7, 11, 12, 13, 14, 16, 17, 18, 19]
 
 QUOTES = {
     4: ("Gen.1.1", ["No princípio criou Deus os céus e a terra"]),
