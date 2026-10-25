@@ -995,13 +995,13 @@
   ],
   "narrative": {
     "northStar": "O Atlas das Ligações",
-    "overview": "Toda passagem abre um mapa. O sistema trata a Bíblia como um atlas: o texto se lê numa coluna calma, em Literata grande, e cada ligação é uma linha de ouro sobre um céu azul-marinho. O ouro, o céu noturno e os arcos vêm dos dois vídeos, para que quem chega pelo Reels reconheça a luz. O motivo é um só, o arco sobre a linha de base: está na marca, no ícone de ligação, nos mapas e no céu.\n\nA densidade segue o modo de cada superfície. Ler é contenção: uma coluna de 36rem, fios em vez de caixas, cada número escrito em texto e com a sua regra. O mapa é o único lugar de espetáculo, e mesmo ele sai de um desenho determinístico a partir dos votos: o selo do capítulo no centro, oito medalhões gravados em órbita, traços de ouro que engrossam com os votos. Só uma superfície flutua de cada vez (folha, busca, menu), e o movimento mora no mapa: ele entra crescendo do selo, a luz corre pelas ligações e responde a quem aponta.\n\nNoite e Dia são temas de primeira, com a mesma hierarquia e o contraste conferido por teste; a primeira visita segue o aparelho. As rejeições são as do Alex (19/10/2026): app devocional genérico (creme com ornamentos, versículo do dia), dashboard tech frio (neon, brilho, grade de cards), perder a cara dos vídeos, e ler ou buscar com esforço (contraste fraco, letra pequena, busca escondida).",
+    "overview": "Toda passagem abre um mapa. O sistema trata a Bíblia como um atlas: o texto se lê numa coluna calma, em Literata grande, e cada ligação é uma linha de ouro sobre um céu azul-marinho. O ouro, o céu noturno e os arcos vêm dos dois vídeos, para que quem chega pelo Reels reconheça a luz. O motivo é um só, o arco sobre a linha de base: está na marca, no ícone de ligação, nos mapas e no céu.\n\nA densidade segue o modo de cada superfície. Ler é contenção: uma coluna de 36rem, fios em vez de caixas, cada número escrito em texto e com a sua regra. O mapa é o único lugar de espetáculo, e mesmo ele sai de um desenho determinístico a partir dos votos: o selo do capítulo no centro, oito medalhões gravados em órbita, traços de ouro que engrossam com os votos. Só uma superfície flutua de cada vez (folha, busca, menu), e o movimento mora nas visualizações: a luz corre pelas ligações do mapa, da constelação e da escultura, e o mapa entra crescendo do selo e responde a quem aponta; tudo pode ser pausado.\n\nNoite e Dia são temas de primeira, com a mesma hierarquia e o contraste conferido por teste; a primeira visita segue o aparelho. As rejeições são as do Alex (19/10/2026): app devocional genérico (creme com ornamentos, versículo do dia), dashboard tech frio (neon, brilho, grade de cards), perder a cara dos vídeos, e ler ou buscar com esforço (contraste fraco, letra pequena, busca escondida).",
     "keyCharacteristics": [
       "Dois temas: Noite (azul-marinho, tinta de pergaminho, ouro) e Dia (pergaminho liso, tinta verde-negra, bronze), com 7:1 para texto e Escritura nos dois.",
       "Três vozes: Newsreader Display nos títulos, Literata na Escritura (19 a 21px), Space Grotesk na interface.",
       "Ouro e bronze só para números, ligações e o que está aceso.",
       "Fios de 1px em vez de caixas; cartão só para o que é objeto separado.",
-      "Um motivo, o arco sobre a linha de base, e um lugar que se mexe sozinho, o mapa vivo.",
+      "Um motivo, o arco sobre a linha de base, e o movimento nas visualizações (mapa, constelação, escultura), com pausa.",
       "O céu dos mapas é noturno nos dois temas, com o ouro dos vídeos."
     ],
     "rules": [
@@ -1090,7 +1090,7 @@
       "Don't deixar a Escritura pequena, cortada com reticências sem jeito de abrir, ou com cor herdada de outra superfície.",
       "Don't usar cinza puro nem opacidade em texto; texto secundário é `ink-2` ou `ink-3`.",
       "Don't confiar só na cor para erro ou categoria: sempre com palavra, ícone ou padrão de linha.",
-      "Don't animar cada seção ao entrar, cada card no hover ou com parallax; o que se mexe sozinho fica no mapa."
+      "Don't animar cada seção ao entrar, cada card no hover ou com parallax; o que se mexe sozinho fica nas visualizações, com pausa."
     ]
   }
 }

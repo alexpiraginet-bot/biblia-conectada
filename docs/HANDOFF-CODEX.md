@@ -1,6 +1,6 @@
 # Handoff para o Codex (20/10/2026, noite)
 
-Escrito pelo Claude a pedido do Alex: "Prepare handoff para o códex seguir". Daqui em diante o Codex conduz. Este é o handoff de transferência que o `docs/claude-coordination.md` ainda não tinha visto. Depois dele, a pedido do Alex, o Claude ainda deixou vivo o mapa do Explorar (PR #13, design §7.1; arquivos em `site/src/components/explore/` e `site/src/lib/explore/atlas-motion.ts`). Tudo marcado como **conferido** foi rodado ou lido nesta data. O que é sugestão está escrito como sugestão.
+Escrito pelo Claude a pedido do Alex: "Prepare handoff para o códex seguir". Daqui em diante o Codex conduz. Este é o handoff de transferência que o `docs/claude-coordination.md` ainda não tinha visto. Depois dele, a pedido do Alex, o Claude ainda deixou vivo o mapa do Explorar (PR #14, design §7.1; arquivos em `site/src/components/explore/` e `site/src/lib/explore/atlas-motion.ts`). Tudo marcado como **conferido** foi rodado ou lido nesta data. O que é sugestão está escrito como sugestão.
 
 **Continuidade do Codex, 20/10:** item 4.1 publicado pelo PR #14, commit `6bbca4d94536dde42ae0514588f3b1e80e84e4cf`, com autorização explícita do Alex após informar Lighthouse/LCP pendentes. Deploy de produção `dpl_BBGdYhunFt3QqWFSYh7fUDe5Fnhq` confirmado READY e domínio público conferido. Caderno local e ampliação das jornadas seguem no plano; vídeos continuam em sessão separada. O retrato original das 18h43 UTC permanece como histórico.
 
@@ -91,10 +91,10 @@ Antes disso, no mesmo dia, ele pediu a lista sem fim da leitura: "As conexões a
 **Base do pedido:** a capa do PR #9. O pedido troca o hero, a primeira tela, e renova os cards. A referência e o plano original abaixo ficam preservados para comparação com a implementação.
 
 **Movimento em tudo.** Depois do handoff, o Alex mandou a captura do mapa de Isaías 9 com: "Quero tudo isso vivo! Movimento e fluidez tudo precisa ser ultra moderno e interativo".
-- O mapa do Explorar já está vivo (design §7.1, PR #13):
+- O mapa do Explorar já está vivo (design §7.1, PR #14), como a constelação e a escultura com os pulsos de fibra do seu PR #13:
   - a entrada conta algo do dado (o mostrador varre de Gênesis, os troncos crescem na ordem do cânon);
   - a luz corre nas ligações, mais vezes onde há mais votos;
-  - tudo responde ao toque e ao teclado, nada anima por cima de texto, e tudo para fora da tela e com movimento reduzido.
+  - tudo responde ao toque e ao teclado, nada anima por cima de texto, e tudo para fora da tela, com o botão "Pausar luzes" e com movimento reduzido.
 - Leve a mesma linguagem ao hero e às seções novas.
 
 **Bug já no ar (do PR #9), para consertar junto:**

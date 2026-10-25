@@ -194,6 +194,7 @@ Pedido do Alex, com a captura do mapa de Isaías 9 no celular: "Quero tudo isso 
   - o medalhão cresce 6% sob o mouse e afunda ao toque;
   - o capítulo ou o medalhão escolhido responde quando o traço chega.
 - **Onde se vê:** um mapa que chega fora da tela espera no primeiro quadro e faz a entrada quando aparece; os ciclos param fora da tela.
+- **Pausa** (WCAG 2.2.2): o botão "Pausar luzes", no fim da linha da legenda que explica o pulso, para os ciclos, como o botão de luzes da constelação e da escultura (PR #13 do Codex). A entrada não para; "Ativar luzes" traz os ciclos de volta.
 - **Sem movimento** (`prefers-reduced-motion`): o mapa aparece inteiro e parado, a escolha muda só de cor, e a legenda não fala do pulso.
 - Sem brilho, halo nem desfoque: o pulso é um traço curto em `lit`.
 

@@ -271,7 +271,7 @@ components:
 
 Toda passagem abre um mapa. O sistema trata a Bíblia como um atlas: o texto se lê numa coluna calma, em Literata grande, e cada ligação é uma linha de ouro sobre um céu azul-marinho. O ouro, o céu noturno e os arcos vêm dos dois vídeos, para que quem chega pelo Reels reconheça a luz. O motivo é um só, o arco sobre a linha de base: está na marca, no ícone de ligação, nos mapas e no céu.
 
-A densidade segue o modo de cada superfície. Ler é contenção: uma coluna de 36rem, fios em vez de caixas, cada número escrito em texto e com a sua regra. O mapa é o único lugar de espetáculo, e mesmo ele sai de um desenho determinístico a partir dos votos: o selo do capítulo no centro, oito medalhões gravados em órbita, traços de ouro que engrossam com os votos. Só uma superfície flutua de cada vez (folha, busca, menu), e o movimento mora no mapa: ele entra crescendo do selo, a luz corre pelas ligações e responde a quem aponta.
+A densidade segue o modo de cada superfície. Ler é contenção: uma coluna de 36rem, fios em vez de caixas, cada número escrito em texto e com a sua regra. O mapa é o único lugar de espetáculo, e mesmo ele sai de um desenho determinístico a partir dos votos: o selo do capítulo no centro, oito medalhões gravados em órbita, traços de ouro que engrossam com os votos. Só uma superfície flutua de cada vez (folha, busca, menu), e o movimento mora nas visualizações: a luz corre pelas ligações do mapa, da constelação e da escultura, e o mapa entra crescendo do selo e responde a quem aponta; tudo pode ser pausado.
 
 Noite e Dia são temas de primeira, com a mesma hierarquia e o contraste conferido por teste; a primeira visita segue o aparelho. As rejeições são as do Alex (19/10/2026): app devocional genérico (creme com ornamentos, versículo do dia), dashboard tech frio (neon, brilho, grade de cards), perder a cara dos vídeos, e ler ou buscar com esforço (contraste fraco, letra pequena, busca escondida).
 
@@ -280,7 +280,7 @@ Noite e Dia são temas de primeira, com a mesma hierarquia e o contraste conferi
 - Três vozes: Newsreader Display nos títulos, Literata na Escritura (19 a 21px), Space Grotesk na interface.
 - Ouro e bronze só para números, ligações e o que está aceso.
 - Fios de 1px em vez de caixas; cartão só para o que é objeto separado.
-- Um motivo, o arco sobre a linha de base, e um lugar que se mexe sozinho, o mapa vivo.
+- Um motivo, o arco sobre a linha de base, e o movimento nas visualizações (mapa, constelação, escultura), com pausa.
 - O céu dos mapas é noturno nos dois temas, com o ouro dos vídeos.
 
 ## Colors
@@ -429,7 +429,7 @@ Uma ligação numa lista com fios: a referência em Space Grotesk 600 a 16px (`i
 O selo é um disco em `surface` com traço de 1.5 em `accent` e anel interno `line-strong`, o número do capítulo em Newsreader 440 e o livro acima, como no texto, em Space Grotesk 600 e `accent` (comprimido, nunca espaçado, quando o nome é longo); em volta, o mostrador com um risco por capítulo ligado. Na leitura, mede 76px no celular, 104px a partir de 64rem, 120px a partir de 80rem e 128px a partir de 90rem; no mapa, segue a escala do desenho. Os medalhões são gravuras de objetos, ouro sobre azul-marinho nos dois temas, como moedas; no Dia o aro `line` os assenta no pergaminho. Sempre marcados como ilustração.
 
 ### Atlas Map
-O selo no centro, uma órbita pontilhada em `line-strong`, oito medalhões dos grupos de livros com tronco em `accent` da espessura dos votos, e até três capítulos por grupo em discos `surface` com aro `accent` e o número em `accent`. Os nomes ficam sobre placas da cor do chão (Newsreader para o nome, Space Grotesk `ink-2` para os votos), e um pontilhado liga capítulos desenhados que se ligam entre si. A ligação escolhida é o traço `lit` de 3.2, desenhado do selo ao capítulo em 420ms, com um pulso de luz que não para; o capítulo escolhido vira um disco `lit` com o número em `on-accent`. O mapa é vivo (`design/README.md` §7.1): entra com o mostrador varrendo de Gênesis e os troncos crescendo do selo na ordem do cânon, e um pulso em `lit` corre por cada tronco, mais vezes nos de mais votos; fora da tela e com `prefers-reduced-motion`, fica parado. Uma parada de Tab para o mapa inteiro, setas entre medalhões e capítulos, e a lista depois do mapa traz os mesmos números.
+O selo no centro, uma órbita pontilhada em `line-strong`, oito medalhões dos grupos de livros com tronco em `accent` da espessura dos votos, e até três capítulos por grupo em discos `surface` com aro `accent` e o número em `accent`. Os nomes ficam sobre placas da cor do chão (Newsreader para o nome, Space Grotesk `ink-2` para os votos), e um pontilhado liga capítulos desenhados que se ligam entre si. A ligação escolhida é o traço `lit` de 3.2, desenhado do selo ao capítulo em 420ms, com um pulso de luz que não para; o capítulo escolhido vira um disco `lit` com o número em `on-accent`. O mapa é vivo (`design/README.md` §7.1): entra com o mostrador varrendo de Gênesis e os troncos crescendo do selo na ordem do cânon, e um pulso em `lit` corre por cada tronco, mais vezes nos de mais votos; fora da tela, com "Pausar luzes" e com `prefers-reduced-motion`, fica parado. Uma parada de Tab para o mapa inteiro, setas entre medalhões e capítulos, e a lista depois do mapa traz os mesmos números.
 
 ### Search Palette
 Um diálogo modal sobre o véu, a 12vh do topo, de até 44rem e `radius-lg`; abaixo de 48rem ocupa a tela inteira, sem borda nem sombra. Por ordem: o campo, os escopos, os grupos (rótulo em 600 a 13px `ink-2`, frase comum) e o pé com as teclas. Cada opção tem ícone de 22px em `accent`, título em 600 a 16px, dica em 14px `ink-2` e, nos resultados de texto, o trecho em Literata 17px com a palavra marcada em `highlight` e um fio de 2px em `accent` na base. A opção escolhida fica em `raised` com contorno inteiro de 1px em `accent`. "Procurando…" só aparece depois de 250ms de espera.
@@ -460,4 +460,4 @@ Um diálogo modal sobre o véu, a 12vh do topo, de até 44rem e `radius-lg`; aba
 - **Don't** deixar a Escritura pequena, cortada com reticências sem jeito de abrir, ou com cor herdada de outra superfície.
 - **Don't** usar cinza puro nem opacidade em texto; texto secundário é `ink-2` ou `ink-3`.
 - **Don't** confiar só na cor para erro ou categoria: sempre com palavra, ícone ou padrão de linha.
-- **Don't** animar cada seção ao entrar, cada card no hover ou com parallax; o que se mexe sozinho fica no mapa.
+- **Don't** animar cada seção ao entrar, cada card no hover ou com parallax; o que se mexe sozinho fica nas visualizações, com pausa.

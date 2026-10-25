@@ -61,7 +61,7 @@ Os arcos dos vídeos viram algo que se toca: os 301.539 pares de versículos lig
 
 1. O texto vem primeiro: a leitura funciona sem JavaScript e sem esperar as visões pesadas.
 2. Toda ligação mostra o número em texto e diz qual definição usa.
-3. Um momento memorável só (o céu de ligações); o resto é quieto e preciso, menos o mapa do Explorar, que é vivo (pedido do Alex, 20/10; `design/README.md` §7.1).
+3. Um momento memorável só (o céu de ligações); o resto é quieto e preciso, menos as visualizações (o mapa do Explorar, a constelação da capa e a escultura), que são vivas e podem ser pausadas (pedidos do Alex de 20/10; `design/README.md` §1.1 e §7).
 4. Só fontes livres, com crédito; na dúvida, fica fora.
 
 ## Accessibility & Inclusion

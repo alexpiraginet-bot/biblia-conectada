@@ -60,9 +60,10 @@ export function AtlasNodes({
   const litAt = { "--lit-at": `${((tOf[visual.group] ?? 0) + 0.45).toFixed(2)}s` } as React.CSSProperties;
   const [entering, setEntering] = useState(true);
 
-  // The map's motion (design §7) plays where it is seen: a map that arrives off screen waits at its first frame and
+  // The map's motion (design §7.1) plays where it is seen: a map that arrives off screen waits at its first frame and
   // plays when it comes into view; the loops (light along the links, the orbit and the dial turning, the legend's
-  // pulse) stop off screen. Only the shown variant acts (the other has no box), and only CSS animations are touched.
+  // pulse) run only on screen and while the lights are on (AtlasLights). Only the variant drawn at this width acts,
+  // and only CSS animations are touched.
   useEffect(() => {
     const stage = box.current?.parentElement;
     const scope = stage?.parentElement;
@@ -78,19 +79,28 @@ export function AtlasNodes({
         a.currentTime = 0;
       }
     }
+    let seen = false;
+    const sync = () => {
+      if (!stage.getClientRects().length) return;
+      const off = scope.dataset.lights === "paused";
+      for (const a of motion()) {
+        const loop = a.effect?.getComputedTiming().iterations === Infinity;
+        if (seen && !(loop && off)) {
+          if (a.playState === "paused") a.play();
+        } else if (loop && a.playState === "running") a.pause();
+      }
+    };
     const io = new IntersectionObserver(
       ([e]) => {
         if (!e.boundingClientRect.height) return;
-        for (const a of motion()) {
-          if (e.isIntersecting) {
-            if (a.playState === "paused") a.play();
-          } else if (a.playState === "running" && a.effect?.getComputedTiming().iterations === Infinity) a.pause();
-        }
+        seen = e.isIntersecting;
+        sync();
       },
       // the entrance starts once the map is a fifth of a screen above the bottom edge
       { rootMargin: "0px 0px -20% 0px" },
     );
     io.observe(stage);
+    scope.addEventListener("atlaslights", sync);
     // the entrance is over when the stage's clock ends. A stage that is drawn with no clock (reduced motion, or a clock
     // over before this ran) is over now; one not drawn yet (the capa's closed <details>, the variant hidden at this
     // width) gets its clock, and its entrance, when it is drawn
@@ -104,6 +114,7 @@ export function AtlasNodes({
     const raf = drawn && !running ? requestAnimationFrame(() => setEntering(false)) : 0;
     return () => {
       io.disconnect();
+      scope.removeEventListener("atlaslights", sync);
       stage.removeEventListener("animationend", over);
       cancelAnimationFrame(raf);
     };

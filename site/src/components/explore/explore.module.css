@@ -662,6 +662,34 @@
   }
 }
 
+/* the lights button at the end of that line (AtlasLights): a ghost button with the drawn pause and play marks; on a
+   narrow screen it goes under the words, whole */
+.legend .motionOnly {
+  flex-wrap: wrap;
+}
+
+.legend .lights {
+  white-space: nowrap;
+}
+
+.legend .lights svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* with the lights off, a loop that starts later (a stroke lit by pointing) waits too */
+.atlas[data-lights="paused"] :is(.flow, .litFlow, .dialRing, .swFlow) {
+  animation-play-state: paused;
+}
+
+.atlas[data-lights="paused"] :is(.orbit, .web) {
+  animation-play-state: running, paused;
+}
+
 .legend .wideOnly {
   display: none;
 }

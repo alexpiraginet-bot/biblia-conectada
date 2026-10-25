@@ -8,6 +8,7 @@ import { connectionPath } from "@/lib/explore/home";
 import { measure } from "@/lib/explore/measure";
 import { partnersText } from "@/lib/explore/text";
 import { chapterRef } from "@/lib/reading";
+import { AtlasLights } from "./AtlasLights";
 import { AtlasNodes } from "./AtlasNodes";
 import type { HubView, NodeView, VariantView } from "./atlas-view";
 import styles from "./explore.module.css";
@@ -198,6 +199,7 @@ export function AtlasMap({ atlas, selected, fixed = false }: { atlas: Atlas; sel
             <path className={styles.swFlow} d="M1 6h26" pathLength={1} />
           </svg>
           Pulso de luz mais frequente, mais votos
+          <AtlasLights />
         </li>
         {shownWeb && (
           <li className={styles.wideOnly}>
