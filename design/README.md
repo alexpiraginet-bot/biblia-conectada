@@ -489,6 +489,8 @@ A navegação flutuante de Arcos se recolhe após 1,5 segundo de inatividade e r
 
 ## 18. Sua história também se conecta (25/10/2026)
 
+**Retirada a pedido de Alex.** A seção com vídeo pronto não corresponde ao objetivo de uma interação nativa. Componente, player e mídias deixam o site; o acervo permanece como referência. O relato abaixo é histórico. Uma próxima exploração deve partir do grafo real, com toque/ponteiro, seleção de passagens e fios derivados das conexões, sem introduzir uma seção decorativa ou digital sem função. Ver decisão atual em `docs/LIVING-STORY.md`.
+
 O motion editável fornecido por Alex entra na home como convite para **No seu coração**, após a busca. A digital, o portal e a rede são recriação artística, separada da constelação de dados. Ação principal Encontrar uma passagem; alternativas para ler e explorar conexões reais. O visitante pode seguir imediatamente, sem esperar o filme.
 
 A arte mantém preto neutro, ouro/violeta e livro inteiro; o entorno segue a marca. Vídeo silencioso com reprodução única, pausa, repetição e seleção de formas. Fora da tela/aba, pausa; com movimento reduzido ou economia de dados, começa estático. Nenhum Three.js ou GSAP entra no site. Copy, destinos e pôster permanecem sem JavaScript. Decisão e limites em `docs/LIVING-STORY.md`; procedência dos derivados em `design/living-story/`.
