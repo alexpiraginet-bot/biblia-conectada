@@ -1,4 +1,4 @@
-// Builds every data file the site reads, from fontes/ and estudos/*/data/ only. Throws (and fails the build) when
+// Builds the site's data from pinned fontes/, estudos/*/data/ and explicit editorial annotations. Throws when
 // a source disagrees with the numbers already published by the videos (stats.json, natal-stats.json, xref.npz).
 //   npm run data
 import { mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from "node:fs";
@@ -9,6 +9,7 @@ import { chapterGraph, LAYOUT } from "./data/chapter-graph";
 import { buildCommunity } from "./data/community";
 import { buildPairs, linksPerVerse, parseCrossRefs } from "./data/crossrefs";
 import { buildExplore } from "./data/explore";
+import { buildInterlinear, INTERLINEAR_INPUTS } from "./data/interlinear";
 import { natalPair, natalStudy } from "./data/natal";
 import { buildOpenData, type NatalOut } from "./data/open-data";
 import { buildReception } from "./data/reception";
@@ -120,6 +121,10 @@ for (const book of canon.books) {
 // Editions keep their own verse positions; the graph remains on the BLIVRE/OpenBible grid.
 const translated = buildTranslations(canon.books, write);
 log(`Open NBV: ${translated.counts.books} books, ${translated.counts.chapters} chapters, ${translated.counts.verses} positions; verse alignment unreviewed`);
+
+const interlinear = buildInterlinear(canon, blivre);
+write(join(OUT.generated, "interlinear.json"), json(interlinear));
+log(`interlinear: ${interlinear.provenance.passageCount} passages, ${interlinear.provenance.tokenCount} source tokens; Portuguese editorial glosses, BLIVRE comparison unchanged`);
 
 // top verses by unique partners (self excluded), canonical order inside a tie. The list never cuts through a tie:
 // it holds every verse with at least as many links as the 12th.
@@ -380,7 +385,7 @@ log(`open data: ${dados.files.length} files in public/dados/v1 (${(dados.files.r
 buildCommunity({ canon, text: blivre.text, links }, write, log);
 
 const inputs = Object.fromEntries(
-  [SRC.blivreZip, OPEN_NBV_SOURCE, SRC.crossrefsTxt, SRC.xrefNpz, SRC.statsJson, SRC.natalStatsJson, SRC.attribution].map((p) => [relative(REPO, p), sha256(p)]),
+  [SRC.blivreZip, OPEN_NBV_SOURCE, SRC.crossrefsTxt, SRC.xrefNpz, SRC.statsJson, SRC.natalStatsJson, SRC.attribution, ...INTERLINEAR_INPUTS].map((p) => [relative(REPO, p), sha256(p)]),
 );
 writeFileSync(join(OUT.generated + STAGE, "manifest.json"), JSON.stringify({ inputs, outputs: written }, null, 1));
 for (const dir of OUTPUT_DIRS) {

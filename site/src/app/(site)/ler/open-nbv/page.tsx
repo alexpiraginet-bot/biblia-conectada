@@ -20,6 +20,7 @@ export default function OpenNbvIndex() {
     <p className={`bc-lede ${styles.intro}`}>Escolha uma passagem. Leia com calma, converse com a IA e compartilhe o que tocou você.</p>
     <p className="bc-meta">{formatInt(books.length)} livros · {formatInt(count)} versículos · texto integral</p>
     <EditionChoice current="open-nbv" />
+    <p className="bc-meta"><Link href="/interlinear" prefetch={false}>Conheça o estudo palavra por palavra ↗</Link> · Coleção inicial com base textual própria.</p>
     <TranslationNavigator books={books.map(({ slug, name, verses }) => ({ slug, name, verses }))} slug="joao" chapter={3} />
     <div className={styles.bookIndex}>{(["AT", "NT"] as const).map((testament) => <section key={testament} aria-labelledby={`testament-${testament}`}>
       <h2 id={`testament-${testament}`} className="bc-title">{testament === "AT" ? "Antigo Testamento" : "Novo Testamento"}</h2>

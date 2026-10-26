@@ -4,6 +4,7 @@ import { formatInt } from "@/lib/canon/text";
 import type { Book } from "@/lib/canon/types";
 import type { VerseData } from "@/lib/reading";
 import { Scripture } from "./Scripture";
+import { InterlinearStudyLink } from "./InterlinearStudyLink";
 import styles from "./reader.module.css";
 
 // The reading column (design system Scripture, ds.css .bc-scripture / .bc-verse): one block per verse, the number in
@@ -39,6 +40,7 @@ export function ChapterText({ book, chapter, verses }: { book: Book; chapter: nu
                 {formatInt(n)}
               </Link>
               {" "}<VerseActions path={`/${book.slug}/${chapter}/${v.n}`} label={`${book.name} ${chapter}:${v.n}`} />
+              {" "}<InterlinearStudyLink path={`/${book.slug}/${chapter}/${v.n}`} label={`${book.name} ${chapter}:${v.n}`} />
             </span>
           </li>
         );

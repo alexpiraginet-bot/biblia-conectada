@@ -6,6 +6,12 @@
   gap: var(--space-8);
 }
 
+.interlinear { margin: var(--space-6) 0; }
+.interlinear a { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); align-items: center; min-height: 52px; padding: var(--space-4) 0; border-block: 1px solid var(--line); color: var(--ink); text-underline-offset: 4px; }
+.interlinear strong { color: var(--accent); }
+.interlinear span { font-size: var(--fs-meta); }
+.interlinear a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
 @media (min-width: 64rem) {
   .testaments {
     grid-template-columns: repeat(2, minmax(0, 1fr));

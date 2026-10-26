@@ -494,3 +494,9 @@ A navegação flutuante de Arcos se recolhe após 1,5 segundo de inatividade e r
 O motion editável fornecido por Alex entra na home como convite para **No seu coração**, após a busca. A digital, o portal e a rede são recriação artística, separada da constelação de dados. Ação principal Encontrar uma passagem; alternativas para ler e explorar conexões reais. O visitante pode seguir imediatamente, sem esperar o filme.
 
 A arte mantém preto neutro, ouro/violeta e livro inteiro; o entorno segue a marca. Vídeo silencioso com reprodução única, pausa, repetição e seleção de formas. Fora da tela/aba, pausa; com movimento reduzido ou economia de dados, começa estático. Nenhum Three.js ou GSAP entra no site. Copy, destinos e pôster permanecem sem JavaScript. Decisão e limites em `docs/LIVING-STORY.md`; procedência dos derivados em `design/living-story/`.
+
+## 19. Interlinear nativo (26/10/2026)
+
+O estudo **Palavra por palavra** usa o mesmo sistema visual e mantém a leitura no centro. Original acima, glosa contextual abaixo e transliteração opcional. Uma unidade pode conter prefixos e sufixos; o desenho não força correspondência artificial de uma palavra por língua. Hebraico em RTL; português e transliteração isolados em LTR. Ao toque, detalhes próximos da unidade; no desktop, coluna lateral. Fontes próprias preservam sinais hebraicos e acentos gregos.
+
+A coleção inicial declara sua cobertura e oferece referências concretas, com acesso pelo menu e pelo leitor. Sem grade que aparente uma Bíblia inteira disponível. Notas de contexto e diferenças textuais ficam acessíveis; Strong e morfologia são dados de consulta, não a ação principal. Leitura corrida de comparação identificada como BLIVRE. Glosas editoriais com assistência de IA, sem revisão acadêmica independente, claramente distintas do texto bíblico. Método: `docs/INTERLINEAR.md`.

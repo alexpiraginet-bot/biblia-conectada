@@ -3,6 +3,16 @@ import { parseSharePath, resolveShareCard, shareExcerpt } from "../src/lib/share
 import { books, bookFile, generated } from "./generated";
 
 describe("social card route resolution", () => {
+  it("gives covered interlinear studies a sourced cover and rejects unsupported references", async () => {
+    expect((await resolveShareCard("/interlinear"))?.eyebrow).toContain("COLEÇÃO INICIAL");
+    const card = await resolveShareCard("/interlinear/salmos/22/6");
+    expect(card?.title).toBe("Salmos 22:6");
+    expect(card?.description).toBe(shareExcerpt(bookFile("salmos").chapters[21][5].t));
+    expect(card?.source).toBe("Bíblia Livre (BLIVRE) · Salmos 22:6");
+    for (const path of ["/interlinear/salmos/22/2", "/interlinear/joao/01/1", "/interlinear/joao/1", "/interlinear/open-nbv/joao/1/1"]) {
+      expect(await resolveShareCard(path), path).toBeNull();
+    }
+  });
   it("uses the actual BLIVRE verse rather than caller-provided copy", async () => {
     const card = await resolveShareCard("/joao/3/16?title=Another%20text&url=https://example.com");
     expect(card?.title).toBe("João 3:16");

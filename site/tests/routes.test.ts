@@ -66,8 +66,8 @@ describe("reserved segments", () => {
 
 describe("navigation", () => {
   it("keeps four comfortable direct tabs and exposes every other section in the mobile menu", () => {
-    expect(NAV.map((n) => n.href)).toEqual(["/explorar", "/ler", "/coracao", "/buscar", "/linha-do-tempo", "/caminhos", "/cronologia", "/arcos", "/ponte", "/salvos", "/dados"]);
-    expect(NAV.filter((n) => n.rail).map((n) => n.label)).toEqual(["Explorar", "Ler", "Coração", "Linha do tempo", "Mapa de Jesus", "Cronologia", "Arcos", "Ponte", "Salvos", "Dados"]);
+    expect(NAV.map((n) => n.href)).toEqual(["/explorar", "/ler", "/interlinear", "/coracao", "/buscar", "/linha-do-tempo", "/caminhos", "/cronologia", "/arcos", "/ponte", "/salvos", "/dados"]);
+    expect(NAV.filter((n) => n.rail).map((n) => n.label)).toEqual(["Explorar", "Ler", "Interlinear", "Coração", "Linha do tempo", "Mapa de Jesus", "Cronologia", "Arcos", "Ponte", "Salvos", "Dados"]);
     expect(NAV.filter((n) => n.tab).map((n) => n.label)).toEqual(["Explorar", "Ler", "Coração", "Arcos"]);
     const mobile = [...NAV.filter((n) => n.tab), ...MOBILE_MENU].map((n) => n.href);
     expect(new Set(mobile).size).toBe(NAV.length);
@@ -132,6 +132,8 @@ describe("current navigation item", () => {
     ["/explorar/isaias/9", "/explorar"],
     ["/explorar/isaias/9/lucas/2", "/explorar"],
     ["/ler", "/ler"],
+    ["/interlinear", "/interlinear"],
+    ["/interlinear/salmos/22/6", "/interlinear"],
     ["/coracao", "/coracao"],
     ["/isaias", "/ler"],
     ["/isaias/9", "/ler"],

@@ -48,6 +48,14 @@ Licença: Creative Commons Atribuição 4.0 Brasil. Crédito sugerido pelos auto
 
 ## Dados
 
+### Estudo interlinear da Bíblia Conectada
+
+`/interlinear` usa um recorte de TAHOT e TAGNT do STEPBible, commit `ed476a8ee6e3f7b3a46fc48af6c7dabc02387b1d`. Crédito: [STEP Bible](https://www.STEPBible.org), "Data created by www.STEPBible.org based on work at Tyndale House Cambridge". Fonte sob CC BY 4.0.
+
+Mudanças: seleção L/Q no hebraico e das leituras marcadas SBL no TAGNT; retirada visual dos delimitadores de segmentação e do marcador de parágrafo; glosas contextuais e notas portuguesas alinhadas por ID. Campos originais e variantes permanecem nos dados. O TAGNT normaliza grafia/pontuação; a seleção não é apresentada como reprodução independente do SBLGNT. As glosas foram preparadas com assistência de IA, sem revisão acadêmica independente nem endosso do STEPBible. Não são uma nova tradução bíblica completa. A comparação corrida usa BLIVRE sem alterações. Método em `docs/INTERLINEAR.md`.
+
+As glosas editoriais e o conjunto derivado seguem CC BY-SA 4.0; os campos originais mantêm a licença e os créditos de suas fontes.
+
 | Base | Licença | Crédito |
 |---|---|---|
 | Referências cruzadas (OpenBible.info) | CC BY | "Referências cruzadas: OpenBible.info". A base é derivada principalmente do Treasury of Scripture Knowledge. Fonte: https://www.openbible.info/labs/cross-references/ (o cabeçalho do arquivo diz `CC-BY`, sem versão) |
@@ -62,6 +70,8 @@ Licença: Creative Commons Atribuição 4.0 Brasil. Crédito sugerido pelos auto
 | AWS Terrain Tiles (relevo dos vídeos) | Atribuição | SRTM/GMTED2010 (USGS), ETOPO1 (NOAA), Mapzen |
 
 ## Fontes tipográficas
+
+No interlinear, Noto Serif Hebrew e Gentium Book Plus mantêm seus arquivos e licenças SIL Open Font License 1.1, copiados sem alteração dos estudos existentes. Créditos, hashes e caminhos de origem estão em `site/src/components/interlinear/fonts/README.md` e `provenance.json`; licenças completas na mesma pasta. Carregamento restrito às rotas do interlinear.
 
 Space Grotesk, Space Mono e Cormorant (as três dos vídeos), Literata (texto bíblico do site) e Newsreader (títulos do site), sob a SIL Open Font License 1.1. Os textos da licença estão em `estudos/*/assets/fonts/OFL-*.txt` e, junto das cópias WOFF2 usadas pelo site, em `site/src/fonts/OFL-*.txt`. As cópias do site são recortes gerados por `site/scripts/subset-fonts.sh`; a da Newsreader é uma instância fixa (tamanho óptico 72, peso 440) da fonte variável.
 

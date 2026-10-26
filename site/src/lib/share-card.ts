@@ -6,6 +6,7 @@ import { SITE_NAME } from "./site-identity";
 import { STOPWORDS, isWordSlug, wordKey } from "./words";
 import { parseHash } from "@/components/sculpture/state";
 import { getTranslation, parseTranslationPath } from "./translations";
+import { interlinearPathForReading } from "./interlinear/paths";
 
 export type ShareCard = {
   path: string;
@@ -23,6 +24,7 @@ const bySlug = new Map(books.map((book) => [book.slug, book]));
 const sections: Record<string, Omit<ShareCard, "path">> = {
   "/": { eyebrow: "UM ATLAS VIVO", title: "Uma história.\nTudo se conecta.", description: "Leia uma passagem. Descubra suas conexões. Encontre novos caminhos pela Bíblia.", kind: "landing" },
   "/ler": { eyebrow: "BÍBLIA LIVRE", title: "Uma leitura abre\nnovos caminhos.", description: "Livros, capítulos e versículos em português. Entre no texto e siga suas ligações.", kind: "landing" },
+  "/interlinear": { eyebrow: "INTERLINEAR · COLEÇÃO INICIAL", title: "A Bíblia,\npalavra por palavra.", description: "Hebraico e grego acima do sentido em português. Toque numa palavra e conheça seu contexto.", kind: "landing" },
   "/arcos": { eyebrow: "CÉU DE CONEXÕES", title: "Cada ligação,\numa descoberta.", description: "Explore as referências cruzadas da Bíblia em um céu de fios de luz.", kind: "explore" },
   "/arcos/plano": { eyebrow: "CÉU DE CONEXÕES", title: "A Bíblia,\nligação por ligação.", description: "Encontre uma passagem e veja os caminhos que a aproximam de outros textos.", kind: "explore" },
   "/explorar": { eyebrow: "ATLAS DE CONEXÕES", title: "Siga o fio\nde uma passagem.", description: "Veja os capítulos que se encontram. Leia os textos e descubra a relação entre eles.", kind: "explore" },
@@ -159,6 +161,11 @@ export async function resolveShareCard(raw: string, excerptLimit: 205 | 500 = 20
     };
   }
   const parts = path.slice(1).split("/");
+  if (parts[0] === "interlinear") {
+    const readingPath = `/${parts.slice(1).join("/")}`;
+    const selected = interlinearPathForReading(readingPath) === path ? passage(parts.slice(1)) : null;
+    return selected ? passageCard(path, selected, "PALAVRA POR PALAVRA · INTERLINEAR", excerptLimit) : null;
+  }
   const selected = passage(parts);
   if (selected) return passageCard(path, selected, undefined, excerptLimit);
   if (parts[0] === "conexao" && parts.length === 3) {

@@ -1,0 +1,32 @@
+[
+  {
+    "file": "OFL-GentiumBookPlus.txt",
+    "source": "estudos/biblia-marca/motion/public/fonts/OFL-GentiumBookPlus.txt",
+    "bytes": 4556,
+    "sha256": "c73576b5865082d9675c5362b37f42b3b3fd92e403dd92c32775e8d74a9a9cf0"
+  },
+  {
+    "file": "OFL-NotoSerifHebrew.txt",
+    "source": "estudos/biblia-marca/motion/public/fonts/OFL-NotoSerifHebrew.txt",
+    "bytes": 4380,
+    "sha256": "38d5fbc95848cf88131f2611c9f3f3a44f0262141601abf3aee6df2f8c4c71f5"
+  },
+  {
+    "file": "gentium-book-plus-greek-400-normal.woff2",
+    "source": "estudos/biblia-marca/motion/public/fonts/gentium-book-plus-greek-400-normal.woff2",
+    "bytes": 18168,
+    "sha256": "cba273ba7a0fbe810e3531f5cc62fd4e963da7c5d32b4981c3f30fe562aea343"
+  },
+  {
+    "file": "gentium-book-plus-greek-ext-400-normal.woff2",
+    "source": "estudos/biblia-marca/motion/public/fonts/gentium-book-plus-greek-ext-400-normal.woff2",
+    "bytes": 9356,
+    "sha256": "f4cbbee8404f7275cdece60d170d787d693df853452ef43a7b504d73eca2d658"
+  },
+  {
+    "file": "noto-serif-hebrew-hebrew-500-normal.woff2",
+    "source": "estudos/biblia-marca/motion/public/fonts/noto-serif-hebrew-hebrew-500-normal.woff2",
+    "bytes": 8072,
+    "sha256": "aa70ad75d8a11c1f2176cdeeff202b7ef8779ed017837d254f555a1d01c53536"
+  }
+]

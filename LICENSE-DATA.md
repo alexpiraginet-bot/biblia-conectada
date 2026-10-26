@@ -8,8 +8,11 @@ Os dados que este projeto gera a partir das fontes abertas saem sob a **Creative
 - O pacote de dados abertos em `site/public/dados/v1/`, servido em `/dados/v1/` e descrito em `DADOS.md` (`livros.json`, `versiculos.csv`, `ligacoes.csv`, `capitulos.csv`, `capitulos-arestas.csv`, `estudos/natal.json`, `datapackage.json` e o zip com tudo).
 - A linha do tempo, os temas e a recepção cultural em `site/src/data/generated/` (`linha-do-tempo/events.json`, `linha-do-tempo/place-names.json`, `temas.json`, `recepcao.json`), derivados do Theographic (CC BY-SA 4.0), da OpenBible.info Topics (CC BY 4.0) e do Wikidata (CC0). Por causa do Theographic, a CC BY-SA 4.0 aqui é obrigação.
 - Qualquer outro conjunto de dados que o projeto derive de `fontes/` ou de `estudos/*/data/`.
+- O corpus interlinear gerado e suas glosas/notas editoriais em `site/src/data/interlinear-editorial.json`. A seleção e as transformações estão descritas em `docs/INTERLINEAR.md`; a assistência de IA não equivale a revisão acadêmica independente.
 
 Dentro desses mesmos arquivos há partes que **não** mudam de licença:
+
+- **Interlinear:** campos originais do STEPBible (TAHOT/TAGNT) continuam CC BY 4.0, com o crédito exato de `ATTRIBUTION.md`. A leitura corrida BLIVRE continua na licença da Bíblia Livre, sem alterações. A licença do conjunto derivado não substitui as licenças dessas partes.
 
 - **O texto bíblico** (o campo `t` de `books/*.json`, os arquivos de `public/data/text/` e os de `public/dados/v1/texto/`) é a Bíblia Livre sem alterações e continua sob a licença dela, CC BY 4.0 Brasil, com o crédito exato do `ATTRIBUTION.md`.
 - **`credits.json`** reproduz o `ATTRIBUTION.md`: cada crédito segue a licença da fonte que ele descreve.

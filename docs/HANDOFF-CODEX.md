@@ -16,6 +16,10 @@ Escrito pelo Claude a pedido do Alex: "Prepare handoff para o códex seguir". Da
 
 ## 2. Estado e continuidade
 
+### Interlinear nativo — implementação em validação (26/10)
+
+Pedido de Alex atendido com estudo original acima/glosa PT abaixo, transliteração opcional e detalhe ao toque. `/interlinear` apresenta coleção inicial de 22 passagens/282 unidades; links somente nas referências BLIVRE explicitamente cobertas, acesso pelo menu e índice de leitura, OG próprio. Fontes STEP TAHOT/TAGNT fixadas por hash, variantes separadas, comparação BLIVRE inalterada. Glosas editoriais assistidas por IA, sem revisão acadêmica independente; não é Bíblia interlinear completa nem tradução exata. Build inicial com 819 testes e matriz Playwright de 19 casos passou; ajuste final do mobile em verificação antes da publicação. [Método](INTERLINEAR.md) e [evidências](evidence/2026-10-26-interlinear.md). Sem editar estudos ou fazer chamadas pagas.
+
 ### Motion enviado por Alex — rejeitado e retirado da produção (25/10)
 
 **Decisão atual de Alex:** a seção com vídeo não atende ao pedido. Ele quer interpretação nativa da referência ou a retirada. Esta rodada remove a seção, o player e as mídias públicas, preservando originais e evidências; não entrega outra peça decorativa. A direção para eventual nova implementação é o grafo existente, com fios ligados a passagens reais e resposta ao toque/ponteiro. Detalhes em `docs/LIVING-STORY.md`; o parágrafo seguinte registra a publicação anterior, agora rejeitada criativamente.

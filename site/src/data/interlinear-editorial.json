@@ -1,0 +1,1075 @@
+{
+  "genesis/1/1": {
+    "contextNote": "Os blocos mantêm a ordem hebraica. Uma palavra hebraica pode incluir artigo, preposição ou pronome, enquanto certas partículas não têm uma palavra equivalente em português.",
+    "tokens": {
+      "Gen.1.1#01=L": {
+        "gloss": "no princípio"
+      },
+      "Gen.1.1#02=L": {
+        "gloss": "criou",
+        "grammarLabel": "Verbo · perfeito · 3ª pessoa masculina singular",
+        "note": "O verbo está no singular: seu sujeito, aqui, é Deus."
+      },
+      "Gen.1.1#03=L": {
+        "gloss": "Deus",
+        "grammarLabel": "Substantivo · forma masculina plural",
+        "note": "Elohim tem forma plural, mas nesta frase acompanha o verbo singular «criou» e designa Deus. A forma gramatical, isoladamente, não prova uma doutrina sobre a natureza de Deus."
+      },
+      "Gen.1.1#04=L": {
+        "gloss": "[marca do objeto]",
+        "grammarLabel": "Partícula de objeto direto",
+        "note": "Et assinala o objeto direto definido. Não significa uma palavra escondida a acrescentar à tradução."
+      },
+      "Gen.1.1#05=L": {
+        "gloss": "os céus"
+      },
+      "Gen.1.1#06=L": {
+        "gloss": "e [marca do objeto]",
+        "grammarLabel": "Conjunção + partícula de objeto direto",
+        "note": "O prefixo significa «e»; et marca o objeto direto. As duas partes estão unidas no bloco hebraico."
+      },
+      "Gen.1.1#07=L": {
+        "gloss": "a terra"
+      }
+    }
+  },
+  "genesis/1/2": {
+    "contextNote": "As glosas mostram palavras e funções, sem transformar cada possibilidade do dicionário em sentido simultâneo. O contexto orienta a leitura de termos como ruach.",
+    "tokens": {
+      "Gen.1.2#01=L": {
+        "gloss": "e a terra"
+      },
+      "Gen.1.2#02=L": {
+        "gloss": "estava"
+      },
+      "Gen.1.2#03=L": {
+        "gloss": "sem forma",
+        "note": "Tohu pode designar desolação, vazio ou falta de forma. Aqui faz par com bohu, no bloco seguinte."
+      },
+      "Gen.1.2#04=L": {
+        "gloss": "e vazia"
+      },
+      "Gen.1.2#05=L": {
+        "gloss": "e escuridão"
+      },
+      "Gen.1.2#06=L": {
+        "gloss": "sobre"
+      },
+      "Gen.1.2#07=L": {
+        "gloss": "a superfície de",
+        "note": "A expressão «sobre a face de» funciona aqui como «sobre a superfície de». Traduzir apenas «rosto» não comunicaria esse uso."
+      },
+      "Gen.1.2#08=L": {
+        "gloss": "o abismo"
+      },
+      "Gen.1.2#09=L": {
+        "gloss": "e o espírito de",
+        "grammarLabel": "Conjunção + substantivo em ligação",
+        "note": "Ruach pode significar vento, sopro ou espírito conforme o contexto. «Espírito de Deus» é a leitura editorial adotada aqui; «vento de Deus» é outra interpretação conhecida da expressão."
+      },
+      "Gen.1.2#10=L": {
+        "gloss": "Deus"
+      },
+      "Gen.1.2#11=L": {
+        "gloss": "pairando",
+        "grammarLabel": "Particípio · feminino singular",
+        "note": "A forma descreve o movimento de pairar e concorda com ruach nesta frase."
+      },
+      "Gen.1.2#12=L": {
+        "gloss": "sobre"
+      },
+      "Gen.1.2#13=L": {
+        "gloss": "a superfície de"
+      },
+      "Gen.1.2#14=L": {
+        "gloss": "as águas"
+      }
+    }
+  },
+  "genesis/1/3": {
+    "tokens": {
+      "Gen.1.3#01=L": {
+        "gloss": "e disse"
+      },
+      "Gen.1.3#02=L": {
+        "gloss": "Deus"
+      },
+      "Gen.1.3#03=L": {
+        "gloss": "que haja",
+        "grammarLabel": "Verbo · jussivo · 3ª pessoa singular",
+        "note": "O jussivo expressa uma ordem ou vontade: «que haja». Não é apenas uma afirmação de que a luz já existia."
+      },
+      "Gen.1.3#04=L": {
+        "gloss": "luz"
+      },
+      "Gen.1.3#05=L": {
+        "gloss": "e houve"
+      },
+      "Gen.1.3#06=L": {
+        "gloss": "luz"
+      }
+    }
+  },
+  "genesis/1/4": {
+    "tokens": {
+      "Gen.1.4#01=L": {
+        "gloss": "e viu"
+      },
+      "Gen.1.4#02=L": {
+        "gloss": "Deus"
+      },
+      "Gen.1.4#03=L": {
+        "gloss": "[marca do objeto]",
+        "grammarLabel": "Partícula de objeto direto",
+        "note": "Et marca «a luz» como objeto de «viu». Não recebe uma palavra própria na leitura corrida."
+      },
+      "Gen.1.4#04=L": {
+        "gloss": "a luz"
+      },
+      "Gen.1.4#05=L": {
+        "gloss": "que"
+      },
+      "Gen.1.4#06=L": {
+        "gloss": "boa",
+        "note": "O verbo «era» fica implícito na construção hebraica. O português pode explicitá-lo: «que a luz era boa»."
+      },
+      "Gen.1.4#07=L": {
+        "gloss": "e separou"
+      },
+      "Gen.1.4#08=L": {
+        "gloss": "Deus"
+      },
+      "Gen.1.4#09=L": {
+        "gloss": "entre"
+      },
+      "Gen.1.4#10=L": {
+        "gloss": "a luz"
+      },
+      "Gen.1.4#11=L": {
+        "gloss": "e entre",
+        "note": "A construção repete «entre»: «entre a luz e entre a escuridão». Em português, a leitura natural é «separou a luz da escuridão»."
+      },
+      "Gen.1.4#12=L": {
+        "gloss": "a escuridão"
+      }
+    }
+  },
+  "genesis/1/5": {
+    "tokens": {
+      "Gen.1.5#01=L": {
+        "gloss": "e chamou"
+      },
+      "Gen.1.5#02=L": {
+        "gloss": "Deus"
+      },
+      "Gen.1.5#03=L": {
+        "gloss": "à luz",
+        "grammarLabel": "Preposição + artigo + substantivo",
+        "note": "O hebraico usa uma preposição na construção de dar nome. A leitura em português adapta: «chamou a luz de dia»."
+      },
+      "Gen.1.5#04=L": {
+        "gloss": "dia"
+      },
+      "Gen.1.5#05=L": {
+        "gloss": "e à escuridão"
+      },
+      "Gen.1.5#06=L": {
+        "gloss": "chamou"
+      },
+      "Gen.1.5#07=L": {
+        "gloss": "noite"
+      },
+      "Gen.1.5#08=L": {
+        "gloss": "e houve"
+      },
+      "Gen.1.5#09=L": {
+        "gloss": "entardecer"
+      },
+      "Gen.1.5#10=L": {
+        "gloss": "e houve"
+      },
+      "Gen.1.5#11=L": {
+        "gloss": "manhã"
+      },
+      "Gen.1.5#12=L": {
+        "gloss": "dia"
+      },
+      "Gen.1.5#13=L": {
+        "gloss": "um",
+        "grammarLabel": "Numeral · masculino singular",
+        "note": "O termo é o numeral «um». A tradução tradicional «primeiro dia» organiza a sequência em português, mas a glosa preserva a forma cardinal."
+      }
+    }
+  },
+  "salmos/23/1": {
+    "contextNote": "Este salmo usa a imagem do pastor e, depois, a do anfitrião. «SENHOR» representa YHWH, o nome divino, e não uma tradução palavra por palavra de suas quatro letras.",
+    "tokens": {
+      "Psa.23.1#03=L": {
+        "gloss": "SENHOR (YHWH)",
+        "grammarLabel": "Nome próprio divino",
+        "note": "O original contém YHWH. «SENHOR» é uma convenção de leitura; não se afirma aqui uma pronúncia original certa."
+      },
+      "Psa.23.1#04=L": {
+        "gloss": "meu pastor",
+        "grammarLabel": "Particípio substantivado + pronome «meu»",
+        "note": "A expressão nomeia aquele que pastoreia. O pronome «meu» está ligado à palavra no hebraico."
+      },
+      "Psa.23.1#05=L": {
+        "gloss": "não"
+      },
+      "Psa.23.1#06=L": {
+        "gloss": "terei falta",
+        "grammarLabel": "Verbo · 1ª pessoa singular",
+        "note": "«Não terei falta» expressa confiança no cuidado do pastor; a imagem não é uma promessa lexical de riqueza ilimitada."
+      }
+    }
+  },
+  "salmos/23/2": {
+    "tokens": {
+      "Psa.23.2#01=L": {
+        "gloss": "em pastagens de",
+        "grammarLabel": "Preposição + substantivo em ligação",
+        "note": "«Pastagens de relva» forma uma expressão. «Pastagens verdes» é uma maneira natural de apresentá-la em português."
+      },
+      "Psa.23.2#02=L": {
+        "gloss": "relva"
+      },
+      "Psa.23.2#03=L": {
+        "gloss": "faz-me deitar"
+      },
+      "Psa.23.2#04=L": {
+        "gloss": "junto a"
+      },
+      "Psa.23.2#05=L": {
+        "gloss": "águas de"
+      },
+      "Psa.23.2#06=L": {
+        "gloss": "descanso",
+        "grammarLabel": "Substantivo · feminino plural",
+        "note": "A expressão «águas de descansos» apresenta águas associadas ao repouso; o português natural usa «águas de descanso»."
+      },
+      "Psa.23.2#07=L": {
+        "gloss": "conduz-me"
+      }
+    }
+  },
+  "salmos/23/3": {
+    "tokens": {
+      "Psa.23.3#01=L": {
+        "gloss": "minha vida",
+        "grammarLabel": "Substantivo + pronome «minha»",
+        "note": "Nefesh pode designar vida, pessoa, ser ou alma, conforme o contexto. Aqui «minha vida» expressa a restauração da pessoa, sem exigir uma divisão entre corpo e alma."
+      },
+      "Psa.23.3#02=L": {
+        "gloss": "restaura"
+      },
+      "Psa.23.3#03=L": {
+        "gloss": "guia-me"
+      },
+      "Psa.23.3#04=L": {
+        "gloss": "por caminhos de"
+      },
+      "Psa.23.3#05=L": {
+        "gloss": "justiça",
+        "note": "«Caminhos de justiça» pode ser expresso como caminhos retos ou corretos. A metáfora do caminho permanece ligada à imagem do pastor."
+      },
+      "Psa.23.3#06=L": {
+        "gloss": "por causa de"
+      },
+      "Psa.23.3#07=L": {
+        "gloss": "seu nome",
+        "note": "«Por causa do seu nome» relaciona o cuidado ao caráter e à reputação daquele que guia; não descreve uma fórmula mágica."
+      }
+    }
+  },
+  "salmos/23/4": {
+    "tokens": {
+      "Psa.23.4#01=L": {
+        "gloss": "mesmo",
+        "note": "Com a partícula seguinte, a expressão introduz uma situação extrema: «mesmo quando» ou «ainda que»."
+      },
+      "Psa.23.4#02=L": {
+        "gloss": "quando"
+      },
+      "Psa.23.4#03=L": {
+        "gloss": "eu caminhar"
+      },
+      "Psa.23.4#04=L": {
+        "gloss": "por um vale de"
+      },
+      "Psa.23.4#05=L": {
+        "gloss": "treva profunda",
+        "note": "Tsalmavet admite «treva profunda» e a expressão tradicional «sombra da morte». A imagem aponta para escuridão e perigo; não se limita necessariamente ao instante da morte."
+      },
+      "Psa.23.4#06=L": {
+        "gloss": "não"
+      },
+      "Psa.23.4#07=L": {
+        "gloss": "temerei"
+      },
+      "Psa.23.4#08=L": {
+        "gloss": "o mal"
+      },
+      "Psa.23.4#09=L": {
+        "gloss": "pois"
+      },
+      "Psa.23.4#10=L": {
+        "gloss": "tu"
+      },
+      "Psa.23.4#11=L": {
+        "gloss": "comigo"
+      },
+      "Psa.23.4#12=L": {
+        "gloss": "tua vara"
+      },
+      "Psa.23.4#13=L": {
+        "gloss": "e teu cajado"
+      },
+      "Psa.23.4#14=L": {
+        "gloss": "eles",
+        "grammarLabel": "Pronome · 3ª pessoa masculina plural",
+        "note": "«Eles» retoma a vara e o cajado. Em português, pode ficar implícito para a frase fluir."
+      },
+      "Psa.23.4#15=L": {
+        "gloss": "consolam-me"
+      }
+    }
+  },
+  "salmos/23/5": {
+    "tokens": {
+      "Psa.23.5#01=L": {
+        "gloss": "preparas"
+      },
+      "Psa.23.5#02=L": {
+        "gloss": "diante de mim"
+      },
+      "Psa.23.5#03=L": {
+        "gloss": "uma mesa"
+      },
+      "Psa.23.5#04=L": {
+        "gloss": "perante"
+      },
+      "Psa.23.5#05=L": {
+        "gloss": "meus adversários"
+      },
+      "Psa.23.5#06=L": {
+        "gloss": "revigoraste",
+        "grammarLabel": "Verbo · perfeito · 2ª pessoa masculina singular",
+        "note": "O verbo dashen pode expressar tornar abundante, nutrir ou revigorar. A imagem inclui óleo sobre a cabeça; não é o mesmo verbo hebraico normalmente traduzido por «ungir»."
+      },
+      "Psa.23.5#07=L": {
+        "gloss": "com óleo"
+      },
+      "Psa.23.5#08=L": {
+        "gloss": "minha cabeça"
+      },
+      "Psa.23.5#09=L": {
+        "gloss": "meu cálice"
+      },
+      "Psa.23.5#10=L": {
+        "gloss": "cheio até transbordar",
+        "note": "A palavra designa abundância ou saturação. «Cheio até transbordar» torna a imagem legível; não descreve aqui uma medida de volume."
+      }
+    }
+  },
+  "salmos/23/6": {
+    "contextNote": "Neste verso, a análise da fonte associa «voltarei» ao verbo shuv, voltar. A conhecida leitura «habitarei» reflete outra compreensão da expressão. A diferença fica visível, sem chamar uma escolha editorial de equivalência absoluta.",
+    "tokens": {
+      "Psa.23.6#01=L": {
+        "gloss": "certamente"
+      },
+      "Psa.23.6#02=L": {
+        "gloss": "o bem"
+      },
+      "Psa.23.6#03=L": {
+        "gloss": "e amor leal",
+        "grammarLabel": "Conjunção + substantivo",
+        "note": "Hesed abrange bondade, lealdade e amor fiel. «Amor leal» é uma glosa contextual, não todos os sentidos possíveis da palavra."
+      },
+      "Psa.23.6#04=L": {
+        "gloss": "seguirão-me",
+        "grammarLabel": "Verbo · 3ª pessoa plural + pronome «me»",
+        "note": "O verbo pode significar perseguir. Aqui o bem e o amor leal são personificados como quem segue de perto o salmista."
+      },
+      "Psa.23.6#05=L": {
+        "gloss": "todos"
+      },
+      "Psa.23.6#06=L": {
+        "gloss": "os dias de"
+      },
+      "Psa.23.6#07=L": {
+        "gloss": "minha vida"
+      },
+      "Psa.23.6#08=L": {
+        "gloss": "e voltarei",
+        "grammarLabel": "Conjunção + verbo · 1ª pessoa singular",
+        "note": "A fonte identifica o lema shuv, «voltar», e oferece «e voltarei». Muitas traduções conhecidas usam «habitarei». Esta glosa acompanha a análise declarada da fonte, mantendo a diferença explícita."
+      },
+      "Psa.23.6#09=L": {
+        "gloss": "na casa de",
+        "note": "O prefixo normalmente indica «em». Ao traduzir o verbo anterior como «voltar», o português pode adaptar a relação de lugar para «voltar à casa»."
+      },
+      "Psa.23.6#10=L": {
+        "gloss": "SENHOR (YHWH)"
+      },
+      "Psa.23.6#11=L": {
+        "gloss": "por extensão de",
+        "note": "Com «dias», forma a expressão «por longos dias». Uma tradução palavra a palavra não determina, sozinha, se o horizonte é a vida inteira ou além dela."
+      },
+      "Psa.23.6#12=L": {
+        "gloss": "dias"
+      }
+    }
+  },
+  "salmos/22/1": {
+    "contextNote": "É a voz do salmista em um salmo atribuído a Davi. Mateus 27:46 e Marcos 15:34 registram Jesus retomando essa abertura na cruz; isso é diferente de afirmar que Jesus pronuncia todo o salmo nos relatos.",
+    "tokens": {
+      "Psa.22.1(22.2)#01=L": {
+        "gloss": "meu Deus"
+      },
+      "Psa.22.1(22.2)#02=L": {
+        "gloss": "meu Deus"
+      },
+      "Psa.22.1(22.2)#03=L": {
+        "gloss": "por quê"
+      },
+      "Psa.22.1(22.2)#04=L": {
+        "gloss": "abandonaste-me",
+        "grammarLabel": "Verbo · 2ª pessoa singular + pronome «me»",
+        "note": "O verbo descreve deixar ou abandonar. A oração expressa o lamento dirigido a Deus."
+      },
+      "Psa.22.1(22.2)#05=L": {
+        "gloss": "longe",
+        "note": "A sequência poética é condensada. Uma leitura em português pode explicitar o verbo «estar» e repetir «longe» para ligar socorro e grito. Esses apoios não são novos termos hebraicos."
+      },
+      "Psa.22.1(22.2)#06=L": {
+        "gloss": "do meu socorro"
+      },
+      "Psa.22.1(22.2)#07=L": {
+        "gloss": "as palavras de"
+      },
+      "Psa.22.1(22.2)#08=L": {
+        "gloss": "meu grito",
+        "note": "A palavra pode descrever um rugido ou clamor intenso. «Meu grito» preserva a força do lamento sem exigir o sentido literal de rugido animal."
+      }
+    }
+  },
+  "salmos/22/6": {
+    "contextNote": "O salmista expressa humilhação e desprezo. A leitura cristã pode relacionar o salmo à paixão de Jesus, mas isso não transforma cada imagem em identificação biológica ou em fala explicitamente registrada de Jesus.",
+    "tokens": {
+      "Psa.22.6(22.7)#01=L": {
+        "gloss": "e eu",
+        "note": "A conjunção é «e». «Eu, porém» é uma forma possível de explicitar o contraste do lamento em português."
+      },
+      "Psa.22.6(22.7)#02=L": {
+        "gloss": "verme",
+        "grammarLabel": "Substantivo · feminino singular",
+        "note": "Tola'at é «verme» neste contexto de humilhação. O léxico registra sentidos relacionados a insetos e, em outros usos, ao corante carmesim. Este verso não identifica uma espécie, não diz «verme carmesim» e não descreve um ciclo de vida."
+      },
+      "Psa.22.6(22.7)#03=L": {
+        "gloss": "e não"
+      },
+      "Psa.22.6(22.7)#04=L": {
+        "gloss": "um homem"
+      },
+      "Psa.22.6(22.7)#05=L": {
+        "gloss": "alvo da afronta de",
+        "note": "«Alvo da afronta» torna legível a expressão hebraica «reprovação de». A imagem descreve o desprezo sofrido pelo salmista."
+      },
+      "Psa.22.6(22.7)#06=L": {
+        "gloss": "seres humanos"
+      },
+      "Psa.22.6(22.7)#07=L": {
+        "gloss": "e desprezado por"
+      },
+      "Psa.22.6(22.7)#08=L": {
+        "gloss": "um povo"
+      }
+    }
+  },
+  "joao/1/1": {
+    "contextNote": "Os blocos preservam a ordem grega, que difere do português. Na última oração, «a Palavra» é o sujeito. A posição de uma palavra ou a presença de um artigo, isoladamente, não substitui a análise da frase inteira.",
+    "tokens": {
+      "Jhn.1.1#01=NKO": {
+        "gloss": "em"
+      },
+      "Jhn.1.1#02=NKO": {
+        "gloss": "princípio"
+      },
+      "Jhn.1.1#03=NKO": {
+        "gloss": "era",
+        "grammarLabel": "Verbo · imperfeito · 3ª pessoa singular",
+        "note": "O imperfeito de «ser» apresenta a existência no tempo referido. A primeira oração pode ser expressa em português como «a Palavra existia»."
+      },
+      "Jhn.1.1#04=NKO": {
+        "gloss": "a",
+        "grammarLabel": "Artigo · nominativo masculino singular",
+        "note": "O grego logos é masculino; «palavra», em português, é feminino. Por isso a glosa contextual do artigo usa «a»."
+      },
+      "Jhn.1.1#05=NKO": {
+        "gloss": "Palavra",
+        "grammarLabel": "Substantivo · nominativo masculino singular",
+        "note": "Logos pode significar palavra, expressão, discurso ou razão em diferentes contextos. Aqui «Palavra» é uma escolha editorial; «Verbo» é a tradução tradicional conhecida."
+      },
+      "Jhn.1.1#06=NKO": {
+        "gloss": "e"
+      },
+      "Jhn.1.1#07=NKO": {
+        "gloss": "a"
+      },
+      "Jhn.1.1#08=NKO": {
+        "gloss": "Palavra"
+      },
+      "Jhn.1.1#09=NKO": {
+        "gloss": "estava"
+      },
+      "Jhn.1.1#10=NKO": {
+        "gloss": "com",
+        "note": "Pros frequentemente indica direção ou relação; com este verbo e complemento, a expressão é traduzida «com Deus»."
+      },
+      "Jhn.1.1#11=NKO": {
+        "gloss": "o",
+        "grammarLabel": "Artigo · acusativo masculino singular",
+        "note": "O artigo está no original, mas pode ser omitido na leitura natural «com Deus». Nem todo artigo grego pede um artigo em português."
+      },
+      "Jhn.1.1#12=NKO": {
+        "gloss": "Deus"
+      },
+      "Jhn.1.1#13=NKO": {
+        "gloss": "e"
+      },
+      "Jhn.1.1#14=NKO": {
+        "gloss": "Deus",
+        "grammarLabel": "Substantivo · nominativo masculino singular",
+        "note": "Nesta oração, theos funciona como predicativo de «a Palavra». A ausência de artigo aqui não equivale automaticamente ao artigo indefinido «um» em português; a construção deve ser lida como um todo."
+      },
+      "Jhn.1.1#15=NKO": {
+        "gloss": "era"
+      },
+      "Jhn.1.1#16=NKO": {
+        "gloss": "a"
+      },
+      "Jhn.1.1#17=NKO": {
+        "gloss": "Palavra"
+      }
+    }
+  },
+  "joao/1/2": {
+    "tokens": {
+      "Jhn.1.2#01=NKO": {
+        "gloss": "esta",
+        "grammarLabel": "Pronome demonstrativo · masculino singular",
+        "note": "O pronome retoma logos, masculino em grego. Uma glosa portuguesa feminina, como «esta» ou «ela», acompanha a escolha «a Palavra», sem alterar o referente."
+      },
+      "Jhn.1.2#02=NKO": {
+        "gloss": "estava"
+      },
+      "Jhn.1.2#03=NKO": {
+        "gloss": "em"
+      },
+      "Jhn.1.2#04=NKO": {
+        "gloss": "princípio"
+      },
+      "Jhn.1.2#05=NKO": {
+        "gloss": "com"
+      },
+      "Jhn.1.2#06=NKO": {
+        "gloss": "o",
+        "grammarLabel": "Artigo · acusativo masculino singular",
+        "note": "O artigo aparece no grego; a leitura corrida usa a construção portuguesa «com Deus»."
+      },
+      "Jhn.1.2#07=NKO": {
+        "gloss": "Deus"
+      }
+    }
+  },
+  "joao/1/3": {
+    "contextNote": "A divisão entre João 1:3 e 1:4 admite diferentes pontuações na tradição editorial. Aqui, «o que veio a existir» permanece ligado ao verso 3. A numeração não é uma palavra do texto grego.",
+    "tokens": {
+      "Jhn.1.3#01=NKO": {
+        "gloss": "todas as coisas"
+      },
+      "Jhn.1.3#02=NKO": {
+        "gloss": "por meio de"
+      },
+      "Jhn.1.3#03=NKO": {
+        "gloss": "ela",
+        "grammarLabel": "Pronome · genitivo masculino singular",
+        "note": "Retoma a Palavra. O gênero português acompanha o termo escolhido para logos."
+      },
+      "Jhn.1.3#04=NKO": {
+        "gloss": "vieram a existir",
+        "grammarLabel": "Verbo · aoristo · 3ª pessoa singular",
+        "note": "A forma grega está no singular com o sujeito neutro plural «todas as coisas». Em português, a concordância natural usa «vieram»."
+      },
+      "Jhn.1.3#05=NKO": {
+        "gloss": "e"
+      },
+      "Jhn.1.3#06=NKO": {
+        "gloss": "sem"
+      },
+      "Jhn.1.3#07=NKO": {
+        "gloss": "ela"
+      },
+      "Jhn.1.3#08=NKO": {
+        "gloss": "veio a existir"
+      },
+      "Jhn.1.3#09=NKO": {
+        "gloss": "nem sequer"
+      },
+      "Jhn.1.3#10=NKO": {
+        "gloss": "uma coisa"
+      },
+      "Jhn.1.3#11=NKO": {
+        "gloss": "que"
+      },
+      "Jhn.1.3#12=NKO": {
+        "gloss": "veio a existir",
+        "grammarLabel": "Verbo · perfeito · 3ª pessoa singular",
+        "note": "O perfeito apresenta algo que veio a existir com relevância no estado presente. Uma glosa curta não reproduz toda a diferença de aspecto verbal."
+      }
+    }
+  },
+  "joao/1/4": {
+    "tokens": {
+      "Jhn.1.4#01=NKO": {
+        "gloss": "em"
+      },
+      "Jhn.1.4#02=NKO": {
+        "gloss": "ela"
+      },
+      "Jhn.1.4#03=NKO": {
+        "gloss": "vida"
+      },
+      "Jhn.1.4#04=NKO": {
+        "gloss": "havia"
+      },
+      "Jhn.1.4#05=NKO": {
+        "gloss": "e"
+      },
+      "Jhn.1.4#06=NKO": {
+        "gloss": "a"
+      },
+      "Jhn.1.4#07=NKO": {
+        "gloss": "vida"
+      },
+      "Jhn.1.4#08=NKO": {
+        "gloss": "era"
+      },
+      "Jhn.1.4#09=NKO": {
+        "gloss": "a"
+      },
+      "Jhn.1.4#10=NKO": {
+        "gloss": "luz"
+      },
+      "Jhn.1.4#11=NKO": {
+        "gloss": "dos"
+      },
+      "Jhn.1.4#12=NKO": {
+        "gloss": "seres humanos",
+        "grammarLabel": "Substantivo · genitivo masculino plural",
+        "note": "Anthropos pode designar o ser humano de modo amplo. Nesta frase, «seres humanos» evita restringir a referência apenas aos homens do sexo masculino."
+      }
+    }
+  },
+  "joao/1/5": {
+    "contextNote": "O verbo final permite discussão entre alcançar, dominar e compreender. A glosa mostra uma possibilidade contextual, e a nota preserva a ambiguidade em vez de esconder uma decisão editorial.",
+    "tokens": {
+      "Jhn.1.5#01=NKO": {
+        "gloss": "e"
+      },
+      "Jhn.1.5#02=NKO": {
+        "gloss": "a"
+      },
+      "Jhn.1.5#03=NKO": {
+        "gloss": "luz"
+      },
+      "Jhn.1.5#04=NKO": {
+        "gloss": "em"
+      },
+      "Jhn.1.5#05=NKO": {
+        "gloss": "a"
+      },
+      "Jhn.1.5#06=NKO": {
+        "gloss": "escuridão"
+      },
+      "Jhn.1.5#07=NKO": {
+        "gloss": "brilha"
+      },
+      "Jhn.1.5#08=NKO": {
+        "gloss": "e"
+      },
+      "Jhn.1.5#09=NKO": {
+        "gloss": "a"
+      },
+      "Jhn.1.5#10=NKO": {
+        "gloss": "escuridão"
+      },
+      "Jhn.1.5#11=NKO": {
+        "gloss": "a"
+      },
+      "Jhn.1.5#12=NKO": {
+        "gloss": "não"
+      },
+      "Jhn.1.5#13=NKO": {
+        "gloss": "alcançou",
+        "grammarLabel": "Verbo · aoristo · 3ª pessoa singular",
+        "note": "Katalambano pode significar alcançar, apoderar-se ou compreender. «Alcançou» foi escolhido aqui; «venceu» e «compreendeu» expressam outras leituras conhecidas. Nenhuma palavra portuguesa contém sozinha todas essas possibilidades."
+      }
+    }
+  },
+  "joao/1/14": {
+    "contextNote": "As glosas preservam «carne», a imagem de habitar e o termo traduzido «único», com suas notas de contexto. Elas ajudam a estudar a frase, mas não substituem uma tradução de leitura.",
+    "tokens": {
+      "Jhn.1.14#01=NKO": {
+        "gloss": "e"
+      },
+      "Jhn.1.14#02=NKO": {
+        "gloss": "a"
+      },
+      "Jhn.1.14#03=NKO": {
+        "gloss": "Palavra",
+        "note": "A mesma palavra logos de João 1:1. «Palavra» é a escolha editorial desta leitura; «Verbo» é outra tradução conhecida."
+      },
+      "Jhn.1.14#04=NKO": {
+        "gloss": "carne",
+        "grammarLabel": "Substantivo · nominativo feminino singular",
+        "note": "Sarx é «carne». Aqui expressa a condição humana assumida pela Palavra; não significa automaticamente «natureza pecaminosa» em toda ocorrência."
+      },
+      "Jhn.1.14#05=NKO": {
+        "gloss": "tornou-se"
+      },
+      "Jhn.1.14#06=NKO": {
+        "gloss": "e"
+      },
+      "Jhn.1.14#07=NKO": {
+        "gloss": "habitou",
+        "grammarLabel": "Verbo · aoristo · 3ª pessoa singular",
+        "note": "Skenoo significa habitar e evoca a imagem de tenda ou tabernáculo. A imagem lexical não obriga a entender que o verso descreva a construção de uma tenda física."
+      },
+      "Jhn.1.14#08=NKO": {
+        "gloss": "entre"
+      },
+      "Jhn.1.14#09=NKO": {
+        "gloss": "nós"
+      },
+      "Jhn.1.14#10=NKO": {
+        "gloss": "e"
+      },
+      "Jhn.1.14#11=NKO": {
+        "gloss": "contemplamos"
+      },
+      "Jhn.1.14#12=NKO": {
+        "gloss": "a"
+      },
+      "Jhn.1.14#13=NKO": {
+        "gloss": "glória"
+      },
+      "Jhn.1.14#14=NKO": {
+        "gloss": "dela",
+        "grammarLabel": "Pronome · genitivo masculino singular",
+        "note": "O pronome grego retoma logos. A expressão portuguesa «sua glória» evita forçar o gênero gramatical do grego sobre «Palavra»."
+      },
+      "Jhn.1.14#15=NKO": {
+        "gloss": "glória"
+      },
+      "Jhn.1.14#16=NKO": {
+        "gloss": "como"
+      },
+      "Jhn.1.14#17=NKO": {
+        "gloss": "de um único",
+        "grammarLabel": "Adjetivo · genitivo masculino singular",
+        "note": "Monogenes é usado para alguém único, especialmente um filho único. «Unigênito» é a tradução tradicional. A relação com o Pai permite entender a filiação, mas «filho» não é um token separado neste verso."
+      },
+      "Jhn.1.14#18=NKO": {
+        "gloss": "da parte de"
+      },
+      "Jhn.1.14#19=NKO": {
+        "gloss": "Pai"
+      },
+      "Jhn.1.14#20=NKO": {
+        "gloss": "cheio",
+        "grammarLabel": "Adjetivo · nominativo masculino singular",
+        "note": "«Cheio» tem forma masculina no grego e se relaciona ao referente de logos. O termo português «Palavra» é feminino; gênero gramatical e referência pessoal não são a mesma coisa."
+      },
+      "Jhn.1.14#21=NKO": {
+        "gloss": "de graça"
+      },
+      "Jhn.1.14#22=NKO": {
+        "gloss": "e"
+      },
+      "Jhn.1.14#23=NKO": {
+        "gloss": "de verdade"
+      }
+    }
+  },
+  "joao/3/16": {
+    "contextNote": "A seleção grega desta leitura não inclui o pronome «seu» que aparece em outras formas textuais entre «Filho» e «único». O texto e as glosas seguem a edição declarada, sem misturar variantes.",
+    "tokens": {
+      "Jhn.3.16#01=NKO": {
+        "gloss": "assim",
+        "note": "Houtos significa «assim» ou «desta maneira». A frase relaciona o amor de Deus ao ato de dar o Filho. A expressão não se reduz a uma medida numérica de intensidade."
+      },
+      "Jhn.3.16#02=NKO": {
+        "gloss": "pois"
+      },
+      "Jhn.3.16#03=NKO": {
+        "gloss": "amou"
+      },
+      "Jhn.3.16#04=NKO": {
+        "gloss": "o",
+        "grammarLabel": "Artigo · nominativo masculino singular",
+        "note": "O grego usa artigo com «Deus»; a leitura natural em português pode omiti-lo."
+      },
+      "Jhn.3.16#05=NKO": {
+        "gloss": "Deus"
+      },
+      "Jhn.3.16#06=NKO": {
+        "gloss": "o"
+      },
+      "Jhn.3.16#07=NKO": {
+        "gloss": "mundo"
+      },
+      "Jhn.3.16#08=NKO": {
+        "gloss": "de modo que"
+      },
+      "Jhn.3.16#09=NKO": {
+        "gloss": "o"
+      },
+      "Jhn.3.16#10=NKO": {
+        "gloss": "Filho"
+      },
+      "Jhn.3.16#12=NKO": {
+        "gloss": "o",
+        "grammarLabel": "Artigo · acusativo masculino singular",
+        "note": "O artigo repetido liga «único» a «Filho». O português não precisa repetir os dois artigos na leitura corrida."
+      },
+      "Jhn.3.16#13=NKO": {
+        "gloss": "único",
+        "grammarLabel": "Adjetivo · acusativo masculino singular",
+        "note": "Monogenes pode ser expresso por «único», especialmente no contexto de filiação. «Unigênito» é a forma tradicional; a glosa não pretende resolver por etimologia isolada toda a linguagem sobre o Filho."
+      },
+      "Jhn.3.16#14=NKO": {
+        "gloss": "deu"
+      },
+      "Jhn.3.16#15=NKO": {
+        "gloss": "para que"
+      },
+      "Jhn.3.16#16=NKO": {
+        "gloss": "todo"
+      },
+      "Jhn.3.16#17=NKO": {
+        "gloss": "aquele que",
+        "grammarLabel": "Artigo com particípio",
+        "note": "Com o particípio seguinte, forma «aquele que crê». Separar os blocos não deve apagar a expressão como unidade."
+      },
+      "Jhn.3.16#18=NKO": {
+        "gloss": "crê",
+        "grammarLabel": "Particípio · presente · nominativo masculino singular",
+        "note": "A forma identifica a pessoa que crê. Não se deve extrair de um único aspecto verbal uma regra completa sobre a fé sem considerar a frase e o contexto."
+      },
+      "Jhn.3.16#19=NKO": {
+        "gloss": "em"
+      },
+      "Jhn.3.16#20=NKO": {
+        "gloss": "ele"
+      },
+      "Jhn.3.16#21=NKO": {
+        "gloss": "não"
+      },
+      "Jhn.3.16#22=NKO": {
+        "gloss": "pereça"
+      },
+      "Jhn.3.16#23=NKO": {
+        "gloss": "mas"
+      },
+      "Jhn.3.16#24=NKO": {
+        "gloss": "tenha"
+      },
+      "Jhn.3.16#25=NKO": {
+        "gloss": "vida"
+      },
+      "Jhn.3.16#26=NKO": {
+        "gloss": "eterna"
+      }
+    }
+  },
+  "mateus/27/46": {
+    "contextNote": "Mateus registra Jesus citando a abertura do Salmo 22 na cruz. A expressão «sou verme» pertence ao verso 6 do salmo; não é apresentada aqui como uma frase pronunciada por Jesus.",
+    "tokens": {
+      "Mat.27.46#01=NKO": {
+        "gloss": "por volta de"
+      },
+      "Mat.27.46#02=NKO": {
+        "gloss": "então"
+      },
+      "Mat.27.46#03=NKO": {
+        "gloss": "a"
+      },
+      "Mat.27.46#04=NKO": {
+        "gloss": "nona",
+        "note": "A nona hora corresponde aproximadamente às três da tarde na contagem diurna usada no relato."
+      },
+      "Mat.27.46#05=NKO": {
+        "gloss": "hora"
+      },
+      "Mat.27.46#06=NK(o)": {
+        "gloss": "gritou"
+      },
+      "Mat.27.46#07=NKO": {
+        "gloss": "o",
+        "grammarLabel": "Artigo · nominativo masculino singular",
+        "note": "O artigo acompanha o nome próprio no grego. A leitura em português usa apenas «Jesus»."
+      },
+      "Mat.27.46#08=NKO": {
+        "gloss": "Jesus"
+      },
+      "Mat.27.46#09=NKO": {
+        "gloss": "com voz"
+      },
+      "Mat.27.46#10=NKO": {
+        "gloss": "alta"
+      },
+      "Mat.27.46#11=NKO": {
+        "gloss": "dizendo"
+      },
+      "Mat.27.46#12=NK(o)": {
+        "gloss": "meu Deus",
+        "note": "«Eli» está transcrito em letras gregas. A glosa apresenta seu sentido; não confunde essa transcrição com o texto hebraico do salmo."
+      },
+      "Mat.27.46#13=NK(o)": {
+        "gloss": "meu Deus"
+      },
+      "Mat.27.46#14=NKO": {
+        "gloss": "por quê",
+        "note": "Palavra da fala semítica preservada por transcrição grega. O próprio evangelista fornece em seguida o sentido da frase em grego."
+      },
+      "Mat.27.46#15=NKO": {
+        "gloss": "abandonaste-me",
+        "note": "A expressão semítica inclui «me». A glosa contextual segue a explicação que o próprio verso fornece: «me abandonaste»."
+      },
+      "Mat.27.46#16=NKO": {
+        "gloss": "isto"
+      },
+      "Mat.27.46#17=NKO": {
+        "gloss": "é"
+      },
+      "Mat.27.46#18=NKO": {
+        "gloss": "Deus"
+      },
+      "Mat.27.46#19=NKO": {
+        "gloss": "meu"
+      },
+      "Mat.27.46#20=NKO": {
+        "gloss": "Deus"
+      },
+      "Mat.27.46#21=NKO": {
+        "gloss": "meu"
+      },
+      "Mat.27.46#22=NKO": {
+        "gloss": "por quê",
+        "grammarLabel": "Expressão interrogativa",
+        "note": "A fonte associa dois códigos lexicais a hinati. A expressão funciona como «por quê», e não como duas perguntas independentes."
+      },
+      "Mat.27.46#23=NKO": {
+        "gloss": "me"
+      },
+      "Mat.27.46#24=NKO": {
+        "gloss": "abandonaste"
+      }
+    }
+  },
+  "marcos/15/34": {
+    "contextNote": "Marcos também registra a abertura do Salmo 22 na cruz, com a forma transcrita «Eloi». A citação explícita é a pergunta do verso 1; o relato não registra Jesus pronunciando «sou verme».",
+    "tokens": {
+      "Mrk.15.34#01=NKO": {
+        "gloss": "e"
+      },
+      "Mrk.15.34#02=NKO": {
+        "gloss": "na"
+      },
+      "Mrk.15.34#03=NKO": {
+        "gloss": "nona",
+        "note": "A nona hora corresponde aproximadamente às três da tarde na contagem diurna do relato."
+      },
+      "Mrk.15.34#05=NKO": {
+        "gloss": "hora"
+      },
+      "Mrk.15.34#06=NKO": {
+        "gloss": "gritou"
+      },
+      "Mrk.15.34#07=NKO": {
+        "gloss": "o",
+        "grammarLabel": "Artigo · nominativo masculino singular",
+        "note": "O artigo acompanha o nome próprio no grego; não é necessário na leitura portuguesa «Jesus»."
+      },
+      "Mrk.15.34#08=NKO": {
+        "gloss": "Jesus"
+      },
+      "Mrk.15.34#09=NKO": {
+        "gloss": "com voz"
+      },
+      "Mrk.15.34#10=NKO": {
+        "gloss": "alta"
+      },
+      "Mrk.15.34#12=NKO": {
+        "gloss": "meu Deus",
+        "note": "«Eloi» é uma expressão aramaica transcrita com letras gregas. A glosa mostra o sentido «meu Deus», confirmado pela tradução dentro do próprio verso."
+      },
+      "Mrk.15.34#13=NKO": {
+        "gloss": "meu Deus"
+      },
+      "Mrk.15.34#14=NKO": {
+        "gloss": "por quê"
+      },
+      "Mrk.15.34#15=NKO": {
+        "gloss": "abandonaste-me",
+        "note": "A expressão transcrita inclui «me». Sua explicação aparece nos blocos gregos seguintes do mesmo verso."
+      },
+      "Mrk.15.34#16=NKO": {
+        "gloss": "o que"
+      },
+      "Mrk.15.34#17=NKO": {
+        "gloss": "é"
+      },
+      "Mrk.15.34#18=NKO": {
+        "gloss": "traduzido",
+        "grammarLabel": "Particípio · presente passivo",
+        "note": "Introduz a tradução da expressão preservada antes: «sendo traduzido» ou, na leitura corrida, «traduzindo»."
+      },
+      "Mrk.15.34#19=NKO": {
+        "gloss": "ó",
+        "grammarLabel": "Artigo em expressão de chamamento",
+        "note": "Com «Deus», a construção funciona como um chamado: «ó Deus». O valor não é o de um objeto que recebe a ação."
+      },
+      "Mrk.15.34#20=NKO": {
+        "gloss": "Deus"
+      },
+      "Mrk.15.34#21=NKO": {
+        "gloss": "meu"
+      },
+      "Mrk.15.34#22=NKO": {
+        "gloss": "ó"
+      },
+      "Mrk.15.34#23=NKO": {
+        "gloss": "Deus"
+      },
+      "Mrk.15.34#24=NKO": {
+        "gloss": "meu"
+      },
+      "Mrk.15.34#25=NKO": {
+        "gloss": "para",
+        "note": "Com a palavra seguinte, eis ti forma a pergunta «por quê». A glosa isolada «para» não deve ser lida como uma pergunta diferente."
+      },
+      "Mrk.15.34#26=NKO": {
+        "gloss": "quê"
+      },
+      "Mrk.15.34#27=NKO": {
+        "gloss": "abandonaste"
+      },
+      "Mrk.15.34#28=NKO": {
+        "gloss": "me"
+      }
+    }
+  }
+}
