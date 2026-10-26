@@ -73,7 +73,6 @@ Space Grotesk, Space Mono e Cormorant (as três dos vídeos), Literata (texto b�
 - Sem rostos de pessoas.
 - Prompts e ids dos jobs: `estudos/biblia-natal/source/PROMPTS.md`.
 - **Medalhões do Explorar:** ilustrações geradas por IA (OpenAI `gpt-image-2.5-sunburst-2026-09-08`), conferidas uma a uma e marcadas como "Ilustração" no site. Prompts e revisão: `site/scripts/data/medallions-review.json`.
-- **Motion “Formas vivas”:** peça do acervo fornecido por Alex para integrar ao Bíblia Conectada em 25/10/2026. A digital, o portal e a rede sobre o livro são uma recriação artística; os fios não representam referências bíblicas medidas. A versão da home é um vídeo sem áudio, derivado do projeto editável, com procedência em `design/living-story/`. O pacote de origem não declara uma licença geral de redistribuição da arte; esta mídia não recebe automaticamente a licença MIT do código nem a CC BY-SA dos dados.
 
 ## Código e dados deste repositório
 

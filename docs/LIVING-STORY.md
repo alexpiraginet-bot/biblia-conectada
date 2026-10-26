@@ -1,6 +1,14 @@
 # Sua história também se conecta
 
-## Decisão de uso
+## Decisão atual — retirada a pedido de Alex (25/10/2026)
+
+Alex rejeitou esta implementação: incorporar um vídeo em uma seção nova não atende ao pedido de uma experiência nativa feita a partir da referência. O componente, o player e os quatro assets públicos foram retirados; não há substituição decorativa nesta rodada. A home volta da busca diretamente ao guia e ao atlas, preservando Coração, leitura e conexões reais.
+
+O ZIP editável, o derivado e as evidências permanecem preservados fora do runtime. Os registros abaixo descrevem a versão anterior, não uma proposta aprovada. Aprovação técnica não equivale à aprovação criativa.
+
+Uma eventual nova implementação deve usar o `LivingGraph` existente: seleção de passagem, fios luminosos associados a dados reais, destaque ao toque/ponteiro e abertura da leitura ligada. O movimento precisa responder à exploração. A digital não tem uma função definida no produto e não será reaproveitada como identificação ou abertura. Esta direção está registrada para continuidade; nenhuma nova interação foi entregue nesta retirada.
+
+## Decisão anterior — substituída
 
 O pacote `Biblia_Conectada_Editavel.zip`, enviado por Alex em 25/10/2026, é um projeto de motion de doze segundos. A arte percorre digital luminosa, portal e rede sobre um livro. Não contém o MP4 citado em seus relatórios antigos. Os caminhos são artísticos: não há base de referências bíblicas por trás deles.
 

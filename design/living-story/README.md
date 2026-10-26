@@ -1,5 +1,7 @@
 # Living story — derivado web da arte fornecida
 
+**Referência arquivada, retirada do site em 25/10/2026 a pedido de Alex.** A incorporação como vídeo foi rejeitada. Componentes e arquivos de `site/public/living-story/` saíram do runtime; os caminhos na tabela são históricos. Originais, derivados e hashes foram preservados em `C:/Users/R2/.codex/visualizations/biblia-conectada-20261025/`, incluindo `withdrawn-living-story/`. Este documento conserva a reprodução e a procedência, sem aprovar a forma de uso anterior. Decisão atual em `docs/LIVING-STORY.md`.
+
 Sequência de 12 segundos: **digital → portal → rede**, com o livro original, os mesmos fios, cores, câmera e tempos. São uma metáfora artística; não representam as referências cruzadas reais da Bíblia.
 
 ## Entrega

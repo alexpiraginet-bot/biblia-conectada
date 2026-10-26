@@ -6,17 +6,6 @@ export function HomeMotion() {
   useEffect(() => {
     const root = document.querySelector<HTMLElement>("[data-home]");
     if (!root) return;
-    let active = true;
-    let disposeStory: (() => void) | undefined;
-    const story = root.querySelector<HTMLElement>("[data-living-story]");
-    const storyObserver = new IntersectionObserver((entries) => {
-      if (!entries.some((entry) => entry.isIntersecting)) return;
-      storyObserver.disconnect();
-      void import("./living-story-player").then(({ enhanceLivingStory }) => {
-        if (active && story) disposeStory = enhanceLivingStory(story);
-      }).catch(() => {}); // The poster and destination links remain available.
-    }, { rootMargin: "150px" });
-    if (story) storyObserver.observe(story);
     const media = matchMedia("(prefers-reduced-motion: reduce)");
     const reveals = [...root.querySelectorAll<HTMLElement>("[data-reveal]")];
     const revealAll = () => reveals.forEach((el) => { el.classList.remove("will-reveal"); el.classList.add("is-revealed"); });
@@ -42,7 +31,7 @@ export function HomeMotion() {
       el.style.setProperty("--pointer-y", `${event.clientY - box.top}px`);
     };
     cards.forEach((card) => card.addEventListener("pointermove", onPointer));
-    return () => { active = false; storyObserver.disconnect(); disposeStory?.(); observer.disconnect(); media.removeEventListener("change", onPreference); cards.forEach((card) => card.removeEventListener("pointermove", onPointer)); revealAll(); };
+    return () => { observer.disconnect(); media.removeEventListener("change", onPreference); cards.forEach((card) => card.removeEventListener("pointermove", onPointer)); revealAll(); };
   }, []);
   return null;
 }
