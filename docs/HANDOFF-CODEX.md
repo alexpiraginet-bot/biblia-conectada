@@ -16,9 +16,11 @@ Escrito pelo Claude a pedido do Alex: "Prepare handoff para o códex seguir". Da
 
 ## 2. Estado e continuidade
 
-### Motion enviado por Alex — rejeitado; retirada em validação (25/10)
+### Motion enviado por Alex — rejeitado e retirado da produção (25/10)
 
 **Decisão atual de Alex:** a seção com vídeo não atende ao pedido. Ele quer interpretação nativa da referência ou a retirada. Esta rodada remove a seção, o player e as mídias públicas, preservando originais e evidências; não entrega outra peça decorativa. A direção para eventual nova implementação é o grafo existente, com fios ligados a passagens reais e resposta ao toque/ponteiro. Detalhes em `docs/LIVING-STORY.md`; o parágrafo seguinte registra a publicação anterior, agora rejeitada criativamente.
+
+**Retirada publicada:** PR #40, squash `3c33d8a89c527adfe4d66a6ba6845b9ee3c93aa8`, Vercel `dpl_CCDTKxVYyaxBEmjcg6MMt4nCcwoa` READY com alias principal. Build com 806 testes, lint e orçamento passou; oito cenários públicos Chromium/WebKit, 375/1440, Dia/Noite passaram, com guia/grafo/links preservados e nenhuma requisição às mídias retiradas. Os quatro arquivos retornam 404. Home pública 167.171 B gzip9; Arcos 168.726 B. [Evidências da retirada](evidence/2026-10-25-living-story-withdrawal.md). A aprovação técnica anterior não significou aprovação criativa.
 
 PR #39, squash `9ec27c634e54e2ac4175cd528aca74959b4b86a5`, Vercel `dpl_8dKX7QCChUBnNSt6oNf3pHcdhoTg` READY no domínio principal. Seção da home **Sua história também se conecta**, a partir do ZIP editável enviado por Alex. Movimento fiel digital/portal/rede sobre a Bíblia; entrada para Coração, leitura e conexões reais. Vídeo silencioso de 12 s/2,54 MB, controlador adiado, pausa/replay e seleção de formas, sem Three/GSAP no frontend. Arte identificada como recriação ilustrativa; originais preservados. Build com 826 testes, tipos, lint, check-dist e orçamento passou. Oito cenários públicos Chromium/WebKit, 375/1440, Dia/Noite passaram; cinco rotas HTTP 200/HIT, hashes dos assets e Range 206 conferidos. JS inicial público home 167.500 B/Arcos 168.726 B gzip9, abaixo do teto. O limite de mídia da prévia protegida foi isolado e não se repetiu em produção; Safari em iPhone físico e FPS não verificados. [Decisão](LIVING-STORY.md) e [evidências](evidence/2026-10-25-living-story.md). Estudos 6/7 do Claude incorporados sem edição; sem chamadas pagas ou publicação social.
 
