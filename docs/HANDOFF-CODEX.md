@@ -16,9 +16,11 @@ Escrito pelo Claude a pedido do Alex: "Prepare handoff para o códex seguir". Da
 
 ## 2. Estado e continuidade
 
-### Interlinear nativo — implementação em validação (26/10)
+### Interlinear nativo — publicado e conferido (26/10)
 
-Pedido de Alex atendido com estudo original acima/glosa PT abaixo, transliteração opcional e detalhe ao toque. `/interlinear` apresenta coleção inicial de 22 passagens/282 unidades; links somente nas referências BLIVRE explicitamente cobertas, acesso pelo menu e índice de leitura, OG próprio. Fontes STEP TAHOT/TAGNT fixadas por hash, variantes separadas, comparação BLIVRE inalterada. Glosas editoriais assistidas por IA, sem revisão acadêmica independente; não é Bíblia interlinear completa nem tradução exata. Build inicial com 819 testes e matriz Playwright de 19 casos passou; ajuste final do mobile em verificação antes da publicação. [Método](INTERLINEAR.md) e [evidências](evidence/2026-10-26-interlinear.md). Sem editar estudos ou fazer chamadas pagas.
+Pedido de Alex atendido com estudo original acima/glosa PT abaixo, transliteração opcional e detalhe ao toque. `/interlinear` apresenta coleção inicial de 22 passagens/282 unidades; links somente nas referências BLIVRE explicitamente cobertas, acesso pelo menu e índice de leitura, OG próprio. Fontes STEP TAHOT/TAGNT fixadas por hash, variantes separadas, comparação BLIVRE inalterada. Glosas editoriais assistidas por IA, sem revisão acadêmica independente; não é Bíblia interlinear completa nem tradução exata.
+
+PR #41, squash `90b09d0139a47fd9c5c88b387001e23a5276da02`, Vercel `dpl_8nJxC43JSmBML5jWZCaUYrTLCpxn` READY no domínio principal. Build final com 819 testes, tipos, lint, check-dist e orçamento passou. Matriz local e pública de 19 casos Chromium/WebKit, 375/1440, Dia/Noite aprovada; no celular, primeira palavra em 358,5 px e detalhe revelado em 76 px. Fontes por hash, capas PNG, contraste e isolamento do corpus conferidos. JS público: índice 149.615 B, estudo 152.245 B, Arcos 168.760 B gzip9; margem de Arcos só 200 B. [Método](INTERLINEAR.md) e [evidências](evidence/2026-10-26-interlinear.md). Sem editar estudos, fazer chamadas pagas ou validar iPhone físico.
 
 ### Motion enviado por Alex — rejeitado e retirado da produção (25/10)
 
