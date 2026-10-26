@@ -11,6 +11,7 @@ export type NavItem = { href: string; label: string; icon: IconName; rail: boole
 export const NAV: readonly NavItem[] = [
   { href: "/explorar", label: "Explorar", icon: "explore", rail: true, tab: true, nested: true },
   { href: "/ler", label: "Ler", icon: "book", rail: true, tab: true },
+  { href: "/interlinear", label: "Interlinear", icon: "book", rail: true, tab: false, description: "Hebraico e grego, palavra por palavra", nested: true },
   { href: "/coracao", label: "Coração", icon: "heart", rail: true, tab: true },
   { href: "/buscar", label: "Buscar", icon: "search", rail: false, tab: false, description: "Passagens, palavras e temas" },
   { href: "/linha-do-tempo", label: "Linha do tempo", icon: "time", rail: true, tab: false, description: "Eventos e suas referências", nested: true },

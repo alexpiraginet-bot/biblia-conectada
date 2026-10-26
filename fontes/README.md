@@ -64,6 +64,8 @@ Fora: "Novo Testamento: Versão Fácil de Ler" (`por-WBTC`), marcado como não r
 
 Fora: as Bíblias árabes marcadas (`Tagged-Bibles/`) e a pasta `Older Formats`.
 
+**Uso nativo no site (26/10/2026):** `/interlinear` apresenta uma coleção inicial alinhada por ID de ocorrência, construída de TAHOT Gen–Deu, TAHOT Job–Sng e TAGNT Mat–Jhn. Hebraico L/Q; grego com seleção SBL explicitamente identificada, sem concatenar variantes de outras edições. O pipeline verifica os hashes já registrados e preserva os campos originais. Glosas e notas PT, com assistência de IA e sem revisão acadêmica independente, ficam separadas em `site/src/data/interlinear-editorial.json`. A leitura de comparação é BLIVRE sem alteração. Não usa dicionário de Strong como substituto de tradução contextual nem presume alinhamento com a Open NBV. Método, limites e transformações: `docs/INTERLINEAR.md`.
+
 ## Lugares, pessoas, eventos
 
 | Pasta | Base | Licença | Conteúdo |

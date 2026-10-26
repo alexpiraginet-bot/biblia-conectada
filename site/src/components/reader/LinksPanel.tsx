@@ -10,6 +10,7 @@ import { VerseArcs } from "./Arcs";
 import { Featured, MiniMap, PanelHead } from "./FromHere";
 import { LinksFeed } from "./LinksFeed";
 import { Scripture } from "./Scripture";
+import { InterlinearStudyLink } from "./InterlinearStudyLink";
 import styles from "./reader.module.css";
 
 // direction of a link seen from this verse (design system ConnectionRow)
@@ -100,6 +101,7 @@ export async function LinksPanel({
           <cite>{label} · Bíblia Livre</cite>
         </blockquote>
         <VerseActions path={`/${book.slug}/${chapter}/${verse}`} label={label} />
+        {" "}<InterlinearStudyLink path={`/${book.slug}/${chapter}/${verse}`} label={label} />
       </div>
 
       {links.length === 0 || !top ? (

@@ -50,6 +50,10 @@ export default async function Ler() {
         Os {formatInt(books.length)} livros da Bíblia Livre em {formatInt(groupCount)} grupos: {formatInt(chapters)} capítulos e{" "}
         {formatInt(verses)} versículos. Ao lado de cada livro, os capítulos e as ligações que tocam nele.
       </p>
+      <p className={styles.interlinear}><Link href="/interlinear" prefetch={false}>
+        <strong>Palavra por palavra <span aria-hidden="true">↗</span></strong>
+        <span>Explore uma coleção inicial com hebraico e grego acima do sentido em português.</span>
+      </Link></p>
       <div className={styles.testaments}>
         {testaments.map(({ t, list, groups }) => (
           <section key={t} aria-labelledby={`t-${t}`} className={styles.testament}>
