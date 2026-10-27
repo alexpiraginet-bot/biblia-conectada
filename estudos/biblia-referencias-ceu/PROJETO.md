@@ -7,6 +7,13 @@ passagem do clímax (uma mais acolhedora, com narração já pronta e validada; 
 "cores de arco-íris para as linhas", "remeteria melhor o que é dito no gancho", "sem poluição visual" e "se
 transformando em dourado na hora de conectar apenas".
 
+## Entregáveis
+- `renders/biblia-conectada-ceu.mp4`: 1080×1920, 30 fps, 1.605 quadros (53,5 s), 27,88 MB. Áudio medido no AAC:
+  −14,1 LUFS, pico real −1,9 dBTP.
+- O Whisper ouviu o vídeo pronto e acertou 130 de 134 palavras da narração, em ordem. A única diferença é de grafia:
+  "dois mil e sete" sai escrito "2007".
+- `renders/capa-biblia-conectada-ceu.jpg` (`cover.py`) e a legenda em `LEGENDA.md`.
+
 ## O que ficou igual
 - **Narração e tempo:** as falas 0 a 11 e a chamada final são os mesmos cortes da mesma tomada
   (`../biblia-referencias/source/narr/narr-andre-v2.mp3`), com o mesmo andamento e as mesmas pausas.
@@ -39,9 +46,14 @@ transformando em dourado na hora de conectar apenas".
   mais votada, "uma por minuto" e as 80 ligações de João 3:16. Cada uma muda do seu tom de arco-íris para ouro ao chegar.
 - **Tipografia:** tinta azul-marinho com halo branco e destaques em ouro escuro. A régua de capítulos fica em
   azul-ardósia.
-- **Vida:** o céu respira (zoom lento e balanço) e acompanha a câmera (mergulho, contador, inclinação para João 3:16).
+- **Vida:** as nuvens e a névoa do próprio fundo ondulam e se inclinam devagar na diagonal das faixas azuis
+  (`flow_plate`). É um campo de deslocamento suave que muda o tempo todo, forte no azul e quase parado no centro
+  perolado, com uma amostra por pixel: nada duplica nem borra, e não há ponto de loop. A luz perolada pulsa de leve.
+  O céu também respira (zoom lento e balanço) e acompanha a câmera (mergulho, contador, inclinação para João 3:16).
   Há poucas estrelas cintilando, partículas douradas subindo e raios suaves de luz vindos de cima, que crescem no
   versículo. Tudo foi dosado para não poluir.
+- **Teste descartado:** o loop gerado no Flow (Veo, 27/10 09:37) virou um céu noturno escuro com um sol estourado
+  (não usou a imagem), tinha marca d'água "Veo" e não fechava o loop (o último quadro é mais escuro que o primeiro).
 
 ## Pipeline
 ```bash

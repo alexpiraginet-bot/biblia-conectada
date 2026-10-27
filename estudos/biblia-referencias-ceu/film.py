@@ -352,14 +352,41 @@ PH, PW = PLATE_SRC.shape[:2]
 PLATE = (PLATE_SRC.astype(np.float32) / 255.0) ** 1.0
 PS = max(W / PW, H / PH) * 1.18          # 18% headroom for the breathing zoom and the camera parallax
 
+# The plate lives: its own clouds and mist undulate (a smooth displacement field that keeps changing, one sample per
+# pixel, so nothing ghosts or smears), strongest where the image is blue and almost still in the pearl centre, and they
+# lean slowly along the diagonal of the ribbons. Bounded motion, no loop point, no seam.
+_hsv = cv2.cvtColor(PLATE_SRC, cv2.COLOR_RGB2HSV).astype(np.float32)
+_m = np.clip((_hsv[..., 1] / 255.0 - 0.10) / 0.35, 0, 1)
+FLOW_M = (0.15 + 0.85 * cv2.GaussianBlur(_m, (0, 0), 18)).astype(np.float32)
+_fr = np.random.default_rng(316)
+def _field(gy, gx):
+    return cv2.resize(_fr.uniform(-1, 1, (gy, gx)).astype(np.float32), (PW, PH), interpolation=cv2.INTER_CUBIC)
+FLOW_N = [(_field(9, 5), _field(9, 5)), (_field(15, 9), _field(15, 9))]      # big swells, smaller eddies
+FLOW_DIR = (-0.6, 0.8)                                                       # down-left, along the blue ribbons
+_PY, _PX = np.mgrid[0:PH, 0:PW].astype(np.float32)
+_lum = PLATE_SRC.astype(np.float32).mean(-1) / 255.0
+GLOW_MASK = (np.clip((_lum - 0.80) / 0.2, 0, 1) ** 1.5)[..., None].astype(np.float32)   # the pearl light breathes
+del _hsv, _m
+
+def flow_plate(t):
+    (a1, b1), (a2, b2) = FLOW_N
+    s1, c1 = math.sin(0.50 * t + 0.3), math.cos(0.43 * t + 1.1)
+    s2, c2 = math.sin(0.83 * t + 2.0), math.cos(0.71 * t + 0.4)
+    lean = 9.0 * math.sin(0.20 * t)
+    dx = FLOW_M * (11.0 * (a1 * s1 + b1 * c1) + 5.0 * (a2 * s2 + b2 * c2) + lean * FLOW_DIR[0])
+    dy = FLOW_M * (11.0 * (b1 * s1 - a1 * c1) + 5.0 * (b2 * s2 - a2 * c2) + lean * FLOW_DIR[1])
+    out = cv2.remap(PLATE, _PX + dx, _PY + dy, cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
+    out *= 1.0 + GLOW_MASK * (0.045 * math.sin(t * 0.9) + 0.025 * math.sin(t * 2.3 + 1.0))
+    return out
+
 def plate(t, dx=0.0, dy=0.0, z=1.0, rot=0.0):
-    """the heaven: a slow breath (zoom + sway) plus whatever the scene's camera asks (dx, dy in px; z >= 1)"""
+    """the heaven: flowing clouds, a slow breath (zoom + sway) plus whatever the scene's camera asks (dx, dy px; z >= 1)"""
     s = PS * z * (1.0 + 0.025 * math.sin(t * 0.21)) * (1.0 + 0.0016 * t)
     ang = rot + 0.35 * math.sin(t * 0.13)
     M = cv2.getRotationMatrix2D((PW / 2, PH / 2), ang, s)
     M[0, 2] += W / 2 - PW / 2 + dx + 14 * math.sin(t * 0.17)
     M[1, 2] += H / 2 - PH / 2 + dy + 10 * math.sin(t * 0.11 + 1.0)
-    return cv2.warpAffine(PLATE, M, (W, H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
+    return cv2.warpAffine(flow_plate(t), M, (W, H), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REFLECT)
 
 def bg_cam(t):
     """how the heaven follows the story: dive with the Powers-of-Ten scan, push into the counter, lean toward João 3:16"""

@@ -1,9 +1,16 @@
-full dome raster 21.8 s
-full dome image 21.9 s
+full dome raster 17.7 s
+full dome image 17.8 s
 João 3:16: 80 linked verses (x = 0.8406)
 frame 0/1605  0 s
-frame 150/1605  81 s
-frame 300/1605  147 s
-frame 450/1605  222 s
-frame 600/1605  307 s
-frame 750/1605  391 s
+frame 150/1605  74 s
+frame 300/1605  153 s
+frame 450/1605  233 s
+frame 600/1605  327 s
+frame 750/1605  416 s
+frame 900/1605  501 s
+frame 1050/1605  590 s
+frame 1200/1605  670 s
+frame 1350/1605  754 s
+frame 1500/1605  850 s
+video frames done in 922 s -> /home/claude/biblia-conectada/estudos/biblia-referencias-ceu/renders/.film/video.mp4
+exit 0
