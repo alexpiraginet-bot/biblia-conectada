@@ -879,3 +879,14 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
 - **26/10, Codex, interlinear nativo:** branch codex/interlinear-reader; coleção inicial de 22 passagens e 282 unidades de original com glosas PT por ID, fontes STEP fixadas, variantes separadas, leitura BLIVRE intacta. Original acima, português abaixo, transliteração e detalhe ao toque, links no leitor/menu e capas OG. Glosas assistidas por IA sem revisão acadêmica independente; cobertura inicial explícita, sem alinhamento automático NBV. Primeiro build819/testes e QA19 passaram; compactação/revelação mobile em validação final. Método e evidências em docs/INTERLINEAR.md e docs/evidence/2026-10-26-interlinear.md. Sem alterações nos estudos ou chamadas pagas.
 
 - **26/10, Codex, PR #41 publicado e conferido:** interlinear integrado em `90b09d0139a47fd9c5c88b387001e23a5276da02`; produção `dpl_8nJxC43JSmBML5jWZCaUYrTLCpxn` READY em `www.bibliaconectada.company`. Build final, 819 testes, tipos, lint, check-dist e orçamento aprovados. Dezenove casos públicos Chromium/WebKit, 375/1440, Dia/Noite passaram; detalhe móvel revelado no toque e retorno à palavra/foco, fontes preservadas, links e capas PNG conferidos. JavaScript público gzip9: índice 149.615 B; estudo 152.245 B; Arcos 168.760 B, abaixo do teto, com margem de apenas 200 B. Corpus e fontes isolados das outras rotas. Coleção inicial explícita e glosas com assistência de IA, sem revisão acadêmica independente; não é tradução exata ou interlinear completo. Sem alterações em estudos, chamadas pagas ou iPhone físico. Evidências em `docs/evidence/2026-10-26-interlinear.md`.
+
+- **27/10, manhã, vídeo 9 "A Bíblia, conectada — versão céu" (`estudos/biblia-referencias-ceu/`):**
+  - O Alex pediu para refazer o vídeo 1 (viral, segundo ele mais de 1 milhão de visualizações) com os mesmos parâmetros
+    de gancho, narração, entrada e tempo. Mudam só o visual (céu acolhedor) e a passagem do clímax (uma mais
+    acolhedora, com narração já validada).
+  - Narração: as falas 0 a 11 e a chamada final são os mesmos cortes do vídeo 1 (iguais ao milésimo). O clímax usa as
+    falas "Você conhece João três, dezesseis." e o versículo (BLIVRE) de "Antes de João 3:16". Saiu "o versículo mais
+    conectado de todos?", que só vale para Isaías 9:6. João 3:16 tem 80 ligações na base. A duração continua 53,49 s.
+  - Visual: fundo `02-ceu-das-conexoes.png`, que o Alex enviou (gerado pelo Codex, SHA-256 conferido). Os arcos têm cor
+    de arco-íris por vão e viram ouro só ao conectar (pedido do Alex). Tipografia azul-marinho com halo branco, sem
+    poluição visual. Trilha: o mesmo `score.py`.
