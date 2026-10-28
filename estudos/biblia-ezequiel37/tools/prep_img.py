@@ -12,8 +12,8 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parent.parent
 SRC, DST = ROOT / "source/img", ROOT / "motion/public/img"
 DST.mkdir(parents=True, exist_ok=True)
-BG = ["bg-vale", "bg-eden", "sala-jo20", "bg-templo", "bg-rio", "bg-rio-vida"]
-CH = ["ezequiel", "ezequiel-profetiza", "ezequiel-frente", "povo", "adao"]
+BG = ["bg-vale", "jesus-deserto", "caminho", "bg-templo", "bg-rio", "bg-rio-vida"]
+CH = ["ezequiel", "ezequiel-olha", "ezequiel-profetiza", "ezequiel-frente", "povo"]
 info = {}
 for n in BG:
     im = Image.open(SRC / f"{n}.png").convert("RGB")

@@ -68,5 +68,37 @@
    "ez37img/bg-vale.png"
   ],
   "prompt": "Match exactly the drawing style, palette, outline color and line weight of the reference images. Vertical portrait composition. The river of the water of life: a crystal-clear bright turquoise river winding from a radiant golden light on the far horizon toward the viewer, sparkling, with lush trees on both banks full of colorful fruits (red, orange, yellow, purple) and green leaves, flowers along the banks, soft golden rays from the horizon light (only light, no figure, no throne shape). Paradise, joyful and peaceful. No people."
+ },
+ "jesus-deserto": {
+  "refs": [
+   "ez37img/bg-vale.png",
+   "ez37img/sala-jo20.png"
+  ],
+  "prompt": "Match exactly the drawing style, palette, outline color and line weight of the reference images. Vertical portrait composition. Jesus alone in the desert: the SAME Jesus as in the second reference (an adult man with long dark brown hair, short beard, kind face with simple dot eyes, white robe with a red mantle, sandals), seen from the side and slightly behind, walking calmly across warm orange and golden sand dunes with a few rocks and a small dry shrub, bright turquoise sky. Ahead of him a soft ribbon of warm golden light comes down from the sky and guides the way (only light, no figure). He is in the middle ground, about one third of the image height; leave the upper third mostly clear sky for text. Peaceful, hopeful."
+ },
+ "caminho": {
+  "refs": [
+   "ez37img/bg-vale.png",
+   "ez37img/bg-rio-vida.png"
+  ],
+  "prompt": "Match exactly the drawing style, palette, outline color and line weight of the reference images. Vertical portrait composition. A long winding footpath seen from slightly above that tells a journey from bottom to top: in the foreground (bottom of the image) a dry orange valley with a few scattered white cartoon bones; in the middle a golden desert with dunes; at the top, near the horizon, a wide sparkling turquoise river with lush green trees and colorful fruit trees under a bright sunrise. The path is clearly visible all the way. No people, no animals."
+ },
+ "ezequiel-olha": {
+  "background": "transparent",
+  "refs": [
+   "ez37img/ezequiel.png"
+  ],
+  "prompt": "Match exactly the drawing style, outline color and line weight of the reference images, but draw ONLY the subject on a fully transparent background (no scenery, no ground, no cast shadow). Centered with generous transparent margin. The SAME character as the reference (same face, beard, headscarf, blue robe, white mantle, yellow sash, sandals), standing, three-quarter view facing right, head tilted up looking at the sky in awe and trust, both hands open at chest height with palms up, full body."
+ },
+ "bg-vale": {
+  "prompt": "Scene: a wide empty desert valley seen from slightly above, vertical portrait composition. Warm orange and golden rolling hills on both sides, a few rounded rocks, bright turquoise sky with two simple puffy clouds, a bright yellow sun. The valley floor is flat and empty in the lower half of the image (leave it clear: objects will be animated on top later). No people, no animals, no bones.",
+  "note": "first image, no reference; it is the style reference of the others"
+ },
+ "_meta": {
+  "model": "gpt-image-2.5-flare",
+  "quality": "high",
+  "size": "1024x1536 (povo: 1536x1024)",
+  "date": "2026-10-28",
+  "style": "STYLE in style_prompt.py is prepended to every prompt"
  }
 }

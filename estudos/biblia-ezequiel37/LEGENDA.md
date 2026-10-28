@@ -1,23 +1,22 @@
-# Legenda — "Ossos secos, rio da vida" (vídeo 10, USAR ESTA, 28/10)
+# Legenda — "Do vale ao rio" (vídeo 10, versão 2, USAR ESTA, 28/10)
 
-Por acaso viverão estes ossos? 🦴✨ (Ezequiel 37)
+E se o vale que você está atravessando foi Deus quem escolheu? 🏜️➡️🌊
 
-Um vale cheio de ossos secos. Deus manda o profeta falar com eles, e os ossos se juntam, cada osso a seu osso. Mas só vivem quando vem o sopro.
+Em Ezequiel 37, a mão do Senhor leva o profeta para o meio de um vale cheio de ossos secos. Não foi castigo. Não foi acaso. Com Jesus também foi assim: cheio do Espírito Santo, foi levado pelo Espírito ao deserto (Lucas 4:1).
 
-Esse sopro está ligado ao começo da Bíblia: Gênesis 2:7, quando Deus assoprou no homem o sopro de vida. E a João 20:22, quando Jesus soprou sobre os discípulos: "Recebei o Espírito Santo."
+Vale e deserto não são destino. São passagem. É ali que Deus pergunta: "por acaso viverão estes ossos?" E é ali que o sopro dele devolve a vida.
 
-Em Ezequiel 47, a água sai do templo e sobe: tornozelos, joelhos, cintura… até virar um rio que só dá pra atravessar a nado. Esse rio está ligado a João 7:38 ("rios de água viva") e ao último capítulo da Bíblia, Apocalipse 22:1: o rio puro da água da vida.
+No capítulo 47, a cena muda: águas saem do templo e sobem. Tornozelos, joelhos, cintura… até virar um rio que não se podia atravessar a pé, somente a nado.
 
-Do vale de ossos secos ao rio da vida 💧
+O vale é caminho. O rio é promessa. 💧
 
-👇 Comenta qual versículo a gente liga no próximo vídeo.
+👇 Se você está num vale hoje, escreve aqui: eu vou atravessar.
 
-Ligações e votos: OpenBible.info (CC BY) · Texto: Bíblia Livre (CC BY 4.0) · Ilustrações e narração geradas por IA.
+Texto bíblico: Bíblia Livre (CC BY 4.0) · Ilustrações e narração geradas por IA.
 
-#biblia #ezequiel37 #ossossecos #palavradedeus #estudobiblico #referenciascruzadas #espiritosanto #fe #jesus
+#biblia #ezequiel37 #valedeossossecos #palavradedeus #fe #esperanca #jesus #deus #devocional
 
-Comentário fixado: "Manda o teu no formato livro + capítulo + versículo (ex.: Salmos 23:1). O mais pedido vira o próximo vídeo 👇"
+Comentário fixado: "Escreve 'eu vou atravessar' e marca alguém que precisa ouvir isso hoje 🙏"
 
-Números e citações: as quatro ligações e os votos (12, 10, 50 e 36) estão em `data/stats.json` (`tools/analyze.py`),
-conferidos por `tools/check.py`. As citações são da BLIVRE: Ez 37:3, 37:4, 37:7, 37:8, 37:10, Gn 2:7, Jo 20:22,
-Ez 47:5, Jo 7:38 e Ap 22:1. A legenda não diz "dez capítulos depois" como ligação: Ez 37 e Ez 47 não formam par na base.
+Citações (BLIVRE): Ezequiel 37:3, Lucas 4:1 e Ezequiel 47:5, conferidas por `tools/analyze.py` e `tools/check.py`.
+Ezequiel 37:1 e 47:3–4 aparecem em paráfrase, com o texto conferido no mesmo script.

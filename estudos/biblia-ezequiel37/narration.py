@@ -161,7 +161,7 @@ def spoken(s):
 
 
 def main():
-    ap = argparse.ArgumentParser(); ap.add_argument("--voice", default="cedar"); ap.add_argument("--tempo", type=float, default=1.0); ap.add_argument("--style", default=""); ap.add_argument("--squeeze", type=float, default=0.0); ap.add_argument("--engine", default="lines"); ap.add_argument("--maxgap", type=float, default=0.7)
+    ap = argparse.ArgumentParser(); ap.add_argument("--voice", default="cedar"); ap.add_argument("--tempo", type=float, default=1.0); ap.add_argument("--style", default=""); ap.add_argument("--squeeze", type=float, default=0.0); ap.add_argument("--engine", default="lines"); ap.add_argument("--maxgap", type=float, default=0.7); ap.add_argument("--files", default="")
     a = ap.parse_args()
     if a.engine != "lines":
         return main_onepass(a)
@@ -218,7 +218,7 @@ def main():
 
 
 def main_onepass(a):
-    """--engine gpt-audio-1.5 | gpt-audio | tts-whole: one take of the whole script (cached by engine+voice+text), up to 3
+    """--engine gpt-audio-1.5 | gpt-audio | tts-whole | file (--files a,b, audio made outside): one take of the whole script (cached by engine+voice+text), up to 3
     tries until Whisper hears the script in order; lines are cut in the silences between them (never inside a word), the
     take keeps its own pace (no stretch, no squeeze); only pauses longer than --maxgap between lines are shortened."""
     from faster_whisper import WhisperModel
@@ -227,6 +227,16 @@ def main_onepass(a):
     src = ROOT / "source/narr" / take; src.mkdir(parents=True, exist_ok=True)
     text = "\n".join(t for _, t in LINES)
     p = src / f"onepass-{hashlib.sha1((a.engine + a.voice + text + SYS_ONEPASS).encode()).hexdigest()[:8]}.flac"
+    if a.engine == "file":
+        # audio made outside (Fish Audio, by Alex): the blocks in order, joined with a short pause, kept as one take
+        fs = [Path(f) for f in a.files.split(",") if f]
+        assert fs, "--files a.mp3,b.mp3"
+        parts = []
+        for f in fs:
+            parts += [load(f, 1.0), np.zeros(int(0.45 * SR), np.float32)]
+        p = src / f"blocks-{hashlib.sha1(b''.join(f.read_bytes()[:65536] for f in fs)).hexdigest()[:8]}.flac"
+        if not p.exists():
+            sf.write(p, np.concatenate(parts), SR, format="FLAC")
     want = [(i, w) for i, t in LINES for w in norm(spoken(t))]
 
     def hear_full(path):

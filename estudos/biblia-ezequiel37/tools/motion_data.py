@@ -16,7 +16,7 @@ from script import QUOTES, DISPLAY  # noqa: E402
 S = json.load(open(ROOT / "data/stats.json")); N = json.load(open(ROOT / "renders/.film/narr.json"))
 IMG = json.load(open(ROOT / "data/img.json"))
 TAIL = 3.0                                    # the end card stays after the last word (score.py uses the same)
-REFPT = {"Ezek": "Ezequiel", "Gen": "Gênesis", "John": "João", "Rev": "Apocalipse"}
+REFPT = {"Ezek": "Ezequiel", "Luke": "Lucas"}
 
 
 def display(text):
@@ -36,9 +36,8 @@ for L in N["lines"]:
                   "words": [{"w": w["w"], "t0": w["t0"], "t1": w["t1"]} for w in L["words"]]})
 out = {
     "fps": 30, "duration": round(N["duration"] + TAIL, 3), "voice": N["voice"], "lines": lines, "img": IMG,
-    "nch": S["n_chapters"], "ch37": S["chapter_ez37"], "ezChapters": S["ez_chapters"], "between": S["chapters_between"],
-    "ez37": S["ez37"], "ez471": S["ez47_1"], "links": S["links"], "ntX": S["nt_x"], "books": S["books"],
-    "arcs37": S["arcs37"], "arcs471": S["arcs471"],
+    "nch": S["n_chapters"], "ezChapters": S["ez_chapters"], "between": S["chapters_between"],
+    "chFrom": S["ch_from"], "chTo": S["ch_to"], "books": S["books"],
 }
 dst = ROOT / "motion/src/data.json"
 json.dump(out, open(dst, "w"), ensure_ascii=False)
