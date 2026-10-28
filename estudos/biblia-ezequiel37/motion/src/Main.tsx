@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import {AbsoluteFill, Easing, interpolate, random, useCurrentFrame} from "remotion";
 import "./fonts";
 import data from "./data.json";
@@ -236,7 +236,8 @@ const Spoken: React.FC<{i: number; size: number; top: number; color?: string; we
 
 // ------------------------------------------------------------------------------------------------ the valley (lines 1-10)
 const Valley: React.FC = () => {
-  const f = useCurrentFrame();
+  const fx = useContext(FrameCtx);
+  const f = fx ?? useCurrentFrame();
   const tField = T0(2);
   const tDry = WF(3, "sequissimos");
   const tAsk = T0(4);
@@ -722,3 +723,37 @@ export const Main: React.FC = () => {
     </AbsoluteFill>
   );
 };
+
+
+// ------------------------------------------------------------------------------------------------ the cover
+// the film in the middle of the assembly (bones flying into the verse) under the question, set big
+export const Cover: React.FC = () => {
+  const f = useCurrentFrame();
+  const at = WF(7, "aproximaram") + 14;
+  return (
+    <AbsoluteFill style={{backgroundColor: C.ground}}>
+      <AbsoluteFill style={{opacity: 1}}>
+        <FrameAt frame={at} />
+      </AbsoluteFill>
+      <AbsoluteFill style={{background: "linear-gradient(180deg, rgba(6,9,15,0.82) 0%, rgba(6,9,15,0.35) 34%, rgba(6,9,15,0) 55%)"}} />
+      <div style={{position: "absolute", left: 70, right: 70, top: 300, textAlign: "center"}}>
+        <div style={{fontFamily: F.mono, fontSize: 26, letterSpacing: "0.3em", color: C.bone2}}>EZEQUIEL 37</div>
+        <div style={{fontFamily: F.serif, fontWeight: 500, fontSize: 118, lineHeight: 1.04, color: C.gold2, marginTop: 26, textShadow: `0 0 40px rgba(255,204,107,0.35)`}}>
+          Por acaso<br />viverão<br />estes ossos?
+        </div>
+      </div>
+      <div style={{position: "absolute", left: 70, right: 70, top: 1590, textAlign: "center", fontFamily: F.serif, fontStyle: "italic", fontSize: 42, color: C.bone, opacity: 0.9}}>
+        cada osso a seu osso
+      </div>
+      {f < 0 ? null : null}
+    </AbsoluteFill>
+  );
+};
+
+// renders the valley at a fixed global frame (for the cover)
+const FrameCtx = React.createContext<number | null>(null);
+const FrameAt: React.FC<{frame: number}> = ({frame}) => (
+  <FrameCtx.Provider value={frame}>
+    <Valley />
+  </FrameCtx.Provider>
+);
