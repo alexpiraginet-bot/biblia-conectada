@@ -113,27 +113,24 @@ def splash(amp=1.0, f0=500):
 def build():
     mus = np.zeros((2, N), np.float32)
     sfx = np.zeros((2, N), np.float32)
-    # ---- the valley (D minor): drone breathing at frame 0, desert wind, bells on "Deus" and "vale"
-    chord(mus, V["Dlow"], 0.0, T[3] + 0.4, 0.40, a=0.15, r=0.6, bright=0.7)
-    ch(mus, "Dm", 0.0, T[3] + 0.2, 0.26, a=1.0, r=0.5, bright=0.8)
+    # ---- the hook: an impact at frame 0 (hit + braam) under "Isso não é um cemitério."; the valley in D minor
+    chord(mus, V["Dlow"], 0.0, T[4] + 0.4, 0.40, a=0.05, r=0.6, bright=0.7)
+    ch(mus, "Dm", 0.0, T[2] + 0.2, 0.28, a=0.4, r=0.5, bright=0.85)
+    place(sfx, sub_hit(0.65, 1.6), 0.0); place(sfx, braam(0.30, 2.2), 0.0)
     place(sfx, noise_bed(T[8], 250, 1400, 0.045, 1.0), 0.0, 0.0)
-    place(sfx, sub_hit(0.22, 1.2), 0.02)
-    place(mus, bell(hz("A4"), 0.05, 3.0), W(1, "deus") + 0.03, -0.3)
-    place(mus, bell(hz("F5"), 0.045, 3.0), W(1, "escolheu") + 0.1, 0.3)
-    # "Ezequiel 37" pops on screen
-    place(sfx, sub_hit(0.30, 1.0), T[2] - 0.02)
-    place(mus, bell(hz("D5"), 0.06, 3.2), T[2] + 0.05, 0.0)
-    # ---- the hand of the Lord: a column of light (shimmer rising), Bb; the camera opens on "vale"
-    ch(mus, "Bb", T[3] - 0.05, T[4] + 0.1, 0.32, a=0.5, r=0.4, bright=0.9)
-    place(mus, shimmer(2.6, 880, 1760, 0.05), W(3, "mao") - 0.1, 0.0)
-    place(sfx, whoosh(1.2, 0.12, False), W(3, "vale") - 0.1, 0.2)
-    # ---- not punishment, not chance (two low hits); the hand of God resolves to F major with bells
-    ch(mus, "Gm", T[4] - 0.05, W(4, "mao") - 0.1, 0.30, a=0.3, r=0.3, bright=0.85)
+    place(mus, bell(hz("A4"), 0.06, 3.0), W(1, "cemiterio") + 0.03, -0.3)
+    # ---- the hand of God: a column of light (shimmer rising) on "mão", Bb; the camera opens on the bones (line 3)
+    ch(mus, "Bb", T[2] - 0.05, T[4] + 0.1, 0.32, a=0.4, r=0.4, bright=0.9)
+    place(mus, shimmer(2.6, 880, 1760, 0.05), W(2, "mao") - 0.1, 0.0)
+    place(mus, bell(hz("D5"), 0.05, 3.0), W(2, "ezequiel") + 0.05, 0.2)
+    place(sfx, whoosh(1.2, 0.12, False), T[3] - 0.15, 0.2)
+    # ---- not punishment, not chance (two low hits); "Foi Deus." resolves to F major with bells
+    ch(mus, "Gm", T[4] - 0.05, W(4, "deus") - 0.1, 0.30, a=0.3, r=0.3, bright=0.85)
     place(sfx, sub_hit(0.22, 0.9), W(4, "castigo") - 0.05)
     place(sfx, sub_hit(0.22, 0.9), W(4, "acaso") - 0.05)
-    chord(mus, ["F2", "C3", "F3", "A3", "C4"], W(4, "mao") - 0.15, T[5] - W(4, "mao") + 0.3, 0.40, a=0.3, r=0.5, bright=1.05)
+    chord(mus, ["F2", "C3", "F3", "A3", "C4"], W(4, "deus") - 0.15, T[5] - W(4, "deus") + 0.3, 0.40, a=0.3, r=0.5, bright=1.05)
     for r_, nn in enumerate(["F5", "A5", "C6"]):
-        place(mus, bell(hz(nn), 0.045, 3.0), W(4, "mao") + 0.05 + 0.12 * r_, -0.4 + 0.4 * r_)
+        place(mus, bell(hz(nn), 0.045, 3.0), W(4, "deus") + 0.05 + 0.12 * r_, -0.4 + 0.4 * r_)
     # ---- Jesus led into the desert: the wind again, Dm -> Bb, a bell on "deserto"
     ch(mus, "Dm", T[5] - 0.05, W(5, "levado") - 0.05, 0.30, a=0.4, r=0.4, bright=0.85)
     ch(mus, "Bb", W(5, "levado") - 0.1, T[6] + 0.1, 0.32, a=0.3, r=0.4, bright=0.9)

@@ -113,11 +113,13 @@ def instructions(i, style):
     return ACCENT + PACE + STYLES[style] + " " + MOOD[i] if style else ACCENT + PACE + STYLES["intima"]
 
 
-SYS_ONEPASS = ("Você é um narrador brasileiro de documentários bíblicos para Reels, com sotaque brasileiro natural (nunca de "
+SYS_ONEPASS = ("Você é um narrador e pregador brasileiro de Reels cristãos, com sotaque brasileiro natural (nunca de "
                "Portugal). Leia em voz alta EXATAMENTE o texto do usuário, palavra por palavra, na ordem, sem acrescentar, omitir "
-               "ou comentar nada. Fale como um ser humano de verdade: voz masculina grave e quente, íntima, arrepiante, cheia de "
-               "verdade e amor, respiração natural, ritmo de conversa, variação de entonação; nada de tom de locutor ou de robô. "
-               "Faça uma pausa curta entre as frases.")
+               "ou comentar nada. Fale como um ser humano de verdade, com energia, convicção e emoção: a primeira frase é um "
+               "gancho, dita com impacto e firmeza; o ritmo é vivo, com variações fortes de intensidade e ênfase nas "
+               "palavras-chave; nas frases de esperança, a voz cresce e se abre, com amor e verdade. Voz masculina quente, "
+               "presente, como alguém que acredita no que diz. Nada de voz cansada, sussurrada, arrastada ou monótona; nada de "
+               "tom de locutor ou de robô. Pausas curtas entre as frases.")
 
 
 def onepass_take(engine, voice, out):

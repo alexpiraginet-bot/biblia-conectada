@@ -716,47 +716,46 @@ const Ruler: React.FC<{from: number; to: number; moveAt: number; moveLen?: numbe
 type SceneP = {d: number; s: number};
 const L = (s: number, t: number) => fr(t) - s;
 
-// lines 1-2: the hook. A valley of bones, light from the sky, the prophet looking up; then "Ezequiel 37"
-const S_Hook: React.FC<SceneP> = ({d, s}) => {
+// line 1: the hook. "Isso não é um cemitério." over the bones in close-up (the form of video 1: deny what you see)
+const S_Hook: React.FC<SceneP> = ({d}) => {
   const f = useCurrentFrame();
-  const ez = L(s, LINE(2).t0);
-  const hookOut = interpolate(f, [ez - 4, ez + 4], [1, 0], clamp);
-  const ref = pop(f, ez + 2);
+  const punch = interpolate(f, [0, 8], [1.62, 1.5], {...clamp, easing: Easing.out(Easing.cubic)});
+  const z = punch - interpolate(f, [8, d], [0, 0.1], clamp);
   return (
     <AbsoluteFill>
-      <Cam dur={d} z={[1.0, 1.07]} origin="50% 70%">
+      <AbsoluteFill style={{transformOrigin: "62% 66%", transform: `scale(${z})`}}>
         <Plate src="bg-vale" />
         <Bones />
-      </Cam>
-      <GodLight x={700} strength={0.9} />
-      <Sprite src="ezequiel-olha" x={190} feet={1440} h={580} seed={4} />
-      <Title top={250} size={92} a={hookOut}>
-        E se foi <span style={{color: C.orange}}>Deus</span> quem escolheu o seu <span style={{color: C.orange}}>vale</span>?
-      </Title>
-      <Title top={300} size={130} a={ref > 0 ? 1 : 0} style={{transform: `scale(${Math.max(0.001, ref)})`}}>
-        Ezequiel 37
+      </AbsoluteFill>
+      <GodLight x={760} strength={0.6} />
+      <Title top={250} size={108}>
+        Isso não é um <span style={{color: C.orange}}>cemitério.</span>
       </Title>
       <Tag />
     </AbsoluteFill>
   );
 };
 
-// line 3: the hand of the Lord (a column of light) sets the prophet in the valley; the camera opens on the bones
+// lines 2-3: the hand of God (a column of light) brings the prophet into the valley; the camera opens on the bones
 const S_Hand: React.FC<SceneP> = ({d, s}) => {
   const f = useCurrentFrame();
-  const mao = L(s, wordT(3, "mao"));
-  const vale = L(s, wordT(3, "vale"));
-  const z = interpolate(f, [0, vale, vale + 30], [1.32, 1.3, 1.0], {...clamp, easing: Easing.inOut(Easing.cubic)});
+  const mao = L(s, wordT(2, "mao"));
+  const ez = L(s, wordT(2, "ezequiel"));
+  const open = L(s, LINE(3).t0) - 4;
+  const z = interpolate(f, [0, open, open + 26], [1.32, 1.3, 1.0], {...clamp, easing: Easing.inOut(Easing.cubic)});
+  const appear = interpolate(f, [mao + 6, ez + 4], [0, 1], {...clamp, easing: ease});
   return (
     <AbsoluteFill>
       <AbsoluteFill style={{transformOrigin: "40% 72%", transform: `scale(${z})`}}>
         <Plate src="bg-vale" />
         <Bones />
-        <Sprite src="ezequiel-olha" x={380} feet={1430} h={760} seed={8} />
-        <Beam x={400} y={1430} start={mao} w={340} />
+        <Sprite src="ezequiel-olha" x={380} feet={1430} h={760} seed={8} opacity={appear} dy={(1 - appear) * -40} />
+        <Beam x={400} y={1430} start={mao - 4} w={340} />
       </AbsoluteFill>
       <GodLight x={420} strength={0.7} />
-      <Chip top={190}>Ezequiel 37:1</Chip>
+      <Chip top={190} a={appear}>
+        Ezequiel 37:1
+      </Chip>
       <Tag />
     </AbsoluteFill>
   );
@@ -773,14 +772,14 @@ const S_NotPunishment: React.FC<SceneP> = ({d, s}) => {
         <Sprite src="ezequiel-olha" x={380} feet={1430} h={760} seed={8} />
         <Beam x={400} y={1430} start={-40} w={340} />
       </Cam>
-      <GodLight x={420} strength={0.6 + 0.4 * interpolate(f, [L(s, wordT(4, "mao")), L(s, wordT(4, "mao")) + 10], [0, 1], clamp)} />
+      <GodLight x={420} strength={0.6 + 0.4 * interpolate(f, [L(s, wordT(4, "deus")), L(s, wordT(4, "deus")) + 10], [0, 1], clamp)} />
       <BigWords
         top={250}
         size={80}
         items={[
           {text: "Não foi castigo.", at: L(s, wordT(4, "castigo")) - 4},
           {text: "Não foi acaso.", at: L(s, wordT(4, "acaso")) - 4},
-          {text: "Foi a mão de Deus.", at: L(s, wordT(4, "mao")) - 6, color: C.orange},
+          {text: "Foi Deus.", at: L(s, wordT(4, "deus")) - 6, color: C.orange},
         ]}
       />
       <Tag />
@@ -924,8 +923,8 @@ const S_Water: React.FC<SceneP> = ({d, s}) => {
           <Twinkles box={[300, 1000, 800, 1800]} n={14} seed="tp" />
         </Cam>
         <Chip top={190}>Ezequiel 47:1</Chip>
-        <Title top={300} size={70} a={inn(f, 4, 10)}>
-          Águas saindo do <span style={{color: C.turquoise}}>templo</span>
+        <Title top={300} size={62} a={inn(f, 4, 10)}>
+          Águas saem do <span style={{color: C.turquoise}}>templo</span>
         </Title>
         <Tag />
       </AbsoluteFill>
@@ -1168,7 +1167,7 @@ export const Main: React.FC = () => {
   const at = (i: number) => (i === 1 ? 0 : fr(LINE(i).t0 - 0.18));
   const plan: [number, React.FC<SceneP>][] = [
     [1, S_Hook],
-    [3, S_Hand],
+    [2, S_Hand],
     [4, S_NotPunishment],
     [5, S_Desert],
     [6, S_Path],
@@ -1193,7 +1192,7 @@ export const Main: React.FC = () => {
           </Sequence>
         );
       })}
-      <Captions hide={[1, 2, 4, 6, 7, 10, 13, 14]} />
+      <Captions hide={[1, 4, 6, 7, 10, 13, 14]} />
     </AbsoluteFill>
   );
 };

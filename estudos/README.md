@@ -11,6 +11,7 @@
 | `biblia-salmo22/` | **Não foi um grito. Foi uma citação.** (25/10/2026, 1080×1920, 30 fps, ~48 s) | Salmo 22 na cruz: a frase conhecida vira a primeira linha do salmo (o rótulo vira de Mateus para Salmo); quatro pares da base, um por vez, com a linha de luz e os votos; o salmo inteiro rola até o último verso; "Está consumado". Só tipografia e motion (versão 3). Narração do Andre |
 | `biblia-marca/` | **A outra marca** (25/10/2026, 1080×1920, 60 fps, ~51 s) | Apocalipse 13 e 22 sem partido: a marca fica na mão e na testa, o lugar de Deuteronômio 6:8 (9 votos); a besta pede adoração; no último capítulo o nome de Deus volta à testa (Ap 13:17 ↔ 22:4, 6 votos). Tipografia cinética com corte seco a cada fala, flash e tremida nos impactos. Narração do Andre |
 | `biblia-referencias-ceu/` | **A Bíblia, conectada — versão céu** (27/10/2026, 1080×1920, 30 fps, 53,5 s) | Refação do vídeo 1 com os mesmos cortes de narração, tempos, câmera e órgão, num céu acolhedor (fundo enviado pelo Alex). Os arcos têm as cores do arco-íris por vão e viram ouro só quando uma ligação se conecta. O clímax passa de Isaías 9:6 a João 3:16 (80 ligações), com duas falas do Andre já validadas em "Antes de João 3:16" |
+| `biblia-ezequiel37/` | **Do vale ao rio** (28/10/2026, 1080×1920, 30 fps, 66,4 s) | Ezequiel 37 → 47 em desenhos simples e cores vivas, animados em código (os ossos se juntam, o sopro, a água sobe até o rio). Roteiro nosso sobre a mensagem de um sermão que o Alex enviou (nada do sermão é usado), citações da BLIVRE, sem ligações. Deus só como luz. Ilustrações e narração geradas pela API da OpenAI |
 
 **Números do vídeo 2:**
 - 2.094 ligações do AT chegam aos 4 capítulos do nascimento (Mt 1–2 e Lc 1–2, 180 versículos).
@@ -55,6 +56,7 @@ cd ../biblia-at-no-nt && python3 -I tools/analyze.py && python3 -I tools/check.p
 cd ../biblia-salmo22 && python3 -I tools/analyze.py && python3 -I tools/check.py            # idem, + hebraico do Salmo 22
 cd ../biblia-marca && python3 -I tools/analyze.py && python3 -I tools/check.py              # idem, + nenhum partido na fala, na tela e na paleta
 cd ../biblia-referencias-ceu && python3 narration.py && python3 film.py --still 0.5,22.5,44.5   # mesmos dados do vídeo 1
+cd ../biblia-ezequiel37 && python3 -I tools/analyze.py && python3 -I tools/check.py       # citações == BLIVRE, Deus não desenhado
 ```
 
 O pipeline completo de cada vídeo está no `PROJETO.md` da pasta.

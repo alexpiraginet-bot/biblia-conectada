@@ -1,6 +1,6 @@
 # Legenda — "Do vale ao rio" (vídeo 10, versão 2, USAR ESTA, 28/10)
 
-E se o vale que você está atravessando foi Deus quem escolheu? 🏜️➡️🌊
+Isso não é um cemitério. 🦴➡️🌊
 
 Em Ezequiel 37, a mão do Senhor leva o profeta para o meio de um vale cheio de ossos secos. Não foi castigo. Não foi acaso. Com Jesus também foi assim: cheio do Espírito Santo, foi levado pelo Espírito ao deserto (Lucas 4:1).
 

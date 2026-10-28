@@ -29,7 +29,7 @@ def chap(bk, c):
 def blivre():
     t = zipfile.ZipFile(REPO / "fontes/blivre/porbr2018_vpl.zip").read("porbr2018_vpl.txt").decode("utf-8")
     code = {"Ezek": "EZE", "Luke": "LUK"}
-    want = {o for o, _ in QUOTES.values()} | {o for o, _ in GROUND.values()} | {"Ezek.37.1", "Ezek.37.3", "Ezek.37.9",
+    want = {o for o, _ in QUOTES.values()} | {o for o, _ in GROUND.values()} | {"Ezek.37.1", "Ezek.37.2", "Ezek.37.3", "Ezek.37.9",
                                                                                 "Ezek.37.10", "Ezek.47.1", "Ezek.47.3", "Ezek.47.4", "Ezek.47.5"}
     out = {}
     for line in t.splitlines():
@@ -56,7 +56,7 @@ assert "sopra" in BL["Ezek.37.9"] and "viveram" in BL["Ezek.37.10"]             
 assert "águas saíam de debaixo do umbral da casa" in BL["Ezek.47.1"]                              # line 10: water from the temple
 assert "tornozelos" in BL["Ezek.47.3"] and "joelhos" in BL["Ezek.47.4"] and "cintura" in BL["Ezek.47.4"]
 assert "somente a nado" in BL["Ezek.47.5"]                                                         # line 11
-assert "trinta e sete" in T[2] and "quarenta e sete" in T[9]
+assert "quarenta e sete" in T[10] and "sequíssimos" in BL["Ezek.37.2"]
 
 NCH = len(D["chap_verses"])
 books = [{"pt": S["books_pt"][b], "x0": round(int(BFC[b]) / NCH, 6), "x1": round((int(BFC[b + 1]) if b < 65 else NCH) / NCH, 6)}
