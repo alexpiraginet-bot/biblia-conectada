@@ -1,22 +1,18 @@
-// "Ossos secos, rio da vida": simple drawings in vivid colours (Alex, 28/10). Navy = the outline of the drawings and the
-// night sky of the arc maps (the series' sky); gold = a link that lights up (videos 1-9).
+// "Cada osso a seu osso" (video 10, v3). One material: the text of the chapter. Bone on a night ground, gold when the
+// word gives life (the series' gold, videos 1-9), river cyan when the text becomes water.
 export const C = {
-  navy: "#14213D",
-  night: "#101A3D",
-  night2: "#1D2C63",
+  ground: "#06090F",
+  ground2: "#0C1220",
+  bone: "#E6DCC4",
+  bone2: "#A89E88",
+  ash: "#5E5A54",
+  sinew: "#C9473A",
+  flesh: "#D9A48C",
+  gold: "#FFCC6B",
+  gold2: "#FFE7B0",
+  cyan: "#19C3E3",
+  cyan2: "#8FE8F7",
+  deep: "#06304A",
   white: "#FFFFFF",
-  cream: "#FFF7E8",
-  yellow: "#FFD23F",
-  gold: "#FFC83D",
-  orange: "#FF8C2B",
-  coral: "#FF5D5D",
-  sinew: "#E8473B",
-  flesh: "#F59A86",
-  turquoise: "#1EC8E6",
-  water: "#1DCDF2",
-  green: "#3DBE5A",
-  purple: "#8B5CF6",
 };
-// arc colour by span, short -> long (the vitral of video 1, brighter)
-export const RAINBOW = ["#3DA9FC", "#6C63FF", "#B455F0", "#FF4F7B", "#FF8C2B", "#FFD23F"];
-export const F = {ui: "Figtree", quote: "Newsreader", mono: "Space Mono"};
+export const F = {serif: "Newsreader", ui: "Figtree", mono: "Space Mono"};

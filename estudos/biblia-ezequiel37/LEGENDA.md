@@ -1,22 +1,19 @@
-# Legenda — "Do vale ao rio" (vídeo 10, versão 2, USAR ESTA, 28/10)
+# Legenda — "Cada osso a seu osso" (vídeo 10, v3, USAR ESTA, 28/10)
 
-Isso não é um cemitério. 🦴➡️🌊
+"Filho do homem, por acaso viverão estes ossos?" 🦴
 
-Em Ezequiel 37, a mão do Senhor leva o profeta para o meio de um vale cheio de ossos secos. Não foi castigo. Não foi acaso. Com Jesus também foi assim: cheio do Espírito Santo, foi levado pelo Espírito ao deserto (Lucas 4:1).
+Ezequiel 37, contado pelo próprio profeta, com as palavras da Bíblia: a mão do Senhor o põe num vale cheio de ossos secos. A pergunta. A palavra. O tremor: os ossos se aproximam, cada osso a seu osso. Nervos, carne, pele… porém sem espírito. Até que o sopro vem dos quatro ventos: viveram, e se puseram de pé, um exército extremamente grande.
 
-Vale e deserto não são destino. São passagem. É ali que Deus pergunta: "por acaso viverão estes ossos?" E é ali que o sopro dele devolve a vida.
+Dez capítulos depois, o mesmo homem vê águas saindo do templo. Mil côvados: tornozelos. Mil: joelhos. Mil: cintura. Mil: um rio que não se podia atravessar a pé, somente a nado. E toda alma vivente, por onde quer que este rio passar, viverá.
 
-No capítulo 47, a cena muda: águas saem do templo e sobem. Tornozelos, joelhos, cintura… até virar um rio que não se podia atravessar a pé, somente a nado.
+Quem te pôs no vale é quem te leva ao rio. 💧
 
-O vale é caminho. O rio é promessa. 💧
+Tudo que você vê na tela são as letras do próprio capítulo.
 
-👇 Se você está num vale hoje, escreve aqui: eu vou atravessar.
+👇 Se você está num vale, escreve: eu vou atravessar.
 
-Texto bíblico: Bíblia Livre (CC BY 4.0) · Ilustrações e narração geradas por IA.
+Texto: Bíblia Livre (CC BY 4.0) · narração gerada por IA · www.bibliaconectada.company
 
-#biblia #ezequiel37 #valedeossossecos #palavradedeus #fe #esperanca #jesus #deus #devocional
+#ezequiel37 #valedeossossecos #biblia #palavradedeus #fe #esperanca #jesus #devocional #tipografia
 
-Comentário fixado: "Escreve 'eu vou atravessar' e marca alguém que precisa ouvir isso hoje 🙏"
-
-Citações (BLIVRE): Ezequiel 37:3, Lucas 4:1 e Ezequiel 47:5, conferidas por `tools/analyze.py` e `tools/check.py`.
-Ezequiel 37:1 e 47:3–4 aparecem em paráfrase, com o texto conferido no mesmo script.
+Comentário fixado: "Ezequiel 37:1-10 e 47:1-9 na Bíblia Livre. Qual capítulo a gente conta assim no próximo? 👇"

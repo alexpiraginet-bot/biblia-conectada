@@ -1,49 +1,56 @@
-"""Script of "Do vale ao rio" (video 10, Ezekiel 37 -> 47): our own text, written 28/10/2026 (version 2).
+"""Script of "Cada osso a seu osso" (video 10, version 3, 28/10/2026): the prophet narrates in the words of the Bible.
 
-Version 2 (Alex, 28/10 10:11; then 10:38 'parece desanimado... sem gancho inicial forte'): follow what the sermon means (the valley and the desert are places God leads us through;
-in chapter 47 the prophet is in a river that overflows), recreated in our own words, without the cross-reference
-framing of version 1, and God never drawn as a character (light from the sky only; Jesus may be drawn).
+Alex (28/10 11:09): "faça uma versão totalmente autêntica, autoral sua... esquece gancho, esquece tudo que a gente já
+sugeriu". My take: no illustrations, no slogans. Ezekiel tells it in first person, in the BLIVRE text itself
+(Ezekiel 37:1-10 and 47:1-5,9, lightly cut for breath), and the picture is made of the text: the letters of the
+chapter lie scattered like bones; when the word comes they fly together, "cada osso a seu osso", and become the verse;
+the four winds pass through them; the lines stand up as an army; in chapter 47 the text turns to water and rises,
+measured, until the camera is under the river. Two lines are mine (the bridge and the close).
 
-Alex sent a sermon by another preacher on Ezekiel 37 as the idea. A sermon is a protected work (Lei 9.610/98, art. 7º, II),
-so nothing of it is used: not its audio, not its wording. The passage, the order of the Bible text and the cross references
-are ours (art. 8º, I: ideas are not protected). Quotes are BLIVRE (CC BY 4.0 BR).
-
-LINES: (i, text the voice reads). QUOTES: {i: (osis, BLIVRE fragment shown and checked)}; the fragment is the BLIVRE text
-with the editorial brackets removed ("tu [o] sabes" -> "tu o sabes"). tools/check.py asserts every fragment is in BLIVRE.
+LINES: (i, text the voice reads). QUOTES: {i: (osis, BLIVRE fragment)}; brackets of the BLIVRE ([o], [que se fez]) are
+read as plain words. tools/analyze.py asserts every fragment is in the verse it cites.
 """
 LINES = [
-    (1, "Isso não é um cemitério."),
-    (2, "É o vale para onde a mão de Deus levou Ezequiel."),
-    (3, "Um vale cheio de ossos secos."),
-    (4, "Não foi castigo. Não foi acaso. Foi Deus."),
-    (5, "Com Jesus também foi assim: cheio do Espírito Santo, foi levado pelo Espírito ao deserto."),
-    (6, "Vale e deserto não são destino. São passagem."),
-    (7, "Porque é no vale que Deus pergunta: por acaso viverão estes ossos?"),
-    (8, "E é no vale que o sopro dele devolve a vida."),
-    (9, "Mas a história não termina aí."),
-    (10, "No capítulo quarenta e sete, águas saem do templo. Nos tornozelos. Nos joelhos. Na cintura."),
-    (11, "Até virar um rio que não se podia atravessar a pé, somente a nado."),
-    (12, "O mesmo Deus que te levou ao vale está te levando para o rio."),
-    (13, "O vale é caminho. O rio é promessa."),
-    (14, "Se você está num vale hoje, escreve aqui: eu vou atravessar."),
+    (1, "A mão do SENHOR veio sobre mim."),
+    (2, "E me pôs no meio de um vale que estava cheio de ossos."),
+    (3, "E eis que estavam sequíssimos."),
+    (4, "E perguntou-me: Filho do homem, por acaso viverão estes ossos?"),
+    (5, "E eu respondi: Senhor DEUS, tu o sabes."),
+    (6, "Então disse-me: Profetiza sobre estes ossos. Ossos secos, ouvi a palavra do SENHOR."),
+    (7, "Então profetizei; e houve um ruído, e eis que se fez um tremor, e os ossos se aproximaram, cada osso a seu osso."),
+    (8, "E eis que havia nervos sobre eles, e a carne subiu, e a pele cobriu por cima deles; porém não havia espírito neles."),
+    (9, "Vem dos quatro ventos, ó espírito, e sopra sobre estes mortos, para que vivam."),
+    (10, "Então o espírito entrou neles, e viveram, e se puseram de pé, um exército extremamente grande."),
+    (11, "Dez capítulos depois, o mesmo homem. Outra visão."),
+    (12, "E eis que águas saíam de debaixo do umbral da casa."),
+    (13, "Ele mediu mil côvados: as águas chegavam aos tornozelos. Mediu mil: aos joelhos. Mediu mais mil: à cintura."),
+    (14, "E mediu mais mil, e já era um rio; as águas eram tão profundas que o rio não se podia atravessar a pé, somente a nado."),
+    (15, "E toda alma vivente, por onde quer que este rio passar, viverá."),
+    (16, "Quem te pôs no vale é quem te leva ao rio."),
 ]
 
+# (osis, fragments of the BLIVRE verse the line reads, brackets removed); lines in MINE are authorial
 QUOTES = {
-    5: ("Luke.4.1", "foi levado pelo Espírito ao deserto"),
-    7: ("Ezek.37.3", "por acaso viverão estes ossos?"),
-    11: ("Ezek.47.5", "não se podia atravessar a pé, somente a nado"),
+    1: ("Ezek.37.1", ["A mão do SENHOR veio sobre mim"]),
+    2: ("Ezek.37.1", ["me pôs no meio de um vale que estava cheio de ossos"]),
+    3: ("Ezek.37.2", ["eis que estavam sequíssimos"]),
+    4: ("Ezek.37.3", ["E perguntou-me: Filho do homem, por acaso viverão estes ossos?"]),
+    5: ("Ezek.37.3", ["E eu respondi: Senhor DEUS, tu o sabes."]),
+    6: ("Ezek.37.4", ["Então disse-me: Profetiza sobre estes ossos", "Ossos secos, ouvi a palavra do SENHOR."]),
+    7: ("Ezek.37.7", ["Então profetizei", "e houve um ruído", "eis que se fez um tremor, e os ossos se aproximaram, cada osso a seu osso."]),
+    8: ("Ezek.37.8", ["eis que havia nervos sobre eles, e a carne subiu, e a pele cobriu por cima deles; porém não havia espírito neles."]),
+    9: ("Ezek.37.9", ["Vem dos quatro ventos, ó espírito, e sopra sobre estes mortos, para que vivam."]),
+    10: ("Ezek.37.10", ["então o espírito entrou neles, e viveram, e se puseram de pé, um exército extremamente grande."]),
+    12: ("Ezek.47.1", ["eis que águas saíam de debaixo do umbral da casa"]),
+    13: ("Ezek.47.3", ["ele mediu mil côvados", "aos tornozelos"]),
+    14: ("Ezek.47.5", ["E mediu mais mil, e já era um rio", "as águas eram tão profundas que o rio não se podia atravessar a pé, somente a nado."]),
+    15: ("Ezek.47.9", ["toda alma vivente", "viverá"]),
 }
-
-# Bible text behind the lines that paraphrase (not quoted on screen, checked to exist in BLIVRE)
-GROUND = {
-    2: ("Ezek.37.1", ["A mão do SENHOR veio sobre mim", "me pôs no meio de um vale"]),
-    3: ("Ezek.37.1", ["um vale que estava cheio de ossos"]),
-    8: ("Ezek.37.10", ["o espírito entrou neles, e viveram"]),
-    10: ("Ezek.47.4", ["joelhos", "cintura"]),
-}
-LINKS = {}
-
-# the voice reads numbers in words; captions show them as written
-DISPLAY = [("capítulo quarenta e sete", "capítulo 47")]
-
+EXTRA = {13: ("Ezek.47.4", ["aos joelhos", "à cintura"])}
+MINE = {11, 16}
+REF = {1: "Ezequiel 37:1", 2: "Ezequiel 37:1", 3: "Ezequiel 37:2", 4: "Ezequiel 37:3", 5: "Ezequiel 37:3", 6: "Ezequiel 37:4",
+       7: "Ezequiel 37:7", 8: "Ezequiel 37:8", 9: "Ezequiel 37:9", 10: "Ezequiel 37:10", 12: "Ezequiel 47:1",
+       13: "Ezequiel 47:3–4", 14: "Ezequiel 47:5", 15: "Ezequiel 47:9"}
+# the voice reads numbers in words; nothing to re-display in v3 (chapter numbers are drawn from data)
+DISPLAY = []
 PROMPT_TTS = "\n".join(t for _, t in LINES)

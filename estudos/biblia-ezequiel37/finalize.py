@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 WORK = ROOT / "renders/.film"
 VID, MIX = WORK / "video.mp4", WORK / "mix.wav"
-OUT = ROOT / "renders/do-vale-ao-rio.mp4"
+OUT = ROOT / "renders/cada-osso-a-seu-osso.mp4"
 MAX_MB = 29.0
 
 

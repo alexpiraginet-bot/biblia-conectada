@@ -1,352 +1,268 @@
 {
  "source": "BLIVRE (CC BY 4.0 BR); chapter index of ../biblia-referencias/data/xref.npz",
- "books": [
-  {
-   "pt": "Gênesis",
-   "x0": 0.0,
-   "x1": 0.042052
-  },
-  {
-   "pt": "Êxodo",
-   "x0": 0.042052,
-   "x1": 0.075694
-  },
-  {
-   "pt": "Levítico",
-   "x0": 0.075694,
-   "x1": 0.098402
-  },
-  {
-   "pt": "Números",
-   "x0": 0.098402,
-   "x1": 0.12868
-  },
-  {
-   "pt": "Deuteronômio",
-   "x0": 0.12868,
-   "x1": 0.157275
-  },
-  {
-   "pt": "Josué",
-   "x0": 0.157275,
-   "x1": 0.17746
-  },
-  {
-   "pt": "Juízes",
-   "x0": 0.17746,
-   "x1": 0.195122
-  },
-  {
-   "pt": "Rute",
-   "x0": 0.195122,
-   "x1": 0.198486
-  },
-  {
-   "pt": "1 Samuel",
-   "x0": 0.198486,
-   "x1": 0.224558
-  },
-  {
-   "pt": "2 Samuel",
-   "x0": 0.224558,
-   "x1": 0.244743
-  },
-  {
-   "pt": "1 Reis",
-   "x0": 0.244743,
-   "x1": 0.263246
-  },
-  {
-   "pt": "2 Reis",
-   "x0": 0.263246,
-   "x1": 0.284272
-  },
-  {
-   "pt": "1 Crônicas",
-   "x0": 0.284272,
-   "x1": 0.308663
-  },
-  {
-   "pt": "2 Crônicas",
-   "x0": 0.308663,
-   "x1": 0.33894
-  },
-  {
-   "pt": "Esdras",
-   "x0": 0.33894,
-   "x1": 0.347351
-  },
-  {
-   "pt": "Neemias",
-   "x0": 0.347351,
-   "x1": 0.358284
-  },
-  {
-   "pt": "Ester",
-   "x0": 0.358284,
-   "x1": 0.366695
-  },
-  {
-   "pt": "Jó",
-   "x0": 0.366695,
-   "x1": 0.402019
-  },
-  {
-   "pt": "Salmos",
-   "x0": 0.402019,
-   "x1": 0.528175
-  },
-  {
-   "pt": "Provérbios",
-   "x0": 0.528175,
-   "x1": 0.554247
-  },
-  {
-   "pt": "Eclesiastes",
-   "x0": 0.554247,
-   "x1": 0.56434
-  },
-  {
-   "pt": "Cânticos",
-   "x0": 0.56434,
-   "x1": 0.571068
-  },
-  {
-   "pt": "Isaías",
-   "x0": 0.571068,
-   "x1": 0.626577
-  },
-  {
-   "pt": "Jeremias",
-   "x0": 0.626577,
-   "x1": 0.670311
-  },
-  {
-   "pt": "Lamentações",
-   "x0": 0.670311,
-   "x1": 0.674516
-  },
-  {
-   "pt": "Ezequiel",
-   "x0": 0.674516,
-   "x1": 0.714886
-  },
-  {
-   "pt": "Daniel",
-   "x0": 0.714886,
-   "x1": 0.724979
-  },
-  {
-   "pt": "Oseias",
-   "x0": 0.724979,
-   "x1": 0.736754
-  },
-  {
-   "pt": "Joel",
-   "x0": 0.736754,
-   "x1": 0.739277
-  },
-  {
-   "pt": "Amós",
-   "x0": 0.739277,
-   "x1": 0.746846
-  },
-  {
-   "pt": "Obadias",
-   "x0": 0.746846,
-   "x1": 0.747687
-  },
-  {
-   "pt": "Jonas",
-   "x0": 0.747687,
-   "x1": 0.751051
-  },
-  {
-   "pt": "Miqueias",
-   "x0": 0.751051,
-   "x1": 0.756939
-  },
-  {
-   "pt": "Naum",
-   "x0": 0.756939,
-   "x1": 0.759462
-  },
-  {
-   "pt": "Habacuque",
-   "x0": 0.759462,
-   "x1": 0.761985
-  },
-  {
-   "pt": "Sofonias",
-   "x0": 0.761985,
-   "x1": 0.764508
-  },
-  {
-   "pt": "Ageu",
-   "x0": 0.764508,
-   "x1": 0.76619
-  },
-  {
-   "pt": "Zacarias",
-   "x0": 0.76619,
-   "x1": 0.777965
-  },
-  {
-   "pt": "Malaquias",
-   "x0": 0.777965,
-   "x1": 0.781329
-  },
-  {
-   "pt": "Mateus",
-   "x0": 0.781329,
-   "x1": 0.804878
-  },
-  {
-   "pt": "Marcos",
-   "x0": 0.804878,
-   "x1": 0.818335
-  },
-  {
-   "pt": "Lucas",
-   "x0": 0.818335,
-   "x1": 0.83852
-  },
-  {
-   "pt": "João",
-   "x0": 0.83852,
-   "x1": 0.856182
-  },
-  {
-   "pt": "Atos",
-   "x0": 0.856182,
-   "x1": 0.879731
-  },
-  {
-   "pt": "Romanos",
-   "x0": 0.879731,
-   "x1": 0.893188
-  },
-  {
-   "pt": "1 Coríntios",
-   "x0": 0.893188,
-   "x1": 0.906644
-  },
-  {
-   "pt": "2 Coríntios",
-   "x0": 0.906644,
-   "x1": 0.917578
-  },
-  {
-   "pt": "Gálatas",
-   "x0": 0.917578,
-   "x1": 0.922624
-  },
-  {
-   "pt": "Efésios",
-   "x0": 0.922624,
-   "x1": 0.92767
-  },
-  {
-   "pt": "Filipenses",
-   "x0": 0.92767,
-   "x1": 0.931034
-  },
-  {
-   "pt": "Colossenses",
-   "x0": 0.931034,
-   "x1": 0.934399
-  },
-  {
-   "pt": "1 Tessalonicenses",
-   "x0": 0.934399,
-   "x1": 0.938604
-  },
-  {
-   "pt": "2 Tessalonicenses",
-   "x0": 0.938604,
-   "x1": 0.941127
-  },
-  {
-   "pt": "1 Timóteo",
-   "x0": 0.941127,
-   "x1": 0.946173
-  },
-  {
-   "pt": "2 Timóteo",
-   "x0": 0.946173,
-   "x1": 0.949537
-  },
-  {
-   "pt": "Tito",
-   "x0": 0.949537,
-   "x1": 0.952061
-  },
-  {
-   "pt": "Filemom",
-   "x0": 0.952061,
-   "x1": 0.952902
-  },
-  {
-   "pt": "Hebreus",
-   "x0": 0.952902,
-   "x1": 0.963835
-  },
-  {
-   "pt": "Tiago",
-   "x0": 0.963835,
-   "x1": 0.96804
-  },
-  {
-   "pt": "1 Pedro",
-   "x0": 0.96804,
-   "x1": 0.972246
-  },
-  {
-   "pt": "2 Pedro",
-   "x0": 0.972246,
-   "x1": 0.974769
-  },
-  {
-   "pt": "1 João",
-   "x0": 0.974769,
-   "x1": 0.978974
-  },
-  {
-   "pt": "2 João",
-   "x0": 0.978974,
-   "x1": 0.979815
-  },
-  {
-   "pt": "3 João",
-   "x0": 0.979815,
-   "x1": 0.980656
-  },
-  {
-   "pt": "Judas",
-   "x0": 0.980656,
-   "x1": 0.981497
-  },
-  {
-   "pt": "Apocalipse",
-   "x0": 0.981497,
-   "x1": 1.0
-  }
- ],
  "n_chapters": 1189,
- "ez_chapters": 48,
  "ch_from": 37,
  "ch_to": 47,
  "chapters_between": 10,
+ "ch37": [
+  {
+   "v": 1,
+   "text": "A mão do SENHOR veio sobre mim, e me tirou por meio do Espírito do SENHOR, e me pôs no meio de um vale que estava cheio de ossos."
+  },
+  {
+   "v": 2,
+   "text": "E me fez passar perto deles ao redor; e eis que havia muitos sobre a face do vale, e eis que estavam sequíssimos."
+  },
+  {
+   "v": 3,
+   "text": "E perguntou-me: Filho do homem, por acaso viverão estes ossos? E eu respondi: Senhor DEUS, tu o sabes."
+  },
+  {
+   "v": 4,
+   "text": "Então disse-me: Profetiza sobre estes ossos, e dize-lhes: Ossos secos, ouvi a palavra do SENHOR."
+  },
+  {
+   "v": 5,
+   "text": "Assim diz o Senhor DEUS a estes ossos: Eis que eu farei entrar espírito em vós, e vivereis."
+  },
+  {
+   "v": 6,
+   "text": "E porei nervos sobre vós, farei subir carne sobre vós, cobrirei de pele sobre vós, porei espírito em vós, e vivereis; e sabereis que eu sou o SENHOR."
+  },
+  {
+   "v": 7,
+   "text": "Então profetizei como havia me sido mandado; e houve um ruído enquanto eu profetizava, e eis que se fez um tremor, e os ossos se aproximaram, cada osso a seu osso."
+  },
+  {
+   "v": 8,
+   "text": "E olhei, e eis que havia nervos sobre eles, e a carne subiu, e a pele cobriu por cima deles; porém não havia espírito neles."
+  },
+  {
+   "v": 9,
+   "text": "Então me disse: Profetiza ao espírito, profetiza, ó filho do homem, e dize ao espírito: Assim diz o Senhor DEUS: Vem dos quatro ventos, ó espírito, e sopra sobre estes mortos, para que vivam."
+  },
+  {
+   "v": 10,
+   "text": "E profetizei como havia me sido mandado; então o espírito entrou neles, e viveram, e se puseram de pé, um exército extremamente grande."
+  },
+  {
+   "v": 11,
+   "text": "Então me disse: Filho do homem, estes ossos são toda a casa de Israel. Eis que eles dizem: Nossos ossos se secaram, e nossa esperança pereceu; fomos exterminados."
+  },
+  {
+   "v": 12,
+   "text": "Portanto profetiza, e dize-lhes: Assim diz o Senhor DEUS: Eis que eu abrirei vossos sepulturas, ó povo meu, e vos farei subir de vossas sepulturas, e vos trarei à terra de Israel."
+  },
+  {
+   "v": 13,
+   "text": "E sabereis que eu sou o SENHOR, quando eu abrir vossas sepulturas, e vos fizer subir de vossas sepulturas, ó povo meu."
+  },
+  {
+   "v": 14,
+   "text": "E porei meu espírito em vós, e vivereis, e vos porei em vossa terra; e sabereis que eu, o SENHOR, falei e fiz, diz o SENHOR."
+  },
+  {
+   "v": 15,
+   "text": "E veio a mim a palavra do SENHOR, dizendo:"
+  },
+  {
+   "v": 16,
+   "text": "Tu, pois, ó filho do homem, toma para ti agora uma vara de madeira, e escreve nela: A Judá, e aos filhos de Israel, seus companheiros. Toma para ti depois outra vara de madeira, e escreve nela: A José, vara de Efraim, e a toda a casa de Israel, seus companheiros."
+  },
+  {
+   "v": 17,
+   "text": "E junta-as um à outra, para que sejam um para ti como uma só vara de madeira; e serão uma em tua mão."
+  },
+  {
+   "v": 18,
+   "text": "E quando te falarem os filhos de teu povo, dizendo: Por acaso não nos explicarás que tu queres dizer com isso?"
+  },
+  {
+   "v": 19,
+   "text": "Então tu lhes dirás: Assim diz o Senhor DEUS: Eis que eu tomo a vara de José que esteve na mão de Efraim, e das tribos de Israel seus companheiros, e os juntarei com ele à vara de Judá, e as farei uma só vara, e serão uma minha mão."
+  },
+  {
+   "v": 20,
+   "text": "E as varas sobre as quais houverdes escrito estarão em tua mão diante dos olhos deles;"
+  },
+  {
+   "v": 21,
+   "text": "Dize-lhes, pois: Assim diz o Senhor DEUS: Eis que eu tomarei os filhos de Israel dentre as nações para onde foram, e os ajuntarei desde os arredores e os trarei à sua própria terra;"
+  },
+  {
+   "v": 22,
+   "text": "E deles farei uma nação na terra, nos montes de Israel; e um único rei será rei deles todos; e nunca mais serão duas nações, nem nunca mais serão divididos em dois reinos;"
+  },
+  {
+   "v": 23,
+   "text": "E nunca mais se contaminarão com seus ídolos, nem com suas abominações, nem com qualquer de suas transgressões; e os livrarei de todas as suas habitações em que pecaram, e os purificarei; assim eles serão meu povo, e eu serei o Deus deles."
+  },
+  {
+   "v": 24,
+   "text": "E meu servo Davi será rei sobre eles, e todos eles terão um só pastor; e andarão em meus juízos, guardarão meus estatutos, e os praticarão."
+  },
+  {
+   "v": 25,
+   "text": "E habitarão na terra que dei a meu servo Jacó, na qual vossos pais habitaram; e nela habitarão eles, seus filhos, e os filhos de seus filhos para sempre; e meu servo Davi será o príncipe deles eternamente."
+  },
+  {
+   "v": 26,
+   "text": "E farei com eles um pacto de paz; será um pacto perpétuo com eles; e os porei, e os multiplicarei, e porei meu santuário no meio deles para sempre."
+  },
+  {
+   "v": 27,
+   "text": "E com eles estará meu tabernáculo; serei o Deus deles, e ele serão meu povo."
+  },
+  {
+   "v": 28,
+   "text": "E as nações saberão que eu, o SENHOR, santifico a Israel, quando meu santuário estiver no meio deles para sempre."
+  }
+ ],
+ "ch47": [
+  {
+   "v": 1,
+   "text": "Depois disto ele me fez voltar à entrada da casa; e eis que águas saíam de debaixo do umbral da casa para o oriente, pois a fachada da casa estava para o oriente; e as águas desciam de debaixo, desde o lado direito da casa, do lado sul do altar."
+  },
+  {
+   "v": 2,
+   "text": "E ele me tirou pelo caminho da porta do norte, e me fez rodear pelo caminho de fora, até a porta externa, pelo caminho voltado ao oriente; e eis que águas corriam do lado direito."
+  },
+  {
+   "v": 3,
+   "text": "E quando aquele homem saiu para o oriente, tinha em sua mão um cordel de medir; ele mediu mil côvados, e me fez passar pelas águas, que chegavam aos tornozelos."
+  },
+  {
+   "v": 4,
+   "text": "E mediu mil côvados, e me fez passar pelas águas, que chegavam aos joelhos. Mediu mais mil, e me fez passar pelas águas, que chegavam à cintura."
+  },
+  {
+   "v": 5,
+   "text": "E mediu mais mil, e já era um rio que eu não podia passar, porque as águas eram tão profundas que o rio não se podia atravessar a pé, somente a nado."
+  },
+  {
+   "v": 6,
+   "text": "Então me disse: “Viste isto, filho do homem?” Depois ele me levou e trouxe-me de volta à margem do rio."
+  },
+  {
+   "v": 7,
+   "text": "Quando voltei, eis que na margem do rio havia muitíssimas árvores, de um lado e do outro."
+  },
+  {
+   "v": 8,
+   "text": "Então me disse: “Estas águas saem para a região do oriente, descem à planície, e entram no mar; e quando chegarem ao mar, tornarão saudáveis as águas."
+  },
+  {
+   "v": 9,
+   "text": "E será que toda alma vivente que se move por onde quer que estes rio passar, viverá; e haverá muitíssimos peixes por ali terem passado estas águas, e ficarão saudáveis; e tudo viverá por onde quer que este este rio passar."
+  },
+  {
+   "v": 10,
+   "text": "Será também que pescadores estarão junto a ele; desde En-Gedi até En-Eglaim haverá lugares para se estender redes; seus peixes serão segundo suas espécies, como os peixes do grande mar, em muitíssima quantidade."
+  },
+  {
+   "v": 11,
+   "text": "Porém seus charcos e seus pântanos não ficarão saudáveis; estarão salgados."
+  },
+  {
+   "v": 12,
+   "text": "E junto do rio, em suas margens de um lado e do outro, crescerá toda árvore de comer; sua folha nunca cairá, nem seu fruto faltará; em todos os seus meses produzirá frutos, porque suas águas saem do santuário; e seu fruto servirá de alimento, e sua folha de remédio.”"
+  },
+  {
+   "v": 13,
+   "text": "Assim diz o Senhor DEUS: “Este é o limite em que tomareis a terra em herança segundo as doze tribos de Israel: José terá duas partes."
+  },
+  {
+   "v": 14,
+   "text": "E a herdareis igualmente, um como o outro; terra a qual jurei de mão levantada que daria aos vossos pais; portanto esta terra será a vossa herança."
+  },
+  {
+   "v": 15,
+   "text": "E este será o limite da terra para o lado norte: desde o mar Grande, a caminho de Hetlom, e indo por Lebo-Hamate até Zedade;"
+  },
+  {
+   "v": 16,
+   "text": "Berota, Sibraim (que está entre o limite de Damasco e o limite de Hamate); Hazer-Haticom, que está junto ao limite de Haurã."
+  },
+  {
+   "v": 17,
+   "text": "E o limite será do mar até Haser-Enom, ao limite de Damasco ao norte, e ao limite de Hamate; este será o lado norte."
+  },
+  {
+   "v": 18,
+   "text": "Ao lado do oriente, passando entre Haurã e Damasco, e entre Gileade e a terra de Israel, junto ao Jordão; medireis desde o limite até do mar do oriente; este será o lado do oriente."
+  },
+  {
+   "v": 19,
+   "text": "E ao lado sul, ao sul, será desde Tamar até as águas de Meribá-Cades, indo ao longo do ribeiro até o grande mar; e este será o lado sul, ao sul."
+  },
+  {
+   "v": 20,
+   "text": "E o lado do ocidente será o grande mar, desde o limite até Lebo-Hamate; este será o lado do ocidente."
+  },
+  {
+   "v": 21,
+   "text": "Repartireis, pois, esta terra entre vós, segundo as tribos de Israel."
+  },
+  {
+   "v": 22,
+   "text": "E será que a sorteareis em herança para vós, e para os estrangeiros que peregrinam entre vós, que tiverem gerado filhos entre vós; e vos serão como nativos entre os filhos de Israel; repartirão herança convosco, entre as tribos de Israel."
+  },
+  {
+   "v": 23,
+   "text": "E será que na tribo onde o estrangeiro peregrinar, ali lhe dareis sua herança”, diz o Senhor DEUS."
+  }
+ ],
  "blivre": {
   "Ezek.37.1": "A mão do SENHOR veio sobre mim, e me tirou por meio do Espírito do SENHOR, e me pôs no meio de um vale que estava cheio de ossos.",
   "Ezek.37.2": "E me fez passar perto deles ao redor; e eis que havia muitos sobre a face do vale, e eis que estavam sequíssimos.",
-  "Ezek.37.3": "E perguntou-me: Filho do homem, por acaso viverão estes ossos? E eu respondi: Senhor DEUS, tu [o] sabes.",
+  "Ezek.37.3": "E perguntou-me: Filho do homem, por acaso viverão estes ossos? E eu respondi: Senhor DEUS, tu o sabes.",
+  "Ezek.37.4": "Então disse-me: Profetiza sobre estes ossos, e dize-lhes: Ossos secos, ouvi a palavra do SENHOR.",
+  "Ezek.37.5": "Assim diz o Senhor DEUS a estes ossos: Eis que eu farei entrar espírito em vós, e vivereis.",
+  "Ezek.37.6": "E porei nervos sobre vós, farei subir carne sobre vós, cobrirei de pele sobre vós, porei espírito em vós, e vivereis; e sabereis que eu sou o SENHOR.",
+  "Ezek.37.7": "Então profetizei como havia me sido mandado; e houve um ruído enquanto eu profetizava, e eis que se fez um tremor, e os ossos se aproximaram, cada osso a seu osso.",
+  "Ezek.37.8": "E olhei, e eis que havia nervos sobre eles, e a carne subiu, e a pele cobriu por cima deles; porém não havia espírito neles.",
   "Ezek.37.9": "Então me disse: Profetiza ao espírito, profetiza, ó filho do homem, e dize ao espírito: Assim diz o Senhor DEUS: Vem dos quatro ventos, ó espírito, e sopra sobre estes mortos, para que vivam.",
   "Ezek.37.10": "E profetizei como havia me sido mandado; então o espírito entrou neles, e viveram, e se puseram de pé, um exército extremamente grande.",
+  "Ezek.37.11": "Então me disse: Filho do homem, estes ossos são toda a casa de Israel. Eis que eles dizem: Nossos ossos se secaram, e nossa esperança pereceu; fomos exterminados.",
+  "Ezek.37.12": "Portanto profetiza, e dize-lhes: Assim diz o Senhor DEUS: Eis que eu abrirei vossos sepulturas, ó povo meu, e vos farei subir de vossas sepulturas, e vos trarei à terra de Israel.",
+  "Ezek.37.13": "E sabereis que eu sou o SENHOR, quando eu abrir vossas sepulturas, e vos fizer subir de vossas sepulturas, ó povo meu.",
+  "Ezek.37.14": "E porei meu espírito em vós, e vivereis, e vos porei em vossa terra; e sabereis que eu, o SENHOR, falei e fiz, diz o SENHOR.",
+  "Ezek.37.15": "E veio a mim a palavra do SENHOR, dizendo:",
+  "Ezek.37.16": "Tu, pois, ó filho do homem, toma para ti agora uma vara de madeira, e escreve nela: A Judá, e aos filhos de Israel, seus companheiros. Toma para ti depois outra vara de madeira, e escreve nela: A José, vara de Efraim, e a toda a casa de Israel, seus companheiros.",
+  "Ezek.37.17": "E junta-as um à outra, para que sejam um para ti como uma só vara de madeira; e serão uma em tua mão.",
+  "Ezek.37.18": "E quando te falarem os filhos de teu povo, dizendo: Por acaso não nos explicarás que tu queres dizer com isso?",
+  "Ezek.37.19": "Então tu lhes dirás: Assim diz o Senhor DEUS: Eis que eu tomo a vara de José que esteve na mão de Efraim, e das tribos de Israel seus companheiros, e os juntarei com ele à vara de Judá, e as farei uma só vara, e serão uma minha mão.",
+  "Ezek.37.20": "E as varas sobre as quais houverdes escrito estarão em tua mão diante dos olhos deles;",
+  "Ezek.37.21": "Dize-lhes, pois: Assim diz o Senhor DEUS: Eis que eu tomarei os filhos de Israel dentre as nações para onde foram, e os ajuntarei desde os arredores e os trarei à sua própria terra;",
+  "Ezek.37.22": "E deles farei uma nação na terra, nos montes de Israel; e um único rei será rei deles todos; e nunca mais serão duas nações, nem nunca mais serão divididos em dois reinos;",
+  "Ezek.37.23": "E nunca mais se contaminarão com seus ídolos, nem com suas abominações, nem com qualquer de suas transgressões; e os livrarei de todas as suas habitações em que pecaram, e os purificarei; assim eles serão meu povo, e eu serei o Deus deles.",
+  "Ezek.37.24": "E meu servo Davi será rei sobre eles, e todos eles terão um só pastor; e andarão em meus juízos, guardarão meus estatutos, e os praticarão.",
+  "Ezek.37.25": "E habitarão na terra que dei a meu servo Jacó, na qual vossos pais habitaram; e nela habitarão eles, seus filhos, e os filhos de seus filhos para sempre; e meu servo Davi será o príncipe deles eternamente.",
+  "Ezek.37.26": "E farei com eles um pacto de paz; será um pacto perpétuo com eles; e os porei, e os multiplicarei, e porei meu santuário no meio deles para sempre.",
+  "Ezek.37.27": "E com eles estará meu tabernáculo; serei o Deus deles, e ele serão meu povo.",
+  "Ezek.37.28": "E as nações saberão que eu, o SENHOR, santifico a Israel, quando meu santuário estiver no meio deles para sempre.",
   "Ezek.47.1": "Depois disto ele me fez voltar à entrada da casa; e eis que águas saíam de debaixo do umbral da casa para o oriente, pois a fachada da casa estava para o oriente; e as águas desciam de debaixo, desde o lado direito da casa, do lado sul do altar.",
-  "Ezek.47.3": "E quando aquele homem saiu para o oriente, tinha em sua mão um cordel de medir; ele mediu mil côvados, e me fez passar pelas águas, que [chegavam] aos tornozelos.",
-  "Ezek.47.4": "E mediu mil [côvados] , e me fez passar pelas águas, que [chegavam] aos joelhos. Mediu [mais] mil, e me fez passar pelas águas, que [chegavam] à cintura.",
-  "Ezek.47.5": "E mediu [mais] mil, e já era um rio que eu não podia passar, porque as águas eram tão profundas que o rio não se podia atravessar a pé, somente a nado.",
-  "Luke.4.1": "E Jesus, cheio do Espírito Santo, voltou do Jordão, e foi levado pelo Espírito ao deserto."
+  "Ezek.47.2": "E ele me tirou pelo caminho da porta do norte, e me fez rodear pelo caminho de fora, até a porta externa, pelo caminho voltado ao oriente; e eis que águas corriam do lado direito.",
+  "Ezek.47.3": "E quando aquele homem saiu para o oriente, tinha em sua mão um cordel de medir; ele mediu mil côvados, e me fez passar pelas águas, que chegavam aos tornozelos.",
+  "Ezek.47.4": "E mediu mil côvados, e me fez passar pelas águas, que chegavam aos joelhos. Mediu mais mil, e me fez passar pelas águas, que chegavam à cintura.",
+  "Ezek.47.5": "E mediu mais mil, e já era um rio que eu não podia passar, porque as águas eram tão profundas que o rio não se podia atravessar a pé, somente a nado.",
+  "Ezek.47.6": "Então me disse: “Viste isto, filho do homem?” Depois ele me levou e trouxe-me de volta à margem do rio.",
+  "Ezek.47.7": "Quando voltei, eis que na margem do rio havia muitíssimas árvores, de um lado e do outro.",
+  "Ezek.47.8": "Então me disse: “Estas águas saem para a região do oriente, descem à planície, e entram no mar; e quando chegarem ao mar, tornarão saudáveis as águas.",
+  "Ezek.47.9": "E será que toda alma vivente que se move por onde quer que estes rio passar, viverá; e haverá muitíssimos peixes por ali terem passado estas águas, e ficarão saudáveis; e tudo viverá por onde quer que este este rio passar.",
+  "Ezek.47.10": "Será também que pescadores estarão junto a ele; desde En-Gedi até En-Eglaim haverá lugares para se estender redes; seus peixes serão segundo suas espécies, como os peixes do grande mar, em muitíssima quantidade.",
+  "Ezek.47.11": "Porém seus charcos e seus pântanos não ficarão saudáveis; estarão salgados.",
+  "Ezek.47.12": "E junto do rio, em suas margens de um lado e do outro, crescerá toda árvore de comer; sua folha nunca cairá, nem seu fruto faltará; em todos os seus meses produzirá frutos, porque suas águas saem do santuário; e seu fruto servirá de alimento, e sua folha de remédio.”",
+  "Ezek.47.13": "Assim diz o Senhor DEUS: “Este é o limite em que tomareis a terra em herança segundo as doze tribos de Israel: José terá duas partes.",
+  "Ezek.47.14": "E a herdareis igualmente, um como o outro; terra a qual jurei de mão levantada que daria aos vossos pais; portanto esta terra será a vossa herança.",
+  "Ezek.47.15": "E este será o limite da terra para o lado norte: desde o mar Grande, a caminho de Hetlom, e indo por Lebo-Hamate até Zedade;",
+  "Ezek.47.16": "Berota, Sibraim (que está entre o limite de Damasco e o limite de Hamate); Hazer-Haticom, que está junto ao limite de Haurã.",
+  "Ezek.47.17": "E o limite será do mar até Haser-Enom, ao limite de Damasco ao norte, e ao limite de Hamate; este será o lado norte.",
+  "Ezek.47.18": "Ao lado do oriente, passando entre Haurã e Damasco, e entre Gileade e a terra de Israel, junto ao Jordão; medireis desde o limite até do mar do oriente; este será o lado do oriente.",
+  "Ezek.47.19": "E ao lado sul, ao sul, será desde Tamar até as águas de Meribá-Cades, indo ao longo do ribeiro até o grande mar; e este será o lado sul, ao sul.",
+  "Ezek.47.20": "E o lado do ocidente será o grande mar, desde o limite até Lebo-Hamate; este será o lado do ocidente.",
+  "Ezek.47.21": "Repartireis, pois, esta terra entre vós, segundo as tribos de Israel.",
+  "Ezek.47.22": "E será que a sorteareis em herança para vós, e para os estrangeiros que peregrinam entre vós, que tiverem gerado filhos entre vós; e vos serão como nativos entre os filhos de Israel; repartirão herança convosco, entre as tribos de Israel.",
+  "Ezek.47.23": "E será que na tribo onde o estrangeiro peregrinar, ali lhe dareis sua herança”, diz o Senhor DEUS."
  }
 }

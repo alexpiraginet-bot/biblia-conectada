@@ -880,16 +880,16 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
 
 - **26/10, Codex, PR #41 publicado e conferido:** interlinear integrado em `90b09d0139a47fd9c5c88b387001e23a5276da02`; produção `dpl_8nJxC43JSmBML5jWZCaUYrTLCpxn` READY em `www.bibliaconectada.company`. Build final, 819 testes, tipos, lint, check-dist e orçamento aprovados. Dezenove casos públicos Chromium/WebKit, 375/1440, Dia/Noite passaram; detalhe móvel revelado no toque e retorno à palavra/foco, fontes preservadas, links e capas PNG conferidos. JavaScript público gzip9: índice 149.615 B; estudo 152.245 B; Arcos 168.760 B, abaixo do teto, com margem de apenas 200 B. Corpus e fontes isolados das outras rotas. Coleção inicial explícita e glosas com assistência de IA, sem revisão acadêmica independente; não é tradução exata ou interlinear completo. Sem alterações em estudos, chamadas pagas ou iPhone físico. Evidências em `docs/evidence/2026-10-26-interlinear.md`.
 
-- **28/10, manhã, vídeo 10 "Do vale ao rio" (`estudos/biblia-ezequiel37/`):**
-  - O Alex mandou o Reel de outro pregador sobre Ezequiel 37 e pediu versão animada "com desenhos padrão", depois
-    "desenhos simples e animados com cores vivas". Sermão é obra protegida (Lei 9.610, art. 7º, II): roteiro nosso,
-    nada do sermão entra. A v1 (ligações com votos) foi trocada pela v2 a pedido dele: a mensagem do vale e do
-    deserto até o rio do capítulo 47, sem ligações, e Deus nunca como personagem (só luz).
-  - Gancho "Isso não é um cemitério." (forma do vídeo 1). Voz ash do `gpt-audio-1.5`, uma tomada só; a TTS fala a fala
-    acelerada soou robótica. A voz "Rio" do ChatGPT não existe na API (testado). O Alex pode trocar pela do Fish Audio:
-    `narration.py --engine file --files a.mp3,b.mp3`.
-  - Ilustrações: 11 imagens do `gpt-image-2.5-flare` com a chave da skill `gpt-image` do Alex (que está em texto puro
-    na skill: ele vai revogar). PNGs brutos fora do git; prompts em `source/img/ez37_assets.json`.
+- **28/10, vídeo 10 "Cada osso a seu osso" (`estudos/biblia-ezequiel37/`):**
+  - O Alex mandou o Reel de outro pregador sobre Ezequiel 37 e pediu versão animada. Sermão é obra protegida (Lei
+    9.610, art. 7º, II): nada dele entra. Duas versões com ilustrações geradas (v1 com ligações; v2 com a mensagem do
+    sermão e Deus só como luz, commits c46563b/f8d4d1e/8efe6c8) foram rejeitadas: "ilustrações muito ruins, narração não
+    está legal, faça uma coisa sua, autêntica".
+  - v3 (a entregue): o profeta narra em primeira pessoa com o texto da BLIVRE (37:1-10, 47:1-5,9) e a imagem é feita do
+    próprio texto (letras-ossos que se encaixam no versículo, ventos, exército de linhas, água medida e refração em SVG).
+    Voz onyx do `gpt-audio-1.5` em tomada única, direção de ator. A "Rio" do ChatGPT não existe na API (testado). Detalhes
+    no `PROJETO.md`.
+  - A chave da OpenAI usada está em texto puro na skill `gpt-image` do Alex: ele disse que vai apagar depois.
 - **27/10, manhã, vídeo 9 "A Bíblia, conectada — versão céu" (`estudos/biblia-referencias-ceu/`):**
   - O Alex pediu para refazer o vídeo 1 (viral, segundo ele mais de 1 milhão de visualizações) com os mesmos parâmetros
     de gancho, narração, entrada e tempo. Mudam só o visual (céu acolhedor) e a passagem do clímax (uma mais
