@@ -1,0 +1,1015 @@
+{
+ "duration": 81.95,
+ "voice": "ash-gpt-audio",
+ "engine": "gpt-audio",
+ "tempo": 1.0,
+ "lines": [
+  {
+   "i": 1,
+   "t0": 0.12,
+   "t1": 2.92,
+   "text": "Um vale cheio de ossos secos.",
+   "voice": "ash-gpt-audio",
+   "heard": "Um vale cheio de ossos secos.",
+   "match": 1.0,
+   "words": [
+    {
+     "w": "Um",
+     "t0": 0.12,
+     "t1": 0.36
+    },
+    {
+     "w": "vale",
+     "t0": 0.36,
+     "t1": 0.88
+    },
+    {
+     "w": "cheio",
+     "t0": 0.88,
+     "t1": 1.6
+    },
+    {
+     "w": "de",
+     "t0": 1.6,
+     "t1": 1.8
+    },
+    {
+     "w": "ossos",
+     "t0": 1.8,
+     "t1": 2.26
+    },
+    {
+     "w": "secos.",
+     "t0": 2.26,
+     "t1": 2.76
+    }
+   ]
+  },
+  {
+   "i": 2,
+   "t0": 3.1,
+   "t1": 7.0,
+   "text": "E Deus pergunta: por acaso viverão estes ossos?",
+   "voice": "ash-gpt-audio",
+   "heard": "E Deus pergunta, por acaso viverão estes ossos?",
+   "match": 1.0,
+   "words": [
+    {
+     "w": "E",
+     "t0": 3.1,
+     "t1": 3.28
+    },
+    {
+     "w": "Deus",
+     "t0": 3.28,
+     "t1": 3.58
+    },
+    {
+     "w": "pergunta,",
+     "t0": 3.58,
+     "t1": 4.18
+    },
+    {
+     "w": "por",
+     "t0": 4.52,
+     "t1": 5.06
+    },
+    {
+     "w": "acaso",
+     "t0": 5.06,
+     "t1": 5.52
+    },
+    {
+     "w": "viverão",
+     "t0": 5.52,
+     "t1": 6.06
+    },
+    {
+     "w": "estes",
+     "t0": 6.06,
+     "t1": 6.46
+    },
+    {
+     "w": "ossos?",
+     "t0": 6.46,
+     "t1": 6.88
+    }
+   ]
+  },
+  {
+   "i": 3,
+   "t0": 7.48,
+   "t1": 9.76,
+   "text": "Ezequiel, capítulo trinta e sete.",
+   "voice": "ash-gpt-audio",
+   "heard": "Ezequiel capítulo 37",
+   "match": 1.0,
+   "words": [
+    {
+     "w": "Ezequiel",
+     "t0": 7.48,
+     "t1": 8.16
+    },
+    {
+     "w": "capítulo",
+     "t0": 8.16,
+     "t1": 8.8
+    },
+    {
+     "w": "37",
+     "t0": 8.8,
+     "t1": 9.4
+    }
+   ]
+  },
+  {
+   "i": 4,
+   "t0": 10.46,
+   "t1": 14.46,
+   "text": "O profeta responde: Senhor Deus, tu o sabes.",
+   "voice": "ash-gpt-audio",
+   "heard": "O profeta responde, Senhor Deus, Tu o sabes.",
+   "match": 1.0,
+   "words": [
+    {
+     "w": "O",
+     "t0": 10.46,
+     "t1": 10.6
+    },
+    {
+     "w": "profeta",
+     "t0": 10.6,
+     "t1": 11.14
+    },
+    {
+     "w": "responde,",
+     "t0": 11.14,
+     "t1": 11.92
+    },
+    {
+     "w": "Senhor",
+     "t0": 11.94,
+     "t1": 12.68
+    },
+    {
+     "w": "Deus,",
+     "t0": 12.68,
+     "t1": 13.04
+    },
+    {
+     "w": "Tu",
+     "t0": 13.58,
+     "t1": 13.72
+    },
+    {
+     "w": "o",
+     "t0": 13.72,
+     "t1": 13.9
+    },
+    {
+     "w": "sabes.",
+     "t0": 13.9,
+     "t1": 14.18
+    }
+   ]
+  },
+  {
+   "i": 5,
+   "t0": 15.04,
+   "t1": 18.79,
+   "text": "Então Deus manda: profetiza sobre estes ossos.",
+   "voice": "ash-gpt-audio",
+   "heard": "Então Deus manda, profetiza sobre estes ossos.",
+   "match": 1.0,
+   "words": [
+    {
+     "w": "Então",
+     "t0": 15.04,
+     "t1": 15.4
+    },
+    {
+     "w": "Deus",
+     "t0": 15.4,
+     "t1": 15.74
+    },
+    {
+     "w": "manda,",
+     "t0": 15.74,
+     "t1": 16.24
+    },
+    {
+     "w": "profetiza",
+     "t0": 16.5,
+     "t1": 17.48
+    },
+    {
+     "w": "sobre",
+     "t0": 17.48,
+     "t1": 17.82
+    },
+    {
+     "w": "estes",
+     "t0": 17.82,
+     "t1": 18.26
+    },
+    {
+     "w": "ossos.",
+     "t0": 18.26,
+     "t1": 18.66
+    }
+   ]
+  },
+  {
+   "i": 6,
+   "t0": 19.26,
+   "t1": 24.54,
+   "text": "Houve um tremor, e os ossos se aproximaram, cada osso a seu osso.",
+   "voice": "ash-gpt-audio",
+   "heard": "Houve um tremor, e os ossos se aproximaram, cada osso a seu osso.",
+   "match": 1.0,
+   "words": [
+    {
+     "w": "Houve",
+     "t0": 19.26,
+     "t1": 19.6
+    },
+    {
+     "w": "um",
+     "t0": 19.6,
+     "t1": 19.76
+    },
+    {
+     "w": "tremor,",
+     "t0": 19.76,
+     "t1": 20.2
+    },
+    {
+     "w": "e",
+     "t0": 20.32,
+     "t1": 20.78
+    },
+    {
+     "w": "os",
+     "t0": 20.78,
+     "t1": 21.02
+    },
+    {
+     "w": "ossos",
+     "t0": 21.02,
+     "t1": 21.36
+    },
+    {
+     "w": "se",
+     "t0": 21.36,
+     "t1": 21.5
+    },
+    {
+     "w": "aproximaram,",
+     "t0": 21.5,
+     "t1": 22.2
+    },
+    {
+     "w": "cada",
+     "t0": 22.7,
+     "t1": 23.02
+    },
+    {
+     "w": "osso",
+     "t0": 23.02,
+     "t1": 23.52
+    },
+    {
+     "w": "a",
+     "t0": 23.52,
+     "t1": 23.84
+    },
+    {
+     "w": "seu",
+     "t0": 23.84,
+     "t1": 24.08
+    },
+    {
+     "w": "osso.",
+     "t0": 24.08,
+     "t1": 24.46
+    }
+   ]
+  },
+  {
+   "i": 7,
+   "t0": 25.11,
+   "t1": 30.34,
+   "text": "Nervos. Carne. Pele. Porém não havia espírito neles.",
+   "voice": "ash-gpt-audio",
+   "heard": "Nervos, carne, pele, porém não havia espírito neles.",
+   "match": 1.0,
+   "words": [
+    {
+     "w": "Nervos,",
+     "t0": 25.11,
+     "t1": 25.79
+    },
+    {
+     "w": "carne,",
+     "t0": 26.17,
+     "t1": 26.61
+    },
+    {
+     "w": "pele,",
+     "t0": 27.11,
+     "t1": 27.43
+    },
+    {
+     "w": "porém",
+     "t0": 28.15,
+     "t1": 28.51
+    },
+    {
+     "w": "não",
+     "t0": 28.51,
+     "t1": 28.73
+    },
+    {
+     "w": "havia",
+     "t0": 28.73,
+     "t1": 29.19
+    },
+    {
+     "w": "espírito",
+     "t0": 29.19,
+     "t1": 29.81
+    },
+    {
+     "w": "neles.",
+     "t0": 29.81,
+     "t1": 30.17
+    }
+   ]
+  },
+  {
+   "i": 8,
+   "t0": 30.94,
+   "t1": 35.71,
+   "text": "Até que vem o sopro. O espírito entrou neles, e viveram.",
+   "voice": "ash-gpt-audio",
+   "heard": "Até que vem o sopro. O Espírito entrou neles e viveram.",
+   "match": 1.0,
+   "words": [
+    {
+     "w": "Até",
+     "t0": 30.94,
+     "t1": 31.28
+    },
+    {
+     "w": "que",
+     "t0": 31.28,
+     "t1": 31.52
+    },
+    {
+     "w": "vem",
+     "t0": 31.52,
+     "t1": 31.74
+    },
+    {
+     "w": "o",
+     "t0": 31.74,
+     "t1": 31.92
+    },
+    {
+     "w": "sopro.",
+     "t0": 31.92,
+     "t1": 32.34
+    },
+    {
+     "w": "O",
+     "t0": 32.64,
+     "t1": 33.16
+    },
+    {
+     "w": "Espírito",
+     "t0": 33.16,
+     "t1": 33.78
+    },
+    {
+     "w": "entrou",
+     "t0": 33.78,
+     "t1": 34.26
+    },
+    {
+     "w": "neles",
+     "t0": 34.26,
+     "t1": 34.72
+    },
+    {
+     "w": "e",
+     "t0": 34.72,
+     "t1": 35.16
+    },
+    {
+     "w": "viveram.",
+     "t0": 35.16,
+     "t1": 35.68
+    }
+   ]
+  },
+  {
+   "i": 9,
+   "t0": 36.32,
+   "t1": 43.18,
+   "text": "Esse sopro liga Ezequiel ao começo da Bíblia: Deus assoprou em seu nariz sopro de vida.",
+   "voice": "ash-gpt-audio",
+   "heard": "Esse sopro liga Ezequiel ao começo da Bíblia. Deus assoprou em seu nariz sopro de vida.",
+   "match": 1.0,
+   "words": [
+    {
+     "w": "Esse",
+     "t0": 36.32,
+     "t1": 36.62
+    },
+    {
+     "w": "sopro",
+     "t0": 36.62,
+     "t1": 37.06
+    },
+    {
+     "w": "liga",
+     "t0": 37.06,
+     "t1": 37.44
+    },
+    {
+     "w": "Ezequiel",
+     "t0": 37.44,
+     "t1": 38.04
+    },
+    {
+     "w": "ao",
+     "t0": 38.04,
+     "t1": 38.42
+    },
+    {
+     "w": "começo",
+     "t0": 38.42,
+     "t1": 38.88
+    },
+    {
+     "w": "da",
+     "t0": 38.88,
+     "t1": 39.08
+    },
+    {
+     "w": "Bíblia.",
+     "t0": 39.08,
+     "t1": 39.5
+    },
+    {
+     "w": "Deus",
+     "t0": 39.72,
+     "t1": 40.48
+    },
+    {
+     "w": "assoprou",
+     "t0": 40.48,
+     "t1": 41.08
+    },
+    {
+     "w": "em",
+     "t0": 41.08,
+     "t1": 41.26
+    },
+    {
+     "w": "seu",
+     "t0": 41.26,
+     "t1": 41.42
+    },
+    {
+     "w": "nariz",
+     "t0": 41.42,
+     "t1": 41.9
+    },
+    {
+     "w": "sopro",
+     "t0": 41.9,
+     "t1": 42.62
+    },
+    {
+     "w": "de",
+     "t0": 42.62,
+     "t1": 42.82
+    },
+    {
+     "w": "vida.",
+     "t0": 42.82,
+     "t1": 43.06
+    }
+   ]
+  },
+  {
+   "i": 10,
+   "t0": 43.86,
+   "t1": 50.75,
+   "text": "E liga ao Evangelho: Jesus soprou sobre os discípulos e disse: Recebei o Espírito Santo.",
+   "voice": "ash-gpt-audio",
+   "heard": "E liga o Evangelho. Jesus soprou sobre os discípulos e disse, Recebei o Espírito Santo.",
+   "match": 0.933,
+   "words": [
+    {
+     "w": "E",
+     "t0": 43.86,
+     "t1": 44.02
+    },
+    {
+     "w": "liga",
+     "t0": 44.02,
+     "t1": 44.36
+    },
+    {
+     "w": "o",
+     "t0": 44.36,
+     "t1": 44.5
+    },
+    {
+     "w": "Evangelho.",
+     "t0": 44.5,
+     "t1": 45.12
+    },
+    {
+     "w": "Jesus",
+     "t0": 45.36,
+     "t1": 46.04
+    },
+    {
+     "w": "soprou",
+     "t0": 46.04,
+     "t1": 46.62
+    },
+    {
+     "w": "sobre",
+     "t0": 46.62,
+     "t1": 46.86
+    },
+    {
+     "w": "os",
+     "t0": 46.86,
+     "t1": 47.02
+    },
+    {
+     "w": "discípulos",
+     "t0": 47.02,
+     "t1": 47.6
+    },
+    {
+     "w": "e",
+     "t0": 47.6,
+     "t1": 47.74
+    },
+    {
+     "w": "disse,",
+     "t0": 47.74,
+     "t1": 48.06
+    },
+    {
+     "w": "Recebei",
+     "t0": 48.32,
+     "t1": 49.24
+    },
+    {
+     "w": "o",
+     "t0": 49.24,
+     "t1": 49.7
+    },
+    {
+     "w": "Espírito",
+     "t0": 49.7,
+     "t1": 50.26
+    },
+    {
+     "w": "Santo.",
+     "t0": 50.26,
+     "t1": 50.62
+    }
+   ]
+  },
+  {
+   "i": 11,
+   "t0": 51.25,
+   "t1": 55.45,
+   "text": "No capítulo quarenta e sete, Ezequiel vê águas saindo do templo.",
+   "voice": "ash-gpt-audio",
+   "heard": "No capítulo 47, Ezequiel vê água saindo do templo.",
+   "match": 0.909,
+   "words": [
+    {
+     "w": "No",
+     "t0": 51.25,
+     "t1": 51.41
+    },
+    {
+     "w": "capítulo",
+     "t0": 51.41,
+     "t1": 51.93
+    },
+    {
+     "w": "47,",
+     "t0": 51.93,
+     "t1": 52.59
+    },
+    {
+     "w": "Ezequiel",
+     "t0": 53.39,
+     "t1": 53.87
+    },
+    {
+     "w": "vê",
+     "t0": 53.87,
+     "t1": 54.11
+    },
+    {
+     "w": "água",
+     "t0": 54.11,
+     "t1": 54.41
+    },
+    {
+     "w": "saindo",
+     "t0": 54.41,
+     "t1": 54.87
+    },
+    {
+     "w": "do",
+     "t0": 54.87,
+     "t1": 55.01
+    },
+    {
+     "w": "templo.",
+     "t0": 55.01,
+     "t1": 55.43
+    }
+   ]
+  },
+  {
+   "i": 12,
+   "t0": 56.15,
+   "t1": 59.5,
+   "text": "Nos tornozelos. Nos joelhos. Na cintura.",
+   "voice": "ash-gpt-audio",
+   "heard": "nos tornozelos, nos joelhos, na cintura.",
+   "match": 1.0,
+   "words": [
+    {
+     "w": "nos",
+     "t0": 56.15,
+     "t1": 56.35
+    },
+    {
+     "w": "tornozelos,",
+     "t0": 56.35,
+     "t1": 57.19
+    },
+    {
+     "w": "nos",
+     "t0": 57.37,
+     "t1": 57.77
+    },
+    {
+     "w": "joelhos,",
+     "t0": 57.77,
+     "t1": 58.37
+    },
+    {
+     "w": "na",
+     "t0": 58.63,
+     "t1": 58.89
+    },
+    {
+     "w": "cintura.",
+     "t0": 58.89,
+     "t1": 59.39
+    }
+   ]
+  },
+  {
+   "i": 13,
+   "t0": 60.04,
+   "t1": 63.34,
+   "text": "Até virar um rio que não se podia atravessar a pé.",
+   "voice": "ash-gpt-audio",
+   "heard": "até virar um rio que não se podia atravessar a pé.",
+   "match": 1.0,
+   "words": [
+    {
+     "w": "até",
+     "t0": 60.04,
+     "t1": 60.34
+    },
+    {
+     "w": "virar",
+     "t0": 60.34,
+     "t1": 60.74
+    },
+    {
+     "w": "um",
+     "t0": 60.74,
+     "t1": 60.88
+    },
+    {
+     "w": "rio",
+     "t0": 60.88,
+     "t1": 61.16
+    },
+    {
+     "w": "que",
+     "t0": 61.16,
+     "t1": 61.6
+    },
+    {
+     "w": "não",
+     "t0": 61.6,
+     "t1": 61.82
+    },
+    {
+     "w": "se",
+     "t0": 61.82,
+     "t1": 62.04
+    },
+    {
+     "w": "podia",
+     "t0": 62.04,
+     "t1": 62.36
+    },
+    {
+     "w": "atravessar",
+     "t0": 62.36,
+     "t1": 62.98
+    },
+    {
+     "w": "a",
+     "t0": 62.98,
+     "t1": 63.08
+    },
+    {
+     "w": "pé.",
+     "t0": 63.08,
+     "t1": 63.24
+    }
+   ]
+  },
+  {
+   "i": 14,
+   "t0": 63.92,
+   "t1": 68.96,
+   "text": "Esse rio está ligado a João sete, trinta e oito: rios de água viva.",
+   "voice": "ash-gpt-audio",
+   "heard": "Esse rio está ligado a João 7, 38, Rios de Água Viva.",
+   "match": 1.0,
+   "words": [
+    {
+     "w": "Esse",
+     "t0": 63.92,
+     "t1": 64.22
+    },
+    {
+     "w": "rio",
+     "t0": 64.22,
+     "t1": 64.52
+    },
+    {
+     "w": "está",
+     "t0": 64.52,
+     "t1": 64.76
+    },
+    {
+     "w": "ligado",
+     "t0": 64.76,
+     "t1": 65.24
+    },
+    {
+     "w": "a",
+     "t0": 65.24,
+     "t1": 65.4
+    },
+    {
+     "w": "João",
+     "t0": 65.4,
+     "t1": 65.6
+    },
+    {
+     "w": "7,",
+     "t0": 65.6,
+     "t1": 66.1
+    },
+    {
+     "w": "38,",
+     "t0": 66.3,
+     "t1": 66.98
+    },
+    {
+     "w": "Rios",
+     "t0": 67.72,
+     "t1": 68.06
+    },
+    {
+     "w": "de",
+     "t0": 68.06,
+     "t1": 68.22
+    },
+    {
+     "w": "Água",
+     "t0": 68.22,
+     "t1": 68.52
+    },
+    {
+     "w": "Viva.",
+     "t0": 68.52,
+     "t1": 68.88
+    }
+   ]
+  },
+  {
+   "i": 15,
+   "t0": 69.65,
+   "t1": 74.0,
+   "text": "E ao último capítulo da Bíblia: o rio puro da água da vida.",
+   "voice": "ash-gpt-audio",
+   "heard": "e ao último capítulo da Bíblia, o rio puro da água da vida.",
+   "match": 1.0,
+   "words": [
+    {
+     "w": "e",
+     "t0": 69.65,
+     "t1": 69.81
+    },
+    {
+     "w": "ao",
+     "t0": 69.81,
+     "t1": 70.01
+    },
+    {
+     "w": "último",
+     "t0": 70.01,
+     "t1": 70.35
+    },
+    {
+     "w": "capítulo",
+     "t0": 70.35,
+     "t1": 70.97
+    },
+    {
+     "w": "da",
+     "t0": 70.97,
+     "t1": 71.15
+    },
+    {
+     "w": "Bíblia,",
+     "t0": 71.15,
+     "t1": 71.53
+    },
+    {
+     "w": "o",
+     "t0": 71.71,
+     "t1": 72.17
+    },
+    {
+     "w": "rio",
+     "t0": 72.17,
+     "t1": 72.49
+    },
+    {
+     "w": "puro",
+     "t0": 72.49,
+     "t1": 72.97
+    },
+    {
+     "w": "da",
+     "t0": 72.97,
+     "t1": 73.13
+    },
+    {
+     "w": "água",
+     "t0": 73.13,
+     "t1": 73.41
+    },
+    {
+     "w": "da",
+     "t0": 73.41,
+     "t1": 73.57
+    },
+    {
+     "w": "vida.",
+     "t0": 73.57,
+     "t1": 73.85
+    }
+   ]
+  },
+  {
+   "i": 16,
+   "t0": 74.7,
+   "t1": 77.7,
+   "text": "Do vale de ossos secos ao rio da vida.",
+   "voice": "ash-gpt-audio",
+   "heard": "Do vale de ossos secos ao rio da vida.",
+   "match": 1.0,
+   "words": [
+    {
+     "w": "Do",
+     "t0": 74.7,
+     "t1": 74.88
+    },
+    {
+     "w": "vale",
+     "t0": 74.88,
+     "t1": 75.26
+    },
+    {
+     "w": "de",
+     "t0": 75.26,
+     "t1": 75.48
+    },
+    {
+     "w": "ossos",
+     "t0": 75.48,
+     "t1": 75.86
+    },
+    {
+     "w": "secos",
+     "t0": 75.86,
+     "t1": 76.36
+    },
+    {
+     "w": "ao",
+     "t0": 76.36,
+     "t1": 76.86
+    },
+    {
+     "w": "rio",
+     "t0": 76.86,
+     "t1": 77.14
+    },
+    {
+     "w": "da",
+     "t0": 77.14,
+     "t1": 77.28
+    },
+    {
+     "w": "vida.",
+     "t0": 77.28,
+     "t1": 77.54
+    }
+   ]
+  },
+  {
+   "i": 17,
+   "t0": 78.4,
+   "t1": 81.95,
+   "text": "Comenta qual versículo a gente liga no próximo vídeo.",
+   "voice": "ash-gpt-audio",
+   "heard": "Comenta qual versículo a gente liga no próximo vídeo.",
+   "match": 1.0,
+   "words": [
+    {
+     "w": "Comenta",
+     "t0": 78.4,
+     "t1": 78.92
+    },
+    {
+     "w": "qual",
+     "t0": 78.92,
+     "t1": 79.26
+    },
+    {
+     "w": "versículo",
+     "t0": 79.26,
+     "t1": 79.88
+    },
+    {
+     "w": "a",
+     "t0": 79.88,
+     "t1": 80.02
+    },
+    {
+     "w": "gente",
+     "t0": 80.02,
+     "t1": 80.18
+    },
+    {
+     "w": "liga",
+     "t0": 80.18,
+     "t1": 80.58
+    },
+    {
+     "w": "no",
+     "t0": 80.58,
+     "t1": 81.06
+    },
+    {
+     "w": "próximo",
+     "t0": 81.06,
+     "t1": 81.46
+    },
+    {
+     "w": "vídeo.",
+     "t0": 81.46,
+     "t1": 81.8
+    }
+   ]
+  }
+ ]
+}

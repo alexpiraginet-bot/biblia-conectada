@@ -1,0 +1,72 @@
+{
+ "ezequiel": {
+  "background": "transparent",
+  "refs": [
+   "ez37img/bg-vale.png"
+  ],
+  "prompt": "Match exactly the drawing style, outline color and line weight of the reference image, but draw ONLY a character on a fully transparent background (no scenery, no ground, no shadow). Character: the prophet Ezekiel, an adult man around 50, kind face with simple dot eyes, short grey-brown beard, light brown skin, simple headscarf, long robe in bright blue with a white mantle and a yellow sash, brown sandals. Full body, standing, three-quarter view facing right, looking ahead with wonder, one hand slightly raised. Centered with generous transparent margin around the whole figure."
+ },
+ "ezequiel-profetiza": {
+  "background": "transparent",
+  "refs": [
+   "ez37img/ezequiel.png"
+  ],
+  "prompt": "Match exactly the drawing style, outline color and line weight of the reference images, but draw ONLY the subject on a fully transparent background (no scenery, no ground, no cast shadow). Centered with generous transparent margin. The SAME character as the reference (same face, beard, headscarf, blue robe, white mantle, yellow sash, sandals), now prophesying: both arms raised high above his head with open hands, chest open, mouth open as if calling out loudly, full body, three-quarter view facing right."
+ },
+ "ezequiel-frente": {
+  "background": "transparent",
+  "refs": [
+   "ez37img/ezequiel.png"
+  ],
+  "prompt": "Match exactly the drawing style, outline color and line weight of the reference images, but draw ONLY the subject on a fully transparent background (no scenery, no ground, no cast shadow). Centered with generous transparent margin. The SAME character as the reference (same face, beard, headscarf, blue robe, white mantle, yellow sash, sandals), standing facing the viewer, full body, arms slightly open at his sides with palms forward, amazed happy expression."
+ },
+ "povo": {
+  "background": "transparent",
+  "refs": [
+   "ez37img/bg-vale.png",
+   "ez37img/ezequiel.png"
+  ],
+  "size": "1536x1024",
+  "prompt": "Match exactly the drawing style, outline color and line weight of the reference images, but draw ONLY the subject on a fully transparent background (no scenery, no ground, no cast shadow). Centered with generous transparent margin. A row of nine adult Israelites from ancient times (men with beards and women with headscarves, all clearly adults, no children), standing shoulder to shoulder in two loose rows, full bodies, joyful, several with arms raised, simple dot eyes, varied skin tones, robes in vivid coral, lime green, turquoise, sunny yellow, purple and orange. Simple shapes, same scale as the reference character."
+ },
+ "adao": {
+  "background": "transparent",
+  "refs": [
+   "ez37img/bg-vale.png",
+   "ez37img/ezequiel.png"
+  ],
+  "size": "1536x1024",
+  "prompt": "Match exactly the drawing style, outline color and line weight of the reference images, but draw ONLY the subject on a fully transparent background (no scenery, no ground, no cast shadow). Centered with generous transparent margin. A simple smooth human figure shaped from reddish-brown clay, lying on its back, seen from the side, like an unfinished clay sculpture: featureless mannequin-like body with no anatomical details, smooth rounded head with no face, arms resting at its sides, a few clay crumbs around it. Calm and gentle, not creepy."
+ },
+ "bg-eden": {
+  "refs": [
+   "ez37img/bg-vale.png"
+  ],
+  "prompt": "Match exactly the drawing style, palette, outline color and line weight of the reference images. Vertical portrait composition. The garden of Eden at sunrise: lush emerald and lime green trees with round canopies, colorful flowers (coral, yellow, purple), a small turquoise stream, a big friendly sunrise with soft rays, bright sky. In the lower center there is a clear open patch of smooth reddish-brown clay earth (keep it empty: a figure will be animated there later). No people, no animals."
+ },
+ "sala-jo20": {
+  "refs": [
+   "ez37img/bg-vale.png",
+   "ez37img/ezequiel.png"
+  ],
+  "prompt": "Match exactly the drawing style, palette, outline color and line weight of the reference images. Vertical portrait composition. Inside a simple room in ancient Jerusalem in the evening, warm terracotta walls, an arched window showing a deep blue evening sky with the first stars, two glowing oil lamps. Jesus (an adult man with long dark brown hair and a short beard, kind face with simple dot eyes, white robe with a red mantle) stands on the left, leaning gently forward and breathing toward four of his disciples (adult men with beards, robes in turquoise, orange, lime green and purple) who stand on the right looking at him in awe. Leave clear empty space above and between them for animated swirls of breath. Peaceful, warm, hopeful."
+ },
+ "bg-templo": {
+  "refs": [
+   "ez37img/bg-vale.png"
+  ],
+  "prompt": "Match exactly the drawing style, palette, outline color and line weight of the reference images. Vertical portrait composition. An ancient stone temple on a gentle hill seen from the front and slightly below: cream and sand-colored stone walls, a big doorway with golden trim, simple columns. A stream of bright turquoise water flows out from under the threshold of the doorway and comes down the hill toward the viewer, getting wider. Bright sky, a few clouds, green bushes appearing along the water. No people."
+ },
+ "bg-rio": {
+  "refs": [
+   "ez37img/bg-vale.png"
+  ],
+  "prompt": "Match exactly the drawing style, palette, outline color and line weight of the reference images. Vertical portrait composition. A wide calm river seen from inside the water at eye level: the lower 40% of the image is a simple flat bright turquoise water surface with a few white ripple lines; on the far bank, lush green trees and palm trees, orange hills behind, bright turquoise sky with puffy clouds. The center of the image is clear (a character will be placed there later). No people."
+ },
+ "bg-rio-vida": {
+  "refs": [
+   "ez37img/bg-vale.png"
+  ],
+  "prompt": "Match exactly the drawing style, palette, outline color and line weight of the reference images. Vertical portrait composition. The river of the water of life: a crystal-clear bright turquoise river winding from a radiant golden light on the far horizon toward the viewer, sparkling, with lush trees on both banks full of colorful fruits (red, orange, yellow, purple) and green leaves, flowers along the banks, soft golden rays from the horizon light (only light, no figure, no throne shape). Paradise, joyful and peaceful. No people."
+ }
+}

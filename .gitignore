@@ -40,3 +40,5 @@ site/.vercel/
 
 # Capturas da revisão de design (impeccable): evidência local, regeneradas a cada revisão
 .impeccable/review/
+# Vídeo 10: os PNG gerados (prompts em source/img/ez37_assets.json); os usados estão em motion/public/img
+estudos/biblia-ezequiel37/source/img/*.png
