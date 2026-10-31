@@ -4,7 +4,7 @@ import { existsSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import nextConfig from "../next.config";
-import { currentItem, MOBILE_MENU, NAV } from "../src/components/shell/nav";
+import { currentItem, MENU_GROUPS, MOBILE_MENU, NAV } from "../src/components/shell/nav";
 import { RESERVED } from "../src/lib/canon/redirects";
 import { appRoutes, routeOf } from "../scripts/checks/pages";
 import { SITE } from "../scripts/data/sources";
@@ -65,26 +65,26 @@ describe("reserved segments", () => {
 });
 
 describe("navigation", () => {
-  it("keeps four comfortable direct tabs and exposes every other section in the mobile menu", () => {
-    expect(NAV.map((n) => n.href)).toEqual(["/explorar", "/ler", "/interlinear", "/coracao", "/buscar", "/linha-do-tempo", "/caminhos", "/cronologia", "/arcos", "/ponte", "/salvos", "/dados"]);
-    expect(NAV.filter((n) => n.rail).map((n) => n.label)).toEqual(["Explorar", "Ler", "Interlinear", "Coração", "Linha do tempo", "Mapa de Jesus", "Cronologia", "Arcos", "Ponte", "Salvos", "Dados"]);
-    expect(NAV.filter((n) => n.tab).map((n) => n.label)).toEqual(["Explorar", "Ler", "Coração", "Arcos"]);
-    const mobile = [...NAV.filter((n) => n.tab), ...MOBILE_MENU].map((n) => n.href);
-    expect(new Set(mobile).size).toBe(NAV.length);
-    expect(new Set(mobile)).toEqual(new Set(NAV.map((n) => n.href)));
+  it("exposes every section through one complete menu without duplicate destinations", () => {
+    const expected = ["/", "/liturgia", "/ler", "/ler/open-nbv", "/interlinear", "/coracao", "/assistente", "/buscar", "/explorar", "/arcos", "/arcos/plano", "/caminhos", "/cronologia", "/linha-do-tempo", "/tema", "/palavra", "/conexao/isaias-9/lucas-2", "/jornada", "/ponte", "/trilha", "/mesa", "/salvos", "/dados", "/sobre", "/sobre#instalar", "/#como-funciona", "/#sua-jornada"];
+    expect(new Set(MOBILE_MENU.map((n) => n.href))).toEqual(new Set(expected));
+    expect(new Set(NAV.map((n) => n.href)).size).toBe(NAV.length);
+    expect(MOBILE_MENU).toEqual(NAV);
+    expect(NAV.filter((n) => n.rail).some((n) => n.href === "/liturgia")).toBe(true);
   });
 
-  it("puts the map and guided chronology first, with descriptions distinct from the events timeline", () => {
-    expect(MOBILE_MENU.slice(0, 2).map((n) => n.href)).toEqual(["/caminhos", "/cronologia"]);
-    expect(MOBILE_MENU.every((n) => n.description)).toBe(true);
-    expect(MOBILE_MENU.find((n) => n.href === "/cronologia")?.description)
-      .not.toBe(MOBILE_MENU.find((n) => n.href === "/linha-do-tempo")?.description);
+  it("groups every destination once and explains the different study tools", () => {
+    expect(MENU_GROUPS.flatMap((group) => NAV.filter((n) => n.group === group))).toEqual(NAV);
+    expect(NAV.every((n) => n.description)).toBe(true);
+    expect(NAV.find((n) => n.href === "/cronologia")?.description)
+      .not.toBe(NAV.find((n) => n.href === "/linha-do-tempo")?.description);
   });
 
   it("leads every item to a page, following the redirects of next.config.ts (/explorar opens Isaías 9)", async () => {
     const redirects = (await nextConfig.redirects?.()) ?? [];
     for (const n of NAV) {
-      const target = redirects.find((r) => r.source === n.href)?.destination ?? n.href;
+      const path = n.href.split("#")[0] || "/";
+      const target = redirects.find((r) => r.source === path)?.destination ?? path;
       expect(pageFor(target, app, false), `${n.href} -> ${target}`).not.toBeNull();
     }
     // /explorar itself has no page: the redirect is what opens it
@@ -127,11 +127,16 @@ describe("route of a prerendered page (npm run budget groups pages by it)", () =
 
 describe("current navigation item", () => {
   it.each([
-    ["/", null],
+    ["/", "/"],
     ["/explorar", "/explorar"],
     ["/explorar/isaias/9", "/explorar"],
     ["/explorar/isaias/9/lucas/2", "/explorar"],
+    ["/liturgia", "/liturgia"],
+    ["/dia/2026-10-31", "/liturgia"],
+    ["/dia/2026-02-31", null],
+    ["/jornada", "/jornada"],
     ["/ler", "/ler"],
+    ["/ler/open-nbv/joao/3/16", "/ler/open-nbv"],
     ["/interlinear", "/interlinear"],
     ["/interlinear/salmos/22/6", "/interlinear"],
     ["/coracao", "/coracao"],
@@ -143,19 +148,19 @@ describe("current navigation item", () => {
     ["/caminhos", "/caminhos"],
     ["/cronologia", "/cronologia"],
     ["/arcos", "/arcos"],
-    ["/arcos/plano", "/arcos"],
+    ["/arcos/plano", "/arcos/plano"],
     ["/ponte", "/ponte"],
     ["/ponte/1", "/ponte"],
     ["/dados", "/dados"],
     ["/buscar", "/buscar"],
     ["/salvos", "/salvos"],
     // pages outside the navigation
-    ["/sobre", null],
-    ["/conexao/isaias-9/lucas-2", null],
-    ["/trilha/antes-do-natal/3", null],
-    ["/mesa", null],
-    ["/tema/luz", null],
-    ["/palavra/luz", null],
+    ["/sobre", "/sobre"],
+    ["/conexao/isaias-9/lucas-2", "/conexao/isaias-9/lucas-2"],
+    ["/trilha/antes-do-natal/3", "/trilha"],
+    ["/mesa", "/mesa"],
+    ["/tema/luz", "/tema"],
+    ["/palavra/luz", "/palavra"],
     // a 404 is in no section, also under a real book
     ["/x", null],
     ["/explorador", null],

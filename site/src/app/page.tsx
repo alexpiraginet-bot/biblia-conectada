@@ -15,6 +15,7 @@ import { summary, verseText } from "@/lib/data";
 import { formatInt } from "@/lib/canon/text";
 import { illustratedAtlasData } from "@/lib/explore/living-graph";
 import type { DiscoveryQuestion } from "@/lib/journey";
+import { JOURNEY_TARGET_POINTS, JOURNEY_TARGET_ACTIVE_DAYS } from "@/lib/rewards/rules";
 import skyPoster from "../../public/sculpture/noite-854.webp";
 import styles from "./page.module.css";
 
@@ -84,6 +85,22 @@ export default async function Home() {
         <HomeGuide />
         <div className={styles.heroGraph} id="atlas-vivo"><LivingGraph data={graph} immersive /></div>
         <Link className={styles.scrollHint} href="#descobrir"><span aria-hidden="true">↓</span> Há um mundo para descobrir</Link>
+      </section>
+
+      <section className={styles.journeyInvite} aria-labelledby="journey-invite-title">
+        <div className={styles.journeySymbol} aria-hidden="true"><ArcIcon /><span>✦</span></div>
+        <div className={styles.journeyInviteCopy}>
+          <p className={styles.eyebrow}>SUA CONSTÂNCIA TEM VALOR</p>
+          <h2 id="journey-invite-title">Um pouco a cada dia.<br /><em>Um caminho que fica.</em></h2>
+          <p>Leia, explore e acompanhe suas conquistas. Estamos preparando um presente para essa caminhada: o Mini Jesus da Bentô 3D Labs.</p>
+          <div className={styles.journeyInviteActions}><Link href="/jornada" prefetch={false} className={styles.primary}>Começar minha jornada <Icon name="out" /></Link><Link href="/liturgia" prefetch={false} className={styles.textLink}>Ler a liturgia de hoje <span aria-hidden="true">↗</span></Link></div>
+        </div>
+        <div className={styles.journeyMilestone}>
+          <span>O próximo horizonte</span><strong>{formatInt(JOURNEY_TARGET_POINTS)} <small>pontos</small></strong>
+          <p>e pelo menos {JOURNEY_TARGET_ACTIVE_DAYS} dias de leitura e descobertas.</p>
+          <span className={styles.journeyFuture}>Presente em preparação</span>
+          <p className={styles.journeyFine}>Comece sem cadastro. O resgate será anunciado com as regras e a disponibilidade; os pontos ainda não garantem um presente.</p>
+        </div>
       </section>
 
       <section id="descobrir" className={styles.discover} aria-labelledby="discover-title">

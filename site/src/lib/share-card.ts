@@ -7,6 +7,8 @@ import { STOPWORDS, isWordSlug, wordKey } from "./words";
 import { parseHash } from "@/components/sculpture/state";
 import { getTranslation, parseTranslationPath } from "./translations";
 import { interlinearPathForReading } from "./interlinear/paths";
+import { shareExcerpt } from "./share-excerpt";
+export { shareExcerpt } from "./share-excerpt";
 
 export type ShareCard = {
   path: string;
@@ -16,15 +18,19 @@ export type ShareCard = {
   source?: string;
   attribution?: string;
   license?: string;
-  kind: "landing" | "passage" | "connection" | "explore";
+  kind: "landing" | "passage" | "connection" | "explore" | "liturgy";
+  readings?: { label: string; reference: string; kind?: string }[];
+  unavailable?: boolean;
 };
 
 const grid = createGrid(books);
 const bySlug = new Map(books.map((book) => [book.slug, book]));
 const sections: Record<string, Omit<ShareCard, "path">> = {
+  "/jornada": { eyebrow: "MINHA JORNADA", title: "Um pouco a cada dia.\nUm caminho que fica.", description: "Leia, explore e acompanhe suas conquistas. Cultive um ritmo de encontro com a Palavra, sem precisar se cadastrar.", kind: "landing" },
   "/": { eyebrow: "UM ATLAS VIVO", title: "Uma história.\nTudo se conecta.", description: "Leia uma passagem. Descubra suas conexões. Encontre novos caminhos pela Bíblia.", kind: "landing" },
   "/ler": { eyebrow: "BÍBLIA LIVRE", title: "Uma leitura abre\nnovos caminhos.", description: "Livros, capítulos e versículos em português. Entre no texto e siga suas ligações.", kind: "landing" },
   "/interlinear": { eyebrow: "INTERLINEAR · COLEÇÃO INICIAL", title: "A Bíblia,\npalavra por palavra.", description: "Hebraico e grego acima do sentido em português. Toque numa palavra e conheça seu contexto.", kind: "landing" },
+  "/liturgia": { eyebrow: "LITURGIA DIÁRIA · UM RITMO DE LEITURA", title: "A Palavra,\na vida de cada dia.", description: "Leituras, salmo e Evangelho para cultivar seu encontro diário com a Palavra.", kind: "landing" },
   "/arcos": { eyebrow: "CÉU DE CONEXÕES", title: "Cada ligação,\numa descoberta.", description: "Explore as referências cruzadas da Bíblia em um céu de fios de luz.", kind: "explore" },
   "/arcos/plano": { eyebrow: "CÉU DE CONEXÕES", title: "A Bíblia,\nligação por ligação.", description: "Encontre uma passagem e veja os caminhos que a aproximam de outros textos.", kind: "explore" },
   "/explorar": { eyebrow: "ATLAS DE CONEXÕES", title: "Siga o fio\nde uma passagem.", description: "Veja os capítulos que se encontram. Leia os textos e descubra a relação entre eles.", kind: "explore" },
@@ -54,14 +60,6 @@ export function parseSharePath(raw: string): { pathname: string; ref: string | n
   const refs = url.searchParams.getAll("ref");
   if (refs.length > 1) return null;
   return { pathname: pathname === "/" ? "/" : pathname.replace(/\/$/, ""), ref: refs[0] ?? null };
-}
-
-/** Truncation is marked and never cuts a word or substitutes a paraphrase for Scripture. */
-export function shareExcerpt(text: string, limit = 205): string {
-  const clean = text.replace(/\s+/g, " ").trim();
-  if (clean.length <= limit) return clean;
-  const cut = clean.lastIndexOf(" ", limit - 1);
-  return `${clean.slice(0, cut > 0 ? cut : limit - 1).trimEnd()}…`;
 }
 
 type Passage = { book: Book; chapter?: number; verse?: number; reference: string };
@@ -128,6 +126,16 @@ export async function resolveShareCard(raw: string, excerptLimit: 205 | 500 = 20
   const parsed = parseSharePath(raw);
   if (!parsed) return null;
   const { pathname: path, ref } = parsed;
+  if (path.startsWith("/dia/") || (path === "/liturgia" && new URL(raw, "https://share.invalid").searchParams.has("date"))) {
+    const { isLiturgyDate } = await import("./liturgy/dates");
+    const dates = new URL(raw, "https://share.invalid").searchParams.getAll("date");
+    const parts = path.split("/");
+    const date = path.startsWith("/dia/") ? (parts.length === 3 ? parts[2] : null) : dates.length === 1 ? dates[0] : null;
+    if (!isLiturgyDate(date)) return null;
+    const { getDailyLiturgy } = await import("./liturgy/service");
+    const { createLiturgyShareCard } = await import("./liturgy/share");
+    return createLiturgyShareCard(await getDailyLiturgy(date), excerptLimit);
+  }
   if ((path === "/arcos" || path === "/arcos/plano") && ref !== null) {
     return skyCard(path, ref, excerptLimit);
   }

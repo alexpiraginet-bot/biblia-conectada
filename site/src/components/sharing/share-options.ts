@@ -33,7 +33,11 @@ export function verseShareOptions(path: string) {
 
 /** Fetch only our validated local image route; never share a failed response as an image. */
 export async function prepareVerseImage(path: string, format: ShareFormat, signal: AbortSignal): Promise<File> {
-  const options = verseShareOptions(path);
+  return prepareShareImage(verseShareOptions(path), format, signal);
+}
+
+export type ShareOptions = ReturnType<typeof verseShareOptions>;
+export async function prepareShareImage(options: Pick<ShareOptions, "image" | "filename">, format: ShareFormat, signal: AbortSignal): Promise<File> {
   const response = await fetch(options.image(format), { signal, credentials: "same-origin" });
   if (!response.ok || response.headers.get("content-type")?.split(";")[0] !== "image/png") throw new Error("image unavailable");
   const blob = await response.blob();

@@ -80,7 +80,7 @@ input {
 
 :root {
   /* The floating navigation and its breathing room stay above the home indicator. */
-  --tabbar-h: calc(88px + env(safe-area-inset-bottom, 0px));
+  --tabbar-h: calc(82px + env(safe-area-inset-bottom, 0px));
   /* the Ponte strip (community/strip.module.css); the reading's selection bar sits above it */
   --strip-h: 3.75rem;
 }
@@ -113,74 +113,111 @@ input {
   display: none;
 }
 
+/* One thumb-sized entry opens the whole app. Only the controls use blur, never the reading surface. */
 .bc-root .site-tabbar {
   position: fixed;
-  left: 50%;
+  z-index: 70;
+  left: calc(50% - 68px);
   bottom: calc(12px + env(safe-area-inset-bottom, 0px));
-  transform: translateX(-50%);
-  width: min(460px, calc(100% - 24px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)));
-  min-height: 64px;
-  padding: 4px;
-  gap: 2px;
-  border: 1px solid color-mix(in srgb, var(--sky-gold) 32%, transparent);
-  border-radius: 30px;
-  background: var(--sky);
+  width: 136px;
+  height: 58px;
   color: var(--sky-gold);
-  box-shadow: 0 10px 34px #160b1590, inset 0 1px 0 #fff1;
-  isolation: isolate;
 }
-.bc-root .site-tabbar .bc-tabbar__item { min-width: 0; min-height: 54px; gap: 4px; padding: 6px 2px; border-radius: 25px; color: var(--sky-gold); font-size: 11px; font-weight: 550; text-decoration: none; }
-.bc-root .site-tabbar .bc-tabbar__item[aria-current="page"], .site-tabbar__more[data-current] > summary, .site-tabbar__more[open] > summary { background: color-mix(in srgb, var(--sky-gold) 15%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sky-gold) 25%, transparent); }
-.bc-root .site-tabbar .bc-tabbar__item:focus-visible, .site-tabbar__menu-link:focus-visible { outline-color: var(--sky-gold); outline-offset: -2px; }
+.site-tabbar__more { width: 100%; height: 100%; }
+.site-tabbar__trigger {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 58px;
+  padding: 10px 18px;
+  border: 1px solid color-mix(in srgb, var(--sky-gold) 46%, transparent);
+  border-radius: 999px;
+  background: var(--sky);
+  background-image: linear-gradient(145deg, #fff2, #fff0 46%, #e5c48c16);
+  box-shadow: 0 8px 28px #160b1566, inset 0 1px 0 #fff5, inset 0 -1px 1px #0005;
+  color: var(--sky-gold);
+  font: 600 15px/1.2 var(--font-ui);
+  cursor: pointer;
+  list-style: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: box-shadow 180ms ease, background-color 180ms ease;
+}
+.site-tabbar__trigger::-webkit-details-marker { display: none; }
+.site-tabbar__trigger::after { content: ""; position: absolute; inset: 3px; border: 1px solid #fff1; border-radius: inherit; pointer-events: none; }
+.site-tabbar__mark { display: grid; place-items: center; }
+.site-tabbar__trigger-close { display: none; }
+.site-tabbar__more[open] .site-tabbar__mark { display: none; }
+.site-tabbar__more[open] .site-tabbar__trigger-close { display: grid; place-items: center; }
+.site-tabbar__trigger:focus-visible, .site-tabbar__menu-link:focus-visible, .site-tabbar__menu-heading button:focus-visible { outline: 2px solid var(--sky-gold); outline-offset: 3px; }
+.site-tabbar__trigger:hover { box-shadow: 0 8px 32px #160b1580, inset 0 1px 0 #fff7, inset 0 -1px 1px #0005; }
+.site-tabbar__veil { position: fixed; inset: 0; z-index: 0; background: color-mix(in srgb, var(--sky) 55%, transparent); }
+.site-tabbar__menu {
+  position: fixed;
+  z-index: 1;
+  inset-inline: max(12px, env(safe-area-inset-left, 0px)) max(12px, env(safe-area-inset-right, 0px));
+  bottom: calc(82px + env(safe-area-inset-bottom, 0px));
+  width: min(680px, calc(100% - 24px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)));
+  max-height: min(720px, calc(100dvh - 104px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)));
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 28px;
+  border: 1px solid color-mix(in srgb, var(--sky-gold) 40%, transparent);
+  background: var(--sky);
+  background-image: linear-gradient(135deg, #fff1, #fff0 45%);
+  color: var(--sky-gold);
+  box-shadow: 0 16px 56px #160b1580, inset 0 1px 0 #fff3;
+  animation: menu-reveal 240ms var(--ease-out) both;
+}
+.site-tabbar__menu-heading { flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 20px 16px 16px 22px; border-bottom: 1px solid color-mix(in srgb, var(--sky-gold) 18%, transparent); }
+.site-tabbar__menu-heading p { margin: 0 0 3px; color: var(--sky-ink); font: 600 19px/1.2 var(--font-ui); letter-spacing: -.03em; }
+.site-tabbar__menu-heading span { color: var(--sky-ink-2); font: 400 13px/1.4 var(--font-ui); }
+.site-tabbar__menu-heading button { display: none; place-items: center; flex: 0 0 44px; min-height: 44px; padding: 8px; border: 1px solid color-mix(in srgb, var(--sky-gold) 20%, transparent); border-radius: 50%; background: color-mix(in srgb, var(--sky-gold) 6%, transparent); color: var(--sky-gold); cursor: pointer; }
+.site-tabbar[data-enhanced] .site-tabbar__menu-heading button { display: grid; }
+.site-tabbar__menu-content { min-height: 0; padding: 18px 16px 24px; overflow-y: auto; overscroll-behavior: contain; scrollbar-color: color-mix(in srgb, var(--sky-gold) 45%, transparent) transparent; scrollbar-width: thin; }
+.site-tabbar__group + .site-tabbar__group { margin-top: 26px; }
+.site-tabbar__group h2 { margin: 0 0 10px 6px; color: var(--sky-ink-2); font: 600 13px/1.4 var(--font-ui); }
+.site-tabbar__menu-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px; }
+.bc-root .site-tabbar__menu-link { display: flex; align-items: flex-start; gap: 10px; min-width: 0; min-height: 74px; padding: 12px 9px; border: 1px solid transparent; border-radius: 16px; color: var(--sky-gold); font: 550 14px/1.3 var(--font-ui); text-decoration: none; overflow-wrap: anywhere; }
+.site-tabbar__menu-link .bc-icon { flex: 0 0 22px; margin-top: 1px; }
+.site-tabbar__menu-link small { display: block; margin-top: 4px; color: var(--sky-ink-2); font-size: 12px; font-weight: 400; line-height: 1.4; }
+.bc-root .site-tabbar__menu-link:hover, .bc-root .site-tabbar__menu-link[aria-current="page"] { background: color-mix(in srgb, var(--sky-gold) 10%, transparent); border-color: color-mix(in srgb, var(--sky-gold) 28%, transparent); }
+.site-tabbar__menu-link[aria-current="page"] .bc-icon { stroke-width: 2.1; }
 .site-shell[data-immersive] .site-tabbar { transition: opacity 180ms ease, translate 180ms ease; }
 .site-shell[data-immersive] .site-tabbar[data-waking] { pointer-events: none; }
 @media (max-width: 63.99rem) {
-  .site-shell[data-immersive] .site-tabbar[data-idle]:not(:has(:focus-visible, details[open])) {
-    opacity: 0;
-    translate: 0 calc(100% + 24px + env(safe-area-inset-bottom, 0px));
-    pointer-events: none;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .site-shell[data-immersive] .site-tabbar { transition: none; }
-}
-.site-tabbar__more { min-width: 0; }
-.site-tabbar__more > summary { cursor: pointer; list-style: none; height: 100%; }
-.site-tabbar__more > summary::-webkit-details-marker { display: none; }
-.site-tabbar__menu {
-  position: absolute;
-  left: 0;
-  bottom: calc(100% + 12px);
-  width: 100%;
-  max-height: min(620px, calc(100dvh - var(--tabbar-h) - 28px - env(safe-area-inset-top, 0px)));
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding: 10px;
-  border-radius: 24px;
-  border: 1px solid color-mix(in srgb, var(--sky-gold) 35%, transparent);
-  background: var(--sky);
-  color: var(--sky-gold);
-  box-shadow: 0 10px 34px #160b1580;
-}
-.site-tabbar__menu-heading { position: sticky; top: -10px; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: -10px -10px 8px; padding: 8px 10px 4px 16px; background: var(--sky); }
-.site-tabbar__menu-heading > p { margin: 0; color: var(--sky-gold); font-size: 17px; font-weight: 600; }
-.site-tabbar__menu-heading > button { display: grid; place-items: center; flex: 0 0 44px; min-height: 44px; padding: 8px; border: 0; border-radius: 50%; background: transparent; color: var(--sky-gold); cursor: pointer; }
-.site-tabbar__menu-heading > button:hover { background: color-mix(in srgb, var(--sky-gold) 14%, transparent); }
-.site-tabbar__menu-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
-.site-tabbar__menu-link { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; min-width: 0; min-height: 94px; padding: 12px; border: 1px solid color-mix(in srgb, var(--sky-gold) 16%, transparent); border-radius: 14px; color: var(--sky-gold); font-size: 14px; font-weight: 550; line-height: 1.3; text-decoration: none; overflow-wrap: anywhere; }
-.site-tabbar__menu-link[data-featured] { background: color-mix(in srgb, var(--sky-gold) 9%, transparent); border-color: color-mix(in srgb, var(--sky-gold) 30%, transparent); }
-.site-tabbar__menu-link .bc-icon { flex: 0 0 22px; }
-.site-tabbar__menu-link small { display: block; margin-top: 4px; color: var(--sky-ink-2); font-size: 12px; font-weight: 400; line-height: 1.4; }
-.site-tabbar__menu-link:hover, .site-tabbar__menu-link[aria-current="page"] { background: color-mix(in srgb, var(--sky-gold) 14%, transparent); }
-.site-tabbar__menu-link[aria-current="page"] { box-shadow: inset 0 0 0 1px var(--sky-gold); }
-.site-tabbar__menu-heading > button:focus-visible { outline-color: var(--sky-gold); outline-offset: -2px; }
-@media (max-width: 63.99rem) {
-  /* Keep the dock away from the conversation input while the keyboard is in use. */
+  .site-shell[data-immersive] .site-tabbar[data-idle]:not(:has(:focus-visible, details[open])) { opacity: 0; translate: 0 calc(100% + 24px + env(safe-area-inset-bottom, 0px)); pointer-events: none; }
   .site-shell:has([data-heart-page] textarea:focus) .site-tabbar { visibility: hidden; pointer-events: none; }
 }
 @supports ((backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px))) {
-  .bc-root .site-tabbar { background: color-mix(in srgb, var(--sky) 97%, transparent); -webkit-backdrop-filter: blur(20px) saturate(125%); backdrop-filter: blur(20px) saturate(125%); }
+  .site-tabbar__trigger { background-color: color-mix(in srgb, var(--sky) 84%, transparent); -webkit-backdrop-filter: blur(22px) saturate(145%); backdrop-filter: blur(22px) saturate(145%); }
+  .site-tabbar__menu { background-color: color-mix(in srgb, var(--sky) 93%, transparent); -webkit-backdrop-filter: blur(28px) saturate(130%); backdrop-filter: blur(28px) saturate(130%); }
 }
+@media (prefers-reduced-transparency: reduce) {
+  .site-tabbar__trigger, .site-tabbar__menu { background: var(--sky); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .site-tabbar__veil { background: var(--sky); }
+}
+@media (forced-colors: active) {
+  .site-tabbar__trigger, .site-tabbar__menu { background: Canvas; color: CanvasText; border-color: ButtonText; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .site-tabbar__trigger::after { border: 0; }
+  .site-tabbar__menu-heading p, .site-tabbar__menu-heading span, .site-tabbar__group h2, .bc-root .site-tabbar__menu-link, .site-tabbar__menu-link small { color: CanvasText; }
+  .site-tabbar__menu-heading button { background: ButtonFace; color: ButtonText; border-color: ButtonText; }
+  .bc-root .site-tabbar__menu-link[aria-current="page"] { border-color: Highlight; }
+  .site-tabbar__trigger:focus-visible, .site-tabbar__menu-link:focus-visible, .site-tabbar__menu-heading button:focus-visible { outline-color: Highlight; }
+}
+@media (min-width: 48rem) {
+  .site-tabbar__menu-heading { padding: 22px 22px 18px 28px; }
+  .site-tabbar__menu-content { padding: 20px 22px 28px; }
+  .site-tabbar__menu-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .bc-root .site-tabbar__menu-link { min-height: 84px; padding: 13px; }
+}
+@keyframes menu-reveal { from { opacity: 0; translate: 0 12px; } to { opacity: 1; translate: 0 0; } }
+@media (prefers-reduced-motion: reduce) { .site-shell[data-immersive] .site-tabbar, .site-tabbar__trigger { transition: none; } .site-tabbar__menu { animation: none; } }
 
 .site-topbar__search {
   display: none;
@@ -269,7 +306,7 @@ input {
   }
 
   .site-tabbar {
-    display: none;
+    display: block;
   }
 
   .site-topbar {

@@ -8,8 +8,10 @@ import { StudyHost } from "@/components/assistant/StudyHost";
 import { VERSE_INTENT_SCRIPT } from "@/components/assistant/verse-intent-script";
 import { VerseIntentFeedback } from "@/components/assistant/VerseIntentFeedback";
 import { InstallHost } from "@/components/install/InstallHost";
+import { RewardsHost } from "@/components/rewards/RewardsHost";
 import { PAGE_SEARCH_SCRIPT } from "@/components/search/page-search-script";
-import { SectionRail, SiteShell, TabBar } from "@/components/shell/NavLinks";
+import { SiteShell } from "@/components/shell/NavLinks";
+import { SectionRail, TabBar } from "@/components/shell/Navigation";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_SHORT_NAME, SITE_URL } from "@/lib/site-identity";
 import { shareMetadata } from "@/lib/share-metadata";
 import "@/styles/tokens.css";
@@ -91,6 +93,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </SiteShell>
         <SearchHost />
         <StudyHost />
+        <RewardsHost />
       </body>
     </html>
   );

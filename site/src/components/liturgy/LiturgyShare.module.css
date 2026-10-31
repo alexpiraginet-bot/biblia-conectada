@@ -1,0 +1,7 @@
+.share { border: 1px solid var(--line); border-radius: 16px; margin-top: 22px; background: var(--surface); overflow: hidden; }
+.share > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 52px; padding: 14px 18px; color: var(--accent); cursor: pointer; font-weight: 550; font-size: 14px; list-style: none; }
+.share > summary::-webkit-details-marker { display: none; }
+.share > summary:focus-visible { outline: 2px solid var(--focus); outline-offset: -5px; border-radius: 16px; }
+.share[open] > summary { border-bottom: 1px solid var(--line); }
+.fallback { padding: 4px 18px 16px; font-size: 13px; line-height: 1.6; color: var(--ink-2); }
+.fallback a { display: flex; align-items: center; min-height: 44px; color: var(--accent); }

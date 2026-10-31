@@ -1,0 +1,25 @@
+{
+  "kind": "runtime-factual-calendar-reference",
+  "reviewedAt": "2026-10-31",
+  "provider": "Liturgia Diária, Dancrf",
+  "documentation": "https://github.com/Dancrf/liturgia-diaria/blob/main/docs/v2/README.md",
+  "endpoint": "https://liturgia.up.railway.app/v2/",
+  "officialLectionary": "https://liturgiadiaria.edicoescnbb.com.br/",
+  "allowedFields": ["data", "liturgia", "cor", "leituras.*.referencia"],
+  "excludedFields": ["texto", "titulo", "refrao", "oracoes", "antifonas"],
+  "rights": "Somente fatos de calendário e referências bibliográficas são consultados. Não há licença aberta confirmada para textos litúrgicos retornados pelo serviço. Não se copia nem redistribui esses textos, nem se presume que uma licença de software os autorize. O texto bíblico mostrado é exclusivamente o arquivo BLIVRE já registrado no projeto, CC BY 4.0.",
+  "cache": "Resposta bruta consultada com no-store e descartada após extração. Somente metadados factuais validados são guardados no cache do servidor por data; revalidação em 15 minutos e expiração em uma hora.",
+  "limitations": [
+    "O serviço é comunitário; não é uma API oficial da CNBB.",
+    "V2 informa uma celebração por data e agrupa leituras por tipo; não representa todas as missas, memórias facultativas e celebrações locais.",
+    "Referências podem omitir letras de subversos e seleção do salmo. Versículos inteiros BLIVRE são leitura de contexto, não reprodução do lecionário.",
+    "Salmos só são associados a um capítulo BLIVRE quando a referência fornece dupla numeração. O capítulo inteiro é mostrado com aviso, sem presumir alinhamento de versículos ou refrão.",
+    "Daniel, Ester e livros ausentes da BLIVRE permanecem com referência e acesso ao lecionário oficial, sem mapeamento presumido."
+  ],
+  "liveChecks": [
+    { "date": "2026-10-31", "celebration": "Sábado da 30ª Semana do Tempo Comum", "references": ["Fl 1,18-26", "Sl 41(42)", "Lc 14,1.7-11"] },
+    { "date": "2026-11-01", "celebration": "Todos os Santos, Solenidade", "references": ["Ap 7, 2-4. 9-14", "Sl 23(24)", "1Jo 3, 1-3", "Mt 5, 1-12a"] },
+    { "date": "2026-11-02", "celebration": "Comemoração de Todos os Fiéis Defuntos", "references": ["Jó 19, 1. 23-27a", "Sl 22(23)", "1Cor 15,20-24a.25-28", "Lc 12,35-40"] },
+    { "date": "2026-12-25", "celebration": "Natal de Nosso Senhor Jesus Cristo, Solenidade", "references": ["Is 52, 7-10", "Sl 97(98)", "Hb 1, 1-6", "Jo 1, 1-18"] }
+  ]
+}

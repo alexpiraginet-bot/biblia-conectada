@@ -1,11 +1,9 @@
 "use client";
 
 import { useRef, useState, useSyncExternalStore } from "react";
+import Link from "next/link";
 import {
   answerQuestion,
-  FIRST_ATTEMPT_POINTS,
-  journeyLevel,
-  journeyPoints,
   journeyServerSnapshot,
   parseJourney,
   readJourneyRaw,
@@ -38,7 +36,6 @@ export function DiscoveryQuest({ questions }: { questions: DiscoveryQuestion[] }
   const question = questions[activeIndex];
   if (!question || !questions.length) return null;
 
-  const points = journeyPoints(progress);
   const currentEntry = progress.entries.find((entry) => entry.id === question.id);
   const isComplete = currentEntry?.completed ?? false;
   const completedCount = new Set(
@@ -70,25 +67,20 @@ export function DiscoveryQuest({ questions }: { questions: DiscoveryQuestion[] }
   }
 
   return (
-    <section className={styles.quest} id="sua-jornada" aria-labelledby="journey-title">
+    <section className={styles.quest} id="descobertas" aria-labelledby="journey-title">
       <div className={styles.intro}>
-        <span className={styles.eyebrow}><span /> Sua jornada</span>
+        <span className={styles.eyebrow}><span /> Suas primeiras descobertas</span>
         <h2 id="journey-title">Toda descoberta<br />começa com <em>atenção.</em></h2>
         <p>Leia um trecho, encontre a resposta e faça a próxima conexão. Um pequeno percurso para olhar de novo.</p>
 
         <div className={styles.scoreCard}>
           <div className={styles.mark}><BranchMark complete={allComplete} /></div>
           <div>
-            <span className={styles.level}>{journeyLevel(points)}</span>
-            <div className={styles.score}><strong>{points}</strong><span>pontos de descoberta</span></div>
+            <span className={styles.level}>{allComplete ? "Percurso concluído" : "Um passo de cada vez"}</span>
+            <div className={styles.score}><strong>{completedCount}/{questionCount}</strong><span>descobertas concluídas</span></div>
           </div>
         </div>
-        <div className={styles.thresholds} aria-label="Níveis da jornada">
-          <span data-reached={points >= 0}>Semente <b>0</b></span>
-          <span data-reached={points >= 20}>Explorador <b>20</b></span>
-          <span data-reached={points >= 40}>Conector <b>40</b></span>
-        </div>
-        <p className={styles.rules}>{FIRST_ATTEMPT_POINTS} pontos por acerto na primeira tentativa. Cada descoberta conta uma vez.</p>
+        <p className={styles.rules}>Este percurso guarda suas descobertas. Para acumular pontos pela constância na leitura, <Link href="/jornada" prefetch={false}>comece sua Jornada ↗</Link>.</p>
         <p className={styles.storage} role="status">
           <span aria-hidden="true">{storageFailed ? "◌" : "↳"}</span>
           {storageFailed ? "Progresso só nesta visita: o navegador não permitiu salvar." : "Salvo neste navegador"}
@@ -148,7 +140,6 @@ export function DiscoveryQuest({ questions }: { questions: DiscoveryQuestion[] }
           <div className={styles.feedback} aria-live="polite" key={`${question.id}-${answer?.index ?? "saved"}`}>
             <div className={styles.feedbackTitle}>
               <strong>{answer && !answer.correct ? "Volte ao trecho. A pista está lá." : "Conexão descoberta."}</strong>
-              {Boolean(answer?.gained) && <span>+{answer?.gained} pontos</span>}
               {isComplete && !answer && <span>Já concluída</span>}
             </div>
             <p>{question.explanation}</p>

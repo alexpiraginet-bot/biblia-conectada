@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { resolveShareCard, type ShareCard } from "@/lib/share-card";
-import { SITE_NAME } from "@/lib/site-identity";
+import { SITE_NAME, SITE_URL } from "@/lib/site-identity";
 
 // WOFF, rather than the site's WOFF2, is supported by ImageResponse/Satori. Both are
 // deterministic conversions of the existing OFL fonts, read once on the server.
@@ -100,6 +100,28 @@ function StoryCard({ card }: { card: ShareCard }) {
   </div>;
 }
 
+/** Daily references stay separate from the licensed Scripture excerpt. */
+function LiturgyCard({ card, story }: { card: ShareCard; story: boolean }) {
+  const readings = card.readings ?? [];
+  const principal = ["first", "psalm", "second", "gospel"].flatMap((kind) => readings.find((reading) => reading.kind === kind) ?? []);
+  const visibleReadings = [...principal, ...readings.filter((reading) => !principal.includes(reading))].slice(0, story ? 6 : 4);
+  const remaining = (card.readings?.length ?? 0) - visibleReadings.length;
+  return <div style={{ width: "100%", height: "100%", display: "flex", background: "#211018", padding: story ? 32 : 24, color: "#fff5e6", fontFamily: "Figtree", fontWeight: 500 }}>
+    <div style={{ width: "100%", height: "100%", display: "flex", position: "relative", flexDirection: "column", overflow: "hidden", background: "#101014", border: "1px solid #5d443b", borderRadius: story ? 32 : 20, padding: story ? "210px 56px 228px" : "28px 44px" }}>
+      <ConnectionMotif />
+      <div style={{ display: "flex", alignItems: "center", gap: 16, position: "relative", flexShrink: 0 }}><BrandMark /><span style={{ fontSize: story ? 38 : 27 }}>{SITE_NAME}</span></div>
+      <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", flexGrow: 1, position: "relative", paddingTop: story ? 42 : 18, paddingBottom: story ? 40 : 15 }}>
+        <div style={{ display: "flex", fontSize: story ? 23 : 16, letterSpacing: 3, color: "#e5c48c", marginBottom: story ? 20 : 10 }}>{card.eyebrow}</div>
+        <div style={{ display: "flex", fontFamily: "Newsreader", fontWeight: 400, fontSize: story ? 84 : 58, lineHeight: 1.08, letterSpacing: -1.5 }}>{card.title}</div>
+        {visibleReadings.length > 0 && <div style={{ display: "flex", flexDirection: "column", gap: story ? 13 : 7, marginTop: story ? 34 : 20, paddingTop: story ? 26 : 14, borderTop: "1px solid #413336" }}>{visibleReadings.map((reading, index) => <div key={index} style={{ display: "flex", gap: story ? 22 : 16, alignItems: "baseline", fontSize: story ? 30 : 20, lineHeight: 1.25 }}><span style={{ display: "flex", color: "#b8aaa6", minWidth: story ? 205 : 160, maxWidth: story ? 235 : 200 }}>{reading.label}</span><span style={{ display: "flex", flex: 1, color: "#e5c48c" }}>{reading.reference}</span></div>)}{remaining > 0 && <div style={{ display: "flex", color: "#b8aaa6", fontSize: story ? 24 : 16 }}>Mais {remaining} leituras disponíveis no site.</div>}</div>}
+        <div style={{ display: "flex", marginTop: story ? 38 : 20, fontFamily: card.source ? "Newsreader" : "Figtree", fontWeight: card.source ? 400 : 500, fontSize: story ? (card.description.length > 240 ? 42 : 50) : 25, lineHeight: 1.32, color: "#e0d5cc" }}>{card.source ? `“${card.description}”` : card.description}</div>
+        {card.source && <div style={{ display: "flex", marginTop: story ? 18 : 10, color: "#b8aaa6", fontSize: story ? 23 : 16 }}>{card.source}{card.description.endsWith("…") ? " · Trecho" : ""}</div>}
+      </div>
+      <div style={{ display: "flex", flexDirection: story ? "column" : "row", justifyContent: "space-between", alignItems: story ? "flex-start" : "center", gap: 16, position: "relative", borderTop: "1px solid #413336", paddingTop: story ? 26 : 14, color: "#e5c48c", fontSize: story ? 25 : 18 }}><span>{new URL(SITE_URL).hostname.replace(/^www\./, "")}{card.path}</span><span>Leia. Reflita. Compartilhe.</span></div>
+    </div>
+  </div>;
+}
+
 /** Server-only PNG: no remote images, arbitrary text, browser canvas or user secrets. */
 export async function GET(request: Request) {
   const url = new URL(request.url);
@@ -109,14 +131,14 @@ export async function GET(request: Request) {
   const card = await resolveShareCard(url.searchParams.get("path") ?? "/", format === "story" ? 500 : 205);
   if (!card) return new Response("Share page not found", { status: 404 });
   const [figtree, newsreader] = await fonts;
-  return new ImageResponse(format === "story" ? <StoryCard card={card} /> : <Card card={card} />, {
+  return new ImageResponse(card.kind === "liturgy" ? <LiturgyCard card={card} story={format === "story"} /> : format === "story" ? <StoryCard card={card} /> : <Card card={card} />, {
     width: format === "story" ? 1080 : 1200, height: format === "story" ? 1920 : 630,
     fonts: [
       { name: "Figtree", data: figtree, weight: 500, style: "normal" },
       { name: "Newsreader", data: newsreader, weight: 400, style: "normal" },
     ],
     headers: {
-      "Cache-Control": "public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400",
+      "Cache-Control": card.unavailable ? "public, max-age=30, s-maxage=60" : card.kind === "liturgy" ? "public, max-age=900, s-maxage=900, stale-while-revalidate=60" : "public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400",
       "X-Content-Type-Options": "nosniff",
     },
   });

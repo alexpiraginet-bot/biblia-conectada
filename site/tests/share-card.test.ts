@@ -57,7 +57,7 @@ describe("social card route resolution", () => {
   });
 
   it("gives every static page family a deliberate card", async () => {
-    for (const path of ["/", "/ler", "/arcos", "/arcos/plano", "/explorar", "/cronologia", "/caminhos", "/linha-do-tempo", "/tema", "/palavra", "/assistente", "/coracao", "/buscar", "/salvos", "/ponte", "/trilha", "/trilha/antes-do-natal", "/mesa", "/sobre", "/dados"]) {
+    for (const path of ["/", "/ler", "/liturgia", "/jornada", "/arcos", "/arcos/plano", "/explorar", "/cronologia", "/caminhos", "/linha-do-tempo", "/tema", "/palavra", "/assistente", "/coracao", "/buscar", "/salvos", "/ponte", "/trilha", "/trilha/antes-do-natal", "/mesa", "/sobre", "/dados"]) {
       const card = await resolveShareCard(path);
       expect(card?.title, path).toBeTruthy();
       expect(card?.eyebrow, path).toBeTruthy();

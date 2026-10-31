@@ -1,13 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { canShareImage, prepareVerseImage, verseShareOptions, type ShareFormat } from "./share-options";
+import { useEffect, useId, useRef, useState } from "react";
+import { canShareImage, prepareShareImage, verseShareOptions, type ShareFormat, type ShareOptions } from "./share-options";
 import styles from "./VerseShare.module.css";
 
 type Prepared = { file: File; url: string; native: boolean };
 
 export function VerseShare({ path }: { path: string }) {
-  const options = verseShareOptions(path);
+  return <ShareCardActions options={verseShareOptions(path)} />;
+}
+
+export function ShareCardActions({ options, daily = false }: { options: ShareOptions; daily?: boolean }) {
+  const id = useId();
   const [format, setFormat] = useState<ShareFormat>("story");
   const [prepared, setPrepared] = useState<Prepared | null>(null);
   const [expanded, setExpanded] = useState(false);
@@ -31,7 +35,7 @@ export function VerseShare({ path }: { path: string }) {
     abort.current = controller;
     setBusy(true); setMessage("Preparando sua imagem…");
     try {
-      const file = await prepareVerseImage(path, format, controller.signal);
+      const file = await prepareShareImage(options, format, controller.signal);
       if (controller.signal.aborted) return;
       const url = URL.createObjectURL(file);
       if (imageUrl.current) URL.revokeObjectURL(imageUrl.current);
@@ -55,35 +59,35 @@ export function VerseShare({ path }: { path: string }) {
     } catch (error) { failed(error as Error); }
   }
   async function copy() {
-    try { await navigator.clipboard.writeText(options.url); setMessage("Link do versículo copiado."); setCopyFallback(false); }
+    try { await navigator.clipboard.writeText(options.url); setMessage(daily ? "Link deste dia copiado." : "Link do versículo copiado."); setCopyFallback(false); }
     catch { setCopyFallback(true); setMessage("Selecione o link abaixo para copiar."); }
   }
   return <div className={styles.content}>
-    <p className={styles.intro}>Uma palavra pode encontrar alguém no momento certo.</p>
+    <p className={styles.intro}>{daily ? "Leve as leituras deste dia para alguém. O link preserva a data escolhida." : "Uma palavra pode encontrar alguém no momento certo."}</p>
     <div className={styles.links}>
       <a className={styles.primary} href={options.whatsapp} target="_blank" rel="noopener noreferrer">Enviar link no WhatsApp <span aria-hidden="true">↗</span></a>
       <button type="button" className={styles.secondary} onClick={copy}>Copiar link</button>
     </div>
-    <p className={styles.hint}>{options.attribution ? `O link mantém esta edição: ${options.editionName}.` : "O link abre este versículo, com uma capa na prévia."}</p>
-    {copyFallback && <input className={styles.url} aria-label="Link do versículo para copiar" readOnly value={options.url} onFocus={(event) => event.currentTarget.select()} />}
+    <p className={styles.hint}>{daily ? "A capa mostra a data e as referências das leituras. O trecho, quando disponível, é da Bíblia Livre." : options.attribution ? `O link mantém esta edição: ${options.editionName}.` : "O link abre este versículo, com uma capa na prévia."}</p>
+    {copyFallback && <input className={styles.url} aria-label={daily ? "Link deste dia para copiar" : "Link do versículo para copiar"} readOnly value={options.url} onFocus={(event) => event.currentTarget.select()} />}
 
-    <section className={styles.images} aria-labelledby="share-image-title">
-      <h3 id="share-image-title">Compartilhe em imagem</h3>
+    <section className={styles.images} aria-labelledby={`${id}-title`}>
+      <h3 id={`${id}-title`}>Compartilhe em imagem</h3>
       <fieldset className={styles.formats} disabled={busy || sharing}>
         <legend className="visually-hidden">Formato da imagem</legend>
         {(["story", "landscape"] as const).map((value) => <label key={value} data-selected={format === value || undefined}>
-          <input type="radio" name="share-format" value={value} checked={format === value} onChange={() => choose(value)} />
+          <input type="radio" name={`${id}-format`} value={value} checked={format === value} onChange={() => choose(value)} />
           <span>{value === "story" ? "Stories" : "Capa horizontal"}</span>
           <small>{value === "story" ? "1080 × 1920" : "1200 × 630"}</small>
         </label>)}
       </fieldset>
       {prepared ? <><button type="button" className={styles.previewToggle} aria-expanded={expanded}
-        aria-controls="share-image-preview" onClick={() => setExpanded((value) => !value)}>
+        aria-controls={`${id}-preview`} onClick={() => setExpanded((value) => !value)}>
         {expanded ? "Reduzir prévia" : "Ampliar prévia"}<span aria-hidden="true">{expanded ? "−" : "+"}</span>
-      </button><figure id="share-image-preview" className={styles.preview} data-format={format} data-expanded={expanded || undefined}>
+      </button><figure id={`${id}-preview`} className={styles.preview} data-format={format} data-expanded={expanded || undefined}>
         {/* A local blob is already the final PNG; Next Image would add no benefit here. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={prepared.url} alt={`${format === "story" ? "Story" : "Capa"} de ${options.reference}, com texto de ${options.editionName}`}
+        <img src={prepared.url} alt={`${format === "story" ? "Story" : "Capa"} de ${options.reference}${daily ? "" : `, com texto de ${options.editionName}`}`}
           width={format === "story" ? 1080 : 1200} height={format === "story" ? 1920 : 630} />
       </figure></> : <button type="button" className={styles.prepare} disabled={busy} onClick={prepare}>
         {busy ? "Preparando imagem…" : "Preparar imagem"}<span aria-hidden="true">↓</span>
