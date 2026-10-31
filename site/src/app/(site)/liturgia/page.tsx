@@ -2,9 +2,11 @@ import { LiturgyPageContent } from "@/components/liturgy/LiturgyPageContent";
 import { isLiturgyDate } from "@/lib/liturgy/dates";
 import { shareMetadata } from "@/lib/share-metadata";
 import { resolveShareCard } from "@/lib/share-card";
+import { connection } from "next/server";
 
 type Props = { searchParams: Promise<{ date?: string | string[] }> };
 export async function generateMetadata({ searchParams }: Props) {
+  await connection();
   const { date } = await searchParams;
   if (isLiturgyDate(date)) {
     const card = await resolveShareCard(`/dia/${date}`);
