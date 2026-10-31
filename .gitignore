@@ -40,5 +40,16 @@ site/.vercel/
 
 # Capturas da revisão de design (impeccable): evidência local, regeneradas a cada revisão
 .impeccable/review/
+# Mac-local agent settings, developer identities and build outputs
+.codex/config.toml
+.mobilebuildmcp/
+.agents/skills/mobilebuildmcp/
+apps/ios/**/xcuserdata/
+apps/ios/**/.build/
+apps/ios/**/DerivedData/
+apps/ios/**/*.xcarchive/
+apps/ios/**/*.ipa
+apps/ios/**/*.p12
+apps/ios/**/*.mobileprovision
 # Vídeo 10: os PNG gerados (prompts em source/img/ez37_assets.json); os usados estão em motion/public/img
 estudos/biblia-ezequiel37/source/img/*.png

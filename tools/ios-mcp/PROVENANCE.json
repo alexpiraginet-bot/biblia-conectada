@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-10-31",
+  "purpose": "Mac-only development tooling for the separate native iOS project",
+  "installedOnMac": false,
+  "upstream": "https://github.com/getsentry/MobileBuildMCP",
+  "formerName": "XcodeBuildMCP",
+  "version": "2.7.1",
+  "releaseCommit": "d13ff0c707b0681769cf31da0eb42c4f94ceafff",
+  "packageIntegrity": "sha512-vitigwMbMlngkkXcRuucBKwV1+JDbB64diPVsIjKRsXYXb0KSBFBRazmSz7QgEAeMKD7gh2nz/8S1wOwQnAXPA==",
+  "license": "MIT",
+  "files": {
+    "upstream-skill/SKILL.md": "A325C67CCFE8257D268832A81BDB741920F2BDE7D925F8031BA131854CA55025",
+    "upstream-skill/LICENSE": "FEF28FC4165C72B1F0E4CE94654BA44AD7FF7D5D2538B3D01E66E9CC5BE3C4F6",
+    "package-lock.json": "64CFA45E416B1D655D7329663CBE141EC33B0EB233C0FC7AEAFE41A50DDB3705"
+  },
+  "telemetry": "disabled in generated project config and MCP environment",
+  "notes": [
+    "No Apple or AI provider credentials included.",
+    "No installation lifecycle scripts enabled.",
+    "Mac runtime and signing have not been validated from Windows."
+  ]
+}
