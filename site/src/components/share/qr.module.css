@@ -1,0 +1,27 @@
+.page { max-width: 1000px; margin-inline: auto; padding-block: 24px 56px; }
+.page header { max-width: 690px; }
+.eyebrow { color: var(--accent); font-size: 14px; margin: 0 0 16px; }
+.page h1 { font: 440 clamp(40px, 6vw, 72px)/1.04 var(--font-display); letter-spacing: -.035em; margin: 0 0 24px; }
+.page h1 em { color: var(--accent); }
+.page header > p:last-child { font-size: 18px; color: var(--ink-2); line-height: 1.6; max-width: 560px; }
+.form { margin-block: 32px; }
+.form label { display: block; margin-bottom: 8px; font-weight: 600; }
+.form > div { display: flex; gap: 12px; }
+.form input { min-width: 0; flex: 1; border: 1px solid var(--line-strong); border-radius: var(--radius-md); background: var(--surface); color: var(--ink); padding: 12px; font: inherit; }
+.result { display: grid; grid-template-columns: minmax(240px, 360px) minmax(0, 1fr); gap: 40px; align-items: center; padding-block: 32px; border-block: 1px solid var(--line); }
+.code { padding: 18px 18px 26px; border-radius: 24px; background: #fff; color: #211018; text-align: center; }
+.code img { display: block; width: 100%; height: auto; aspect-ratio: 1; }
+.code p { margin: 0 0 4px; font-weight: 700; font-size: 20px; }
+.code span { font-size: 13px; }
+.details h2 { font: 440 34px/1.12 var(--font-display); margin: 0 0 16px; }
+.details p { color: var(--ink-2); font-size: 15px; line-height: 1.6; }
+.destination { display: block; overflow-wrap: anywhere; margin-bottom: 24px; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.status { min-height: 24px; margin-block: 8px; }
+.choices { padding-top: 32px; max-width: 680px; }
+.choices h2 { font: 440 32px/1.2 var(--font-display); }
+.choices a { display: grid; gap: 8px; padding-block: 16px; text-decoration: none; }
+.choices a span, .choices p { color: var(--ink-2); line-height: 1.6; }
+.choices strong { color: var(--accent); }
+.error { color: var(--danger); }
+@media(max-width: 640px) { .form > div { flex-direction: column; } .result { grid-template-columns: minmax(0, 1fr); gap: 28px; } .code { width: min(100%, 320px); margin-inline: auto; } .actions { flex-direction: column; } }

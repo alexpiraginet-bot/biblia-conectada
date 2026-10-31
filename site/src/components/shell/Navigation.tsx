@@ -4,6 +4,9 @@ import { MENU_GROUPS, NAV, type NavItem } from "./nav";
 import { NavigationState } from "./NavLinks";
 
 function Item({ item, rail = false }: { item: NavItem; rail?: boolean }) {
+  if (item.href === "/qr" || item.href === "/instalar") return <a href={item.href} className="site-tabbar__menu-link" data-page-action={item.href}>
+    <Icon name={item.icon} /><span>{item.label}<small>{item.description}</small></span>
+  </a>;
   return <Link href={item.href} prefetch={false} className={rail ? "bc-rail__item" : "site-tabbar__menu-link"} data-nav-href={item.href}>
     <Icon name={item.icon} /><span>{item.label}{!rail && <small>{item.description}</small>}</span>
   </Link>;

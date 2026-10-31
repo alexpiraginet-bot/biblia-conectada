@@ -24,6 +24,7 @@ export function LiturgyShare(props: LiturgyShareProps) {
     if (event.currentTarget.open && !Actions) void import("./LiturgyShareActions").then((module) => setActions(() => module.default)).catch(() => setFailed(true));
   }}>
     <summary>Compartilhar este dia <span aria-hidden="true">↗</span></summary>
+    <div className={styles.fallback}><a href={`/qr?${new URLSearchParams({ path: liturgyDayPath(props.date) })}`}>QR Code deste dia ↗</a></div>
     {Actions ? <Actions {...props} /> : <div className={styles.fallback}>
       <p>{failed ? "As opções de imagem não carregaram. Os links abaixo continuam disponíveis." : "O link sempre abre a data escolhida."}</p>
       <a href={options.whatsapp} target="_blank" rel="noopener noreferrer">Enviar no WhatsApp ↗</a>

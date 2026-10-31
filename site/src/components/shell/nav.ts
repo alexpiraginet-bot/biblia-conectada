@@ -31,7 +31,8 @@ export const NAV: readonly NavItem[] = [
   { href: "/#sua-jornada", label: "Descobertas", icon: "check", group: "Minha jornada", description: "Aprenda com os desafios" },
   { href: "/", label: "Início", icon: "home", group: "Sobre o app", description: "Voltar à página inicial" },
   { href: "/#como-funciona", label: "Como funciona", icon: "book", group: "Sobre o app", description: "Um guia para começar" },
-  { href: "/sobre#instalar", label: "Instalar no celular", icon: "device", group: "Sobre o app", description: "Leve a Bíblia à tela inicial" },
+  { href: "/instalar", label: "Instalar no celular", icon: "device", group: "Sobre o app", description: "Leve a Bíblia à tela inicial" },
+  { href: "/qr", label: "QR Code desta página", icon: "share", group: "Sobre o app", description: "Abra esta leitura em outro celular" },
   { href: "/dados", label: "Dados e fontes", icon: "data", group: "Sobre o app", description: "Os números e as bases do projeto" },
   { href: "/sobre", label: "Sobre e créditos", icon: "book", group: "Sobre o app", description: "Conheça as fontes e os direitos" },
 ];
