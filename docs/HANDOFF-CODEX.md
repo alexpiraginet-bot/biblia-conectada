@@ -16,6 +16,12 @@ Escrito pelo Claude a pedido do Alex: "Prepare handoff para o códex seguir". Da
 
 ## 2. Estado e continuidade
 
+### QR permanente e instalação por plataforma — 31/10
+
+PR #45, branch `codex/qr-app-entry`, base `d3a5c52`. Menu completo → **QR Code desta página** preserva a referência/edição/data/foco de Arcos; liturgia oferece QR datado e `/qr` oferece o link permanente das leituras de hoje. PNG de 1024 px, SVG e modo ampliado sem elementos sobre os módulos. Conteúdo abre primeiro; convite discreto depois oferece passos iOS/Android ou a loja quando explicitamente liberada.
+
+Universal Links/App Links e Smart App Banner preparados, sem inventar identificadores nem anunciar aplicativos ainda não publicados. Configuração ausente retorna associações vazias e nenhuma URL de loja. O Mac deve seguir [APP-LINKS.md](APP-LINKS.md) para vincular o app real; Android pode avançar em paralelo no Windows. iOS não promete retomada automática ao abrir pela App Store após instalar; é preciso voltar ao link. [Evidências desta etapa](evidence/2026-10-31-qr-app-entry.md). Conferir READY e o domínio público antes de tratar este registro de implementação como prova de publicação.
+
 ### Liturgia diária, menu central e Jornada — validação local concluída (31/10)
 
 Branch `codex/daily-liturgy-menu`, a partir de `e347b65`. `/liturgia` consulta data em Brasília e referências de serviço comunitário; textos locais BLIVRE para estudo, acesso à CNBB, falhas explícitas e limitações de alinhamento. Abertura **Um ritmo de leitura**, sem destaque denominacional; origem declarada em fontes. `/dia/AAAA-MM-DD` preserva a data ao compartilhar, com capa horizontal/Stories e trecho BLIVRE identificado. Menu central inferior de vidro com catálogo completo; trilho desktop e repouso em Arcos preservados.

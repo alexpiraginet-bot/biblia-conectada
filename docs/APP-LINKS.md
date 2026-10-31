@@ -17,6 +17,8 @@ No menu completo, **QR Code desta página** leva ao gerador `/qr`, mantendo o en
 
 O gerador disponibiliza PNG de 1024 px e SVG vetorial com margem livre de quatro módulos, correção M e tinta bordô escura sobre branco. Não há logo sobre os módulos nem dependência de um serviço externo de QR. A biblioteca MIT `qrcode` 1.5.4 roda somente no servidor; `jsqr` 1.4.0 é usado apenas nos testes para decodificação independente. A URL também fica visível e pode ser copiada.
 
+**Mostrar QR em tela cheia** abre um diálogo nativo sobre a interface, para impedir que o menu ou o convite de instalação cubram o código. Fechar e Escape devolvem o foco ao botão. O código deve ser impresso com a margem intacta e testado na dimensão/material finais; a decodificação automatizada do PNG não comprova legibilidade de toda impressão ou câmera física.
+
 `safeContentPath` aceita somente conteúdo HTTPS do domínio canônico ou do apex, remove parâmetros que não pertencem ao conteúdo e rejeita infraestrutura, redirecionamentos, credenciais e caminhos malformados. O limite é aplicado antes e depois da normalização; buscas livres, conversas e tokens de prévia não são inseridos no QR. Não é uma validação da existência de toda página: se alguém colar manualmente um endereço inexistente do domínio, o site continuará com sua 404 normal.
 
 O convite discreto aparece após sete segundos em iOS/Android fora do modo instalado; pode ser dispensado por 30 dias. Ao tocar, captura a página atual e oferece passos ou loja configurada. A página `/instalar?next=...` é um documento HTML com ícone explícito, instruções Safari/Chrome e retorno ao conteúdo validado. O atalho web mantém `start_url=/`; não se promete que instalar o PWA retome automaticamente uma passagem.
