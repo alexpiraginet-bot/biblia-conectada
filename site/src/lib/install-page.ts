@@ -3,6 +3,8 @@ import tokens from "@/styles/tokens.json";
 import { THEME_SCRIPT } from "@/components/header/theme";
 import { SITE_NAME, SITE_URL } from "./site-identity";
 import { getTranslation } from "./translations";
+import { safeContentPath } from "./app-links";
+import { appleStoreId, type NativeAppLinks } from "./native-apps";
 
 const APPLE_ICON = "/icons/apple-touch-icon-180-v2.png";
 const HTML_ESCAPES: Record<string, string> = {
@@ -16,9 +18,11 @@ const dimensions = [...tokens.spacing.tokens, ...tokens.radius.tokens, ...tokens
   .map((token) => `--${token.name}:${token.value}`).join(";");
 
 /** A complete document, independent of the React shell and its hydration. */
-export function installPageHtml(): string {
+export function installPageHtml(next?: string | null, apps: NativeAppLinks = { ios: null, android: null }): string {
   const name = escapeHtml(SITE_NAME);
   const home = escapeHtml(SITE_URL);
+  const destination = `${SITE_URL}${safeContentPath(next) ?? "/"}`;
+  const appId = appleStoreId(apps.ios);
   const nbv = getTranslation("open-nbv")!;
   return `<!doctype html>
 <html lang="pt-BR" data-theme="noite">
@@ -30,11 +34,12 @@ export function installPageHtml(): string {
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="${name}">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
+${appId ? `<meta name="apple-itunes-app" content="app-id=${appId}, app-argument=${escapeHtml(destination)}">` : ""}
 <link rel="apple-touch-icon" href="${APPLE_ICON}" sizes="180x180" type="image/png">
 <link rel="icon" href="${APPLE_ICON}" type="image/png">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="canonical" href="${home}/instalar">
-<meta name="description" content="Adicione a ${name} à Tela de Início do seu iPhone ou iPad pelo Safari.">
+<meta name="description" content="Leve a ${name} para a Tela de Início no iPhone, iPad ou Android, sem perder o caminho da sua leitura.">
 <meta name="theme-color" content="${tokens.color.tokens.find((token) => token.name === "ground")!.value.noite}">
 <script>${THEME_SCRIPT}</script>
 <style>
@@ -67,6 +72,11 @@ li p{margin:var(--space-1) 0 0;color:var(--ink-2);font-size:15px}
 .button:hover{filter:brightness(1.06)}
 .secondary{border-color:var(--line-strong);background:var(--surface);color:var(--ink)}
 .note{max-width:42rem;margin:var(--space-5) 0 0;color:var(--ink-3);font-size:14px}
+.platform{margin-top:var(--space-6);padding-top:var(--space-5);border-top:1px solid var(--line)}
+.platform>h2{margin:0 0 var(--space-3);font-size:22px;font-weight:600}
+.platform>p{color:var(--ink-2)}
+.platform ol{margin-bottom:0}
+.return{margin-top:var(--space-6);padding-top:var(--space-5);border-top:1px solid var(--line)}
 footer{padding-block:0 max(var(--space-6),env(safe-area-inset-bottom));color:var(--ink-3);font-size:14px;overflow-wrap:anywhere}
 footer>a{display:inline-flex;align-items:center;min-height:var(--target);font-weight:600}
 footer p{margin:var(--space-3) 0;max-width:54rem}
@@ -81,17 +91,34 @@ footer p{margin:var(--space-3) 0;max-width:54rem}
       <div><p class="eyebrow">Na sua Tela de Início</p><h1 id="install-title">${name}</h1></div>
     </header>
     <p id="icon-status" class="icon-status" role="status">Confira o ícone dourado acima antes de adicionar.</p>
-    <p class="intro">Abra esta página no <strong>Safari do iPhone ou iPad</strong> e siga os passos.</p>
+    <p class="intro">A Bíblia, sempre por perto. Você pode voltar à página que abriu quando terminar, sem precisar procurar de novo.</p>
+    <div class="actions return"><a id="continue-reading" class="button" href="${escapeHtml(destination)}">Continuar na página que abri</a></div>
+    <section class="platform" data-platform="ios" aria-labelledby="ios-title">
+    <h2 id="ios-title">iPhone e iPad</h2>
+    ${apps.ios ? `<a class="button" href="${escapeHtml(apps.ios)}">Instalar pela App Store</a><p>Depois de instalar, volte a esta página no Safari e toque em Abrir no aviso da App Store para retomar o conteúdo. Você também pode continuar usando o site.</p>` : `<p>O aplicativo para a App Store está em preparação. Por enquanto, adicione o site pelo <strong>Safari</strong>:</p>`}
     <ol aria-label="Passos para adicionar à Tela de Início">
       <li><div><h2>Toque em Compartilhar <svg class="share-symbol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 15V3m-4 4 4-4 4 4M7 10H4v11h16V10h-3"/></svg></h2><p>O quadrado com a seta para cima; também pode estar no menu.</p></div></li>
       <li><div><h2>Adicionar à Tela de Início</h2><p>Role as opções para encontrar essa ação.</p></div></li>
       <li><div><h2>Confirme em Adicionar</h2><p>Confira <strong>${name}</strong> e o ícone dourado. Mantenha <strong>Abrir como App da Web</strong> ativado, se aparecer.</p></div></li>
     </ol>
+    <p class="note">Está no Instagram ou em outro aplicativo? Abra este link no Safari primeiro.</p>
+    </section>
+    <section class="platform" data-platform="android" aria-labelledby="android-title">
+    <h2 id="android-title">Android</h2>
+    ${apps.android ? `<a class="button" href="${escapeHtml(apps.android)}">Instalar pelo Google Play</a><p>Depois de instalar, volte ao link que você recebeu para continuar no mesmo conteúdo. Você também pode usar o site.</p>` : `<p>O aplicativo para o Google Play está em preparação. Por enquanto, adicione o site pelo <strong>Chrome</strong>:</p>`}
+    <ol aria-label="Passos para adicionar no Android">
+      <li><div><h2>Abra no Chrome</h2><p>Se estiver no Instagram ou em outro aplicativo, use o menu para abrir no navegador.</p></div></li>
+      <li><div><h2>Adicionar à tela inicial</h2><p>Abra o menu do Chrome e escolha essa opção. Em alguns aparelhos aparece <strong>Instalar app</strong>.</p></div></li>
+      <li><div><h2>Confirme a adição</h2><p>Confira <strong>${name}</strong> e o ícone dourado. As opções podem variar conforme o aparelho.</p></div></li>
+    </ol>
+    </section>
+    <div class="return">
     <div class="actions">
-      <a class="button" href="${home}">Abrir a Bíblia</a>
+      <a class="button" href="${escapeHtml(destination)}">Continuar lendo</a>
       <button id="reload-icon" class="button secondary" type="button" hidden>Recarregar a página</button>
     </div>
-    <p class="note">Está no Instagram ou em outro aplicativo? Abra este link no Safari primeiro. A adição à Tela de Início é concluída pelo próprio Safari.</p>
+    <p class="note">A instalação é opcional. Adicionar à Tela de Início cria um acesso ao site; não é uma instalação pela loja. O atalho web abre a página inicial da Bíblia.</p>
+    </div>
     <noscript><p class="note">As instruções e o ícone estão disponíveis sem JavaScript. Se a imagem não aparecer, recarregue a página pelo Safari antes de adicionar.</p></noscript>
   </section>
 </main>
@@ -103,6 +130,8 @@ footer p{margin:var(--space-3) 0;max-width:54rem}
 </footer>
 <script>
 (function(){
+var ios=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1),android=/Android/.test(navigator.userAgent);
+document.querySelectorAll("[data-platform]").forEach(function(section){if(ios||android)section.hidden=section.dataset.platform!==(ios?"ios":"android")});
 var icon=document.getElementById("app-icon"),status=document.getElementById("icon-status"),reload=document.getElementById("reload-icon");
 function update(){var ready=icon.naturalWidth>0;status.textContent=ready?"Ícone carregado. Confira-o também no Safari.":"Não foi possível carregar o ícone. Recarregue esta página antes de adicionar.";status.dataset.state=ready?"loaded":"error";reload.hidden=ready;}
 icon.addEventListener("load",update);icon.addEventListener("error",update);if(icon.complete)update();

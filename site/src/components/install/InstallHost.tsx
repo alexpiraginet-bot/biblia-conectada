@@ -3,7 +3,7 @@
 import { useEffect, useState, type ComponentType } from "react";
 import { canOfferInstall } from "./device";
 
-/** Only detection and a timer are initial JS. The guide and styles load later on eligible Apple devices. */
+/** Only detection and a timer are initial JS. The guide loads later on eligible mobile devices. */
 export function InstallHost() {
   const [Guide, setGuide] = useState<ComponentType | null>(null);
   useEffect(() => {

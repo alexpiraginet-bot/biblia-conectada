@@ -9,6 +9,7 @@ import { RESERVED } from "../src/lib/canon/redirects";
 import { appRoutes, routeOf } from "../scripts/checks/pages";
 import { SITE } from "../scripts/data/sources";
 import { books } from "./generated";
+import { GET as installationDocument } from "../src/app/instalar/route";
 
 const app = join(SITE, "src/app");
 const isDir = (p: string) => statSync(p).isDirectory();
@@ -66,7 +67,7 @@ describe("reserved segments", () => {
 
 describe("navigation", () => {
   it("exposes every section through one complete menu without duplicate destinations", () => {
-    const expected = ["/", "/liturgia", "/ler", "/ler/open-nbv", "/interlinear", "/coracao", "/assistente", "/buscar", "/explorar", "/arcos", "/arcos/plano", "/caminhos", "/cronologia", "/linha-do-tempo", "/tema", "/palavra", "/conexao/isaias-9/lucas-2", "/jornada", "/ponte", "/trilha", "/mesa", "/salvos", "/dados", "/sobre", "/sobre#instalar", "/#como-funciona", "/#sua-jornada"];
+    const expected = ["/", "/liturgia", "/ler", "/ler/open-nbv", "/interlinear", "/coracao", "/assistente", "/buscar", "/explorar", "/arcos", "/arcos/plano", "/caminhos", "/cronologia", "/linha-do-tempo", "/tema", "/palavra", "/conexao/isaias-9/lucas-2", "/jornada", "/ponte", "/trilha", "/mesa", "/salvos", "/dados", "/sobre", "/instalar", "/qr", "/#como-funciona", "/#sua-jornada"];
     expect(new Set(MOBILE_MENU.map((n) => n.href))).toEqual(new Set(expected));
     expect(new Set(NAV.map((n) => n.href)).size).toBe(NAV.length);
     expect(MOBILE_MENU).toEqual(NAV);
@@ -85,6 +86,14 @@ describe("navigation", () => {
     for (const n of NAV) {
       const path = n.href.split("#")[0] || "/";
       const target = redirects.find((r) => r.source === path)?.destination ?? path;
+      // The installation document intentionally bypasses React to expose Apple icon metadata immediately.
+      if (target === "/instalar") {
+        const response = installationDocument();
+        expect(response.status).toBe(200);
+        expect(response.headers.get("content-type")).toContain("text/html");
+        expect(await response.text()).toContain("<!doctype html>");
+        continue;
+      }
       expect(pageFor(target, app, false), `${n.href} -> ${target}`).not.toBeNull();
     }
     // /explorar itself has no page: the redirect is what opens it

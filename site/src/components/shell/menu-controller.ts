@@ -1,4 +1,5 @@
 import { openSearch, SEARCH_EVENT } from "@/components/search/events";
+import { installationUrl, safeContentPath } from "@/lib/app-links";
 
 /** Enhance the server-rendered disclosure only after use. Underlying content becomes inert, never removed. */
 export function enhanceMenu(nav: HTMLElement) {
@@ -12,6 +13,10 @@ export function enhanceMenu(nav: HTMLElement) {
   function sync() {
     if (!disclosure.open) { restore?.(); restore = undefined; return; }
     if (restore) return;
+    const path = safeContentPath(location.pathname + location.search + location.hash) ?? "/";
+    panel.querySelectorAll<HTMLAnchorElement>("a[data-page-action]").forEach((link) => {
+      link.href = link.dataset.pageAction === "/qr" ? `/qr?${new URLSearchParams({ path })}` : installationUrl(path);
+    });
     const siblings = [...document.body.children].flatMap((child) => child.contains(nav) ? [...nav.parentElement!.children].filter((sibling) => sibling !== nav) : [child])
       .filter((child): child is HTMLElement => child instanceof HTMLElement && child.tagName !== "SCRIPT");
     const inert = siblings.map((child) => child.inert);
