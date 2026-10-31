@@ -500,3 +500,19 @@ A arte mantém preto neutro, ouro/violeta e livro inteiro; o entorno segue a mar
 O estudo **Palavra por palavra** usa o mesmo sistema visual e mantém a leitura no centro. Original acima, glosa contextual abaixo e transliteração opcional. Uma unidade pode conter prefixos e sufixos; o desenho não força correspondência artificial de uma palavra por língua. Hebraico em RTL; português e transliteração isolados em LTR. Ao toque, detalhes próximos da unidade; no desktop, coluna lateral. Fontes próprias preservam sinais hebraicos e acentos gregos.
 
 A coleção inicial declara sua cobertura e oferece referências concretas, com acesso pelo menu e pelo leitor. Sem grade que aparente uma Bíblia inteira disponível. Notas de contexto e diferenças textuais ficam acessíveis; Strong e morfologia são dados de consulta, não a ação principal. Leitura corrida de comparação identificada como BLIVRE. Glosas editoriais com assistência de IA, sem revisão acadêmica independente, claramente distintas do texto bíblico. Método: `docs/INTERLINEAR.md`.
+
+## 20. Liturgia diária e menu central (31/10/2026)
+
+A chamada é **Um ritmo de leitura**, acolhedora e sem destaque denominacional. A procedência católica do calendário no Brasil é declarada em **Sobre as leituras e suas fontes**; a direção visual preserva a origem e não apresenta o calendário como comum a todas as tradições.
+
+`/liturgia` reúne data, celebração, referências de leituras, salmo e Evangelho. A navegação por dia e o calendário ficam junto da leitura. O texto de estudo BLIVRE mantém seus versículos e ações de IA/compartilhamento; a diferença para o lecionário é visível. Salmo completo é contexto, identificado como tal. Fonte comunitária, acesso oficial à CNBB e limitações de cobertura aparecem na própria página. Datas e falhas não produzem leituras inventadas. Método: `docs/LITURGIA.md`.
+
+Um botão **Menu** central inferior substitui a barra de abas no celular e também fica disponível no desktop. Abre painel de vidro bordô com ouro, reflexos discretos e categorias: Ler e rezar, Explorar as conexões, Minha jornada, Sobre o app. O catálogo servidor mantém os destinos e atalhos juntos; o menu tem rolagem interna, área segura e alvos confortáveis. O trilho desktop permanece. É uma aproximação web de vidro, não um componente nativo da Apple.
+
+A navegação funciona como disclosure antes de JavaScript; depois recebe foco modal, fundo inerte, Escape, clique externo e devolução de foco. A busca por atalho fecha o menu antes de abrir. Em Arcos, repouso de 1,5 s e retorno com interação continuam preservados. Movimento reduzido e transparência reduzida têm tratamento próprio. A consulta diária usa streaming e oferece acesso à CNBB/leitor quando JavaScript está desativado.
+
+## 21. Jornada de leitura e recompensa futura (31/10/2026)
+
+`/jornada` apresenta os checks diários, saldo, constância e um horizonte concreto: Mini Jesus da Bentô 3D Labs, com resgate ainda em preparação. A home convida à participação e à liturgia de hoje. Ouro e bordô seguem os tokens, com progresso discreto e respeito a movimento reduzido. Não se mostra uma fotografia de produto inexistente.
+
+Participação opcional e sem cadastro; saldo confirmado no servidor e espelho local. A interface explica a perda de acesso ao apagar cookies enquanto não houver conta vinculada. Nenhum prêmio por clique ou abertura de tela. Tempo ativo, limites diários, bônus por dias acumulados e meta exigente incentivam constância sem apagar pontos por interrupções. As antigas perguntas da home mantêm suas descobertas salvas, mas deixam de exibir um saldo paralelo que poderia ser confundido com o programa de pontos. Regras e gestão: `docs/JORNADA.md`.

@@ -1,38 +1,46 @@
-// The site's sections, in one place (design/README.md, "Estrutura das páginas"). From 1024px the rail on the left
-// lists the items marked `rail`; phones show four `tab` destinations plus a complete navigation disclosure.
-// Every item leads to a page that exists (tests/routes.test.ts).
+// Public destinations live here so the rail and complete menu cannot drift apart.
 import booksJson from "@/data/generated/books.json";
 import type { IconName } from "@/components/icons";
+import { isLiturgyDate } from "@/lib/liturgy/dates";
 
-/** `nested`: the section has pages below its own address ("/ponte/1"), so those pages count as the section too;
- *  `pages`: the only pages below it, when there are just a few (any other address below stays a 404 in no section) */
-export type NavItem = { href: string; label: string; icon: IconName; rail: boolean; tab: boolean; description?: string; featured?: boolean; nested?: boolean; pages?: readonly string[] };
+export type NavGroup = "Ler e rezar" | "Explorar as conexões" | "Minha jornada" | "Sobre o app";
+export type NavItem = { href: string; label: string; icon: IconName; rail?: boolean; group: NavGroup; description: string; nested?: boolean; pages?: readonly string[] };
 
 export const NAV: readonly NavItem[] = [
-  { href: "/explorar", label: "Explorar", icon: "explore", rail: true, tab: true, nested: true },
-  { href: "/ler", label: "Ler", icon: "book", rail: true, tab: true },
-  { href: "/interlinear", label: "Interlinear", icon: "book", rail: true, tab: false, description: "Hebraico e grego, palavra por palavra", nested: true },
-  { href: "/coracao", label: "Coração", icon: "heart", rail: true, tab: true },
-  { href: "/buscar", label: "Buscar", icon: "search", rail: false, tab: false, description: "Passagens, palavras e temas" },
-  { href: "/linha-do-tempo", label: "Linha do tempo", icon: "time", rail: true, tab: false, description: "Eventos e suas referências", nested: true },
-  { href: "/caminhos", label: "Mapa de Jesus", icon: "map", rail: true, tab: false, description: "Siga os lugares e caminhos", featured: true },
-  { href: "/cronologia", label: "Cronologia", icon: "clock", rail: true, tab: false, description: "Leia a história em sequência", featured: true },
-  { href: "/arcos", label: "Arcos", icon: "arc", rail: true, tab: true, pages: ["/arcos/plano"] },
-  { href: "/ponte", label: "Ponte", icon: "bridge", rail: true, tab: false, description: "Descubra a ligação do dia", nested: true },
-  { href: "/salvos", label: "Salvos", icon: "bookmark", rail: true, tab: false, description: "Reencontre suas passagens" },
-  { href: "/dados", label: "Dados", icon: "data", rail: true, tab: false, description: "Fontes e números da Bíblia" },
+  { href: "/liturgia", label: "Liturgia diária", icon: "calendar", rail: true, group: "Ler e rezar", description: "As leituras de cada dia" },
+  { href: "/ler", label: "Ler a Bíblia", icon: "book", rail: true, group: "Ler e rezar", description: "Livros, capítulos e versículos" },
+  { href: "/ler/open-nbv", label: "Open Nova Bíblia Viva", icon: "book", group: "Ler e rezar", description: "Ler nesta edição", nested: true },
+  { href: "/interlinear", label: "Interlinear", icon: "text", rail: true, group: "Ler e rezar", description: "Hebraico e grego, palavra por palavra", nested: true },
+  { href: "/coracao", label: "No seu coração", icon: "heart", rail: true, group: "Ler e rezar", description: "Encontre palavras para o que sente" },
+  { href: "/assistente", label: "Estudar com IA", icon: "both", group: "Ler e rezar", description: "Perguntas com referências bíblicas" },
+  { href: "/buscar", label: "Buscar", icon: "search", group: "Explorar as conexões", description: "Passagens, palavras e temas" },
+  { href: "/explorar", label: "Constelação", icon: "explore", rail: true, group: "Explorar as conexões", description: "Veja as ligações de um capítulo", nested: true },
+  { href: "/arcos", label: "Céu em 3D", icon: "arc", rail: true, group: "Explorar as conexões", description: "Navegue pelos fios da Bíblia" },
+  { href: "/arcos/plano", label: "Arcos em 2D", icon: "arc", group: "Explorar as conexões", description: "Outra vista das mesmas ligações" },
+  { href: "/caminhos", label: "Mapa de Jesus", icon: "map", rail: true, group: "Explorar as conexões", description: "Siga os lugares e caminhos" },
+  { href: "/cronologia", label: "Cronologia", icon: "clock", rail: true, group: "Explorar as conexões", description: "Leia a história em sequência" },
+  { href: "/linha-do-tempo", label: "Linha do tempo", icon: "time", group: "Explorar as conexões", description: "Eventos e suas referências", nested: true },
+  { href: "/tema", label: "Temas", icon: "explore", group: "Explorar as conexões", description: "Caminhos por assunto", nested: true },
+  { href: "/palavra", label: "Palavras", icon: "text", group: "Explorar as conexões", description: "Veja onde cada palavra aparece", nested: true },
+  { href: "/conexao/isaias-9/lucas-2", label: "Ler lado a lado", icon: "side", group: "Explorar as conexões", description: "Compare Isaías 9 e Lucas 2" },
+  { href: "/jornada", label: "Minha jornada", icon: "check", group: "Minha jornada", description: "Seu ritmo de leitura e descobertas" },
+  { href: "/ponte", label: "Ponte", icon: "bridge", rail: true, group: "Minha jornada", description: "Descubra a ligação do dia", nested: true },
+  { href: "/trilha", label: "Trilhas", icon: "map", group: "Minha jornada", description: "Percursos guiados de leitura", nested: true },
+  { href: "/mesa", label: "Mesa", icon: "both", group: "Minha jornada", description: "Reúna e compare passagens" },
+  { href: "/salvos", label: "Salvos", icon: "bookmark", rail: true, group: "Minha jornada", description: "Reencontre suas passagens" },
+  { href: "/#sua-jornada", label: "Descobertas", icon: "check", group: "Minha jornada", description: "Aprenda com os desafios" },
+  { href: "/", label: "Início", icon: "home", group: "Sobre o app", description: "Voltar à página inicial" },
+  { href: "/#como-funciona", label: "Como funciona", icon: "book", group: "Sobre o app", description: "Um guia para começar" },
+  { href: "/sobre#instalar", label: "Instalar no celular", icon: "device", group: "Sobre o app", description: "Leve a Bíblia à tela inicial" },
+  { href: "/dados", label: "Dados e fontes", icon: "data", group: "Sobre o app", description: "Os números e as bases do projeto" },
+  { href: "/sobre", label: "Sobre e créditos", icon: "book", group: "Sobre o app", description: "Conheça as fontes e os direitos" },
 ];
 
-// A section cannot disappear from mobile navigation by forgetting a second opt-in flag.
-// Maps and guided chronology lead the menu; the desktop rail retains its established order.
-export const MOBILE_MENU = NAV.filter((n) => !n.tab).sort((a, b) => Number(!!b.featured) - Number(!!a.featured));
+export const MENU_GROUPS: readonly NavGroup[] = ["Ler e rezar", "Explorar as conexões", "Minha jornada", "Sobre o app"];
+export const MOBILE_MENU = NAV;
 
-/** verses per chapter of each book, by slug */
 const GRID = new Map((booksJson as { slug: string; verses: number[] }[]).map((b) => [b.slug, b.verses]));
 const NUMBER = /^[1-9]\d{0,2}$/;
-
-/** "/isaias", "/isaias/9", "/isaias/9/6": a book, chapter or verse that exists (the rules of chapterNumber and
- *  verseNumber in src/lib/reading.ts) */
 function isReadingPath(pathname: string): boolean {
   const [slug, cap, vers, ...more] = pathname.split("/").filter(Boolean);
   const verses = slug ? GRID.get(slug) : undefined;
@@ -42,12 +50,8 @@ function isReadingPath(pathname: string): boolean {
   return vers === undefined || (NUMBER.test(vers) && Number(vers) <= verses[Number(cap) - 1]);
 }
 
-/** The navigation item a path belongs to: its own section, "Ler" for a book, chapter or verse page, else none (the
- *  home page, pages outside the navigation such as /sobre or /conexao, and the 404 of an address like
- *  "/genesis/51" or "/ler/x"). */
 export function currentItem(pathname: string): string | null {
-  // "/ler/x" is a 404, not the book list: only a section with pages below it claims a longer path
+  if (pathname.startsWith("/dia/") && isLiturgyDate(pathname.slice(5))) return "/liturgia";
   const own = NAV.find((n) => pathname === n.href || n.pages?.includes(pathname) || (n.nested && pathname.startsWith(`${n.href}/`)));
-  if (own) return own.href;
-  return isReadingPath(pathname) ? "/ler" : null;
+  return own?.href ?? (isReadingPath(pathname) ? "/ler" : null);
 }

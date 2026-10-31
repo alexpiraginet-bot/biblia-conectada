@@ -1,0 +1,98 @@
+.page { max-width: 1220px; width: 100%; margin: 0 auto; padding: 40px 44px 72px; }
+.intro { display: flex; align-items: end; justify-content: space-between; gap: 24px; padding-bottom: 30px; border-bottom: 1px solid var(--line); }
+.eyebrow, .sectionLabel { margin: 0 0 12px; font: 600 11px/1.5 var(--font-ui); letter-spacing: .15em; text-transform: uppercase; color: var(--accent); }
+.intro h1 { margin: 0; font: 440 clamp(38px, 5vw, 64px)/1.1 var(--font-display); letter-spacing: -.025em; }
+.intro h1 em { color: var(--accent); }
+.intro > p { margin: 0 0 4px; color: var(--ink-2); font-size: 15px; line-height: 1.6; }
+.layout { display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 52px; padding-top: 30px; align-items: start; }
+.overview { position: sticky; top: calc(var(--bar-h) + 20px); min-width: 0; }
+.dateNavigation { border-bottom: 1px solid var(--line); padding-bottom: 22px; }
+.dayStepper { display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; gap: 4px; align-items: center; }
+.dayStepper > div { text-align: center; }
+.weekday { display: block; color: var(--ink-3); text-transform: capitalize; font-size: 12px; margin-bottom: 3px; }
+.dayStepper time { font-size: 15px; font-weight: 600; }
+.arrow { display: grid; place-items: center; min-height: 44px; border: 1px solid var(--line); border-radius: 50%; text-decoration: none; background: var(--surface); }
+.arrow:hover { border-color: var(--accent); background: var(--highlight); }
+.dateTools { margin-top: 16px; }
+.dateForm { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.dateForm label { font-size: 12px; color: var(--ink-3); }
+.dateForm > div { display: flex; gap: 5px; align-items: center; }
+.dateForm input { min-width: 0; max-width: 155px; min-height: 44px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 9px; font-size: 13px; background: var(--surface); }
+.dateForm button { min-width: 44px; min-height: 44px; border: 1px solid var(--line); border-radius: 9px; background: var(--raised); color: var(--ink); cursor: pointer; font-size: 13px; }
+.dateForm button:hover { border-color: var(--accent); }
+.todayLink { display: flex; align-items: center; justify-content: center; min-height: 44px; margin-top: 6px; font-size: 13px; }
+.celebration { margin-top: 24px; }
+.celebration h2 { margin: 0 0 10px; font: 440 25px/1.17 var(--font-display); }
+.celebration .sectionLabel { margin-bottom: 8px; }
+.liturgicalColor { color: var(--ink-3); font-size: 12px; }
+.liturgicalColor strong { color: var(--ink-2); font-weight: 500; }
+.readingNav { margin: 20px 0 10px; display: grid; }
+.readingNav a { display: grid; grid-template-columns: 26px minmax(0, 1fr) 16px; gap: 10px; align-items: center; min-height: 64px; padding: 10px 0; border-top: 1px solid var(--line); color: var(--ink); text-decoration: none; font-size: 14px; }
+.readingNav a:hover { color: var(--accent); }
+.readingNav small { display: block; color: var(--ink-3); font-size: 12px; margin-top: 2px; }
+.readingNumber { font: 500 12px/1.4 var(--font-ui); font-variant-numeric: tabular-nums; color: var(--accent); }
+.officialLink { display: flex; align-items: center; gap: 8px; min-height: 44px; font-size: 12px; }
+.readings { min-width: 0; }
+.editionNote { display: flex; gap: 12px; padding: 0 0 24px; color: var(--ink-3); font-size: 13px; line-height: 1.6; }
+.editionNote p { margin: 0; }
+.editionNote strong { color: var(--ink-2); font-weight: 600; }
+.editionMark { font-size: 20px; color: var(--accent); }
+.reading { padding: 28px 0 38px; border-top: 1px solid var(--line); scroll-margin-top: calc(var(--bar-h) + 16px); }
+.readingHeader { display: flex; align-items: start; gap: 18px; margin-bottom: 22px; }
+.readingHeader > .readingNumber { display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; width: 36px; height: 36px; flex-shrink: 0; }
+.readingHeader .sectionLabel { margin: 0 0 5px; }
+.reading h2 { margin: 0; font: 440 30px/1.12 var(--font-display); overflow-wrap: anywhere; }
+.readingNotice { font-size: 13px; color: var(--ink-3); line-height: 1.6; border-left: 2px solid var(--line-strong); padding-left: 12px; margin: -3px 0 24px; }
+.passageHeading { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; color: var(--ink-3); font-size: 12px; margin: 8px 0 18px; }
+.verses { list-style: none; margin: 0; padding: 0; font: 400 21px/1.8 var(--font-reading); color: var(--ink-reading); }
+.verses li { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 12px; margin-bottom: 24px; }
+.verseNumber { padding-top: 8px; font: 500 12px/1.6 var(--font-ui); color: var(--accent); }
+.verseActions { margin-top: 3px; line-height: 1.4; color: var(--ink-3); }
+.contextLink { display: inline-flex; align-items: center; min-height: 44px; gap: 12px; font-size: 14px; }
+.missingReading { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; font-size: 15px; line-height: 1.6; }
+.missingReading p { margin: 0 0 8px; }
+.missingReading a { display: inline-flex; align-items: center; min-height: 44px; }
+.continueReading { padding: 28px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); }
+.continueReading h2 { font: 440 30px/1.12 var(--font-display); margin: 0; }
+.continueReading p:not(.sectionLabel) { font-size: 15px; color: var(--ink-2); }
+.continueReading a { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; font-size: 14px; }
+.sources { font-size: 12px; line-height: 1.7; color: var(--ink-3); padding-top: 22px; }
+.sources p { margin: 0 0 12px; }
+.sources summary { display: flex; align-items: center; min-height: 44px; margin-bottom: 12px; color: var(--accent); cursor: pointer; font-size: 13px; }
+.sources summary::after { content: "+"; margin-left: auto; padding-left: 16px; }
+.sources details[open] summary::after { content: "−"; }
+.unavailable { padding: 28px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); }
+.unavailable h2 { margin: 0; font: 440 32px/1.15 var(--font-display); }
+.unavailable > p:not(.sectionLabel) { font-size: 15px; color: var(--ink-2); }
+.errorActions { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
+.loading { min-height: 300px; display: grid; place-content: center; text-align: center; color: var(--ink-3); font-size: 14px; }
+.loading > span { color: var(--accent); font-size: 30px; }
+@media (max-width: 800px) {
+  .page { padding: 22px 20px 40px; }
+  .intro { padding-bottom: 20px; }
+  .intro > p { display: none; }
+  .intro h1 { font-size: 40px; }
+  .eyebrow { margin-bottom: 6px; font-size: 10px; }
+  .layout { grid-template-columns: minmax(0, 1fr); gap: 12px; padding-top: 18px; }
+  .overview { position: static; }
+  .dateNavigation { padding-bottom: 14px; }
+  .dateTools { margin-top: 10px; }
+  .dateForm { justify-content: center; gap: 12px; }
+  .dayStepper time { font-size: 16px; }
+  .celebration { margin-top: 18px; }
+  .celebration h2 { font-size: 25px; margin-bottom: 6px; }
+  .celebration .sectionLabel { display: none; }
+  .readingNav { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0 2px; }
+  .readingNav a { display: inline-flex; gap: 6px; min-height: 44px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 24px; font-size: 12px; }
+  .readingNav small, .readingNav .readingNumber { display: none; }
+  .officialLink { font-size: 11px; }
+  .editionNote { padding-bottom: 10px; font-size: 12px; }
+  .reading { padding: 22px 0 28px; }
+  .readingHeader { gap: 12px; margin-bottom: 18px; }
+  .reading h2 { font-size: 29px; }
+  .verses { font-size: 20px; line-height: 1.75; }
+  .verses li { gap: 8px; }
+  .verseActions { margin-top: 4px; }
+  .continueReading, .unavailable { padding: 22px; }
+}
+@media (max-width: 359px) { .page { padding-inline: 14px; } .dateForm { gap: 5px; } }

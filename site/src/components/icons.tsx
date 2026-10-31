@@ -61,6 +61,8 @@ export const DownloadIcon = ({ size = 18, className }: P) => (
 // The design system's icon set (src/styles/ds.css .bc-icon: 22px, 1.75 stroke from currentColor, 2.1 on the current
 // item). Decorative: the control next to it carries the text or an aria-label.
 const PATHS = {
+  calendar: <><rect x="4" y="5" width="16" height="16" rx="3" /><path d="M8 3v4m8-4v4M4 10h16m-12 4h.01M12 14h.01M16 14h.01M8 17h.01M12 17h.01" /></>,
+  menu: <><rect x="3.5" y="3.5" width="6" height="6" rx="2" /><rect x="14.5" y="3.5" width="6" height="6" rx="2" /><rect x="3.5" y="14.5" width="6" height="6" rx="2" /><path d="M17.5 14.5v6m-3-3h6" /></>,
   search: (
     <>
       <circle cx="11" cy="11" r="6.5" />

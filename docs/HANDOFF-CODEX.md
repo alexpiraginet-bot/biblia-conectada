@@ -16,6 +16,14 @@ Escrito pelo Claude a pedido do Alex: "Prepare handoff para o códex seguir". Da
 
 ## 2. Estado e continuidade
 
+### Liturgia diária, menu central e Jornada — validação local concluída (31/10)
+
+Branch `codex/daily-liturgy-menu`, a partir de `e347b65`. `/liturgia` consulta data em Brasília e referências de serviço comunitário; textos locais BLIVRE para estudo, acesso à CNBB, falhas explícitas e limitações de alinhamento. Abertura **Um ritmo de leitura**, sem destaque denominacional; origem declarada em fontes. `/dia/AAAA-MM-DD` preserva a data ao compartilhar, com capa horizontal/Stories e trecho BLIVRE identificado. Menu central inferior de vidro com catálogo completo; trilho desktop e repouso em Arcos preservados.
+
+`/jornada`: adesão sem cadastro, cookie protegido e saldo confirmado no Redis separado da IA, checks por atividade, bônus por constância, pausa e exclusão. Meta de 4.800 pontos e 60 dias ativos; melhor ritmo chega no 68º dia. Mini Jesus Bentô 3D Labs em preparação, sem resgate/estoque prometido. Limpar cookies perde o acesso enquanto não existir conta vinculada. Regras/gestão: `docs/JORNADA.md`; calendário: `docs/LITURGIA.md`; compartilhamento: `docs/LITURGY-SHARING.md`.
+
+Validação local: 889 testes, tipos, lint, check-dist (3.835 páginas), orçamento e QA Chromium/WebKit passaram. Arcos inicial 167.233 B gzip9, abaixo do teto inalterado de 168.960 B. O ledger teve 11 cenários em Redis real isolado; a Jornada teve navegação, pausa, rede, cache adulterado e exclusão conferidos. [Evidências e limites](evidence/2026-10-31-liturgy-journey.md). A publicação é uma etapa separada e deve ser conferida no PR/deploy antes de afirmar READY. Não houve alteração em estudos, chamada de geração de IA ou serviço pago novo.
+
 ### Interlinear nativo — publicado e conferido (26/10)
 
 Pedido de Alex atendido com estudo original acima/glosa PT abaixo, transliteração opcional e detalhe ao toque. `/interlinear` apresenta coleção inicial de 22 passagens/282 unidades; links somente nas referências BLIVRE explicitamente cobertas, acesso pelo menu e índice de leitura, OG próprio. Fontes STEP TAHOT/TAGNT fixadas por hash, variantes separadas, comparação BLIVRE inalterada. Glosas editoriais assistidas por IA, sem revisão acadêmica independente; não é Bíblia interlinear completa nem tradução exata.

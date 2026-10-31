@@ -97,6 +97,10 @@ Ficam lá porque os vídeos dependem deles. O script de conferência também che
 - Votos vão de −86 a 1.477.
 - 30.303 dos 31.102 versículos têm ao menos uma ligação.
 
+## Calendário litúrgico (consulta factual, 31/10/2026)
+
+`liturgia/provenance.json` registra a consulta diária ao serviço comunitário Liturgia Diária de Dancrf. Somente data, celebração, cor e referências bibliográficas passam pela integração. Não há licença textual aberta confirmada para os textos retornados; eles não são armazenados nem publicados. O app apresenta os versos locais BLIVRE para estudo e acesso à CNBB para o lecionário oficial. Não é uma edição litúrgica integral; salmos sem alinhamento de versos são apresentados como capítulo de contexto, e livros ausentes mantêm a referência e o link oficial. Método em `docs/LITURGIA.md`. O manifesto local de procedência tem hash registrado em `SHA256SUMS`; as respostas diárias não são fontes fixas do build.
+
 ## Ainda não incluído (conferir licença antes)
 
 - Dicionários e índices antigos em domínio público pela idade: Nave's Topical Bible, Smith's Bible Dictionary, Hitchcock's Bible Names. Faltou uma fonte com licença declarada no próprio arquivo.

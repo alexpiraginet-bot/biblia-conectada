@@ -10,6 +10,25 @@
   overflow: clip;
 }
 /* Framed introduction, followed by the unchanged full-width constellation. */
+.journeyInvite { display: grid; grid-template-columns: 100px minmax(0, 1fr) minmax(220px, .55fr); gap: clamp(24px, 4vw, 60px); align-items: center; max-width: 1240px; margin: 72px auto 0; padding: 40px clamp(24px, 4vw, 48px); border-block: 1px solid var(--line); }
+.journeySymbol { position: relative; display: grid; place-items: center; width: 100px; height: 130px; color: var(--accent); }
+.journeySymbol > svg { width: 94px; height: 94px; }
+.journeySymbol > span { position: absolute; top: 9px; right: 13px; font-size: 21px; }
+.journeyInvite .eyebrow { margin-bottom: 14px; font-size: 10px; }
+.journeyInvite h2 { margin: 0; font-family: var(--font-display); font-size: clamp(30px, 3vw, 43px); line-height: 1.12; font-weight: 440; letter-spacing: -.025em; }
+.journeyInvite h2 em { color: var(--accent); }
+.journeyInviteCopy > p:not(.eyebrow) { max-width: 500px; color: var(--ink-2); line-height: 1.8; font-size: 14px; margin-block: 20px; }
+.journeyInviteActions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; }
+.journeyInviteActions a { min-height: 44px; font-size: 13px; }
+.journeyMilestone { border-left: 1px solid var(--line); padding-left: clamp(24px, 3vw, 40px); }
+.journeyMilestone > span:first-child { display: block; color: var(--ink-3); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+.journeyMilestone > strong { display: block; font-size: clamp(35px, 3.5vw, 48px); font-weight: 500; letter-spacing: -.04em; line-height: 1.2; margin-top: 14px; color: var(--accent); font-variant-numeric: tabular-nums; }
+.journeyMilestone > strong small { font-size: 13px; font-weight: 400; letter-spacing: 0; }
+.journeyMilestone > p { color: var(--ink-2); font-size: 13px; line-height: 1.7; max-width: 240px; }
+.journeyMilestone .journeyFuture { display: inline-block; border: 1px solid var(--line-strong); border-radius: 30px; padding: 6px 10px; margin-top: 12px; color: var(--accent); font-size: 10px; }
+.journeyMilestone .journeyFine { font-size: 11px; color: var(--ink-3); line-height: 1.65; }
+@media (max-width: 1000px) { .journeyInvite { grid-template-columns: minmax(0, 1fr) minmax(200px, .6fr); margin-inline: 24px; padding-inline: 0; } .journeySymbol { display: none; } }
+@media (max-width: 600px) { .journeyInvite { grid-template-columns: 1fr; margin-top: 38px; padding-block: 30px; gap: 30px; } .journeyMilestone { border-left: 0; border-top: 1px solid var(--line); padding: 24px 0 0; } .journeyMilestone > p { max-width: 100%; } .journeyInviteActions { align-items: flex-start; flex-direction: column; gap: 4px; } .journeyInvite h2 { font-size: 35px; } }
 .hero {
   --home-accent: var(--sky-gold);
   --home-soft: var(--sky-ink-2);

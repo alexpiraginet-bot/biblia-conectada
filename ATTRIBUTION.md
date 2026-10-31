@@ -69,6 +69,10 @@ As glosas editoriais e o conjunto derivado seguem CC BY-SA 4.0; os campos origin
 | Natural Earth | Domínio público | Opcional: "Natural Earth" |
 | AWS Terrain Tiles (relevo dos vídeos) | Atribuição | SRTM/GMTED2010 (USGS), ETOPO1 (NOAA), Mapzen |
 
+## Calendário da liturgia diária
+
+Em `/liturgia`, celebrações, cores e referências bibliográficas são consultadas no [serviço comunitário Liturgia Diária, de Dancrf](https://github.com/Dancrf/liturgia-diaria). A consulta usa somente esses fatos, sem republicar seus textos, refrãos ou orações. A leitura de estudo usa a **Bíblia Livre (BLIVRE)**, com os créditos e a licença acima; sua redação não é a do Lecionário da Missa. O [site oficial da CNBB](https://liturgiadiaria.edicoescnbb.com.br/) oferece os textos litúrgicos. Celebrações locais, opções e numeração podem variar. Procedência e limites: `fontes/liturgia/provenance.json` e `docs/LITURGIA.md`.
+
 ## Fontes tipográficas
 
 No interlinear, Noto Serif Hebrew e Gentium Book Plus mantêm seus arquivos e licenças SIL Open Font License 1.1, copiados sem alteração dos estudos existentes. Créditos, hashes e caminhos de origem estão em `site/src/components/interlinear/fonts/README.md` e `provenance.json`; licenças completas na mesma pasta. Carregamento restrito às rotas do interlinear.
