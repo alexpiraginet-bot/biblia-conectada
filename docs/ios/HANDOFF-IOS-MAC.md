@@ -19,7 +19,7 @@ Preparado em 31/10/2026. Objetivo autorizado por Alex: criar um aplicativo iOS n
 
 O agente principal publicará o branch com este handoff. No Mac, confira sua existência e o commit recebido; não confunda o commit-base acima com o último commit dos documentos.
 
-**Estado público comunicado pela sessão principal em 31/10/2026:** o PR #42 está em produção **READY**. Na Jornada, o GET anônimo informou disponibilidade, mas o único POST `start` de QA retornou **503**. Diagnóstico/correção seguem na sessão Windows, branch **`codex/journey-cloud-fix`**, ainda sem validação conclusiva. Não tomar o backend da Jornada como totalmente saudável, não alterar essa branch a partir do Mac e não duplicar a correção. Após merge e confirmação pública, atualizar `origin/main` e integrar a mudança no branch iOS preservando o trabalho local. O GET disponível sozinho não fecha esse teste.
+**Estado público atualizado em 31/10/2026:** a falha inicial `start` 503 da Jornada foi corrigida no **PR #44, já integrado**, commit `d3a5c5266bd95be434a90457a66083bfaa4f085e` da `main`. Produção `dpl_7rG4ix6anUF1km75ZXxkvUkKbtBy` **READY**, com alias `www.bibliaconectada.company` confirmado. O ciclo público pela interface — iniciar, consultar, pausar com pulso inativo e apagar — passou; a consulta com o cookie antigo confirmou a exclusão. Saldo e dias ativos permaneceram zerados; essa rodada não validou concessão de pontos por atividade. O endpoint temporário de diagnóstico retornou 404. A sessão Mac deve atualizar `origin/main` e integrar a correção preservando o trabalho local; não precisa aguardar nem duplicar a frente `codex/journey-cloud-fix`. A base histórica deste handoff continua `ddc6909`. Essa validação web não substitui a fronteira de sessão mobile ainda proposta.
 
 Se ainda não houver checkout local:
 
@@ -161,7 +161,7 @@ Voz usa ticket do texto validado; não é TTS arbitrário. O vínculo atual de v
 
 ### Etapa F — Jornada
 
-Antes de integrar, confirmar a resolução do `start` 503 registrado acima e trazer a correção já revisada da `main`. Se continuar pendente, seguir com os módulos independentes e apresentar a Jornada como indisponível; não criar saldo fictício para preencher a tela.
+Antes de integrar a Jornada nativa, trazer da `main` a correção já publicada no commit `d3a5c5266bd95be434a90457a66083bfaa4f085e`, preservando o trabalho local. O ciclo web de início, consulta, pausa e exclusão está validado; a sessão mobile e sua adaptação de acompanhamento continuam sendo trabalho do app. Não criar saldo fictício para preencher a tela.
 
 Adapte o acompanhamento à visibilidade real da leitura e ao `scenePhase`, pausando com bloqueio, background, overlays, ausência prolongada de interação e falha de rede. **Saldo é do servidor**; não somar XP offline nem aceitar tempo declarado pelo cliente. Não copiar cookie de Safari, nem prometer que a Jornada web migrará automaticamente para o app.
 

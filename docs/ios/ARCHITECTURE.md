@@ -142,7 +142,7 @@ Cache nativo explícito, não dependente de `URLCache` — a resposta HTTP atual
 
 ### Jornada
 
-Estado informado pela sessão principal em 31/10/2026: PR #42 em produção READY; GET anônimo disponível, porém o único POST `start` de QA respondeu 503. O diagnóstico está em `codex/journey-cloud-fix`, na sessão Windows, ainda sem validação conclusiva. O contrato abaixo descreve o código, não comprova saúde operacional. A sessão Mac deve aguardar merge e validação dessa correção antes da integração, sem modificar a branch da outra sessão.
+Estado atualizado em 31/10/2026: a falha inicial `start` 503 foi corrigida no PR #44, já integrado na `main` em `d3a5c5266bd95be434a90457a66083bfaa4f085e`. Produção `dpl_7rG4ix6anUF1km75ZXxkvUkKbtBy` READY e alias confirmados. O ciclo público pela interface de início, consulta, pausa com pulso inativo e exclusão passou, inclusive consulta com cookie antigo após apagar; saldo e dias ativos permaneceram zerados. O endpoint de diagnóstico retornou 404. Essa prova cobre o ciclo web testado, não a concessão de pontos por atividade ou uma sessão mobile ainda não implementada. A sessão Mac deve integrar a `main` atual preservando seu trabalho, sem aguardar ou duplicar a correção de `codex/journey-cloud-fix`. A base histórica desta auditoria permanece `ddc6909`.
 
 `GET /api/jornada` → `{ok,available,started,snapshot?,pulse?,code?,message?,retryAfterSeconds?}`. `POST` aceita exatamente `{op:'start'}`, `{op:'reset'}` ou `{op:'pulse',token,area,active}`. Não aceita tempo, XP, data ou saldo enviados pelo cliente.
 
