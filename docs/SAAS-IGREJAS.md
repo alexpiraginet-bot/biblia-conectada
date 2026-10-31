@@ -1,6 +1,6 @@
 # Bíblia Conectada para Igrejas — proposta de produto
 
-Data: 31/10/2026. Estado: proposta pesquisada e desenho de arquitetura; não é um SaaS implementado nem uma promessa de aprovação nas lojas. Nome de trabalho, sem pesquisa de disponibilidade de marca.
+Data: 31/10/2026. Estado: proposta pesquisada, HTML interativo e fundação de backend validada localmente; não é um SaaS comercial completo nem uma promessa de aprovação nas lojas. Nome de trabalho, sem pesquisa de disponibilidade de marca. Implementação, evidências e limites em [SAAS-ENTREGA.md](SAAS-ENTREGA.md).
 
 ## Tese
 
