@@ -1,5 +1,7 @@
 # Bíblia Conectada para iPhone — arquitetura proposta
 
+**Escopo visual e funcional corrigido:** [HOME-MENU-PARITY.md](HOME-MENU-PARITY.md) define a home de descoberta, o menu completo e os critérios de paridade. O leitor offline é uma etapa técnica, não o produto final reduzido.
+
 Auditoria somente leitura em 31/10/2026. Base de código: `C:/Users/R2/biblia conectada`; cópia de continuidade em `docs/ios/` no branch `codex/ios-native-app`, criado a partir de `ddc6909`. Este documento não altera o site, não cria credenciais e não afirma compilação, assinatura, TestFlight ou aprovação na App Store. Alex confirmou um Mac remoto para a próxima sessão; versão do Xcode, conexão MCP e identidade de distribuição ainda precisam ser verificadas lá. O aplicativo preexistente no TestFlight deve permanecer separado e inalterado.
 
 ## Decisão
@@ -25,6 +27,8 @@ Proposta de deployment target: iOS 17 ou superior, a confirmar no Xcode disponí
 ```text
 BibleConnectedApp
 ├── AppRouter: NavigationStack, URLs de versículos/dias, restauração
+├── DiscoverHome: identidade e descoberta da home web; acesso a todas as famílias
+├── GlobalMenu: catálogo completo agrupado; separado das ações contextuais do leitor
 ├── Reader: livros → capítulos → versículo; seleção e ações em sheet
 ├── Search: índice local; resultado abre contexto, não só trecho
 ├── Connections: lista de relações + Canvas nativo limitado aos vizinhos
@@ -42,7 +46,7 @@ APIClient actor ─────── URLSession, timeout, cancelamento, limites
 SessionVault ────────── Keychain; somente credencial anônima do aplicativo
 ```
 
-A aparência usa bordô e dourado como acentos, texto de leitura confortável e materiais nativos onde disponíveis. Dynamic Type, VoiceOver, alto contraste e redução de movimento são requisitos de implementação. Não desenhar um menu que esconda leitura ou dependa de hover. “Ler”, “Conexões”, “Hoje” e “Biblioteca” podem ser a base; Coração entra como acesso claro e contextual, sem afastar a pessoa do versículo.
+A aparência usa bordô e dourado como acentos, texto de leitura confortável e materiais nativos onde disponíveis. Dynamic Type, VoiceOver, alto contraste e redução de movimento são requisitos de implementação. Não desenhar um menu que esconda leitura ou dependa de hover. Início/Descobrir e o menu global preservam a experiência e as famílias do site, conforme a matriz de paridade; uma navegação só de leitura não satisfaz esse escopo. Coração também entra como acesso contextual, sem afastar a pessoa do versículo.
 
 ## Dados já disponíveis e primeira base offline
 

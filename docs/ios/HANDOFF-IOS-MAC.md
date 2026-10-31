@@ -1,5 +1,7 @@
 # Bíblia Conectada — handoff para a sessão no Mac
 
+**Correção de direção — home e menu:** leia primeiro [HOME-MENU-PARITY.md](HOME-MENU-PARITY.md). A primeira etapa de leitor offline não autoriza reduzir o produto nem substituir a home de descoberta. Preservar a experiência e todas as famílias de funções do site é critério de conclusão; as etapas abaixo são a ordem técnica, não o escopo final.
+
 Preparado em 31/10/2026. Objetivo autorizado por Alex: criar um aplicativo iOS nativo da Bíblia Conectada e prepará-lo para distribuição pública na App Store. Alex confirmou acesso a um Mac remoto e pediu um documento para continuar em uma nova sessão nesse computador.
 
 **Ponto de partida: ainda não existe código iOS neste branch.** Há uma arquitetura auditada, documentação e ferramentas de desenvolvimento preparadas. Nenhuma compilação Swift, execução no Simulator, assinatura, instalação, upload para TestFlight ou aprovação Apple foi realizada nesta preparação no Windows.
@@ -71,7 +73,7 @@ A disponibilidade dessas ferramentas não comprova que o Xcode ou o Simulator fu
 
 Primeiro incremento técnico: leitor completo BLIVRE, busca local, favoritos, retorno à última leitura, lista de conexões de um versículo e compartilhamento nativo. **A versão pública com paridade também precisa oferecer Open NBV e seleção de edição**, pois Alex já a escolheu no site. BLIVRE primeiro facilita o reaproveitamento do grafo; não é uma decisão de retirar a outra tradução. Depois, Hoje/liturgia com cache datado. O 3D pode usar uma `WKWebView` restrita à visualização Arcos, carregada sob demanda, com alternativa nativa de lista/2D. Não transformar o aplicativo inteiro em um site dentro de WebView.
 
-O menu do app deve dar acesso claro a todas as funções realmente implementadas, preservando a direção de botão central flutuante quando compatível com leitura e acessibilidade. Não exibir dezenas de destinos vazios para simular completude. Mapa, cronologia, interlinear, Coração e Jornada entram por fatias funcionais verificadas.
+O menu global deve cobrir o catálogo do site conforme [HOME-MENU-PARITY.md](HOME-MENU-PARITY.md), preservando a direção de botão central flutuante com leitura e acessibilidade. O menu contextual do leitor não substitui a navegação global. Mapa, cronologia, interlinear, Coração e Jornada entram por fatias funcionais verificadas, com pendências declaradas; ocultar módulos ausentes não conclui a migração. Não exibir destinos vazios para simular completude.
 
 O site usa Next com recursos de servidor; copiar `.next` para Capacitor não cria um aplicativo offline. Uma versão Capacitor exigiria extrair um frontend cliente e separar APIs. O comparativo e os motivos da escolha estão em `ARCHITECTURE.md`.
 

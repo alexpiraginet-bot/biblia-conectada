@@ -4,11 +4,12 @@ Cole o texto abaixo na nova sessão do Codex aberta no checkout do projeto no Ma
 
 ---
 
-Você vai continuar a criação do **app iOS nativo Bíblia Conectada**, com objetivo de distribuí-lo publicamente na App Store. Eu já confirmei que este Mac remoto está disponível. A direção visual e a implementação são suas: quero um aplicativo bonito, moderno, interativo e legível, com nossa marca bordô/dourado, e não somente o site empacotado.
+Você vai continuar a criação do **app iOS nativo Bíblia Conectada**, com objetivo de distribuí-lo publicamente na App Store. Eu já confirmei que este Mac remoto está disponível. Preserve a identidade, a home de descoberta e todas as famílias de funções do site, adaptando-as ao iPhone com interfaces nativas bonitas, modernas, interativas e legíveis. O primeiro leitor offline é uma etapa técnica; não substitui a experiência completa nem autoriza uma home genérica ou um menu reduzido de leitura.
 
 Comece lendo `AGENTS.md`, o `CLAUDE.md` completo e os documentos obrigatórios que ele aponta. Depois leia:
 
 - `docs/ios/HANDOFF-IOS-MAC.md`
+- `docs/ios/HOME-MENU-PARITY.md` — correção explícita após a avaliação do menu/home no Mac
 - `docs/ios/ARCHITECTURE.md`
 - `docs/ios/XCODE-MCP.md`
 
