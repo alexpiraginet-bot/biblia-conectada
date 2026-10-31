@@ -13,7 +13,11 @@ export function previousJourneyDay(date: string): string {
 export function parseJourneyState(raw: unknown): JourneyState {
   try {
     const state: unknown = typeof raw === "string" ? JSON.parse(raw) : null;
-    if (!isRecord(state) || state.version !== 1 || !isRecord(state.day) || !isRecord(state.pulse)
+    if (!isRecord(state) || !isRecord(state.day)) throw new Error("state");
+    // Upstash cjson encodes empty Lua tables as []; only these two map fields may normalize.
+    if (Array.isArray(state.day.areas) && state.day.areas.length === 0) state.day.areas = {};
+    if (Array.isArray(state.day.completed) && state.day.completed.length === 0) state.day.completed = {};
+    if (state.version !== 1 || !isRecord(state.pulse)
       || typeof state.lastActiveDate !== "string" || !isRecord(state.day.areas) || !isRecord(state.day.completed)
       || typeof state.day.date !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(state.day.date)
       || typeof state.pulse.nonce !== "string" || !/^[a-f0-9]{32}$/.test(state.pulse.nonce)) throw new Error("state");

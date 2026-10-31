@@ -115,6 +115,20 @@ describe("journey input and HTTP trust boundary", () => {
     expect(JSON.stringify(args)).not.toContain("192.0.2.100");
     expect(JSON.stringify(args)).not.toContain("bc:{assistant}");
   });
+  it("confirms enrollment when Upstash returns empty Lua maps as JSON arrays", async () => {
+    const initial = {
+      ...state(), points: 0, activeDays: 0, streak: 0, longestStreak: 0, lastActiveDate: "",
+      day: { ...state().day, readingMs: 0, liturgyMs: 0, exploreMs: 0, areas: [], completed: [], points: 0, active: false },
+      pulse: { at: 0, nonce, area: "", active: false },
+    };
+    const result = await handleJourney(request({ op: "start" }), undefined, {
+      config, command: async () => ["ok", JSON.stringify(initial)], now: () => now, newCookie: () => cookie,
+    });
+    expect(result).toMatchObject({ status: 200, cookie: { name: config.cookieName, value: cookie }, body: {
+      started: true, snapshot: { points: 0, activeDays: 0, todayPoints: 0, exploredAreas: 0 },
+    } });
+    expect(Object.values(result.body.snapshot!.tasks).every(task => !task.complete && task.seconds === 0)).toBe(true);
+  });
   it("never accepts a heartbeat without an opted-in valid identity", async () => {
     const command = successCommand();
     expect(await handleJourney(request({ op: "pulse", token: nonce, area: "reading", active: true }), undefined, { config, command })).toMatchObject({ status: 409, body: { code: "expired", started: false } });
@@ -136,6 +150,29 @@ describe("journey input and HTTP trust boundary", () => {
 });
 
 describe("journey snapshot and progress semantics", () => {
+  it.each(["areas", "completed", "both"])("normalizes only empty Lua maps from %s without changing earned credit", (field) => {
+    const original = state();
+    const stored = { ...original, day: { ...original.day,
+      ...(field !== "completed" ? { areas: [] } : {}), ...(field !== "areas" ? { completed: [] } : {}),
+    } };
+    const parsed = parseJourneyState(JSON.stringify(stored));
+    expect(parsed.day.areas).toEqual(field === "completed" ? original.day.areas : {});
+    expect(parsed.day.completed).toEqual(field === "areas" ? original.day.completed : {});
+    expect(parsed.points).toBe(original.points); expect(parsed.activeDays).toBe(original.activeDays);
+    expect(parsed.pulse).toEqual(original.pulse);
+    const snapshot = journeySnapshot(parsed, now);
+    expect(snapshot.points).toBe(original.points); expect(snapshot.todayPoints).toBe(original.day.points);
+  });
+  it.each(["areas", "completed"])("still rejects nonempty arrays and invalid map types for %s", (field) => {
+    for (const invalid of [[true], ["arcs"], [{ reading: true }], [null], null, 0, false, ""]) {
+      expect(() => parseJourneyState(JSON.stringify({ ...state(), day: { ...state().day, [field]: invalid } }))).toThrow();
+    }
+  });
+  it("does not extend empty-array compatibility to the state, day or pulse", () => {
+    for (const invalid of [[], { ...state(), day: [] }, { ...state(), pulse: [] }]) {
+      expect(() => parseJourneyState(JSON.stringify(invalid))).toThrow();
+    }
+  });
   it("uses the Brazil civil date and resets only daily counters on the next day", () => {
     expect(journeyDay(now)).toBe("2026-10-31");
     const tomorrow = journeySnapshot(state(), new Date("2026-11-01T03:00:00Z"));
