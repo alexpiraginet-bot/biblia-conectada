@@ -132,7 +132,7 @@ export async function GET(request: Request) {
   const card = await resolveShareCard(url.searchParams.get("path") ?? "/", format === "landscape" ? 205 : 500);
   if (!card) return new Response("Share page not found", { status: 404 });
   const [figtree, newsreader] = await fonts;
-  const scenic = card.kind === "passage" || card.kind === "connection" || card.kind === "liturgy" || format === "post";
+  const scenic = card.kind === "passage" || card.kind === "connection" || card.kind === "liturgy" || card.path === "/apoie" || format === "post";
   return new ImageResponse(scenic ? <ScenicShareCard card={card} format={format} background={await shareScenery(card)} /> : card.kind === "liturgy" ? <LiturgyCard card={card} story={format === "story"} /> : format === "story" ? <StoryCard card={card} /> : <Card card={card} />, {
     width: format === "landscape" ? 1200 : 1080, height: format === "story" ? 1920 : format === "post" ? 1350 : 630,
     fonts: [
@@ -142,6 +142,7 @@ export async function GET(request: Request) {
     headers: {
       "Cache-Control": card.unavailable ? "public, max-age=30, s-maxage=60" : card.kind === "liturgy" ? "public, max-age=900, s-maxage=900, stale-while-revalidate=60" : "public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400",
       "X-Content-Type-Options": "nosniff",
+      ...(url.searchParams.get("download") === "1" ? { "Content-Disposition": `attachment; filename="biblia-conectada-${format}.png"` } : {}),
     },
   });
 }

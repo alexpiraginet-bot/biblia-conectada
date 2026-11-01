@@ -30,6 +30,7 @@ export const NAV: readonly NavItem[] = [
   { href: "/salvos", label: "Salvos", icon: "bookmark", rail: true, group: "Minha jornada", description: "Reencontre suas passagens" },
   { href: "/#sua-jornada", label: "Descobertas", icon: "check", group: "Minha jornada", description: "Aprenda com os desafios" },
   { href: "/", label: "Início", icon: "home", group: "Sobre o app", description: "Voltar à página inicial" },
+  { href: "/apoie", label: "Apoie esta missão", icon: "heart", group: "Sobre o app", description: "Mini Jesus, cestas básicas e mais Palavra" },
   { href: "/#como-funciona", label: "Como funciona", icon: "book", group: "Sobre o app", description: "Um guia para começar" },
   { href: "/instalar", label: "Instalar no celular", icon: "device", group: "Sobre o app", description: "Leve a Bíblia à tela inicial" },
   { href: "/qr", label: "QR Code desta página", icon: "share", group: "Sobre o app", description: "Abra esta leitura em outro celular" },

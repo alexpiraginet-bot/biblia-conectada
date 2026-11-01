@@ -391,6 +391,12 @@
   .quiet .actions { gap: 12px; }
   .dataLine { flex-direction: column; gap: 12px; padding: 23px 24px; line-height: 1.8; }
 }
+.supportInvite { margin: 0 auto; max-width: 1200px; padding: 48px 32px 72px; display: flex; align-items: center; gap: 32px; border-top: 1px solid var(--line); color: var(--ink); }
+.supportInvite > div { flex: 1; }
+.supportInvite h2 { font: 440 clamp(1.7rem, 3vw, 2.4rem)/1.15 var(--font-display); margin: 0 0 16px; }
+.supportInvite p:not(.eyebrow) { font: 400 1rem/1.6 var(--font-ui); color: var(--ink-2); max-width: 650px; }
+.supportInvite > a { flex-shrink: 0; }
+@media (max-width: 720px) { .supportInvite { padding: 32px 24px 64px; flex-direction: column; align-items: start; gap: 12px; } }
 @media (max-width: 390px) {
   .hero { padding-inline: 16px; }
   .heroCopy { padding-inline: 20px; }
