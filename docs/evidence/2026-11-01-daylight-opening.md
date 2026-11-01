@@ -12,6 +12,7 @@ Base: `a7320be` (PR47). Branch: `codex/daylight-home`. Mudança aprovada: abertu
 - QA contra o **build de produção local**, porta 3023: 9/9 casos. Chrome e WebKit, 375 × 812 e 1440 × 900, Dia/Noite, mais fallback sem JavaScript.
 - QA mede a posição da cabeça SVG em dois momentos após o toque e confirma deslocamento real, seleção exclusiva e URL de destino de cada conexão. Testa pausa, retomada, movimento reduzido, pausa fora de vista, volta à home e menu completo.
 - Sem overflow horizontal; todos os alvos da constelação com pelo menos 44 px; CTA inicial visível antes da dobra. Nenhum erro JS ou requisição de escrita nos fluxos testados.
+- Contraste conservador calculado sobre cada pixel do céu móvel, composto com a opacidade máxima: texto secundário Dia 5,24:1 e Noite 7,98:1; CTA bordô/dourado 7,13:1. O texto Dia foi escurecido após a primeira medição. O desvanecimento da imagem reduz a variação de fundo junto às ações.
 - Chrome Dev local usou `localhost`, pois o Next bloqueia HMR de `127.0.0.1` por padrão. A rodada Dev foi substituída por QA em build de produção, sem o overlay de desenvolvimento que cobria parte do menu. Não se alterou `allowedDevOrigins`.
 
 Evidências locais: `C:/Users/R2/.codex/visualizations/2026/10/20/01a15a31-4795-7dc2-b8a3-9529afb4fe17/daylight-opening-20261101/build/` (relatório e capturas), scripts `qa.mjs`, `preview.mjs` e `motion-check.mjs` no diretório pai.

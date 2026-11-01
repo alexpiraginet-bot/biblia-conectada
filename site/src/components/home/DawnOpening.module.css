@@ -21,7 +21,7 @@
 :global([data-theme="dia"]) .opening {
   --dawn-ground: #f8fbfe;
   --dawn-ink: #12243e;
-  --dawn-muted: #435b78;
+  --dawn-muted: #394f6c;
   --dawn-blue: #405f8b;
   --dawn-gold: #ae7625;
   --dawn-surface: #ffffffc9;
@@ -34,7 +34,7 @@
 }
 @media (prefers-color-scheme: light) {
   :global([data-theme="sistema"]) .opening {
-    --dawn-ground: #f8fbfe; --dawn-ink: #12243e; --dawn-muted: #435b78; --dawn-blue: #405f8b;
+    --dawn-ground: #f8fbfe; --dawn-ink: #12243e; --dawn-muted: #394f6c; --dawn-blue: #405f8b;
     --dawn-gold: #ae7625; --dawn-surface: #ffffffc9; --dawn-border: #91a4bd4d; --dawn-orb: #ffffff6b;
     --dawn-image-opacity: .52; --dawn-image-filter: none; --dawn-button: #541c32; --dawn-button-ink: #fce5ad;
   }
