@@ -1,3 +1,5 @@
+import type { TranslationId } from "../translations";
+
 export type LiturgyKind = "first" | "psalm" | "second" | "gospel" | "extra";
 export type LiturgyColor = "green" | "white" | "red" | "purple" | "rose" | "black" | "unknown";
 
@@ -14,7 +16,7 @@ export type LiturgyReading = {
   unavailableReason?: string;
 };
 export type LiturgySource = { name: string; url: string; officialUrl: string; notice: string };
-export type LiturgyEdition = { name: string; notice: string };
+export type LiturgyEdition = { id: TranslationId; name: string; notice: string };
 export type LiturgyDay = {
   ok: true;
   date: string;
@@ -31,7 +33,8 @@ export type LiturgyUnavailable = {
   ok: false;
   date: string;
   today: string;
-  code: "invalid-date" | "unavailable";
+  code: "invalid-date" | "invalid-edition" | "unavailable";
+  edition?: LiturgyEdition;
   message: string;
   source: LiturgySource;
 };

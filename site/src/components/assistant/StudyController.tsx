@@ -24,8 +24,9 @@ export function StudyController() {
       if (typeof HTMLDialogElement === "undefined" || !HTMLDialogElement.prototype.showModal) return;
       event.preventDefault();
       event.stopPropagation();
-      opener = next.opener;
-      setEntry(next);
+      // Switching actions inside the shared dialog must still return to the original reading link.
+      if (!next.opener.closest("[data-verse-dialog]") || !opener?.isConnected) opener = next.opener;
+      setEntry({ ...next, returnTo: opener });
       setFailed(false);
       clearTimeout(timer);
       timer = setTimeout(() => setFailed(true), 8000);
@@ -54,7 +55,7 @@ export function StudyController() {
   return Dialog ? <Dialog key={`${entry.kind}:${entry.path}`} entry={entry} onClose={() => setEntry(null)} />
     : <div data-verse-opening="" className={styles.status} role={failed ? "alert" : "status"}>{failed
       ? <>Não foi possível abrir. <a href={entry.opener.href}>Abrir em uma página</a></>
-      : entry.kind === "share" ? "Abrindo compartilhamento…" : "Abrindo o estudo…"}
-      <button type="button" aria-label="Fechar aviso" onClick={() => { entry.opener.focus({ preventScroll: true }); setEntry(null); }}>×</button>
+      : entry.kind === "share" ? "Abrindo compartilhamento…" : entry.kind === "connections" ? "Abrindo conexões…" : "Abrindo o estudo…"}
+      <button type="button" aria-label="Fechar aviso" onClick={() => { (entry.returnTo ?? entry.opener).focus({ preventScroll: true }); setEntry(null); }}>×</button>
     </div>;
 }

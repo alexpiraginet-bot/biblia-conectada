@@ -1,4 +1,4 @@
-export type VerseAction = { path: string; label: string; opener: HTMLAnchorElement; kind: "study" | "share" };
+export type VerseAction = { path: string; label: string; opener: HTMLAnchorElement; returnTo?: HTMLAnchorElement; kind: "study" | "share" | "connections" };
 
 /** Keep new tabs, downloads and modified clicks as ordinary browser navigation. */
 export function ordinaryLink(event: MouseEvent, selector: string): HTMLAnchorElement | null {
@@ -12,9 +12,10 @@ export function studyLinkFromEvent(event: MouseEvent): HTMLAnchorElement | null 
   return link && valid(link.dataset.studyRef) ? link : null;
 }
 export function verseActionFromEvent(event: MouseEvent): VerseAction | null {
-  const opener = ordinaryLink(event, "a[data-study-ref], a[data-share-ref]");
+  const opener = ordinaryLink(event, "a[data-study-ref], a[data-share-ref], a[data-connections-ref]");
   if (!opener) return null;
-  const kind = opener.dataset.shareRef === undefined ? "study" : "share";
-  const path = kind === "share" ? opener.dataset.shareRef : opener.dataset.studyRef;
-  return valid(path) ? { path: path!, label: opener.dataset.studyLabel ?? opener.dataset.shareLabel ?? "Passagem", opener, kind } : null;
+  const kind = opener.dataset.connectionsRef !== undefined ? "connections" : opener.dataset.shareRef === undefined ? "study" : "share";
+  const path = kind === "connections" ? opener.dataset.connectionsRef : kind === "share" ? opener.dataset.shareRef : opener.dataset.studyRef;
+  if (kind === "connections" && path?.startsWith("ler/")) return null;
+  return valid(path) ? { path: path!, label: opener.dataset.connectionsLabel ?? opener.dataset.studyLabel ?? opener.dataset.shareLabel ?? "Passagem", opener, kind } : null;
 }

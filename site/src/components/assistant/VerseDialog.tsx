@@ -6,6 +6,7 @@ import styles from "./StudyOverlay.module.css";
 
 const Study = lazy(() => import("./StudyOverlay").then((module) => ({ default: module.StudyOverlay })));
 const Share = lazy(() => import("../sharing/VerseShare").then((module) => ({ default: module.VerseShare })));
+const Connections = lazy(() => import("../reader/VerseConnections").then((module) => ({ default: module.VerseConnections })));
 export type VerseDialogProps = { entry: VerseAction; onClose: () => void };
 
 class ContentBoundary extends Component<{ children: ReactNode; href: string }, { failed: boolean }> {
@@ -35,20 +36,22 @@ export function VerseDialog({ entry, onClose }: VerseDialogProps) {
       root.style.overflow = overflow;
       if (window.location.href === href) {
         window.scrollTo({ left: x, top: y, behavior: "instant" });
-        if (entry.opener.isConnected && entry.opener.getClientRects().length) entry.opener.focus({ preventScroll: true });
+        const opener = entry.returnTo ?? entry.opener;
+        if (opener.isConnected && opener.getClientRects().length) opener.focus({ preventScroll: true });
       }
     };
   }, [entry]);
   const sharing = entry.kind === "share";
+  const connections = entry.kind === "connections";
   return <dialog ref={dialog} data-verse-dialog="" className={styles.dialog} aria-labelledby="verse-dialog-title"
     onCancel={(event) => { event.preventDefault(); onClose(); }} onClose={onClose}>
     <header className={styles.header}>
-      <div><span>{sharing ? "Leve esta palavra com você" : "Converse sobre a passagem"}</span><h2 id="verse-dialog-title">{entry.label}</h2></div>
-      <button type="button" aria-label={sharing ? "Fechar compartilhamento e voltar à leitura" : "Fechar estudo e voltar à leitura"} onClick={onClose}>×</button>
+      <div><span>{connections ? "Siga as conexões" : sharing ? "Leve esta palavra com você" : "Converse sobre a passagem"}</span><h2 id="verse-dialog-title">{entry.label}</h2></div>
+      <button type="button" aria-label={connections ? "Fechar conexões e voltar à leitura" : sharing ? "Fechar compartilhamento e voltar à leitura" : "Fechar estudo e voltar à leitura"} onClick={onClose}>×</button>
     </header>
     <div className={styles.body}>
       <ContentBoundary href={entry.opener.href}><Suspense fallback={<p role="status">{sharing ? "Abrindo compartilhamento…" : "Carregando o texto da passagem…"}</p>}>
-        {sharing ? <Share path={entry.path} /> : <Study path={entry.path} />}
+        {connections ? <Connections path={entry.path} /> : sharing ? <Share path={entry.path} /> : <Study path={entry.path} />}
       </Suspense></ContentBoundary>
     </div>
   </dialog>;

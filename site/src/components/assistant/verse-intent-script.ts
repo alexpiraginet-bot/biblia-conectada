@@ -10,7 +10,8 @@ function click(e){
 if(e.defaultPrevented||e.button!==0||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey||!(e.target instanceof Element))return;
 if(e.target.closest("#verse-intent-feedback button")){e.preventDefault();e.stopPropagation();clear(true);return}
 var a=e.target.closest("a[href]");if(!a||a.hasAttribute("download")||(a.target&&a.target!=="_self"))return;
-var ref=a.dataset.shareRef||a.dataset.studyRef;
+var ref=a.dataset.connectionsRef||a.dataset.shareRef||a.dataset.studyRef;
+if(a.dataset.connectionsRef&&ref.indexOf("ler/")===0){clear(false);return}
 if(!ref||!/^(?:ler\/open-nbv\/)?[a-z0-9-]+\/[1-9]\d{0,2}\/[1-9]\d{0,2}$/.test(ref)){clear(false);return}
 var b=box();if(!b)return;
 e.preventDefault();e.stopPropagation();clear(false);pending=a;

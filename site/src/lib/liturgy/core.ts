@@ -1,6 +1,8 @@
 import type { Book } from "../canon/types";
 import { isLiturgyDate, liturgyToday } from "./dates";
 import { resolveLiturgyReference } from "./references";
+import { getTranslation, translationPath } from "../translations";
+import { parseLiturgyEdition } from "./edition";
 import type { LiturgyColor, LiturgyDay, LiturgyKind, LiturgyReading, LiturgyResult, LiturgySource } from "./types";
 
 export const LITURGY_SOURCE: LiturgySource = {
@@ -10,6 +12,7 @@ export const LITURGY_SOURCE: LiturgySource = {
   notice: "Calendário e referências do serviço comunitário Liturgia Diária. Celebrações locais e opções de leitura podem variar. Na CNBB, selecione a mesma data para conferir o lecionário oficial.",
 };
 export const LITURGY_EDITION = {
+  id: "blivre" as const,
   name: "Bíblia Livre (BLIVRE)",
   notice: "Leitura para estudo em tradução livre. Não reproduz o lecionário oficial da Missa, seus refrãos ou orações. Os textos litúrgicos oficiais estão disponíveis na CNBB.",
 };
@@ -112,14 +115,25 @@ type LiturgyDependencies = {
   readVerse: (slug: string, chapter: number, verse: number) => Promise<string>;
   metadata: (date: string) => Promise<LiturgyMetadata>;
   now?: Date;
+  contextBooks?: readonly Book[];
+  readContextChapter?: (slug: string, chapter: number) => Promise<string[] | null>;
 };
 
-export async function createLiturgyResult(input: string | undefined, dependencies: LiturgyDependencies): Promise<LiturgyResult> {
+export async function createLiturgyResult(input: string | undefined, dependencies: LiturgyDependencies, editionInput?: string | string[]): Promise<LiturgyResult> {
   const now = dependencies.now ?? new Date();
   const today = liturgyToday(now);
   const date = input === undefined ? today : input;
+  const editionId = parseLiturgyEdition(editionInput);
+  if (editionId === null) return {
+    ok: false, code: "invalid-edition", date: isLiturgyDate(date) ? date : today, today, source: LITURGY_SOURCE,
+    message: "Esta edição não está disponível aqui. Escolha Bíblia Livre ou Open NBV para continuar.",
+  };
+  const edition = editionId === "blivre" ? LITURGY_EDITION : {
+    id: editionId, name: getTranslation(editionId)!.name,
+    notice: "Capítulos completos para contexto na Open NBV. O alinhamento dos versículos com a referência litúrgica não foi revisado; não representam o recorte do lecionário.",
+  };
   if (!isLiturgyDate(date)) return {
-    ok: false, code: "invalid-date", date: today, today, source: LITURGY_SOURCE,
+    ok: false, code: "invalid-date", date: today, today, source: LITURGY_SOURCE, edition,
     message: "Escolha uma data válida no calendário para consultar a liturgia.",
   };
   try {
@@ -127,8 +141,22 @@ export async function createLiturgyResult(input: string | undefined, dependencie
     if (metadata.date !== date) throw new Error("Calendar date mismatch");
     const readings: LiturgyReading[] = await Promise.all(metadata.readings.map(async (reading) => {
       const selection = resolveLiturgyReference(reading.reference, dependencies.books);
-      if ("unavailableReason" in selection) return { ...reading, passages: [], unavailableReason: selection.unavailableReason };
+      if ("unavailableReason" in selection) return { ...reading, passages: [], unavailableReason: selection.unavailableReason.replace("BLIVRE", editionId === "open-nbv" ? "Open NBV" : "BLIVRE") };
       const passages: LiturgyReading["passages"] = [];
+      if (editionId === "open-nbv") {
+        // The canonical parser is used ONLY to identify safe chapters. Its verse coordinates
+        // are deliberately discarded: same-number verses across editions are not aligned.
+        const book = dependencies.contextBooks?.find((candidate) => candidate.slug === selection.book.slug && candidate.osis === selection.book.osis);
+        if (!book || !dependencies.readContextChapter) throw new Error("Missing context edition");
+        for (const chapter of new Set(selection.coordinates.map((coordinate) => coordinate.chapter))) {
+          if (!book.verses[chapter - 1]) throw new Error("Unvalidated context chapter");
+          const rows = await dependencies.readContextChapter(book.slug, chapter);
+          if (!rows || rows.length !== book.verses[chapter - 1] || rows.some((text) => !text)) throw new Error("Missing licensed context chapter");
+          const path = translationPath(editionId, book.slug, chapter);
+          passages.push({ reference: `${book.name} ${chapter}`, path, verses: rows.map((text, index) => ({ number: index + 1, text, path: `${path}/${index + 1}` })) });
+        }
+        return { ...reading, passages, notice: edition.notice + (selection.book.osis === "Ps" ? " O salmo usa apenas o capítulo pareado entre parênteses; confira o refrão e a forma responsorial na CNBB." : "") };
+      }
       for (const coordinate of selection.coordinates) {
         const { chapter, verse } = coordinate;
         const text = await dependencies.readVerse(selection.book.slug, chapter, verse);
@@ -143,13 +171,13 @@ export async function createLiturgyResult(input: string | undefined, dependencie
       return { ...reading, passages, notice: selection.notice };
     }));
     return {
-      ok: true, ...metadata, date, today, readings, source: LITURGY_SOURCE, edition: LITURGY_EDITION,
+      ok: true, ...metadata, date, today, readings, source: LITURGY_SOURCE, edition,
       fetchedAt: now.toISOString(),
     } satisfies LiturgyDay;
   } catch {
     // No stale previous day, fabricated calendar, raw upstream body or sensitive failure details.
     return {
-      ok: false, code: "unavailable", date, today, source: LITURGY_SOURCE,
+      ok: false, code: "unavailable", date, today, source: LITURGY_SOURCE, edition,
       message: "Não foi possível confirmar as leituras desta data agora. Tente novamente ou consulte a liturgia oficial na CNBB.",
     };
   }

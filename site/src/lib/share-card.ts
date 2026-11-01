@@ -21,6 +21,8 @@ export type ShareCard = {
   kind: "landing" | "passage" | "connection" | "explore" | "liturgy";
   readings?: { label: string; reference: string; kind?: string }[];
   unavailable?: boolean;
+  /** Editorial context, never a Scripture quotation even when an edition label is present. */
+  contextOnly?: boolean;
 };
 
 const grid = createGrid(books);
@@ -126,6 +128,15 @@ export async function resolveShareCard(raw: string, excerptLimit: 205 | 500 = 20
   const parsed = parseSharePath(raw);
   if (!parsed) return null;
   const { pathname: path, ref } = parsed;
+  const query = new URL(raw, "https://share.invalid").searchParams;
+  let liturgyEdition: "blivre" | "open-nbv" = "blivre";
+  if (path === "/liturgia" || path.startsWith("/dia/")) {
+    const { parseLiturgyEdition } = await import("./liturgy/edition");
+    const editions = query.getAll("edition");
+    const selected = parseLiturgyEdition(editions.length > 1 ? editions : editions[0]);
+    if (!selected) return null;
+    liturgyEdition = selected;
+  }
   if (path.startsWith("/dia/") || (path === "/liturgia" && new URL(raw, "https://share.invalid").searchParams.has("date"))) {
     const { isLiturgyDate } = await import("./liturgy/dates");
     const dates = new URL(raw, "https://share.invalid").searchParams.getAll("date");
@@ -134,8 +145,14 @@ export async function resolveShareCard(raw: string, excerptLimit: 205 | 500 = 20
     if (!isLiturgyDate(date)) return null;
     const { getDailyLiturgy } = await import("./liturgy/service");
     const { createLiturgyShareCard } = await import("./liturgy/share");
-    return createLiturgyShareCard(await getDailyLiturgy(date), excerptLimit);
+    return createLiturgyShareCard(await getDailyLiturgy(date, liturgyEdition), excerptLimit);
   }
+  if (path === "/liturgia" && liturgyEdition === "open-nbv") return {
+    path: "/liturgia?edition=open-nbv", ...sections[path],
+    description: "Referências das leituras de hoje e capítulos completos na Open NBV para contexto, sem equivalência de versículos presumida.",
+    source: "Open NBV · leitura de contexto",
+    contextOnly: true,
+  };
   if ((path === "/arcos" || path === "/arcos/plano") && ref !== null) {
     return skyCard(path, ref, excerptLimit);
   }

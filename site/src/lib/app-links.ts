@@ -1,9 +1,10 @@
 import { SITE_URL } from "./site-identity";
 import { isLiturgyDate } from "./liturgy/dates";
+import { parseLiturgyEdition } from "./liturgy/edition";
 
 const INTERNAL = /^\/(?:api|_next|\.well-known|instalar|qr|og|admin|auth|login|logout|icons|data|dados\/v1)(?:\/|$)/i;
 const QUERY: Record<string, readonly string[]> = {
-  "/arcos": ["ref", "v"], "/assistente": ["ref", "translation"], "/liturgia": ["date"],
+  "/arcos": ["ref", "v"], "/assistente": ["ref", "translation"], "/liturgia": ["date", "edition"],
 };
 
 /** Public content only: no external redirect, private query, credentials or nested redirect. */
@@ -20,10 +21,12 @@ export function safeContentPath(value: string | null | undefined): string | null
     if (!/^\/[a-z0-9/-]*$/.test(path) || path.includes("//") || INTERNAL.test(path)) return null;
     if (path.startsWith("/dia/") && !isLiturgyDate(path.slice(5))) return null;
     const query = new URLSearchParams();
-    for (const key of QUERY[path] ?? []) {
+    for (const key of (path.startsWith("/dia/") ? ["edition"] : QUERY[path] ?? [])) {
       const values = url.searchParams.getAll(key);
       if (values.length > 1) return null;
       const item = values[0];
+      if (key === "edition" && parseLiturgyEdition(item) === null) return null;
+      if (key === "edition" && item === "blivre") continue;
       if (item && item.length <= 200 && !/[\u0000-\u001f\u007f<>]/.test(item)) query.set(key, item);
     }
     let destination = path;
