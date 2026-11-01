@@ -2,7 +2,7 @@
 .intro { margin: 0 0 16px; color: var(--ink-2); }
 .links, .ready { display: grid; gap: 8px; }
 .primary, .secondary, .prepare { display: flex; align-items: center; justify-content: center; gap: 14px; width: 100%; min-height: 46px; padding: 10px 15px; border-radius: 10px; border: 1px solid var(--line); text-align: center; text-decoration: none; cursor: pointer; font: 600 14px/1.4 var(--font-ui), sans-serif; }
-.primary { color: #211018; background: #e5c48c; border-color: #e5c48c; }
+.primary { color: #f8e6bc; background: #541c32; border-color: #a97865; }
 .secondary { color: var(--ink); background: transparent; }
 .prepare { justify-content: space-between; color: var(--ink); background: var(--surface); border-style: dashed; margin-top: 14px; }
 .primary:hover, .secondary:hover, .prepare:hover { filter: brightness(1.08); }
@@ -10,7 +10,7 @@
 .hint { color: var(--ink-2); font-size: 12px; line-height: 1.5; margin: 10px 0 0; }
 .images { margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--line); }
 .images h3 { margin: 0 0 12px; color: var(--ink); font: 400 25px/1.2 var(--font-display), serif; }
-.formats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0; margin: 0; border: 0; }
+.formats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0; margin: 0; border: 0; }
 .formats label { position: relative; display: flex; flex-direction: column; justify-content: center; min-height: 64px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; cursor: pointer; }
 .formats label[data-selected] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
 .formats input { position: absolute; opacity: 0; width: 1px; height: 1px; }

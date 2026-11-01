@@ -2,7 +2,12 @@ import { BASE, BOOKS, verseFromPath } from "@/lib/community/books-client";
 import { SHARE_IMAGE_VERSION, SITE_NAME, SITE_URL } from "@/lib/site-identity";
 import { getTranslation, parseTranslationPath, translationPath } from "@/lib/translations";
 
-export type ShareFormat = "landscape" | "story";
+export type ShareFormat = "landscape" | "story" | "post";
+export const SHARE_FORMATS = {
+  story: { label: "Stories", width: 1080, height: 1920 },
+  post: { label: "Post", width: 1080, height: 1350 },
+  landscape: { label: "Capa do link", width: 1200, height: 630 },
+} as const;
 export function verseShareOptions(path: string) {
   const localPath = path.startsWith("/") ? path : `/${path}`;
   const selected = parseTranslationPath(localPath);
@@ -27,7 +32,7 @@ export function verseShareOptions(path: string) {
     licenseUrl: edition?.licenseUrl,
     whatsapp: `https://wa.me/?text=${encodeURIComponent(`${reference}${edition ? ` · ${edition.shortName}` : ""} · ${SITE_NAME}\n${url}`)}`,
     image: (format: ShareFormat) => `/og?${new URLSearchParams({ path: canonicalPath, format, v: SHARE_IMAGE_VERSION })}`,
-    filename: (format: ShareFormat) => `biblia-conectada-${edition ? `${edition.id}-` : ""}${book.slug}-${chapter}-${verse}-${format === "story" ? "stories" : "capa"}.png`,
+    filename: (format: ShareFormat) => `biblia-conectada-${edition ? `${edition.id}-` : ""}${book.slug}-${chapter}-${verse}-${format === "story" ? "stories" : format === "post" ? "post" : "capa"}.png`,
   };
 }
 
@@ -45,8 +50,8 @@ export async function prepareShareImage(options: Pick<ShareOptions, "image" | "f
   const header = new Uint8Array(await blob.slice(0, 24).arrayBuffer());
   const dimensions = new DataView(header.buffer);
   if (![137, 80, 78, 71, 13, 10, 26, 10].every((value, i) => header[i] === value)
-    || dimensions.getUint32(16) !== (format === "story" ? 1080 : 1200)
-    || dimensions.getUint32(20) !== (format === "story" ? 1920 : 630)) throw new Error("invalid image");
+    || dimensions.getUint32(16) !== SHARE_FORMATS[format].width
+    || dimensions.getUint32(20) !== SHARE_FORMATS[format].height) throw new Error("invalid image");
   return new File([blob], options.filename(format), { type: "image/png", lastModified: 0 });
 }
 

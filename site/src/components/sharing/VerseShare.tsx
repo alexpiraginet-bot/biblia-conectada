@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import { canShareImage, prepareShareImage, verseShareOptions, type ShareFormat, type ShareOptions } from "./share-options";
+import { canShareImage, prepareShareImage, SHARE_FORMATS, verseShareOptions, type ShareFormat, type ShareOptions } from "./share-options";
 import styles from "./VerseShare.module.css";
 
 type Prepared = { file: File; url: string; native: boolean };
@@ -10,7 +10,7 @@ export function VerseShare({ path }: { path: string }) {
   return <ShareCardActions options={verseShareOptions(path)} />;
 }
 
-export function ShareCardActions({ options, daily = false, dailyContext = false }: { options: ShareOptions; daily?: boolean; dailyContext?: boolean }) {
+export function ShareCardActions({ options, daily = false, dailyContext = false, connection = false }: { options: ShareOptions; daily?: boolean; dailyContext?: boolean; connection?: boolean }) {
   const id = useId();
   const [format, setFormat] = useState<ShareFormat>("story");
   const [prepared, setPrepared] = useState<Prepared | null>(null);
@@ -59,26 +59,26 @@ export function ShareCardActions({ options, daily = false, dailyContext = false 
     } catch (error) { failed(error as Error); }
   }
   async function copy() {
-    try { await navigator.clipboard.writeText(options.url); setMessage(daily ? "Link deste dia copiado." : "Link do versículo copiado."); setCopyFallback(false); }
+    try { await navigator.clipboard.writeText(options.url); setMessage(connection ? "Link da conexão copiado." : daily ? "Link deste dia copiado." : "Link do versículo copiado."); setCopyFallback(false); }
     catch { setCopyFallback(true); setMessage("Selecione o link abaixo para copiar."); }
   }
   return <div className={styles.content}>
-    <p className={styles.intro}>{daily ? "Leve as leituras deste dia para alguém. O link preserva a data e a edição escolhidas." : "Uma palavra pode encontrar alguém no momento certo."}</p>
+    <p className={styles.intro}>{connection ? "Leve essa descoberta com você. A arte mostra as duas referências sobre o túnel dourado." : daily ? "Leve as leituras deste dia para alguém. O link preserva a data e a edição escolhidas." : "Uma palavra pode encontrar alguém no momento certo."}</p>
     <div className={styles.links}>
       <a className={styles.primary} href={options.whatsapp} target="_blank" rel="noopener noreferrer">Enviar link no WhatsApp <span aria-hidden="true">↗</span></a>
       <button type="button" className={styles.secondary} onClick={copy}>Copiar link</button>
     </div>
-    <p className={styles.hint}>{daily ? dailyContext ? "A capa mostra a data e as referências, sem citação de versículo. O link abre os capítulos de contexto na Open NBV." : "A capa mostra a data e as referências das leituras. O trecho, quando disponível, é da Bíblia Livre." : options.attribution ? `O link mantém esta edição: ${options.editionName}.` : "O link abre este versículo, com uma capa na prévia."}</p>
-    {copyFallback && <input className={styles.url} aria-label={daily ? "Link deste dia para copiar" : "Link do versículo para copiar"} readOnly value={options.url} onFocus={(event) => event.currentTarget.select()} />}
+    <p className={styles.hint}>{connection ? "O link abre as passagens conectadas. A imagem é uma ilustração simbólica da viagem." : daily ? dailyContext ? "A capa mostra a data e as referências, sem citação de versículo. O link abre os capítulos de contexto na Open NBV." : "A capa mostra a data e as referências das leituras. O trecho, quando disponível, é da Bíblia Livre." : options.attribution ? `O link mantém esta edição: ${options.editionName}.` : "O link abre este versículo, com uma capa na prévia."}</p>
+    {copyFallback && <input className={styles.url} aria-label={connection ? "Link da conexão para copiar" : daily ? "Link deste dia para copiar" : "Link do versículo para copiar"} readOnly value={options.url} onFocus={(event) => event.currentTarget.select()} />}
 
     <section className={styles.images} aria-labelledby={`${id}-title`}>
       <h3 id={`${id}-title`}>Compartilhe em imagem</h3>
       <fieldset className={styles.formats} disabled={busy || sharing}>
         <legend className="visually-hidden">Formato da imagem</legend>
-        {(["story", "landscape"] as const).map((value) => <label key={value} data-selected={format === value || undefined}>
+        {(["story", "post", "landscape"] as const).map((value) => <label key={value} data-selected={format === value || undefined}>
           <input type="radio" name={`${id}-format`} value={value} checked={format === value} onChange={() => choose(value)} />
-          <span>{value === "story" ? "Stories" : "Capa horizontal"}</span>
-          <small>{value === "story" ? "1080 × 1920" : "1200 × 630"}</small>
+          <span>{SHARE_FORMATS[value].label}</span>
+          <small>{SHARE_FORMATS[value].width} × {SHARE_FORMATS[value].height}</small>
         </label>)}
       </fieldset>
       {prepared ? <><button type="button" className={styles.previewToggle} aria-expanded={expanded}
@@ -87,8 +87,8 @@ export function ShareCardActions({ options, daily = false, dailyContext = false 
       </button><figure id={`${id}-preview`} className={styles.preview} data-format={format} data-expanded={expanded || undefined}>
         {/* A local blob is already the final PNG; Next Image would add no benefit here. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={prepared.url} alt={`${format === "story" ? "Story" : "Capa"} de ${options.reference}${daily ? "" : `, com texto de ${options.editionName}`}`}
-          width={format === "story" ? 1080 : 1200} height={format === "story" ? 1920 : 630} />
+        <img src={prepared.url} alt={`${SHARE_FORMATS[format].label} de ${options.reference}${daily || connection ? "" : `, com texto de ${options.editionName}`}`}
+          width={SHARE_FORMATS[format].width} height={SHARE_FORMATS[format].height} />
       </figure></> : <button type="button" className={styles.prepare} disabled={busy} onClick={prepare}>
         {busy ? "Preparando imagem…" : "Preparar imagem"}<span aria-hidden="true">↓</span>
       </button>}
@@ -96,7 +96,7 @@ export function ShareCardActions({ options, daily = false, dailyContext = false 
         {prepared.native && <button type="button" className={styles.primary} disabled={sharing} onClick={share}>{sharing ? "Compartilhando…" : "Compartilhar imagem"}<span aria-hidden="true">↗</span></button>}
         <a className={prepared.native ? styles.secondary : styles.primary} href={prepared.url} download={prepared.file.name}>Baixar imagem <span aria-hidden="true">↓</span></a>
       </div>}
-      <p className={styles.hint}>{format === "story" ? "Escolha o Instagram no menu do aparelho, quando disponível. Ou baixe a imagem e adicione ao seu Story." : "A mesma capa do link, pronta para enviar ou guardar. Trechos longos aparecem com reticências."}</p>
+      <p className={styles.hint}>{format === "story" ? "Escolha o Instagram no menu do aparelho, quando disponível. Ou baixe a imagem e adicione ao seu Story." : format === "post" ? "Imagem vertical para o feed. Baixe e publique no Instagram ou envie pelo WhatsApp." : "A mesma capa do link, pronta para enviar ou guardar. Trechos longos aparecem com reticências."}</p>
     </section>
     {options.attribution && <p className={styles.hint}>
       {options.attribution}{" "}<a href={options.licenseUrl} target="_blank" rel="noopener noreferrer">{options.license}</a>

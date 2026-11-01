@@ -193,8 +193,13 @@ export async function resolveShareCard(raw: string, excerptLimit: 205 | 500 = 20
   }
   const selected = passage(parts);
   if (selected) return passageCard(path, selected, undefined, excerptLimit);
-  if (parts[0] === "conexao" && parts.length === 3) {
+  if ((parts[0] === "conexao" || parts[0] === "encontro") && parts.length === 3) {
     const a = side(parts[1]), b = side(parts[2]);
+    if (parts[0] === "encontro") {
+      if (!a?.chapter || !b?.chapter || a.verse || b.verse) return null;
+      const { connectionOf } = await import("./explore/atlas-data");
+      if (!await connectionOf(a.book, a.chapter, b.book.firstChapter + b.chapter - 1)) return null;
+    }
     return a && b ? pairCard(path, a, b) : null;
   }
   if (parts[0] === "explorar") {

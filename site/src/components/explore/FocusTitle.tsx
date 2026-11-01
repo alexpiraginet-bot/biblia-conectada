@@ -17,7 +17,7 @@ export function FocusTitle() {
       firstLoad.current = false;
       return;
     }
-    mark.current?.parentElement?.querySelector<HTMLElement>("h2, h3")?.focus({ preventScroll: true });
+    mark.current?.parentElement?.querySelector<HTMLElement>("h1, h2, h3")?.focus({ preventScroll: true });
   }, []);
   return <span ref={mark} hidden />;
 }

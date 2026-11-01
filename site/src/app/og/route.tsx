@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { resolveShareCard, type ShareCard } from "@/lib/share-card";
 import { SITE_NAME, SITE_URL } from "@/lib/site-identity";
+import { ScenicShareCard, shareScenery } from "@/components/sharing/ScenicShareCard";
 
 // WOFF, rather than the site's WOFF2, is supported by ImageResponse/Satori. Both are
 // deterministic conversions of the existing OFL fonts, read once on the server.
@@ -126,13 +127,14 @@ function LiturgyCard({ card, story }: { card: ShareCard; story: boolean }) {
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const format = url.searchParams.get("format") ?? "landscape";
-  if (url.searchParams.getAll("format").length > 1 || (format !== "landscape" && format !== "story")) return new Response("Invalid share format", { status: 400 });
+  if (url.searchParams.getAll("format").length > 1 || (format !== "landscape" && format !== "story" && format !== "post")) return new Response("Invalid share format", { status: 400 });
   if (url.searchParams.getAll("path").length > 1) return new Response("Invalid share path", { status: 400 });
-  const card = await resolveShareCard(url.searchParams.get("path") ?? "/", format === "story" ? 500 : 205);
+  const card = await resolveShareCard(url.searchParams.get("path") ?? "/", format === "landscape" ? 205 : 500);
   if (!card) return new Response("Share page not found", { status: 404 });
   const [figtree, newsreader] = await fonts;
-  return new ImageResponse(card.kind === "liturgy" ? <LiturgyCard card={card} story={format === "story"} /> : format === "story" ? <StoryCard card={card} /> : <Card card={card} />, {
-    width: format === "story" ? 1080 : 1200, height: format === "story" ? 1920 : 630,
+  const scenic = card.kind === "passage" || card.kind === "connection" || card.kind === "liturgy" || format === "post";
+  return new ImageResponse(scenic ? <ScenicShareCard card={card} format={format} background={await shareScenery(card)} /> : card.kind === "liturgy" ? <LiturgyCard card={card} story={format === "story"} /> : format === "story" ? <StoryCard card={card} /> : <Card card={card} />, {
+    width: format === "landscape" ? 1200 : 1080, height: format === "story" ? 1920 : format === "post" ? 1350 : 630,
     fonts: [
       { name: "Figtree", data: figtree, weight: 500, style: "normal" },
       { name: "Newsreader", data: newsreader, weight: 400, style: "normal" },

@@ -87,6 +87,7 @@ Space Grotesk, Space Mono e Cormorant (as três dos vídeos), Literata (texto b�
 - Sem rostos de pessoas.
 - Prompts e ids dos jobs: `estudos/biblia-natal/source/PROMPTS.md`.
 - **Medalhões do Explorar:** ilustrações geradas por IA (OpenAI `gpt-image-2.5-sunburst-2026-09-08`), conferidas uma a uma e marcadas como "Ilustração" no site. Prompts e revisão: `site/scripts/data/medallions-review.json`.
+- **Abertura, travessia e fundos de compartilhamento:** vale de amanhecer, esfera de cristal e túnel decorativos gerados pela ferramenta integrada `image_gen`, sem pessoas, texto bíblico ou representação de lugar histórico. Nós, linhas, pulsos e rótulos são interface nativa; ligações vêm do grafo real e as citações das fontes identificadas. Direção, arquivos e hashes em `design/ABERTURA-DIA-20261101.md`.
 
 ## Código e dados deste repositório
 

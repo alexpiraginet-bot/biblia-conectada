@@ -7,7 +7,7 @@ import { useEffect, useRef, type ReactNode } from "react";
 export function SiteShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const discovery = pathname === "/" || pathname === "/caminhos" || pathname === "/cronologia" || pathname === "/arcos" || pathname === "/assistente" || pathname === "/coracao";
-  return <div className="site-shell" data-discovery={discovery ? "" : undefined} data-immersive={pathname === "/arcos" ? "" : undefined}>{children}</div>;
+  return <div className="site-shell" data-homepage={pathname === "/" ? "" : undefined} data-discovery={discovery ? "" : undefined} data-immersive={pathname === "/arcos" ? "" : undefined}>{children}</div>;
 }
 
 /** Link copy and icons are server-rendered slots, rather than duplicating the complete catalogue in initial JS. */

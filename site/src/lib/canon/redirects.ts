@@ -8,12 +8,12 @@ import type { Book } from "./types";
 // Top-level segments that are pages, planned pages or public folders (tests/routes.test.ts keeps this list honest).
 export const RESERVED = [
   // pages
-  "ler", "sobre", "arcos", "explorar", "conexao", "linha-do-tempo", "tema", "palavra", "ponte", "trilha", "mesa",
+  "ler", "sobre", "arcos", "explorar", "conexao", "encontro", "linha-do-tempo", "tema", "palavra", "ponte", "trilha", "mesa",
   "dados", "salvos", "buscar", "privacidade", "caminhos", "cronologia", "instalar", "coracao", "interlinear", "liturgia", "dia", "jornada", "qr", ".well-known",
   // planned (design/README.md §5, HANDOFF §6)
   "grafo", "mapa", "lugar", "pessoa", "evento", "estudo", "assistente", "og",
   // public folders and framework paths
-  "data", "sky", "sculpture", "medalhoes", "img", "recepcao", "journey", "icons", "_next", "api", "icon.svg", "manifest.webmanifest",
+  "data", "sky", "sculpture", "medalhoes", "img", "recepcao", "journey", "home", "icons", "_next", "api", "icon.svg", "manifest.webmanifest",
 ];
 
 export function abbreviationRedirects(books: readonly Pick<Book, "osis" | "name" | "slug">[]) {

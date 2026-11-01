@@ -16,6 +16,12 @@ Escrito pelo Claude a pedido do Alex: "Prepare handoff para o códex seguir". Da
 
 ## 2. Estado e continuidade
 
+### Abertura clara e pulsos ao toque — 01/11
+
+Branch `codex/daylight-home`, base `a7320be`, PR48: abertura revista com vale de amanhecer e esferas de cristal, títulos nativos e conexões reais de João 1. Controles bordô/dourado com reflexos discretos seguem o pedido mais recente de minimalismo e foco na leitura. **Sistema é o padrão**; Dia/Noite escolhidos manualmente continuam preservados. Luz percorre os fios, com pausa, redução de movimento e suspensão fora de vista. [Evidências e limites desta revisão](evidence/2026-11-01-daylight-opening.md).
+
+O **túnel de 1 segundo foi aprovado e implementado**: módulo sob demanda, Pular/Escape, limpeza de foco/rolagem e chegada `/encontro/...` com textos reais, número de conexões e ações de estudo. Compartilhamento agora tem Stories, Post e capa horizontal: vale para versículo/dia, túnel para conexão, marca e fonte da edição. [Direção, procedência e propostas para o restante](../design/ABERTURA-DIA-20261101.md). Confirmar merge/READY e QA pública no relatório antes de chamar de publicado. O Motion do vídeo enviado pelo Drive foi delegado à nova sessão `01a196de-9bc6-7550-bee1-95aae555c3d7`, com narração/roteiro preservados e pasta própria; não deve editar este worktree.
+
 ### QR permanente e instalação por plataforma — 31/10
 
 PR #45, branch `codex/qr-app-entry`, base `d3a5c52`. Menu completo → **QR Code desta página** preserva a referência/edição/data/foco de Arcos; liturgia oferece QR datado e `/qr` oferece o link permanente das leituras de hoje. PNG de 1024 px, SVG e modo ampliado sem elementos sobre os módulos. Conteúdo abre primeiro; convite discreto depois oferece passos iOS/Android ou a loja quando explicitamente liberada.

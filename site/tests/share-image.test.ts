@@ -30,6 +30,16 @@ describe("share image formats", () => {
     }
   });
 
+  it("renders portrait posts for both a verse and a real connection", async () => {
+    for (const path of ["/joao/3/16", "/encontro/joao-1/genesis-1"]) {
+      const image = await png(path, "post");
+      expect([image.width, image.height]).toEqual([1080, 1350]);
+    }
+    expect((await resolveShareCard("/encontro/joao-1/genesis-1"))?.kind).toBe("connection");
+    expect(await resolveShareCard("/encontro/joao-999/genesis-1")).toBeNull();
+    expect(await resolveShareCard("/encontro/joao-1-1/genesis-1-1")).toBeNull();
+  });
+
   it("includes the longest source verse in a Story without the landscape excerpt cut", async () => {
     const all = books().flatMap((book) => bookFile(book.slug).chapters.flatMap((verses, chapter) => verses.map((verse, index) => ({
       path: `/${book.slug}/${chapter + 1}/${index + 1}`, text: verse.t,
