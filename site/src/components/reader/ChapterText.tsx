@@ -25,7 +25,7 @@ export function ChapterText({ book, chapter, verses }: { book: Book; chapter: nu
             </span>
             <span className="visually-hidden">Versículo {v.n}: </span>
             <span className={styles.vbody}>
-              <span data-scripture="">
+              <span data-scripture="" data-reading-ref={`/${book.slug}/${chapter}/${v.n}`}>
                 <Scripture text={v.text} />
               </span>{" "}
               <Link

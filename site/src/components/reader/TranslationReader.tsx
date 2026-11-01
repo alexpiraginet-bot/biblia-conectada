@@ -10,6 +10,7 @@ import { formatInt } from "@/lib/canon/text";
 import { EditionChoice } from "./EditionChoice";
 import { TranslationNavigator } from "./TranslationNavigator";
 import { TranslationVerseFocus } from "./TranslationVerseFocus";
+import { ChapterReadingControls } from "@/components/reading-progress/ReadingControls";
 import styles from "./translations.module.css";
 
 export type TranslationParams = { livro: string; cap: string; vers?: string };
@@ -68,12 +69,13 @@ export async function TranslationReader({ params }: { params: TranslationParams 
     </details>
     <div className={styles.readingGrid}>
       <article className={styles.scripture} aria-label={`${book.name} ${chapter}, Open Nova Bíblia Viva`}>
+        <ChapterReadingControls path={translationPath("open-nbv", book.slug, chapter)} label={`${book.name} ${chapter}`} />
         <ol className="bc-scripture" data-translation="open-nbv">
           {text.map((line, i) => <li key={i + 1} id={`v${i + 1}`} className={styles.verse}
             aria-current={verse === i + 1 ? "true" : undefined} data-verse={i + 1}>
             <Link className={styles.verseNumber} prefetch={false} href={`${translationPath("open-nbv", book.slug, chapter, i + 1)}#v${i + 1}`}
               aria-label={`${book.name} ${chapter}:${i + 1}, abrir passagem`}>{i + 1}</Link>
-            <div><span data-scripture="">{line}</span>
+            <div><span data-scripture="" data-reading-ref={translationPath("open-nbv", book.slug, chapter, i + 1)}>{line}</span>
               <div className={styles.verseActions}><VerseActions path={translationPath("open-nbv", book.slug, chapter, i + 1)} label={`${book.name} ${chapter}:${i + 1}`} /></div>
             </div>
           </li>)}

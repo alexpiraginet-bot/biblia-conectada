@@ -95,7 +95,7 @@ function Passage({ passage }: { passage: LoadedGospelPassage }) {
         <span>{passage.relation === "relato" ? "Relato" : "Passagem relacionada"}</span>
       </div>
       <blockquote>{passage.verses.map((verse) => (
-        <p key={verse.number}><sup>{verse.number}</sup>{verse.text}<br />
+        <p key={verse.number}><sup>{verse.number}</sup><span data-reading-ref={`/${passage.gospel}/${passage.chapter}/${verse.number}`}>{verse.text}</span><br />
           <VerseActions path={`/${passage.gospel}/${passage.chapter}/${verse.number}`}
             label={`${GOSPELS.find((item) => item.id === passage.gospel)!.label} ${passage.chapter}:${verse.number}`} />
         </p>
