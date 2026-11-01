@@ -39,7 +39,7 @@ export function ChapterText({ book, chapter, verses }: { book: Book; chapter: nu
                 <span className="i i-arc" />
                 {formatInt(n)}
               </Link>
-              {" "}<VerseActions path={`/${book.slug}/${chapter}/${v.n}`} label={`${book.name} ${chapter}:${v.n}`} />
+              {" "}<VerseActions path={`/${book.slug}/${chapter}/${v.n}`} label={`${book.name} ${chapter}:${v.n}`} connections={false} />
               {" "}<InterlinearStudyLink path={`/${book.slug}/${chapter}/${v.n}`} label={`${book.name} ${chapter}:${v.n}`} />
             </span>
           </li>

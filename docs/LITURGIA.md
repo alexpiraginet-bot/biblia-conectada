@@ -4,7 +4,22 @@
 
 `/liturgia` consulta a celebração informada para o dia civil de **America/Sao_Paulo**, sem depender da data do build. `?date=AAAA-MM-DD` permite consultar uma data escolhida. A página pode chamar `getDailyLiturgy` no servidor; `/api/liturgia` devolve o mesmo contrato para integrações futuras.
 
-São apresentados a celebração, a cor e as referências bíblicas do serviço comunitário **Liturgia Diária**, de Dancrf. Para estudo, o app carrega o texto exato da **Bíblia Livre (BLIVRE)** que já possui. O texto BLIVRE não é o lecionário oficial da Missa. A abertura é acolhedora e sem destaque denominacional, por pedido de Alex. A seção expansível **Sobre as leituras e suas fontes** declara claramente a origem católica do calendário no Brasil e dá acesso à CNBB para conferir a redação, a seleção de versos, os refrãos, as orações e outras celebrações.
+São apresentados a celebração, a cor e as referências bíblicas do serviço comunitário **Liturgia Diária**, de Dancrf. Para estudo, a página oferece **Bíblia Livre (BLIVRE)** e **Biblica® Open Nova Bíblia Viva™**, sem apresentar nenhuma delas como lecionário oficial. A abertura é acolhedora e sem destaque denominacional, por pedido de Alex. A seção expansível **Sobre as leituras e suas fontes** declara claramente a origem católica do calendário no Brasil e dá acesso à CNBB para conferir a redação, a seleção de versos, os refrãos, as orações e outras celebrações.
+
+## Escolha da edição — 01/11/2026
+
+- O seletor fica na própria página, com links acessíveis: **Bíblia Livre · Versículos para estudo** e **Open NBV · Capítulos para contexto**. Funciona sem um controlador de cliente adicional.
+- Ausência de `edition` seleciona BLIVRE. `edition=blivre` e `edition=open-nbv` são aceitos em `/liturgia`, `/dia/AAAA-MM-DD` e `/api/liturgia`. Valores desconhecidos, vazios ou repetidos são recusados explicitamente, antes da consulta ao calendário; a API retorna 400. Não há substituição silenciosa por outra edição.
+- A data e a edição seguem nos links anterior/seguinte/hoje, formulário, tentativa após falha, URL de compartilhamento, capa e QR. A aba aberta durante a virada do dia atualiza a mesma URL/edição.
+- Na Open NBV, `verseAlignment: unreviewed` permanece. O analisador BLIVRE identifica **somente os capítulos seguros**, descartando sua seleção de números de versos; o servidor valida esses capítulos contra o catálogo da Open NBV e carrega **todos os versos originais do capítulo**, inclusive posições adicionais. Não há destaque nem equivalência automática entre versos de edições diferentes.
+- A referência litúrgica original permanece no cabeçalho. Cada leitura avisa que o capítulo é contexto e não o recorte do lecionário. Capítulos ficam em disclosures nativos; o primeiro capítulo da primeira leitura abre inicialmente e os atalhos das leituras continuam disponíveis, evitando impor todos os capítulos longos na rolagem.
+- Salmos exigem o número de capítulo explicitamente pareado entre parênteses. Daniel, Ester, livros ausentes e notações não resolvidas continuam no acesso oficial. Erro de integridade/carregamento da edição não recebe texto emprestado de outra Bíblia.
+- IA e imagem de cada verso mantêm caminhos `/ler/open-nbv/...`. A Open NBV oferece **Conexões do capítulo na BLIVRE**, identificando a mudança de edição; não cria conexões exatas de versículos presumidamente equivalentes. Na BLIVRE, a ação **Conexões** abre o painel no mesmo contexto, preservando texto, IA, compartilhamento e retorno.
+- Os créditos integrais existentes da Open NBV, aviso da fonte original, marca e licença CC BY-SA 4.0 ficam visíveis no rodapé da leitura NBV. Nenhuma nova fonte bíblica foi importada nesta etapa.
+
+**Alternativas externas reais:** **Texto litúrgico · CNBB ↗** abre o site oficial; **Ave-Maria ↗ · leitura externa** abre <https://claretianos.com.br/biblia-ave-maria-online/>. A interface explica a abertura em outro site. Não há opção interna desabilitada, iframe, cópia da Canção Nova/CNBB/Ave-Maria, download de texto protegido ou promessa de licença adquirida. Os links são gerais; não inventam suporte a data ou versículo no destino.
+
+Testes acrescentados: `liturgy-editions.test.ts` cobre escolha e recusa de edições, resposta da API, capítulos integrais, posições adicionais NBV, referências entre capítulos, salmos pareados, livros não alinhados, falhas sem fallback e preservação da seleção BLIVRE. `liturgy-share.test.ts` e `app-links.test.ts` cobrem a edição nas capas, metadados e no conteúdo decodificado do QR. Build completo e validação visual desta etapa são registrados separadamente antes de publicação.
 
 ## Fonte, direitos e limites
 

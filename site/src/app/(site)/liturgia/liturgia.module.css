@@ -37,6 +37,24 @@
 .editionNote p { margin: 0; }
 .editionNote strong { color: var(--ink-2); font-weight: 600; }
 .editionMark { font-size: 20px; color: var(--accent); }
+.editionPicker { padding: 22px 0 0; }
+.editionPicker .sectionLabel { margin-bottom: 9px; }
+.editionChoices { display: flex; flex-wrap: wrap; gap: 8px; }
+.editionChoices a { display: block; min-width: 150px; min-height: 44px; padding: 10px 16px; border: 1px solid var(--line); border-radius: 13px; background: var(--surface); color: var(--ink); text-decoration: none; font-size: 14px; }
+.editionChoices a[aria-current="page"] { border-color: var(--accent); background: var(--highlight); }
+.editionChoices a:hover { border-color: var(--accent); }
+.editionChoices small { display: block; color: var(--ink-3); font-size: 11px; margin-top: 3px; }
+.externalEditions { display: flex; flex-wrap: wrap; column-gap: 24px; margin-top: 7px; }
+.externalEditions a { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; }
+.externalNotice { margin: 0; color: var(--ink-3); font-size: 12px; line-height: 1.6; }
+.contextChapter { margin: 10px 0; border: 1px solid var(--line); border-radius: 12px; }
+.contextChapter > summary { padding: 14px 16px; min-height: 44px; cursor: pointer; color: var(--ink); font-size: 15px; }
+.contextChapter > summary small { color: var(--ink-3); font-size: 12px; margin-left: 7px; }
+.contextChapter > .passage { padding: 0 16px 18px; }
+.chapterConnections { font: 400 13px/1.6 var(--font-ui); }
+.chapterConnections a { display: inline-flex; align-items: center; min-height: 44px; }
+.chapterConnections span { display: block; color: var(--ink-3); }
+.translationCredit { font-size: 12px; line-height: 1.7; margin-bottom: 24px; }
 .reading { padding: 28px 0 38px; border-top: 1px solid var(--line); scroll-margin-top: calc(var(--bar-h) + 16px); }
 .readingHeader { display: flex; align-items: start; gap: 18px; margin-bottom: 22px; }
 .readingHeader > .readingNumber { display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; width: 36px; height: 36px; flex-shrink: 0; }
@@ -87,6 +105,12 @@
   .readingNav small, .readingNav .readingNumber { display: none; }
   .officialLink { font-size: 11px; }
   .editionNote { padding-bottom: 10px; font-size: 12px; }
+  .editionPicker { padding-top: 16px; }
+  .editionChoices { display: grid; grid-template-columns: 1fr 1fr; }
+  .editionChoices a { min-width: 0; padding: 10px 12px; }
+  .externalEditions { column-gap: 16px; }
+  .externalEditions a { font-size: 12px; }
+  .contextChapter > summary small { display: block; margin: 4px 0 0; }
   .reading { padding: 22px 0 28px; }
   .readingHeader { gap: 12px; margin-bottom: 18px; }
   .reading h2 { font-size: 29px; }

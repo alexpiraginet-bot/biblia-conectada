@@ -16,7 +16,7 @@ describe("verse sharing", () => {
     expect(html).toContain('href="/og?path=/jeremias/17/8"');
     expect(html).toContain('data-share-ref="jeremias/17/8"');
     expect(html).toContain('aria-label="Compartilhar Jeremias 17:8"');
-    expect(html.match(/aria-haspopup="dialog"/g)).toHaveLength(2);
+    expect(html.match(/aria-haspopup="dialog"/g)).toHaveLength(3);
   });
 
   it("uses the public exact-verse URL and local PNG endpoint in both formats", () => {

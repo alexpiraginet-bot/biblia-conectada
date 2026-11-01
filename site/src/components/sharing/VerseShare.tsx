@@ -10,7 +10,7 @@ export function VerseShare({ path }: { path: string }) {
   return <ShareCardActions options={verseShareOptions(path)} />;
 }
 
-export function ShareCardActions({ options, daily = false }: { options: ShareOptions; daily?: boolean }) {
+export function ShareCardActions({ options, daily = false, dailyContext = false }: { options: ShareOptions; daily?: boolean; dailyContext?: boolean }) {
   const id = useId();
   const [format, setFormat] = useState<ShareFormat>("story");
   const [prepared, setPrepared] = useState<Prepared | null>(null);
@@ -63,12 +63,12 @@ export function ShareCardActions({ options, daily = false }: { options: ShareOpt
     catch { setCopyFallback(true); setMessage("Selecione o link abaixo para copiar."); }
   }
   return <div className={styles.content}>
-    <p className={styles.intro}>{daily ? "Leve as leituras deste dia para alguém. O link preserva a data escolhida." : "Uma palavra pode encontrar alguém no momento certo."}</p>
+    <p className={styles.intro}>{daily ? "Leve as leituras deste dia para alguém. O link preserva a data e a edição escolhidas." : "Uma palavra pode encontrar alguém no momento certo."}</p>
     <div className={styles.links}>
       <a className={styles.primary} href={options.whatsapp} target="_blank" rel="noopener noreferrer">Enviar link no WhatsApp <span aria-hidden="true">↗</span></a>
       <button type="button" className={styles.secondary} onClick={copy}>Copiar link</button>
     </div>
-    <p className={styles.hint}>{daily ? "A capa mostra a data e as referências das leituras. O trecho, quando disponível, é da Bíblia Livre." : options.attribution ? `O link mantém esta edição: ${options.editionName}.` : "O link abre este versículo, com uma capa na prévia."}</p>
+    <p className={styles.hint}>{daily ? dailyContext ? "A capa mostra a data e as referências, sem citação de versículo. O link abre os capítulos de contexto na Open NBV." : "A capa mostra a data e as referências das leituras. O trecho, quando disponível, é da Bíblia Livre." : options.attribution ? `O link mantém esta edição: ${options.editionName}.` : "O link abre este versículo, com uma capa na prévia."}</p>
     {copyFallback && <input className={styles.url} aria-label={daily ? "Link deste dia para copiar" : "Link do versículo para copiar"} readOnly value={options.url} onFocus={(event) => event.currentTarget.select()} />}
 
     <section className={styles.images} aria-labelledby={`${id}-title`}>

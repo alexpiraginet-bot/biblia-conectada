@@ -50,7 +50,7 @@ function Card({ card }: { card: ShareCard }) {
       <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", flexGrow: 1, position: "relative", paddingTop: 19, paddingBottom: 18 }}>
         <div style={{ display: "flex", color: "#e5c48c", fontSize: 17, letterSpacing: 3, marginBottom: 15 }}>{card.eyebrow}</div>
         <div style={{ display: "flex", maxWidth: 970, fontFamily: "Newsreader", fontWeight: 400, fontSize: titleSize, lineHeight: 1.04, letterSpacing: -1.7, whiteSpace: "pre-line" }}>{card.title}</div>
-        <div style={{ display: "flex", maxWidth: card.kind === "passage" ? 925 : 855, marginTop: 22, fontSize: card.kind === "passage" ? 32 : 30, lineHeight: 1.35, color: "#e0d5cc" }}>{card.source ? `“${card.description}”` : card.description}</div>
+        <div style={{ display: "flex", maxWidth: card.kind === "passage" ? 925 : 855, marginTop: 22, fontSize: card.kind === "passage" ? 32 : 30, lineHeight: 1.35, color: "#e0d5cc" }}>{card.source && !card.contextOnly ? `“${card.description}”` : card.description}</div>
       </div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", paddingTop: 15, borderTop: "1px solid #413336", minHeight: 42 }}>
         <span style={{ fontSize: 19, color: "#b8aaa6" }}>{card.source ?? "Uma história. Tudo se conecta."}</span>
@@ -85,7 +85,7 @@ function StoryCard({ card }: { card: ShareCard }) {
       <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", flexGrow: 1, padding: "40px 0" }}>
         <div style={{ display: "flex", color: "#e5c48c", fontSize: 23, lineHeight: 1.4, letterSpacing: 3, marginBottom: 28 }}>{card.eyebrow}</div>
         <div style={{ display: "flex", fontFamily: "Newsreader", fontWeight: 400, fontSize: titleSize, lineHeight: 1.08, letterSpacing: -1.5, whiteSpace: "pre-line" }}>{card.title}</div>
-        <div style={{ display: "flex", marginTop: 42, fontFamily: "Newsreader", fontWeight: 400, fontSize: textSize, lineHeight: 1.33, color: "#e0d5cc" }}>{card.source ? `“${card.description}”` : card.description}</div>
+        <div style={{ display: "flex", marginTop: 42, fontFamily: "Newsreader", fontWeight: 400, fontSize: textSize, lineHeight: 1.33, color: "#e0d5cc" }}>{card.source && !card.contextOnly ? `“${card.description}”` : card.description}</div>
         {shortened && <div style={{ display: "flex", marginTop: 24, fontSize: 23, color: "#b8aaa6" }}>Trecho · Leia o versículo completo no site.</div>}
       </div>
       <div style={{ display: "flex", flexDirection: "column", flexShrink: 0, gap: 18, paddingTop: 28, borderTop: "1px solid #5d443b" }}>
@@ -114,7 +114,7 @@ function LiturgyCard({ card, story }: { card: ShareCard; story: boolean }) {
         <div style={{ display: "flex", fontSize: story ? 23 : 16, letterSpacing: 3, color: "#e5c48c", marginBottom: story ? 20 : 10 }}>{card.eyebrow}</div>
         <div style={{ display: "flex", fontFamily: "Newsreader", fontWeight: 400, fontSize: story ? 84 : 58, lineHeight: 1.08, letterSpacing: -1.5 }}>{card.title}</div>
         {visibleReadings.length > 0 && <div style={{ display: "flex", flexDirection: "column", gap: story ? 13 : 7, marginTop: story ? 34 : 20, paddingTop: story ? 26 : 14, borderTop: "1px solid #413336" }}>{visibleReadings.map((reading, index) => <div key={index} style={{ display: "flex", gap: story ? 22 : 16, alignItems: "baseline", fontSize: story ? 30 : 20, lineHeight: 1.25 }}><span style={{ display: "flex", color: "#b8aaa6", minWidth: story ? 205 : 160, maxWidth: story ? 235 : 200 }}>{reading.label}</span><span style={{ display: "flex", flex: 1, color: "#e5c48c" }}>{reading.reference}</span></div>)}{remaining > 0 && <div style={{ display: "flex", color: "#b8aaa6", fontSize: story ? 24 : 16 }}>Mais {remaining} leituras disponíveis no site.</div>}</div>}
-        <div style={{ display: "flex", marginTop: story ? 38 : 20, fontFamily: card.source ? "Newsreader" : "Figtree", fontWeight: card.source ? 400 : 500, fontSize: story ? (card.description.length > 240 ? 42 : 50) : 25, lineHeight: 1.32, color: "#e0d5cc" }}>{card.source ? `“${card.description}”` : card.description}</div>
+        <div style={{ display: "flex", marginTop: story ? 38 : 20, fontFamily: card.source && !card.contextOnly ? "Newsreader" : "Figtree", fontWeight: card.source && !card.contextOnly ? 400 : 500, fontSize: story ? (card.description.length > 240 ? 42 : 50) : 25, lineHeight: 1.32, color: "#e0d5cc" }}>{card.source && !card.contextOnly ? `“${card.description}”` : card.description}</div>
         {card.source && <div style={{ display: "flex", marginTop: story ? 18 : 10, color: "#b8aaa6", fontSize: story ? 23 : 16 }}>{card.source}{card.description.endsWith("…") ? " · Trecho" : ""}</div>}
       </div>
       <div style={{ display: "flex", flexDirection: story ? "column" : "row", justifyContent: "space-between", alignItems: story ? "flex-start" : "center", gap: 16, position: "relative", borderTop: "1px solid #413336", paddingTop: story ? 26 : 14, color: "#e5c48c", fontSize: story ? 25 : 18 }}><span>{new URL(SITE_URL).hostname.replace(/^www\./, "")}{card.path}</span><span>Leia. Reflita. Compartilhe.</span></div>

@@ -8,6 +8,18 @@ import QRCode from "qrcode";
 const { PNG } = createRequire(import.meta.url)("pngjs") as { PNG: { sync: { read: (buffer: Buffer) => { data: Uint8Array; width: number; height: number } } } };
 
 describe("public content links", () => {
+  it("preserves a supported liturgy edition through dated links and installation", () => {
+    for (const path of ["/liturgia?edition=open-nbv", "/dia/2026-10-31?edition=open-nbv"]) {
+      expect(safeContentPath(path)).toBe(path);
+      expect(new URL(installationUrl(path)).searchParams.get("next")).toBe(path);
+    }
+    expect(safeContentPath("/liturgia?date=2026-10-31&edition=open-nbv#psalm-1")).toBe("/dia/2026-10-31?edition=open-nbv#psalm-1");
+    expect(safeContentPath("/dia/2026-10-31?edition=blivre")).toBe("/dia/2026-10-31");
+  });
+  it.each(["edition=", "edition=CNBB", "edition=open-nbv&edition=open-nbv", "edition=blivre&edition=open-nbv"])("rejects invalid edition QR destinations: %s", (query) => {
+    expect(safeContentPath(`/dia/2026-10-31?${query}`)).toBeNull();
+    expect(safeContentPath(`/liturgia?${query}`)).toBeNull();
+  });
   it.each(["/", "/liturgia", "/dia/2026-10-31", "/joao/3/16", "/ler/open-nbv/3-joao/1/15", "/arcos#joao/3/16", "/interlinear/joao/1/1", "/#como-funciona"])("preserves %s", (path) => {
     expect(safeContentPath(path)).toBe(path);
     expect(contentUrl(path)).toBe(`https://www.bibliaconectada.company${path}`);
@@ -32,6 +44,13 @@ describe("public content links", () => {
 });
 
 describe("QR endpoint", () => {
+  it("encodes the chosen NBV edition and day in the downloadable PNG", async () => {
+    const path = "/dia/2026-10-31?edition=open-nbv";
+    const response = await GET(new Request(`https://example.test/api/qr?${new URLSearchParams({ path })}`));
+    expect(response.status).toBe(200);
+    const png = PNG.sync.read(Buffer.from(await response.arrayBuffer()));
+    expect(jsQR(new Uint8ClampedArray(png.data), png.width, png.height)?.data).toBe(`https://www.bibliaconectada.company${path}`);
+  });
   it.each(["/api/qr?path=https://evil.test", "/api/qr?path=/&path=/liturgia", "/api/qr?format=gif", "/api/qr?format=png&format=svg"])("rejects malformed requests: %s", async (path) => {
     expect((await GET(new Request(`https://example.test${path}`))).status).toBe(400);
   });

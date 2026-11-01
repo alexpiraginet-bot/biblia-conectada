@@ -12,6 +12,10 @@ async function calendarMetadata(date: string) {
 }
 
 /** Call from a request-time Server Component or Route Handler, never during static prerender. */
-export function getDailyLiturgy(date?: string) {
-  return createLiturgyResult(date, { books, readVerse: verseText, metadata: calendarMetadata });
+export async function getDailyLiturgy(date?: string, edition?: string | string[]) {
+  const context = edition === "open-nbv" ? await import("../translation-reading") : null;
+  return createLiturgyResult(date, {
+    books, readVerse: verseText, metadata: calendarMetadata,
+    ...(context ? { contextBooks: context.translationBooks("open-nbv")!, readContextChapter: (slug: string, chapter: number) => context.translatedChapter("open-nbv", slug, chapter) } : {}),
+  }, edition);
 }

@@ -38,6 +38,23 @@ function fixture(dialog = true) {
 afterEach(() => vi.useRealTimers());
 
 describe("verse intention before hydration", () => {
+  it("keeps an early connections click in the reading and preserves its exact fallback", () => {
+    const f = fixture(), opener = new f.Link();
+    opener.dataset = { connectionsRef: "filipenses/1/18" };
+    opener.href = "/filipenses/1/18";
+    expect(f.click(opener).preventDefault).toHaveBeenCalledOnce();
+    f.win.__bcVerse!.fail();
+    expect(f.fallback.href).toBe("/filipenses/1/18");
+    f.win.__bcVerse!.ready();
+    expect(opener.click).toHaveBeenCalledOnce();
+  });
+
+  it("does not invent an exact-verse connection for another translation before hydration", () => {
+    const f = fixture(), opener = new f.Link();
+    opener.dataset = { connectionsRef: "ler/open-nbv/joao/3/16" };
+    expect(f.click(opener).preventDefault).not.toHaveBeenCalled();
+  });
+
   it("keeps a visible early click on the page and hands it off exactly once", () => {
     const f = fixture(), opener = new f.Link();
     const e = f.click(opener);

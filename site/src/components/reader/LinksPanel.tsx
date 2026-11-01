@@ -100,7 +100,7 @@ export async function LinksPanel({
           <Scripture text={text} />
           <cite>{label} · Bíblia Livre</cite>
         </blockquote>
-        <VerseActions path={`/${book.slug}/${chapter}/${verse}`} label={label} />
+        <VerseActions path={`/${book.slug}/${chapter}/${verse}`} label={label} connections={false} />
         {" "}<InterlinearStudyLink path={`/${book.slug}/${chapter}/${verse}`} label={label} />
       </div>
 
