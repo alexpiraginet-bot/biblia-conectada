@@ -16,6 +16,10 @@ Escrito pelo Claude a pedido do Alex: "Prepare handoff para o códex seguir". Da
 
 ## 2. Estado e continuidade
 
+### Segurança do painel — 01/11
+
+Branch `codex/admin-security`, base `7b36106`: `/admin` oferece **Manter conectado por 30 dias** (oito horas se desmarcado), troca de senha com scrypt e revogação das outras sessões, chaves WebAuthn para Face ID/biometria e campos compatíveis com gerenciadores de senhas. A senha atual continua válida até o próprio administrador concluir a troca; sessões antigas exigem novo login. [Operação e recuperação](SEGURANCA-DO-PAINEL.md), [evidências e portões de publicação](evidence/2026-11-01-admin-security.md). Não confundir autenticador virtual validado com Face ID físico nem inicializar uma chave de teste em produção. Conferir READY e domínio público no registro de entrega.
+
 ### Abertura clara e pulsos ao toque — 01/11
 
 Branch `codex/daylight-home`, base `a7320be`, PR48: abertura revista com vale de amanhecer e esferas de cristal, títulos nativos e conexões reais de João 1. Controles bordô/dourado com reflexos discretos seguem o pedido mais recente de minimalismo e foco na leitura. **Sistema é o padrão**; Dia/Noite escolhidos manualmente continuam preservados. Luz percorre os fios, com pausa, redução de movimento e suspensão fora de vista. [Evidências e limites desta revisão](evidence/2026-11-01-daylight-opening.md).
