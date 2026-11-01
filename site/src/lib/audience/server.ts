@@ -3,6 +3,7 @@ import { journeyRedis } from "../rewards/redis";
 import { audienceCsv, audienceDay, buildAudienceReport, parseAudienceEvent, reportDays, AUDIENCE_DAILY_CAP, AUDIENCE_RETENTION_DAYS } from "./core";
 import { audienceConfig, digest, headers, json, rateKey, sameOrigin, smallJson, type Dependencies } from "./runtime";
 import { readAdmin, verifySessionToken } from "./admin-security";
+import { googleMeasurementConfig } from "./google-config";
 export { audienceConfig, digest, type AudienceConfig } from "./runtime";
 export { audienceLogin, audienceLogout } from "./admin-security";
 export const COLLECT_LUA = `
@@ -58,7 +59,8 @@ export async function audienceReportResponse(request: Request, cookie: string | 
     const dates = reportDays(now, days); const command = dependencies.command ?? journeyRedis(config);
     if (!await readAdmin(cookie, { config, command, now })) return json({ error: "login", message: "Entre para consultar o painel." }, 401);
     const raw = await command(["EVAL", "local rows={redis.call('GET',KEYS[1]) or false}; for i=2,#KEYS do rows[#rows+1]=redis.call('HGETALL',KEYS[i]) end; return rows", dates.length + 1, `${config.prefix}started`, ...dates.map((date) => `${config.prefix}day:${date}`)]);
-    const report = buildAudienceReport(raw, dates, now, config.environment, config.enabled, !!config.measurementId);
+    const google = googleMeasurementConfig(process.env);
+    const report = buildAudienceReport(raw, dates, now, config.environment, config.enabled, !!config.measurementId, !!google.adsId && !!google.adsConversionLabel);
     const hash = digest(JSON.stringify(report));
     if (format === "csv") { const csv = audienceCsv(report); return new Response(csv, { headers: { ...headers, "Content-Type": "text/csv; charset=utf-8", "Content-Disposition": `attachment; filename="biblia-audiencia-${report.from}-${report.to}.csv"`, "X-Report-SHA256": digest(csv) } }); }
     return Response.json({ report, sha256: hash }, { headers: { ...headers, ...(format === "export" ? { "Content-Disposition": `attachment; filename="biblia-audiencia-${report.from}-${report.to}.json"` } : {}) } });

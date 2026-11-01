@@ -21,7 +21,7 @@ const loadWindsor: Loader = async (config, query) => {
   url.search = new URLSearchParams({ api_key: config.apiKey, select_accounts: query.account, fields: query.fields.join(","), date_from: query.from, date_to: query.to, _max_rows: "10" }).toString();
   if (query.campaignId) url.searchParams.set("filter", JSON.stringify([["campaign_id", "eq", query.campaignId]]));
   if (query.hostname) url.searchParams.set("filter", JSON.stringify([["hostname", "eq", query.hostname]]));
-  if (query.includeInactive) url.searchParams.set("include_inactive", "true");
+  if (query.includeInactive) url.searchParams.set("options", JSON.stringify({ [query.connector]: { include_inactive: "true" } }));
   return new Promise((resolve, reject) => {
     const failure = () => reject(new Error("Measurement provider unavailable"));
     const request = httpsRequest(url, { method: "GET", headers: { accept: "application/json" } }, response => {
@@ -69,7 +69,7 @@ export async function marketingReportResponse(request: Request, dependencies: Ma
       const results = await Promise.allSettled([
         config.propertyId ? source("ga4", config, { connector: "googleanalytics4", account: config.propertyId, from, to, hostname: "www.bibliaconectada.company", fields: ["hostname", "active_users", "sessions", "screen_page_views"] }, parseAnalytics, context, load) : Promise.resolve(report.analytics),
         config.adsAccount && config.campaignId ? source("campaign", config, { connector: "google_ads", account: config.adsAccount, from, to, campaignId: config.campaignId, includeInactive: true, fields: ["campaign_id", "campaign_name", "campaign_status", "campaign_primary_status", "start_date", "end_date"] }, body => parseCampaign(body, config.campaignId!), context, load) : Promise.resolve(report.campaign),
-        config.adsAccount && config.campaignId ? source("ads", config, { connector: "google_ads", account: config.adsAccount, from, to, campaignId: config.campaignId, includeInactive: true, fields: ["campaign_id", "clicks", "impressions", "spend", "conversions", "currency"] }, body => parseAdsMetrics(body, config.campaignId!), context, load) : Promise.resolve(report.ads),
+        config.adsAccount && config.campaignId ? source("ads", config, { connector: "google_ads", account: config.adsAccount, from, to, campaignId: config.campaignId, fields: ["campaign_id", "clicks", "impressions", "spend", "conversions", "currency"] }, body => parseAdsMetrics(body, config.campaignId!), context, load) : Promise.resolve(report.ads),
       ]);
       report.analytics = results[0].status === "fulfilled" ? results[0].value : unavailable("unavailable");
       report.campaign = results[1].status === "fulfilled" ? results[1].value : unavailable("unavailable");

@@ -62,6 +62,10 @@ Variáveis: `AUDIENCE_ENABLED`, `AUDIENCE_ADMIN_PASSWORD_HASH` (sensível), `NEX
 
 `tests/audience.test.ts`: validação, privacidade, autenticação, limites, CSV e hashes. Teste real do Lua é opt-in com `AUDIENCE_INTEGRATION=1`, usa namespace aleatório `audience-qa`, confere virada do dia e remove somente suas próprias chaves. As credenciais sensíveis da Vercel não são exportáveis por `env run`; a integração é verificada no build de prévia, onde elas já estão disponíveis. Não criar endpoint de reset ou teste na produção.
 
+Em 01/11, Alex confirmou a identidade da conta Google. A chave existente do Windsor foi configurada como **Sensitive** nos ambientes Production e Preview da Vercel. Consulta REST real autenticada retornou HTTP 200 e a campanha `24419681243` com estado `ENABLED/PENDING` e datas 04–08/11. GA4 e métricas Ads ainda retornaram listas vazias. Metadados incluem campanhas sem atividade usando o formato oficial `options={"google_ads":{"include_inactive":"true"}}`; a consulta de métricas não inclui linhas sem métricas. Nenhuma falha ou ausência de linhas vira zero.
+
+Validação local: 1.168 testes passaram (dois testes de integração opt-in preexistentes não executados), lint, tipos, build, créditos e budgets. Arcos: 167.505 bytes gzip. Revisão visual do painel em 375 e 1440 px, Dia/Noite, sem transbordamento horizontal, com fixtures explicitamente simuladas. A chegada `#gospel-1` foi conferida no build local em 375 px. Capturas de QA são testes de interface, não comprovantes de audiência.
+
 Fontes consultadas em 01/11/2026:
 - [Configuração oficial do GA4](https://support.google.com/analytics/answer/9304153?hl=pt-BR)
 - [Consent Mode básico](https://developers.google.com/tag-platform/security/guides/consent?consentmode=basic)

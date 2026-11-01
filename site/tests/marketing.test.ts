@@ -68,7 +68,8 @@ describe("private reporting integration", () => {
     expect(JSON.stringify(body)).not.toContain(marketing.apiKey);
     expect(f.load.mock.calls[0][1]).toMatchObject({ account: marketing.propertyId, from: "2026-10-03", to: "2026-11-01" });
     expect(f.load.mock.calls[0][1].fields).not.toContain("date");
-    expect(f.load.mock.calls[1][1]).toMatchObject({ account: marketing.adsAccount, campaignId: marketing.campaignId });
+    expect(f.load.mock.calls[1][1]).toMatchObject({ account: marketing.adsAccount, campaignId: marketing.campaignId, includeInactive: true });
+    expect(f.load.mock.calls[2][1]).not.toHaveProperty("includeInactive");
     expect(body.sha256).toBe(digest(JSON.stringify(body.report)));
   });
   it("caches successful reads and preserves the last valid values during a provider failure", async () => {

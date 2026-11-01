@@ -20,8 +20,8 @@ export const AUDIENCE_RETENTION_DAYS = 400;
 export const AUDIENCE_DAILY_CAP = 25000;
 export const AUDIENCE_METHOD = "Instrumentação própria · contadores agregados, sem identificador de visitante. Visualizações podem incluir recargas. Engajamento significa página visível por 30 segundos, não leitura concluída. Origem e campanha dependem do link/referrer e podem ficar não identificadas. Bots conhecidos e automação de teste são filtrados; isso não certifica ausência de fraude. Bloqueadores, recusas, falhas e limites podem reduzir a cobertura. Não há histórico anterior ao início da coleta, visitantes únicos nem alcance auditado por terceiro.";
 export type AudienceRow = { date: string; covered: boolean; views: number; engaged: number; capped: number; areas: Record<string, number>; channels: Record<string, number>; campaigns: Record<string, number> };
-export type AudienceReport = { source: string; generatedAt: string; environment: string; timezone: string; startedAt: string | null; enabled: boolean; days: number; from: string; to: string; todayPartial: true; uniqueVisitors: null; returningVisitors: null; rows: AudienceRow[]; totals: { views: number; engaged: number; capped: number }; methodology: string; retentionDays: number; dailyEventCap: number; google: { account: string; measurementConfigured: boolean; adsConfigured: false }; };
-export function buildAudienceReport(raw: unknown, dates: string[], now: Date, environment: string, enabled: boolean, measurementConfigured: boolean): AudienceReport {
+export type AudienceReport = { source: string; generatedAt: string; environment: string; timezone: string; startedAt: string | null; enabled: boolean; days: number; from: string; to: string; todayPartial: true; uniqueVisitors: null; returningVisitors: null; rows: AudienceRow[]; totals: { views: number; engaged: number; capped: number }; methodology: string; retentionDays: number; dailyEventCap: number; google: { account: string; measurementConfigured: boolean; adsConfigured: boolean }; };
+export function buildAudienceReport(raw: unknown, dates: string[], now: Date, environment: string, enabled: boolean, measurementConfigured: boolean, adsConfigured = false): AudienceReport {
   if (!Array.isArray(raw) || raw.length !== dates.length + 1) throw new Error("Invalid audience response");
   const startedAt = typeof raw[0] === "string" && Number.isFinite(Date.parse(raw[0])) ? raw[0] : null;
   const firstDay = startedAt ? audienceDay(new Date(startedAt)) : null;
@@ -42,7 +42,7 @@ export function buildAudienceReport(raw: unknown, dates: string[], now: Date, en
     from: dates[0], to: dates.at(-1)!, todayPartial: true, uniqueVisitors: null, returningVisitors: null, rows,
     totals: rows.reduce((total, row) => ({ views: total.views + row.views, engaged: total.engaged + row.engaged, capped: total.capped + row.capped }), { views: 0, engaged: 0, capped: 0 }),
     methodology: AUDIENCE_METHOD, retentionDays: AUDIENCE_RETENTION_DAYS, dailyEventCap: AUDIENCE_DAILY_CAP,
-    google: { account: "alex.piragine@gmail.com", measurementConfigured, adsConfigured: false } };
+    google: { account: "alex.piragine@gmail.com", measurementConfigured, adsConfigured } };
 }
 export function audienceCsv(report: AudienceReport): string {
   const cell = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""')}"`;
