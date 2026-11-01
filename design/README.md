@@ -1,5 +1,7 @@
 # Direção de design: Bíblia Conectada (v6, bordô e ouro)
 
+**01/11 — abertura clara aprovada:** [Uma Palavra. Novos caminhos.](ABERTURA-DIA-20261101.md). A capa passa a seguir Dia com céu pérola e azul claro, conexões reais e pulsos dourados ao toque. Botões e menu preservam o bordô com reflexos de vidro, por correção explícita de Alex. Esta decisão substitui o hero de ondas permanentemente escuro; não altera a paleta informativa de Arcos nem a preferência salva de tema. O documento distingue a implementação da proposta posterior de túnel de 1 s e das melhorias sugeridas para as demais áreas.
+
 **31/10 — QR e instalação:** `/qr` usa a identidade do site ao redor de um código bordô escuro sobre branco, com margem de leitura preservada. O resultado antecede o formulário no celular; **Mostrar QR em tela cheia** abre diálogo nativo sem menu por cima dos módulos, com Fechar/Escape e retorno de foco. Downloads PNG/SVG e endereço legível. Convite de instalação discreto após a entrada no conteúdo, dispensável, com instruções da plataforma; loja somente após lançamento confirmado. O link continua sendo da passagem ou liturgia, não da loja. Contrato e ativação: [APP-LINKS.md](../docs/APP-LINKS.md).
 
 Ícone instalável, nome na tela inicial e capas dos links: [APP-IDENTITY.md](APP-IDENTITY.md). A marca de arcos e estrela é compartilhada entre cabeçalho, ícones e imagens sociais.

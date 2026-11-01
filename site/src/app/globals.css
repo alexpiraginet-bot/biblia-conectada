@@ -202,6 +202,22 @@ input {
   .site-tabbar__trigger, .site-tabbar__menu { background: var(--sky); -webkit-backdrop-filter: none; backdrop-filter: none; }
   .site-tabbar__veil { background: var(--sky); }
 }
+/* The approved opening keeps the brand in burgundy glass, on a genuinely light day surface. */
+@media (prefers-reduced-transparency: no-preference) and (forced-colors: none) {
+  .site-shell[data-homepage] .site-tabbar__trigger {
+    border-color: #e4bf83a6;
+    background: linear-gradient(150deg, #e8b4ca30, transparent 46%, #d9a45818), #451c30db;
+    color: #fce5ad;
+    box-shadow: 0 9px 28px #47152b38, inset 0 1.5px 1px #fff0cf99, inset 0 -2px 2px #e3b57866;
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    backdrop-filter: blur(24px) saturate(160%);
+  }
+  .site-shell[data-homepage] .site-tabbar__trigger::after { border-color: #f9d9b14d; border-bottom-color: #e5c48c77; }
+}
+:root[data-theme="dia"] .site-shell[data-homepage] .site-topbar { background: #fbfcfe; border-color: #dce2e9; }
+@media (prefers-color-scheme: light) {
+  :root[data-theme="sistema"] .site-shell[data-homepage] .site-topbar { background: #fbfcfe; border-color: #dce2e9; }
+}
 @media (forced-colors: active) {
   .site-tabbar__trigger, .site-tabbar__menu { background: Canvas; color: CanvasText; border-color: ButtonText; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
   .site-tabbar__trigger::after { border: 0; }

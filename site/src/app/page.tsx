@@ -10,7 +10,7 @@ import { HeroSearch } from "@/components/home/HeroSearch";
 import { HomeAtlas } from "@/components/home/HomeAtlas";
 import { HomeMotion } from "@/components/home/HomeMotion";
 import { HomeGuide } from "@/components/home/HomeGuide";
-import { WebGLShader } from "@/components/ui/web-gl-shader";
+import { DawnOpening } from "@/components/home/DawnOpening";
 import { summary, verseText } from "@/lib/data";
 import { formatInt } from "@/lib/canon/text";
 import { illustratedAtlasData } from "@/lib/explore/living-graph";
@@ -60,30 +60,15 @@ export default async function Home() {
   return (
     <main id="conteudo" className={styles.home} data-home="">
       <HomeMotion />
-      <section className={styles.hero} aria-labelledby="home-title">
-        <div className={styles.heroCopy}>
-          <p className={styles.eyebrow}><span className={styles.liveDot} aria-hidden="true" /> Bíblia Conectada · Um atlas vivo</p>
-          <h1 id="home-title">Uma história. <em>Tudo se conecta.</em></h1>
-          <div className={styles.heroBackdrop}><WebGLShader /></div>
-          <div className={styles.heroBottom}>
-            <div className={styles.heroLead}>
-              <p className={styles.intro}>Leia uma passagem. Veja as ligações. Descubra o caminho entre elas.</p>
-              <div className={styles.heroActions}>
-                <Link href="/ler" className={styles.primary}><Icon name="book" /> Começar a ler <Icon name="out" /></Link>
-                <Link href="#atlas-vivo" className={styles.secondary}>Explorar conexões <Icon name="explore" /></Link>
-              </div>
-              <div className={styles.heroShortcuts}><Link href="/coracao" prefetch={false}>No seu coração <span aria-hidden="true">↗</span></Link><Link href="/ler/open-nbv">Ler Open Nova Bíblia Viva <span aria-hidden="true">↗</span></Link><Link href="#como-funciona">Como funciona <span aria-hidden="true">↓</span></Link></div>
-            </div>
-            <nav className={styles.experienceTabs} aria-label="Escolha uma experiência"><Link href="#atlas-vivo" aria-current="true"><Icon name="explore" /> Constelação</Link><Link href="/arcos">Céu em 3D <span aria-hidden="true">↗</span></Link><Link href="/caminhos">Mapa de Jesus <span aria-hidden="true">↗</span></Link></nav>
-          </div>
-        </div>
+      <DawnOpening graph={graph} />
+      <section className={styles.hero} aria-label="Busque e explore a Bíblia">
         <section className={`${styles.searchBand} ${styles.heroSearch}`} aria-label="Busque na Bíblia">
           <div className={styles.searchLabel}><Icon name="search" /><span>O que você quer<br /><strong>descobrir hoje?</strong></span></div>
           <div className={styles.searchField}><HeroSearch text="Um versículo, uma palavra, um livro..." /></div>
           <div className={styles.searchIdeas}><span>Que tal...</span>{["amor", "paz", "esperança"].map((word) => <Link key={word} href={`/buscar?q=${encodeURIComponent(word)}`}>{word} <span aria-hidden="true">↗</span></Link>)}</div>
         </section>
-        <HomeGuide />
         <div className={styles.heroGraph} id="atlas-vivo"><LivingGraph data={graph} immersive /></div>
+        <HomeGuide />
         <Link className={styles.scrollHint} href="#descobrir"><span aria-hidden="true">↓</span> Há um mundo para descobrir</Link>
       </section>
 

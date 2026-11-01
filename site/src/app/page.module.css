@@ -1,4 +1,4 @@
-/* Home only. The sky stays dark in both themes; reading surfaces follow the theme. */
+/* Home-only colours. The opening follows Dia; only the real 3D sky remains a night scene. */
 .home {
   --home-accent: var(--accent);
   --home-soft: var(--ink-3);
@@ -8,6 +8,25 @@
   background: var(--home-ground);
   color: var(--ink);
   overflow: clip;
+}
+:global([data-theme="dia"]) .home {
+  --home-ground: #f8fbfe;
+  --surface: #fff;
+  --raised: #edf2f8;
+  --ink: #15283e;
+  --ink-2: #42546d;
+  --ink-3: #5a6d85;
+  --accent: #79542e;
+  --line: #dce2e9;
+  --line-strong: #8799b0;
+  --focus: #345c94;
+}
+@media (prefers-color-scheme: light) {
+  :global([data-theme="sistema"]) .home {
+    --home-ground: #f8fbfe; --surface: #fff; --raised: #edf2f8; --ink: #15283e;
+    --ink-2: #42546d; --ink-3: #5a6d85; --accent: #79542e; --line: #dce2e9;
+    --line-strong: #8799b0; --focus: #345c94;
+  }
 }
 /* Framed introduction, followed by the unchanged full-width constellation. */
 .journeyInvite { display: grid; grid-template-columns: 100px minmax(0, 1fr) minmax(220px, .55fr); gap: clamp(24px, 4vw, 60px); align-items: center; max-width: 1240px; margin: 72px auto 0; padding: 40px clamp(24px, 4vw, 48px); border-block: 1px solid var(--line); }
@@ -30,13 +49,10 @@
 @media (max-width: 1000px) { .journeyInvite { grid-template-columns: minmax(0, 1fr) minmax(200px, .6fr); margin-inline: 24px; padding-inline: 0; } .journeySymbol { display: none; } }
 @media (max-width: 600px) { .journeyInvite { grid-template-columns: 1fr; margin-top: 38px; padding-block: 30px; gap: 30px; } .journeyMilestone { border-left: 0; border-top: 1px solid var(--line); padding: 24px 0 0; } .journeyMilestone > p { max-width: 100%; } .journeyInviteActions { align-items: flex-start; flex-direction: column; gap: 4px; } .journeyInvite h2 { font-size: 35px; } }
 .hero {
-  --home-accent: var(--sky-gold);
-  --home-soft: var(--sky-ink-2);
-  --home-line: #c8abb540;
   position: relative;
-  padding: 30px clamp(22px, 4vw, 76px) 30px;
-  background: var(--sky);
-  color: var(--sky-ink);
+  padding: 4px clamp(22px, 4vw, 76px) 30px;
+  background: var(--home-ground);
+  color: var(--ink);
 }
 .heroCopy {
   position: relative;
@@ -170,7 +186,7 @@
 .experienceTabs a[aria-current] { background: #d9bd8017; border-color: #d0b27388; color: #f1d6a1; box-shadow: inset 0 1px 0 #f6dfac12; }
 .experienceTabs svg { width: 16px; height: 16px; }
 .heroGraph { min-width: 0; margin: 20px auto 0; max-width: 1336px; scroll-margin-top: 90px; }
-.scrollHint { display: flex; justify-content: center; align-items: center; gap: 12px; width: fit-content; min-height: 44px; margin: 14px auto 0; color: var(--sky-ink-2); text-decoration: none; font-size: 11px; }
+.scrollHint { display: flex; justify-content: center; align-items: center; gap: 12px; width: fit-content; min-height: 44px; margin: 14px auto 0; color: var(--ink-3); text-decoration: none; font-size: 11px; }
 .scrollHint span { display: grid; place-items: center; width: 24px; height: 30px; border: 1px solid color-mix(in srgb, var(--sky-ink-2) 40%, transparent); border-radius: 16px; font-size: 14px; }
 
 /* Search stays a single, obvious action on a calm surface. */
