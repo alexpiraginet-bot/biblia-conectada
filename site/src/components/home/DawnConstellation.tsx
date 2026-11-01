@@ -32,7 +32,7 @@ export function DawnConstellation({ nodes }: { nodes: OpeningNode[] }) {
   function prepare(node: OpeningNode) {
     if (!canPrewarm()) return;
     router.prefetch(node.href);
-    void import("./connection-journey").then((module) => { journey.current = module; }).catch(() => {});
+    void import("./connection-journey").then((module) => { journey.current = module; module.prewarmConnectionJourney(); }).catch(() => {});
   }
 
   function travel(node: OpeningNode) {
@@ -53,7 +53,7 @@ export function DawnConstellation({ nodes }: { nodes: OpeningNode[] }) {
     observer.observe(element);
     media.addEventListener("change", sync);
     document.addEventListener("visibilitychange", sync);
-    return () => { observer.disconnect(); media.removeEventListener("change", sync); document.removeEventListener("visibilitychange", sync); };
+    return () => { observer.disconnect(); media.removeEventListener("change", sync); document.removeEventListener("visibilitychange", sync); journey.current?.releasePreparedJourney(); };
   }, []);
 
   function illuminate(id: number) {

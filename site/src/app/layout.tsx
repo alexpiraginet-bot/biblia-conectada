@@ -14,6 +14,7 @@ import { SiteShell } from "@/components/shell/NavLinks";
 import { SectionRail, TabBar } from "@/components/shell/Navigation";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_SHORT_NAME, SITE_URL } from "@/lib/site-identity";
 import { shareMetadata } from "@/lib/share-metadata";
+import { books } from "@/lib/data";
 import "@/styles/tokens.css";
 import "@/styles/ds.css";
 import "./globals.css";
@@ -94,6 +95,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SearchHost />
         <StudyHost />
         <RewardsHost />
+        {process.env.AUDIENCE_ENABLED === "true" && <script dangerouslySetInnerHTML={{ __html: `window.bcAudience=${JSON.stringify({ enabled: true, bookSlugs: books.map(book => book.slug), measurementId: /^G-[A-Z0-9]{6,20}$/.test(process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID ?? "") ? process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID : null })};window.addEventListener('load',()=>setTimeout(()=>{if(!navigator.webdriver){const s=document.createElement('script');s.src='/audience-v1.js';s.defer=true;document.body.append(s)}},2000),{once:true});` }} />}
       </body>
     </html>
   );

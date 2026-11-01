@@ -1,15 +1,41 @@
 import styles from "./connection-journey.module.css";
 
-// Loaded only by the opening. This artwork is scenery; rings, fibre pulses and labels remain separate layers.
-const scenery = typeof Image === "undefined" ? null : new Image();
-if (scenery) scenery.src = "/home/golden-passage-v2.webp";
+// Alex's portrait clip is already accelerated to 1s. No decoding/rendering job runs in the browser.
+let preparedVideo: HTMLVideoElement | null = null;
+let prewarmTimer = 0;
+function motionAllowed() {
+  const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+  return !document.hidden && !matchMedia("(prefers-reduced-motion: reduce)").matches
+    && !connection?.saveData && !["slow-2g", "2g"].includes(connection?.effectiveType ?? "");
+}
+export function prewarmConnectionJourney() {
+  if (preparedVideo || !motionAllowed() || !document.querySelector("[data-dawn-constellation]")?.getClientRects().length) return;
+  const variant = matchMedia("(max-width: 760px)").matches ? "mobile" : "desktop";
+  const video = document.createElement("video");
+  video.muted = true; video.defaultMuted = true; video.playsInline = true;
+  video.preload = "auto"; video.setAttribute("aria-hidden", "true"); video.tabIndex = -1;
+  video.poster = `/home/tunnel-${variant}-poster.webp`;
+  video.src = `/home/tunnel-${variant}-1s.mp4`;
+  preparedVideo = video;
+  video.load();
+}
+// Download after the opening has settled; pointer/focus can prepare it earlier. Never await it on navigation.
+if (typeof window !== "undefined") prewarmTimer = window.setTimeout(prewarmConnectionJourney, 1600);
+export function releasePreparedJourney() {
+  window.clearTimeout(prewarmTimer);
+  if (preparedVideo) { preparedVideo.pause(); preparedVideo.removeAttribute("src"); preparedVideo.load(); preparedVideo = null; }
+}
 let finishCurrent: (() => void) | undefined;
 export const JOURNEY_MS = 1000;
 
 /** A bounded transition, outside the page React may hide during navigation. Never waits for a network response. */
 export function travelThroughConnection(label: string, navigate: () => void) {
+  window.clearTimeout(prewarmTimer);
   finishCurrent?.();
-  if (matchMedia("(prefers-reduced-motion: reduce)").matches || document.hidden) { navigate(); return; }
+  if (!motionAllowed()) { navigate(); return; }
+  prewarmConnectionJourney();
+  const video = preparedVideo;
+  preparedVideo = null;
   const layer = document.createElement("div");
   layer.className = styles.journey;
   layer.dataset.connectionJourney = "";
@@ -20,7 +46,8 @@ export function travelThroughConnection(label: string, navigate: () => void) {
   const canvas = document.createElement("canvas"); canvas.className = styles.canvas; canvas.setAttribute("aria-hidden", "true");
   const destination = document.createElement("div"); destination.className = styles.destination; destination.textContent = label; destination.setAttribute("aria-hidden", "true");
   const skip = document.createElement("button"); skip.type = "button"; skip.className = styles.skip; skip.textContent = "Pular ›";
-  layer.append(art, canvas, destination, skip);
+  if (video) { video.className = styles.video; layer.append(art, video, canvas, destination, skip); }
+  else layer.append(art, canvas, destination, skip);
   document.body.append(layer);
   const shell = document.querySelector<HTMLElement>(".site-shell");
   const wasInert = shell?.inert ?? false;
@@ -35,11 +62,18 @@ export function travelThroughConnection(label: string, navigate: () => void) {
   const navTimer = window.setTimeout(go, 125);
   const endTimer = window.setTimeout(finish, JOURNEY_MS);
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+  if (video) {
+    video.onplaying = () => { if (!done) { layer.dataset.videoPlaying = "true"; cancelAnimationFrame(frame); } };
+    video.onerror = () => { delete layer.dataset.videoPlaying; };
+    video.currentTime = 0;
+    void video.play().catch(() => { /* Poster and native particles remain; navigation never waits for playback. */ });
+  }
 
   function finish() {
     if (done) return;
     done = true;
     clearTimeout(navTimer); clearTimeout(endTimer); cancelAnimationFrame(frame);
+    if (video) { video.onplaying = null; video.onerror = null; video.pause(); video.removeAttribute("src"); video.load(); }
     layer.remove();
     if (shell) shell.inert = wasInert;
     document.body.style.overflow = overflow;
@@ -76,7 +110,7 @@ export function travelThroughConnection(label: string, navigate: () => void) {
   const gold = ctx.createLinearGradient(0, height, width, 0);
   [[0, "#f8e4b4"], [.18, "#bd802c"], [.32, "#fff5cf"], [.51, "#e7b45c"], [.7, "#fff6d6"], [1, "#be883f"]].forEach(([stop, color]) => gold.addColorStop(Number(stop), String(color)));
   function draw(now: number) {
-    if (done || !ctx) return;
+    if (done || !ctx || layer.dataset.videoPlaying === "true") return;
     const t = Math.min(1, (now - started) / JOURNEY_MS);
     ctx.clearRect(0, 0, width, height);
     ctx.globalAlpha = Math.min(1, t * 8) * Math.min(1, (1 - t) * 6);
