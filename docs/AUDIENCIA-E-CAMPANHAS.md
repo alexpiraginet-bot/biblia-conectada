@@ -23,36 +23,40 @@ CSV/JSON têm período, fuso, origem, início de coleta, metodologia e horário 
 Conta escolhida por Alex: `alex.piragine@gmail.com`.
 Propriedade criada pelo usuário: Bíblia Conectada. Identificador enviado: `G-M3ELNBD0GH`.
 
-O script externo só carrega após consentimento em `/sobre#audiencia`. A contagem própria é independente. Não há Google Signals, personalização, remarketing ou listas baseadas em crenças. A revogação desliga a tag e remove cookies `_ga` acessíveis ao site. A configuração do fluxo deve manter **Medição otimizada desligada**, pois eventos automáticos poderiam enviar URLs e títulos que este app evita.
+O script externo só carrega após consentimento. Um convite discreto na primeira visita oferece contagem básica, Analytics ou Analytics e campanhas; a escolha continua disponível em `/sobre#audiencia`. A contagem própria é independente. Não há Google Signals, personalização, remarketing ou listas baseadas em crenças. A revogação remove cookies `_ga` e `_gcl_` acessíveis e recarrega a página para interromper a biblioteca já carregada. DNT/GPC e automação continuam excluídos. A configuração do fluxo deve manter **Medição otimizada desligada**, pois eventos automáticos poderiam enviar URLs e títulos que este app evita.
 
 Eventos definidos: `page_view` e `visible_30_seconds`. Contexto de página é substituído por `/area/<categoria>` e título genérico; buscas e referências bíblicas não são enviadas. Consentimento do Google não representa consentimento para publicidade personalizada.
 
-Configurar a tag não concede ao servidor acesso à API de relatórios do Google. O painel apresenta métricas próprias e sinaliza essa distinção. Para conferir os relatórios oficiais no assistente, concluir a autorização do conector e selecionar a propriedade correta. Não copiar credenciais pessoais para o código.
+Configurar a tag não concede ao servidor acesso à API de relatórios do Google. O conector do assistente reconheceu a propriedade `561809611` e a conta Ads `625-087-8348`, de `alex.piragine@gmail.com`. A consulta GA4 em 01/11 ainda retornou sem linhas: isso não é prova de zero pessoas.
 
-## Rascunho de pesquisa patrocinada
+`/api/admin/marketing` consulta o Windsor somente após autenticação de administração. `WINDSOR_API_KEY` fica exclusivamente no ambiente do servidor; `GA4_PROPERTY_ID`, `GOOGLE_ADS_CUSTOMER_ID` e `GOOGLE_ADS_CAMPAIGN_ID` fixam o escopo. Não há seletor público de contas, endpoint de escrita em anúncios ou key no navegador. O servidor usa HTTPS sem redirects e não registra a URL autenticada nem mensagens brutas do provedor. A consulta não força atualização paga nem muda o plano existente.
 
-**Não ativado. Sem orçamento aprovado ou gasto iniciado.**
+O painel separa usuários ativos distintos do GA4, sessões, visualizações GA4, cliques, impressões, gasto e conversões Ads dos contadores próprios. Usuários são consultados para o período inteiro, sem dimensão diária; somar usuários diários duplicaria pessoas. A campanha é filtrada por ID para não misturar outros negócios da conta. Cache de dez minutos, limite compartilhado de consultas e última leitura preservada em falhas, com data e aviso. Processamento e cache do Google/Windsor podem atrasar os dados. Resposta vazia é “Aguardando dados”; erro não é transformado em zero. O JSON privado de Google inclui fonte, período, horário e SHA-256.
 
-Objetivo: levar pessoas que já buscam uma Bíblia ou a liturgia para a página correspondente. Começar na Rede de Pesquisa, Brasil, português, intenção por palavras-chave. Não segmentar religião presumida de pessoas; não usar Customer Match/remarketing.
+## Teste de pesquisa patrocinada autorizado
+
+Alex autorizou cinco dias, média de R$20/dia, total R$100, Liturgia e Evangelho e inclusão de domingo. Pix de R$100 confirmado na interface de faturamento. Campanha `24419681243`, **BC | Liturgia e Evangelho | Teste 5 dias | R$100**, criada e habilitada para **04–08/11/2026** inclusive, em horário de Brasília. Orçamento **total da campanha de R$100**, não orçamento diário sujeito a multiplicação. CPC máximo R$2,80; maximizar cliques. Em 01/11, estado `ENABLED` / `PENDING`, anúncios em análise. Não confundir programada com já exibida.
+
+Rede de Pesquisa Google, somente Brasil por presença, português. Parceiros de pesquisa e Display desligados; AI Max e expansão automática de URL/texto desligados. Sem públicos, Customer Match ou remarketing. A inclusão de domingo testa a hipótese de demanda apontada por Alex, sem presumir o resultado.
 
 | Grupo | Destino | Termos iniciais (frase/exata) |
 | --- | --- | --- |
-| Bíblia online | `/ler?utm_source=google&utm_medium=cpc&utm_campaign=bible_search` | bíblia online; ler a bíblia; bíblia com conexões |
-| Liturgia diária | `/liturgia?utm_source=google&utm_medium=cpc&utm_campaign=liturgy_search` | liturgia diária; leituras de hoje; evangelho do dia |
+| Liturgia diária (`207410666291`) | `/liturgia?utm_source=google&utm_medium=cpc&utm_campaign=liturgy_search` | liturgia diária; liturgia de hoje; leituras de hoje |
+| Evangelho do dia (`203238088522`) | `/liturgia?utm_source=google&utm_medium=cpc&utm_campaign=liturgy_search#gospel-1` | evangelho do dia; evangelho de hoje; evangelho diário |
 
-Rascunhos para anúncios responsivos (sem superlativos não comprovados):
+Cada termo tem uma correspondência exata e outra de frase (12 critérios). Negativas: pdf, download, mp3, cifra, cifras, partitura, emprego, vagas; frase “missa ao vivo”. Recursos: Leitura gratuita, Conexões bíblicas, Ler no contexto e Conexões bíblicas. Anúncios identificam a Bíblia Livre como texto de estudo; não prometem texto oficial licenciado.
 
-**Bíblia online** — títulos: `Bíblia Conectada`, `Leia. Descubra. Conecte.`, `Explore Conexões Bíblicas`. Descrições: `Leia a Bíblia e descubra conexões entre passagens. Um novo caminho de estudo.` / `Explore arcos, mapas e cronologia. Comece pela passagem que toca seu coração.`
+Tag Google Ads pública: `AW-18519314069`. Conversão “Visualização de página”, ação `7885384940`, destino `AW-18519314069/L6pdCOzZhbAdEJWd2f5E`, conferido no fragmento oficial. Contagem **Uma conversão** por clique e **sem valor monetário**. Conversões otimizadas não configuradas. Uma visita não é compra, doação ou receita.
 
-**Liturgia diária** — títulos: `Liturgia Diária`, `Leituras Para o Seu Dia`, `Bíblia Conectada`. Descrições: `Encontre as leituras do dia, siga suas conexões e reserve um tempo para a Palavra.` / `Leitura simples, referências e conexões. Explore o texto em seu contexto.`
+`audience-v2.js` usa um carregador Google compartilhado, destinos explícitos e opt-in de campanhas separado da permissão antiga de Analytics. Consentimento padrão negado; personalização sempre negada. A conversão só é emitida depois da permissão de campanhas, em visita identificada como Google Ads e área pública elegível, uma vez por documento. Coração, busca, jornada e administração não configuram Ads. O contexto enviado é a categoria, sem URL real, texto da passagem, busca ou mensagem. A política informa que o Google pode usar o identificador de clique para atribuição após permissão.
 
-Links adicionais: Coração, Conexões, Cronologia e Liturgia. A edição para estudo deve continuar identificada na página; não anunciar texto litúrgico oficial licenciado sem autorização.
+O link do anúncio de Evangelho usa uma âncora existente. O componente de atualização da liturgia reposiciona a chegada depois do streaming, para abrir a seção certa na primeira navegação.
 
-Próximo passo: vincular a conta Google Ads correta, conferir conversões sem duplicidade e revisar termos/correspondências com Keyword Planner. Somente então apresentar a Alex o orçamento diário, estratégia de lance e limite de CPC para aprovação. Nenhuma promessa de primeira posição ou de superar a Canção Nova: a posição depende do leilão e da qualidade/relevância.
+Nenhuma promessa de primeira posição ou de superar a Canção Nova: a posição depende do leilão e da qualidade/relevância. Aprovação dos anúncios e detecção da tag pelo Google são etapas externas, separadas de publicação do código.
 
 ## Operação e validação
 
-Variáveis: `AUDIENCE_ENABLED`, `AUDIENCE_ADMIN_PASSWORD_HASH` (sensível), `NEXT_PUBLIC_GOOGLE_ANALYTICS_ID` (público); KV e segredo de rate limit existentes. Chave de administração local fora do repo, com ACL restrita. Mudanças de ambiente exigem novo deploy.
+Variáveis: `AUDIENCE_ENABLED`, `AUDIENCE_ADMIN_PASSWORD_HASH` (sensível), `NEXT_PUBLIC_GOOGLE_ANALYTICS_ID`, `NEXT_PUBLIC_GOOGLE_ADS_ID`, `NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL` (identificadores públicos), `WINDSOR_API_KEY` (sensível), `GA4_PROPERTY_ID`, `GOOGLE_ADS_CUSTOMER_ID`, `GOOGLE_ADS_CAMPAIGN_ID`; KV e segredo de rate limit existentes. Chaves fora do repo. Mudanças de ambiente exigem novo deploy. A conexão do assistente não instala automaticamente a credencial do servidor; conferir o estado real no registro de publicação.
 
 `tests/audience.test.ts`: validação, privacidade, autenticação, limites, CSV e hashes. Teste real do Lua é opt-in com `AUDIENCE_INTEGRATION=1`, usa namespace aleatório `audience-qa`, confere virada do dia e remove somente suas próprias chaves. As credenciais sensíveis da Vercel não são exportáveis por `env run`; a integração é verificada no build de prévia, onde elas já estão disponíveis. Não criar endpoint de reset ou teste na produção.
 
@@ -61,3 +65,6 @@ Fontes consultadas em 01/11/2026:
 - [Consent Mode básico](https://developers.google.com/tag-platform/security/guides/consent?consentmode=basic)
 - [Classificação dos anúncios](https://support.google.com/google-ads/answer/1722122/about-ad-position-and-ad-rank?hl=en-GB)
 - [Categorias sensíveis e personalização](https://support.google.com/adspolicy/answer/16701958?hl=en)
+- [Google Tag com Google Ads e conversão](https://support.google.com/google-ads/answer/7548399?hl=en)
+- [API Windsor, cache e autenticação](https://windsor.ai/api-documentation/)
+- [Critérios de relatórios e usuários distintos do GA4](https://developers.google.com/analytics/devguides/reporting/data/v1/reporting-data-expectations)

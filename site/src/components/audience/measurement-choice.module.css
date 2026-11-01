@@ -1,0 +1,10 @@
+.prompt { position: fixed; z-index: 75; inset: auto 20px calc(92px + env(safe-area-inset-bottom, 0px)) auto; width: min(440px, calc(100vw - 40px)); box-sizing: border-box; padding: 19px; border: 1px solid var(--line-strong); border-radius: 22px; background: var(--surface); color: var(--ink); box-shadow: 0 10px 45px #240b1d18; font: 400 .82rem/1.5 var(--font-ui), sans-serif; }
+.prompt[hidden] { display: none; }
+.prompt p { margin: 0 0 6px; font-size: 1rem; font-weight: 600; }
+.prompt > span { color: var(--ink-3); }
+.prompt > div { display: flex; flex-wrap: wrap; gap: 7px; margin: 14px 0 10px; }
+.prompt button { flex: 1 1 115px; min-height: 44px; border: 1px solid var(--line-strong); border-radius: 12px; padding: 8px 10px; background: transparent; color: var(--ink); font: inherit; cursor: pointer; }
+.prompt a { color: var(--ink-3); text-underline-offset: 3px; display: inline-block; padding-block: 6px; }
+.prompt :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 500px) { .prompt { inset-inline: 12px; width: auto; padding: 16px; } }
+@media print { .prompt { display: none; } }
