@@ -33,12 +33,13 @@ export function normalizeGiftContact(value: unknown): string | null {
   return /^55[1-9]\d{9,10}$/.test(digits) ? `+${digits}` : null;
 }
 function validDetails(value: Record<string, unknown>): boolean {
-  return uuid(value.receiptId) && textField(value.name, 2, 80) && normalizeGiftContact(value.contact) === value.contact && Object.hasOwn(GIFT_METHODS, String(value.method)) && Object.hasOwn(GIFT_STATUSES, String(value.status)) && textField(value.logisticsNote, 0, 240) && (value.status !== "shipped" || value.method === "shipping");
+  const contact = normalizeGiftContact(value.contact);
+  return uuid(value.receiptId) && textField(value.name, 2, 80) && typeof value.contact === "string" && contact !== null && contact === value.contact && Object.hasOwn(GIFT_METHODS, String(value.method)) && Object.hasOwn(GIFT_STATUSES, String(value.status)) && textField(value.logisticsNote, 0, 240) && (value.status !== "shipped" || value.method === "shipping");
 }
 export function giftInput(body: unknown): GiftInput {
   if (!record(body) || Object.keys(body).some(key => !["requestId", "id", "revision", ...detailFields].includes(key)) || !uuid(body.requestId) || !uuid(body.id) || !Number.isSafeInteger(body.revision) || (body.revision as number) < 0) throw new SupportFault(400, "Confira a ficha do presente antes de salvar.");
   const normalized = { ...body, name: typeof body.name === "string" ? body.name.trim() : body.name, contact: normalizeGiftContact(body.contact), logisticsNote: typeof body.logisticsNote === "string" ? body.logisticsNote.trim() : body.logisticsNote };
-  if (!validDetails(normalized)) throw new SupportFault(400, "Informe nome, e-mail ou telefone com DDD e a forma de entrega. Apenas envios podem ter o status Enviado.");
+  if (normalized.contact === null || !validDetails(normalized)) throw new SupportFault(400, "Informe nome, e-mail ou telefone com DDD e a forma de entrega. Apenas envios podem ter o status Enviado.");
   return normalized as GiftInput;
 }
 export function parseGiftStore(raw: unknown): GiftStore {

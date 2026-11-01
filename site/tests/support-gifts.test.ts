@@ -50,6 +50,12 @@ describe("private gift fulfillment", () => {
     expect(() => giftInput({ ...input(randomUUID()), address: "not collected here" })).toThrow();
     expect(() => giftInput(input(randomUUID(), { logisticsNote: "x".repeat(241) }))).toThrow();
   });
+  it.each([null, undefined, 11999998888, {}, [], "", "   ", "not an email", "123", "<x>@test.com", "11abc999998888"])("rejects invalid contact %j before saving a gift", async contact => {
+    const f = fixture(); await f.login(); const body = { ...input(f.received.id), contact };
+    expect(() => giftInput(body)).toThrow();
+    expect((await f.post(body)).status).toBe(400);
+    expect(f.values.has(giftStoreKey("preview"))).toBe(false);
+  });
   it("requires authentication, same origin and valid JSON; outage does not become empty history", async () => {
     const f = fixture(); expect((await f.get()).status).toBe(401); expect((await f.post(input(f.received.id))).status).toBe(401);
     await f.login();
@@ -146,6 +152,14 @@ describe("private gift fulfillment", () => {
     expect(giftReport(parseGiftStore(JSON.stringify(store)), ledger, "preview").counts.waiting).toBe(1);
     expect(() => parseGiftStore(JSON.stringify({ ...store, events: [] }))).toThrow();
     expect(() => parseGiftStore(JSON.stringify({ ...store, gifts: [store.gifts[0], store.gifts[0]] }))).toThrow();
+    expect(() => parseGiftStore(JSON.stringify({ ...store, gifts: [{ ...store.gifts[0], contact: null }] }))).toThrow();
+  });
+  it("fails closed when a persisted contact is null", async () => {
+    const f = fixture(); await f.login(); await f.post(input(f.received.id));
+    const stored = JSON.parse(f.values.get(giftStoreKey("preview"))!); stored.gifts[0].contact = null;
+    const corrupted = JSON.stringify(stored); f.values.set(giftStoreKey("preview"), corrupted);
+    expect((await f.get()).status).toBe(503);
+    expect(f.values.get(giftStoreKey("preview"))).toBe(corrupted);
   });
   it("bounds transport below Redis REST and response limits", () => {
     // Only one new snapshot is sent, along with small hashes of the previous versions.
