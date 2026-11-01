@@ -16,7 +16,7 @@
 .root .remember { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 11px; align-items: center; min-height: 44px; font-size: .875rem; line-height: 1.5; cursor: pointer; }
 .root .remember input { width: 22px; height: 22px; min-height: 22px; padding: 0; margin: 0; accent-color: var(--accent); }
 .root .passkeyLogin { width: 100%; margin-top: 12px; border-color: var(--line-strong); line-height: 1.5; }
-.root .securityPrimary, .login form > button { background: #541c32; color: #f8e6bc; border-color: #a97865; }
+.root .securityPrimary, .login form > button { background: var(--action-fill); color: var(--on-action); border-color: color-mix(in srgb, var(--on-action) 55%, transparent); }
 .login { min-width: 0; box-sizing: border-box; }
 .login input:not([type="checkbox"]), .securityForm input { border-color: var(--line-strong); }
 .login .securityCaption, .securityCaption { margin: 0; color: var(--ink-3); font-size: .8rem; line-height: 1.6; }
