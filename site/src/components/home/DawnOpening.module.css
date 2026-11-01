@@ -134,10 +134,10 @@
 .eyebrow { color: var(--dawn-ink); }
 .node[data-long-label] .nodeLabel { color: #2a0311; }
 /* Reading stays primary; restrained reflections support the burgundy identity. */
-.primary { min-height: 56px; font-size: 19px; border-color: #ba8e6f; background: linear-gradient(168deg, #88384ce8, #4c1027ef 48%, #5f2034ec); box-shadow: inset 0 1px 1px #fff0cf9c, inset 0 -1px 1px #dfbc7f85, 0 5px 14px #4e182927; }
+.primary { min-height: 52px; font: 600 16px/1.4 var(--font-ui); color: var(--on-action); border-color: #ba8e6f; background: linear-gradient(168deg, color-mix(in srgb, var(--action-fill) 85%, #fff), var(--action-fill)); box-shadow: inset 0 1px 1px #fff0cf4c, 0 5px 14px #4e18291a; }
 .primary::before { inset: 3px; border-color: #efceaa38; }.primary::after { opacity: .45; }
 .orb::before { border-color: #fff0baae; box-shadow: 0 0 16px #ffd77480; }.orb::after { opacity: 0!important; }
-@media (max-width: 760px) { .primary { font-size: 18px; } }
+@media (max-width: 760px) { .primary { font-size: 15px; } }
 @media (forced-colors: active) {
   .primary { background: ButtonFace; color: ButtonText; border-color: ButtonText; box-shadow: none; }
   .node[data-long-label] .nodeLabel { color: ButtonText; }
