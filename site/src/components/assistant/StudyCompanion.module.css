@@ -17,7 +17,7 @@
 .picker input, .picker select { width: 100%; min-width: 0; min-height: 44px; border: 1px solid var(--line-strong); border-radius: .4rem; background: var(--ground); color: var(--ink); padding: .6rem; font-size: 16px; }
 .picker input::placeholder { color: var(--ink-3); opacity: 1; }
 .picker select { margin-bottom: .75rem; }
-.picker button { min-height: 44px; border: 1px solid var(--accent-fill); border-radius: .4rem; background: var(--accent-fill); color: var(--on-accent); font-size: .8rem; padding: .6rem .8rem; cursor: pointer; }
+.picker button { min-height: 44px; border: 1px solid color-mix(in srgb, var(--on-action) 55%, transparent); border-radius: .4rem; background: var(--action-fill); color: var(--on-action); font-size: .8rem; padding: .6rem .8rem; cursor: pointer; }
 .referenceError { color: var(--danger); font-size: .8rem; line-height: 1.6; }
 .chatFrame { height: min(720px, 75dvh); min-height: 490px; }
 .referenceLoading { min-height: 300px; color: var(--ink-2); padding: 2rem 0; }

@@ -310,8 +310,8 @@
 .relatedPreview small { display: block; font: 400 12px/1.5 var(--font-ui); color: var(--ink-3); margin-top: 3px; }
 .relatedPreview svg { width: 16px; color: var(--ink-3); }
 .immersive .previewFoot { display: grid; gap: 3px; margin-top: 23px; }
-.immersive .primaryLink { background: linear-gradient(155deg, #683047, #3c1426); color: #f8e6bc; border: 1px solid #b88d6d; border-radius: 999px; justify-content: space-between; padding: 13px 20px; font-size: 14px; }
-.immersive .primaryLink:hover { filter: brightness(1.08); color: #f8e6bc; }
+.immersive .primaryLink { background: var(--action-fill); color: var(--on-action); border: 1px solid color-mix(in srgb, var(--on-action) 55%, transparent); border-radius: var(--radius-pill); justify-content: space-between; min-height: 52px; padding: 13px 20px; font: 600 15px/1.4 var(--font-ui); box-shadow: inset 0 1px 0 #ffffff24; }
+.immersive .primaryLink:hover { filter: brightness(1.08); color: var(--on-action); }
 .immersive .secondaryLink { font-size: 11px; justify-content: space-between; }
 .surprise { display: flex; justify-content: space-between; gap: 8px; width: 100%; background: transparent; border: 0; border-top: 1px solid #a8bbb622; padding: 13px 0; color: var(--sky-gold); font-size: 11px; text-align: left; cursor: pointer; }
 .surprise span { font-size: 19px; }
@@ -332,7 +332,7 @@
   .immersive .medallion .nodeLabel { opacity: 1 !important; font-size: 17px; top: calc(100% + 3px); }
   .immersive .medallion .nodeLabel small { display: none; }
   .immersive .centre .nodeLabel { font-size: 21px; }
-  .immersive .hint { left: 0; bottom: 58px; font-size: 11px; max-width: 48%; }
+  .immersive .hint { width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .legend { left: 0; bottom: 7px; font-size: 10px; line-height: 1.4; display: block; max-width: calc(100% - 185px); }
   .legend i { display: none; }
   .immersive .controls { right: 0; bottom: 0; }

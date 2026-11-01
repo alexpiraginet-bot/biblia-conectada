@@ -3,6 +3,8 @@ import { useCallback, useEffect, useRef, useState, type FormEvent } from "react"
 import { CAMPAIGN, money, parseAmount, SUPPORT_CATEGORIES } from "@/lib/support/campaign";
 import type { EntryKind, PublicSupport, SupportLedger } from "@/lib/support/ledger";
 import styles from "./support.module.css";
+import dynamic from "next/dynamic";
+const SupportGiftsAdmin = dynamic(() => import("./SupportGiftsAdmin"));
 
 type Report = PublicSupport & { ledger: SupportLedger };
 const kinds: Record<EntryKind, string> = { receipt: "Contribuição recebida", expense: "Uso dos recursos", production: "Mini Jesus produzidos", delivery: "Entrega realizada", update: "Notícia da campanha", reversal: "Anular um registro" };
@@ -11,6 +13,7 @@ export default function SupportAdmin({ onSessionExpired, onBusyChange }: { onSes
   const [data, setData] = useState<Report | null>(null), [message, setMessage] = useState("");
   const [kind, setKind] = useState<EntryKind>("receipt"), [target, setTarget] = useState("");
   const [pending, setPending] = useState(false), [limit, setLimit] = useState(20);
+  const [showGifts, setShowGifts] = useState(false);
   const requestId = useRef<string | null>(null), alive = useRef(true), heading = useRef<HTMLHeadingElement>(null);
   const fetchReport = useCallback(async (signal?: AbortSignal) => {
     const response = await fetch("/api/admin/support", { cache: "no-store", signal });
@@ -49,9 +52,11 @@ export default function SupportAdmin({ onSessionExpired, onBusyChange }: { onSes
   }
   const financial = kind === "receipt" || kind === "expense";
   const reversals = new Set(data?.ledger.entries.filter(e => e.kind === "reversal").map(e => e.targetId));
+  if (showGifts) return <section className={styles.admin}><SupportGiftsAdmin onSessionExpired={onSessionExpired} onBusyChange={onBusyChange} onBack={() => setShowGifts(false)} /></section>;
   return <section className={styles.admin}>
     <div className={styles.panelTop}><div><p className={styles.eyebrow}>CAMPANHA · META {money(CAMPAIGN.goalCents)}</p><h2>A Palavra vira cuidado.</h2></div><a href="/apoie" target="_blank" rel="noopener noreferrer">Ver campanha pública ↗</a></div>
     <p>Confira cada Pix no extrato antes de registrar. Apenas as contribuições confirmadas somam na meta; os botões do público não confirmam pagamentos.</p>
+    <button type="button" className={styles.primary} disabled={pending} onClick={() => setShowGifts(true)}>Acompanhar presentes →</button>
     {data?.environment === "preview" && <p className={styles.notice}>AMBIENTE DE PRÉVIA. Estes registros são separados da campanha pública.</p>}
     {data && <div className={styles.impact}>{[["Recebido", money(data.raisedCents)], ["Utilizado", money(data.spentCents)], ["Saldo registrado", money(data.availableCents)]].map(([label, value]) => <article key={label}><span>{label}</span><strong>{value}</strong></article>)}</div>}
     <div className={styles.shareActions}>{data && <a href="/api/admin/support?format=export" download="campanha-biblia-conectada.json">Exportar registros JSON</a>}<button type="button" className={styles.quiet} disabled={pending} onClick={() => void fetchReport().then(() => setMessage("Campanha atualizada.")).catch(() => setMessage("Não foi possível atualizar. Tente novamente."))}>{data ? "Atualizar campanha" : "Tentar consultar novamente"}</button></div>
