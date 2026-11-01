@@ -61,4 +61,3 @@ Fontes consultadas em 01/11/2026:
 - [Consent Mode básico](https://developers.google.com/tag-platform/security/guides/consent?consentmode=basic)
 - [Classificação dos anúncios](https://support.google.com/google-ads/answer/1722122/about-ad-position-and-ad-rank?hl=en-GB)
 - [Categorias sensíveis e personalização](https://support.google.com/adspolicy/answer/16701958?hl=en)
-
