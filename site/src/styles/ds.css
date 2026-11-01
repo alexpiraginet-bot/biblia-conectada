@@ -76,11 +76,13 @@
 .bc-button--primary {
   background: var(--action-fill);
   color: var(--on-action);
-  box-shadow: var(--shadow-raise);
+  border: 1px solid color-mix(in srgb, var(--sky-gold) 55%, transparent);
+  border-radius: var(--radius-pill);
+  box-shadow: inset 0 1px 0 #ffffff24, var(--shadow-raise);
 }
 
 .bc-button--primary:hover {
-  background: var(--accent-strong);
+  filter: brightness(1.12);
 }
 
 .bc-root .bc-button--secondary,

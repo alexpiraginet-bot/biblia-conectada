@@ -3,12 +3,13 @@
 import { lazy, Suspense, useId, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Icon } from "@/components/icons";
 import { APPEARANCE_CHOICES as CHOICES } from "./appearance-choices";
-import { type Choice, THEME_COLOR, THEME_KEY } from "./theme";
+import { type Choice, NIGHT_MODE_ONLY, THEME_COLOR, THEME_KEY } from "./theme";
 
 const AppearanceMenu = lazy(() => import("./AppearanceMenu"));
 const CHANGE = "bc:appearance";
 
 function stored(): Choice {
+  if (NIGHT_MODE_ONLY) return "noite";
   try {
     const t = localStorage.getItem(THEME_KEY);
     return t === "dia" || t === "noite" ? t : "sistema";
@@ -20,6 +21,7 @@ function stored(): Choice {
 /** The choice goes on <html> and on <body>: the [data-theme] rules then match <body> itself, so the browser recomputes
  *  it and everything that inherits from it, rather than trusting values it inherited before the switch (iPhone, 19/10). */
 function apply(c: Choice) {
+  if (NIGHT_MODE_ONLY) c = "noite";
   for (const el of [document.documentElement, document.body]) {
     el.setAttribute("data-theme", c);
   }
@@ -40,7 +42,7 @@ function subscribe(cb: () => void) {
 }
 
 export function Appearance() {
-  const choice = useSyncExternalStore<Choice>(subscribe, stored, () => "sistema");
+  const choice = useSyncExternalStore<Choice>(subscribe, stored, () => NIGHT_MODE_ONLY ? "noite" : "sistema");
   const [open, setOpen] = useState(false);
   const id = useId();
   const root = useRef<HTMLDivElement>(null);
@@ -51,6 +53,7 @@ export function Appearance() {
   useLayoutEffect(() => apply(stored()), [choice]);
 
   const choose = (c: Choice) => {
+    if (NIGHT_MODE_ONLY) return;
     try {
       localStorage.setItem(THEME_KEY, c);
     } catch {}

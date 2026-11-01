@@ -202,21 +202,17 @@ input {
   .site-tabbar__trigger, .site-tabbar__menu { background: var(--sky); -webkit-backdrop-filter: none; backdrop-filter: none; }
   .site-tabbar__veil { background: var(--sky); }
 }
-/* The approved opening keeps the brand in burgundy glass, on a genuinely light day surface. */
+/* One restrained glass finish for the navigation on every route. */
 @media (prefers-reduced-transparency: no-preference) and (forced-colors: none) {
-  .site-shell[data-homepage] .site-tabbar__trigger {
-    border-color: #d9b074;
-    background: radial-gradient(ellipse at 3% 30%, #f8b29a91, transparent 17%), radial-gradient(ellipse at 98% 75%, #ffe1a782, transparent 15%), linear-gradient(175deg, #b4465db8, #670b27ed 28%, #390716ed 68%, #8a3044e8);
-    color: #fce5ad;
-    box-shadow: 0 7px 20px #47152b38, inset 0 1.5px 1px #fff0cfdb, inset 0 0 0 3px #c87e6d83, inset 0 -2px 2px #e3b578b3;
+  .bc-root .site-tabbar__trigger {
+    border-color: color-mix(in srgb, var(--sky-gold) 55%, transparent);
+    background: linear-gradient(165deg, #86394cdb, #4a1229ed 55%, #62283cd9);
+    color: var(--sky-gold);
+    box-shadow: inset 0 1px #f6e3c39c, inset 0 -1px #e4bd7e80, 0 5px 18px #4511262b;
     -webkit-backdrop-filter: blur(24px) saturate(160%);
     backdrop-filter: blur(24px) saturate(160%);
   }
-  .site-shell[data-homepage] .site-tabbar__trigger::after { border-color: #f9d9b14d; border-bottom-color: #e5c48c77; }
-}
-:root[data-theme="dia"] .site-shell[data-homepage] .site-topbar { background: #fbfcfe; border-color: #dce2e9; }
-@media (prefers-color-scheme: light) {
-  :root[data-theme="sistema"] .site-shell[data-homepage] .site-topbar { background: #fbfcfe; border-color: #dce2e9; }
+  .site-tabbar__trigger::after { border-color: #f9d9b12d; }
 }
 @media (forced-colors: active) {
   .site-tabbar__trigger, .site-tabbar__menu { background: Canvas; color: CanvasText; border-color: ButtonText; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
@@ -708,7 +704,4 @@ button.bc-search__item {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-@media (prefers-reduced-transparency: no-preference) and (forced-colors: none) {
-  .site-shell[data-homepage] .site-tabbar__trigger { min-height: 48px; padding: 10px 22px; font-size: 14px; border-color: #c1a077a6; background: linear-gradient(165deg, #86394cdb, #4a1229ed 55%, #62283cd9); box-shadow: inset 0 1px #f6e3c39c, inset 0 -1px #e4bd7e80, 0 5px 18px #4511262b; }
 }

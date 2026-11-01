@@ -254,10 +254,10 @@
 
 /* The cover is an instrument to explore, with the selected passage beside the living atlas. */
 .immersive {
-  --sky: #190d17;
-  --sky-ink: #fff3e3;
-  --sky-ink-2: #cbb7bd;
-  --sky-gold: #e5c48c;
+  --sky: var(--ground);
+  --sky-ink: var(--ink);
+  --sky-ink-2: var(--ink-3);
+  --sky-gold: var(--accent);
   display: grid;
   grid-template-columns: minmax(0, 1fr) 292px;
   grid-template-rows: auto 1fr;
@@ -284,38 +284,39 @@
 .immersive .centre .core::after { inset: -5px; animation-duration: 6s; }
 .immersive .medallion.active .core { transform: scale(1.06); border-color: var(--sky-gold); }
 .immersive .medallion.selected .core { border-color: var(--sky-gold); }
-.immersive .medallion .nodeLabel { font: 440 21px/1.2 var(--font-display); background: transparent; padding: 4px 0; top: calc(100% + 8px); text-shadow: 0 2px 7px #190d17, 0 0 14px #190d17; }
-.immersive .nodeLabel small { display: block; color: #cbb7bd; font: 400 10px/1.5 var(--font-ui); letter-spacing: .02em; margin-top: 4px; }
-.immersive .centre .nodeLabel { color: #f5e1ba; font-size: 27px; }
+.immersive .medallion .nodeLabel { font: 440 21px/1.2 var(--font-display); background: var(--ground); padding: 4px 6px; top: calc(100% + 8px); text-shadow: none; }
+.immersive .nodeLabel small { display: block; color: var(--ink-3); font: 400 11px/1.5 var(--font-ui); letter-spacing: .02em; margin-top: 4px; }
+.immersive .centre .nodeLabel { color: var(--ink); font-size: 27px; }
 .immersive .node:not(.medallion) { opacity: .5; }
 .immersive .node:not(.medallion).active, .immersive .node:not(.medallion).selected { opacity: 1; }
 .immersive .dim { opacity: .22; }
 .immersive .hint { bottom: 58px; left: 24px; font-size: 10px; }
 .immersive .controls { border-radius: 30px; background: #2d1722; right: 20px; bottom: 13px; }
-.immersive .controls button { border-radius: 50%; }
-.legend { position: absolute; bottom: 28px; left: 24px; display: flex; align-items: center; gap: 8px; color: #cbb7bd; font-size: 10px; pointer-events: none; }
+.immersive .controls button { border-radius: 50%; color: #fff3e3; }
+.immersive .controls button:focus-visible { outline-color: #e5c48c; }
+.legend { position: absolute; bottom: 28px; left: 24px; display: flex; align-items: center; gap: 8px; color: var(--sky-ink-2); font-size: 10px; pointer-events: none; }
 .legend span { width: 18px; border-top: 1px solid var(--sky-gold); }
 .legend i { width: 5px; height: 5px; background: #77989b; border-radius: 50%; margin-left: 12px; }
 .panelEyebrow { color: var(--sky-gold); font: 500 10px/1.5 var(--font-ui); letter-spacing: .19em; margin-bottom: 28px; }
 .immersive .previewHead { font-size: 10px; }
 .immersive .selectionNote { display: none; }
-.immersive .chapterTag { font-size: 11px; color: #cbb7bd; }
+.immersive .chapterTag { font-size: 11px; color: var(--ink-3); }
 .immersive .previewTitle { font-size: 42px; margin-block: 12px 19px; }
-.immersive .scripture { font-size: 16px; line-height: 1.75; }
+.immersive .scripture { font-size: 18px; line-height: 1.75; color: var(--ink-reading); }
 .relatedPreview { margin-top: 26px; border-top: 1px solid #a8bbb622; }
-.relatedPreview > p { color: #cbb7bd; font: 400 9px/1.6 var(--font-ui); letter-spacing: .12em; margin: 18px 0 7px; }
+.relatedPreview > p { color: var(--ink-3); font: 400 11px/1.6 var(--font-ui); letter-spacing: .1em; margin: 18px 0 7px; }
 .relatedPreview button { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 59px; border: 0; border-bottom: 1px solid #a8bbb622; background: transparent; text-align: left; color: var(--sky-ink); cursor: pointer; font: 440 20px/1.3 var(--font-display); padding: 10px 0; transition: color .2s, padding .2s; }
 .relatedPreview button:hover { color: var(--sky-gold); padding-left: 5px; }
-.relatedPreview small { display: block; font: 400 10px/1.5 var(--font-ui); color: #cbb7bd; margin-top: 3px; }
-.relatedPreview svg { width: 16px; color: #cbb7bd; }
+.relatedPreview small { display: block; font: 400 12px/1.5 var(--font-ui); color: var(--ink-3); margin-top: 3px; }
+.relatedPreview svg { width: 16px; color: var(--ink-3); }
 .immersive .previewFoot { display: grid; gap: 3px; margin-top: 23px; }
-.immersive .primaryLink { background: #f1eadc; color: #29141e; border-radius: 6px; justify-content: space-between; padding: 13px 17px; font-size: 13px; }
-.immersive .primaryLink:hover { background: #e4bd7b; color: #29141e; }
+.immersive .primaryLink { background: linear-gradient(155deg, #683047, #3c1426); color: #f8e6bc; border: 1px solid #b88d6d; border-radius: 999px; justify-content: space-between; padding: 13px 20px; font-size: 14px; }
+.immersive .primaryLink:hover { filter: brightness(1.08); color: #f8e6bc; }
 .immersive .secondaryLink { font-size: 11px; justify-content: space-between; }
 .surprise { display: flex; justify-content: space-between; gap: 8px; width: 100%; background: transparent; border: 0; border-top: 1px solid #a8bbb622; padding: 13px 0; color: var(--sky-gold); font-size: 11px; text-align: left; cursor: pointer; }
 .surprise span { font-size: 19px; }
 .immersive .connectionList { font-size: 10px; }
-.immersive .credit { font-size: 9px; opacity: .8; }
+.immersive .credit { font-size: 11px; opacity: 1; }
 @media (min-width: 1500px) { .immersive { grid-template-columns: minmax(0, 1fr) 325px; } .immersive .field { max-height: 720px; } }
 @media (max-width: 1000px) and (min-width: 701px) { .immersive { grid-template-columns: minmax(0, 1fr) 245px; } .immersive .preview { padding-left: 21px; } .immersive .medallion { width: 59px; height: 59px; } .immersive .centre { width: 85px; height: 85px; } .immersive .medallion .nodeLabel { font-size: 18px; } .immersive .field { min-height: 510px; } .legend { font-size: 9px; } .legend i { display: none; } }
 @media (max-width: 700px) {
@@ -331,16 +332,16 @@
   .immersive .medallion .nodeLabel { opacity: 1 !important; font-size: 17px; top: calc(100% + 3px); }
   .immersive .medallion .nodeLabel small { display: none; }
   .immersive .centre .nodeLabel { font-size: 21px; }
-  .immersive .hint { left: 0; bottom: 42px; font-size: 9px; max-width: 48%; }
-  .legend { left: 0; bottom: 23px; font-size: 8px; gap: 5px; }
+  .immersive .hint { left: 0; bottom: 58px; font-size: 11px; max-width: 48%; }
+  .legend { left: 0; bottom: 7px; font-size: 10px; line-height: 1.4; display: block; max-width: calc(100% - 185px); }
   .legend i { display: none; }
   .immersive .controls { right: 0; bottom: 0; }
   .immersive .controls button { min-width: 40px; min-height: 44px; }
   .immersive .controls .lightControl { min-width: 44px; }
-  .panelEyebrow { margin-bottom: 12px; font-size: 9px; }
+  .panelEyebrow { margin-bottom: 12px; font-size: 11px; }
   .immersive .previewHead { position: absolute; right: 0; top: 25px; }
   .immersive .previewTitle { font-size: 36px; margin-block: 0 14px; }
-  .immersive .scripture { font-size: 17px; max-width: none; }
+  .immersive .scripture { font-size: 18px; max-width: none; }
   .relatedPreview { margin-top: 20px; }
   .relatedPreview button { min-height: 56px; }
   .immersive .previewFoot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
