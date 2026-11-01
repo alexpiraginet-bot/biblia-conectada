@@ -147,6 +147,10 @@ export default async function Home() {
       <section className={styles.quiet} data-reveal="" aria-labelledby="quiet-title"><Icon name="book" /><p className={styles.eyebrow}>NO SEU TEMPO</p><h2 id="quiet-title">Também há espaço para<br /><em>simplesmente ler.</em></h2><p>Sem pressa. Um versículo de cada vez. Guarde os trechos que tocam você e volte quando quiser.</p><div className={styles.actions}><Link href="/ler" className={styles.primary}>Abrir a Bíblia <Icon name="out" /></Link><Link href="/salvos" className={styles.secondary}><Icon name="bookmark" /> Meus trechos salvos</Link><Link href="/assistente" className={styles.secondary}>Estudo acompanhado <Icon name="out" /></Link></div></section>
       <div className={styles.dataLine}><span>{formatInt(summary.counts.books)} livros. {formatInt(summary.counts.verses)} versículos. Histórias que se encontram.</span><Link href="/sobre">Texto livre. Fontes abertas. <span aria-hidden="true">↗</span></Link></div>
       <details className={styles.fullAtlas}><summary>Quer ir mais fundo? Abra o atlas completo de Isaías 9 <span aria-hidden="true">+</span></summary><HomeAtlas /></details>
+      <section className={styles.supportInvite} aria-labelledby="support-invite-title">
+        <div><p className={styles.eyebrow}>A PALAVRA TAMBÉM VIRA CUIDADO</p><h2 id="support-invite-title">Um gesto seu pode ir mais longe.</h2><p>Ajude a Bíblia Conectada, a produção dos mini Jesus e a entrega de cestas básicas. Conheça a campanha e acompanhe cada passo.</p></div>
+        <Link href="/apoie" prefetch={false} className={styles.textLink}>Conhecer e apoiar <Icon name="out" /></Link>
+      </section>
     </main>
   );
 }

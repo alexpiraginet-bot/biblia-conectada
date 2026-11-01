@@ -28,6 +28,7 @@ export type ShareCard = {
 const grid = createGrid(books);
 const bySlug = new Map(books.map((book) => [book.slug, book]));
 const sections: Record<string, Omit<ShareCard, "path">> = {
+  "/apoie": { eyebrow: "JUNTOS, A PALAVRA CHEGA MAIS LONGE", title: "A Palavra\nvira cuidado.", description: "Ajude a Bíblia Conectada, a produção dos mini Jesus da Bentô 3D Labs e a entrega de cestas básicas. Contribua pelo Pix e acompanhe cada passo.", kind: "landing" },
   "/jornada": { eyebrow: "MINHA JORNADA", title: "Um pouco a cada dia.\nUm caminho que fica.", description: "Leia, explore e acompanhe suas conquistas. Cultive um ritmo de encontro com a Palavra, sem precisar se cadastrar.", kind: "landing" },
   "/": { eyebrow: "UM ATLAS VIVO", title: "Uma história.\nTudo se conecta.", description: "Leia uma passagem. Descubra suas conexões. Encontre novos caminhos pela Bíblia.", kind: "landing" },
   "/ler": { eyebrow: "BÍBLIA LIVRE", title: "Uma leitura abre\nnovos caminhos.", description: "Livros, capítulos e versículos em português. Entre no texto e siga suas ligações.", kind: "landing" },
