@@ -1,1 +1,51 @@
 .root{max-width:1320px;margin-inline:auto;padding:48px 28px 120px}.heading{display:flex;justify-content:space-between;gap:24px;align-items:flex-start;margin-bottom:36px}.eyebrow{font-size:.71rem;letter-spacing:.16em;color:var(--ink-3);font-weight:600}.heading h1{font-family:var(--font-display);font-size:clamp(2.3rem,5vw,4.4rem);line-height:1.06;letter-spacing:-.04em;margin:15px 0 20px}.heading h1 em{font-weight:400;color:var(--accent)}.heading p:not(.eyebrow){max-width:46ch;color:var(--ink-3);line-height:1.6}.root button,.root input,.root select,.actions a{font:inherit;min-height:44px;border-radius:14px;border:1px solid var(--line);padding:10px 16px;background:var(--surface);color:var(--ink)}.root button,.actions a{cursor:pointer}.root button:hover,.actions a:hover{border-color:var(--accent)}.root :focus-visible{outline:2px solid var(--accent);outline-offset:4px}.root button:disabled{opacity:.6;cursor:wait}.login{max-width:480px;padding:30px;border:1px solid var(--line);border-radius:24px;background:var(--surface);margin:50px auto}.login h2,.panel h2{font-family:var(--font-display);font-weight:400;font-size:1.75rem;margin:0 0 16px}.login p,.panel p{line-height:1.6;color:var(--ink-3)}.login form{display:grid;gap:14px;margin-top:28px}.login input{width:100%;box-sizing:border-box}.login form button,.actions a{background:var(--ink);color:var(--ground);text-align:center;text-decoration:none}.subtle{background:transparent!important}.tabs{display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:20px}.tabs button{border-color:transparent;background:transparent}.tabs button[aria-current]{background:var(--surface);border-color:var(--line);color:var(--accent)}.toolbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:.85rem;margin:16px 0}.toolbar label{display:flex;gap:12px;align-items:center}.toolbar>span{margin-left:auto;color:var(--ink-3)}.notice{padding:16px 20px;border-left:2px solid var(--accent);background:var(--surface);font-size:.88rem;line-height:1.6}.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin:24px 0}.kpis article,.panel{border:1px solid var(--line);border-radius:22px;background:var(--surface);padding:24px}.kpis article{display:flex;flex-direction:column;gap:14px}.kpis span,.kpis small{font-size:.78rem;line-height:1.5;color:var(--ink-3)}.kpis strong{font-size:clamp(1.35rem,2.5vw,2.4rem);font-weight:500;letter-spacing:-.04em}.kpis small{margin-top:auto}.panelHeading{display:flex;justify-content:space-between;gap:16px;align-items:baseline}.panelHeading span,.caption{font-size:.78rem;color:var(--ink-3)}.chart{height:190px;display:flex;align-items:stretch;gap:4px;padding:24px 0 36px}.barSlot{position:relative;flex:1;display:flex;align-items:flex-end;min-width:0;border-bottom:1px solid var(--line)}.bar{width:100%;background:var(--accent);border-radius:4px 4px 0 0;min-height:0}.barSlot>span{position:absolute;bottom:-24px;left:0;font-size:.6rem;color:var(--ink-3)}.columns{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:16px;margin:20px 0}.ranking{list-style:none;padding:0;margin:0}.ranking li{display:flex;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line);padding:13px 0;font-size:.82rem;line-height:1.5}.ranking li:last-child{border:0}.ranking strong{font-variant-numeric:tabular-nums}.steps{padding-left:24px}.steps li{padding:12px 0 24px}.steps p{margin:12px 0}.actions{display:flex;flex-wrap:wrap;gap:12px;margin:28px 0}.facts{display:grid;grid-template-columns:190px 1fr;gap:14px;font-size:.9rem;line-height:1.5}.facts dt{color:var(--ink-3)}.facts dd{margin:0}.hash{overflow-wrap:anywhere;font-family:monospace;font-size:.75rem}.method{margin:28px 0;color:var(--ink-3);line-height:1.7;font-size:.85rem}.method summary{cursor:pointer;min-height:44px}.panel a{color:var(--accent)}@media(max-width:900px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.columns{grid-template-columns:1fr}.heading h1{font-size:3rem}}@media(max-width:500px){.root{padding:28px 16px 90px}.heading h1{font-size:2.5rem}.heading{gap:10px}.heading>.subtle{padding:8px}.tabs{gap:3px}.tabs button{font-size:.79rem;padding:9px 11px}.kpis{gap:10px}.kpis article,.panel{padding:18px}.toolbar>span{margin-left:0}.panelHeading{display:block}.chart{gap:2px;height:150px}.barSlot>span{font-size:.5rem}.barSlot:nth-child(even)>span{display:none}.facts{grid-template-columns:1fr;gap:8px}.facts dd{margin-bottom:12px}}@media print{.root{padding:0;max-width:100%}.heading h1{font-size:30px}.tabs,.toolbar,.subtle,.actions,.method{display:none!important}.panel{break-inside:avoid}.root *{box-shadow:none!important}}
+
+/* Private administration: native form semantics, restrained controls, comfortable touch targets. */
+.root :is(input, button, summary, [role="status"]) { scroll-margin-block: calc(var(--bar-h) + 16px) calc(100px + env(safe-area-inset-bottom, 0px)); }
+.root .usernameField { position: absolute !important; width: 1px !important; height: 1px !important; min-height: 0 !important; margin: -1px; padding: 0 !important; border: 0 !important; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.root .remember { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 11px; align-items: center; min-height: 44px; font-size: .875rem; line-height: 1.5; cursor: pointer; }
+.root .remember input { width: 22px; height: 22px; min-height: 22px; padding: 0; margin: 0; accent-color: var(--accent); }
+.root .passkeyLogin { width: 100%; margin-top: 12px; border-color: var(--line-strong); line-height: 1.5; }
+.root .securityPrimary, .login form > button { background: #541c32; color: #f8e6bc; border-color: #a97865; }
+.login { min-width: 0; box-sizing: border-box; }
+.login input:not([type="checkbox"]), .securityForm input { border-color: var(--line-strong); }
+.login .securityCaption, .securityCaption { margin: 0; color: var(--ink-3); font-size: .8rem; line-height: 1.6; }
+.login > .securityCaption { margin-top: 12px; }
+.passwordHelp { margin-top: 20px; color: var(--ink-3); font-size: .85rem; line-height: 1.6; }
+.passwordHelp summary { display: list-item; min-height: 44px; padding-block: 10px; cursor: pointer; }
+.passwordHelp p { margin: 8px 0 0; }
+.securityMessage { min-height: 1.5em; font-size: .875rem; line-height: 1.6; color: var(--ink); overflow-wrap: anywhere; }
+.security { min-width: 0; }
+.securityHeading { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+.securityHeading h2 { font: 440 2rem/1.2 var(--font-display); margin: 0 0 12px; }
+.securityHeading p, .sessionNote { color: var(--ink-3); font-size: .9rem; line-height: 1.6; margin: 0; }
+.securityHeading > button { flex-shrink: 0; }
+.sessionNote { padding: 16px 0 24px; }
+.securityGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-bottom: 20px; }
+.security .panel { min-width: 0; overflow-wrap: anywhere; }
+.security .panel h3 { margin: 0 0 14px; font: 440 1.65rem/1.2 var(--font-display); }
+.security .panel p { font-size: .875rem; }
+.securityForm { position: relative; display: grid; gap: 12px; margin-top: 22px; }
+.securityForm fieldset { min-width: 0; display: grid; gap: 12px; margin: 0; padding: 0; border: 0; }
+.securityForm label { font-size: .875rem; font-weight: 600; }
+.securityForm input { width: 100%; min-width: 0; box-sizing: border-box; }
+.securityForm button { line-height: 1.5; }
+.securityForm .securityPrimary { margin-top: 6px; }
+.securityForm + .securityCaption { margin-top: 18px; }
+.securityActions { display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline; }
+.passkeyList { list-style: none; padding: 0; margin: 0; }
+.passkeyList > li { padding: 18px 0; border-bottom: 1px solid var(--line); }
+.passkeyList > li:last-child { border-bottom: 0; padding-bottom: 0; }
+.passkeyRow { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 16px; }
+.passkeyRow strong { display: block; font-size: .95rem; line-height: 1.5; overflow-wrap: anywhere; }
+.passkeyRow span { display: block; margin-top: 5px; color: var(--ink-3); font-size: .8rem; line-height: 1.5; }
+.passkeyList .securityForm { max-width: 480px; }
+@media (max-width: 900px) { .securityGrid { grid-template-columns: 1fr; } }
+@media (max-width: 500px) {
+  .login { margin-block: 30px; padding: 22px; }
+  .securityHeading { flex-direction: column; gap: 12px; }
+  .securityHeading h2 { font-size: 1.75rem; }
+  .passkeyRow { gap: 10px; }
+  .securityActions > button { flex: 1; }
+}
+@media print { .securityForm, .passwordHelp, .passkeyLogin { display: none !important; } }

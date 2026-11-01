@@ -2,7 +2,7 @@
 
 ## Painel do projeto
 
-`/admin` é a entrada privada. O HTML inicial contém somente a tela de acesso. As consultas, CSV e JSON exigem sessão válida de administração. Chave aleatória de 256 bits, hash SHA-256 no servidor, cookie HttpOnly/Secure/SameSite=Strict por oito horas. Renovar o hash revoga sessões anteriores. Nada de chave no git, URL ou armazenamento do navegador.
+`/admin` é a entrada privada. O HTML inicial contém somente a tela de acesso. As consultas, CSV e JSON exigem sessão válida de administração. **Manter conectado** vem marcado: sessão de até 30 dias; desmarcado, até oito horas. Cookie HttpOnly/Secure/SameSite=Strict, sessão revogável no Redis. **Segurança** permite trocar a senha e cadastrar chaves de acesso com a biometria do aparelho. A senha inicial aleatória continua válida até a troca; depois, só o novo hash scrypt é aceito. Nenhuma senha em git, URL ou armazenamento do site. [Operação e limites](SEGURANCA-DO-PAINEL.md).
 
 O backend reutiliza o Redis da Jornada em namespace separado `bc:{audience}:<ambiente>:`. Os pontos dos leitores não são audiência, e não são usados no relatório. Nenhuma nova assinatura de infraestrutura foi criada.
 

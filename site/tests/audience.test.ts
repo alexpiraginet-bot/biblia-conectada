@@ -1,8 +1,10 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it, vi } from "vitest";
 import { audienceCsv, audienceDay, buildAudienceReport, parseAudienceEvent, reportDays } from "../src/lib/audience/core";
-import { adminSession, audienceConfig, audienceLogin, audienceReportResponse, collectAudience, digest, isAdmin, SESSION_SECONDS, type AudienceConfig } from "../src/lib/audience/server";
+import { audienceConfig, audienceLogin, audienceReportResponse, collectAudience, digest, type AudienceConfig } from "../src/lib/audience/server";
 import { journeyRedis, type JourneyRedis } from "../src/lib/rewards/redis";
+
+import { adminStore, responseCookie } from "./helpers/admin-auth";
 
 const password = "test-admin-key-with-at-least-32-characters";
 const env = { VERCEL: "1", VERCEL_ENV: "preview", KV_REST_API_URL: "https://test.upstash.io", KV_REST_API_TOKEN: "test-token", ASSISTANT_RATE_LIMIT_SECRET: "test-secret-with-more-than-32-characters", AUDIENCE_ENABLED: "true", AUDIENCE_ADMIN_PASSWORD_HASH: digest(password) };
@@ -49,15 +51,6 @@ describe("audience privacy and measurement boundaries", () => {
 });
 
 describe("audience authorization and abuse boundary", () => {
-  it("binds admin sessions to deployment, expiry and key rotation", () => {
-    const cookie = adminSession(config, now.getTime());
-    expect(isAdmin(cookie, config, now.getTime())).toBe(true);
-    expect(isAdmin(cookie.slice(0, -1) + "x", config, now.getTime())).toBe(false);
-    expect(isAdmin(cookie, { ...config, environment: "production" }, now.getTime())).toBe(false);
-    expect(isAdmin(cookie, { ...config, passwordHash: digest("another-key") }, now.getTime())).toBe(false);
-    expect(isAdmin(cookie, config, now.getTime() + SESSION_SECONDS * 1000)).toBe(false);
-    expect(isAdmin(cookie, config, now.getTime() - 1000)).toBe(false);
-  });
   it("protects all report formats before consulting Redis", async () => {
     const command = vi.fn<JourneyRedis>();
     for (const format of ["json", "csv", "export"]) expect((await audienceReportResponse(reportRequest(`days=7&format=${format}`), undefined, deps(command))).status).toBe(401);
@@ -92,9 +85,9 @@ describe("audience authorization and abuse boundary", () => {
     expect((await collectAudience(request(), deps(async () => { throw new Error("private backend details"); }))).status).toBe(503);
   });
   it("accepts only the admin key and creates a secure host-only cookie", async () => {
-    const command = vi.fn<JourneyRedis>(async () => 1);
+    const command = vi.fn<JourneyRedis>(adminStore().command);
     expect((await audienceLogin(request({ password: "incorrect-key-value" }), deps(command))).status).toBe(401);
-    const response = await audienceLogin(request({ password }), deps(command));
+    const response = await audienceLogin(request({ password, remember: false }), deps(command));
     expect(response.status).toBe(200);
     expect(response.headers.get("Set-Cookie")).toMatch(/__Host-bc-admin-preview=.+; Path=\/; Max-Age=28800; Secure; HttpOnly; SameSite=Strict/);
     expect(response.headers.get("Cache-Control")).toContain("no-store");
@@ -102,8 +95,10 @@ describe("audience authorization and abuse boundary", () => {
     expect((await audienceLogin(request({ password }, { origin: "https://evil.test" }), deps(command))).status).toBe(403);
   });
   it("bounds reports and exports actual source with an integrity hash", async () => {
-    const cookie = adminSession(config, now.getTime());
-    const command = vi.fn<JourneyRedis>(async () => [now.toISOString(), ...Array.from({ length: 7 }, () => [])]);
+    const store = adminStore();
+    const login = await audienceLogin(request({ password }), deps(store.command));
+    const cookie = responseCookie(login, config.cookieName);
+    const command = vi.fn<JourneyRedis>(async args => args[0] === "EVAL" ? [now.toISOString(), ...Array.from({ length: 7 }, () => [])] : store.command(args));
     for (const query of ["days=100000", "days=7&days=90", "days=7&format=html", "days=7&q=private"]) expect((await audienceReportResponse(reportRequest(query), cookie, deps(command))).status).toBe(400);
     expect(command).not.toHaveBeenCalled();
     const response = await audienceReportResponse(reportRequest(), cookie, deps(command));
@@ -122,7 +117,7 @@ describe.skipIf(process.env.AUDIENCE_INTEGRATION !== "1")("audience real Redis i
     expect(live).not.toBeNull();
     const isolated: AudienceConfig = { ...live!, prefix: `bc:{audience-qa}:preview:${randomBytes(12).toString("hex")}:` };
     const remote = journeyRedis(isolated); const keys = new Set<string>();
-    const command: JourneyRedis = async args => { if (args[0] === "EVAL") for (const key of args.slice(3, 3 + Number(args[2]))) { if (typeof key !== "string" || !key.startsWith(isolated.prefix)) throw new Error("Unsafe QA key"); keys.add(key); } return remote(args); };
+    const command: JourneyRedis = async args => { for (const key of (args[0] === "EVAL" ? args.slice(3, 3 + Number(args[2])) : args[0] === "DEL" ? args.slice(1) : args.slice(1, 2))) { if (typeof key !== "string" || !key.startsWith(isolated.prefix)) throw new Error("Unsafe QA key"); keys.add(key); } return remote(args); };
     let clock = new Date("2026-11-02T02:59:40Z");
     const options = { config: isolated, command, now: () => clock };
     try {
