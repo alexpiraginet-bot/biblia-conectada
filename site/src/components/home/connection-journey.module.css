@@ -1,13 +1,13 @@
 .journey { position: fixed; inset: 0; z-index: 20000; isolation: isolate; overflow: hidden; background: #f4ecdc; animation: appear 1000ms ease both; }
-.art { position: absolute; inset: -5%; background: url('/home/golden-passage-v2.webp') center 44% / cover; transform-origin: 67% 44%; animation: enter 1000ms cubic-bezier(.4,0,.35,1) both; }
+.art { position: absolute; inset: -5%; background: url('/home/tunnel-mobile-poster.webp') center / cover; filter: blur(12px); transform-origin: center; animation: enter 1000ms cubic-bezier(.4,0,.35,1) both; }
+.video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 48%; pointer-events: none; }
+.journey[data-video-playing="true"] .canvas { visibility: hidden; }
 .canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-.destination { position: absolute; left: 67%; top: 44%; transform: translate(-50%, -50%); width: clamp(80px, 22vw, 136px); aspect-ratio: 1; display: grid; place-items: center; padding: 12px; background: url('/home/crystal-orb-v2.webp') center / contain no-repeat; font: 500 clamp(15px, 4.1vw, 24px)/1.2 var(--font-display); color: #4d1122; text-align: center; text-shadow: 0 0 7px #fff; animation: arrive 1000ms ease both; }
+.destination { position: absolute; left: 50%; bottom: max(78px, env(safe-area-inset-bottom)); transform: translateX(-50%); padding: 12px 22px; border: 1px solid #f6e4bc90; border-radius: 40px; background: #fff8e9df; backdrop-filter: blur(10px); font: 500 clamp(17px, 4.1vw, 24px)/1.2 var(--font-display); color: #4d1122; text-align: center; white-space: nowrap; animation: arrive 1000ms ease both; }
 .skip { position: absolute; top: max(20px, env(safe-area-inset-top)); right: 18px; min-width: 76px; min-height: 44px; border: 1px solid #d7ad73; border-radius: 40px; color: #ffedbb; background: linear-gradient(#8b3046cf, #48071fed); box-shadow: inset 0 1px #fff1d4, inset 0 -2px #d6a66f, 0 4px 16px #37122740; font: 500 14px var(--font-ui); cursor: pointer; }
 .skip:focus-visible { outline: 3px solid #53132b; outline-offset: 4px; }
 @keyframes appear { 0% { opacity: 0; } 12%, 78% { opacity: 1; } 100% { opacity: 0; } }
 @keyframes enter { from { transform: scale(1) rotate(-2deg); } to { transform: scale(2.2) rotate(4deg); } }
 @keyframes arrive { 0%, 8% { opacity: 0; scale: .5; } 25%, 72% { opacity: 1; } 100% { opacity: 0; scale: 1.4; } }
-@media (min-width: 761px) { .art { background-size: cover; background-position: 67% 44%; }.destination { width: 124px; } }
+@media (min-width: 761px) { .art { background-image: url('/home/tunnel-desktop-poster.webp'); } }
 @media (prefers-reduced-motion: reduce) { .journey { display: none; } }
-.art { background-position: 70% 44%; transform-origin: 70% 44%; }
-.destination { left: 70%; white-space: nowrap; padding: 4px; }

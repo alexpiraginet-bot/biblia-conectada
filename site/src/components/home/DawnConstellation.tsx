@@ -32,7 +32,7 @@ export function DawnConstellation({ nodes }: { nodes: OpeningNode[] }) {
   function prepare(node: OpeningNode) {
     if (!canPrewarm()) return;
     router.prefetch(node.href);
-    void import("./connection-journey").then((module) => { journey.current = module; }).catch(() => {});
+    void import("./connection-journey").then((module) => { journey.current = module; module.prewarmConnectionJourney(); }).catch(() => {});
   }
 
   function travel(node: OpeningNode) {

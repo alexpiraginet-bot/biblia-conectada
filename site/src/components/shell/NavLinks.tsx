@@ -6,6 +6,7 @@ import { useEffect, useRef, type ReactNode } from "react";
 /** Explicit route state: Next can keep a previous page hidden in the DOM during navigation. */
 export function SiteShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  useEffect(() => { window.dispatchEvent(new Event("bc:navigation")); }, [pathname]);
   const discovery = pathname === "/" || pathname === "/caminhos" || pathname === "/cronologia" || pathname === "/arcos" || pathname === "/assistente" || pathname === "/coracao";
   return <div className="site-shell" data-homepage={pathname === "/" ? "" : undefined} data-discovery={discovery ? "" : undefined} data-immersive={pathname === "/arcos" ? "" : undefined}>{children}</div>;
 }

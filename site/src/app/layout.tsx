@@ -94,6 +94,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SearchHost />
         <StudyHost />
         <RewardsHost />
+        {process.env.AUDIENCE_ENABLED === "true" && <script dangerouslySetInnerHTML={{ __html: `window.bcAudience=${JSON.stringify({ enabled: true, measurementId: /^G-[A-Z0-9]{6,20}$/.test(process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID ?? "") ? process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID : null })};window.addEventListener('load',()=>setTimeout(()=>{if(!navigator.webdriver){const s=document.createElement('script');s.src='/audience-v1.js';s.defer=true;document.body.append(s)}},2000),{once:true});` }} />}
       </body>
     </html>
   );

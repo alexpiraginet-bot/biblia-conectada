@@ -1,0 +1,218 @@
+{
+  "schema": "biblia-user-tunnel-web-transition@1",
+  "source": {
+    "path": "C:\\Users\\R2\\.codex\\codex-remote-attachments\\01a15a31-4795-7dc2-b8a3-9529afb4fe17\\D7B42C0F-ED63-4A5A-9428-5AF1646FA293\\1-fish-f3085c2211e5d9f3f5ad32784a37bf52.mp4",
+    "bytes": 4036251,
+    "sha256": "6539ec6b9ea730d8d883719396a42674206bb13edd4cb12350bb10db8ad40926",
+    "duplicate_path": "C:\\Users\\R2\\.codex\\codex-remote-attachments\\01a196de-9bc6-7550-bee1-95aae555c3d7\\85ED0F70-BAC8-4733-AA39-CF1842F23FE1\\1-fish-f3085c2211e5d9f3f5ad32784a37bf52.mp4",
+    "duplicate_sha256": "6539ec6b9ea730d8d883719396a42674206bb13edd4cb12350bb10db8ad40926",
+    "duplicate_identical": true,
+    "video_dimensions": [
+      768,
+      1344
+    ],
+    "video_fps": 24,
+    "video_frames": 124,
+    "video_duration_seconds": 5.166666666666667,
+    "original_video_start_time": 0.083333
+  },
+  "retiming": {
+    "full_source_sequence_used": true,
+    "source_trim": false,
+    "speedup": 5.166666666666667,
+    "output_duration_seconds": 1,
+    "output_frames": 30,
+    "output_fps": 30,
+    "method": "Normalize first PTS, divide presentation time by 124/24, resample to 30 fps, enforce 30 frames and zero-based PTS. Temporal frame dropping is inherent in acceleration."
+  },
+  "web_usage": {
+    "object_fit": "contain",
+    "aspect_ratio": "4 / 7",
+    "desktop_note": "Keep portrait composition centered; do not stretch or crop to a landscape viewport.",
+    "reduced_motion": "Use corresponding WebP poster or JPEG fallback instead of playing the transition.",
+    "audio": "No audio track. Preserve the site or film audio behavior separately.",
+    "autoplay": "Respect prefers-reduced-motion and application visibility; these assets do not authorize autoplay policy changes."
+  },
+  "target_bytes_ideal": 250000,
+  "variants": [
+    {
+      "variant": "mobile",
+      "file": "tunnel-mobile-1s.mp4",
+      "width": 720,
+      "height": 1260,
+      "bytes": 351807,
+      "sha256": "3104820eed0c0fa9c540efb83823f724d074f8f7967da5b371f7d101f4ec7295",
+      "duration_seconds": 1,
+      "frames": 30,
+      "fps": 30,
+      "start_time": 0,
+      "audio": false,
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "faststart_verified_moov_before_mdat": true,
+      "crf": 32,
+      "command": [
+        "C:\\Users\\R2\\Documents\\Codex\\2026-10-20\\biblia-em-cena-videos\\work\\product-motion\\tools\\ffmpeg-9.0.2-essentials_build\\bin\\ffmpeg.exe",
+        "-v",
+        "error",
+        "-threads",
+        "2",
+        "-i",
+        "C:\\Users\\R2\\.codex\\codex-remote-attachments\\01a15a31-4795-7dc2-b8a3-9529afb4fe17\\D7B42C0F-ED63-4A5A-9428-5AF1646FA293\\1-fish-f3085c2211e5d9f3f5ad32784a37bf52.mp4",
+        "-map",
+        "0:v:0",
+        "-an",
+        "-vf",
+        "setpts=(PTS-STARTPTS)/5.166666666667,fps=30,scale=720:1260:flags=lanczos,trim=end_frame=30,setpts=N/(30*TB),setsar=1",
+        "-frames:v",
+        "30",
+        "-c:v",
+        "libx264",
+        "-preset",
+        "slow",
+        "-crf",
+        "32",
+        "-pix_fmt",
+        "yuv420p",
+        "-threads",
+        "2",
+        "-movflags",
+        "+faststart",
+        "-video_track_timescale",
+        "15360",
+        "-map_metadata",
+        "-1",
+        "-y",
+        "C:\\Users\\R2\\Documents\\Codex\\2026-11-01\\biblia-conectada-motion-conexoes-tunel\\outputs\\web-transition-v1\\tunnel-mobile-1s.mp4"
+      ],
+      "qa": {
+        "decode_exit": 0,
+        "blackdetect_events": [],
+        "frames_for_visual_review": [
+          "C:\\Users\\R2\\Documents\\Codex\\2026-11-01\\biblia-conectada-motion-conexoes-tunel\\work\\tunnel-user\\web-qa\\mobile-frame-00.jpg",
+          "C:\\Users\\R2\\Documents\\Codex\\2026-11-01\\biblia-conectada-motion-conexoes-tunel\\work\\tunnel-user\\web-qa\\mobile-frame-15.jpg",
+          "C:\\Users\\R2\\Documents\\Codex\\2026-11-01\\biblia-conectada-motion-conexoes-tunel\\work\\tunnel-user\\web-qa\\mobile-frame-29.jpg"
+        ]
+      },
+      "posters": [
+        {
+          "file": "tunnel-mobile-poster.webp",
+          "bytes": 38836,
+          "sha256": "79dd2105efcb1d71e2d3d099e55090bc4d39171100f78bd9d3cafee600dca319",
+          "width": 720,
+          "height": 1260,
+          "source_frame": 15
+        },
+        {
+          "file": "tunnel-mobile-poster.jpg",
+          "bytes": 67539,
+          "sha256": "030211eb330e66b9a623a437e9d29b515651d695389275f4247032157a3ff68e",
+          "width": 720,
+          "height": 1260,
+          "source_frame": 15
+        }
+      ]
+    },
+    {
+      "variant": "desktop",
+      "file": "tunnel-desktop-1s.mp4",
+      "width": 768,
+      "height": 1344,
+      "bytes": 392399,
+      "sha256": "d4f5c1aa500b1ab7c3f883ef2f9ffe1e67b9246fbf34a2785fd1a229f33094df",
+      "duration_seconds": 1,
+      "frames": 30,
+      "fps": 30,
+      "start_time": 0,
+      "audio": false,
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "faststart_verified_moov_before_mdat": true,
+      "crf": 32,
+      "command": [
+        "C:\\Users\\R2\\Documents\\Codex\\2026-10-20\\biblia-em-cena-videos\\work\\product-motion\\tools\\ffmpeg-9.0.2-essentials_build\\bin\\ffmpeg.exe",
+        "-v",
+        "error",
+        "-threads",
+        "2",
+        "-i",
+        "C:\\Users\\R2\\.codex\\codex-remote-attachments\\01a15a31-4795-7dc2-b8a3-9529afb4fe17\\D7B42C0F-ED63-4A5A-9428-5AF1646FA293\\1-fish-f3085c2211e5d9f3f5ad32784a37bf52.mp4",
+        "-map",
+        "0:v:0",
+        "-an",
+        "-vf",
+        "setpts=(PTS-STARTPTS)/5.166666666667,fps=30,scale=768:1344:flags=lanczos,trim=end_frame=30,setpts=N/(30*TB),setsar=1",
+        "-frames:v",
+        "30",
+        "-c:v",
+        "libx264",
+        "-preset",
+        "slow",
+        "-crf",
+        "32",
+        "-pix_fmt",
+        "yuv420p",
+        "-threads",
+        "2",
+        "-movflags",
+        "+faststart",
+        "-video_track_timescale",
+        "15360",
+        "-map_metadata",
+        "-1",
+        "-y",
+        "C:\\Users\\R2\\Documents\\Codex\\2026-11-01\\biblia-conectada-motion-conexoes-tunel\\outputs\\web-transition-v1\\tunnel-desktop-1s.mp4"
+      ],
+      "qa": {
+        "decode_exit": 0,
+        "blackdetect_events": [],
+        "frames_for_visual_review": [
+          "C:\\Users\\R2\\Documents\\Codex\\2026-11-01\\biblia-conectada-motion-conexoes-tunel\\work\\tunnel-user\\web-qa\\desktop-frame-00.jpg",
+          "C:\\Users\\R2\\Documents\\Codex\\2026-11-01\\biblia-conectada-motion-conexoes-tunel\\work\\tunnel-user\\web-qa\\desktop-frame-15.jpg",
+          "C:\\Users\\R2\\Documents\\Codex\\2026-11-01\\biblia-conectada-motion-conexoes-tunel\\work\\tunnel-user\\web-qa\\desktop-frame-29.jpg"
+        ]
+      },
+      "posters": [
+        {
+          "file": "tunnel-desktop-poster.webp",
+          "bytes": 42500,
+          "sha256": "c03d4a157569665cba6ad1898fa54d46f99ba090426fd6b1ea1504dfe47f9b06",
+          "width": 768,
+          "height": 1344,
+          "source_frame": 15
+        },
+        {
+          "file": "tunnel-desktop-poster.jpg",
+          "bytes": 73218,
+          "sha256": "62307958550cc627602a7d31c51c93736df3620f7ac11ab9f79c7e4af5aba48a",
+          "width": 768,
+          "height": 1344,
+          "source_frame": 15
+        }
+      ]
+    }
+  ],
+  "visual_review": {
+    "status": "first_middle_last_frames_inspected",
+    "frames_per_variant": [
+      0,
+      15,
+      29
+    ],
+    "observations": "Portrait composition preserved; no letterboxing, spatial crop, lettering or black frames observed; central vanishing point retained. CRF32 selected over visibly coarser CRF34.",
+    "continuous_playback_reviewed": false
+  },
+  "source_modified": false,
+  "site_modified": false,
+  "compression_review": {
+    "mobile_trials_bytes": {
+      "crf26": 616919,
+      "crf28": 508486,
+      "crf32": 351807,
+      "crf34": 295579
+    },
+    "selected_crf": 32,
+    "reason": "CRF34 visibly softened/blockified crystal rings and clouds in the midpoint still; CRF32 retained more detail. Ideal 250 KB budget was not forced at the expense of the requested visual quality.",
+    "budget_250kb_met": false
+  }
+}

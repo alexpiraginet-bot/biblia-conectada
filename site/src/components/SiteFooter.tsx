@@ -15,6 +15,7 @@ export function SiteFooter() {
         Referências cruzadas: <a href="https://www.openbible.info/labs/cross-references/">OpenBible.info</a> (CC BY)
         {" · "}
         <Link href="/sobre">Sobre e créditos completos</Link>
+        {" · "}<Link href="/sobre#audiencia">Privacidade e medição</Link>
         {" · "}
         <Link href="/dados">Dados abertos</Link>
         {" · "}
