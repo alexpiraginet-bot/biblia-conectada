@@ -53,7 +53,7 @@ export function DawnConstellation({ nodes }: { nodes: OpeningNode[] }) {
     observer.observe(element);
     media.addEventListener("change", sync);
     document.addEventListener("visibilitychange", sync);
-    return () => { observer.disconnect(); media.removeEventListener("change", sync); document.removeEventListener("visibilitychange", sync); };
+    return () => { observer.disconnect(); media.removeEventListener("change", sync); document.removeEventListener("visibilitychange", sync); journey.current?.releasePreparedJourney(); };
   }, []);
 
   function illuminate(id: number) {

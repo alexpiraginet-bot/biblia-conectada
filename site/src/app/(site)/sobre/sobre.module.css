@@ -130,3 +130,7 @@
   color: var(--ink-2);
   border-bottom-color: var(--line-strong);
 }
+
+.prose p:has(> button[data-audience-preference]) { display: flex; flex-wrap: wrap; gap: 10px; }
+.prose button[data-audience-preference] { min-height: 44px; padding: 10px 16px; border: 1px solid var(--line-strong); border-radius: 16px; color: var(--ink); background: var(--surface); font: inherit; font-size: .875rem; line-height: 1.4; cursor: pointer; }
+.prose button[data-audience-preference]:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }

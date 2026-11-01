@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import { AUDIENCE_AREAS, AUDIENCE_CHANNELS, AUDIENCE_CAMPAIGNS, type AudienceReport } from "@/lib/audience/core";
 import styles from "./audience.module.css";
 const integer = (n: number) => n.toLocaleString("pt-BR");
@@ -8,29 +8,37 @@ type Envelope = { report: AudienceReport; sha256: string };
 export function AudienceDashboard() {
   const [days, setDays] = useState(30), [data, setData] = useState<Envelope | null>(null), [state, setState] = useState("loading"), [message, setMessage] = useState("");
   const [pending, setPending] = useState(false), [tab, setTab] = useState("audience");
+  const generation = useRef(0), inFlight = useRef<AbortController | null>(null), closing = useRef(false);
+  const invalidate = useCallback(() => { generation.current++; inFlight.current?.abort(); inFlight.current = null; }, []);
   const refresh = useCallback(async () => {
+    if (closing.current) return;
+    invalidate(); const current = generation.current, controller = new AbortController(); inFlight.current = controller;
     try {
-      const response = await fetch(`/api/admin/audience?days=${days}`, { cache: "no-store" }); const body = await response.json();
+      const response = await fetch(`/api/admin/audience?days=${days}`, { cache: "no-store", signal: controller.signal }); const body = await response.json();
+      if (current !== generation.current || controller.signal.aborted) return;
       if (!response.ok) { if (response.status === 401 || response.status === 503 && body.error === "setup") { setData(null); setState(body.error); } else setState("error"); setMessage(body.message || "Não foi possível atualizar o painel."); return; }
       setData(body); setState("ready"); setMessage("");
-    } catch { setState("error"); setMessage("Conexão indisponível. A última leitura não foi substituída por zeros."); }
-  }, [days]);
-  useEffect(() => { const initial = setTimeout(() => { void refresh(); }, 0); const timer = setInterval(() => { if (!document.hidden) void refresh(); }, 60000); return () => { clearTimeout(initial); clearInterval(timer); }; }, [refresh]);
+    } catch { if (current !== generation.current || controller.signal.aborted) return; setState("error"); setMessage("Conexão indisponível. A última leitura não foi substituída por zeros."); }
+    finally { if (inFlight.current === controller) inFlight.current = null; }
+  }, [days, invalidate]);
+  useEffect(() => { const initial = setTimeout(() => { void refresh(); }, 0); const timer = setInterval(() => { if (!document.hidden) void refresh(); }, 60000); return () => { clearTimeout(initial); clearInterval(timer); invalidate(); }; }, [refresh, invalidate]);
   async function login(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); const form = event.currentTarget, password = String(new FormData(form).get("password") ?? ""); setPending(true);
-    try { const response = await fetch("/api/admin/session", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password }) }); const result = await response.json(); if (!response.ok) setMessage(result.message || "Não foi possível entrar."); else { form.reset(); await refresh(); } }
+    try { const response = await fetch("/api/admin/session", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password }) }); const result = await response.json(); if (!response.ok) setMessage(result.message || "Não foi possível entrar."); else { form.reset(); closing.current = false; await refresh(); } }
     catch { setMessage("Não foi possível conectar. Tente novamente."); } finally { setPending(false); }
   }
   async function logout() {
+    closing.current = true; invalidate(); setPending(true);
     try { const response = await fetch("/api/admin/session", { method: "DELETE" }); if (!response.ok) throw new Error("logout"); setData(null); setMessage(""); setState("login"); }
-    catch { setMessage("Não foi possível encerrar a sessão. Tente novamente."); }
+    catch { closing.current = false; setMessage("Não foi possível encerrar a sessão. Tente novamente."); }
+    finally { setPending(false); }
   }
   const report = data?.report;
   return <main id="conteudo" className={`${styles.root} site-page`}>
     <header className={styles.heading}><div><p className={styles.eyebrow}>BÍBLIA CONECTADA · GESTÃO PRIVADA</p><h1>A Palavra alcança.<br /><em>Acompanhe o caminho.</em></h1><p>Audiência, campanhas e evidências para crescer com propósito.</p></div>{report && <button className={styles.subtle} onClick={logout}>Sair</button>}</header>
     {!report ? <section className={styles.login} aria-busy={pending || state === "loading"}><h2>Seu painel de audiência</h2><p>Acesso reservado à gestão do projeto. As informações de leitores não são públicas.</p>{state === "loading" ? <p role="status">Conferindo o acesso…</p> : state === "setup" ? <p role="status">O painel está instalado. Falta configurar a chave privada de administração no servidor.</p> : <form onSubmit={login}><label htmlFor="audience-password">Chave de acesso</label><input id="audience-password" name="password" type="password" autoComplete="current-password" required minLength={16} maxLength={128} /><button disabled={pending}>{pending ? "Entrando…" : "Entrar no painel"}</button></form>}<p role="status">{message}</p></section> : <>
       <nav className={styles.tabs} aria-label="Áreas de gestão">{[["audience", "Audiência"], ["growth", "Google e crescimento"], ["partners", "Relatório para parceiros"]].map(([value, label]) => <button key={value} aria-current={tab === value ? "page" : undefined} onClick={() => setTab(value)}>{label}</button>)}</nav>
-      <div className={styles.toolbar}><label>Período <select value={days} onChange={e => { setData(null); setState("loading"); setDays(Number(e.target.value)); }}>{[7, 30, 90].map(value => <option key={value} value={value}>Últimos {value} dias</option>)}</select></label><button className={styles.subtle} onClick={refresh}>Atualizar</button><span>Última leitura: {dateLabel(report.generatedAt)}</span></div>
+      <div className={styles.toolbar}><label>Período <select value={days} onChange={e => { invalidate(); setData(null); setState("loading"); setDays(Number(e.target.value)); }}>{[7, 30, 90].map(value => <option key={value} value={value}>Últimos {value} dias</option>)}</select></label><button className={styles.subtle} onClick={refresh}>Atualizar</button><span>Última leitura: {dateLabel(report.generatedAt)}</span></div>
       {message && <p className={styles.notice} role="status">{message} Os números abaixo são da última atualização indicada.</p>}
       <p className={styles.notice}>{report.startedAt ? `Coleta iniciada em ${dateLabel(report.startedAt)}. Hoje ainda está em andamento.` : "A coleta ainda não registrou a primeira visualização. Nenhum histórico foi criado retroativamente."}{!report.enabled && " A coleta está desativada."}{report.environment !== "production" && " Ambiente de PRÉVIA: não utilizar estes dados como audiência pública."}</p>
       {tab === "audience" && <>

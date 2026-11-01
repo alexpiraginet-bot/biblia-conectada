@@ -13,7 +13,7 @@
   function classify(value) {
     if (/^\/(admin|api|instalar|qr|go|auth|login|logout|_next)(\/|$)/.test(value)) return '';
     const first = value.split('/')[1];
-    return categories[value] || categories[first] || (/^\/[a-z0-9-]+\/\d+(\/\d+)?\/?$/.test(value) ? 'reading' : '');
+    return categories[value] || categories[first] || (Array.isArray(config.bookSlugs) && config.bookSlugs.includes(first) && /^\/[a-z0-9-]+(?:\/\d+(?:\/\d+)?)?\/?$/.test(value) ? 'reading' : '');
   }
   let channel = 'direct', campaign = 'none';
   try {
@@ -30,7 +30,7 @@
   } catch {}
   function google(event) {
     const key = pageId + ':' + event;
-    if (blocked || !area || !pageId || googleSent.has(key) || preference !== 'google' || !/^G-[A-Z0-9]{6,20}$/.test(config.measurementId || '')) return;
+    if (blocked || !area || !pageId || preference !== 'google' || !/^G-[A-Z0-9]{6,20}$/.test(config.measurementId || '')) return;
     window.dataLayer = window.dataLayer || [];
     const tag = function () { window.dataLayer.push(arguments); };
     if (!googleReady) {
@@ -41,6 +41,7 @@
       tag('js', new Date());
       if (!document.getElementById('bc-google-tag')) { const script = document.createElement('script'); script.id = 'bc-google-tag'; script.async = true; script.src = 'https://www.googletagmanager.com/gtag/js?id=' + config.measurementId; document.head.append(script); }
     }
+    if (googleSent.has(key)) return;
     const context = { page_location: location.origin + '/area/' + area, page_title: labels[area], page_referrer: '', ignore_referrer: true, content_group: area, traffic_channel: channel, campaign_name: campaign };
     tag('config', config.measurementId, { ...context, send_page_view: false, allow_google_signals: false, allow_ad_personalization_signals: false });
     tag('event', event === 'view' ? 'page_view' : 'visible_30_seconds', context);

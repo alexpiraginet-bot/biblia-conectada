@@ -2,13 +2,14 @@ import styles from "./connection-journey.module.css";
 
 // Alex's portrait clip is already accelerated to 1s. No decoding/rendering job runs in the browser.
 let preparedVideo: HTMLVideoElement | null = null;
+let prewarmTimer = 0;
 function motionAllowed() {
   const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
   return !document.hidden && !matchMedia("(prefers-reduced-motion: reduce)").matches
     && !connection?.saveData && !["slow-2g", "2g"].includes(connection?.effectiveType ?? "");
 }
 export function prewarmConnectionJourney() {
-  if (preparedVideo || !motionAllowed()) return;
+  if (preparedVideo || !motionAllowed() || !document.querySelector("[data-dawn-constellation]")?.getClientRects().length) return;
   const variant = matchMedia("(max-width: 760px)").matches ? "mobile" : "desktop";
   const video = document.createElement("video");
   video.muted = true; video.defaultMuted = true; video.playsInline = true;
@@ -19,12 +20,17 @@ export function prewarmConnectionJourney() {
   video.load();
 }
 // Download after the opening has settled; pointer/focus can prepare it earlier. Never await it on navigation.
-if (typeof window !== "undefined") window.setTimeout(prewarmConnectionJourney, 1600);
+if (typeof window !== "undefined") prewarmTimer = window.setTimeout(prewarmConnectionJourney, 1600);
+export function releasePreparedJourney() {
+  window.clearTimeout(prewarmTimer);
+  if (preparedVideo) { preparedVideo.pause(); preparedVideo.removeAttribute("src"); preparedVideo.load(); preparedVideo = null; }
+}
 let finishCurrent: (() => void) | undefined;
 export const JOURNEY_MS = 1000;
 
 /** A bounded transition, outside the page React may hide during navigation. Never waits for a network response. */
 export function travelThroughConnection(label: string, navigate: () => void) {
+  window.clearTimeout(prewarmTimer);
   finishCurrent?.();
   if (!motionAllowed()) { navigate(); return; }
   prewarmConnectionJourney();
