@@ -81,13 +81,10 @@
     else schedule();
   });
   window.addEventListener('bc:navigation', page);
-  document.addEventListener('click', event => {
-    const button = event.target instanceof Element ? event.target.closest('[data-audience-preference]') : null;
-    if (!button) return;
-    const next = button.getAttribute('data-audience-preference');
+  function applyPreference(next, persist) {
     if (!['basic', 'google', 'off'].includes(next)) return;
     const previous = preference; preference = next;
-    try { localStorage.setItem('bc-audience-preference', preference); } catch {}
+    if (persist) try { localStorage.setItem('bc-audience-preference', preference); } catch {}
     if (preference !== 'google' && config.measurementId) {
       window['ga-disable-' + config.measurementId] = true;
       (function () { (window.dataLayer || []).push(arguments); })('consent', 'update', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
@@ -98,6 +95,15 @@
     if (preference === 'off') { clearTimeout(timer); visibleSince = 0; activeMs = 0; }
     else if (previous === 'off') { path = ''; page(); }
     else { if (preference === 'google') google('view'); if (!visibleSince) schedule(); }
+  }
+  document.addEventListener('click', event => {
+    const button = event.target instanceof Element ? event.target.closest('[data-audience-preference]') : null;
+    if (button) applyPreference(button.getAttribute('data-audience-preference'), true);
+  });
+  window.addEventListener('storage', event => {
+    if (event.key !== 'bc-audience-preference' && event.key !== null) return;
+    try { if (event.storageArea !== localStorage) return; } catch { return; }
+    applyPreference(event.newValue || 'basic', false);
   });
   page();
 })();
