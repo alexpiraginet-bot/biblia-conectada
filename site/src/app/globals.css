@@ -205,10 +205,10 @@ input {
 /* The approved opening keeps the brand in burgundy glass, on a genuinely light day surface. */
 @media (prefers-reduced-transparency: no-preference) and (forced-colors: none) {
   .site-shell[data-homepage] .site-tabbar__trigger {
-    border-color: #e4bf83a6;
-    background: linear-gradient(150deg, #e8b4ca30, transparent 46%, #d9a45818), #451c30db;
+    border-color: #d9b074;
+    background: radial-gradient(ellipse at 3% 30%, #f8b29a91, transparent 17%), radial-gradient(ellipse at 98% 75%, #ffe1a782, transparent 15%), linear-gradient(175deg, #b4465db8, #670b27ed 28%, #390716ed 68%, #8a3044e8);
     color: #fce5ad;
-    box-shadow: 0 9px 28px #47152b38, inset 0 1.5px 1px #fff0cf99, inset 0 -2px 2px #e3b57866;
+    box-shadow: 0 7px 20px #47152b38, inset 0 1.5px 1px #fff0cfdb, inset 0 0 0 3px #c87e6d83, inset 0 -2px 2px #e3b578b3;
     -webkit-backdrop-filter: blur(24px) saturate(160%);
     backdrop-filter: blur(24px) saturate(160%);
   }
@@ -708,4 +708,7 @@ button.bc-search__item {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+@media (prefers-reduced-transparency: no-preference) and (forced-colors: none) {
+  .site-shell[data-homepage] .site-tabbar__trigger { min-height: 48px; padding: 10px 22px; font-size: 14px; border-color: #c1a077a6; background: linear-gradient(165deg, #86394cdb, #4a1229ed 55%, #62283cd9); box-shadow: inset 0 1px #f6e3c39c, inset 0 -1px #e4bd7e80, 0 5px 18px #4511262b; }
 }

@@ -5,6 +5,7 @@ import { liturgyDayPath, liturgyShareDate } from "@/lib/liturgy/share";
 import { SHARE_IMAGE_VERSION, SITE_NAME, SITE_URL } from "@/lib/site-identity";
 import styles from "./LiturgyShare.module.css";
 import type { TranslationId } from "@/lib/translations";
+import type { ShareFormat } from "@/components/sharing/share-options";
 
 export type LiturgyShareProps = { date: string; references: string[]; edition?: TranslationId };
 export function liturgyShareOptions({ date, references, edition = "blivre" }: LiturgyShareProps) {
@@ -13,8 +14,8 @@ export function liturgyShareOptions({ date, references, edition = "blivre" }: Li
   return {
     reference, url, editionName, attribution: undefined, license: undefined, licenseUrl: undefined,
     whatsapp: `https://wa.me/?text=${encodeURIComponent(`${reference}\n${references.length ? references.join(" · ") : "Leituras temporariamente indisponíveis."}\n${editionName}\n${SITE_NAME}\n${url}`)}`,
-    image: (format: "landscape" | "story") => `/og?${new URLSearchParams({ path, format, v: SHARE_IMAGE_VERSION })}`,
-    filename: (format: "landscape" | "story") => `biblia-conectada-liturgia-${date}-${edition}-${format === "story" ? "stories" : "capa"}.png`,
+    image: (format: ShareFormat) => `/og?${new URLSearchParams({ path, format, v: SHARE_IMAGE_VERSION })}`,
+    filename: (format: ShareFormat) => `biblia-conectada-liturgia-${date}-${edition}-${format === "story" ? "stories" : format === "post" ? "post" : "capa"}.png`,
   };
 }
 

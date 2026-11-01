@@ -11,9 +11,9 @@ const CHANGE = "bc:appearance";
 function stored(): Choice {
   try {
     const t = localStorage.getItem(THEME_KEY);
-    return t === "dia" || t === "sistema" ? t : "noite";
+    return t === "dia" || t === "noite" ? t : "sistema";
   } catch {
-    return "noite";
+    return "sistema";
   }
 }
 
@@ -40,7 +40,7 @@ function subscribe(cb: () => void) {
 }
 
 export function Appearance() {
-  const choice = useSyncExternalStore<Choice>(subscribe, stored, () => "noite");
+  const choice = useSyncExternalStore<Choice>(subscribe, stored, () => "sistema");
   const [open, setOpen] = useState(false);
   const id = useId();
   const root = useRef<HTMLDivElement>(null);

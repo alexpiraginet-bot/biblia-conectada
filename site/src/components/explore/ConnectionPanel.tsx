@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { VerseActions } from "@/components/assistant/VerseActions";
+import { ConnectionShare } from "@/components/sharing/ConnectionShare";
 import { Icon } from "@/components/icons";
 import { formatInt } from "@/lib/canon/text";
 import { conexaoPath } from "@/lib/conexao";
@@ -143,6 +144,7 @@ export async function ConnectionPanel({
         <Passage chapter={a} verses={c.hereVerses} />
         <Passage chapter={b} verses={c.thereVerses} />
       </ul>
+      <ConnectionShare path={conexaoPath(side(a), side(b))} label={`${a.label} ↔ ${b.label}`} />
       <p className={styles.source}>
         Pares: versículos dos dois capítulos que a OpenBible.info liga entre si. Votos: soma das duas direções. Texto: Bíblia
         Livre (BLIVRE).

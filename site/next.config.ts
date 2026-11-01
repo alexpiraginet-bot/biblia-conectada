@@ -6,6 +6,7 @@ import { EXPLORE_HOME_PATH } from "./src/lib/explore/home";
 const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
+  outputFileTracingIncludes: { "/og": ["./public/home/share-valley-v2.jpg", "./public/home/share-tunnel-v2.jpg"] },
   // books.json is written by `npm run data`, which runs before `next build` and `next dev` reads the last one
   async redirects() {
     // /explorar opens on the home centre (src/lib/explore/home.ts); checked before the filesystem, so it stays static

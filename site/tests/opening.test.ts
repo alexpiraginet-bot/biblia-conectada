@@ -10,7 +10,7 @@ describe("the daylight opening's source connections", () => {
     expect(nodes[0].href).toBe("/explorar/joao/1");
     for (const node of nodes.slice(1)) {
       const source = graph.nodes.find((candidate) => candidate.id === node.id)!;
-      expect(node.href).toBe(`/explorar/joao/1${source.path}`);
+      expect(node.href).toBe(`/encontro/joao-1/${source.path.slice(1).replaceAll("/", "-")}`);
       expect(graph.edges.some((edge) => edge.pairs > 0 &&
         ((edge.source === graph.centre && edge.target === node.id) || (edge.target === graph.centre && edge.source === node.id)))).toBe(true);
     }

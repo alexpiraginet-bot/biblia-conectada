@@ -1,24 +1,43 @@
-# Abertura clara e pulsos ao toque — 01/11/2026
+# Abertura, travessia e compartilhamento — 01/11/2026
 
-Base: `a7320be` (PR47). Branch: `codex/daylight-home`. Mudança aprovada: abertura Dia pérola/azul e assinatura bordô em vidro, fios dourados com luz que percorre a conexão tocada. Não inclui a proposta posterior de túnel de 1 segundo.
+Base a7320be (PR47), branch codex/daylight-home, PR48. A revisão substitui a abertura plana pela paisagem de amanhecer e esferas de cristal, implementa o túnel aprovado de 1 segundo e usa Sistema como tema inicial. Bordô/dourado permanecem discretos, com leitura prioritária. Artes de versículo/dia usam o vale; conexões usam o túnel. Alex pediu cards mais translúcidos: a área de leitura passou de 92% para 84%.
 
-## Verificação local
+## Verificação local final
 
-- `npm run build`: 1090 testes em 70 arquivos, compilação Next/TypeScript e `check-dist` aprovados. Conferidos créditos, números, traduções e ausência de citações protegidas nas saídas.
-- `npm run lint`, `npm run typecheck` e `git diff --check`: aprovados.
-- `npm run budget`: todas as rotas abaixo de 168960 bytes gzip9. Home 161524 bytes; Arcos 167485 bytes (margem 1475). Sem biblioteca nova de animação ou WebGL no hero.
-- Céu WebP: 17664 bytes na variante móvel e 48136 na desktop; somente uma variante CSS por largura.
-- Dois testes de dados verificam as conexões João 1/Gênesis 1/Colossenses 1/Salmos 33 e a ausência de arestas decorativas quando a fonte não contém a ligação.
-- QA contra o **build de produção local**, porta 3023: 9/9 casos. Chrome e WebKit, 375 × 812 e 1440 × 900, Dia/Noite, mais fallback sem JavaScript.
-- QA mede a posição da cabeça SVG em dois momentos após o toque e confirma deslocamento real, seleção exclusiva e URL de destino de cada conexão. Testa pausa, retomada, movimento reduzido, pausa fora de vista, volta à home e menu completo.
-- Sem overflow horizontal; todos os alvos da constelação com pelo menos 44 px; CTA inicial visível antes da dobra. Nenhum erro JS ou requisição de escrita nos fluxos testados.
-- Contraste conservador calculado sobre cada pixel do céu móvel, composto com a opacidade máxima: texto secundário Dia 5,24:1 e Noite 7,98:1; CTA bordô/dourado 7,13:1. O texto Dia foi escurecido após a primeira medição. O desvanecimento da imagem reduz a variação de fundo junto às ações.
-- Chrome Dev local usou `localhost`, pois o Next bloqueia HMR de `127.0.0.1` por padrão. A rodada Dev foi substituída por QA em build de produção, sem o overlay de desenvolvimento que cobria parte do menu. Não se alterou `allowedDevOrigins`.
+- npm run build: **1098 testes / 71 arquivos**, Next/TypeScript e check-dist passaram. Créditos, números, 3840 páginas prerenderizadas e ausência das citações protegidas verificadas.
+- npm run lint, npm run typecheck e git diff --check passaram.
+- npm run budget: todas as rotas abaixo de **168960 B gzip9**. Home **162694 B**; Arcos **167488 B** (1472 B de margem); capítulo BLIVRE 148878 B; versículo 157713 B; chegada 145085 B. Túnel/editor não entram no JS inicial de Arcos/leitura. Sem dependência nova.
+- Os dois JPEG locais e fontes estão incluídos no trace de /og. Arquivos e hashes em [direção visual](../../design/ABERTURA-DIA-20261101.md).
 
-Evidências locais: `C:/Users/R2/.codex/visualizations/2026/10/20/01a15a31-4795-7dc2-b8a3-9529afb4fe17/daylight-opening-20261101/build/` (relatório e capturas), scripts `qa.mjs`, `preview.mjs` e `motion-check.mjs` no diretório pai.
+## Navegação e imagens
 
-## Limites e publicação
+- Build de produção local, porta 3033: **9/9** casos da abertura, Chrome/WebKit 375×812 e 1440×900, Dia/Noite e sem JS. Três destinos reais, texto/fonte/contagem derivados, ações de conexões/IA/share, foco no título e limpeza da camada. Túnel observado em aproximadamente 1000–1040 ms; timer de 1000 ms. Pausa, retorno, Pular, movimento reduzido, suspensão fora de vista e menu completo passaram.
+- **12/12** casos adicionais: Sistema claro/escuro em Chrome/WebKit, mudança ao vivo do aparelho, override manual persistido, armazenamento bloqueado, chegada sem JS nos dois temas, imagens de versículo/conexão/dia nos três formatos e casos de texto longo/edição Open NBV.
+- Downloads PNG validados: 1080×1920, 1080×1350 e 1200×630. Chamadas nativas simuladas, inclusive cancelamento, sem enviar a WhatsApp/Instagram. Nenhuma chamada de IA ou requisição de escrita nos fluxos testados.
+- Citação, fonte, créditos e carimbo conferidos. Ester 8:9 (maior verso BLIVRE, 476 caracteres), referência longa, Open NBV e capa diária renderizados sem corte. Edição/data continuam no link. O domínio fica junto da marca sobre bordô.
 
-WebKit emulado não é teste em iPhone físico. Lighthouse e consumo real de bateria não foram medidos. A confirmação pública exige merge, Vercel READY e repetição da QA no domínio; este registro de build local não é essa confirmação.
+## Revisão independente e correções
 
-Arte, hashes, decisão de marca e melhorias propostas para as demais áreas: [direção aprovada](../../design/ABERTURA-DIA-20261101.md). A paisagem é decorativa; dados e texto bíblico ficam separados.
+Agentes de performance e UI/UX fizeram revisão somente leitura. Achados corrigidos; **6/6** regressões passaram:
+
+1. Chunk visual frio: antes, o clique aguardava o download. Agora usa o módulo pronto ou abre a passagem imediatamente. Retendo o chunk indefinidamente, a chegada ocorreu em 144 ms no teste local; liberar depois não abriu efeito atrasado.
+2. Economia de dados/2G: bloqueiam prewarm de módulo/imagem. Zero downloads visuais especulativos nesses testes; pulsos e navegação continuam funcionando. Rede normal pré-aquece quando a abertura fica visível.
+3. Espaçamento acessível: título permite quebra. Letras 0,12 em, palavras 0,16 em e linha 1,5 em 375 px não cortam “Novos caminhos.”.
+4. Menu/título desktop: largura do título seguinte limitada; não há interseção com a cápsula em 1440×900.
+5. Contraste nas artes: crédito escurecido e domínio no carimbo. Cálculo conservador com card 84% sobre preto: crédito 5,21:1, chamada 4,60:1; domínio sobre o pior fundo do carimbo 9,69:1.
+6. Sem JavaScript: removido o fallback de streaming que escondia a chegada; links reais e textos permanecem visíveis.
+
+A revisão independente também confirmou reflow normal em 320/375/768/1440, alvos da abertura ≥44 px e chegada pelo teclado. Contraste da abertura medido sobre pixels reais: mínimo 4,92:1 no texto secundário Dia, 5,06:1 no título em itálico e 5,00:1 no rótulo longo; CTA ≥6,87:1. Posição, pausas e deslocamento dos pulsos foram medidos.
+
+## Evidências e limites
+
+Pasta local: C:/Users/R2/.codex/visualizations/2026/10/20/01a15a31-4795-7dc2-b8a3-9529afb4fe17/daylight-opening-20261101/
+
+- build-release.log, budget-release.json;
+- release-build/report.json e capturas 375/1440 Dia/Noite;
+- release-theme-sharing/report.json, PNGs e telas do editor;
+- release-regression/report.json, reflow e título/menu;
+- contrast-v2.json, ui-review-readonly/ (achados anteriores à correção);
+- scripts qa-v2.mjs, theme-share-qa.mjs, release-regression.mjs.
+
+WebKit emulado não é teste em iPhone físico. Compartilhamento nativo real, renderização em Instagram/WhatsApp, Lighthouse e bateria física não foram certificados. Publicação exige Vercel READY no commit revisado e conferência pública; este registro local não substitui prova de produção. Nenhuma postagem social ou despesa de IA foi realizada. Motion em sessão própria, com áudio/roteiro originais preservados por instrução.

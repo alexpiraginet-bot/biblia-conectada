@@ -53,7 +53,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: THEME_COLOR.noite },
+    { media: "(prefers-color-scheme: light)", color: THEME_COLOR.dia },
     { media: "(prefers-color-scheme: dark)", color: THEME_COLOR.noite },
   ],
   viewportFit: "cover",
@@ -63,7 +63,7 @@ export const viewport: Viewport = {
 // page and its footer; the tab bar on phones. The search palette loads on first use (SearchHost).
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="pt-BR" className={`${ui.variable} ${display.variable} ${reading.variable}`} suppressHydrationWarning>
+    <html lang="pt-BR" data-theme="sistema" className={`${ui.variable} ${display.variable} ${reading.variable}`} suppressHydrationWarning>
       <head>
         {/* Installation identity is invariant across routes. Keep it in the static shell so
             Safari can discover it before dynamic passage metadata, without bypassing the CDN.

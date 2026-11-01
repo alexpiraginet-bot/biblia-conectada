@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import { Icon } from "@/components/icons";
+import { ConnectionShare } from "@/components/sharing/ConnectionShare";
 import { ScriptureText } from "@/components/explore/ScriptureText";
 import { formatInt } from "@/lib/canon/text";
 import { compareSides, conexaoPath, parseSide, sideSegment, type Side } from "@/lib/conexao";
@@ -157,6 +158,7 @@ export default async function ConexaoPage({ params }: PageProps<"/conexao/[a]/[b
           </Link>
         </p>
       </header>
+      <ConnectionShare path={conexaoPath(x, y)} label={`${x.label} ↔ ${y.label}`} />
 
       {pairs.length > 0 && (
         <section className={styles.pairs} aria-labelledby="pares">

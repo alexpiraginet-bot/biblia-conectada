@@ -462,7 +462,7 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
 
 ## 12. Registro
 
-- **01/11, Codex, abertura clara aprovada:** `codex/daylight-home`, base `a7320be`. Céu Dia pérola/azul, fios dourados e controles bordô com reflexos; luz percorre a conexão tocada entre capítulos reais. Arte separada de UI/dados, movimento reduzido/pausa/fora de vista e links sem JS preservados. 1090 testes, build/check-dist, lint, tipos, orçamento e 9 casos Chrome/WebKit aprovados. Home 161524 B, Arcos 167485 B gzip9. Evidência: `docs/evidence/2026-11-01-daylight-opening.md`; direções e propostas: `design/ABERTURA-DIA-20261101.md`. Publicação exige READY e QA pública registrada na rodada. Storyboard de túnel de luz de 1 s enviado para aprovação, não incluído na implementação.
+- **01/11, Codex, abertura e travessia aprovadas:** `codex/daylight-home`, base `a7320be`, PR48. Vale de amanhecer e esferas de cristal substituem a primeira versão plana; bordô/dourado discreto e leitura prioritária. Sistema como tema inicial, escolha manual preservada. Pulsos reais nos fios e túnel aprovado de 1 s, Pular/Escape, movimento reduzido e chegada com duas passagens reais. Compartilhamento Stories/Post/capa: vale para versículo/dia e túnel para conexão; marca, fonte e link mantidos. Evidências/testes atualizados em `docs/evidence/2026-11-01-daylight-opening.md`, direção em `design/ABERTURA-DIA-20261101.md`; publicação exige READY e QA pública. Motion do vídeo do Drive delegado por pedido de Alex à sessão `01a196de-9bc6-7550-bee1-95aae555c3d7`, preservando narração/roteiro e sem editar o site.
 
 - **18/10:** vídeo "A Bíblia, conectada" entregue.
 - **19/10:**

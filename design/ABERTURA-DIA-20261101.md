@@ -1,44 +1,54 @@
 # Uma Palavra. Novos caminhos.
 
-Direção aprovada por Alex em 01/11/2026: Dia deve parecer dia. Pérola, azul de amanhecer e fios dourados convivem com a assinatura bordô. O pedido posterior confirmou **botões e menu em vidro bordô, transparência e reflexos**, preservando a marca.
+Direção aprovada por Alex em 01/11/2026: Dia deve parecer dia. Céu de amanhecer, vale e nuvens convivem com a assinatura bordô e dourada. A correção mais recente pede **minimalismo premium: controles discretos e leitura protagonista**, mantendo vidro e reflexos suaves. A primeira versão plana foi substituída antes da publicação pela paisagem e pelas esferas de cristal mais próximas do storyboard aprovado.
 
 ## Nesta entrega
 
 - Abertura nativa, com título selecionável, links reais, controles por teclado e alvos de toque de pelo menos 44 px. A imagem não contém textos, botões, nós nem linhas.
 - João 1 ligado a Gênesis 1, Colossenses 1 e Salmos 33, somente se a aresta correspondente existir no mesmo grafo BLIVRE/OpenBible do atlas. A posição é editorial; não representa distância histórica.
-- Toque escolhe uma conexão e reinicia partículas douradas no começo do fio. Cabeça e rastro percorrem a mesma curva SVG da ligação; o botão abre a comparação correspondente. O pulso ambiente leva 2,8 s; **não é a proposta de transição de página de 1 s**, descrita abaixo.
+- As esferas são links reais: toque inicia a viagem e abre `/encontro/joao-1/...`. Foco/toque reiniciam partículas douradas no fio selecionado; cabeça e rastro percorrem a mesma curva SVG. Pulso ambiente de 2,8 s e travessia de página de 1 s têm funções distintas.
 - Pausa manual, preferência de movimento reduzido e pausa fora da tela ou em aba oculta. Sem WebGL ou biblioteca de animação adicional na abertura.
-- Dia usa a paisagem clara; Noite conserva leitura clara sobre céu discreto e escuro. A preferência salva continua sendo respeitada. Não se alterou a preferência padrão dos visitantes.
+- **Sistema é o padrão de novos visitantes**, inclusive sem JavaScript ou com armazenamento bloqueado. A aparência acompanha mudanças claras/escuras do aparelho. Dia ou Noite escolhidos manualmente continuam salvos e respeitados. Dia usa a paisagem clara; Noite conserva leitura clara sobre céu discreto e escuro.
+- A chegada mostra as duas passagens reais, número derivado de conexões, leitura lado a lado, IA, conexões e compartilhamento. A viagem não altera o texto bíblico.
 - Atalhos para liturgia, Coração, constelação completa, arcos e mapa. O atlas de Isaías 9 e seus números derivados continuam no fim da página.
 
 ## Arte e procedência
 
-Imagem decorativa de céu imaginado, gerada com a ferramenta integrada `image_gen` em 01/11/2026. Não representa uma reconstrução histórica, um lugar ou uma passagem bíblica.
+Paisagens imaginadas, esfera de cristal e túnel gerados com a ferramenta integrada `image_gen` em 01/11/2026. Não representam reconstrução histórica, lugar real ou passagem bíblica. Sem pessoas ou texto dentro da arte. Texto, versículos, rótulos, pulsos e controles permanecem nativos.
 
-Prompt de produção:
+Direção de produção: amanhecer azul/pérola, luz dourada discreta, montanhas e vale entre nuvens; espaço para tipografia bordô, sem UI na imagem. Esfera transparente com refração e borda dourada. Túnel de anéis de vidro e ouro sobre o mesmo vale, ponto de fuga à direita, sem rótulos incorporados.
 
-> Production website background illustration only, no UI. Horizontal 3:2, high resolution, luminous pearl-white and pale-blue dawn sky above a sea of soft realistic clouds. Welcoming, serene, understated cinematic atmosphere. Pale blue upper half with calm negative space for dark navy headlines, delicate wisps, subtle warm sunrise on the right horizon, bright ivory foreground clouds and hazy blue distance. All edges fade gently toward pearl #f6f9fc. No text, letters, people, religious figures, crosses, books, spheres, stars, connection lines, nodes, borders, buttons or phone frame. Background artwork only. No magenta or burgundy wash, no saturated orange sunset.
+Originais preservados em `C:/Users/R2/.codex/generated_images/01a15a31-4795-7dc2-b8a3-9529afb4fe17/`: `exec-cf291739-9032-413f-9e3e-c452ac1f6fa5.png` (vale vertical), `exec-12d5aed1-537b-414c-a892-643fd7cb52a3.png` (vale horizontal), `exec-19ec3374-a2eb-4d0a-a28c-07128ff2ec27.png` (esfera transparente) e `exec-7d82d3b8-a427-4f3b-af9c-782bd6e20637.png` (túnel). O primeiro céu `exec-89679d37-d5e0-4862-bd6d-f397c870a7e6.png` e os WebP `dawn-768`/`dawn-1536` continuam preservados, mas não são mais usados nesta abertura.
 
-Original preservado no acervo local: `exec-89679d37-d5e0-4862-bd6d-f397c870a7e6.png`, 1536 × 1024. SHA-256: `789e13b2cbc3b0166688c3139ece36f31edad429a0ddaf97f988d92b9c0a9b4f`.
-
-Derivados WebP por Sharp, qualidade 80, sem alteração criativa:
+Derivados por Sharp, apenas tamanho/codec, em `site/public/home/`:
 
 | Arquivo | Dimensão | Bytes | SHA-256 |
 | --- | --- | ---: | --- |
-| `site/public/home/dawn-1536.webp` | 1536 × 1024 | 48136 | `cd7a9cc25e369ef83cd8a66af76d3885cf4aa94cd479d638bf1a75f4a77262f4` |
-| `site/public/home/dawn-768.webp` | 768 × 512 | 17664 | `73e675409ac2dd4ece6611281ebea84a109c500f802f12bb7e9fa958ad99d1a2` |
+| `dawn-valley-mobile-v2.webp` | 960 × 1440 | 125878 | `08874d0fb66699a597f6506147bd5b357e997aa5eee2883bd15c1a34e98cb86b` |
+| `dawn-valley-wide-v2.webp` | 1536 × 1024 | 113754 | `7808e8c436c3c85ca226d256e95a14e887b78de2b4f12418c0d4773335e892a5` |
+| `crystal-orb-v2.webp` | 400 × 400, alfa | 44924 | `fbae4d731f25735d82faeb73cf5e8bcb94663666e98c93637e91bb6f6814f7c0` |
+| `golden-passage-v2.webp` | 960 × 1440 | 228478 | `a389220c1e71cab247b45da76bccb7f72be054903f5294d1ccf9449fd8dbed01` |
+| `share-valley-v2.jpg` | 1024 × 1536 | 222201 | `c2ce4b294a607e29936895eac6e9364d90cb520378b95007af3cb692e2fa8725` |
+| `share-tunnel-v2.jpg` | 1024 × 1536 | 325718 | `1be687d70863a1234274e930c127ef5d832a81d4d7cb553e43e0329315687a4c` |
 
-## Proposta: travessia de luz em 1 segundo
+## Travessia de luz em 1 segundo
 
-**Proposta visual, não incluída no código desta entrega.** Alex pediu uma imagem para aprovação e estabeleceu duração total de 1 s. Storyboard preservado como `proposta-travessia-1s.png` na pasta local de evidências desta rodada.
+**Aprovada explicitamente e implementada nesta revisão.** Storyboard preservado como `proposta-travessia-1s.png` na pasta local de evidências desta rodada. O storyboard define a atmosfera; logo, tipografia e passagens reais são os do app.
 
-- 0–180 ms: a linha tocada acende e o pulso parte da origem.
-- 180–720 ms: a câmera segue o fio, que se abre em um túnel de anéis perolados e fibras douradas.
-- 720–1000 ms: as fibras convergem na passagem escolhida e a leitura aparece estável.
+- No toque, o módulo sob demanda abre a camada visual; a navegação inicia em 125 ms, enquanto anéis e partículas avançam pelo túnel.
+- A animação termina em 1000 ms, sem aguardar rede e sem loop. Se a rota ainda não chegou, o botão indica “Abrindo a conexão…” até a navegação concluir.
+- A chegada é estável, com título focado e duas passagens reais. A função restaura foco, rolagem e interatividade ao concluir, pular, voltar, ocultar a aba ou ativar movimento reduzido.
 - Viagem simbólica, sem datas históricas inventadas ou promessa de simulação quântica. Texto bíblico nunca deforma nem se torna partícula.
-- Navegação e dados devem iniciar no toque. A transição nunca deve ficar em loop enquanto a conexão carrega; após 1 s, apresentar destino ou estado de carregamento legível.
-- Oferecer Pular, respeitar movimento reduzido e evitar flashes/branco estourado. Se reduzido, abrir direto com uma dissolução curta, sem túnel.
-- Projeto futuro deve carregar a implementação sob demanda e manter o orçamento do leitor e de Arcos.
+- Pular e Escape encerram imediatamente. Movimento reduzido abre direto, sem túnel. A camada usa Canvas 2D com resolução limitada e cenário WebP; não instala motor 3D. O cenário é pré-aquecido quando a abertura está visível em rede normal; economia de dados/2G impedem esse download especulativo. Se o módulo visual ainda não está pronto, o toque abre a passagem imediatamente, sem esperar o efeito nem mostrar um túnel atrasado.
+- Links comuns continuam funcionando sem JavaScript. O antigo fallback de streaming que escondia a chegada sem JS foi removido; a navegação lenta conserva indicação no botão.
+
+## Compartilhar a Palavra e as conexões
+
+- Versículo ou leitura do dia: vale de amanhecer. Conexão: túnel dourado, com as duas referências verdadeiras. Textos vêm somente da fonte validada, nunca da arte nem de parâmetros arbitrários do visitante.
+- Stories 1080 × 1920, Post 1080 × 1350 e capa horizontal 1200 × 630; área clara translúcida de leitura (84% após o refinamento de Alex), carimbo discreto com Bíblia Conectada e domínio sobre bordô, e créditos da edição em tinta escura.
+- Data e edição são preservadas no link da liturgia. Open NBV mantém avisos e limites de alinhamento; capa diária de contexto não inventa citação. Trechos abreviados são identificados.
+- O editor carrega ao abrir as ações. A imagem fica pronta antes do toque explícito para o compartilhamento nativo; há baixar PNG, copiar link e WhatsApp. Instagram depende dos destinos disponibilizados pelo aparelho, sem promessa de postagem automática.
+- A nova sessão de Motion criada a pedido de Alex usa essas artes e o vídeo fornecido no Drive, preservando narração/roteiro. A produção do vídeo é separada da implantação do site.
 
 ## Próximas melhorias propostas para o app
 

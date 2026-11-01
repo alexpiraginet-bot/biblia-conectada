@@ -18,9 +18,9 @@ Escrito pelo Claude a pedido do Alex: "Prepare handoff para o códex seguir". Da
 
 ### Abertura clara e pulsos ao toque — 01/11
 
-Branch `codex/daylight-home`, base `a7320be`: Alex aprovou céu claro/pérola, depois reafirmou bordô e vidro nos controles e pediu pulsos dourados que percorrem os fios ao toque. `DawnOpening`/`DawnConstellation` substituem as ondas do hero por uma seleção nativa de conexões reais de João 1. A arte não contém UI; seleção, CTA, luzes, pausa e redução de movimento são código. 1090 testes, build/check-dist, lint/tipos e orçamento aprovados; 9/9 cenários de QA em Chrome/WebKit, 375/1440, Dia/Noite e sem JS. [Evidências e limites](evidence/2026-11-01-daylight-opening.md).
+Branch `codex/daylight-home`, base `a7320be`, PR48: abertura revista com vale de amanhecer e esferas de cristal, títulos nativos e conexões reais de João 1. Controles bordô/dourado com reflexos discretos seguem o pedido mais recente de minimalismo e foco na leitura. **Sistema é o padrão**; Dia/Noite escolhidos manualmente continuam preservados. Luz percorre os fios, com pausa, redução de movimento e suspensão fora de vista. [Evidências e limites desta revisão](evidence/2026-11-01-daylight-opening.md).
 
-Alex também pediu **uma proposta para aprovação** de viagem pelo fio como túnel de luz, com **1 segundo no total**. Storyboard foi entregue; túnel ainda não implementado nesta branch. [Direção e propostas para o restante](../design/ABERTURA-DIA-20261101.md). Confirmar merge/READY e QA pública no relatório da rodada antes de chamar de publicado.
+O **túnel de 1 segundo foi aprovado e implementado**: módulo sob demanda, Pular/Escape, limpeza de foco/rolagem e chegada `/encontro/...` com textos reais, número de conexões e ações de estudo. Compartilhamento agora tem Stories, Post e capa horizontal: vale para versículo/dia, túnel para conexão, marca e fonte da edição. [Direção, procedência e propostas para o restante](../design/ABERTURA-DIA-20261101.md). Confirmar merge/READY e QA pública no relatório antes de chamar de publicado. O Motion do vídeo enviado pelo Drive foi delegado à nova sessão `01a196de-9bc6-7550-bee1-95aae555c3d7`, com narração/roteiro preservados e pasta própria; não deve editar este worktree.
 
 ### QR permanente e instalação por plataforma — 31/10
 

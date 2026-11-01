@@ -1,21 +1,47 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState, useTransition, type CSSProperties } from "react";
 import { Icon } from "@/components/icons";
 import type { OpeningNode } from "@/lib/explore/opening";
 import styles from "./DawnOpening.module.css";
 
+/** Speculative downloads are optional; a deliberate navigation remains unchanged. */
+function canPrewarm() {
+  const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+  return !connection?.saveData && !["slow-2g", "2g"].includes(connection?.effectiveType ?? "")
+    && !matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 /** A tiny, bounded interactive lens. SVG particles travel along the actual displayed edge geometry. */
 export function DawnConstellation({ nodes }: { nodes: OpeningNode[] }) {
   const centre = nodes[0];
-  const [selected, setSelected] = useState(centre.id);
+  const router = useRouter();
+  const [pending, startTransition] = useTransition();
+  const [selected, setSelected] = useState(nodes[1]?.id ?? centre.id);
   const [pulse, setPulse] = useState(0);
   const [paused, setPaused] = useState(false);
   const [canAnimate, setCanAnimate] = useState(false);
   const root = useRef<HTMLDivElement>(null);
+  const journey = useRef<typeof import("./connection-journey") | null>(null);
   const active = nodes.find((node) => node.id === selected) ?? centre;
   const moving = canAnimate && !paused;
+  const destination = active.id === centre.id ? nodes[1] ?? centre : active;
+
+  function prepare(node: OpeningNode) {
+    if (!canPrewarm()) return;
+    router.prefetch(node.href);
+    void import("./connection-journey").then((module) => { journey.current = module; }).catch(() => {});
+  }
+
+  function travel(node: OpeningNode) {
+    illuminate(node.id);
+    const navigate = () => startTransition(() => router.push(node.href));
+    // A cold/failed visual download never delays access to the passage or opens a late overlay.
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches || !journey.current) { navigate(); return; }
+    journey.current.travelThroughConnection(node.label, navigate);
+  }
 
   useEffect(() => {
     const element = root.current;
@@ -37,6 +63,7 @@ export function DawnConstellation({ nodes }: { nodes: OpeningNode[] }) {
 
   useEffect(() => {
     if (!moving) return;
+    if (canPrewarm()) void import("./connection-journey").then((module) => { journey.current = module; }).catch(() => {});
     // SMIL's default clock starts with the SVG document. Explicit starts make every touch restart at João 1.
     root.current?.querySelectorAll<SVGAnimationElement>("animateMotion").forEach((animation) => {
       animation.beginElementAt(Number(animation.getAttribute("data-delay") ?? 0));
@@ -46,14 +73,16 @@ export function DawnConstellation({ nodes }: { nodes: OpeningNode[] }) {
   return (
     <div ref={root} className={styles.constellation} data-dawn-constellation="" data-moving={moving} data-selected={active.id}>
       <div className={styles.stage}>
-        <svg className={styles.threads} viewBox="0 0 800 440" preserveAspectRatio="none" aria-hidden="true">
+        <svg className={styles.threads} viewBox="0 0 800 600" preserveAspectRatio="none" aria-hidden="true">
           <defs>
             <filter id="dawn-light" x="-500%" y="-500%" width="1100%" height="1100%"><feGaussianBlur stdDeviation="4" /></filter>
+            <linearGradient id="dawn-gold" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#a46719"/><stop offset=".3" stopColor="#f8ce64"/><stop offset=".5" stopColor="#b37a26"/><stop offset=".8" stopColor="#fbe59a"/><stop offset="1" stopColor="#cd8a25"/></linearGradient>
           </defs>
           {nodes.filter((node) => node.thread).map((node) => (
             <g key={node.id} data-thread={node.id} data-active={selected === node.id || selected === centre.id}>
               <path className={styles.threadHalo} d={node.thread} />
               <path className={styles.threadLine} d={node.thread} />
+              <path className={styles.threadShine} d={node.thread} />
               {moving && (selected === centre.id || selected === node.id) && (
                 <g key={pulse} className={styles.traveller} data-pulse={node.id}>
                   {/* A real moving head and tail, following the exact same cubic path as the thread. */}
@@ -69,13 +98,16 @@ export function DawnConstellation({ nodes }: { nodes: OpeningNode[] }) {
           ))}
         </svg>
         {nodes.map((node) => (
-          <button key={node.id} type="button" className={`${styles.node} ${node.id === centre.id ? styles.centreNode : ""}`}
-            style={{ "--node-x": `${node.x / 8}%`, "--node-y": `${node.y / 4.4}%` } as CSSProperties}
-            aria-pressed={active.id === node.id} aria-label={node.id === centre.id ? `Explorar ${node.label}` : `Acender a conexão com ${node.label}`}
-            onClick={() => illuminate(node.id)} onPointerEnter={(event) => { if (event.pointerType === "mouse") illuminate(node.id); }}>
-            <span className={styles.orb} aria-hidden="true">{node.id === centre.id && <Icon name="book" />}</span>
+          <Link key={node.id} href={node.href} prefetch={false} className={`${styles.node} ${node.id === centre.id ? styles.centreNode : ""}`}
+            style={{ "--node-x": `${node.x / 8}%`, "--node-y": `${node.y / 6}%` } as CSSProperties}
+            data-active={active.id === node.id} data-long-label={node.label.length > 12 || undefined} aria-label={node.id === centre.id ? `Explorar ${node.label}` : `Viajar de ${centre.label} para ${node.label}`}
+            onNavigate={(event) => { event.preventDefault(); travel(node); }}
+            onPointerDown={() => { illuminate(node.id); prepare(node); }}
+            onPointerEnter={(event) => { if (event.pointerType === "mouse") { illuminate(node.id); prepare(node); } }}
+            onFocus={() => { illuminate(node.id); prepare(node); }}>
+            <span className={styles.orb} aria-hidden="true" />
             <span className={styles.nodeLabel}>{node.label}</span>
-          </button>
+          </Link>
         ))}
       </div>
       <div className={styles.sceneActions}>
@@ -87,8 +119,10 @@ export function DawnConstellation({ nodes }: { nodes: OpeningNode[] }) {
           </button>
       </div>
       <div className={styles.ctas}>
-        <Link href={active.href} prefetch={false} className={styles.primary} data-dawn-explore="">
-          {active.id === centre.id ? "Explorar esta passagem" : "Explorar esta conexão"}<Icon name="out" />
+        <Link href={destination.href} prefetch={false} className={styles.primary} data-dawn-explore="" aria-busy={pending || undefined}
+          onPointerEnter={() => prepare(destination)} onFocus={() => prepare(destination)}
+          onNavigate={(event) => { event.preventDefault(); travel(destination); }}>
+          {pending ? "Abrindo a conexão…" : "Explorar esta conexão"}<Icon name="chev-r" />
         </Link>
         <div className={styles.secondaryLinks}><Link href="/ler">Começar a ler <Icon name="out" /></Link><Link href="#como-funciona">Como funciona <Icon name="out" /></Link></div>
       </div>
