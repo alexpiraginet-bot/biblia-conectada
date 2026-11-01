@@ -10,7 +10,7 @@ const env = { VERCEL: "1", VERCEL_ENV: "preview", KV_REST_API_URL: "https://test
 const config = audienceConfig(env)!;
 const marketing = { apiKey: "test-private-windsor-key", propertyId: "561809611", adsAccount: "625-087-8348", campaignId: "24419681243" };
 const now = new Date("2026-11-01T16:00:00Z");
-const ga = { data: [{ active_users: 5, sessions: 7, screen_page_views: 12 }] };
+const ga = { data: [{ hostname: "www.bibliaconectada.company", active_users: 5, sessions: 7, screen_page_views: 12 }] };
 const campaign = { data: [{ campaign_id: marketing.campaignId, campaign_name: "BC test", campaign_status: "ENABLED", campaign_primary_status: "PENDING", start_date: "2026-11-04", end_date: "2026-11-08" }] };
 const metrics = { data: [{ campaign_id: marketing.campaignId, clicks: 2, impressions: 20, spend: 1.8, conversions: 1, currency: "BRL" }] };
 async function fixture() {
@@ -31,8 +31,9 @@ describe("official measurement integrity", () => {
   });
   it("distinguishes a measured zero from missing or pending data", () => {
     expect(parseAnalytics({ data: [] })).toBeNull();
-    expect(parseAnalytics({ data: [{ active_users: 0, sessions: 0, screen_page_views: 0 }] })?.activeUsers).toBe(0);
-    for (const body of [{ error: "secret details", data: [] }, { status: "pending", data: [] }, { data: [{ active_users: null }] }, { data: [{ ...ga.data[0], sessions: -1 }] }]) expect(() => parseAnalytics(body)).toThrow();
+    expect(parseAnalytics({ data: [{ ...ga.data[0], active_users: 0, sessions: 0, screen_page_views: 0 }] })?.activeUsers).toBe(0);
+    for (const body of [{ error: "secret details", data: [] }, { status: "pending", data: [] }, { data: [{ ...ga.data[0], active_users: null }] }, { data: [{ ...ga.data[0], sessions: -1 }] }]) expect(() => parseAnalytics(body)).toThrow();
+    expect(parseAnalytics({ data: [{ ...ga.data[0], hostname: "localhost" }] })).toBeNull();
   });
   it("isolates the authorized campaign from other businesses in the same account", () => {
     const result = parseAdsMetrics({ data: [{ ...metrics.data[0], campaign_id: "unrelated", spend: 9999 }, ...metrics.data] }, marketing.campaignId);

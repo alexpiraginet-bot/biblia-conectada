@@ -6,7 +6,7 @@ import { adminContext, adminError, digest, json, type AdminContext, type Depende
 import { requireAdmin } from "./admin-security";
 
 type MarketingConfig = { apiKey: string; propertyId: string | null; adsAccount: string | null; campaignId: string | null };
-type Query = { connector: "googleanalytics4" | "google_ads"; account: string; fields: string[]; from: string; to: string; campaignId?: string; includeInactive?: boolean };
+type Query = { connector: "googleanalytics4" | "google_ads"; account: string; fields: string[]; from: string; to: string; campaignId?: string; hostname?: string; includeInactive?: boolean };
 type Loader = (config: MarketingConfig, query: Query) => Promise<unknown>;
 export type MarketingDependencies = Dependencies & { marketing?: MarketingConfig | null; load?: Loader };
 export function marketingConfig(env: Readonly<Record<string, string | undefined>> = process.env): MarketingConfig | null {
@@ -20,6 +20,7 @@ const loadWindsor: Loader = async (config, query) => {
   const url = new URL(`https://connectors.windsor.ai/${query.connector}`);
   url.search = new URLSearchParams({ api_key: config.apiKey, select_accounts: query.account, fields: query.fields.join(","), date_from: query.from, date_to: query.to, _max_rows: "10" }).toString();
   if (query.campaignId) url.searchParams.set("filter", JSON.stringify([["campaign_id", "eq", query.campaignId]]));
+  if (query.hostname) url.searchParams.set("filter", JSON.stringify([["hostname", "eq", query.hostname]]));
   if (query.includeInactive) url.searchParams.set("include_inactive", "true");
   return new Promise((resolve, reject) => {
     const failure = () => reject(new Error("Measurement provider unavailable"));
@@ -66,7 +67,7 @@ export async function marketingReportResponse(request: Request, dependencies: Ma
     if (config) {
       const load = dependencies.load ?? loadWindsor;
       const results = await Promise.allSettled([
-        config.propertyId ? source("ga4", config, { connector: "googleanalytics4", account: config.propertyId, from, to, fields: ["active_users", "sessions", "screen_page_views"] }, parseAnalytics, context, load) : Promise.resolve(report.analytics),
+        config.propertyId ? source("ga4", config, { connector: "googleanalytics4", account: config.propertyId, from, to, hostname: "www.bibliaconectada.company", fields: ["hostname", "active_users", "sessions", "screen_page_views"] }, parseAnalytics, context, load) : Promise.resolve(report.analytics),
         config.adsAccount && config.campaignId ? source("campaign", config, { connector: "google_ads", account: config.adsAccount, from, to, campaignId: config.campaignId, includeInactive: true, fields: ["campaign_id", "campaign_name", "campaign_status", "campaign_primary_status", "start_date", "end_date"] }, body => parseCampaign(body, config.campaignId!), context, load) : Promise.resolve(report.campaign),
         config.adsAccount && config.campaignId ? source("ads", config, { connector: "google_ads", account: config.adsAccount, from, to, campaignId: config.campaignId, includeInactive: true, fields: ["campaign_id", "clicks", "impressions", "spend", "conversions", "currency"] }, body => parseAdsMetrics(body, config.campaignId!), context, load) : Promise.resolve(report.ads),
       ]);

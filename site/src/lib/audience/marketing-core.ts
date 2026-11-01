@@ -23,7 +23,7 @@ function date(value: unknown): string {
   return result;
 }
 export function parseAnalytics(body: unknown): AnalyticsMetrics | null {
-  const data = rows(body); if (!data.length) return null;
+  const data = rows(body).filter(row => row.hostname === "www.bibliaconectada.company"); if (!data.length) return null;
   // One range-level aggregate. Never add daily distinct-user counts together.
   if (data.length !== 1 || "date" in data[0]) throw new Error("Analytics must be a range aggregate");
   const row = data[0];

@@ -98,7 +98,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <StudyHost />
         <RewardsHost />
         {process.env.AUDIENCE_ENABLED === "true" && <MeasurementChoice />}
-        {process.env.AUDIENCE_ENABLED === "true" && <script dangerouslySetInnerHTML={{ __html: `window.bcAudience=${JSON.stringify({ enabled: true, bookSlugs: books.map(book => book.slug), ...googleMeasurementConfig(process.env) })};window.addEventListener('load',()=>setTimeout(()=>{if(!navigator.webdriver){const s=document.createElement('script');s.src='/audience-v2.js';s.defer=true;document.body.append(s)}},2000),{once:true});` }} />}
+        {process.env.AUDIENCE_ENABLED === "true" && <script dangerouslySetInnerHTML={{ __html: `window.bcAudience=${JSON.stringify({ enabled: true, googleEnabled: process.env.VERCEL_ENV === "production", bookSlugs: books.map(book => book.slug), ...googleMeasurementConfig(process.env) })};window.addEventListener('load',()=>setTimeout(()=>{if(!navigator.webdriver){const s=document.createElement('script');s.src='/audience-v2.js';s.defer=true;document.body.append(s)}},2000),{once:true});` }} />}
       </body>
     </html>
   );

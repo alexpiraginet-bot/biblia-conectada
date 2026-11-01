@@ -27,6 +27,8 @@ O script externo só carrega após consentimento. Um convite discreto na primeir
 
 Eventos definidos: `page_view` e `visible_30_seconds`. Contexto de página é substituído por `/area/<categoria>` e título genérico; buscas e referências bíblicas não são enviadas. Consentimento do Google não representa consentimento para publicidade personalizada.
 
+A medição Google só é habilitada em builds com `VERCEL_ENV=production`; prévias e desenvolvimento não enviam eventos ao Google. O relatório GA4 filtra `hostname=www.bibliaconectada.company`, excluindo diagnósticos locais e outros hosts. Em 01/11, um teste local consentido recebeu HTTP 204 para `page_view`, com categoria genérica e sem conversão Ads; esse evento de diagnóstico não representa audiência pública e fica fora desse filtro.
+
 Configurar a tag não concede ao servidor acesso à API de relatórios do Google. O conector do assistente reconheceu a propriedade `561809611` e a conta Ads `625-087-8348`, de `alex.piragine@gmail.com`. A consulta GA4 em 01/11 ainda retornou sem linhas: isso não é prova de zero pessoas.
 
 `/api/admin/marketing` consulta o Windsor somente após autenticação de administração. `WINDSOR_API_KEY` fica exclusivamente no ambiente do servidor; `GA4_PROPERTY_ID`, `GOOGLE_ADS_CUSTOMER_ID` e `GOOGLE_ADS_CAMPAIGN_ID` fixam o escopo. Não há seletor público de contas, endpoint de escrita em anúncios ou key no navegador. O servidor usa HTTPS sem redirects e não registra a URL autenticada nem mensagens brutas do provedor. A consulta não força atualização paga nem muda o plano existente.

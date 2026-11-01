@@ -34,7 +34,7 @@ export function MarketingMetrics({ days, refreshKey, onSessionExpired }: { days:
     <div className={styles.panelHeading}><h2>Google, com a fonte à vista</h2><span>Últimos {days} dias · consulta pelo Windsor</span></div>
     {error && <p className={styles.notice} role="status">Não foi possível atualizar o Google. {report ? "Os valores abaixo são da consulta indicada." : "A contagem própria acima continua independente."}</p>}
     <div className={`${styles.kpis} ${styles.paired}`}>
-      <article><span>Usuários ativos · GA4</span><strong>{ga?.data ? integer(ga.data.activeUsers) : error && !report ? "Indisponível agora" : status(ga)}</strong><small>Usuários distintos ativos no período, conforme o Google. Cobertura depende de consentimento, cookies e bloqueadores.</small><SourceNote source={ga} /></article>
+      <article><span>Usuários ativos · GA4</span><strong>{ga?.data ? integer(ga.data.activeUsers) : error && !report ? "Indisponível agora" : status(ga)}</strong><small>Usuários distintos ativos no domínio principal, conforme o Google. Cobertura depende de consentimento, cookies e bloqueadores.</small><SourceNote source={ga} /></article>
       <article><span>Campanha · Google Ads</span><strong>{campaign?.data && report ? campaignStatus(campaign.data, report.to) : error && !report ? "Indisponível agora" : status(campaign)}</strong><small>{campaign?.data ? <>{campaign.data.name}<br />{shortDate(campaign.data.startDate)} a {shortDate(campaign.data.endDate)}</> : "Liturgia diária e Evangelho do dia. Status consultado na conta de anúncios."}</small><SourceNote source={campaign} /></article>
     </div>
     <div className={styles.panel}>

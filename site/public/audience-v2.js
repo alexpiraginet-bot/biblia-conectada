@@ -33,7 +33,7 @@
     const analyticsAllowed = preference === 'google' || preference === 'campaigns';
     const adsAllowed = preference === 'campaigns' && /^AW-\d{6,15}$/.test(config.adsId || '');
     const analyticsId = /^G-[A-Z0-9]{6,20}$/.test(config.measurementId || '') ? config.measurementId : '';
-    if (blocked || !area || !pageId || !analyticsAllowed || (!analyticsId && !adsAllowed)) return;
+    if (blocked || config.googleEnabled !== true || !area || !pageId || !analyticsAllowed || (!analyticsId && !adsAllowed)) return;
     window.dataLayer = window.dataLayer || [];
     const tag = function () { window.dataLayer.push(arguments); };
     if (!googleReady) {
@@ -91,7 +91,7 @@
     const next = location.pathname; if (next === path) return;
     path = next; area = classify(next); clearTimeout(timer); activeMs = 0; engaged = false; viewAccepted = false; visibleSince = 0; pageId = ''; googleSent.clear();
     const prompt = document.querySelector('[data-audience-prompt]');
-    if (prompt) prompt.hidden = blocked || !area || ['basic', 'google', 'campaigns', 'off'].includes(preference);
+    if (prompt) prompt.hidden = blocked || config.googleEnabled !== true || !area || ['basic', 'google', 'campaigns', 'off'].includes(preference);
     if (blocked || !area || preference === 'off') return;
     pageId = Array.from(crypto.getRandomValues(new Uint8Array(16)), n => n.toString(16).padStart(2, '0')).join('');
     const id = pageId, selectedArea = area;

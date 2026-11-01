@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from "vitest";
 import { googleMeasurementConfig } from "../src/lib/audience/google-config";
 
 const source = readFileSync(new URL("../public/audience-v2.js", import.meta.url), "utf8");
-const config = { enabled: true, bookSlugs: ["joao"], measurementId: "G-TEST123456", adsId: "AW-123456789", adsConversionLabel: "TestConversionLabel" };
+const config = { enabled: true, googleEnabled: true, bookSlugs: ["joao"], measurementId: "G-TEST123456", adsId: "AW-123456789", adsConversionLabel: "TestConversionLabel" };
 type Options = { preference?: string; path?: string; query?: string; dnt?: string; gpc?: boolean; webdriver?: boolean; config?: Record<string, unknown> };
 
 function browser(options: Options = {}) {
@@ -84,6 +84,10 @@ describe("Google Ads consent and measurement", () => {
   });
   it("does not turn an organic visit into an Ads conversion", () => {
     const b = browser({ preference: "campaigns", query: "" }); expect(events(b, "conversion")).toHaveLength(0);
+  });
+  it("never sends preview or local development traffic to Google", () => {
+    const b = browser({ preference: "campaigns", config: { googleEnabled: false } });
+    expect(b.scripts).toHaveLength(0); expect(b.calls()).toHaveLength(0); expect(b.prompt.hidden).toBe(true);
   });
   it.each([{ dnt: "1" }, { gpc: true }, { webdriver: true }])("respects browser privacy and excludes automation %j", flags => {
     const b = browser({ preference: "campaigns", ...flags }); b.choose("campaigns");
