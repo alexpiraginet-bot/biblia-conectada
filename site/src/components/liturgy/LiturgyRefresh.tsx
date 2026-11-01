@@ -7,6 +7,13 @@ import { useRouter } from "next/navigation";
 export function LiturgyRefresh({ renderedDate }: { renderedDate: string }) {
   const router = useRouter();
   useEffect(() => {
+    // Readings arrive through streaming after the browser's initial hash lookup.
+    const hash = window.location.hash;
+    if (!/^#(?:first|psalm|second|gospel|extra)-\d+$/.test(hash)) return;
+    const target = [...document.querySelectorAll(`[id="${hash.slice(1)}"]`)].find(element => element.getClientRects().length);
+    target?.scrollIntoView({ block: "start", behavior: "instant" });
+  }, [renderedDate]);
+  useEffect(() => {
     const check = () => {
       if (document.visibilityState !== "visible") return;
       const today = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Sao_Paulo", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());

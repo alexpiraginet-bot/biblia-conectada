@@ -38,6 +38,7 @@ describe("audience privacy and measurement boundaries", () => {
   });
   it("reports no history until the first event and rejects corrupt counter responses", () => {
     expect(buildAudienceReport([null, []], ["2026-11-01"], now, "production", true, false).startedAt).toBeNull();
+    expect(buildAudienceReport([null, []], ["2026-11-01"], now, "production", true, true, true).google.adsConfigured).toBe(true);
     for (const raw of [null, [], [false, {}], [false, ["views", -1]], [false, ["views", 1.5]], [false, ["views"]]]) expect(() => buildAudienceReport(raw, ["2026-11-01"], now, "production", true, false)).toThrow();
   });
   it("isolates audience from journey, preview from production and never requires AI keys", () => {
