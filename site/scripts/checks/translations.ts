@@ -18,7 +18,7 @@ export function checkTranslations({ html, page, textOf, failures }: {
       const route = join("ler", "open-nbv", book.slug, `${chapter}.html`);
       if (!html.includes(route)) { failures.push(`[translations] ${route} not prerendered`); continue; }
       const raw = page(route);
-      const shown = [...raw.matchAll(/<span data-scripture="">([\s\S]*?)<\/span>/g)].map((match) => textOf(match[1]));
+      const shown = [...raw.matchAll(/<span data-scripture=""[^>]*>([\s\S]*?)<\/span>/g)].map((match) => textOf(match[1]));
       if (JSON.stringify(shown) !== JSON.stringify(verses)) failures.push(`[translations] ${route}: source text or order differs`);
       const visible = textOf(raw);
       if (!visible.includes(edition.credit) || !visible.includes("The original Work by its copyright holders is available for free at www.biblica.com and open.bible."))
@@ -27,7 +27,7 @@ export function checkTranslations({ html, page, textOf, failures }: {
         failures.push(`[translations] ${route}: alignment scope missing`);
       for (let verse = 1; verse <= verses.length; verse++) {
         const ref = translationPath("open-nbv", book.slug, chapter, verse).slice(1);
-        if (!raw.includes(`data-study-ref="${ref}"`) || !raw.includes(`data-share-ref="${ref}"`))
+        if (!raw.includes(`data-study-ref="${ref}"`) || !raw.includes(`data-share-ref="${ref}"`) || !raw.includes(`data-reading-ref="/${ref}"`))
           failures.push(`[translations] ${route}: edition lost in actions of verse ${verse}`);
       }
       chapterCount++;

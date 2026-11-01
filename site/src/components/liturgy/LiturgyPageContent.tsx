@@ -51,7 +51,7 @@ function PassageText({ passage, edition }: { passage: LiturgyPassage; edition: T
     <div className={styles.passageHeading}><span>{passage.reference}{context ? " · capítulo completo" : ""}</span><span>{getTranslation(edition)!.shortName}</span></div>
     <ol className={styles.verses}>{passage.verses.map((verse) => <li key={verse.path}>
       <span className={styles.verseNumber} aria-hidden="true">{verse.number}</span>
-      <div><span className="visually-hidden">Versículo {verse.number}: </span><span data-scripture><Scripture text={verse.text} /></span>
+      <div><span className="visually-hidden">Versículo {verse.number}: </span><span data-scripture data-reading-ref={verse.path}><Scripture text={verse.text} /></span>
         <div className={styles.verseActions}><VerseActions path={verse.path} label={`${passage.reference.split(":")[0]}:${verse.number}`} /></div>
       </div>
     </li>)}</ol>

@@ -43,7 +43,7 @@ describe("verse study entry points", () => {
     const rows = bookFile("genesis").chapters[5].map((item, index) => ({ n: index + 1, text: item.t, links: item.l }));
     const html = renderToStaticMarkup(createElement(ChapterText, { book, chapter: 6, verses: rows }));
     expect(entries(html)).toEqual(rows.map((item) => `genesis/6/${item.n}`));
-    const scripture = [...html.matchAll(/<span data-scripture="">([^]*?)<\/span>/g)].map((match) => match[1]);
+    const scripture = [...html.matchAll(/<span data-scripture=""[^>]*>([^]*?)<\/span>/g)].map((match) => match[1]);
     expect(scripture).toHaveLength(rows.length);
     expect(scripture.every((text) => !text.includes("Entender com IA"))).toBe(true);
   });

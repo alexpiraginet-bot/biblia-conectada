@@ -26,7 +26,7 @@ function pathBetween(a: JourneyStop, b: JourneyStop, index: number) {
 function Passage({ passage }: { passage: JourneyPassage }) {
   return <div className={styles.passage}>
     <h3>{passage.label}</h3>
-    {passage.verses.map((v) => <p key={v.gv}><span className={styles.verseNumber}>{v.n}</span>{v.text}<br />
+    {passage.verses.map((v) => <p key={v.gv}><span className={styles.verseNumber}>{v.n}</span><span data-reading-ref={`/${passage.slug}/${passage.chapter}/${v.n}`}>{v.text}</span><br />
       <VerseActions path={`/${passage.slug}/${passage.chapter}/${v.n}`} label={`${passage.label.split(" ").slice(0, -1).join(" ")} ${passage.chapter}:${v.n}`} />
     </p>)}
   </div>;

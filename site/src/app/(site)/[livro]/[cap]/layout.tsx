@@ -6,6 +6,7 @@ import { ChapterText } from "@/components/reader/ChapterText";
 import { SelectionScope } from "@/components/reader/SelectionBar";
 import { VerseFocus } from "@/components/reader/VerseFocus";
 import { EditionChoice } from "@/components/reader/EditionChoice";
+import { ChapterReadingControls } from "@/components/reading-progress/ReadingControls";
 import styles from "@/components/reader/reader.module.css";
 import { books } from "@/lib/data";
 import { chapterMeta, keepBookNumber } from "@/lib/from-here";
@@ -63,6 +64,7 @@ export default async function ChapterLayout({ params, children }: LayoutProps<"/
             {chapterMeta(verses.length, counts[chapter - 1], partners.length)}
           </p>
           <EditionChoice current="blivre" slug={book.slug} chapter={chapter} />
+          <ChapterReadingControls path={`/${book.slug}/${chapter}`} label={`${book.name} ${chapter}`} />
           <ChapterPager prev={withPairs(prev)} next={withPairs(next)} where="topo" />
           <SelectionScope slug={book.slug} bookName={book.name} chapter={chapter}>
             <ChapterText book={book} chapter={chapter} verses={verses} />

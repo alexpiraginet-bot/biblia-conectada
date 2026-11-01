@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
 import { Icon, type IconName } from "@/components/icons";
 import { JOURNEY_BONUS_DAYS, JOURNEY_BONUS_POINTS, JOURNEY_DAILY_POINTS, JOURNEY_REQUIRED_AREAS, JOURNEY_TARGET_ACTIVE_DAYS, JOURNEY_TARGET_POINTS, JOURNEY_TASK_SECONDS, JOURNEY_TTL_SECONDS } from "@/lib/rewards/rules";
 import type { JourneyResponse, JourneyTask } from "@/lib/rewards/types";
@@ -40,7 +40,7 @@ function GiftMark() {
   return <svg viewBox="0 0 64 64" fill="none" aria-hidden="true" className={styles.giftMark}><path d="M12 29h40v24H12zM8 20h48v9H8zM32 20v33M32 20c-16 0-19-8-13-11 6-3 13 11 13 11Zm0 0c16 0 19-8 13-11-6-3-13 11-13 11Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" /><path d="M6 6v6m-3-3h6m45 4v6m-3-3h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>;
 }
 
-export function JourneyDashboard() {
+export function JourneyDashboard({ children }: { children?: ReactNode }) {
   const state = useSyncExternalStore(subscribeJourney, getJourneyState, getServerJourneyState);
   const [starting, setStarting] = useState(false);
   const [error, setError] = useState("");
@@ -112,13 +112,19 @@ export function JourneyDashboard() {
       <p className={styles.eyebrow}><span aria-hidden="true">✦</span> Minha jornada</p>
       <h1>Um pouco por dia.<br /><em>Um caminho inteiro.</em></h1>
       <p className={styles.lede}>Leia com calma. Descubra conexões. Veja seu caminho crescer, sem pressa e sem perder o que já conquistou.</p>
+      <p><a href="#leitura">Minha leitura da Bíblia</a> · <a href="#pontos">Constância e pontos</a></p>
+    </header>
+    {children}
+    <section id="pontos" className={styles.intro} aria-labelledby="journey-points-heading">
+      <h2 id="journey-points-heading" className="bc-title">Constância e pontos.</h2>
+      <p>O histórico acima acompanha suas marcações pessoais. Os pontos abaixo seguem as atividades e o tempo de leitura da Jornada.</p>
       {!deleting && (!state.optedIn || state.status === "expired") && <div className={styles.start}>
         <button type="button" className={styles.primaryButton} onClick={() => void start()} disabled={starting} data-journey-start>{starting ? <><span className={styles.spinner} aria-hidden="true" /> Iniciando…</> : <>{state.status === "expired" ? "Iniciar uma nova jornada" : "Começar minha jornada"}<span aria-hidden="true">↗</span></>}</button>
         <p>Sem cadastro. O progresso fica ligado a este navegador. <a href="#como-a-jornada-funciona">Entenda como funciona.</a></p>
       </div>}
       {error && <p className={styles.notice} role="status">{error}</p>}
       {deleting && <p className={styles.notice} role="status">Apagando sua jornada…</p>}
-    </header>
+    </section>
 
     <section className={styles.overview} aria-label="Seu progresso">
       <div className={styles.pointsPanel}>

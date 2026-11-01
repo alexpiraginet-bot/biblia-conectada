@@ -1,4 +1,5 @@
 import { VerseStudyLink } from "./VerseStudyLink";
+import { VerseReadButton } from "@/components/reading-progress/ReadingControls";
 import styles from "./VerseStudyLink.module.css";
 
 /** Ordinary links remain useful without JS; the shared host enhances them on click. */
@@ -11,5 +12,6 @@ export function VerseActions({ path, label, connections = true }: { path: string
     <VerseStudyLink path={path} label={label} />
     <a href={`/og?path=/${reference}`} data-share-ref={reference} data-share-label={label}
       aria-haspopup="dialog" className={styles.link} aria-label={`Compartilhar ${label}`}>Compartilhar <span aria-hidden="true">↗</span></a>
+    <VerseReadButton path={path} label={label} />
   </span>;
 }

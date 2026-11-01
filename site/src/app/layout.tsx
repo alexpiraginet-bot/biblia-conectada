@@ -9,6 +9,7 @@ import { VERSE_INTENT_SCRIPT } from "@/components/assistant/verse-intent-script"
 import { VerseIntentFeedback } from "@/components/assistant/VerseIntentFeedback";
 import { InstallHost } from "@/components/install/InstallHost";
 import { RewardsHost } from "@/components/rewards/RewardsHost";
+import { ReadingProgressHost } from "@/components/reading-progress/ReadingProgressHost";
 import { PAGE_SEARCH_SCRIPT } from "@/components/search/page-search-script";
 import { SiteShell } from "@/components/shell/NavLinks";
 import { SectionRail, TabBar } from "@/components/shell/Navigation";
@@ -97,6 +98,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SearchHost />
         <StudyHost />
         <RewardsHost />
+        <ReadingProgressHost />
         {process.env.AUDIENCE_ENABLED === "true" && <MeasurementChoice />}
         {process.env.AUDIENCE_ENABLED === "true" && <script dangerouslySetInnerHTML={{ __html: `window.bcAudience=${JSON.stringify({ enabled: true, googleEnabled: process.env.VERCEL_ENV === "production", bookSlugs: books.map(book => book.slug), ...googleMeasurementConfig(process.env) })};window.addEventListener('load',()=>setTimeout(()=>{if(!navigator.webdriver){const s=document.createElement('script');s.src='/audience-v2.js';s.defer=true;document.body.append(s)}},2000),{once:true});` }} />}
       </body>

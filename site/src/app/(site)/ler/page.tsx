@@ -46,6 +46,7 @@ export default async function Ler() {
     <main id="conteudo" className={`site-page ${styles.page}`}>
       <h1 className="bc-display">Livros</h1>
       <EditionChoice current="blivre" />
+      <p className="bc-meta"><Link href="/jornada#leitura" prefetch={false}>Minha leitura da Bíblia · acompanhar progresso ↗</Link></p>
       <p className="bc-lede">
         Os {formatInt(books.length)} livros da Bíblia Livre em {formatInt(groupCount)} grupos: {formatInt(chapters)} capítulos e{" "}
         {formatInt(verses)} versículos. Ao lado de cada livro, os capítulos e as ligações que tocam nele.

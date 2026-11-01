@@ -1,5 +1,7 @@
 # Minha jornada: constância com saldo confirmado no servidor
 
+Este documento descreve os **pontos e dias ativos**, confirmados no servidor. O [progresso de leitura bíblica](READING-PROGRESS.md), apresentado em `/jornada#leitura`, é um histórico separado de versículos e capítulos salvo no navegador, com backup próprio. Marcações manuais, automáticas e importações desse histórico não concedem pontos nem alteram as regras abaixo.
+
 ## Regras da primeira versão
 
 A participação é opcional: **Começar minha jornada** cria um perfil anônimo. Abrir a página, clicar, atualizar ou editar o armazenamento do navegador não concede pontos.
