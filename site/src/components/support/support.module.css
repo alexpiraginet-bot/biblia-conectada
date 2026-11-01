@@ -92,6 +92,13 @@
 .adminList li > div { display: flex; justify-content: space-between; gap: 20px; align-items: center; flex-wrap: wrap; }
 .adminList p { margin: 8px 0; font-size: .85rem; }
 .adminList small { display: block; color: var(--ink-3); line-height: 1.6; }
+.admin .small { color: var(--ink-3); font-size: .85rem; line-height: 1.65; }
+.giftCounts, .giftActions { display: flex; flex-wrap: wrap; gap: 10px; }
+.giftCounts { margin: 24px 0; }
+.giftCounts strong { margin-right: 5px; font-variant-numeric: tabular-nums; }
+.giftCounts button[aria-pressed="true"] { background: var(--action-fill); color: var(--on-action); border-color: var(--accent); }
+.giftFilters { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; margin-block: 28px; }
+.admin form h3 { margin: 0; }
 @media (max-width: 720px) {
   .page { padding: 30px 20px 64px; }
   .intro { padding-top: 6px; padding-bottom: 30px; }
@@ -119,4 +126,5 @@
   .shareActions { align-items: flex-start; flex-direction: column; }
   .admin form { padding: 18px; }
   .admin .impact { grid-template-columns: 1fr; gap: 20px; }
+  .giftFilters { grid-template-columns: 1fr; }
 }

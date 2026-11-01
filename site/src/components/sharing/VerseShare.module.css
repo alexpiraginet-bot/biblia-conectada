@@ -2,7 +2,7 @@
 .intro { margin: 0 0 16px; color: var(--ink-2); }
 .links, .ready { display: grid; gap: 8px; }
 .primary, .secondary, .prepare { display: flex; align-items: center; justify-content: center; gap: 14px; width: 100%; min-height: 46px; padding: 10px 15px; border-radius: 10px; border: 1px solid var(--line); text-align: center; text-decoration: none; cursor: pointer; font: 600 14px/1.4 var(--font-ui), sans-serif; }
-.primary { color: #f8e6bc; background: #541c32; border-color: #a97865; }
+.primary { color: var(--on-action); background: var(--action-fill); border-color: color-mix(in srgb, var(--on-action) 55%, transparent); border-radius: var(--radius-pill); }
 .secondary { color: var(--ink); background: transparent; }
 .prepare { justify-content: space-between; color: var(--ink); background: var(--surface); border-style: dashed; margin-top: 14px; }
 .primary:hover, .secondary:hover, .prepare:hover { filter: brightness(1.08); }
