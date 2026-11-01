@@ -29,6 +29,8 @@ Agentes de performance e UI/UX fizeram revisão somente leitura. Achados corrigi
 
 A revisão independente também confirmou reflow normal em 320/375/768/1440, alvos da abertura ≥44 px e chegada pelo teclado. Contraste da abertura medido sobre pixels reais: mínimo 4,92:1 no texto secundário Dia, 5,06:1 no título em itálico e 5,00:1 no rótulo longo; CTA ≥6,87:1. Posição, pausas e deslocamento dos pulsos foram medidos.
 
+A revisão automática da PR48 encontrou um caso adicional: alternativas de primeira leitura podiam ocupar o lugar do Evangelho nas capas diárias. A seleção agora prioriza uma leitura de cada tipo antes de completar as quatro posições e informa quantas outras leituras estão no site. Regressão renderizada em Story, Post e horizontal; os **21 testes de compartilhamento diário** passaram, sem modificar a lista original.
+
 ## Evidências e limites
 
 Pasta local: C:/Users/R2/.codex/visualizations/2026/10/20/01a15a31-4795-7dc2-b8a3-9529afb4fe17/daylight-opening-20261101/

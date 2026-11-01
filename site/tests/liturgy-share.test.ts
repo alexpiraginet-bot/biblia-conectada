@@ -11,6 +11,7 @@ import { bookFile } from "./generated";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import LiturgyShareActions from "../src/components/liturgy/LiturgyShareActions";
+import { ScenicShareCard } from "../src/components/sharing/ScenicShareCard";
 
 vi.mock("../src/lib/liturgy/service", () => ({ getDailyLiturgy: vi.fn() }));
 const day = (): LiturgyDay => ({
@@ -27,6 +28,17 @@ const unavailable = (): LiturgyUnavailable => ({ ok: false, date: "2026-10-31", 
 beforeEach(() => { vi.mocked(getDailyLiturgy).mockReset().mockResolvedValue(day()); });
 
 describe("fixed daily sharing", () => {
+  it.each(["story", "post", "landscape"] as const)("keeps the Gospel on the %s cover when earlier readings have alternatives", (format) => {
+    const card = createLiturgyShareCard(day());
+    card.readings!.splice(1, 0, { kind: "first", label: "Primeira leitura · 2", reference: "Rm 8,14-23" });
+    card.readings!.splice(3, 0, { kind: "second", label: "Segunda leitura", reference: "1Jo 3,1-3" });
+    const original = structuredClone(card.readings);
+    const html = renderToStaticMarkup(createElement(ScenicShareCard, { card, format, background: "data:image/png;base64," }));
+    for (const reference of ["Fl 1,18-26", "Sl 41(42)", "1Jo 3,1-3", "Lc 14,1.7-11"]) expect(html).toContain(reference);
+    expect(html).not.toContain("Rm 8,14-23");
+    expect(html).toContain("Mais 1 leitura disponível no site.");
+    expect(card.readings).toEqual(original);
+  });
   it("preserves NBV in aliases, sharing and metadata without quoting a BLIVRE passage", async () => {
     const data = day(); data.edition = { id: "open-nbv", name: "Open NBV", notice: "Contexto" };
     // Deliberately retain BLIVRE fixture verses: the NBV daily card must ignore ALL verse text.

@@ -33,7 +33,10 @@ export function ScenicShareCard({ card, format, background }: { card: ShareCard;
   const long = card.description.length > 350;
   const titleSize = landscape ? 58 : card.title.length > 40 ? 64 : 84;
   const textSize = landscape ? 30 : long ? (story ? 43 : 35) : card.description.length > 180 ? (story ? 58 : 46) : (story ? 72 : 58);
-  const readings = card.readings?.slice(0, 4) ?? [];
+  const allReadings = card.readings ?? [];
+  const principal = ["first", "psalm", "second", "gospel"].flatMap((kind) => allReadings.find((reading) => reading.kind === kind) ?? []);
+  const readings = [...principal, ...allReadings.filter((reading) => !principal.includes(reading))].slice(0, 4);
+  const remaining = allReadings.length - readings.length;
   return <div style={{ width: "100%", height: "100%", display: "flex", position: "relative", flexDirection: "column", background: "#e6e1d4", color: "#420d20", fontFamily: "Figtree", fontWeight: 500 }}>
     {/* eslint-disable-next-line @next/next/no-img-element */}
     <img src={background} alt="" width={1024} height={1536} style={{ position: "absolute", width: "100%", height: "100%", objectFit: "cover", objectPosition: connection ? "70% 44%" : "center" }} />
@@ -45,6 +48,7 @@ export function ScenicShareCard({ card, format, background }: { card: ShareCard;
       {card.source && <div style={{ display: "flex", fontSize: landscape ? 17 : 23, lineHeight: 1.4, color: "#664c50", marginTop: landscape ? 12 : 25 }}>{card.source}{quoted && card.description.endsWith("…") ? " · Trecho" : ""}</div>}
       {!landscape && readings.length > 0 && <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 24, paddingTop: 20, borderTop: "1px solid #bea58155" }}>{readings.map((reading, i) => <div key={i} style={{ display: "flex", gap: 16, fontSize: story ? 25 : 23, lineHeight: 1.3 }}><span style={{ display: "flex", width: 190, color: "#664c50" }}>{reading.label}</span><span style={{ display: "flex", flex: 1 }}>{reading.reference}</span></div>)}</div>}
       {landscape && readings.length > 0 && <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginTop: 12, fontSize: 16, color: "#664c50" }}>{readings.map((reading, i) => <span key={i}>{reading.reference}</span>)}</div>}
+      {remaining > 0 && <div style={{ display: "flex", marginTop: 10, fontSize: landscape ? 16 : 23, color: "#664c50" }}>Mais {remaining} {remaining === 1 ? "leitura disponível" : "leituras disponíveis"} no site.</div>}
       {attribution && <div style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: landscape ? 11 : 17, lineHeight: 1.35, color: "#664c50", marginTop: landscape ? 12 : 20 }}><div style={{ display: "flex" }}>{attribution}</div>{card.license && <div style={{ display: "flex" }}>{card.license}</div>}</div>}
     </div>
     <div style={{ position: "absolute", left: landscape ? 54 : 72, right: landscape ? 54 : 72, bottom: story ? 240 : landscape ? 35 : 90, display: "flex", flexDirection: "column", alignItems: "center", gap: 15 }}>
