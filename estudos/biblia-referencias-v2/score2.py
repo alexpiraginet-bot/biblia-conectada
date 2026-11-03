@@ -26,15 +26,15 @@ hz, chord, place, organ, sub_hit, braam, riser, whoosh, bell, tick, shimmer, rev
 
 def build():
     mus = np.zeros((2, N), np.float32); sfx = np.zeros((2, N), np.float32)
-    # S1 · one thread: a single low D breathing from frame 0, a whoosh as the thread crosses, a bell when it lands
-    chord(mus, ["D1", "D2"], 0.0, K["toca"] + 0.6, 0.40, a=0.3, r=1.0, bright=0.7)
-    place(sfx, whoosh(1.1, 0.5, True), 0.02)
-    place(mus, bell(hz("D5"), 0.09, 3.0), 1.15, 0.3); place(sfx, sub_hit(0.3, 0.9), 1.15)
-    place(mus, shimmer(2.0, 1175, 2350, 0.04), 0.1, 0.0)
+    # S0 · frame 0: the hit and the full minor chord at once (the dome is already lit), bells on the thread's feet
+    place(sfx, sub_hit(0.9), 0.0); place(sfx, braam(0.3, 2.4), 0.0)
+    chord(mus, ["D2", "A2", "D3", "F3", "A3", "D4", "F4"], 0.0, K["s1"] + 0.8, 0.8, a=0.03, r=1.8, bright=1.15)
+    place(mus, bell(hz("D5"), 0.10), 0.05, -0.3); place(mus, bell(hz("A5"), 0.07), 0.12, 0.3)
+    # S1 · the thread alone: a low D breathing, bells when the pages are named
+    place(sfx, whoosh(0.8, 0.4, False), K["s1"] - 0.1)
+    chord(mus, ["D1", "D2", "A2"], K["s1"], K["s5"] - K["s1"] + 0.6, 0.42, a=0.6, r=1.0, bright=0.7)
+    place(mus, shimmer(2.0, 1175, 2350, 0.04), K["s1"] + 0.2, 0.0)
     place(mus, bell(hz("A5"), 0.06), K["pag1"], -0.4); place(mus, bell(hz("D6"), 0.06), K["ultima"], 0.4)
-    # "toca": the full minor chord lands with the title
-    place(sfx, sub_hit(0.7, 1.1), K["toca"] - 0.02); place(sfx, braam(0.22, 2.2), K["toca"] - 0.02)
-    chord(mus, ["D2", "A2", "D3", "F3", "A3", "D4"], K["toca"] - 0.02, K["s5"] - K["toca"] + 0.8, 0.62, a=0.03, r=1.6, bright=1.1)
     # S2 · 191: ticks follow the counter
     ts = K["s4"] + 0.1; dt = 0.07
     while ts < K["n191"] + 0.5:
@@ -49,7 +49,6 @@ def build():
         place(sfx, tick(0.14, 2600 + rng.integers(-300, 300)), ts, rng.uniform(-0.6, 0.6)); ts += dt; dt = max(0.018, dt * 0.93)
     place(sfx, braam(0.85), K["n344"] - 0.01); place(sfx, sub_hit(1.0), K["n344"] - 0.01)
     chord(mus, ["D2", "A2", "D3", "E3", "F3", "A3", "D4", "A4"], K["n344"] - 0.02, K["s7"] - K["n344"] + 1.2, 0.70, a=0.02, r=1.6, bright=1.2)
-    place(mus, bell(hz("D6"), 0.08), K["fio"], 0.0)
     # S4 · the brightest point: everything thins to the pedal, one high organ note, a shimmer as the star grows
     chord(mus, ["D1", "D2"], K["s7"], K["quote"] - K["s7"] + 0.5, 0.35, a=0.8, r=0.6, bright=0.7)
     place(mus, organ(hz("A4"), K["quote"] - K["s7"], 0.08, a=1.2, r=0.6, bright=0.6), K["s7"], 0.1)

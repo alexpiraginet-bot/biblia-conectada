@@ -27,7 +27,7 @@ LINES = [
     ("No meio do jardim, a árvore da vida.", 0.45),
     ("Isso é a primeira página da Bíblia.", 0.30),
     ("E isso... é a última.", 0.45),
-    ("A primeira página toca a última.", 0.6),
+    ("A primeira página toca a última.", 0.45),
     ("Entre Gênesis e Apocalipse, 191 ligações.", 0.55),
     ("E a Bíblia inteira tem 344.799.", 0.5),
     ("Cada fio aqui é uma referência real.", 0.5),
@@ -57,6 +57,8 @@ SPOKEN = [
 # display token -> how many spoken words it covers (only where they differ; default 1)
 SPAN = {"191": 5, "344.799.": 11, "9:6.": 2, "212": 3}
 HEAD = 0.12
+# film order of the script lines (the take is cut by script line, then placed in this order); a line left out is dropped
+ORDER = [3, 0, 1, 2, 4, 5, 7, 8, 9, 10, 11, 12]
 # per-line tempo (atempo, pitch kept): exposition fast, the dramatic lines near natural; --tempo scales all
 TEMPO = [1.30, 1.45, 1.35, 1.30, 1.50, 1.52, 1.45, 1.40, 1.48, 1.25, 1.45, 1.30, 1.40]
 
@@ -94,14 +96,14 @@ def write(lines, voice, total):
 
 def guide():
     t, lines = HEAD, []
-    for li, (text, gap) in enumerate(LINES):
-        at = t; st = []
+    for k, li in enumerate(ORDER):
+        text, gap = LINES[li]; at = t; st = []
         for w in SPOKEN[li].split():
             d = max(0.14, len(norm(w)) * 0.046 + 0.08)
             st.append((round(t, 3), round(t + d, 3))); t += d
             if w[-1] in ",:": t += 0.12
             if w[-1] in ".!?" and w is not SPOKEN[li].split()[-1]: t += 0.3
-        lines.append({"i": li, "t0": round(at, 3), "t1": round(t, 3), "text": text, "tempo": 1.0, "guide": True, "words": display_words(li, st)})
+        lines.append({"i": k, "script": li, "t0": round(at, 3), "t1": round(t, 3), "text": text, "tempo": 1.0, "guide": True, "words": display_words(li, st)})
         t += gap
     write(lines, np.zeros(int(SR * (t + 1)), np.float32), round(t, 3))
 
@@ -131,7 +133,7 @@ def take(path, tempo_k):
     groups = [[i for i, (li, _) in enumerate(script) if li == n] for n in range(len(LINES))]
     quiet = lambda x, y: (int(x * SR) + int(np.argmin(rms[int(x * SR):int(y * SR)]))) / SR if y > x + 0.02 else x
     heard_t0 = np.array([h["t0"] for h in heard]); heard_t1 = np.array([h["t1"] for h in heard])
-    out = np.zeros(int(SR * 120), np.float32); lines, t = [], HEAD
+    out = np.zeros(int(SR * 120), np.float32); lines, t = [], HEAD; segs = {}
     for n, g in enumerate(groups):
         tempo = TEMPO[n] * tempo_k
         w0, w1 = times[g[0]][0], times[g[-1]][1]
@@ -164,9 +166,12 @@ def take(path, tempo_k):
                                 input=seg.astype(np.float32).tobytes(), capture_output=True, check=True)
             seg = np.frombuffer(pr.stdout, np.float32).copy()
         fade = int(0.008 * SR); seg[:fade] *= np.linspace(0, 1, fade); seg[-fade:] *= np.linspace(1, 0, fade)
+        segs[n] = (seg, [(local(times[i][0]) / tempo, local(times[i][1]) / tempo) for i in g], tempo, (round(s0, 3), round(s1, 3)))
+    for k, n in enumerate(ORDER):
+        seg, rel, tempo, src = segs[n]
         out[int(t * SR):int(t * SR) + len(seg)] += seg
-        st = [(round(t + local(times[i][0]) / tempo, 3), round(t + local(times[i][1]) / tempo, 3)) for i in g]
-        lines.append({"i": n, "t0": round(t, 3), "t1": round(t + len(seg) / SR, 3), "text": LINES[n][0], "tempo": tempo, "src": [round(s0, 3), round(s1, 3)], "words": display_words(n, st)})
+        st = [(round(t + a_, 3), round(t + b_, 3)) for a_, b_ in rel]
+        lines.append({"i": k, "script": n, "t0": round(t, 3), "t1": round(t + len(seg) / SR, 3), "text": LINES[n][0], "tempo": tempo, "src": list(src), "words": display_words(n, st)})
         t += len(seg) / SR + LINES[n][1]
     print("heard", len(heard), "words; unmatched:", unmatched)
     write(lines, out, round(t, 3))

@@ -31,9 +31,29 @@ W, H, FPS = F.W, F.H, F.FPS
 NARR = json.load(open(WORK / "narr.json")); LINES = NARR["lines"]
 DUR = round(NARR["duration"], 3); NF = int(round(DUR * FPS))
 c01, ss, eo3, ei3, expo, lerp, win = F.c01, F.ss, F.eo3, F.ei3, F.expo, F.lerp, F.win
-Cam, text_layer, titled, paste, star_point, draw_arcs, arc_poly, draw_bars, warp_dome, dust = \
-    F.Cam, F.text_layer, F.titled, F.paste, F.star_point, F.draw_arcs, F.arc_poly, F.draw_bars, F.warp_dome, F.dust
+Cam, text_layer, titled, paste, draw_arcs, arc_poly, draw_bars, warp_dome, dust = \
+    F.Cam, F.text_layer, F.titled, F.paste, F.draw_arcs, F.arc_poly, F.draw_bars, F.warp_dome, F.dust
 font = F.font
+
+
+def star_point(frame, x, y, inten=1.0, rad=18, rays=0.0, rot=0.0):
+    """soft light point with no visible edge: the glow is windowed to zero at a wide radius; rays as in Ep. 1"""
+    R = int(rad * 16 + rays * 560)
+    xa, xb, ya, yb = int(max(0, x - R)), int(min(W, x + R)), int(max(0, y - R)), int(min(H, y + R))
+    if xa >= xb or ya >= yb: return
+    yy, xx = np.mgrid[ya:yb, xa:xb].astype(np.float32); dx, dy = xx - x, yy - y; r2 = dx * dx + dy * dy
+    g = np.exp(-r2 / (2 * rad * rad)) + 0.35 * np.exp(-r2 / (2 * (rad * 3) ** 2)) + 0.08 * np.exp(-r2 / (2 * (rad * 7) ** 2))
+    if rays > 0:
+        c, s_ = math.cos(rot), math.sin(rot); u, v = dx * c + dy * s_, -dx * s_ + dy * c; L = 520 * rays
+        down = np.where(dy > 0, 0.3, 1.0).astype(np.float32)
+        g += (0.9 * np.exp(-(v * v) / 3.5) * np.exp(-np.abs(u) / L) + 0.9 * np.exp(-(u * u) / 3.5) * np.exp(-np.abs(v) / L)) * down
+        c2, s2 = math.cos(rot + math.pi / 4), math.sin(rot + math.pi / 4); u2, v2 = dx * c2 + dy * s2, -dx * s2 + dy * c2
+        g += (0.45 * np.exp(-(v2 * v2) / 2.0) * np.exp(-np.abs(u2) / (L * 0.45)) + 0.45 * np.exp(-(u2 * u2) / 2.0) * np.exp(-np.abs(v2) / (L * 0.45))) * down
+    win_ = np.clip(1 - np.sqrt(r2) / R, 0, 1) ** 0.5             # to zero at the box edge, invisibly
+    frame[ya:yb, xa:xb] += (g * win_)[..., None] * np.array([1.0, 0.93, 0.78], np.float32) * inten
+
+
+F.star_point = star_point                                       # the engine's arc heads use it too
 GOLD3 = np.array([1.0, 0.86, 0.55], np.float32)
 GOLD, CREAM, GREY = (255, 214, 140), (255, 236, 200), (170, 170, 180)
 
@@ -44,13 +64,12 @@ def WT(i, k): return LINES[i]["words"][k]["t0"]
 def WE(i, k): return LINES[i]["words"][k]["t1"]
 
 
-# key moments: 0 jardim · 1 primeira página · 2 última · 3 toca · 4 191 · 5 344.799 · 6 cada fio · 7 olha o ponto
-# 8 Isaías 9:6 · 9 quote · 10 212 · 11 criança · 12 comenta
+# key moments (film order): 0 toca · 1 jardim · 2 primeira página · 3 última · 4 191 · 5 344.799 · 6 olha o ponto
+# 7 Isaías 9:6 · 8 quote · 9 212 · 10 criança · 11 comenta
 K = {
-    "arvore": WT(0, 5), "pag1": WT(1, 3), "ultima": WT(2, 4), "toca": WT(3, 3), "s4": LS(4) - 0.1, "n191": WT(4, 5),
-    "s5": LS(5) - 0.1, "n344": WT(5, 5), "s6": LS(6) - 0.1, "fio": WT(6, 1), "s7": LS(7) - 0.1, "ponto": WT(7, 3),
-    "s8": LS(8) - 0.1, "esse": WT(8, 11), "isa96": WT(8, 12) - 0.05, "quote": LS(9) - 0.1, "s10": LS(10) - 0.1,
-    "n212": WT(10, 0), "s11": LS(11) - 0.1, "crianca": WT(11, 9), "s12": LS(12) - 0.1, "mostro": WT(12, 4), "end": DUR,
+    "toca": WT(0, 3), "s1": LS(1) - 0.1, "arvore": WT(1, 5), "pag1": WT(2, 3), "ultima": WT(3, 4), "s4": LS(4) - 0.1, "n191": WT(4, 5),
+    "s5": LS(5) - 0.1, "n344": WT(5, 5), "s7": LS(6) - 0.1, "ponto": WT(6, 3), "s8": LS(7) - 0.1, "esse": WT(7, 11), "isa96": WT(7, 12) - 0.05,
+    "quote": LS(8) - 0.1, "s10": LS(9) - 0.1, "n212": WT(9, 0), "s11": LS(10) - 0.1, "crianca": WT(10, 9), "s12": LS(11) - 0.1, "mostro": WT(11, 4), "end": DUR,
 }
 json.dump(K, open(WORK / "keys.json", "w"), indent=1)
 
@@ -115,26 +134,36 @@ def render(fi):
     t = fi / FPS
     fr = F.BG.copy()
     dust(fr, t, 0.8)
-    # ---------------- S1 (lines 0-3): one thread of light, first page to last page
-    if t < K["s5"] + 0.6:
+    # ---------------- S0 (line 0, frame 0): the whole dome lit, one gold thread across it, the title. No fade.
+    if t < K["s1"] + 0.8:
+        o = 1.0 - ss((t - K["s1"]) / 0.8) if t > K["s1"] else 1.0
+        cam = Cam(1.22 + 0.03 * ss(t / 3.0), 0.5, 0.0, 540, 1300)
+        flash = 1 + 0.3 * max(0.0, 1 - t / 0.35)
+        fr += warp_dome(F.FULL, cam) * 0.78 * o
+        draw_bars(fr, cam, op=0.6 * o)
+        poly = arc_poly(X_GN, X_AP, cam, 1.0, 400)
+        draw_arcs(fr, [poly], GOLD3 * (1.0 + 0.1 * math.sin(t * 2.1)) * o * flash, width=5, core=1.6, glow=2.4 * o)
+        draw_arcs(fr, [poly], np.array([1.0, 1.0, 0.95], np.float32) * o, width=2, core=0.9, glow=0.0)
+        for x in (X_GN, X_AP): star_point(fr, float(cam.X(x)), float(cam.Y(0)), 2.0 * o * flash, 18)
+        sc = 1.0 + 0.05 * max(0.0, 1 - t / 0.3)
+        titled(fr, text_layer(["A PRIMEIRA PÁGINA"], font("grot", 112, 700), track=-0.02, glow=4), W / 2, 430, o, sc)
+        titled(fr, text_layer(["TOCA A ÚLTIMA."], font("grot", 112, 700), color=GOLD, track=-0.02, glow=6), W / 2, 545, o, sc)
+        titled(fr, text_layer(["GÊNESIS 2:9  ·  APOCALIPSE 22:2"], font("mono", 36), color=GOLD, track=0.1), W / 2, 660, o * c01((t - 0.4) / 0.3))
+    # ---------------- S1 (lines 1-3): black, the thread alone, the two verses at its feet
+    if K["s1"] <= t < K["s5"] + 0.6:
         op = 1.0 - ss((t - K["s5"]) / 0.6) if t > K["s5"] else 1.0
         cam = CAM_HOOK
-        thread_hook(fr, t, cam, op)
-        # the two verses at the thread's feet
-        o_gn = win(t, 0.0, K["s4"] + 1.0, 0.3, 0.4); o_ap = win(t, 0.75, K["s4"] + 1.0, 0.3, 0.4)
+        poly = arc_poly(X_GN, X_AP, cam, 1.0, 400)
+        draw_arcs(fr, [poly], GOLD3 * (1.0 + 0.12 * math.sin(t * 2.1)) * op, width=3, core=1.0, glow=1.6 * op)
+        for x in (X_GN, X_AP): star_point(fr, float(cam.X(x)), float(cam.Y(0)), 1.2 * op, 14)
+        o_gn = win(t, K["s1"], K["s4"] + 1.0, 0.3, 0.4); o_ap = win(t, K["ultima"] - 0.3, K["s4"] + 1.0, 0.3, 0.4)
         titled(fr, text_layer(["GÊNESIS 2:9"], font("mono", 34), color=GOLD, track=0.08), 170, 1245, o_gn)
         titled(fr, text_layer(VERSE["gn"], font("serifi", 44, 500), color=CREAM), 230, 1330, o_gn)
         titled(fr, text_layer(["APOCALIPSE 22:2"], font("mono", 34), color=GOLD, track=0.08), 905, 1245, o_ap)
         titled(fr, text_layer(VERSE["ap"], font("serifi", 44, 500), color=CREAM), 820, 1330, o_ap)
-        # "primeira página" / "última": the ends pulse when named
         for x, tk in ((X_GN, K["pag1"]), (X_AP, K["ultima"])):
             k = 1 - ss((t - tk) / 0.7)
             if 0 < k and t >= tk: star_point(fr, float(cam.X(x)), float(cam.Y(0)), 2.6 * k, 22 + 30 * k)
-        # the title lands on "toca"
-        if t >= K["toca"] - 0.1:
-            o = win(t, K["toca"] - 0.1, K["s4"] + 0.3, 0.2, 0.3); sc = 1.0 + 0.08 * (1 - eo3((t - K["toca"] + 0.1) / 0.35))
-            titled(fr, text_layer(["A PRIMEIRA PÁGINA"], font("grot", 112, 700), track=-0.02, glow=4), W / 2, 430, o, sc)
-            titled(fr, text_layer(["TOCA A ÚLTIMA."], font("grot", 112, 700), color=GOLD, track=-0.02, glow=6), W / 2, 545, o, sc)
         # ---------------- S2 (line 4): the 191 Genesis/Revelation links, counted
         if t >= K["s4"]:
             u = c01((t - K["s4"]) / (K["n191"] - K["s4"] + 0.6))
@@ -154,17 +183,16 @@ def render(fi):
         cnt = int(round(191 + (N_ROWS - 191) * ei3(c01((t - K["s5"]) / (K["n344"] - K["s5"] + 0.3))) ** 0.8))
         img = F.build_image(cnt)
         gain = (0.55 + 0.45 * u) * (1 + 0.8 * max(0.0, 1 - (t - K["n344"]) / 0.5) * (t >= K["n344"]))
-        if t >= K["s7"] - 0.1: gain *= lerp(1.0, 0.12, ss((t - K["s7"] + 0.1) / 1.2))
-        if t >= K["s8"] - 0.1: gain = lerp(gain, 0.05, ss((t - K["s8"] + 0.1) / 0.8))
+        if t >= K["s7"] - 0.1: gain *= lerp(1.0, 0.4, ss((t - K["s7"] + 0.1) / 1.0))
+        if t >= K["s8"] - 0.1: gain = lerp(gain, 0.12, ss((t - K["s8"] + 0.1) / 0.8))
         fr += warp_dome(img, cam) * gain
         draw_bars(fr, cam, op=0.5 * u)
-        thread_hook(fr, t, cam, 0.9 * (1 - ss((t - K["s7"]) / 0.8)), glow=0.6)
         if t < K["s7"]:
             o = win(t, K["s5"] + 0.2, K["s7"], 0.2, 0.3)
             titled(fr, text_layer([fmt(cnt)], font("grot", 170, 700), track=-0.03, glow=8), W / 2, 380, o,
                    1.0 + 0.1 * max(0.0, 1 - (t - K["n344"]) / 0.4) * (t >= K["n344"]))
             titled(fr, text_layer(["LIGAÇÕES ENTRE VERSÍCULOS"], font("mono", 36), color=GOLD, track=0.14), W / 2, 505, o * c01((t - K["n344"]) / 0.3))
-            titled(fr, text_layer(["cada fio é uma referência cruzada real"], font("serifi", 50, 500), color=CREAM), W / 2, 590, win(t, K["fio"] - 0.1, K["s7"], 0.25, 0.3))
+            titled(fr, text_layer(["cada fio é uma referência cruzada real"], font("serifi", 50, 500), color=CREAM), W / 2, 590, win(t, K["n344"] + 0.6, K["s7"], 0.25, 0.3))
     # ---------------- S4-S6 (lines 7-11): the brightest point, Isaiah 9:6, 212 threads, a child
     if t >= K["s7"] - 0.1:
         push = ss((t - K["s7"]) / (K["isa96"] - K["s7"]))
