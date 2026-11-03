@@ -24,18 +24,18 @@ WORK = ROOT / "renders/.film"; WORK.mkdir(parents=True, exist_ok=True)
 SR = 48000
 # (text, gap after) — the subtitles show these texts; the digits are what the voice reads
 LINES = [
-    ("No meio do jardim, a árvore da vida.", 0.55),
+    ("No meio do jardim, a árvore da vida.", 0.45),
     ("Isso é a primeira página da Bíblia.", 0.30),
-    ("E isso... é a última.", 0.55),
-    ("A primeira página toca a última.", 0.70),
+    ("E isso... é a última.", 0.45),
+    ("A primeira página toca a última.", 0.6),
     ("Entre Gênesis e Apocalipse, 191 ligações.", 0.55),
-    ("E a Bíblia inteira tem 344.799.", 0.60),
-    ("Cada fio aqui é uma referência real.", 0.60),
+    ("E a Bíblia inteira tem 344.799.", 0.5),
+    ("Cada fio aqui é uma referência real.", 0.5),
     ("Agora olha o ponto mais brilhante.", 0.55),
     ("De todos os versículos, o mais conectado da Bíblia inteira é esse: Isaías 9:6.", 0.50),
-    ("“Porque um menino nos nasceu, um filho nos foi dado.”", 0.65),
+    ("“Porque um menino nos nasceu, um filho nos foi dado.”", 0.55),
     ("212 versículos apontam pra ele.", 0.50),
-    ("O centro de tudo isso é o nascimento de uma criança.", 0.80),
+    ("O centro de tudo isso é o nascimento de uma criança.", 0.7),
     ("Comenta um versículo. Eu te mostro com quem ele conversa.", 1.40),
 ]
 # what the voice says, word by word (numbers spelled out), aligned to the display text by the SPOKEN list below
@@ -57,6 +57,8 @@ SPOKEN = [
 # display token -> how many spoken words it covers (only where they differ; default 1)
 SPAN = {"191": 5, "344.799.": 11, "9:6.": 2, "212": 3}
 HEAD = 0.12
+# per-line tempo (atempo, pitch kept): exposition fast, the dramatic lines near natural; --tempo scales all
+TEMPO = [1.30, 1.45, 1.35, 1.30, 1.50, 1.52, 1.45, 1.40, 1.48, 1.25, 1.45, 1.30, 1.40]
 
 
 def norm(s):
@@ -104,7 +106,7 @@ def guide():
     write(lines, np.zeros(int(SR * (t + 1)), np.float32), round(t, 3))
 
 
-def take(path, tempo):
+def take(path, tempo_k):
     from faster_whisper import WhisperModel
     model = WhisperModel("large-v3-turbo", device="cpu", compute_type="int8")
     segs, _ = model.transcribe(decode(path, 16000), language="pt", word_timestamps=True, beam_size=5, vad_filter=False,
@@ -125,22 +127,45 @@ def take(path, tempo):
     unmatched = [script[i][1] for i in range(len(script)) if match[i] is None]
     audio = decode(path); hop = int(0.01 * SR)
     rms = np.sqrt(np.convolve(audio ** 2, np.ones(hop) / hop, mode="same")); db = 20 * np.log10(rms + 1e-9)
+    thr = np.percentile(db, 95) - 22
     groups = [[i for i, (li, _) in enumerate(script) if li == n] for n in range(len(LINES))]
     quiet = lambda x, y: (int(x * SR) + int(np.argmin(rms[int(x * SR):int(y * SR)]))) / SR if y > x + 0.02 else x
-    cuts = [0.0] + [quiet(times[g[-1]][1] - 0.1, times[h[0]][0] + 0.12) for g, h in zip(groups[:-1], groups[1:])] + [len(audio) / SR]
-    thr = np.percentile(db, 95) - 20
-    out = np.zeros(int(SR * 90), np.float32); lines, t = [], HEAD
-    for n, (g, x, y) in enumerate(zip(groups, cuts[:-1], cuts[1:])):
+    heard_t0 = np.array([h["t0"] for h in heard]); heard_t1 = np.array([h["t1"] for h in heard])
+    out = np.zeros(int(SR * 120), np.float32); lines, t = [], HEAD
+    for n, g in enumerate(groups):
+        tempo = TEMPO[n] * tempo_k
+        w0, w1 = times[g[0]][0], times[g[-1]][1]
+        prev = heard_t1[heard_t1 <= w0 + 1e-3]; nxt = heard_t0[heard_t0 >= w1 - 1e-3]
+        prev_end = float(prev[prev < w0 - 0.05].max()) if (prev < w0 - 0.05).any() else 0.0
+        next_start = float(nxt[nxt > w1 + 0.05].min()) if (nxt > w1 + 0.05).any() else len(audio) / SR
+        x, y = quiet(max(0.0, prev_end - 0.05), w0 + 0.12), quiet(w1 - 0.1, next_start + 0.12)
         seg_db = db[int(x * SR):int(y * SR)]; loud = np.nonzero(seg_db > thr)[0]
-        s0 = x + max(0, loud[0] - int(0.05 * SR)) / SR; s1 = x + min(len(seg_db), loud[-1] + int(0.12 * SR)) / SR
-        seg = audio[int(s0 * SR):int(s1 * SR)]
+        s0 = x + max(0, loud[0] - int(0.05 * SR)) / SR; s1 = x + min(len(seg_db), loud[-1] + int(0.14 * SR)) / SR
+        seg = audio[int(s0 * SR):int(s1 * SR)].copy()
+        # breathe less: silences inside the line longer than MAXP keep only KEEP
+        MAXP, KEEP = 0.24, 0.12
+        sdb = db[int(s0 * SR):int(s1 * SR)] > thr; keep = np.ones(len(seg), bool); i = 0; removed = []   # (pos_in_seg, length)
+        while i < len(seg):
+            if not sdb[i]:
+                j = i
+                while j < len(seg) and not sdb[j]: j += 1
+                if (j - i) / SR > MAXP:
+                    cut0 = i + int(KEEP * SR / 2); cut1 = j - int(KEEP * SR / 2); keep[cut0:cut1] = False; removed.append((cut0, cut1 - cut0))
+                i = j
+            else: i += 1
+        raw_len = len(seg) / SR; seg = seg[keep]; print(f'  line {n}: raw {raw_len:.2f}s -> {len(seg) / SR:.2f}s, x{tempo:.2f}')
+        def local(tt):   # take time -> position in the compressed segment (s)
+            pos = (tt - s0) * SR
+            for c0, ln in removed:
+                if pos > c0: pos -= min(ln, pos - c0)
+            return max(0.0, pos / SR)
         if abs(tempo - 1) > 1e-6:
-            p = subprocess.run(["ffmpeg", "-v", "error", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "pipe:0", "-af", f"atempo={tempo}", "-f", "f32le", "-"],
-                               input=seg.astype(np.float32).tobytes(), capture_output=True, check=True)
-            seg = np.frombuffer(p.stdout, np.float32).copy()
+            pr = subprocess.run(["ffmpeg", "-v", "error", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "pipe:0", "-af", f"atempo={tempo}", "-f", "f32le", "-"],
+                                input=seg.astype(np.float32).tobytes(), capture_output=True, check=True)
+            seg = np.frombuffer(pr.stdout, np.float32).copy()
         fade = int(0.008 * SR); seg[:fade] *= np.linspace(0, 1, fade); seg[-fade:] *= np.linspace(1, 0, fade)
         out[int(t * SR):int(t * SR) + len(seg)] += seg
-        st = [(round(t + max(0.0, times[i][0] - s0) / tempo, 3), round(t + max(0.0, times[i][1] - s0) / tempo, 3)) for i in g]
+        st = [(round(t + local(times[i][0]) / tempo, 3), round(t + local(times[i][1]) / tempo, 3)) for i in g]
         lines.append({"i": n, "t0": round(t, 3), "t1": round(t + len(seg) / SR, 3), "text": LINES[n][0], "tempo": tempo, "src": [round(s0, 3), round(s1, 3)], "words": display_words(n, st)})
         t += len(seg) / SR + LINES[n][1]
     print("heard", len(heard), "words; unmatched:", unmatched)
