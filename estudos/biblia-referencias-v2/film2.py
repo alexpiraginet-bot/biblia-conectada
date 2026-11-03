@@ -173,7 +173,7 @@ def render(fi):
                 j = GR[q]; poly = arc_poly(A.XA[j], A.XB[j], cam, 1.0, 120)
                 hmul = 0.55 + 0.6 * (q / len(GR)); poly[:, 1] = cam.ay - (cam.ay - poly[:, 1]) * hmul; polys.append(poly)
             draw_arcs(fr, polys, GOLD3 * 0.5, width=1, core=0.9, glow=0.6)
-            o = win(t, K["s4"] + 0.1, K["s5"] + 0.5, 0.2, 0.3)
+            o = win(t, K["s4"] + 0.1, K["s5"] + 0.25, 0.2, 0.25)
             titled(fr, text_layer([fmt(n)], font("grot", 150, 700), track=-0.02, glow=6), W / 2, 500, o)
             titled(fr, text_layer(["ligações entre Gênesis e Apocalipse"], font("serifi", 50, 500), color=CREAM), W / 2, 610, o * c01((t - K["s4"] - 0.3) / 0.3))
     # ---------------- S3 (lines 5-6): pull back, the whole Bible lights up, 344.799
@@ -188,7 +188,7 @@ def render(fi):
         fr += warp_dome(img, cam) * gain
         draw_bars(fr, cam, op=0.5 * u)
         if t < K["s7"]:
-            o = win(t, K["s5"] + 0.2, K["s7"], 0.2, 0.3)
+            o = win(t, K["s5"] + 0.45, K["s7"], 0.2, 0.3)
             titled(fr, text_layer([fmt(cnt)], font("grot", 170, 700), track=-0.03, glow=8), W / 2, 380, o,
                    1.0 + 0.1 * max(0.0, 1 - (t - K["n344"]) / 0.4) * (t >= K["n344"]))
             titled(fr, text_layer(["LIGAÇÕES ENTRE VERSÍCULOS"], font("mono", 36), color=GOLD, track=0.14), W / 2, 505, o * c01((t - K["n344"]) / 0.3))
@@ -219,7 +219,7 @@ def render(fi):
             titled(fr, text_layer([f"{n} versículos apontam pra ele"], font("mono", 34), track=0.04), W / 2, 650, o3)
         if t >= K["crianca"] - 0.15:
             o4 = win(t, K["crianca"] - 0.15, K["s12"] - 0.1, 0.3, 0.3)
-            titled(fr, text_layer(["O centro de tudo", "é o nascimento de uma criança."], font("serifi", 58, 500), color=CREAM, lh=1.08), W / 2, 1290, o4)
+            titled(fr, text_layer(["O centro de tudo", "é o nascimento de uma criança."], font("serifi", 58, 500), color=CREAM, lh=1.08), W / 2, 790, o4)
     # ---------------- S7 (line 12): the call
     if t >= K["s12"] - 0.1:
         o = c01((t - K["s12"] + 0.1) / 0.5)

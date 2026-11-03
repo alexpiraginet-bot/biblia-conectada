@@ -60,7 +60,7 @@ HEAD = 0.12
 # film order of the script lines (the take is cut by script line, then placed in this order); a line left out is dropped
 ORDER = [3, 0, 1, 2, 4, 5, 7, 8, 9, 10, 11, 12]
 # per-line tempo (atempo, pitch kept): exposition fast, the dramatic lines near natural; --tempo scales all
-TEMPO = [1.30, 1.45, 1.35, 1.30, 1.50, 1.52, 1.45, 1.40, 1.48, 1.25, 1.45, 1.30, 1.40]
+TEMPO = [1.22, 1.45, 1.35, 1.30, 1.50, 1.52, 1.45, 1.40, 1.48, 1.25, 1.45, 1.30, 1.40]
 
 
 def norm(s):
