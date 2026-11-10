@@ -5,6 +5,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { formatInt } from "../src/lib/canon/text";
+import { heroArcs, type ChapterLinks } from "../src/lib/home/hero-arcs";
 import { formatBytes, type DadosManifest } from "../src/lib/dados";
 import { checkCommunity } from "./checks/community";
 import { checkExplore } from "./checks/explore";
@@ -65,6 +66,13 @@ const homeNumbers = [
 for (const s of homeNumbers) if (!home.includes(s)) failures.push(`index.html: "${s}" missing`);
 // and says, in the same paragraph as the number, what "ligações" means (HANDOFF §4.2: the convention goes with it)
 const homeRaw = page("index.html");
+// the hero's sky is data: the page says how many arcs it draws and what they are, with the pipeline's numbers
+const heroLinks = JSON.parse(readFileSync(join(OUT.generated, "chapter-links.json"), "utf8")) as ChapterLinks;
+const heroLegend = textOf(/data-hero-legend=""[^>]*>([\s\S]*?)<\/p>/.exec(homeRaw)?.[1] ?? "");
+for (const s of [`${formatInt(heroArcs(heroLinks).length)} arcos`, `${formatInt(summary.counts.books)} livros`, `${formatInt(heroLinks.length)} capítulos`, `${formatInt(summary.counts.arcs)} pares de versículos diferentes`]) {
+  if (!heroLegend.includes(s)) failures.push(`index.html: the hero's legend lacks "${s}"`);
+}
+if ((homeRaw.match(/<h1\b/g) ?? []).length !== 1) failures.push("index.html: the cover must have one h1");
 const definition = textOf(/data-definition=""[^>]*>([\s\S]*?)<\/p>/.exec(homeRaw)?.[1] ?? "");
 for (const s of [homeNumbers[2], homeNumbers[3], "contados uma vez cada", "conta o primeiro versículo"]) {
   if (!definition.includes(s)) failures.push(`index.html: the paragraph that defines "ligações" lacks "${s}"`);
