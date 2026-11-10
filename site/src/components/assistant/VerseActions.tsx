@@ -5,7 +5,8 @@ import styles from "./VerseStudyLink.module.css";
 /** Ordinary links remain useful without JS; the shared host enhances them on click. */
 export function VerseActions({ path, label, connections = true }: { path: string; label: string; connections?: boolean }) {
   const reference = path.replace(/^\//, "");
-  return <span className={styles.actions}>
+  // data-verse-actions: the reader's "Leitura" mode puts these away (components/reader/reader-prefs.css)
+  return <span className={styles.actions} data-verse-actions="">
     {connections && /^[a-z0-9-]+\/[1-9]\d{0,2}\/[1-9]\d{0,2}$/.test(reference) && <a href={`/${reference}`}
       data-connections-ref={reference} data-connections-label={label} aria-haspopup="dialog" className={styles.link}
       aria-label={`Conexões de ${label}`}><span className="i i-arc" aria-hidden="true" />Conexões</a>}

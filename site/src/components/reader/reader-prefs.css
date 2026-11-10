@@ -1,0 +1,24 @@
+/* The reader's own way of reading (lib/reader-prefs.ts; the attributes are on <html> before the first paint). Global
+   on purpose: both readers and every list of Scripture follow it. tests/reader-prefs.test.ts keeps the factors below
+   equal to TEXT_SCALE. */
+
+/* the size of the Bible text, wherever it is read (ds.css .bc-scripture multiplies by it) */
+html[data-texto="-1"] { --leitor-escala: 0.9; }
+html[data-texto="1"] { --leitor-escala: 1.12; }
+html[data-texto="2"] { --leitor-escala: 1.25; }
+html[data-texto="3"] { --leitor-escala: 1.4; }
+
+/* Leitura: the chapter is its text and its verse numbers. Each verse's actions, its count of links and the pager above
+   the text wait in Estudo; the pager under the text, the panel of the chapter's links and the selection bar stay. */
+html[data-leitor="leitura"] ol[data-reader] [data-verse-actions],
+html[data-leitor="leitura"] ol[data-reader] .bc-verse__links,
+html[data-leitor="leitura"] .bc-pager[data-where="topo"] {
+  display: none;
+}
+
+/* The chapter's reading marks ("Marcar capítulo lido") come before the text in Estudo and after it in Leitura, where a
+   chapter that was read is marked; the page carries both and shows one. */
+html:not([data-leitor="leitura"]) [data-reading-place="fim"],
+html[data-leitor="leitura"] [data-reading-place="topo"] {
+  display: none;
+}

@@ -454,7 +454,8 @@
   padding: 0;
   list-style: none;
   font-family: var(--font-reading);
-  font-size: clamp(1.1875rem, 1.05rem + 0.35vw, 1.3125rem);
+  /* the reader's own size for the Bible text (lib/reader-prefs.ts, reader-prefs.css); 1 when none was chosen */
+  font-size: calc(clamp(1.1875rem, 1.05rem + 0.35vw, 1.3125rem) * var(--leitor-escala, 1));
   line-height: 1.75;
   color: var(--ink-reading);
   font-variant-numeric: proportional-nums;

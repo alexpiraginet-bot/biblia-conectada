@@ -11,6 +11,7 @@ import { InstallHost } from "@/components/install/InstallHost";
 import { RewardsHost } from "@/components/rewards/RewardsHost";
 import { ReadingProgressHost } from "@/components/reading-progress/ReadingProgressHost";
 import { PAGE_SEARCH_SCRIPT } from "@/components/search/page-search-script";
+import { READER_PREFS_SCRIPT } from "@/lib/reader-prefs";
 import { SiteShell } from "@/components/shell/NavLinks";
 import { SectionRail, TabBar } from "@/components/shell/Navigation";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_SHORT_NAME, SITE_URL } from "@/lib/site-identity";
@@ -78,7 +79,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <link rel="apple-touch-icon" href="/icons/apple-touch-icon-180-v2.png" sizes="180x180" type="image/png" />
         <link rel="manifest" href="/manifest.webmanifest" />
-        <script dangerouslySetInnerHTML={{ __html: `${THEME_SCRIPT};${PAGE_SEARCH_SCRIPT};${VERSE_INTENT_SCRIPT}` }} />
+        <script dangerouslySetInnerHTML={{ __html: `${THEME_SCRIPT};${READER_PREFS_SCRIPT};${PAGE_SEARCH_SCRIPT};${VERSE_INTENT_SCRIPT}` }} />
       </head>
       <body className="bc-root">
         <VerseIntentFeedback />

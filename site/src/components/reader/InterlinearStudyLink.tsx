@@ -7,7 +7,7 @@ import styles from "@/components/assistant/VerseStudyLink.module.css";
 export function InterlinearStudyLink({ path, label }: { path: string; label: string }) {
   const href = interlinearPathForReading(path);
   if (!href) return null;
-  return <Link href={href} prefetch={false} className={styles.link} aria-label={`${label}, palavra por palavra`}>
+  return <Link href={href} prefetch={false} className={styles.link} data-verse-actions="" aria-label={`${label}, palavra por palavra`}>
     Palavra por palavra <span aria-hidden="true">↗</span>
   </Link>;
 }

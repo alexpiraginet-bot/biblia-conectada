@@ -6,6 +6,7 @@ import { ChapterText } from "@/components/reader/ChapterText";
 import { SelectionScope } from "@/components/reader/SelectionBar";
 import { VerseFocus } from "@/components/reader/VerseFocus";
 import { EditionChoice } from "@/components/reader/EditionChoice";
+import { ReaderPrefs } from "@/components/reader/ReaderPrefs";
 import { ChapterReadingControls } from "@/components/reading-progress/ReadingControls";
 import styles from "@/components/reader/reader.module.css";
 import { books } from "@/lib/data";
@@ -64,11 +65,13 @@ export default async function ChapterLayout({ params, children }: LayoutProps<"/
             {chapterMeta(verses.length, counts[chapter - 1], partners.length)}
           </p>
           <EditionChoice current="blivre" slug={book.slug} chapter={chapter} />
-          <ChapterReadingControls path={`/${book.slug}/${chapter}`} label={`${book.name} ${chapter}`} />
+          <ReaderPrefs />
+          <ChapterReadingControls path={`/${book.slug}/${chapter}`} label={`${book.name} ${chapter}`} place="topo" />
           <ChapterPager prev={withPairs(prev)} next={withPairs(next)} where="topo" />
           <SelectionScope slug={book.slug} bookName={book.name} chapter={chapter}>
             <ChapterText book={book} chapter={chapter} verses={verses} />
           </SelectionScope>
+          <ChapterReadingControls path={`/${book.slug}/${chapter}`} label={`${book.name} ${chapter}`} place="fim" />
           <ChapterPager prev={withPairs(prev)} next={withPairs(next)} where="fim" />
         </article>
         {children}

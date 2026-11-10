@@ -157,7 +157,7 @@
 .verse .vnum {
   grid-column: 1;
   margin: 0;
-  line-height: calc(var(--fs-scripture) * var(--lh-scripture));
+  line-height: calc(var(--fs-scripture) * var(--lh-scripture) * var(--leitor-escala, 1));
   text-align: right;
   vertical-align: baseline;
   user-select: none;
