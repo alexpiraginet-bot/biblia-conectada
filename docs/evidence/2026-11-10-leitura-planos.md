@@ -8,6 +8,8 @@ Segunda rodada na branch `claude/melhorias-app-cristao-hio0um`, sobre o commit d
 
 Tudo abaixo foi rodado nesta data, neste ambiente (contêiner Linux, Node 22.23.4, Chromium do Playwright). O que não foi conferido está no fim.
 
+**Atualização, mesmo dia:** uma revisão independente deste código achou 12 defeitos, corrigidos na rodada seguinte ([evidência](2026-11-10-hero-contexto-revisao.md)). Este arquivo fica como registro do estado em `3103208`. Mudaram depois: o corte das porções (a tabela de números dos planos abaixo é a desta rodada; a atual está na evidência seguinte), a frase da capa dos planos, o que acontece com quem já segue um plano ao abrir a página, e onde o tamanho do texto vale.
+
 ## Comandos e resultados
 
 Em `site/`:
@@ -105,7 +107,7 @@ Roteiro Playwright nos mesmos quatro contextos: **244 de 244**, sem erro de pág
 - **365 porções em 375 px:** sem rolagem lateral, nenhuma linha estourando; `#dia-200` abre abaixo da barra do app.
 - Alvos de 44 px no cartão e contraste ≥ 4,5:1 em todo texto visível do plano e da lista.
 
-Números dos planos, como as páginas os mostram (contados por `planFigures`; conferidos pelo `check-dist` contra o HTML):
+Números dos planos, como as páginas os mostravam nesta rodada (contados por `planFigures`; conferidos pelo `check-dist` contra o HTML):
 
 | Plano | Dias | Capítulos | Versículos | Mín. / mediana / máx. por dia |
 | --- | --- | --- | --- | --- |

@@ -16,6 +16,21 @@ Escrito pelo Claude a pedido do Alex: "Prepare handoff para o códex seguir". Da
 
 ## 2. Estado e continuidade
 
+### Hero da capa, contexto do versículo e correções da revisão — 10/11
+
+Mesma branch, sobre `3103208`. A capa abre com o **céu de arcos** feito dos dados (um arco por capítulo, ao capítulo mais ligado a ele), sobre o vale e com o título de 01/11; as esferas de cristal viraram a segunda cena. O painel do versículo mostra o **versículo anterior e o seguinte**, e **"Contexto"** abre os de antes e os de depois no diálogo dos versículos, também em cada versículo ligado ([CONTEXTO.md](CONTEXTO.md)). Uma **revisão independente** da rodada anterior achou 12 defeitos, todos corrigidos ([evidência](evidence/2026-11-10-hero-contexto-revisao.md), com a tabela). Direção em `design/README.md` §25 e §26.
+
+Validação local no código final: tipos, lint, build com 1.388 testes e `check-dist` em 3.858 páginas, orçamento com `/arcos` em 168.905 B (**55 B de margem**) e 812 verificações no Chromium em 375/1440, Noite e Dia. Para quem mexer nisto:
+
+- **`VerseActions` está no JS inicial de `/arcos`.** Qualquer byte a mais ali estoura o teto; por isso "Contexto" é um componente separado (`VerseContextLink`). Meça antes de tocar em `VerseActions`.
+- **No `next dev` o diálogo dos versículos abre e fecha sozinho** (Conexões, Compartilhar, estudo e Contexto): o modo estrito roda o efeito duas vezes e o `close()` da limpeza chega depois da reabertura. Teste esses diálogos com `npm run build` e `next start`. Corrigir isso ficou fora desta entrega; a hipótese, não testada, é que o padrão do `NoteDialog` (ignorar o `close` causado pela própria limpeza do efeito) resolve em `VerseDialog.tsx`.
+- **Para parar o servidor de produção local, mate `next-server`**, não `next start`: nesta rodada um servidor antigo ficou preso à porta depois de um build novo, as páginas vieram sem estilo e os roteiros falharam de modo confuso.
+- **Um cartão que muda de tamanho depois de uma ação precisa de um período de silêncio:** o segundo clique de um duplo clique cai no que acabou de chegar sob o ponteiro. O plano ignora toques por 700 ms depois de cada ação.
+- **`display: contents` tira a caixa do elemento:** num link, some o alvo de toque e o anel de foco. A regra das ações do versículo vale só para o `span` contêiner.
+- O desenho do hero vai duas vezes no HTML da capa (marcação e dados da página). Se o peso incomodar, o caminho é gerar as quatro camadas como arquivos estáticos e aceitar que o céu apareça depois da primeira pintura.
+
+Sem Safari, aparelho físico, leitor de tela nem Lighthouse; o hero e o contexto não passaram por um segundo revisor.
+
 ### Rascunhos da anotação, modo Leitura e planos de leitura — 10/11
 
 Mesma branch, sobre `f98a875`. Três entregas: o diálogo de anotação do Caderno deixou de travar a página no segundo Escape e passou a guardar o texto não guardado como **rascunho** ([CADERNO.md](CADERNO.md), "Rascunhos"); o capítulo ganhou **Estudo | Leitura** e **A− A+**, nas duas edições, com a escolha aplicada antes da primeira pintura ([LEITURA.md](LEITURA.md)); e `/planos` traz cinco **planos de leitura** com porções cortadas por código, que avançam com o progresso pessoal de leitura ([PLANOS.md](PLANOS.md)). [Evidências e o que não foi verificado](evidence/2026-11-10-leitura-planos.md); direção em `design/README.md` §23 e §24.

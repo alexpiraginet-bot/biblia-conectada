@@ -555,3 +555,26 @@ A Bíblia em porções diárias, acompanhadas pelo que a pessoa marca como lido.
 - **Estável:** o cartão chega do servidor no tamanho do estado inicial e a marca "seguindo", em `/planos`, é uma palavra ao lado do nome. Nada se move quando a página acorda.
 - **Navegação:** "Planos de leitura" entra no menu, em Minha jornada, com o ícone de calendário; não entra no trilho.
 
+## 25. Hero da capa: o céu de arcos (10/11/2026)
+
+Pedido do Alex: "um hero que vai impressionar qualquer um que entrar". A primeira tela da capa passou a ser o céu das ligações da Bíblia, desenhado com os dados, nascendo do horizonte do vale aprovado em 01/11. O título, a frase e os botões são os aprovados; as esferas de cristal vêm logo abaixo, intactas. Código: `components/home/HeroSky.tsx` e `lib/home/hero-arcs.ts`.
+
+- **A imagem é dado, não ilustração.** A linha do horizonte é a Bíblia em ordem, um ponto por capítulo. Cada capítulo ganha um arco até o capítulo com mais versículos ligados a ele (o primeiro da lista de `chapter-links.json`); dois capítulos que se escolhem dividem um arco. A legenda sob os botões diz quantos arcos são e de onde vêm, com números contados.
+- **Cores do céu 3D.** A paleta é a "Dourado e violeta" com que o céu 3D abre (`sculpture/arcs.ts`): ligações próximas em azul e violeta, médias em rosa, as que atravessam a Bíblia em ouro champagne. O hero é a mesma promessa do céu 3D, vista de frente.
+- **Nasce uma vez.** Ao abrir, o céu sobe do horizonte em quatro camadas, das ligações próximas às mais longas, em cerca de três segundos, e para. Sem laço, sem pausa necessária, sem JavaScript; com movimento reduzido, o céu já está inteiro.
+- **Uma ideia por tela.** Céu, título, uma frase, a ação principal ("Começar a ler") e dois caminhos. A legenda dos dados fica logo abaixo da primeira tela. As esferas ("Uma passagem leva a outra.") são a cena seguinte.
+- **Horizonte com nomes:** o primeiro livro, o primeiro do Novo Testamento na posição real dele e o último. Dão sentido à linha sem explicar.
+- **Dia parece dia:** no tema Dia o vale fica claro e os arcos ganham corpo (mais opacos e mais escuros) para se lerem sobre o céu claro; o texto usa a tinta bordô da abertura.
+- **Contraste medido sobre a imagem pintada:** o pior pixel atrás de cada texto contra a cor do texto. Título e frase passam de 4,5:1 nos dois temas, menos a segunda linha do título em Dia a 375 px (4,39:1), que é texto grande e passa a regra de 3:1. Números na evidência.
+- **Custo:** nenhum JavaScript. O desenho vai no HTML da capa, que ficou maior (ver evidência).
+
+## 26. Contexto do versículo (10/11/2026)
+
+O versículo escolhido entre os de antes e os de depois. Regras: [`docs/CONTEXTO.md`](../docs/CONTEXTO.md).
+
+- **No painel, um relance:** o versículo anterior acima e o seguinte abaixo do escolhido, em Literata um degrau menor e em `ink-2`, com no máximo duas linhas. São links com alvo de 44px; o toque abre o contexto inteiro.
+- **No diálogo, uma superfície de leitura:** o escolhido maior e sobre `highlight`, com o número em `accent`; os vizinhos na mesma Literata, um degrau abaixo. Tamanho e caixa dizem qual é o escolhido; a cor só repete.
+- **"Contexto" é a primeira ação** do versículo e de cada versículo ligado, na mesma linha e no mesmo estilo das outras ações.
+- **Mais contexto é uma escolha:** dois botões secundários, "Mostrar versículos anteriores" e "Mostrar versículos seguintes". Nos limites do livro, uma frase toma o lugar do botão.
+- **Sem moldura nova:** o diálogo é o mesmo de Conexões, estudo e compartilhamento, com o sobretítulo "Antes e depois".
+
