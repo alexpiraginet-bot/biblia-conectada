@@ -1,6 +1,6 @@
 import credits from "@/data/generated/credits.json";
 import tokens from "@/styles/tokens.json";
-import { NIGHT_MODE_ONLY, THEME_SCRIPT } from "@/components/header/theme";
+import { FIRST_THEME, THEME_COLOR, THEME_SCRIPT } from "@/components/header/theme";
 import { SITE_NAME, SITE_URL } from "./site-identity";
 import { getTranslation } from "./translations";
 import { safeContentPath } from "./app-links";
@@ -25,7 +25,7 @@ export function installPageHtml(next?: string | null, apps: NativeAppLinks = { i
   const appId = appleStoreId(apps.ios);
   const nbv = getTranslation("open-nbv")!;
   return `<!doctype html>
-<html lang="pt-BR" data-theme="${NIGHT_MODE_ONLY ? "noite" : "sistema"}">
+<html lang="pt-BR" data-theme="${FIRST_THEME}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -40,8 +40,8 @@ ${appId ? `<meta name="apple-itunes-app" content="app-id=${appId}, app-argument=
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="canonical" href="${home}/instalar">
 <meta name="description" content="Leve a ${name} para a Tela de Início no iPhone, iPad ou Android, sem perder o caminho da sua leitura.">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="${tokens.color.tokens.find((token) => token.name === "ground")!.value[NIGHT_MODE_ONLY ? "noite" : "dia"]}">
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="${tokens.color.tokens.find((token) => token.name === "ground")!.value.noite}">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="${FIRST_THEME === "sistema" ? THEME_COLOR.dia : THEME_COLOR[FIRST_THEME]}">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="${FIRST_THEME === "sistema" ? THEME_COLOR.noite : THEME_COLOR[FIRST_THEME]}">
 <script>${THEME_SCRIPT}</script>
 <style>
 :root{${colors("noite")};${dimensions};color-scheme:dark}
