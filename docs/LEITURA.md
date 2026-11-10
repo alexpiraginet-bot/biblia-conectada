@@ -61,7 +61,7 @@ Marcadores no HTML que o CSS usa: `ol[data-reader]` (a lista de versículos), `[
 ## Fora desta entrega
 
 - Escolha de fonte, espaçamento entre linhas e largura da coluna.
-- Tema por horário ou tema sépia (o tema público continua sendo Noite).
+- Tema por horário ou tema sépia (o app abre no tema claro; Noite e Sistema são escolhas de quem lê, no controle de aparência).
 - Esconder os números dos versículos.
 - O tamanho no painel do versículo, no lado a lado, em temas e em palavras (ver "Onde o tamanho vale").
 - Modo Leitura fora dos dois leitores de capítulo.

@@ -16,6 +16,14 @@ Escrito pelo Claude a pedido do Alex: "Prepare handoff para o códex seguir". Da
 
 ## 2. Estado e continuidade
 
+### Tema claro como padrão — 10/11
+
+Mesma branch, sobre `1e1bc5f`. A pedido do Alex, o app abre em **Dia** para todo mundo; **Noite** e **Sistema** são escolhas de quem lê. `NIGHT_MODE_ONLY` está desligada e continua no código como caminho de volta; o padrão é `DEFAULT_CHOICE` em `site/src/components/header/theme.ts`, e tudo que decide o tema de abertura (primeiro HTML, script do `<head>`, página de instalação, metas de cor, manifesto) lê dali. [Evidência](evidence/2026-11-10-tema-claro.md); direção em `design/README.md` §27.
+
+- **`/arcos` ficou a 43 B do teto de JS** (168.917 B): a troca do tema custou 12 B no que todas as páginas carregam.
+- Nos roteiros de QA, o contexto "Noite" agora guarda `theme=noite` antes de cada carga; aplicar `data-theme` por cima depois da carga, como se fazia para o Dia, não é mais necessário.
+- A varredura de contraste do tema claro mede texto sobre cor sólida. Texto sobre imagem (67 por largura, 33 deles na capa) precisa de medição sobre a imagem pintada, como foi feito para o hero.
+
 ### Hero da capa, contexto do versículo e correções da revisão — 10/11
 
 Mesma branch, sobre `3103208`. A capa abre com o **céu de arcos** feito dos dados (um arco por capítulo, ao capítulo mais ligado a ele), sobre o vale e com o título de 01/11; as esferas de cristal viraram a segunda cena. O painel do versículo mostra o **versículo anterior e o seguinte**, e **"Contexto"** abre os de antes e os de depois no diálogo dos versículos, também em cada versículo ligado ([CONTEXTO.md](CONTEXTO.md)). Uma **revisão independente** da rodada anterior achou 12 defeitos, todos corrigidos ([evidência](evidence/2026-11-10-hero-contexto-revisao.md), com a tabela). Direção em `design/README.md` §25 e §26.

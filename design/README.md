@@ -102,9 +102,9 @@ Use sempre o token, nunca a cor. Cada tema dá todos os valores sem apontar um t
 
 ## 3.1 Temas
 
-- **Primeira visita:** segue `prefers-color-scheme` (claro: Dia; escuro ou sem ajuste: Noite). Escolha do Alex em 19/10.
-- **Menu de aparência** na barra superior: Sistema, Dia e Noite (`site/src/components/header/Appearance.tsx`). Dia e Noite ficam guardados no aparelho (`localStorage` `theme`); Sistema apaga a escolha.
-- O tema vai como `data-theme` no `<html>` e no `<body>` e é aplicado antes da primeira pintura (script no `<head>`; nas 404 montadas no navegador, um efeito de layout). Sem escolha, o `<body>` recebe a própria cópia dos valores, então uma troca do ajuste do aparelho também recalcula a página inteira.
+- **Primeira visita:** Dia, para todo mundo, qualquer que seja o ajuste do aparelho. Pedido do Alex em 10/11 (§27). Antes seguia `prefers-color-scheme` (escolha de 19/10) e, sob a trava de 01/11, era Noite para todos.
+- **Menu de aparência** na barra superior: Sistema, Dia e Noite (`site/src/components/header/Appearance.tsx`). A escolha fica guardada no aparelho (`localStorage` `theme`), inclusive Sistema, que segue `prefers-color-scheme`.
+- O tema vai como `data-theme` no `<html>` e no `<body>` e é aplicado antes da primeira pintura (script no `<head>`; nas 404 montadas no navegador, um efeito de layout). Em Sistema, o `<body>` recebe a própria cópia dos valores, então uma troca do ajuste do aparelho também recalcula a página inteira.
 - Todo componente com fundo próprio define a própria cor de texto (folha, busca, menus). Texto não herda cor através de uma superfície flutuante.
 - Medalhões são ouro sobre azul-marinho nos dois temas, como moedas gravadas; no Dia, o anel `line` os assenta no pergaminho.
 
@@ -577,4 +577,15 @@ O versículo escolhido entre os de antes e os de depois. Regras: [`docs/CONTEXTO
 - **"Contexto" é a primeira ação** do versículo e de cada versículo ligado, na mesma linha e no mesmo estilo das outras ações.
 - **Mais contexto é uma escolha:** dois botões secundários, "Mostrar versículos anteriores" e "Mostrar versículos seguintes". Nos limites do livro, uma frase toma o lugar do botão.
 - **Sem moldura nova:** o diálogo é o mesmo de Conexões, estudo e compartilhamento, com o sobretítulo "Antes e depois".
+
+## 27. Tema claro como padrão (10/11/2026)
+
+Pedido do Alex: "por padrão o tema claro para o app; escuro só se o cliente mudar". Código: `site/src/components/header/theme.ts`.
+
+- **O app abre em Dia para todo mundo,** inclusive num aparelho configurado para escuro. Antes o padrão seguia o aparelho (escolha de 19/10, §3.1) e, sob a trava de 01/11, era Noite para todos.
+- **Noite e Sistema são escolhas de quem lê,** no controle de aparência, guardadas no aparelho. Quem já tinha escolhido continua com a escolha.
+- **Um lugar só decide:** o primeiro HTML, o script antes da pintura, a página de instalação, as cores da barra do navegador e o manifesto do app instalado usam `DEFAULT_CHOICE`.
+- **A trava continua existindo, desligada:** `NIGHT_MODE_ONLY` volta a Noite para todos numa linha, sem apagar escolhas.
+- **O que continua noturno nos dois temas:** as janelas do céu (§3).
+- **Conferido:** varredura de contraste do tema claro em 35 rotas e nos fluxos das entregas de 10/11; evidência em `docs/evidence/2026-11-10-tema-claro.md`, com o que não foi verificado.
 

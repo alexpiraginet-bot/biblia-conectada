@@ -8,6 +8,8 @@ Terceira rodada na branch `claude/melhorias-app-cristao-hio0um`, sobre `3103208`
 
 Tudo abaixo foi rodado nesta data, neste ambiente (contêiner Linux, Node 22.23.4, Chromium do Playwright), sobre o código final. O que não foi conferido está no fim.
 
+**Atualização, mesmo dia:** este arquivo é o registro do estado em `1e1bc5f`, quando o tema público era Noite. Na rodada seguinte o tema claro (Dia) passou a ser o padrão do app ([evidência](2026-11-10-tema-claro.md)); onde se lê abaixo "o tema público é Noite", vale o que está lá.
+
 ## Comandos e resultados
 
 Em `site/`:
