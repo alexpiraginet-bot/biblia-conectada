@@ -67,7 +67,7 @@ describe("reserved segments", () => {
 
 describe("navigation", () => {
   it("exposes every section through one complete menu without duplicate destinations", () => {
-    const expected = ["/", "/liturgia", "/ler", "/ler/open-nbv", "/interlinear", "/coracao", "/assistente", "/buscar", "/explorar", "/arcos", "/arcos/plano", "/caminhos", "/cronologia", "/linha-do-tempo", "/tema", "/palavra", "/conexao/isaias-9/lucas-2", "/jornada", "/ponte", "/trilha", "/mesa", "/caderno", "/dados", "/sobre", "/instalar", "/qr", "/#como-funciona", "/#sua-jornada"];
+    const expected = ["/", "/liturgia", "/ler", "/ler/open-nbv", "/interlinear", "/coracao", "/assistente", "/buscar", "/explorar", "/arcos", "/arcos/plano", "/caminhos", "/cronologia", "/linha-do-tempo", "/tema", "/palavra", "/conexao/isaias-9/lucas-2", "/jornada", "/ponte", "/trilha", "/planos", "/mesa", "/caderno", "/dados", "/sobre", "/instalar", "/qr", "/#como-funciona", "/#sua-jornada"];
     expected.push("/apoie");
     expect(new Set(MOBILE_MENU.map((n) => n.href))).toEqual(new Set(expected));
     expect(new Set(NAV.map((n) => n.href)).size).toBe(NAV.length);
@@ -170,6 +170,8 @@ describe("current navigation item", () => {
     ["/sobre", "/sobre"],
     ["/conexao/isaias-9/lucas-2", "/conexao/isaias-9/lucas-2"],
     ["/trilha/antes-do-natal/3", "/trilha"],
+    ["/planos", "/planos"],
+    ["/planos/biblia-em-um-ano", "/planos"],
     ["/mesa", "/mesa"],
     ["/tema/luz", "/tema"],
     ["/palavra/luz", "/palavra"],

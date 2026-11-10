@@ -104,3 +104,5 @@
   .automatic > p, .automatic details { margin-left: 0; }
 }
 @media (prefers-reduced-motion: reduce) { .section *, .section *::before, .section *::after { scroll-behavior: auto !important; transition: none !important; } }
+.plans { margin: 14px 0 0; color: var(--ink-2); font: 400 14px/1.5 var(--font-ui); }
+.plans a { color: var(--accent); font-weight: 600; }

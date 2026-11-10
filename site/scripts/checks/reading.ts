@@ -2,8 +2,8 @@
 // every prerendered chapter and verse page is the one computed from the generated book files (CLAUDE.md rule 3):
 // the books' and chapters' links, the chapter list and pager counts, the meta line, the seal, each verse's links pill,
 // the panel headline and its "Mais ligados" rows; every link of a verse panel carries its whole BLIVRE text; the panel
-// links follow the /conexao and /explorar contracts, the crumbs name the book group, and /salvos and /caderno ship
-// their static shells.
+// links follow the /conexao and /explorar contracts, the crumbs name the book group, /salvos and /caderno ship
+// their static shells, and every reading plan is prerendered with the portions and figures counted from the canon.
 import { readFileSync } from "node:fs";
 import { join, sep } from "node:path";
 import { createGrid } from "../../src/lib/canon/grid";
@@ -12,6 +12,7 @@ import type { Book } from "../../src/lib/canon/types";
 import { rankLinkedChapters, type LinkedChapter } from "../../src/lib/chapter-rank";
 import { conexaoPath } from "../../src/lib/conexao";
 import { chapterHeadline, chapterMeta, linksLabel, mostLinkedRows, testamentName, verseHeadline, votesLabel } from "../../src/lib/from-here";
+import { planFigures, planPortions, PLANS, portionLabel } from "../../src/lib/planos/model";
 import { OUT, SITE } from "../data/sources";
 
 type BookFile = { chapters: { t: string; l: [number, number, number][] }[][] };
@@ -280,5 +281,31 @@ export function checkReading({
     if (!caderno.includes(said)) failures.push(`caderno.html: "${said}" is missing from the static shell`);
   }
 
-  return `reading numbers on /ler, ${books_} book pages, ${chapters} chapter and ${verses} verse pages (titles, meta lines, chapter lists, pagers, pills, headlines, rows with their texts and panel links)`;
+  // reading plans: each plan's page has every portion, and each figure is the one counted from the portions
+  const plansIndex = html.includes("planos.html") ? textOf(read("planos.html")) : "";
+  if (!plansIndex) failures.push("[reading] planos.html was not prerendered");
+  let portionsChecked = 0;
+  for (const plan of PLANS) {
+    const rel = join("planos", `${plan.id}.html`);
+    const portions = planPortions(plan, books);
+    const f = planFigures(portions);
+    const line = `${formatInt(f.days)} dias · ${formatInt(f.chapters)} capítulos · cerca de ${formatInt(f.versesPerDay.median)} versículos por dia`;
+    if (plansIndex && (!plansIndex.includes(plan.title) || !plansIndex.includes(line))) failures.push(`planos.html: "${plan.title}" or its figures (${line}) are missing`);
+    if (!html.includes(rel)) {
+      failures.push(`[reading] ${rel} was not prerendered`);
+      continue;
+    }
+    const raw = read(rel);
+    const days = raw.match(/<li[^>]*\sdata-day="\d+"/g)?.length ?? 0;
+    if (days !== plan.days) failures.push(`${rel}: ${days} portions in the page, expected ${plan.days}`);
+    const text = textOf(raw);
+    const figures = `${formatInt(f.days)} porções · ${formatInt(f.chapters)} capítulos de ${formatInt(f.books)} ${f.books === 1 ? "livro" : "livros"} · ${formatInt(f.verses)} versículos · de ${formatInt(f.versesPerDay.min)} a ${formatInt(f.versesPerDay.max)} versículos por dia, com mediana de ${formatInt(f.versesPerDay.median)}`;
+    if (!text.includes(figures)) failures.push(`${rel}: the figures line is not "${figures}"`);
+    for (const p of [portions[0], portions[portions.length >> 1], portions[portions.length - 1]]) {
+      if (!text.includes(portionLabel(p, books))) failures.push(`${rel}: the portion of day ${p.day} (${portionLabel(p, books)}) is missing`);
+    }
+    portionsChecked += days;
+  }
+
+  return `${PLANS.length} reading plans with ${formatInt(portionsChecked)} portions; reading numbers on /ler, ${books_} book pages, ${chapters} chapter and ${verses} verse pages (titles, meta lines, chapter lists, pagers, pills, headlines, rows with their texts and panel links)`;
 }

@@ -26,6 +26,7 @@ export const NAV: readonly NavItem[] = [
   { href: "/jornada", label: "Minha jornada", icon: "check", group: "Minha jornada", description: "Seu ritmo de leitura e descobertas" },
   { href: "/ponte", label: "Ponte", icon: "bridge", rail: true, group: "Minha jornada", description: "Descubra a ligação do dia", nested: true },
   { href: "/trilha", label: "Trilhas", icon: "map", group: "Minha jornada", description: "Percursos guiados de leitura", nested: true },
+  { href: "/planos", label: "Planos de leitura", icon: "calendar", group: "Minha jornada", description: "A Bíblia em porções diárias", nested: true },
   { href: "/mesa", label: "Mesa", icon: "both", group: "Minha jornada", description: "Reúna e compare passagens" },
   { href: "/caderno", label: "Caderno", icon: "bookmark", rail: true, group: "Minha jornada", description: "Grifos, notas e trechos salvos", pages: ["/salvos"] },
   { href: "/#sua-jornada", label: "Descobertas", icon: "check", group: "Minha jornada", description: "Aprenda com os desafios" },

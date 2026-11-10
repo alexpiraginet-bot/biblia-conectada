@@ -79,7 +79,7 @@ describe("public-content routing contract", () => {
   it.each([
     "/api", "/api/coracao", "/api/jornada", "/_next/static/app.js", "/.well-known/assetlinks.json",
     "/instalar", "/instalar?next=/joao/3/16", "/og?book=joao", "/files/image.png", "/data/books.json",
-    "/dados", "/dados/v1/books.json", "/admin", "/admin/settings", "/salvos", "/caderno", "/caderno?x=1", "/jornada", "/mesa",
+    "/dados", "/dados/v1/books.json", "/admin", "/admin/settings", "/salvos", "/caderno", "/caderno?x=1", "/jornada", "/planos", "/planos/biblia-em-um-ano", "/mesa",
     "/private", "/config", "/unknown", "/ler/unknown", "/manifest.webmanifest", "/apple-icon.png",
   ])("keeps infrastructure, local/private state and unknown routes on the web: %s", (url) => {
     expect(opensNative(url)).toBe(false);

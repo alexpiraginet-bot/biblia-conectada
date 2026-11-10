@@ -1,0 +1,353 @@
+/* Reading plans (/planos and /planos/[plano]): a Read page with one action, the next portion. Titles, lede, buttons
+   and the index list are the design system's (src/styles/ds.css); this file holds the tracker card and the list of
+   portions. Tokens only. */
+
+.page > :global(.bc-lede) {
+  max-width: 38rem;
+}
+
+.figures {
+  max-width: 44rem;
+  margin: var(--space-3) 0 0;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+  text-wrap: pretty;
+}
+
+.how {
+  max-width: 38rem;
+  margin: var(--space-6) 0 0;
+  color: var(--ink-2);
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  text-wrap: pretty;
+}
+
+.how a,
+.note a,
+.problem a {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ---- the index */
+
+.plans {
+  max-width: 48rem;
+  margin-top: var(--space-6);
+}
+
+.plans > li > a {
+  flex-wrap: wrap;
+}
+
+.planName {
+  display: grid;
+  gap: var(--space-1);
+  flex: 1 1 18rem;
+  min-width: 0;
+}
+
+.planSays {
+  color: var(--ink-2);
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+}
+
+.planCount {
+  color: var(--ink-2);
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  font-variant-numeric: tabular-nums;
+}
+
+/* a plan followed on this device: said in a word beside its name */
+.following {
+  margin-left: var(--space-2);
+  color: var(--accent);
+  font: 600 var(--fs-label) / var(--lh-label) var(--font-ui);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ---- the tracker: what this device knows about the plan */
+
+.tracker {
+  max-width: 48rem;
+  margin-top: var(--space-5);
+}
+
+.card {
+  display: grid;
+  gap: var(--space-3);
+  margin-bottom: var(--space-7);
+  padding: var(--space-4) var(--space-5) var(--space-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  background: var(--raised);
+}
+
+.card > * {
+  margin: 0;
+}
+
+.cardTitle:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+.cardTitle {
+  color: var(--ink-2);
+  font: 600 var(--fs-ui) / var(--lh-ui) var(--font-ui);
+  font-variant-numeric: tabular-nums;
+}
+
+.nextLabel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-3);
+  color: var(--ink);
+  font: 440 var(--fs-title) / var(--lh-title) var(--font-display);
+  font-synthesis: none;
+  text-wrap: balance;
+}
+
+.nextCount {
+  color: var(--ink-2);
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  font-variant-numeric: tabular-nums;
+}
+
+.chapters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: 0;
+  list-style: none;
+}
+
+.chapter {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--target);
+  padding: 0 var(--space-3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  color: var(--ink);
+  font: 500 var(--fs-ui) / var(--lh-ui) var(--font-ui);
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+}
+
+/* hover only where there is a pointer that hovers: on a phone it would stay on the chapter last touched */
+@media (hover: hover) {
+  .chapter:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .portionLink:hover {
+    color: var(--accent);
+  }
+}
+
+/* a chapter already read: said in words, the lighter ink only repeats it */
+.chapter[data-read] {
+  border-color: var(--line);
+  color: var(--ink-2);
+}
+
+.chapterRead,
+.readMark,
+.nextMark {
+  font: 600 var(--fs-label) / var(--lh-label) var(--font-ui);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.chapterRead,
+.readMark {
+  color: var(--ink-2);
+}
+
+.nextMark {
+  color: var(--accent);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.note,
+.problem,
+.said {
+  max-width: 40rem;
+  color: var(--ink-2);
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  text-wrap: pretty;
+}
+
+.problem,
+.said {
+  color: var(--ink);
+}
+
+.said:empty {
+  display: none;
+}
+
+.editions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 var(--space-4);
+  min-width: 0;
+  padding: var(--space-3) 0 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+.editionsLabel {
+  float: left;
+  margin-right: var(--space-4);
+  padding: 0;
+  color: var(--ink-2);
+  font: 500 var(--fs-meta) / var(--target) var(--font-ui);
+}
+
+.edition {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--target);
+  color: var(--ink);
+  font: 500 var(--fs-ui) / var(--lh-ui) var(--font-ui);
+  cursor: pointer;
+}
+
+.edition input {
+  width: 1.125rem;
+  height: 1.125rem;
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.progressLine {
+  display: grid;
+  gap: var(--space-2);
+  color: var(--ink);
+  font: 500 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  font-variant-numeric: tabular-nums;
+}
+
+.progress {
+  display: block;
+  width: 100%;
+  height: 7px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  background: var(--line);
+  accent-color: var(--accent);
+}
+
+.progress::-webkit-progress-bar {
+  background: var(--line);
+  border-radius: var(--radius-pill);
+}
+
+.progress::-webkit-progress-value {
+  background: var(--accent);
+  border-radius: var(--radius-pill);
+}
+
+.progress::-moz-progress-bar {
+  background: var(--accent);
+  border-radius: var(--radius-pill);
+}
+
+.stop.stop {
+  justify-self: start;
+  margin-left: calc(-1 * var(--space-3));
+  color: var(--ink-2);
+}
+
+/* ---- the portions */
+
+.portions {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.portion {
+  display: grid;
+  grid-template-columns: 2.75rem minmax(0, 1fr) auto;
+  align-items: baseline;
+  column-gap: var(--space-3);
+  border-bottom: 1px solid var(--line);
+  /* the app bar covers the top of the page: a day opened by its address stops below it */
+  scroll-margin-top: calc(var(--bar-h) + var(--space-4));
+}
+
+.day {
+  color: var(--ink-2);
+  font: 500 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.portionLink {
+  display: flex;
+  align-items: center;
+  min-height: var(--target);
+  padding: var(--space-2) 0;
+  color: var(--ink);
+  font: 500 var(--fs-body) / var(--lh-ui) var(--font-ui);
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+}
+
+.portionCount {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  color: var(--ink-2);
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* a day read: the word "lido" says it; the lighter ink repeats it */
+.portion[data-done] .portionLink {
+  color: var(--ink-2);
+}
+
+.portion[data-next] .day,
+.portion[data-next] .portionLink {
+  color: var(--accent);
+}
+
+@media (max-width: 30rem) {
+  .card {
+    padding: var(--space-4);
+  }
+
+  .actions :global(.bc-button) {
+    flex: 1 1 auto;
+  }
+
+  .portion {
+    grid-template-columns: 2.25rem minmax(0, 1fr);
+  }
+
+  /* the count goes under the label, in the label's column */
+  .portionCount {
+    grid-column: 2;
+    margin: calc(-1 * var(--space-2)) 0 var(--space-2);
+  }
+}

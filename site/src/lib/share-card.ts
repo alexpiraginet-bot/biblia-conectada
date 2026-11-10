@@ -50,6 +50,7 @@ const sections: Record<string, Omit<ShareCard, "path">> = {
   "/ponte": { eyebrow: "PONTE BÍBLICA", title: "De um versículo\na outro.", description: "Siga as referências cruzadas e encontre um caminho entre duas passagens.", kind: "connection" },
   "/trilha": { eyebrow: "TRILHAS DE LEITURA", title: "Cada passo,\numa conexão.", description: "Explore caminhos de leitura que aproximam passagens do Antigo e do Novo Testamento.", kind: "connection" },
   "/trilha/antes-do-natal": { eyebrow: "TRILHA DE LEITURA", title: "Antes do Natal.", description: "Acompanhe as ligações entre o Antigo Testamento e os relatos do nascimento de Jesus.", kind: "connection" },
+  "/planos": { eyebrow: "PLANOS DE LEITURA", title: "Um pouco\na cada dia.", description: "A Bíblia em porções diárias, calculadas a partir dos versículos de cada capítulo. O progresso fica só no seu aparelho.", kind: "landing" },
   "/mesa": { eyebrow: "MESA DE LEITURA", title: "Uma passagem.\nUma conversa.", description: "Leia, siga as conexões e compartilhe suas descobertas.", kind: "landing" },
   "/sobre": { eyebrow: "SOBRE O PROJETO", title: SITE_NAME, description: "Um atlas vivo para ler, explorar e conectar a Bíblia. Conheça as fontes e os créditos.", kind: "landing" },
   "/dados": { eyebrow: "FONTES ABERTAS", title: "Cada conexão\ntem uma fonte.", description: "Conheça os dados, as licenças e as referências que sustentam o atlas.", kind: "explore" },
@@ -234,6 +235,11 @@ export async function resolveShareCard(raw: string, excerptLimit: 205 | 500 = 20
     if (!bridge) return null;
     const a = grid.locate(bridge.start), b = grid.locate(bridge.target);
     return pairCard(path, passage([a.book.slug, String(a.chapter), String(a.verse)])!, passage([b.book.slug, String(b.chapter), String(b.verse)])!, `PONTE Nº ${bridge.n}`);
+  }
+  if (parts[0] === "planos" && parts.length === 2) {
+    const { planById } = await import("./planos/model");
+    const plan = planById(parts[1]);
+    return plan ? { path, eyebrow: "PLANO DE LEITURA", title: plan.title, description: `${plan.summary} Em porções diárias, com o progresso guardado só no seu aparelho.`, kind: "landing" } : null;
   }
   if (parts[0] === "trilha" && parts[1] === "antes-do-natal" && parts.length === 3 && /^[1-9]\d?$/.test(parts[2])) {
     const { trailStep } = await import("./community/data");

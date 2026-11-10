@@ -57,11 +57,22 @@ describe("social card route resolution", () => {
   });
 
   it("gives every static page family a deliberate card", async () => {
-    for (const path of ["/", "/ler", "/liturgia", "/jornada", "/arcos", "/arcos/plano", "/explorar", "/cronologia", "/caminhos", "/linha-do-tempo", "/tema", "/palavra", "/assistente", "/coracao", "/buscar", "/salvos", "/caderno", "/ponte", "/trilha", "/trilha/antes-do-natal", "/mesa", "/sobre", "/dados"]) {
+    for (const path of ["/", "/ler", "/liturgia", "/jornada", "/arcos", "/arcos/plano", "/explorar", "/cronologia", "/caminhos", "/linha-do-tempo", "/tema", "/palavra", "/assistente", "/coracao", "/buscar", "/salvos", "/caderno", "/ponte", "/trilha", "/trilha/antes-do-natal", "/planos", "/mesa", "/sobre", "/dados"]) {
       const card = await resolveShareCard(path);
       expect(card?.title, path).toBeTruthy();
       expect(card?.eyebrow, path).toBeTruthy();
     }
+  });
+
+  it("names each reading plan and refuses a plan that does not exist", async () => {
+    const { PLANS } = await import("../src/lib/planos/model");
+    for (const plan of PLANS) {
+      const card = await resolveShareCard(`/planos/${plan.id}`);
+      expect(card?.title, plan.id).toBe(plan.title);
+      expect(card?.description, plan.id).toContain(plan.summary);
+    }
+    expect(await resolveShareCard("/planos/biblia-em-um-dia")).toBeNull();
+    expect(await resolveShareCard("/planos/biblia-em-um-ano/3")).toBeNull();
   });
 
   it("uses dataset labels for themes and events", async () => {
