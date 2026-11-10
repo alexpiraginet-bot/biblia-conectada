@@ -23,6 +23,19 @@ const FLOAT = "(min-width: 64rem)";
 const BAR_ROOM = 300;
 
 let notebook: Promise<Notebook> | null = null;
+/**
+ * Gives the keyboard back to a verse after the bar or the note dialog closes: its first link when one is drawn, the
+ * verse itself otherwise (in the "Leitura" mode the verse's links are put away, and focusing a link that is not
+ * drawn would leave the keyboard at the top of the page; found by review, 10/11).
+ */
+function focusVerse(root: HTMLElement, verse: number, preventScroll = false) {
+  const li = [...root.querySelectorAll<HTMLElement>(`li[data-verse="${verse}"]`)].find((el) => el.getClientRects().length > 0);
+  if (!li) return;
+  const link = [...li.querySelectorAll<HTMLElement>("a")].find((a) => a.getClientRects().length > 0);
+  if (!link) li.tabIndex = -1;
+  (link ?? li).focus({ preventScroll });
+}
+
 function loadNotebook(): Promise<Notebook> {
   notebook ??= import("@/components/caderno/reader").catch((error: unknown) => {
     notebook = null;
@@ -226,7 +239,7 @@ export function SelectionScope({
         const inBar = bar.current?.contains(document.activeElement);
         document.getSelection()?.removeAllRanges();
         close();
-        if (inBar) el.querySelector<HTMLElement>(`li[data-verse="${pickedRef.current.from}"] a`)?.focus();
+        if (inBar) focusVerse(el, pickedRef.current.from);
       } else if (e.key === "Tab" && !e.shiftKey && !offered && !bar.current?.contains(document.activeElement)) {
         const first = bar.current?.querySelector<HTMLElement>("button, a");
         if (first) {
@@ -419,7 +432,7 @@ export function SelectionScope({
       setFlash({ text: kept, go: "Continuar a anotação", onGo: () => { setFlash(null); setEditing(left); } });
     }
     // the dialog gave the focus back to a bar that is gone: the verse the note is about takes it
-    if (from) requestAnimationFrame(() => root.current?.querySelector<HTMLElement>(`li[data-verse="${from}"] a`)?.focus({ preventScroll: true }));
+    if (from) requestAnimationFrame(() => root.current && focusVerse(root.current, from, true));
   }
 
   return (

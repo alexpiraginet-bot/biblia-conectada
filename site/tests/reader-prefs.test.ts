@@ -83,13 +83,16 @@ describe("before the first paint", () => {
 
 describe("the stylesheet and the markup", () => {
   const css = src("components/reader/reader-prefs.css");
+  // the size's factors are in the stylesheet every page loads, not in the control's
+  const everywhere = src("styles/ds.css");
 
   it("scale the Bible text by the factors of the rules, and never under 17px", () => {
     for (const step of TEXT_STEPS) {
-      const rule = new RegExp(`html\\[data-texto="${step}"\\] \\{ --leitor-escala: ([\\d.]+); \\}`).exec(css);
+      const rule = new RegExp(`html\\[data-texto="${step}"\\] \\{ --leitor-escala: ([\\d.]+); \\}`).exec(everywhere);
       if (step === 0) expect(rule).toBeNull();
       else expect(Number(rule?.[1]), String(step)).toBe(TEXT_SCALE[step]);
     }
+    expect(css).not.toContain("--leitor-escala");
     expect(TEXT_SCALE[0]).toBe(1);
     const ds = src("styles/ds.css");
     const size = /\.bc-scripture \{[^}]*font-size: calc\(clamp\(([\d.]+)rem, [^)]*\) \* var\(--leitor-escala, 1\)\);/.exec(ds);

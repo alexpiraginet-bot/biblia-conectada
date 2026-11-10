@@ -127,7 +127,10 @@ function useModal(dialog: RefObject<HTMLDialogElement | null>, focus: RefObject<
     if (!box) return;
     const body = document.body;
     const root = document.documentElement;
-    const href = window.location.href;
+    // the page the dialog opened on: a chapter and its verse pages are one page ("/genesis/1" and "/genesis/1/20"),
+    // so the browser's Back from a verse to its chapter still gives the reading back where it was
+    const page = () => window.location.pathname.split("/").slice(0, 3).join("/");
+    const opened = page();
     const [x, y] = [window.scrollX, window.scrollY];
     const keys = ["position", "top", "left", "width"] as const;
     const before = keys.map((key) => body.style[key]);
@@ -148,7 +151,7 @@ function useModal(dialog: RefObject<HTMLDialogElement | null>, focus: RefObject<
         body.style[key] = before[index];
       });
       root.style.overflow = overflow;
-      if (window.location.href === href) window.scrollTo({ left: x, top: y, behavior: "instant" });
+      if (page() === opened) window.scrollTo({ left: x, top: y, behavior: "instant" });
     };
   }, [dialog, focus, ours]);
 }
@@ -194,14 +197,25 @@ export function NoteDialog({
   useLayoutEffect(() => {
     latest.current = { text, saved };
   });
-  // unmounted without an answer (the router hid the page under the dialog): the words still become the draft
-  useEffect(
-    () => () => {
+  // The words become the draft whenever the dialog can go away without an answer: unmounted (the router hid the page
+  // under it), the page hidden or unloaded (a reload, the phone discarding the tab in the background). Found by
+  // review, 10/11: a reload with the dialog open lost what was typed.
+  useEffect(() => {
+    const keep = () => {
       const { text: words, saved: kept } = latest.current;
       if (!done.current && words.trim() && words.trim() !== kept) noteDrafts.set(passage, words);
-    },
-    [passage],
-  );
+    };
+    const hidden = () => {
+      if (document.visibilityState === "hidden") keep();
+    };
+    window.addEventListener("pagehide", keep);
+    document.addEventListener("visibilitychange", hidden);
+    return () => {
+      window.removeEventListener("pagehide", keep);
+      document.removeEventListener("visibilitychange", hidden);
+      keep();
+    };
+  }, [passage]);
 
   const finish = (message?: string, draft = false) => {
     if (done.current) return;

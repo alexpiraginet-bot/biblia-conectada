@@ -26,6 +26,9 @@ Atende ao pedido do Alex de 20/10 ("Precisamos que dados sejam salvos no navegad
 - Abrir de novo a anotação da mesma passagem traz o rascunho, diz "Rascunho recuperado" e oferece "Descartar rascunho", que volta ao texto guardado (ou ao campo vazio).
 - O rascunho fica em `sessionStorage` (`bc:caderno:rascunhos:v1`): vale para a aba, sobrevive a recarregar e some quando a aba fecha. Guardar ou apagar a anotação remove o rascunho. Ficam os 12 mais recentes (`MAX_DRAFTS` em `lib/caderno/drafts.ts`). Sem `sessionStorage`, o rascunho vale enquanto a página estiver aberta.
 - A única pergunta que restou no diálogo é a de apagar, que nasce de um toque no botão. Escape sobre ela fecha o diálogo sem apagar nada.
+- **A página pode sumir com o diálogo aberto** (recarregar, o celular descartar a aba em segundo plano). O texto vira rascunho também quando a página é escondida ou descarregada (`pagehide` e `visibilitychange`), não só quando o diálogo é fechado. Achado por revisão em 10/11: recarregar com o diálogo aberto perdia o que tinha sido escrito.
+- **Voltar do navegador com o diálogo aberto** numa página de versículo (`/genesis/1/20` → `/genesis/1`) mantém o diálogo; ao fechá-lo, a leitura volta ao ponto em que estava. O capítulo e as páginas de versículo dele contam como a mesma página.
+- **Foco ao fechar:** vai para o versículo anotado. No modo Leitura, em que os links do versículo não são desenhados, vai para o próprio versículo ([LEITURA.md](LEITURA.md)).
 
 ## Cores dos grifos
 

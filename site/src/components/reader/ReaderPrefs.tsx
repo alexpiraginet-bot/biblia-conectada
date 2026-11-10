@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState, useSyncExternalStore } from "react";
+import { useEffect, useId, useSyncExternalStore } from "react";
 import {
   nextTextStep, parseReaderPrefs, READER_PREFS_EVENT, READER_PREFS_KEY, readerAttributes, serializeReaderPrefs, TEXT_STEPS, type ReaderMode, type ReaderPrefs as Prefs,
 } from "@/lib/reader-prefs";
@@ -23,8 +23,14 @@ function subscribe(callback: () => void) {
     window.removeEventListener(READER_PREFS_EVENT, callback);
   };
 }
-// the stored string: compares by value, and "" when there is none or the browser refuses to say
+// A choice the browser refused to keep (storage blocked or full): it holds while the tab is open, on every chapter,
+// and the control says so. Module state, so the control of the next chapter starts from it and not from the defaults.
+let unkept: string | null = null;
+
+// the stored string: compares by value, and "" when there is none or the browser refuses to say; a choice that was
+// not kept comes with a "!" in front
 function stored(): string {
+  if (unkept !== null) return `!${unkept}`;
   try {
     return window.localStorage.getItem(READER_PREFS_KEY) ?? "";
   } catch {
@@ -40,18 +46,19 @@ function apply(prefs: Prefs) {
   }
 }
 
-/** Applies at once and stores; false when the browser would not keep the choice (it still holds for this page). */
-function choose(prefs: Prefs): boolean {
+/** Applies at once and stores. When the browser will not keep the choice, it is kept for the tab. */
+function choose(prefs: Prefs) {
   apply(prefs);
+  const raw = serializeReaderPrefs(prefs);
   try {
-    const raw = serializeReaderPrefs(prefs);
     if (raw === null) window.localStorage.removeItem(READER_PREFS_KEY);
     else window.localStorage.setItem(READER_PREFS_KEY, raw);
-    window.dispatchEvent(new Event(READER_PREFS_EVENT));
-    return true;
+    if ((window.localStorage.getItem(READER_PREFS_KEY) ?? null) !== raw) throw new Error("not kept");
+    unkept = null;
   } catch {
-    return false;
+    unkept = raw ?? "";
   }
+  window.dispatchEvent(new Event(READER_PREFS_EVENT));
 }
 
 /**
@@ -61,13 +68,17 @@ function choose(prefs: Prefs): boolean {
  */
 export function ReaderPrefs() {
   const raw = useSyncExternalStore(subscribe, stored, () => "");
-  // a browser that refuses to store the choice still honours it on this page
-  const [unsaved, setUnsaved] = useState<Prefs | null>(null);
-  const prefs = unsaved ?? parseReaderPrefs(raw);
+  const unsaved = raw.startsWith("!");
+  const prefs = parseReaderPrefs(unsaved ? raw.slice(1) : raw);
   const at = TEXT_STEPS.indexOf(prefs.texto as (typeof TEXT_STEPS)[number]);
   const size = `Tamanho ${at + 1} de ${TEXT_STEPS.length}`;
   const hint = useId();
-  const set = (next: Prefs) => setUnsaved(choose(next) ? null : next);
+  const set = choose;
+  // The page follows the control, wherever the change came from: this tab, another tab ("storage") or a chapter
+  // the router kept hidden. On the first run it repeats what the head's script already did.
+  useEffect(() => {
+    apply({ modo: prefs.modo, texto: prefs.texto });
+  }, [prefs.modo, prefs.texto]);
 
   return (
     <div className={styles.prefs} data-reader-prefs="">
@@ -104,7 +115,7 @@ export function ReaderPrefs() {
           {size}
         </span>
       </div>
-      {unsaved && <p className={styles.says}>Este navegador não guardou a escolha: ela vale só nesta página.</p>}
+      {unsaved && <p className={styles.says}>Este navegador não guardou a escolha: ela vale enquanto esta aba estiver aberta.</p>}
       <noscript>
         <style>{"[data-reader-prefs] { display: none !important; }"}</style>
       </noscript>

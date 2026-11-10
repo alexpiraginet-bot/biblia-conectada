@@ -1,12 +1,6 @@
-/* The reader's own way of reading (lib/reader-prefs.ts; the attributes are on <html> before the first paint). Global
-   on purpose: both readers and every list of Scripture follow it. tests/reader-prefs.test.ts keeps the factors below
-   equal to TEXT_SCALE. */
-
-/* the size of the Bible text, wherever it is read (ds.css .bc-scripture multiplies by it) */
-html[data-texto="-1"] { --leitor-escala: 0.9; }
-html[data-texto="1"] { --leitor-escala: 1.12; }
-html[data-texto="2"] { --leitor-escala: 1.25; }
-html[data-texto="3"] { --leitor-escala: 1.4; }
+/* The reader's mode (lib/reader-prefs.ts; the attribute is on <html> before the first paint). The size of the text
+   is not here: its factors are in styles/ds.css, which every page loads, so a list of Scripture has the chosen size
+   whatever page the visit began on. */
 
 /* Leitura: the chapter is its text and its verse numbers. Each verse's actions, its count of links and the pager above
    the text wait in Estudo; the pager under the text, the panel of the chapter's links and the selection bar stay. */
