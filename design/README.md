@@ -531,3 +531,27 @@ O Caderno é o registro pessoal de quem lê, guardado só no aparelho. Regras e 
 - **`/caderno`:** listas em fios, como `/salvos`, sem grade de cards. As quatro partes (Anotações, Grifos, Decorar, Salvos) ficam num controle segmentado que ocupa a largura do celular e que vai para o endereço (`#decorar`). O único bloco emoldurado é a revisão do dia, que é um objeto separado: a referência em Newsreader, a passagem em Literata e duas respostas, "Lembrei" (ação principal) e "Ainda não".
 - **Texto:** verbos que dizem o que acontece ("Grifar", "Anotar", "Decorar", "Tirar grifo", "Guardar anotação") e confirmação no particípio ("2 versículos grifados em ouro, neste aparelho."). Os dias da revisão vêm de `LEITNER_DAYS`; nenhum número do Caderno é digitado.
 - **Navegação:** "Caderno" toma o lugar de "Salvos" no trilho e no menu, com o mesmo ícone; `/salvos` continua existindo e acende o mesmo item.
+
+## 23. Modo Leitura e tamanho do texto (10/11/2026)
+
+Quem lê escolhe entre a página de estudo e a página de leitura, e o tamanho do texto bíblico. Regras: [`docs/LEITURA.md`](../docs/LEITURA.md).
+
+- **Um controle, uma linha:** o segmentado do design system ("Estudo | Leitura") e dois botões "A−" e "A+", no cabeçalho do capítulo, logo abaixo da escolha de tradução. Sem parágrafo de explicação: a descrição de cada modo vai para o leitor de tela e para o `title`. O controle não pode empurrar o primeiro versículo para fora da primeira tela do celular.
+- **Leitura é tirar, não acrescentar:** o modo guarda as ações e a contagem de ligações de cada versículo e o paginador de cima. Não há fundo novo, moldura nem tipografia diferente: a mesma Literata, a mesma coluna, os mesmos números de versículo. Grifos e sinais do Caderno continuam, porque são de quem lê.
+- **"Marcar capítulo lido" muda de lugar:** antes do texto em Estudo, depois do texto em Leitura. A ação fica onde a leitura termina.
+- **Tamanho:** cinco passos sobre o tamanho do design system (0,9 a 1,4), só no texto bíblico. A interface não cresce junto; o número do versículo acompanha a linha. O menor passo não desce de 17px.
+- **Sem salto:** a escolha é aplicada em `<html>` antes da primeira pintura, junto do tema. Uma página que abre num modo não muda de altura depois.
+- **Texto do controle:** substantivos curtos para os modos, e "Tamanho 3 de 5" dito ao leitor de tela a cada mudança. Quando o navegador não guarda a escolha, a frase diz isso e que ela vale só na página.
+
+## 24. Planos de leitura (10/11/2026)
+
+A Bíblia em porções diárias, acompanhadas pelo que a pessoa marca como lido. Regras: [`docs/PLANOS.md`](../docs/PLANOS.md).
+
+- **Página de leitura com uma ação:** o único bloco emoldurado é o cartão do topo, em `raised`, que diz a próxima porção. A porção vai em Newsreader, como um título; a ação principal é "Ler <capítulo>", e "Marcar a porção como lida" é a secundária. O resto da página é uma lista em fios, sem grade de cards.
+- **Capítulos da porção:** pílulas com o nome do capítulo, cada uma um link. Capítulo lido diz "lido" em palavras; a tinta mais leve só repete.
+- **Lista de porções:** número do dia, porção e contagem de versículos, em algarismos tabulares. Dia lido diz "lido"; a próxima diz "próxima". A cor nunca é a única pista.
+- **Sem cobrança:** não há sequência de dias, medalha, contagem regressiva nem vermelho de atraso. O calendário aparece numa frase, e atraso vira "continue de onde parou".
+- **Números:** dias, capítulos, versículos, mínimo, mediana e máximo por dia saem do corte das porções; nenhum é digitado. A frase "do tamanho mais parecido que os capítulos permitem" diz a regra sem prometer dias iguais.
+- **Estável:** o cartão chega do servidor no tamanho do estado inicial e a marca "seguindo", em `/planos`, é uma palavra ao lado do nome. Nada se move quando a página acorda.
+- **Navegação:** "Planos de leitura" entra no menu, em Minha jornada, com o ícone de calendário; não entra no trilho.
+

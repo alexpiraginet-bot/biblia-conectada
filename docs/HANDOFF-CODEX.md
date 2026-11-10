@@ -16,6 +16,19 @@ Escrito pelo Claude a pedido do Alex: "Prepare handoff para o códex seguir". Da
 
 ## 2. Estado e continuidade
 
+### Rascunhos da anotação, modo Leitura e planos de leitura — 10/11
+
+Mesma branch, sobre `f98a875`. Três entregas: o diálogo de anotação do Caderno deixou de travar a página no segundo Escape e passou a guardar o texto não guardado como **rascunho** ([CADERNO.md](CADERNO.md), "Rascunhos"); o capítulo ganhou **Estudo | Leitura** e **A− A+**, nas duas edições, com a escolha aplicada antes da primeira pintura ([LEITURA.md](LEITURA.md)); e `/planos` traz cinco **planos de leitura** com porções cortadas por código, que avançam com o progresso pessoal de leitura ([PLANOS.md](PLANOS.md)). [Evidências e o que não foi verificado](evidence/2026-11-10-leitura-planos.md); direção em `design/README.md` §23 e §24.
+
+Validação local no código final: tipos, lint, build com 1.371 testes e `check-dist` em 3.858 páginas, orçamento com `/arcos` em 168.905 B (**55 B de margem**; meça antes de acrescentar qualquer coisa ao que `/arcos` carrega) e, no Chromium, 244 verificações dos planos, 138 da leitura, 236 do Caderno e 36 do diálogo, em 375/1440, Noite e Dia. Para quem mexer nisto:
+
+- Um `<dialog>` modal não pode se recusar a fechar: o navegador fecha no segundo Escape (ou no gesto de voltar) e dispara `close` sem passar pela página. Guarde o estado e deixe fechar.
+- O modo de leitura é CSS sobre atributos de `<html>` (`data-leitor`, `data-texto`), postos por um script do `<head>`. Um controle novo dentro da lista de versículos precisa de `data-verse-actions` para sair no modo Leitura.
+- Os planos não guardam o que foi lido. Mudar a regra de "capítulo lido" do progresso de leitura muda todos os planos.
+- A leitura offline (service worker) continua sem fazer; é a próxima candidata e pede teste em aparelho.
+
+Sem Safari, aparelho físico, leitor de tela nem deploy conferidos desta rodada.
+
 ### Caderno: grifos, anotações e decorar — 10/11
 
 Branch `claude/melhorias-app-cristao-hio0um`, base `f0dce71`. A barra de seleção da leitura ganhou **Grifar**, **Anotar** e **Decorar**, que valem para os versículos inteiros da seleção e ficam só no aparelho; `/caderno` reúne anotações, grifos, a revisão espaçada do dia e os salvos, com backup validado. "Caderno" substitui "Salvos" no menu; `/salvos` continua. [Regras e limites](CADERNO.md), [evidências e o que não foi verificado](evidence/2026-11-10-caderno.md), direção em `design/README.md` §22.
