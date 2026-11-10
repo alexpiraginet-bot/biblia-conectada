@@ -7,8 +7,8 @@ import Link from "next/link";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { formatInt } from "@/lib/canon/text";
 import { planProgress, type PlanEdition, type Portion } from "@/lib/planos/model";
-import { chapterReadingSummary, scopeFromCatalog, type ChapterScope, type ReadingCatalog } from "@/lib/reading-progress/model";
-import { markChapterRead, useReadingProgress } from "@/lib/reading-progress/store";
+import { chapterReadingSummary, scopeFromCatalog, type ChapterScope, type ReadingCatalog, type ReadingUndoToken } from "@/lib/reading-progress/model";
+import { markChapterRead, undoReadingChange, useReadingProgress } from "@/lib/reading-progress/store";
 import { translationPath } from "@/lib/translations";
 import { follow, leave, usePlans } from "./store";
 import styles from "./planos.module.css";
@@ -33,6 +33,19 @@ const sayDay = new Intl.DateTimeFormat("pt-BR", { day: "numeric", month: "long",
 const utc = (day: string) => Date.parse(`${day}T00:00:00Z`);
 const plural = (n: number, one: string, many: string) => `${formatInt(n)} ${n === 1 ? one : many}`;
 const key = (book: string, chapter: number) => `${book}/${chapter}`;
+/**
+ * After an action of the card lands, the page moves under the pointer (the card changes size, the next day takes
+ * the place of the one just read). For this long the tracker ignores activations, so the second click of a double
+ * click cannot mark another day, change the edition or open a link that just arrived there (found by review, 10/11).
+ */
+const QUIET_MS = 700;
+/**
+ * What the card says about its last action. The sentence is shown only while it is true: "Dia 3 lido" while day 3
+ * is read, "seguindo" while the plan is followed. A chapter unmarked in the reader, another tab or a restored backup
+ * takes the sentence away with the fact. `undo`: the way back when the action was marking a day.
+ */
+type Note = { text: string; day?: number; read?: boolean; following?: boolean; undo?: ReadingUndoToken[] };
+const NO_NOTE: Note = { text: "" };
 
 export function PlanTracker({ plan, portions, catalog, names }: Props) {
   const reading = useReadingProgress();
@@ -40,10 +53,12 @@ export function PlanTracker({ plan, portions, catalog, names }: Props) {
   const following = plans?.planos[plan.id];
   const [picked, setPicked] = useState<PlanEdition | null>(null);
   const [busy, setBusy] = useState(false);
-  const [said, setSaid] = useState("");
+  const [note, setNote] = useState<Note>(NO_NOTE);
+  const [focusTitle, setFocusTitle] = useState(0);
   const title = useId();
   const heading = useRef<HTMLHeadingElement>(null);
-  const acted = useRef(false);
+  const working = useRef(false);
+  const quietUntil = useRef(0);
   // not followed yet: the edition last read, so the plan starts where the reader already is
   const edition: PlanEdition = following?.edicao ?? picked ?? (reading.status === "ready" ? reading.state.lastEdition : "blivre");
   const ready = reading.status === "ready" && plans !== null;
@@ -73,37 +88,47 @@ export function PlanTracker({ plan, portions, catalog, names }: Props) {
   const next = progress.next ? portions[progress.next.day - 1] : null;
   const href = (book: string, chapter: number) => translationPath(edition, book, chapter);
   const state = !ready ? "loading" : progress.finished ? "finished" : following ? "following" : "open";
-  // Following, leaving and reading the last portion take away the button that was pressed: the card's title takes
-  // the focus then, so a keyboard or a screen reader is not left at the top of the page.
+  // Following, leaving, reading the last portion and undoing take away the button that was pressed: the card's title
+  // takes the focus then, so a keyboard or a screen reader is not left at the top of the page. Asked for explicitly,
+  // and only when the action landed: a refused write or a change from elsewhere never moves the focus.
   useEffect(() => {
-    if (!acted.current) return;
-    acted.current = false;
-    heading.current?.focus();
-  }, [state]);
+    if (focusTitle) heading.current?.focus();
+  }, [focusTitle]);
+  const said = note.text && (note.day === undefined || done.has(note.day) === note.read) && (note.following === undefined || !!following === note.following) ? note.text : "";
+  const say = (text: string, holds: Omit<Note, "text"> = {}) => setNote({ text, ...holds });
+  const hush = () => {
+    quietUntil.current = performance.now() + QUIET_MS;
+  };
   const firstUnread = (p: PlanPortion) => p.chapters.find(([book, chapter]) => !isRead(book, chapter)) ?? p.chapters[0];
 
   const choose = (id: PlanEdition) => {
-    setSaid("");
+    say("");
     if (!following) return setPicked(id);
-    if (!follow(plan.id, following.inicio, id)) setSaid("O navegador não guardou a mudança de edição.");
+    if (!follow(plan.id, following.inicio, id)) say("O navegador não guardou a mudança de edição.");
   };
   const start = () => {
-    const today = dayOf.format(new Date());
-    acted.current = true;
-    setSaid(follow(plan.id, today, edition) ? "Você está seguindo este plano neste aparelho." : "O navegador não guardou o plano. Você pode ler as porções pela lista abaixo.");
+    const ok = follow(plan.id, dayOf.format(new Date()), edition);
+    hush();
+    say(ok ? "Você está seguindo este plano neste aparelho." : "O navegador não guardou o plano. Você pode ler as porções pela lista abaixo.", ok ? { following: true } : {});
+    if (ok) setFocusTitle((n) => n + 1);
   };
   const stop = () => {
-    acted.current = true;
     setPicked(edition);
-    setSaid(leave(plan.id) ? "Você parou de seguir este plano. As marcações de leitura continuam guardadas." : "O navegador não guardou a mudança.");
+    const ok = leave(plan.id);
+    hush();
+    say(ok ? "Você parou de seguir este plano. As marcações de leitura continuam guardadas." : "O navegador não guardou a mudança.", ok ? { following: false } : {});
+    if (ok) setFocusTitle((n) => n + 1);
   };
-  // one chapter at a time: each write is checked by the reading progress before the next begins
-  const markPortion = async () => {
-    if (!next || busy) return;
+  // One chapter at a time: each write is checked by the reading progress before the next begins. `day` is the day
+  // the button was drawn for: a press that arrives after the card moved on does nothing.
+  const markPortion = async (day: number) => {
+    if (working.current || !next || next.day !== day) return;
+    working.current = true;
+    hush();
     setBusy(true);
-    setSaid("");
-    // the last portion ends the plan and takes this button away: say so before the marks land, the card changes with them
-    acted.current = progress.done.length === portions.length - 1;
+    say("");
+    const last = progress.done.length === portions.length - 1;
+    const tokens: ReadingUndoToken[] = [];
     let marked = 0;
     let problem = "";
     for (const [book, chapter] of next.chapters) {
@@ -118,13 +143,39 @@ export function PlanTracker({ plan, portions, catalog, names }: Props) {
         problem = result.message;
         break;
       }
+      if (result.undo) tokens.push(result.undo);
       marked++;
     }
+    working.current = false;
+    hush();
     setBusy(false);
-    if (problem) {
-      acted.current = false;
-      setSaid(marked > 0 ? `${plural(marked, "capítulo marcado", "capítulos marcados")}; depois o navegador recusou: ${problem}` : problem);
-    } else setSaid(`Dia ${formatInt(next.day)} lido: ${next.label}.`);
+    if (problem) say(marked > 0 ? `${plural(marked, "capítulo marcado", "capítulos marcados")}; depois o navegador recusou: ${problem}` : problem);
+    else {
+      say(`Dia ${formatInt(day)} lido: ${next.label}.`, { day, read: true, undo: tokens.length > 0 ? tokens : undefined });
+      // the last portion ends the plan and takes the button away
+      if (last) setFocusTitle((n) => n + 1);
+    }
+  };
+  // takes back the chapters the last press marked, newest first; a chapter changed since then is left as it is
+  const undoPortion = async () => {
+    const { undo, day } = note;
+    if (working.current || !undo || day === undefined) return;
+    working.current = true;
+    hush();
+    setBusy(true);
+    let problem = "";
+    for (const token of [...undo].reverse()) {
+      const result = await undoReadingChange(token);
+      if (!result.ok) {
+        problem = result.message;
+        break;
+      }
+    }
+    working.current = false;
+    hush();
+    setBusy(false);
+    say(problem || `Dia ${formatInt(day)} desmarcado. A marcação automática fica pausada.`, problem ? {} : { day, read: false });
+    setFocusTitle((n) => n + 1);
   };
 
   const calendar = (() => {
@@ -139,10 +190,26 @@ export function PlanTracker({ plan, portions, catalog, names }: Props) {
   })();
 
   return (
-    <div className={styles.tracker} data-plan-tracker={plan.id} data-plan-ready={ready ? "" : undefined}>
+    <div
+      className={styles.tracker}
+      data-plan-tracker={plan.id}
+      data-plan-ready={ready ? "" : undefined}
+      onClickCapture={(event) => {
+        if (performance.now() < quietUntil.current) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      }}
+    >
       <section className={styles.card} aria-labelledby={title} data-plan-state={state}>
         <h2 id={title} ref={heading} tabIndex={-1} className={styles.cardTitle}>
-          {state === "finished" ? "Plano concluído" : state === "following" && next ? `Próxima porção · dia ${formatInt(next.day)} de ${formatInt(plan.days)}` : "Seguir este plano"}
+          {state === "loading"
+            ? "Seu progresso neste plano"
+            : state === "finished"
+              ? "Plano concluído"
+              : state === "following" && next
+                ? `Próxima porção · dia ${formatInt(next.day)} de ${formatInt(plan.days)}`
+                : "Seguir este plano"}
         </h2>
 
         {reading.status === "corrupt" || reading.status === "unavailable" ? (
@@ -177,7 +244,8 @@ export function PlanTracker({ plan, portions, catalog, names }: Props) {
               <Link href={href(...firstUnread(next))} className="bc-button bc-button--primary" data-plan-read="">
                 Ler {names[firstUnread(next)[0]] ?? firstUnread(next)[0]} {firstUnread(next)[1]}
               </Link>
-              <button type="button" className="bc-button bc-button--secondary" onClick={markPortion} disabled={busy} data-plan-mark="">
+              {/* aria-disabled, not disabled: a disabled button loses the keyboard's focus, and this one is pressed day after day */}
+              <button type="button" className="bc-button bc-button--secondary" onClick={() => markPortion(next.day)} aria-disabled={busy} data-plan-mark="">
                 {busy ? "Marcando…" : "Marcar a porção como lida"}
               </button>
             </div>
@@ -197,9 +265,16 @@ export function PlanTracker({ plan, portions, catalog, names }: Props) {
             </div>
           </>
         )}
-        <p className={styles.said} role="status" aria-live="polite" data-plan-said="">
-          {said}
-        </p>
+        <div className={styles.result}>
+          <p className={styles.said} role="status" aria-live="polite" data-plan-said="">
+            {said}
+          </p>
+          {said && note.undo && (
+            <button type="button" className={`bc-button bc-button--ghost ${styles.undo}`} onClick={undoPortion} aria-disabled={busy} data-plan-undo="">
+              Desfazer
+            </button>
+          )}
+        </div>
 
         <fieldset className={styles.editions} disabled={!ready}>
           <legend className={styles.editionsLabel}>Edição da leitura</legend>

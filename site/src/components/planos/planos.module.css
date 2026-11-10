@@ -73,6 +73,9 @@
 .tracker {
   max-width: 48rem;
   margin-top: var(--space-5);
+  /* the card's height while a plan is followed, at least: one row of chapters (measured in the browser, 10/11).
+     A portion with more chapters than fit in a row makes it taller. */
+  --card-following: 415px;
 }
 
 .card {
@@ -195,8 +198,38 @@
   color: var(--ink);
 }
 
-.said:empty {
+.result {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 var(--space-3);
+}
+
+.result:has(.said:empty) {
   display: none;
+}
+
+.undo.undo {
+  margin-left: calc(-1 * var(--space-3));
+  color: var(--accent);
+}
+
+.actions [aria-disabled="true"],
+.result [aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+/* A reader who follows the plan (the page's own script says so before the first paint, lib/planos/model.ts
+   followedScript): the card arrives at the height its "seguindo" state has at least, without the words of someone
+   who does not follow, so the list under it does not jump when the page wakes up. */
+:global(html[data-plano-seguido]) .card[data-plan-state="loading"],
+.card[data-plan-state="following"] {
+  min-height: var(--card-following, 0);
+}
+
+:global(html[data-plano-seguido]) .card[data-plan-state="loading"] > :not(h2, noscript) {
+  visibility: hidden;
 }
 
 .editions {
@@ -333,6 +366,10 @@
 }
 
 @media (max-width: 30rem) {
+  .tracker {
+    --card-following: 530px;
+  }
+
   .card {
     padding: var(--space-4);
   }

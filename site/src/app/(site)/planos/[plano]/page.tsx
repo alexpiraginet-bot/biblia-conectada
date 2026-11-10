@@ -8,7 +8,7 @@ import styles from "@/components/planos/planos.module.css";
 import { formatInt } from "@/lib/canon/text";
 import { books } from "@/lib/data";
 import { NOT_FOUND_TITLE } from "@/lib/missing";
-import { planById, planFigures, planPortions, PLANS, portionLabel } from "@/lib/planos/model";
+import { followedScript, planById, planFigures, planPortions, PLANS, portionLabel } from "@/lib/planos/model";
 import type { ReadingCatalog } from "@/lib/reading-progress/model";
 import { translationBooks } from "@/lib/translation-reading";
 
@@ -54,6 +54,8 @@ export default async function PlanPage({ params }: PageProps<"/planos/[plano]">)
         {formatInt(figures.verses)} versículos · de {formatInt(figures.versesPerDay.min)} a {formatInt(figures.versesPerDay.max)} versículos por dia, com mediana de{" "}
         {formatInt(figures.versesPerDay.median)}
       </p>
+      {/* before the card is painted: does this device follow the plan? (the card's height depends on it) */}
+      <script dangerouslySetInnerHTML={{ __html: followedScript(plan.id) }} />
       <PlanTracker
         plan={{ id: plan.id, title: plan.title, days: plan.days }}
         portions={portions.map((p) => ({ day: p.day, verses: p.verses, label: portionLabel(p, books), chapters: p.chapters.map((c) => [c.book, c.chapter] as [string, number]) }))}

@@ -41,9 +41,11 @@ export function chaptersOf(books: readonly PlanBook[]): PlanChapter[] {
 }
 
 /**
- * Cuts chapters into `days` consecutive portions of about the same number of verses. Portion d ends at the chapter
- * where the running total of verses is closest to d/days of the whole, always with one chapter at least and never
- * leaving fewer chapters than days still to fill. Deterministic; chapters are never split.
+ * Cuts chapters into `days` consecutive portions of about the same number of verses. Each day aims at the average of
+ * what is still to be read (the verses left divided by the days left) and ends at the chapter that brings it closest
+ * to that, always with one chapter at least and never leaving fewer chapters than days still to fill. Aiming at what
+ * is left, not at a fixed line, keeps a very long chapter (Psalm 119) from starving the day after it. Deterministic;
+ * chapters are never split; a tie goes to the longer day.
  */
 export function splitIntoPortions(chapters: readonly PlanChapter[], days: number): Portion[] {
   if (!Number.isInteger(days) || days < 1 || days > chapters.length) throw new Error(`[planos] ${chapters.length} chapters cannot make ${days} portions`);
@@ -53,14 +55,15 @@ export function splitIntoPortions(chapters: readonly PlanChapter[], days: number
   let read = 0;
   for (let day = 1; day <= days; day++) {
     const start = next;
-    const target = (total * day) / days;
+    const target = (total - read) / (days - day + 1);
     const last = chapters.length - (days - day); // exclusive: what must stay for the days after this one
+    let own = 0;
     do {
-      read += chapters[next].verses;
+      own += chapters[next].verses;
       next++;
-    } while (next < last && (day === days || Math.abs(read + chapters[next].verses - target) <= Math.abs(read - target)));
-    const own = chapters.slice(start, next);
-    portions.push({ day, chapters: own, verses: own.reduce((sum, c) => sum + c.verses, 0) });
+    } while (next < last && (day === days || Math.abs(own + chapters[next].verses - target) <= Math.abs(own - target)));
+    read += own;
+    portions.push({ day, chapters: chapters.slice(start, next), verses: own });
   }
   return portions;
 }
@@ -170,6 +173,15 @@ export function leavePlan(state: PlansState, id: string): PlansState {
   const planos = { ...state.planos };
   delete planos[id];
   return { v: 1, planos };
+}
+
+/**
+ * For the plan's page, before its card is painted: marks <html> when this device follows the plan, so the card
+ * arrives at the height of a plan being followed and the list under it does not jump when the page wakes up.
+ */
+export function followedScript(id: string): string {
+  if (!planById(id)) throw new Error(`[planos] no plan "${id}"`);
+  return `try{var p=JSON.parse(localStorage.getItem("${PLANS_KEY}")||"null");if(p&&p.v===1&&p.planos&&p.planos["${id}"])document.documentElement.setAttribute("data-plano-seguido","${id}")}catch(e){}`;
 }
 
 /** The key is removed when no plan is followed. */

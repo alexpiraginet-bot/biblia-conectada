@@ -1,7 +1,7 @@
 import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FollowingMark } from "@/components/planos/FollowedPlans";
+import { FollowingMark } from "@/components/planos/FollowingMark";
 import styles from "@/components/planos/planos.module.css";
 import { formatInt } from "@/lib/canon/text";
 import { books } from "@/lib/data";
@@ -25,8 +25,8 @@ export default function PlansPage() {
     <main id="conteudo" className={`site-page ${styles.page}`}>
       <h1 className="bc-display">Planos de leitura</h1>
       <p className="bc-lede">
-        A Bíblia em porções diárias, do tamanho mais parecido que os capítulos permitem. O plano avança com o que você marca como lido, em
-        qualquer página de leitura. Tudo fica só neste aparelho.
+        A Bíblia em porções diárias de tamanho parecido, sem partir nenhum capítulo. O plano avança com o que você marca como lido, em qualquer
+        página de leitura. Tudo fica só neste aparelho.
       </p>
       <ul className={`bc-list ${styles.plans}`} data-plans="">
         {plans.map(({ plan, figures, first }) => (
@@ -49,8 +49,8 @@ export default function PlansPage() {
         ))}
       </ul>
       <p className={styles.how}>
-        As porções saem de uma conta só: os capítulos do plano, na ordem, divididos pelo número de dias de modo que cada dia tenha perto da mesma
-        quantidade de versículos. Capítulo nenhum é partido. Para ler os evangelhos pela ordem dos acontecimentos, há a{" "}
+        As porções saem de uma conta só: os capítulos do plano, na ordem, e cada dia termina no capítulo que o deixa mais perto da média do que
+        ainda falta ler. Capítulo nenhum é partido, e por isso os dias não são iguais. Para ler os evangelhos pela ordem dos acontecimentos, há a{" "}
         <Link href="/cronologia">Cronologia</Link>; para as leituras de cada dia, a <Link href="/liturgia">Liturgia diária</Link>.
       </p>
     </main>

@@ -1,9 +1,10 @@
 // Reading plans (docs/PLANOS.md): every portion is cut by code from the canon grid; progress derives from what the
 // reader marked as read. No number here is typed: each expectation is recomputed from the generated books.
 import { readFileSync } from "node:fs";
+import { runInNewContext } from "node:vm";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
-  chaptersOf, emptyPlans, followPlan, leavePlan, parsePlans, planById, planFigures, planPortions, planProgress, PLANS, portionLabel, serializePlans, splitIntoPortions,
+  chaptersOf, emptyPlans, followedScript, followPlan, leavePlan, parsePlans, planById, planFigures, planPortions, planProgress, PLANS, portionLabel, serializePlans, splitIntoPortions,
   PLANS_EVENT, PLANS_KEY, type PlanChapter,
 } from "../src/lib/planos/model";
 import { emptyReadingProgress, chapterReadingSummary, markReading, scopeFromCatalog, type ReadingCatalog } from "../src/lib/reading-progress/model";
@@ -68,7 +69,22 @@ describe("the plans", () => {
 describe("cutting chapters into portions", () => {
   const ch = (verses: number[]): PlanChapter[] => verses.map((v, i) => ({ book: "x", chapter: i + 1, verses: v }));
 
-  it("follows the running share of verses and never splits or skips a chapter", () => {
+  it("aims each day at the average of what is left, so a long chapter does not starve the day after it", () => {
+    // 160 verses in 3 days. A fixed line (53, 107, 160) would give the second day one chapter of 10 and the third 50;
+    // aiming at what is left gives 30 and 30.
+    expect(splitIntoPortions(ch([100, 10, 10, 10, 10, 10, 10]), 3).map((p) => p.verses)).toEqual([100, 30, 30]);
+    // a tie goes to the longer day
+    expect(splitIntoPortions(ch([10, 10, 10]), 2).map((p) => p.verses)).toEqual([20, 10]);
+    // in the real plans no day is under half of the plan's average (plans of one chapter a day have no choice)
+    for (const plan of PLANS) {
+      const portions = planPortions(plan, canon);
+      const figures = planFigures(portions);
+      if (figures.chapters === plan.days) continue;
+      expect(figures.versesPerDay.min, plan.id).toBeGreaterThanOrEqual(figures.verses / plan.days / 2);
+    }
+  });
+
+  it("never splits or skips a chapter", () => {
     expect(splitIntoPortions(ch([10, 10, 10, 10]), 2).map((p) => p.chapters.map((c) => c.chapter))).toEqual([[1, 2], [3, 4]]);
     expect(splitIntoPortions(ch([30, 5, 5]), 2).map((p) => p.verses)).toEqual([30, 10]);
     expect(splitIntoPortions(ch([5, 5, 30]), 2).map((p) => p.verses)).toEqual([10, 30]);
@@ -247,5 +263,44 @@ describe("the plan pages", () => {
     expect(tracker).toContain("await markChapterRead(scope, true)");
     expect(tracker).toContain('timeZone: TIME_ZONE');
     expect(tracker).toContain('const TIME_ZONE = "America/Sao_Paulo"');
+  });
+});
+
+describe("the script that tells the page a plan is followed", () => {
+  const run = (id: string, stored: string | null | Error) => {
+    const attributes: Record<string, string> = {};
+    runInNewContext(followedScript(id), {
+      localStorage: { getItem: () => { if (stored instanceof Error) throw stored; return stored; } },
+      document: { documentElement: { setAttribute: (name: string, value: string) => { attributes[name] = value; } } },
+    });
+    return attributes;
+  };
+  const following = JSON.stringify({ v: 1, planos: { "salmos-em-30-dias": { inicio: "2026-11-10", edicao: "blivre" } } });
+
+  it("marks <html> only for the plan this device follows, and never throws", () => {
+    expect(run("salmos-em-30-dias", following)).toEqual({ "data-plano-seguido": "salmos-em-30-dias" });
+    expect(run("biblia-em-um-ano", following)).toEqual({});
+    for (const stored of [null, "", "{", "null", "[]", JSON.stringify({ v: 2, planos: { "salmos-em-30-dias": {} } }), new Error("blocked")]) {
+      expect(run("salmos-em-30-dias", stored), String(stored)).toEqual({});
+    }
+    expect(() => followedScript("um-plano-que-nao-existe")).toThrow();
+    // old browsers run it too
+    expect(followedScript("salmos-em-30-dias")).not.toMatch(/=>|\blet\b|\bconst\b|`/);
+  });
+
+  it("is on the plan's page before the tracker, and the tracker never acts twice on one gesture", () => {
+    const read = (path: string) => readFileSync(new URL(`../src/${path}`, import.meta.url), "utf8");
+    const page = read("app/(site)/planos/[plano]/page.tsx");
+    expect(page.indexOf("followedScript(plan.id)")).toBeGreaterThan(0);
+    expect(page.indexOf("followedScript(plan.id)")).toBeLessThan(page.indexOf("<PlanTracker"));
+    const tracker = read("components/planos/PlanTracker.tsx");
+    // found by review (10/11): a double click marked two days; the button is bound to its day and the tracker goes
+    // quiet after an action lands
+    expect(tracker).toContain("onClick={() => markPortion(next.day)}");
+    expect(tracker).toContain("if (working.current || !next || next.day !== day) return;");
+    expect(tracker).toContain("onClickCapture");
+    // a busy button stays focusable: the disabled attribute dropped the keyboard's focus
+    expect(tracker).not.toMatch(/[^-]disabled=\{busy\}/);
+    expect(tracker).toContain("aria-disabled={busy}");
   });
 });
