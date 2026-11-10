@@ -9,7 +9,7 @@ case "${1:-build}" in
   build)
     rm -rf film; STILLS="${2:-}" higgsedit build edit.jsx
     ID=$(higgsedit import film "$ENC_ROOT/mix.wav" | python3 -c "import json,sys; print(json.load(sys.stdin)['imported'][0]['id'])")
-    higgsedit do film place --assetId "$ID" --at 0 --duration 37.1250      # whole frames: the film ends with its last shot
+    higgsedit do film place --assetId "$ID" --at 0 --duration 38.7500      # whole frames: the film ends with its last shot
     higgsedit check film;;
   render)
     higgsedit render film --out renders/escrito-no-chao-master.mp4 --bitrate 20M

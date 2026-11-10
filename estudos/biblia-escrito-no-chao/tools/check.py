@@ -33,14 +33,19 @@ def need(cond, msg):
     ok &= bool(cond)
 
 
-said = {L["i"]: L["text"] for L in N["lines"]}
+said = {L["i"]: L["text"] for L in N["lines"]}; src = {L["i"]: L["line"] for L in N["lines"]}      # id on the film -> script line
 for i, text in said.items():
-    need(LINES[i].endswith(text[1:]), f"linha {i}: a fala é a do roteiro")
-    if i in QUOTES:
-        ref, frags = QUOTES[i]
+    need(text[1:] in LINES[src[i]], f"fala {i}: é a do roteiro (linha {src[i]})")
+    if src[i] in QUOTES:
+        ref, frags = QUOTES[src[i]]
         for f in frags:
             need(flat(f) in flat(S["blivre"][ref]) and re.sub(r"[,;.]", "", flat(f)) in re.sub(r"[,;.]", "", flat(text)), f"linha {i}: “{f}” = BLIVRE {ref}")
-need(set(said) == {1, 2, 3, 6, 9, 10, 13, 15, 16, 17}, "o corte curto fala as linhas 1, 2, 3, 6, 9, 10, 13, 15, 16 e 17")
+need([L["i"] for L in N["lines"]] == [160, 1, 2, 3, 6, 9, 10, 13, 15, 16, 17], "o corte: abertura (linha 16 sem a última palavra), linhas 1, 2, 3, 6, 9, 10, 13, 15, e o fecho (16 e 17)")
+need(said[160] == "Hoje a pedra é um comentário." and said[16] == "Solta." and said[160] + " " + said[16] == LINES[16],
+     "a abertura e o fecho são a linha 16 do roteiro, partida em duas: “Hoje a pedra é um comentário.” … “Solta.”")
+rw = next(x for x in P["shots"] if x["id"] == "rw")
+need(P["shots"][0]["id"] == "c01" and P["shots"][1]["id"] == "rw" and P["shots"][2]["id"] == "s01" and P["rewind"][0][0] == "c01" and P["rewind"][-1] == ["s01", 0.0]
+     and 0.7 <= rw["t1"] - rw["t0"] <= 1.1, "abertura fria → rebobinada (das imagens do próprio filme, da última à primeira) → gancho")
 
 for b in P["blocks"]:
     serif = [l["text"] for l in b["lines"] if l["face"] == "serif"]

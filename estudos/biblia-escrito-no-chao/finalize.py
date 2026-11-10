@@ -37,7 +37,8 @@ i_in, tp_in = r128(MIX)
 gain, ceiling, tries = -14.0 - i_in, -2.0, []
 aac = WORK / f"a{SUFFIX}.m4a"
 for _ in range(5):
-    chain = (f"atrim=0:{vdur:.3f},lowpass=f=18000:p=2,aresample=192000,volume={gain:.2f}dB,"
+    # the mix is padded to the picture: a mix a few ms short would make -shortest drop the last frames of the film
+    chain = (f"apad=whole_dur={vdur + 0.05:.3f},atrim=0:{vdur + 0.05:.3f},lowpass=f=18000:p=2,aresample=192000,volume={gain:.2f}dB,"
              f"alimiter=limit={10 ** (ceiling / 20):.4f}:attack=1.5:release=80:level=false:latency=true,aresample=48000")
     run(["ffmpeg", "-y", "-hide_banner", "-nostats", "-i", str(MIX), "-af", chain, "-ar", "48000", "-c:a", "aac", "-b:a", "192k", "-ac", "2", str(aac)])
     i_o, tp_o = r128(aac); tries.append((round(i_o, 1), round(tp_o, 1), ceiling, round(gain, 2)))

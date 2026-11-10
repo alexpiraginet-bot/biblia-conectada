@@ -4,14 +4,23 @@
 
 Per line, the take with the best Whisper score (source/narr/takes.json, tools/takes.py) is used: Portuguese language-ID
 probability (accent drift proxy) + similarity to the script; one complete take is preferred for a consistent voice. The
-line is cut on the pauses around its words, time-stretched with rubberband (pitch kept), levelled, and laid on the film
-timeline with a gap per line (the beats of the edit).
+line is cut on the pauses around its words, time-stretched (pitch kept), levelled, and laid on the film timeline with a
+gap per line (the beats of the edit).
+
+The stretch is ffmpeg's atempo (time domain), not rubberband: at 1.2-1.3x the phase vocoder smeared the voice and Alex
+heard it as echo ("a voz parece ter eco", 10/11 18:10). Measured on lines 9, 3 and 13 (kurtosis of the LPC residual, the
+usual measure of reverberance; higher = drier): take 9.1 / 15.6 / 15.7, rubberband 6.0 / 8.6 / 11.4, atempo 11.0 / 15.4 /
+15.3. Up to 1.17x (the other films) rubberband was fine.
+
+Cold open (same message: "algum gancho forte do vídeo para iniciar o vídeo e fazer um rebobinamento até o começo"): the
+first sentence of line 16, "Hoje a pedra é um comentário.", opens the film; the picture rewinds; the film starts; and
+the last word of that line, "Solta.", closes it.
 
 Short cut (10/11/2026, Alex: "não deixa fala e vídeos lentos, deixe dinâmico... nem muito longo! vídeos curtos"): the
 film keeps the hook, the scene in three lines, the turn, the sermon, the verdict, today and the call. Left out: line 4
 (the hook already says he writes on the ground with his finger), 5, 7, 8 ("saíram um a um" is a caption over the
 picture of the men leaving, in the 1.3 s after line 6), 11, 12 and 14 (John 7:37 stays for another film), "De manhã cedo, no templo," at the head of line 3 and "E me conta:" at the head of line 17. The takes are slow
-(about 4 syllables/s), so every line is stretched to 1.20-1.32x and the pauses are short.
+(about 4 syllables/s), so the lines are sped up to 1.08-1.31x (TEMPO) and the pauses are short.
 Output: renders/.film/narr.wav (48 kHz mono) + renders/.film/narr.json (lines + words on the film timeline).
 
   python3 -I narration.py
@@ -28,9 +37,12 @@ SHORT = []
 
 CUT = os.environ.get("CUT", "")                  # "" = the full film, "curto" = the short cut (script.SHORT)
 SUFFIX = "-curto" if CUT == "curto" else ""
-USE = SHORT if CUT == "curto" else [1, 2, 3, 6, 9, 10, 13, 15, 16, 17]
-# words dropped from the head of a line: "De manhã cedo, no templo," and "E me conta:" leave the cut for pace
-HEAD_SKIP = {3: 5, 17: 3}
+# the cut, in order: (id on the film, script line, words dropped at its head, words dropped at its tail).
+# 160 is the cold open (line 16 without "Solta."); 16 is that last word, at the end. "De manhã cedo, no templo," and
+# "E me conta:" leave lines 3 and 17 for pace.
+SEGS = [(160, 16, 0, 1), (1, 1, 0, 0), (2, 2, 0, 0), (3, 3, 5, 0), (6, 6, 0, 0), (9, 9, 0, 0), (10, 10, 0, 0), (13, 13, 0, 0),
+        (15, 15, 0, 0), (16, 16, 6, 0), (17, 17, 3, 0)]
+USE = sorted({s[1] for s in SEGS})
 
 WORK = ROOT / "renders/.film"; WORK.mkdir(parents=True, exist_ok=True)
 NARR = ROOT / "source/narr"
@@ -55,12 +67,13 @@ _attach_orphans()
 SR = 48000
 HEAD = 0.10                      # the hook is spoken over frame 0
 MAX_PAUSE = 0.13                 # pauses inside a line (commas) are shortened to this...
-KEEP_PAUSE = {2: 0.24, 3: 0.16, 10: 0.18, 13: 0.30, 15: 0.20, 16: 0.32}   # ...except the dramatic ones
+KEEP_PAUSE = {2: 0.24, 3: 0.16, 10: 0.18, 13: 0.30, 15: 0.20}   # ...except the dramatic ones (by id)
 # the takes are slow (2.8 words/s): exposition at 1.3x, the hook and the quotes a little under it
 # (measured on the result, rough syllable count: 5.0-7.2 syllables/s; lines 6 and 17, which the take already says fast,
 # stay near 1.15)
-TEMPO = {1: 1.26, 2: 1.28, 3: 1.31, 6: 1.15, 9: 1.31, 10: 1.21, 13: 1.28, 15: 1.22, 16: 1.24, 17: 1.12}
-GAP = {1: 0.10, 2: 0.26, 3: 0.14, 6: 1.20, 9: 0.08, 10: 0.32, 13: 0.36, 15: 0.30, 16: 0.24, 17: 0.85}
+TEMPO = {160: 1.22, 1: 1.26, 2: 1.28, 3: 1.31, 6: 1.15, 9: 1.31, 10: 1.21, 13: 1.28, 15: 1.22, 16: 1.08, 17: 1.12}
+# 160: the rewind (0.9 s) happens in this gap; 6: the stone falls; 15: the hand holds the phone before "Solta."
+GAP = {160: 1.02, 1: 0.10, 2: 0.26, 3: 0.14, 6: 1.20, 9: 0.08, 10: 0.32, 13: 0.36, 15: 0.80, 16: 0.42, 17: 0.85}
 OVERRIDE = {}                    # line -> take name, if a listening pass ever disagrees with the metric
 
 
@@ -129,7 +142,18 @@ def chunks(name, thr_db=-50.0, min_pause=0.35):
 CH = {}
 
 
-def cut(name, li, tempo):
+def quiet(name, g0, g1, what):
+    """the quietest 10 ms between g0 and g1 of a take (where a line is cut from a neighbour it shares a breath with)"""
+    raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{g0:.3f}", "-t", f"{g1 - g0:.3f}", "-i", str(NARR / f"{name}.mp3"),
+                          "-ac", "1", "-ar", str(SR), "-f", "f32le", "-"], capture_output=True, check=True).stdout
+    g = np.frombuffer(raw, np.float32); hop = 480; n = len(g) // hop
+    e = (g[:n * hop].reshape(n, hop) ** 2).mean(1)
+    db = 10 * np.log10(float(e.min()) + 1e-12)
+    assert db < -45, (name, what, "no silence to cut on", round(db, 1))
+    return g0 + (int(np.argmin(e)) + 0.5) * hop / SR
+
+
+def cut(name, li, tempo, head=0, tail=0):
     """the line = every speech chunk that holds one of its words (word midpoints: Whisper's word *starts* often sit in
     the pause before them). Words between the previous line's last match and this one (e.g. '1' for 'Primeira') belong
     to this line."""
@@ -140,30 +164,22 @@ def cut(name, li, tempo):
     # absorb at most 3 orphan words before the line ("Comenta a" in a CTA take); a whole re-recorded line left in the
     # full take (its words are now "missing" for the script) stays out
     k0 = prev["k"][1] + 1 if prev and r["k"][0] - prev["k"][1] - 1 <= 3 else r["k"][0]
-    k1 = r["k"][1]
-    if li in HEAD_SKIP: k0 = r["k"][0] + HEAD_SKIP[li]
+    k1 = r["k"][1] - tail
+    if head: k0 = r["k"][0] + head
     mids = [(W_[k]["t0"] + W_[k]["t1"]) / 2 for k in range(k0, k1 + 1)]
     mine = [c for c in CH[name] if any(c[0] - 0.02 <= m <= c[1] + 0.02 for m in mids)]
     assert mine, (name, li)
     # a chunk must not also hold a word of another line
-    skipped = range(r["k"][0], k0) if li in HEAD_SKIP else range(0)     # the dropped head sits in the same chunk
+    skipped = set(range(r["k"][0], k0) if head else []) | set(range(k1 + 1, r["k"][1] + 1))   # dropped words share the chunk
     others = [(W_[k]["t0"] + W_[k]["t1"]) / 2 for k in range(len(W_)) if (k < k0 or k > k1) and k not in skipped]
     for c in mine:
         clash = [m for m in others if c[0] + 0.05 < m < c[1] - 0.05]
         assert not clash, (name, li, c, clash)
     s0, s1 = max(0.0, mine[0][0] - 0.03), min(tk["dur"], mine[-1][1] + 0.08)
-    if li in HEAD_SKIP:
-        # start at the quietest 10 ms between the dropped sentence and the first kept word
-        g0, g1 = W_[k0 - 1]["t1"] - 0.04, W_[k0]["t0"] + 0.04
-        raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{g0:.3f}", "-t", f"{g1 - g0:.3f}", "-i", str(NARR / f"{name}.mp3"),
-                              "-ac", "1", "-ar", str(SR), "-f", "f32le", "-"], capture_output=True, check=True).stdout
-        g = np.frombuffer(raw, np.float32); hop = 480; n = len(g) // hop
-        e = (g[:n * hop].reshape(n, hop) ** 2).mean(1)
-        s0 = g0 + (int(np.argmin(e)) + 0.5) * hop / SR
-        quiet_db = 10 * np.log10(float(e.min()) + 1e-12)
-        assert quiet_db < -45, (name, li, "no silence between the dropped head and the line", round(quiet_db, 1))
+    if head: s0 = quiet(name, W_[k0 - 1]["t1"] - 0.04, W_[k0]["t0"] + 0.04, (li, "head"))
+    if tail: s1 = quiet(name, W_[k1]["t1"] - 0.02, W_[k1 + 1]["t0"] + 0.04, (li, "tail"))
     raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{s0:.3f}", "-t", f"{s1 - s0:.3f}", "-i", str(NARR / f"{name}.mp3"), "-af",
-                          f"aresample={SR},rubberband=tempo={tempo}:pitchq=quality:transients=mixed:window=standard,"
+                          f"aresample={SR},atempo={tempo},"
                           f"afade=t=in:d=0.008,areverse,afade=t=in:d=0.03,areverse", "-ac", "1", "-f", "f32le", "-"],
                          capture_output=True, check=True).stdout
     x = np.frombuffer(raw, np.float32).copy()
@@ -220,23 +236,24 @@ SIL = {name: silences(NARR / f"{name}.mp3") for name in TK["takes"]}
 
 def build():
     pieces = []
-    for li in USE:
+    for sid, li, head, tail in SEGS:
         name = choose(li)
-        tempo = TEMPO[li]
-        x, words, src = cut(name, li, tempo)
-        x, words = compress_pauses(x, words, KEEP_PAUSE.get(li, MAX_PAUSE))
-        pieces.append((li, name, tempo, x, words, src))
-    target = float(np.median([active_rms(p[3]) for p in pieces]))
+        tempo = TEMPO[sid]
+        x, words, src = cut(name, li, tempo, head, tail)
+        x, words = compress_pauses(x, words, KEEP_PAUSE.get(sid, MAX_PAUSE))
+        text = " ".join(SCRIPT[li].split()[head:len(SCRIPT[li].split()) - tail])
+        pieces.append((sid, li, text, name, tempo, x, words, src))
+    target = float(np.median([active_rms(p[5]) for p in pieces]))
     t = HEAD; out = np.zeros(int(SR * 180), np.float32); lines = []
-    for li, name, tempo, x, words, src in pieces:
+    for sid, li, text, name, tempo, x, words, src in pieces:
         g = float(np.clip(target / active_rms(x), 10 ** (-3 / 20), 10 ** (3 / 20)))
         x = x * g
         a = int(round(t * SR)); out[a:a + len(x)] += x
         L = len(x) / SR
-        lines.append({"i": li, "t0": round(t, 3), "t1": round(t + L, 3), "text": " ".join(SCRIPT[li].split()[HEAD_SKIP.get(li, 0):]), "take": name, "tempo": tempo,
+        lines.append({"i": sid, "line": li, "t0": round(t, 3), "t1": round(t + L, 3), "text": text, "take": name, "tempo": tempo,
                       "gain_db": round(20 * np.log10(g), 2), "src": list(src),
                       "words": [{"w": w["w"], "t0": round(t + w["t0"], 3), "t1": round(t + w["t1"], 3)} for w in words]})
-        t += L + GAP[li]
+        t += L + GAP[sid]
     total = t
     out = out[:int(SR * total)]
     import wave
@@ -250,5 +267,5 @@ def build():
 if __name__ == "__main__":
     total, lines = build()
     for L in lines:
-        print(f"L{L['i']:02d} {L['t0']:6.2f}-{L['t1']:6.2f} {L['take']} x{L['tempo']:.2f} {L['gain_db']:+.1f} dB  {L['text']}")
+        print(f"L{L['i']:03d} {L['t0']:6.2f}-{L['t1']:6.2f} {L['take']} x{L['tempo']:.2f} {L['gain_db']:+.1f} dB  {L['text']}")
     print("film duration:", round(total, 2))

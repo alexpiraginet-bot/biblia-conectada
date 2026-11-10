@@ -17,7 +17,9 @@ ligação mais votada" is the base's fact (tools/analyze.py). "Seiscentos anos a
 is absent from the oldest manuscripts; the ready answer is in LEGENDA.md.
 
 The film is the short cut (10/11, Alex: "nem muito longo... vídeos curtos"): narration.py uses lines 1, 2, 3 (without
-"De manhã cedo, no templo,"), 6, 9, 10, 13, 15, 16 and 17 (without "E me conta:"), 120 words in 37 s. The takes hold
+"De manhã cedo, no templo,"), 6, 9, 10, 13, 15, 16 and 17 (without "E me conta:"), 120 words in 39 s. Line 16 is split
+(10/11 18:10, Alex: "algum gancho forte do vídeo para iniciar o vídeo e fazer um rebobinamento até o começo"): its first
+sentence, "Hoje a pedra é um comentário.", opens the film, the picture rewinds, and its last word, "Solta.", closes it. The takes hold
 the whole script, so John 7:37 (lines 11 and 12) and the second writing (line 7) are recorded and ready for another
 film. "Saíram um a um" (line 8) is a caption over the stone that falls. With line 7 out, "só escreve uma vez" means the
 one scene: in it he bends and writes twice (8:6 and 8:8); the ready answer is in LEGENDA.md.
