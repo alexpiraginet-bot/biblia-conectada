@@ -10,8 +10,8 @@ import "./highlight.css";
 import styles from "./selection.module.css";
 
 type Picked = { from: number; to: number; text: string; top: number; left: number; below: boolean; float: boolean };
-/** What the bar says after an action: `saved` adds the check, `href` and `go` a way on. */
-type Note = { text: string; saved?: boolean; href?: string; go?: string };
+/** What the bar says after an action: `saved` adds the check; `go` names a way on, a link (`href`) or an act (`onGo`). */
+type Note = { text: string; saved?: boolean; href?: string; go?: string; onGo?: () => void };
 /** The notebook's side of the reading pages: its model, storage and dialog arrive on first use. */
 type Notebook = typeof import("@/components/caderno/reader");
 type MarkColor = Notebook["MARK_COLORS"][number];
@@ -405,12 +405,18 @@ export function SelectionScope({
     tell(result.ok ? { text: result.message, saved: result.changed, href: "/caderno#decorar", go: "Abrir o caderno" } : { text: result.message });
   }
 
-  function closeEditor(message?: string) {
-    const from = editing?.from;
+  function closeEditor(message?: string, draft?: boolean) {
+    const left = editing;
+    const from = left?.from;
     setEditing(null);
     if (message) {
       setSaid(message);
       setFlash({ text: message, saved: true, href: "/caderno#anotacoes", go: "Abrir o caderno" });
+    } else if (draft && left) {
+      // left without saving: the words wait as a draft, one tap away
+      const kept = "Você saiu sem guardar. O rascunho fica nesta aba.";
+      setSaid(kept);
+      setFlash({ text: kept, go: "Continuar a anotação", onGo: () => { setFlash(null); setEditing(left); } });
     }
     // the dialog gave the focus back to a bar that is gone: the verse the note is about takes it
     if (from) requestAnimationFrame(() => root.current?.querySelector<HTMLElement>(`li[data-verse="${from}"] a`)?.focus({ preventScroll: true }));
@@ -552,6 +558,11 @@ function Said({ note }: { note: Note }) {
             {note.go}
           </Link>
         </>
+      )}
+      {note.onGo && (
+        <button type="button" className={styles.noteAct} onClick={note.onGo}>
+          {note.go}
+        </button>
       )}
     </p>
   );

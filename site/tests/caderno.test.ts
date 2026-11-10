@@ -6,6 +6,7 @@ import {
   firstLetters, isDay, LAST_BOX, LEITNER_DAYS, markGroups, markVerses, MARK_COLORS, MARK_LABEL, MAX_CADERNO_BYTES, MAX_CADERNO_ITEMS, MAX_NOTE_CHARS,
   mergeCaderno, mergeSalvos, parseCaderno, parseCadernoBackup, passagePlace, removeMemo, removeNota, reviewMemo, saveNota, unmarkVerses, type Caderno,
 } from "../src/lib/caderno/model";
+import { CADERNO_DRAFTS_KEY, createDrafts, draftKey, MAX_DRAFTS } from "../src/lib/caderno/drafts";
 import { CADERNO_KEY, CADERNO_RECOVERY_KEY, createCadernoStore, type CadernoStorage } from "../src/lib/caderno/store-core";
 import type { Salvo } from "../src/lib/salvos";
 import { bookFile, books } from "./generated";
@@ -392,5 +393,80 @@ describe("storage in the browser", () => {
     expect(tooBig).toMatchObject({ ok: false, changed: false });
     expect(tooBig.message).toContain("limite de espaço");
     expect(parseCaderno(b.values.get(CADERNO_KEY)).memos).toEqual([]);
+  });
+});
+
+describe("drafts of a note", () => {
+  function tab() {
+    const values = new Map<string, string>();
+    let broken = false;
+    const storage = {
+      getItem(key: string) { if (broken) throw new Error("SecurityError"); return values.get(key) ?? null; },
+      setItem(key: string, value: string) { if (broken) throw new Error("QuotaExceededError"); values.set(key, value); },
+      removeItem(key: string) { if (broken) throw new Error("SecurityError"); values.delete(key); },
+    };
+    return { values, storage, drafts: createDrafts(() => storage), breakStorage: () => { broken = true; } };
+  }
+
+  it("keep the unsaved words of each passage for the tab, and forget them when asked", () => {
+    const t = tab();
+    expect(t.drafts.get(gn(3, 4))).toBeNull();
+    t.drafts.set(gn(3, 4), "Luz antes do sol\nsegunda linha");
+    t.drafts.set(gn(1), "No princípio");
+    expect(t.drafts.get(gn(3, 4))).toBe("Luz antes do sol\nsegunda linha");
+    expect(t.drafts.get(gn(1))).toBe("No princípio");
+    // another tab-wide reader of the same storage sees them (a reload keeps the draft)
+    expect(createDrafts(() => t.storage).get(gn(3, 4))).toBe("Luz antes do sol\nsegunda linha");
+    // a passage is its book, chapter and verse range: 3–4 is not 3
+    expect(t.drafts.get(gn(3))).toBeNull();
+    expect(draftKey(gn(3, 4))).toBe("genesis/1/3-4");
+    t.drafts.clear(gn(3, 4));
+    expect(t.drafts.get(gn(3, 4))).toBeNull();
+    expect(t.drafts.get(gn(1))).toBe("No princípio");
+    t.drafts.clear(gn(1));
+    expect(t.values.has(CADERNO_DRAFTS_KEY)).toBe(false);
+  });
+
+  it("treat blank words as no draft and cut what a note could never hold", () => {
+    const t = tab();
+    t.drafts.set(gn(1), "   \n ");
+    expect(t.drafts.get(gn(1))).toBeNull();
+    t.drafts.set(gn(2), "a".repeat(MAX_NOTE_CHARS + 50));
+    expect(t.drafts.get(gn(2))).toHaveLength(MAX_NOTE_CHARS);
+  });
+
+  it("keep only the newest drafts", () => {
+    const t = tab();
+    for (let v = 1; v <= MAX_DRAFTS + 3; v++) t.drafts.set(gn(v), `rascunho ${v}`);
+    expect(t.drafts.get(gn(1))).toBeNull();
+    expect(t.drafts.get(gn(3))).toBeNull();
+    expect(t.drafts.get(gn(4))).toBe("rascunho 4");
+    expect(t.drafts.get(gn(MAX_DRAFTS + 3))).toBe(`rascunho ${MAX_DRAFTS + 3}`);
+    // writing a passage again makes it the newest
+    t.drafts.set(gn(4), "rascunho 4, de novo");
+    t.drafts.set(gn(40), "mais um");
+    expect(t.drafts.get(gn(4))).toBe("rascunho 4, de novo");
+    expect(t.drafts.get(gn(5))).toBeNull();
+    expect(Object.keys(JSON.parse(t.values.get(CADERNO_DRAFTS_KEY)!))).toHaveLength(MAX_DRAFTS);
+  });
+
+  it("fall back to memory when the browser has no session storage or refuses it, and survive unreadable data", () => {
+    const none = createDrafts(() => null);
+    none.set(gn(1), "sem armazenamento");
+    expect(none.get(gn(1))).toBe("sem armazenamento");
+    none.clear(gn(1));
+    expect(none.get(gn(1))).toBeNull();
+
+    const t = tab();
+    t.breakStorage();
+    t.drafts.set(gn(2), "cota cheia");
+    expect(t.drafts.get(gn(2))).toBe("cota cheia");
+
+    const odd = tab();
+    odd.values.set(CADERNO_DRAFTS_KEY, "{not json");
+    expect(odd.drafts.get(gn(1))).toBeNull();
+    odd.values.set(CADERNO_DRAFTS_KEY, JSON.stringify({ "genesis/1/1-1": 7, "genesis/1/2-2": "vale" }));
+    expect(odd.drafts.get(gn(1))).toBeNull();
+    expect(odd.drafts.get(gn(2))).toBe("vale");
   });
 });

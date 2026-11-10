@@ -198,9 +198,10 @@ function Notes({ notas, catalog, tell }: { notas: Nota[]; catalog: CadernoCatalo
           passage={editing}
           label={placeOf(catalog, editing).ref}
           trecho={editing.trecho}
-          onClose={(message) => {
+          onClose={(message, draft) => {
             setEditing(null);
             if (message) tell(message);
+            else if (draft) tell("Você saiu sem guardar. O rascunho fica nesta aba: abra a anotação de novo para continuar.");
           }}
         />
       )}

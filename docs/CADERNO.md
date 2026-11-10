@@ -9,7 +9,7 @@ Atende ao pedido do Alex de 20/10 ("Precisamos que dados sejam salvos no navegad
 | Na leitura (barra de seleção) | O que acontece |
 | --- | --- |
 | **Grifar** | Marca os versículos inteiros tocados pela seleção, na última cor usada, e abre as quatro cores e "Tirar grifo". Num trecho já grifado, só abre as cores. |
-| **Anotar** | Abre um diálogo com os versículos e um campo de texto. Uma anotação por passagem: anotar de novo a mesma passagem abre a que existe. Sair com texto não guardado pergunta antes. |
+| **Anotar** | Abre um diálogo com os versículos e um campo de texto. Uma anotação por passagem: anotar de novo a mesma passagem abre a que existe. Sair sem guardar nunca perde o que foi escrito: o texto vira rascunho (ver "Rascunhos"). |
 | **Decorar** | Guarda a passagem para revisão. A mesma passagem entra uma vez só. |
 | Copiar, Compartilhar, Salvar, Explorar | Como antes: agem sobre as palavras selecionadas. |
 
@@ -18,6 +18,14 @@ Atende ao pedido do Alex de 20/10 ("Precisamos que dados sejam salvos no navegad
 - Abaixo do texto, "Seu caderno neste capítulo" lista as anotações do capítulo e conta grifos e passagens para decorar. É o equivalente em palavras dos sinais que aparecem nos versículos.
 - Em `/caderno` há quatro partes: **Anotações**, **Grifos** (com filtro por cor quando há mais de uma), **Decorar** (a revisão do dia e a lista) e **Salvos** (a mesma lista de `/salvos`, que continua existindo). A parte aberta vai no endereço (`/caderno#decorar`).
 - O Caderno vale para a leitura na Bíblia Livre. A leitura na Open Nova Bíblia Viva não tem a barra de seleção e, por isso, não tem Caderno.
+
+## Rascunhos da anotação
+
+- O diálogo de anotação **nunca se recusa a fechar**. O navegador fecha um diálogo modal no segundo Escape (ou no gesto de voltar) mesmo que a página responda ao primeiro; a versão anterior perguntava "Sair sem guardar?" no primeiro Escape, e no segundo o diálogo fechava por baixo da página, que ficava travada sem rolagem e perdia o texto. Achado por revisão em 10/11 e reproduzido no build de produção.
+- Por isso, toda saída que não seja "Guardar anotação" ou "Apagar" (Cancelar, o X, Escape, o gesto de voltar, a página ser trocada por baixo) guarda o texto não guardado como **rascunho daquela passagem**, e avisa: "Você saiu sem guardar. O rascunho fica nesta aba.", com "Continuar a anotação".
+- Abrir de novo a anotação da mesma passagem traz o rascunho, diz "Rascunho recuperado" e oferece "Descartar rascunho", que volta ao texto guardado (ou ao campo vazio).
+- O rascunho fica em `sessionStorage` (`bc:caderno:rascunhos:v1`): vale para a aba, sobrevive a recarregar e some quando a aba fecha. Guardar ou apagar a anotação remove o rascunho. Ficam os 12 mais recentes (`MAX_DRAFTS` em `lib/caderno/drafts.ts`). Sem `sessionStorage`, o rascunho vale enquanto a página estiver aberta.
+- A única pergunta que restou no diálogo é a de apagar, que nasce de um toque no botão. Escape sobre ela fecha o diálogo sem apagar nada.
 
 ## Cores dos grifos
 
@@ -87,6 +95,7 @@ Os limites não garantem espaço: a cota efetiva é do navegador.
 | `lib/caderno/store-core.ts` | Persistência validada, estados de erro e recomeço com cópia. Testável, recebe o armazenamento |
 | `lib/caderno/store.ts` | Ligação com o `localStorage` do navegador e as ações que as telas chamam |
 | `lib/caderno/keys.ts` | Nomes das chaves, sem imports |
+| `lib/caderno/drafts.ts` | Rascunhos da anotação por passagem, na aba |
 | `components/caderno/reader.tsx` | O Caderno na leitura: sinais nos versículos, seção do capítulo e diálogo de anotação |
 | `components/caderno/CadernoApp.tsx`, `Review.tsx` | A página `/caderno` e a revisão do dia |
 | `components/caderno/icons.tsx` | Os três ícones do Caderno |

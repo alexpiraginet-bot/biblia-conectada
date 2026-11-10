@@ -158,6 +158,22 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* the words of a note left without saving, brought back when the note opens again */
+.draft {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 var(--space-2);
+  margin: var(--space-2) 0 0;
+  color: var(--ink);
+  font: 500 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+}
+
+.draftButton.draftButton {
+  padding: 0 var(--space-2);
+  font-size: var(--fs-meta);
+}
+
 .error {
   margin: var(--space-3) 0 0;
   color: var(--danger);

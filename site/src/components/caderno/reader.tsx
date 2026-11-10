@@ -5,6 +5,7 @@
 import Link from "next/link";
 import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type RefObject } from "react";
 import { formatInt } from "@/lib/canon/text";
+import { noteDrafts } from "@/lib/caderno/drafts";
 import { chapterMarks, chapterNotebook, findNota, MAX_NOTE_CHARS, type Nota, type Passage } from "@/lib/caderno/model";
 import { eraseNota, getCadernoSnapshot, useCaderno, writeNota } from "@/lib/caderno/store";
 import { passageRef } from "@/lib/salvos";
@@ -114,8 +115,13 @@ export function ChapterNotebook({
   );
 }
 
-/** Opens a native modal dialog and keeps the reading where it was behind it (Safari moves it otherwise). */
-function useModal(dialog: RefObject<HTMLDialogElement | null>, focus: RefObject<HTMLElement | null>) {
+/**
+ * Opens a native modal dialog and keeps the reading where it was behind it (Safari moves it otherwise). `ours` is set
+ * when the effect's own cleanup closes the dialog: the "close" event of that call arrives later, and whoever listens
+ * must not take it for the reader leaving (React runs effects twice in development, and again when the router shows
+ * a hidden page).
+ */
+function useModal(dialog: RefObject<HTMLDialogElement | null>, focus: RefObject<HTMLElement | null>, ours: RefObject<boolean>) {
   useLayoutEffect(() => {
     const box = dialog.current;
     if (!box) return;
@@ -129,52 +135,109 @@ function useModal(dialog: RefObject<HTMLDialogElement | null>, focus: RefObject<
     Object.assign(body.style, { position: "fixed", top: `${-y}px`, left: `${-x}px`, width: `${root.clientWidth}px` });
     root.style.overflow = "hidden";
     box.showModal();
-    focus.current?.focus();
+    const first = focus.current;
+    first?.focus();
+    // a note opened for editing continues where its text ends
+    if (first instanceof HTMLTextAreaElement) first.setSelectionRange(first.value.length, first.value.length);
     return () => {
-      if (box.open) box.close();
+      if (box.open) {
+        ours.current = true;
+        box.close();
+      }
       keys.forEach((key, index) => {
         body.style[key] = before[index];
       });
       root.style.overflow = overflow;
       if (window.location.href === href) window.scrollTo({ left: x, top: y, behavior: "instant" });
     };
-  }, [dialog, focus]);
+  }, [dialog, focus, ours]);
 }
 
 /**
  * Writing a note on a passage: the verses, the text field and what happens to it. One note per passage, so a passage
- * that has a note opens with it. Leaving with unsaved words asks first.
+ * that has a note opens with it.
+ *
+ * Nothing written is lost by leaving. The dialog never refuses to close: a browser closes a modal dialog on a second
+ * Escape (or back gesture) whatever the page answers to the first, and a dialog closed behind the page's back left
+ * the reading frozen under the scroll lock (found by review, 10/11). So every way out that is not "Guardar" or
+ * "Apagar" keeps the unsaved words as this passage's draft for the tab (lib/caderno/drafts.ts), and opening the
+ * note again brings them back.
  */
-export function NoteDialog({ passage, label, trecho, onClose }: { passage: Passage; label: string; trecho: string; onClose: (message?: string) => void }) {
+export function NoteDialog({
+  passage,
+  label,
+  trecho,
+  onClose,
+}: {
+  passage: Passage;
+  label: string;
+  trecho: string;
+  /** `message`: what was saved or erased; `draft`: unsaved words were kept as a draft */
+  onClose: (message?: string, draft?: boolean) => void;
+}) {
   const { state } = useCaderno();
   const existing = findNota(state, passage);
-  const [text, setText] = useState(existing?.nota ?? "");
-  const [ask, setAsk] = useState<"erase" | "discard" | null>(null);
+  const saved = existing?.nota ?? "";
+  const [found] = useState(() => noteDrafts.get(passage));
+  const [text, setText] = useState(found ?? saved);
+  const [recovered, setRecovered] = useState(found !== null && found.trim() !== saved);
+  const [asking, setAsking] = useState(false);
   const [error, setError] = useState("");
   const dialog = useRef<HTMLDialogElement>(null);
   const field = useRef<HTMLTextAreaElement>(null);
+  const done = useRef(false);
+  const ours = useRef(false);
+  const latest = useRef({ text, saved });
   const title = useId();
   const hint = useId();
-  useModal(dialog, field);
+  useModal(dialog, field, ours);
+  useLayoutEffect(() => {
+    latest.current = { text, saved };
+  });
+  // unmounted without an answer (the router hid the page under the dialog): the words still become the draft
+  useEffect(
+    () => () => {
+      const { text: words, saved: kept } = latest.current;
+      if (!done.current && words.trim() && words.trim() !== kept) noteDrafts.set(passage, words);
+    },
+    [passage],
+  );
 
-  const dirty = text.trim() !== (existing?.nota ?? "");
+  const finish = (message?: string, draft = false) => {
+    if (done.current) return;
+    done.current = true;
+    onClose(message, draft);
+  };
+  // Cancelar, the X, Escape, the back gesture and the browser's own close all end here
   const leave = () => {
-    if (dirty && text.trim()) setAsk("discard");
-    else onClose();
+    const words = text.trim();
+    if (words && words !== saved) {
+      noteDrafts.set(passage, text);
+      finish(undefined, true);
+    } else {
+      noteDrafts.clear(passage);
+      finish();
+    }
   };
   const save = () => {
     const result = writeNota(passage, trecho, text);
-    if (result.ok) onClose(result.message);
-    else setError(result.message);
+    if (!result.ok) return setError(result.message);
+    noteDrafts.clear(passage);
+    finish(result.message);
   };
   const erase = () => {
     if (!existing) return;
     const result = eraseNota(existing.id);
-    if (result.ok) onClose(result.message);
-    else {
-      setAsk(null);
-      setError(result.message);
-    }
+    setAsking(false);
+    if (!result.ok) return setError(result.message);
+    noteDrafts.clear(passage);
+    finish(result.message);
+  };
+  const discard = () => {
+    noteDrafts.clear(passage);
+    setText(saved);
+    setRecovered(false);
+    field.current?.focus();
   };
 
   return (
@@ -183,16 +246,17 @@ export function NoteDialog({ passage, label, trecho, onClose }: { passage: Passa
       className={styles.dialog}
       aria-labelledby={title}
       data-caderno-note=""
-      onCancel={(event) => {
-        event.preventDefault();
-        leave();
+      onClose={() => {
+        // the browser closed it (Escape, the back gesture): the reader is leaving. A close of our own cleanup is not.
+        if (ours.current) ours.current = false;
+        else leave();
       }}
     >
       <header className={styles.head}>
         <h2 id={title} className={styles.title}>
           <span className={styles.kind}>{existing ? "Sua anotação em" : "Anotar em"}</span> {label}
         </h2>
-        <button type="button" className="bc-icon-button" aria-label="Fechar sem guardar" onClick={leave}>
+        <button type="button" className="bc-icon-button" aria-label="Fechar a anotação" onClick={leave}>
           <svg className="bc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path d="M6 6l12 12M18 6 6 18" />
           </svg>
@@ -218,19 +282,27 @@ export function NoteDialog({ passage, label, trecho, onClose }: { passage: Passa
       <p id={hint} className={styles.hint}>
         Fica só neste aparelho, guardada pelo navegador. {formatInt(text.length)} de {formatInt(MAX_NOTE_CHARS)} caracteres.
       </p>
+      {recovered && (
+        <p className={styles.draft} data-caderno-draft="">
+          Rascunho recuperado: você tinha saído sem guardar.
+          <button type="button" className={`bc-button bc-button--ghost ${styles.draftButton}`} onClick={discard}>
+            Descartar rascunho
+          </button>
+        </p>
+      )}
       {error && (
         <p className={styles.error} role="alert">
           {error}
         </p>
       )}
-      {ask ? (
+      {asking ? (
         <div className={styles.buttons} role="group" aria-label="Confirmar">
-          <p className={styles.question}>{ask === "erase" ? "Apagar esta anotação deste aparelho?" : "Sair sem guardar o que você escreveu?"}</p>
-          <button type="button" className={`bc-button bc-button--secondary ${styles.danger}`} onClick={ask === "erase" ? erase : () => onClose()}>
-            {ask === "erase" ? "Apagar" : "Sair sem guardar"}
+          <p className={styles.question}>Apagar esta anotação deste aparelho?</p>
+          <button type="button" className={`bc-button bc-button--secondary ${styles.danger}`} onClick={erase}>
+            Apagar
           </button>
-          <button type="button" className="bc-button bc-button--secondary" autoFocus onClick={() => setAsk(null)}>
-            {ask === "erase" ? "Manter" : "Continuar escrevendo"}
+          <button type="button" className="bc-button bc-button--secondary" autoFocus onClick={() => setAsking(false)}>
+            Manter
           </button>
         </div>
       ) : (
@@ -242,7 +314,7 @@ export function NoteDialog({ passage, label, trecho, onClose }: { passage: Passa
             Cancelar
           </button>
           {existing && (
-            <button type="button" className={`bc-button bc-button--ghost ${styles.eraseButton}`} onClick={() => setAsk("erase")}>
+            <button type="button" className={`bc-button bc-button--ghost ${styles.eraseButton}`} onClick={() => setAsking(true)}>
               Apagar
             </button>
           )}

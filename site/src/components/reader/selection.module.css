@@ -254,6 +254,21 @@
   font-weight: 600;
 }
 
+.noteAct {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
 .noteIcon {
   width: 18px;
   height: 18px;
