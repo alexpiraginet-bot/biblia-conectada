@@ -2,7 +2,8 @@
 // every prerendered chapter and verse page is the one computed from the generated book files (CLAUDE.md rule 3):
 // the books' and chapters' links, the chapter list and pager counts, the meta line, the seal, each verse's links pill,
 // the panel headline and its "Mais ligados" rows; every link of a verse panel carries its whole BLIVRE text; the panel
-// links follow the /conexao and /explorar contracts, the crumbs name the book group, and /salvos ships its static shell.
+// links follow the /conexao and /explorar contracts, the crumbs name the book group, and /salvos and /caderno ship
+// their static shells.
 import { readFileSync } from "node:fs";
 import { join, sep } from "node:path";
 import { createGrid } from "../../src/lib/canon/grid";
@@ -31,7 +32,7 @@ export function checkReading({
 }): string {
   // titles keep a book's number with its name by a no-break space ("1 Tessalonicenses 5", from-here.ts keepBookNumber)
   const textOf = (s: string) => visible(s).replace(/ /g, " ");
-  for (const r of [join("genesis", "1.html"), join("salmos", "119.html"), "salvos.html", "ler.html", "salmos.html"]) {
+  for (const r of [join("genesis", "1.html"), join("salmos", "119.html"), "salvos.html", "caderno.html", "ler.html", "salmos.html"]) {
     if (!html.includes(r)) failures.push(`[reading] ${r} was not prerendered`);
   }
   const books = JSON.parse(readFileSync(join(OUT.generated, "books.json"), "utf8")) as Book[];
@@ -273,6 +274,11 @@ export function checkReading({
 
   const salvos = html.includes("salvos.html") ? textOf(read("salvos.html")) : "";
   if (!salvos.includes("Ficam só neste aparelho")) failures.push("salvos.html: the on-this-device sentence is missing");
+  // the notebook says the same before anything is stored, and its shell names what it keeps
+  const caderno = html.includes("caderno.html") ? textOf(read("caderno.html")) : "";
+  for (const said of ["Ficam só neste aparelho", "grifos", "anotações", "decorar"]) {
+    if (!caderno.includes(said)) failures.push(`caderno.html: "${said}" is missing from the static shell`);
+  }
 
   return `reading numbers on /ler, ${books_} book pages, ${chapters} chapter and ${verses} verse pages (titles, meta lines, chapter lists, pagers, pills, headlines, rows with their texts and panel links)`;
 }

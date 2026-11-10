@@ -67,7 +67,7 @@ describe("reserved segments", () => {
 
 describe("navigation", () => {
   it("exposes every section through one complete menu without duplicate destinations", () => {
-    const expected = ["/", "/liturgia", "/ler", "/ler/open-nbv", "/interlinear", "/coracao", "/assistente", "/buscar", "/explorar", "/arcos", "/arcos/plano", "/caminhos", "/cronologia", "/linha-do-tempo", "/tema", "/palavra", "/conexao/isaias-9/lucas-2", "/jornada", "/ponte", "/trilha", "/mesa", "/salvos", "/dados", "/sobre", "/instalar", "/qr", "/#como-funciona", "/#sua-jornada"];
+    const expected = ["/", "/liturgia", "/ler", "/ler/open-nbv", "/interlinear", "/coracao", "/assistente", "/buscar", "/explorar", "/arcos", "/arcos/plano", "/caminhos", "/cronologia", "/linha-do-tempo", "/tema", "/palavra", "/conexao/isaias-9/lucas-2", "/jornada", "/ponte", "/trilha", "/mesa", "/caderno", "/dados", "/sobre", "/instalar", "/qr", "/#como-funciona", "/#sua-jornada"];
     expected.push("/apoie");
     expect(new Set(MOBILE_MENU.map((n) => n.href))).toEqual(new Set(expected));
     expect(new Set(NAV.map((n) => n.href)).size).toBe(NAV.length);
@@ -163,7 +163,9 @@ describe("current navigation item", () => {
     ["/ponte/1", "/ponte"],
     ["/dados", "/dados"],
     ["/buscar", "/buscar"],
-    ["/salvos", "/salvos"],
+    // the saved passages are a part of the notebook: both light "Caderno"
+    ["/salvos", "/caderno"],
+    ["/caderno", "/caderno"],
     // pages outside the navigation
     ["/sobre", "/sobre"],
     ["/conexao/isaias-9/lucas-2", "/conexao/isaias-9/lucas-2"],

@@ -1,0 +1,203 @@
+/* The notebook on the reading pages (reader.tsx): the chapter's notes under the text and the note dialog. Tokens only
+   (ds.css buttons and section title); the verses' own marks are in reader/selection.module.css. */
+
+.block {
+  max-width: calc(var(--vnum-w) + var(--space-2) + var(--column));
+  margin: var(--space-6) 0 var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+}
+
+.notes {
+  margin: 0 0 var(--space-3);
+  padding: 0;
+  list-style: none;
+}
+
+.noteItem {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: var(--space-3);
+  padding: var(--space-2) 0 var(--space-3);
+  border-bottom: 1px solid var(--line);
+}
+
+.noteRef {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target);
+  justify-self: start;
+  color: var(--accent);
+  font: 600 var(--fs-ui) / var(--lh-ui) var(--font-ui);
+  font-variant-numeric: tabular-nums;
+}
+
+.noteText {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin: 0;
+  color: var(--ink);
+  font: 400 var(--fs-body) / var(--lh-body) var(--font-ui);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.edit.edit {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.summary,
+.problem {
+  margin: 0;
+  color: var(--ink-2);
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+}
+
+.summary a,
+.problem a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.problem {
+  margin: var(--space-5) 0;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+  color: var(--ink);
+}
+
+/* ---- the note dialog: an overlay surface with its own ink */
+
+.dialog {
+  width: min(34rem, calc(100% - 24px));
+  max-height: calc(100dvh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  margin: auto;
+  padding: var(--space-4) var(--space-5) var(--space-5);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  background: var(--overlay);
+  color: var(--ink);
+  box-shadow: var(--shadow-float);
+  font: 400 var(--fs-body) / var(--lh-body) var(--font-ui);
+}
+
+.dialog::backdrop {
+  background: var(--scrim);
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-right: calc(-1 * var(--space-2));
+}
+
+.title {
+  margin: var(--space-2) 0 0;
+  color: var(--ink);
+  font: 440 var(--fs-title) / var(--lh-title) var(--font-display);
+  font-synthesis: none;
+  text-wrap: balance;
+}
+
+.kind {
+  display: block;
+  color: var(--ink-2);
+  font: 500 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+}
+
+.excerpt {
+  max-height: 9.5rem;
+  margin: var(--space-3) 0 var(--space-4);
+  padding-left: var(--space-3);
+  overflow-y: auto;
+  border-left: 2px solid var(--line-strong);
+  color: var(--ink-reading);
+  font: 400 var(--fs-scripture-sm) / var(--lh-scripture-sm) var(--font-reading);
+  text-wrap: pretty;
+}
+
+.label {
+  display: block;
+  margin-bottom: var(--space-2);
+  color: var(--ink);
+  font: 600 var(--fs-ui) / var(--lh-ui) var(--font-ui);
+}
+
+.field {
+  display: block;
+  width: 100%;
+  min-height: 8.5rem;
+  padding: var(--space-3);
+  resize: vertical;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: var(--raised);
+  color: var(--ink);
+  /* 17px: phones do not zoom into a field of 16px or more */
+  font: 400 var(--fs-body) / var(--lh-body) var(--font-ui);
+}
+
+.field:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.hint {
+  margin: var(--space-2) 0 0;
+  color: var(--ink-2);
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  font-variant-numeric: tabular-nums;
+}
+
+.error {
+  margin: var(--space-3) 0 0;
+  color: var(--danger);
+  font: 500 var(--fs-ui) / var(--lh-ui) var(--font-ui);
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.question {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--ink);
+  font: 500 var(--fs-ui) / var(--lh-ui) var(--font-ui);
+}
+
+.eraseButton.eraseButton {
+  margin-left: auto;
+  color: var(--ink-2);
+}
+
+/* the destructive choice: the danger ink with its word, never the colour alone */
+.danger.danger {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* phones: the dialog starts at the top, so the field stays above the keyboard */
+@media (max-width: 30rem) {
+  .dialog {
+    margin-top: max(12px, env(safe-area-inset-top, 0px));
+    padding: var(--space-3) var(--space-4) var(--space-4);
+  }
+
+  .buttons :global(.bc-button) {
+    flex: 1 1 auto;
+  }
+}

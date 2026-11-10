@@ -27,7 +27,7 @@ export const NAV: readonly NavItem[] = [
   { href: "/ponte", label: "Ponte", icon: "bridge", rail: true, group: "Minha jornada", description: "Descubra a ligação do dia", nested: true },
   { href: "/trilha", label: "Trilhas", icon: "map", group: "Minha jornada", description: "Percursos guiados de leitura", nested: true },
   { href: "/mesa", label: "Mesa", icon: "both", group: "Minha jornada", description: "Reúna e compare passagens" },
-  { href: "/salvos", label: "Salvos", icon: "bookmark", rail: true, group: "Minha jornada", description: "Reencontre suas passagens" },
+  { href: "/caderno", label: "Caderno", icon: "bookmark", rail: true, group: "Minha jornada", description: "Grifos, notas e trechos salvos", pages: ["/salvos"] },
   { href: "/#sua-jornada", label: "Descobertas", icon: "check", group: "Minha jornada", description: "Aprenda com os desafios" },
   { href: "/", label: "Início", icon: "home", group: "Sobre o app", description: "Voltar à página inicial" },
   { href: "/apoie", label: "Apoie esta missão", icon: "heart", group: "Sobre o app", description: "Mini Jesus, cestas básicas e mais Palavra" },

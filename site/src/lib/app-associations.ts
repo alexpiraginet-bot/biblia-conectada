@@ -25,11 +25,11 @@ export const NATIVE_CONTENT_PATHS = [
   ]),
 ] as const;
 
-// Saved items, anonymous rewards and the personal study desk belong to the browser's
+// Saved items, the notebook, anonymous rewards and the personal study desk belong to the browser's
 // local session. A content link must not imply that those records migrate to an app.
 const WEB_ONLY_PREFIXES = [
   "/api", "/_next", "/.well-known", "/instalar", "/og", "/files", "/data", "/dados",
-  "/admin", "/salvos", "/jornada", "/mesa",
+  "/admin", "/salvos", "/caderno", "/jornada", "/mesa",
 ] as const;
 
 /** Both formats evaluate the first matching component. Preserve this ordering. */

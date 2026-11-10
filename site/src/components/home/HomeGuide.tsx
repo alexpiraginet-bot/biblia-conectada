@@ -61,12 +61,12 @@ const STEPS = [
     action: "Estudar com IA",
   },
   {
-    label: "Salvos",
-    title: "Guarde um caminho para voltar.",
-    text: "Salve as passagens que deseja reler e encontre-as reunidas em Salvos. A lista fica neste aparelho, guardada pelo navegador.",
-    hint: "Limpar os dados do site apaga os salvos e o progresso local.",
-    href: "/salvos",
-    action: "Ver meus salvos",
+    label: "Caderno",
+    title: "Grife, anote e guarde de cor.",
+    text: "Na leitura, selecione um trecho para grifar, anotar, salvar ou decorar com revisões espaçadas. Tudo fica reunido no Caderno, só neste aparelho.",
+    hint: "Limpar os dados do site apaga o caderno; baixe um backup quando quiser guardá-lo.",
+    href: "/caderno",
+    action: "Abrir meu caderno",
   },
 ] as const;
 

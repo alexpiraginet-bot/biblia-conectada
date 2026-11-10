@@ -16,6 +16,12 @@ Escrito pelo Claude a pedido do Alex: "Prepare handoff para o códex seguir". Da
 
 ## 2. Estado e continuidade
 
+### Caderno: grifos, anotações e decorar — 10/11
+
+Branch `claude/melhorias-app-cristao-hio0um`, base `f0dce71`. A barra de seleção da leitura ganhou **Grifar**, **Anotar** e **Decorar**, que valem para os versículos inteiros da seleção e ficam só no aparelho; `/caderno` reúne anotações, grifos, a revisão espaçada do dia e os salvos, com backup validado. "Caderno" substitui "Salvos" no menu; `/salvos` continua. [Regras e limites](CADERNO.md), [evidências e o que não foi verificado](evidence/2026-11-10-caderno.md), direção em `design/README.md` §22.
+
+Validação local no código final: tipos, lint, build com 1.306 testes e `check-dist` em 3.851 páginas, orçamento com `/arcos` em 168.886 B (74 B de margem; eram 72) e 232 verificações no Chromium em 375/1440, Noite e Dia. Para quem mexer na leitura: o Caderno pinta o capítulo por atributos nos `li[data-verse]` a partir de um efeito **passivo**; um efeito de layout num componente filho roda antes de a `ref` do pai voltar quando o roteador mostra de novo uma página oculta (§6, "Páginas escondidas no DOM"). Sem Safari, aparelho físico nem deploy conferidos: não tratar este registro como prova de publicação.
+
 ### Segurança do painel — 01/11
 
 Branch `codex/admin-security`, base `7b36106`: `/admin` oferece **Manter conectado por 30 dias** (oito horas se desmarcado), troca de senha com scrypt e revogação das outras sessões, chaves WebAuthn para Face ID/biometria e campos compatíveis com gerenciadores de senhas. A senha atual continua válida até o próprio administrador concluir a troca; sessões antigas exigem novo login. [Operação e recuperação](SEGURANCA-DO-PAINEL.md), [evidências e portões de publicação](evidence/2026-11-01-admin-security.md). Não confundir autenticador virtual validado com Face ID físico nem inicializar uma chave de teste em produção. Conferir READY e domínio público no registro de entrega.
@@ -182,6 +188,8 @@ Antes disso, no mesmo dia, ele pediu a lista sem fim da leitura: "As conexões a
   - sem GPU: o fundo estático.
 
 ### 4.2 Dados salvos no navegador (buscas, anotações, memórias…)
+
+**Estado atual (10/11):** anotações, grifos e "Decorar" (caixas de Leitner) entregues como o **Caderno**, com backup que leva junto os salvos; resumo no §2 e regras em [`CADERNO.md`](CADERNO.md). A implementação usa `localStorage` numa chave versionada (`bc:caderno:v1`), não IndexedDB nem o módulo único `lib/local/` proposto abaixo. Continuam pendentes: histórico de buscas, diário sem passagem, conversas do companheiro de estudo, "Continuar" na capa e o arquivo único com tudo. O plano original fica abaixo como registro.
 
 Tudo fica no aparelho: sem conta, sem servidor. A frase "Ficam só neste aparelho" já existe em `/salvos`.
 

@@ -46,6 +46,7 @@ const sections: Record<string, Omit<ShareCard, "path">> = {
   "/coracao": { eyebrow: "NO SEU CORAÇÃO", title: "Uma pergunta.\nUm caminho pela Palavra.", description: "Encontre passagens a partir do que você está vivendo e reflita à luz dos ensinamentos de Jesus, com auxílio de IA e fontes à vista.", kind: "landing" },
   "/buscar": { eyebrow: "ENCONTRE SEU CAMINHO", title: "O que você quer\ndescobrir hoje?", description: "Busque uma referência, uma palavra ou uma passagem. A próxima conexão começa aqui.", kind: "landing" },
   "/salvos": { eyebrow: "SEU CADERNO", title: "Guarde o que\ntocou você.", description: "Volte às passagens que você salvou neste aparelho e continue sua leitura.", kind: "landing" },
+  "/caderno": { eyebrow: "SEU CADERNO", title: "Grife, anote\ne guarde de cor.", description: "Grifos, anotações e passagens para decorar com revisão espaçada, guardados só no seu aparelho.", kind: "landing" },
   "/ponte": { eyebrow: "PONTE BÍBLICA", title: "De um versículo\na outro.", description: "Siga as referências cruzadas e encontre um caminho entre duas passagens.", kind: "connection" },
   "/trilha": { eyebrow: "TRILHAS DE LEITURA", title: "Cada passo,\numa conexão.", description: "Explore caminhos de leitura que aproximam passagens do Antigo e do Novo Testamento.", kind: "connection" },
   "/trilha/antes-do-natal": { eyebrow: "TRILHA DE LEITURA", title: "Antes do Natal.", description: "Acompanhe as ligações entre o Antigo Testamento e os relatos do nascimento de Jesus.", kind: "connection" },
