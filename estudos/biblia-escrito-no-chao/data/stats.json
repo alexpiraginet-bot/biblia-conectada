@@ -1,0 +1,112 @@
+{
+ "source": "BLIVRE (CC BY 4.0 BR); OpenBible cross references (CC BY) via ../biblia-referencias/data/xref.npz",
+ "definition": "ligações = parceiros únicos, qualquer voto; votos de um par = soma das duas direções (como nos vídeos 1-10)",
+ "john_8_6": {
+  "partners": 30,
+  "top": [
+   [
+    "Jeremias 17:13",
+    55
+   ],
+   [
+    "Mateus 22:18",
+    8
+   ],
+   [
+    "Lucas 10:25",
+    8
+   ],
+   [
+    "Mateus 16:1",
+    7
+   ],
+   [
+    "Mateus 19:3",
+    7
+   ]
+  ]
+ },
+ "jer_17_13": {
+  "partners": 52,
+  "top": [
+   [
+    "Apocalipse 22:1",
+    73
+   ],
+   [
+    "João 8:6",
+    55
+   ],
+   [
+    "Apocalipse 7:17",
+    52
+   ],
+   [
+    "João 4:14",
+    51
+   ],
+   [
+    "João 7:37",
+    50
+   ],
+   [
+    "João 4:10",
+    49
+   ]
+  ]
+ },
+ "pairs": [
+  {
+   "a": "John.8.6",
+   "b": "Jer.17.13",
+   "a_pt": "João 8:6",
+   "b_pt": "Jeremias 17:13",
+   "votes": 55
+  },
+  {
+   "a": "Jer.17.13",
+   "b": "John.7.37",
+   "a_pt": "Jeremias 17:13",
+   "b_pt": "João 7:37",
+   "votes": 50
+  }
+ ],
+ "gospel_verses_with_escrever": 17,
+ "jesus_writes": [
+  "João 8:6",
+  "João 8:8"
+ ],
+ "others_write": {
+  "MAR 10:4": "Moisés",
+  "MAR 10:5": "Moisés",
+  "MAR 12:19": "Moisés",
+  "LUK 1:3": "Lucas",
+  "LUK 1:63": "Zacarias",
+  "LUK 16:6": "devedor",
+  "LUK 16:7": "devedor",
+  "LUK 20:28": "Moisés",
+  "JOH 1:45": "Moisés",
+  "JOH 5:46": "Moisés",
+  "JOH 19:19": "Pilatos",
+  "JOH 19:21": "Pilatos",
+  "JOH 19:22": "Pilatos",
+  "JOH 21:24": "o discípulo",
+  "JOH 21:25": "livros (hipótese)"
+ },
+ "blivre": {
+  "Jer.17.13": "Ó SENHOR, esperança de Israel! Todos os que te abandonam serão envergonhados; e os que de mim se afastam, serão escritos no chão; pois abandonaram ao SENHOR, a fonte de águas vivas.",
+  "John.7.37": "E no último e grande dia da festa se pôs Jesus em pé, e exclamou, dizendo: Se alguém tem sede, venha a mim, e beba.",
+  "John.7.53": "E cada um foi para sua casa.",
+  "John.8.10": "E endireitando-se Jesus, e não vendo a ninguém além da mulher, disse-lhe: Mulher, onde estão aqueles teus acusadores? Ninguém te condenou?",
+  "John.8.11": "E disse ela: Ninguém, Senhor. E disse-lhe Jesus: Nem eu também te condeno; vai, e não peques mais.",
+  "John.8.2": "E pela manhã cedo voltou ao Templo, e todo o povo veio a ele; e sentando-se, ensinava-os.",
+  "John.8.3": "E trouxeram-lhe os escribas e fariseus uma mulher tomada em adultério;",
+  "John.8.4": "E pondo-a no meio, disseram-lhe: Mestre, esta mulher foi tomada no momento em que estava adulterando.",
+  "John.8.5": "E na Lei nos mandou Moisés, que as tais sejam apedrejadas; tu pois que dizes?",
+  "John.8.6": "E isto diziam eles, tentando-o, para que tivessem de que o acusar. Mas inclinando-se Jesus, escrevia com o dedo na terra.",
+  "John.8.7": "E enquanto continuavam lhe perguntando, ele se endireitou, e disse-lhes: Aquele de vós que está sem pecado, seja o primeiro que atire pedra contra ela.",
+  "John.8.8": "E voltando a se inclinar, escrevia na terra.",
+  "John.8.9": "Porém ouvindo eles isto, e acusados pela própria consciência, saíram um a um, começando dos mais velhos até os últimos; e Jesus ficou só, e a mulher, que estava no meio."
+ },
+ "words": 177
+}

@@ -1,0 +1,55 @@
+<!doctype html><meta charset="utf-8"><body style="margin:0;background:#111">
+<script src="node_modules/p5.brush/dist/brush.js"></script>
+<script>
+// One painted element of renders/.film/plan.json per call, on white, cropped to its box (compose.py multiplies or
+// un-whites it over the picture). Natural media by p5.brush 3.0.0 (standalone build, MIT).
+const W = 1080, H = 1920;
+let cv, c2, g2;
+const hash = s => { let h = 7; for (const c of s) h = (h * 31 + c.charCodeAt(0)) >>> 0; return 1 + (h % 9973); };
+function rnd(seed) { let a = seed >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+// a hand-laid rectangle: corners a little off, edges that wander
+function blob(x, y, w, h, r, k) {
+  const p = [], n = Math.max(3, Math.round(w / 150)), m = Math.max(2, Math.round(h / 120));
+  for (let i = 0; i <= n; i++) p.push([x + w * i / n, y + (r() - 0.5) * k]);
+  for (let i = 1; i <= m; i++) p.push([x + w + (r() - 0.5) * k, y + h * i / m]);
+  for (let i = n - 1; i >= 0; i--) p.push([x + w * i / n, y + h + (r() - 0.5) * k]);
+  for (let i = m - 1; i >= 1; i--) p.push([x + (r() - 0.5) * k, y + h * i / m]);
+  return p;
+}
+window.init = () => {
+  cv = brush.createCanvas(W, H); brush.angleMode(brush.DEGREES); brush.scaleBrushes(9);
+  c2 = document.createElement("canvas"); g2 = c2.getContext("2d", { willReadFrequently: true });
+  return true;
+};
+window.paintEl = (e) => {
+  const s = hash(e.id); brush.seed(s); brush.noiseSeed(s); const r = rnd(s);
+  brush.clear("#ffffff"); brush.push(); brush.translate(-W / 2, -H / 2);
+  let box;
+  if (e.type === "panel") {
+    const [x, y, w, h] = e.rect; brush.noStroke();
+    brush.fillBleed(0.16, "out"); brush.fillTexture(0.30, 0.22);
+    brush.fill(e.color, e.opacity * 0.62); brush.polygon(blob(x - 10, y - 8, w + 20, h + 16, r, 16));
+    brush.fillBleed(0.08, "out"); brush.fillTexture(0.22, 0.30);
+    brush.fill(e.color, e.opacity * 0.58); brush.polygon(blob(x + 6, y + 4, w - 12, h - 8, r, 9));
+    brush.noFill(); brush.set("2B", e.color, 1.0);
+    brush.spline([[x + 14, y + h + 3, 0.5], [x + w * 0.3, y + h + 7, 1.0], [x + w * 0.7, y + h + 2, 0.9], [x + w - 12, y + h + 6, 0.4]], 0.5);
+    box = [x - 90, y - 80, w + 180, h + 160];
+  } else if (e.type === "wash") {
+    const [x, y, w, h] = e.rect; brush.noStroke();
+    brush.fillBleed(0.30, "out"); brush.fillTexture(0.50, 0.55, true, 0.3);
+    brush.fill(e.color, e.opacity); brush.polygon(blob(x, y, w, h, r, Math.min(26, h * 0.25)));
+    if (w * h < 4e5) { brush.fillBleed(0.12, "out"); brush.fill(e.color, e.opacity * 0.5); brush.polygon(blob(x + w * 0.06, y + h * 0.18, w * 0.88, h * 0.64, r, 8)); }
+    box = [x - 110, y - 90, w + 220, h + 180];
+  } else if (e.type === "stroke") {
+    brush.noFill(); brush.set(e.brush, e.color, e.weight);
+    for (let k = 0; k < (e.brush === "charcoal" ? 2 : 1); k++) brush.spline(e.pts, 0.5);   // charcoal: two passes, so the line holds on the ochre
+    const xs = e.pts.map(p => p[0]), ys = e.pts.map(p => p[1]);
+    box = [Math.min(...xs) - 60, Math.min(...ys) - 60, Math.max(...xs) - Math.min(...xs) + 120, Math.max(...ys) - Math.min(...ys) + 120];
+  }
+  brush.pop(); brush.render();
+  const x0 = Math.max(0, Math.floor(box[0])), y0 = Math.max(0, Math.floor(box[1]));
+  const x1 = Math.min(W, Math.ceil(box[0] + box[2])), y1 = Math.min(H, Math.ceil(box[1] + box[3]));
+  c2.width = x1 - x0; c2.height = y1 - y0; g2.drawImage(cv, x0, y0, x1 - x0, y1 - y0, 0, 0, x1 - x0, y1 - y0);
+  return { x: x0, y: y0, w: x1 - x0, h: y1 - y0, url: c2.toDataURL("image/png") };
+};
+</script>

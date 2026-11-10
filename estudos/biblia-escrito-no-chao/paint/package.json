@@ -1,0 +1,9 @@
+{
+  "name": "escrito-no-chao-paint",
+  "private": true,
+  "description": "p5.brush layers of the film (paint/render.cjs); Playwright comes from the environment",
+  "dependencies": {
+    "p5": "2.3.4",
+    "p5.brush": "3.0.0"
+  }
+}

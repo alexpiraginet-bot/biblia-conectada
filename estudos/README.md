@@ -12,6 +12,7 @@
 | `biblia-marca/` | **A outra marca** (25/10/2026, 1080×1920, 60 fps, ~51 s) | Apocalipse 13 e 22 sem partido: a marca fica na mão e na testa, o lugar de Deuteronômio 6:8 (9 votos); a besta pede adoração; no último capítulo o nome de Deus volta à testa (Ap 13:17 ↔ 22:4, 6 votos). Tipografia cinética com corte seco a cada fala, flash e tremida nos impactos. Narração do Andre |
 | `biblia-referencias-ceu/` | **A Bíblia, conectada — versão céu** (27/10/2026, 1080×1920, 30 fps, 53,5 s) | Refação do vídeo 1 com os mesmos cortes de narração, tempos, câmera e órgão, num céu acolhedor (fundo enviado pelo Alex). Os arcos têm as cores do arco-íris por vão e viram ouro só quando uma ligação se conecta. O clímax passa de Isaías 9:6 a João 3:16 (80 ligações), com duas falas do Andre já validadas em "Antes de João 3:16" |
 | `biblia-ezequiel37/` | **Cada osso a seu osso** (28/10/2026, 1080×1920, 30 fps, ~85,5 s) | Ezequiel 37 → 47 narrado em primeira pessoa com o texto da BLIVRE, e a imagem feita do próprio texto: as letras do capítulo espalhadas como ossos voam e se encaixam no versículo, nervos, carne, pele, os quatro ventos, o exército de linhas; a água sobe medida e o texto submerge. Só tipografia, luz e água em código (Remotion). Deus só como luz |
+| `biblia-escrito-no-chao/` | **Escrito no chão** (10/11/2026, 1080×1920, 24 fps, 37,1 s) | João 8, a única cena em que Jesus escreve: a pergunta sem resposta (o que ele escreveu?) e a ligação mais votada de João 8:6, Jeremias 17:13 ("serão escritos no chão… a fonte de águas vivas"). 26 planos em 37 s, tudo visto de cima: artes e takes gerados no Higgsfield, aguadas e carvão em p5.brush, corte e tipografia no Higgsedit. Narração do Andre |
 
 **Números do vídeo 2:**
 - 2.094 ligações do AT chegam aos 4 capítulos do nascimento (Mt 1–2 e Lc 1–2, 180 versículos).
@@ -37,6 +38,10 @@
 - Sl 22:1 ↔ Mt 27:46 é o par mais votado de Sl 22:1 (126 votos). Os quatro pares do filme: 22:7↔Mt 27:39 (5), 22:8↔Mt 27:43 (15), 22:18↔Jo 19:24 (60), 22:15↔Jo 19:28 (81).
 - Sl 22:16 ("perfuraram") ficou fora (leitura hebraica disputada); Sl 22:31 → Jo 19:30 não é chamado de ligação.
 
+**Números do vídeo 11:**
+- João 8:6 tem 30 ligações; a mais votada é Jeremias 17:13 (55 votos; a 2ª tem 8). Jeremias 17:13 ↔ João 7:37 tem 50 votos (ficou fora do corte curto).
+- Nos quatro evangelhos, 17 versículos têm "escrev" na BLIVRE; só em João 8:6 e 8:8 é Jesus quem escreve.
+
 **Onde está o resto:**
 - Cada pasta tem `PROJETO.md` (decisões, dados, pipeline), `LEGENDA.md` (legenda do post) e o código.
 - `renders/` traz o vídeo final e a capa.
@@ -57,6 +62,7 @@ cd ../biblia-salmo22 && python3 -I tools/analyze.py && python3 -I tools/check.py
 cd ../biblia-marca && python3 -I tools/analyze.py && python3 -I tools/check.py              # idem, + nenhum partido na fala, na tela e na paleta
 cd ../biblia-referencias-ceu && python3 narration.py && python3 film.py --still 0.5,22.5,44.5   # mesmos dados do vídeo 1
 cd ../biblia-ezequiel37 && python3 -I tools/analyze.py && python3 -I tools/check.py       # citações == BLIVRE, Deus não desenhado
+cd ../biblia-escrito-no-chao && python3 -I tools/analyze.py && python3 -I plan.py && python3 -I edit/make_edit.py && python3 -I tools/check.py   # idem, + o corte (plan.json) == edit.jsx do Higgsedit
 ```
 
 O pipeline completo de cada vídeo está no `PROJETO.md` da pasta.
