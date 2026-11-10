@@ -1,0 +1,420 @@
+/* /caderno: the reader's notebook as ruled lists (ds.css buttons, chips, segmented control and section title), in the
+   manner of /salvos. Tokens only. */
+
+.page > :global(.bc-lede) {
+  margin-bottom: var(--space-6);
+}
+
+.page > * {
+  max-width: 44rem;
+}
+
+.loading {
+  min-height: 12rem;
+}
+
+/* the four parts of the notebook: the whole width on a phone, each part an equal share; its own width from 40rem */
+.views {
+  display: flex;
+  width: 100%;
+}
+
+.views button {
+  flex: 1 1 0;
+  justify-content: center;
+  min-width: 0;
+  min-height: var(--target);
+  padding: 0 var(--space-2);
+  font-size: 0.9375rem;
+}
+
+@media (min-width: 40rem) {
+  .views {
+    display: inline-flex;
+    width: max-content;
+  }
+
+  .views button {
+    flex: none;
+    padding: 0 var(--space-5);
+    font-size: var(--fs-ui);
+  }
+}
+
+.status {
+  min-height: 1.5rem;
+  margin: var(--space-3) 0 0;
+  color: var(--ink);
+  font: 500 var(--fs-ui) / var(--lh-ui) var(--font-ui);
+}
+
+.status:empty {
+  min-height: 0;
+  margin: 0;
+}
+
+.view {
+  margin-top: var(--space-5);
+}
+
+/* reviews waiting today, said before the parts of the notebook */
+.dueBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  margin: 0 0 var(--space-5);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--ink);
+  font: 500 var(--fs-body) / var(--lh-body) var(--font-ui);
+}
+
+.dueBar > span {
+  flex: 1 1 12rem;
+}
+
+.dueIcon.dueIcon {
+  color: var(--accent);
+}
+
+/* nothing in this part yet: what it is for and the next step */
+.empty {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-3);
+  padding: var(--space-6) 0 0;
+  border-top: 1px solid var(--line);
+}
+
+.emptyIcon.emptyIcon {
+  width: 28px;
+  height: 28px;
+  color: var(--accent);
+}
+
+.emptyTitle {
+  margin: 0;
+  color: var(--ink);
+  font: 440 var(--fs-title) / var(--lh-title) var(--font-display);
+  font-synthesis: none;
+}
+
+.emptyText,
+.how {
+  max-width: 38rem;
+  margin: 0;
+  color: var(--ink-2);
+  font: 400 var(--fs-body) / var(--lh-body) var(--font-ui);
+}
+
+.how {
+  margin-bottom: var(--space-3);
+}
+
+.how a {
+  color: var(--accent);
+}
+
+.actions,
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4) 0 var(--space-5);
+  border-bottom: 1px solid var(--line);
+}
+
+.itemHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-4);
+}
+
+.itemActions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.ref {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target);
+  color: var(--ink);
+  font: 440 1.375rem / 1.2 var(--font-display);
+  font-synthesis: none;
+  text-decoration: none;
+}
+
+a.ref:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.quiet.quiet {
+  flex: none;
+  color: var(--ink-2);
+}
+
+.quiet.quiet:hover {
+  color: var(--ink);
+}
+
+.quote {
+  margin: 0;
+  color: var(--ink-reading);
+  font: 400 var(--fs-scripture-sm) / var(--lh-scripture-sm) var(--font-reading);
+  text-wrap: pretty;
+}
+
+/* the reader's own words: the interface voice, as written (line breaks kept) */
+.noteText {
+  margin: 0;
+  padding-left: var(--space-3);
+  border-left: 2px solid var(--accent);
+  color: var(--ink);
+  font: 400 var(--fs-body) / var(--lh-body) var(--font-ui);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.when {
+  margin: 0;
+}
+
+.when .dot {
+  margin-right: 0.45em;
+  vertical-align: -0.1em;
+}
+
+.schedule {
+  margin: 0;
+  color: var(--ink);
+  font: 500 var(--fs-ui) / var(--lh-ui) var(--font-ui);
+  font-variant-numeric: tabular-nums;
+}
+
+.reveal summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target);
+  color: var(--accent);
+  font: 600 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  cursor: pointer;
+}
+
+/* ---- highlights: the colour behind the text, as in the reading (reader/selection.module.css), and its name beside */
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-2);
+}
+
+.dot {
+  display: inline-block;
+  flex: none;
+  width: 0.875rem;
+  height: 0.875rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--grifo);
+}
+
+.dot[data-cor="ouro"],
+.marked[data-cor="ouro"] {
+  --grifo: var(--mark-ouro);
+}
+
+.dot[data-cor="verde"],
+.marked[data-cor="verde"] {
+  --grifo: var(--mark-verde);
+}
+
+.dot[data-cor="azul"],
+.marked[data-cor="azul"] {
+  --grifo: var(--mark-azul);
+}
+
+.dot[data-cor="lilas"],
+.marked[data-cor="lilas"] {
+  --grifo: var(--mark-lilas);
+}
+
+.marked {
+  background-color: var(--grifo);
+  box-shadow:
+    -0.14em 0 0 var(--grifo),
+    0.14em 0 0 var(--grifo);
+  border-radius: 2px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.verseNumber {
+  margin-right: 0.35em;
+  color: var(--accent);
+  font: 600 0.75rem / 1 var(--font-ui);
+  vertical-align: 0.35em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- today's review: one passage at a time, on the page's own plane */
+
+.review {
+  margin: 0 0 var(--space-6);
+  padding: var(--space-5);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.reviewCount,
+.reviewBox,
+.reviewNote {
+  margin: 0;
+  color: var(--ink-2);
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  font-variant-numeric: tabular-nums;
+}
+
+.reviewNote {
+  margin-top: var(--space-3);
+}
+
+.reviewNote a {
+  color: var(--accent);
+}
+
+.reviewRef {
+  margin: var(--space-2) 0 0;
+  color: var(--ink);
+  font: 440 clamp(1.75rem, 1.45rem + 1.3vw, 2.25rem) / 1.12 var(--font-display);
+  font-synthesis: none;
+  text-wrap: balance;
+}
+
+.reviewRef:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+.reviewAsk {
+  margin: var(--space-4) 0 0;
+  color: var(--ink);
+  font: 400 var(--fs-body) / var(--lh-body) var(--font-ui);
+}
+
+.reviewText,
+.reviewHint {
+  margin: var(--space-4) 0 0;
+  color: var(--ink-reading);
+  font: 400 var(--fs-quote) / var(--lh-quote) var(--font-reading);
+  text-wrap: pretty;
+}
+
+.reviewHint {
+  color: var(--ink-2);
+  letter-spacing: 0.04em;
+}
+
+.reviewButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.reviewDone {
+  margin: 0;
+  color: var(--ink);
+  font: 500 var(--fs-body) / var(--lh-body) var(--font-ui);
+}
+
+/* ---- backup, confirmation and trouble */
+
+.backup {
+  margin-top: var(--space-7);
+}
+
+.chosen,
+.confirm {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.chosen {
+  display: flex;
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+}
+
+.confirmText {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--ink);
+  font: 500 var(--fs-ui) / var(--lh-ui) var(--font-ui);
+}
+
+.confirm .confirmText {
+  flex-basis: auto;
+}
+
+/* the destructive choice: the danger ink with its word, never the colour alone */
+.danger.danger {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.danger.danger:hover {
+  border-color: var(--danger);
+  background: var(--surface);
+}
+
+.problem {
+  display: grid;
+  gap: var(--space-3);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--line);
+}
+
+.problemText {
+  margin: 0;
+  color: var(--ink);
+  font: 500 var(--fs-body) / var(--lh-body) var(--font-ui);
+}
+
+@media (max-width: 30rem) {
+  .review {
+    padding: var(--space-4);
+  }
+
+  .reviewButtons :global(.bc-button) {
+    flex: 1 1 auto;
+  }
+}

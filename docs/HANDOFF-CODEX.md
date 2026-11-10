@@ -16,6 +16,48 @@ Escrito pelo Claude a pedido do Alex: "Prepare handoff para o códex seguir". Da
 
 ## 2. Estado e continuidade
 
+### Tema claro como padrão — 10/11
+
+Mesma branch, sobre `1e1bc5f`. A pedido do Alex, o app abre em **Dia** para todo mundo; **Noite** e **Sistema** são escolhas de quem lê. `NIGHT_MODE_ONLY` está desligada e continua no código como caminho de volta; o padrão é `DEFAULT_CHOICE` em `site/src/components/header/theme.ts`, e tudo que decide o tema de abertura (primeiro HTML, script do `<head>`, página de instalação, metas de cor, manifesto) lê dali. [Evidência](evidence/2026-11-10-tema-claro.md); direção em `design/README.md` §27.
+
+- **`/arcos` ficou a 43 B do teto de JS** (168.917 B): a troca do tema custou 12 B no que todas as páginas carregam.
+- Nos roteiros de QA, o contexto "Noite" agora guarda `theme=noite` antes de cada carga; aplicar `data-theme` por cima depois da carga, como se fazia para o Dia, não é mais necessário.
+- A varredura de contraste do tema claro mede texto sobre cor sólida. Texto sobre imagem (67 por largura, 33 deles na capa) precisa de medição sobre a imagem pintada, como foi feito para o hero.
+
+### Hero da capa, contexto do versículo e correções da revisão — 10/11
+
+Mesma branch, sobre `3103208`. A capa abre com o **céu de arcos** feito dos dados (um arco por capítulo, ao capítulo mais ligado a ele), sobre o vale e com o título de 01/11; as esferas de cristal viraram a segunda cena. O painel do versículo mostra o **versículo anterior e o seguinte**, e **"Contexto"** abre os de antes e os de depois no diálogo dos versículos, também em cada versículo ligado ([CONTEXTO.md](CONTEXTO.md)). Uma **revisão independente** da rodada anterior achou 12 defeitos, todos corrigidos ([evidência](evidence/2026-11-10-hero-contexto-revisao.md), com a tabela). Direção em `design/README.md` §25 e §26.
+
+Validação local no código final: tipos, lint, build com 1.388 testes e `check-dist` em 3.858 páginas, orçamento com `/arcos` em 168.905 B (**55 B de margem**) e 812 verificações no Chromium em 375/1440, Noite e Dia. Para quem mexer nisto:
+
+- **`VerseActions` está no JS inicial de `/arcos`.** Qualquer byte a mais ali estoura o teto; por isso "Contexto" é um componente separado (`VerseContextLink`). Meça antes de tocar em `VerseActions`.
+- **No `next dev` o diálogo dos versículos abre e fecha sozinho** (Conexões, Compartilhar, estudo e Contexto): o modo estrito roda o efeito duas vezes e o `close()` da limpeza chega depois da reabertura. Teste esses diálogos com `npm run build` e `next start`. Corrigir isso ficou fora desta entrega; a hipótese, não testada, é que o padrão do `NoteDialog` (ignorar o `close` causado pela própria limpeza do efeito) resolve em `VerseDialog.tsx`.
+- **Para parar o servidor de produção local, mate `next-server`**, não `next start`: nesta rodada um servidor antigo ficou preso à porta depois de um build novo, as páginas vieram sem estilo e os roteiros falharam de modo confuso.
+- **Um cartão que muda de tamanho depois de uma ação precisa de um período de silêncio:** o segundo clique de um duplo clique cai no que acabou de chegar sob o ponteiro. O plano ignora toques por 700 ms depois de cada ação.
+- **`display: contents` tira a caixa do elemento:** num link, some o alvo de toque e o anel de foco. A regra das ações do versículo vale só para o `span` contêiner.
+- O desenho do hero vai duas vezes no HTML da capa (marcação e dados da página). Se o peso incomodar, o caminho é gerar as quatro camadas como arquivos estáticos e aceitar que o céu apareça depois da primeira pintura.
+
+Sem Safari, aparelho físico, leitor de tela nem Lighthouse; o hero e o contexto não passaram por um segundo revisor.
+
+### Rascunhos da anotação, modo Leitura e planos de leitura — 10/11
+
+Mesma branch, sobre `f98a875`. Três entregas: o diálogo de anotação do Caderno deixou de travar a página no segundo Escape e passou a guardar o texto não guardado como **rascunho** ([CADERNO.md](CADERNO.md), "Rascunhos"); o capítulo ganhou **Estudo | Leitura** e **A− A+**, nas duas edições, com a escolha aplicada antes da primeira pintura ([LEITURA.md](LEITURA.md)); e `/planos` traz cinco **planos de leitura** com porções cortadas por código, que avançam com o progresso pessoal de leitura ([PLANOS.md](PLANOS.md)). [Evidências e o que não foi verificado](evidence/2026-11-10-leitura-planos.md); direção em `design/README.md` §23 e §24.
+
+Validação local no código final: tipos, lint, build com 1.371 testes e `check-dist` em 3.858 páginas, orçamento com `/arcos` em 168.905 B (**55 B de margem**; meça antes de acrescentar qualquer coisa ao que `/arcos` carrega) e, no Chromium, 244 verificações dos planos, 138 da leitura, 236 do Caderno e 36 do diálogo, em 375/1440, Noite e Dia. Para quem mexer nisto:
+
+- Um `<dialog>` modal não pode se recusar a fechar: o navegador fecha no segundo Escape (ou no gesto de voltar) e dispara `close` sem passar pela página. Guarde o estado e deixe fechar.
+- O modo de leitura é CSS sobre atributos de `<html>` (`data-leitor`, `data-texto`), postos por um script do `<head>`. Um controle novo dentro da lista de versículos precisa de `data-verse-actions` para sair no modo Leitura.
+- Os planos não guardam o que foi lido. Mudar a regra de "capítulo lido" do progresso de leitura muda todos os planos.
+- A leitura offline (service worker) continua sem fazer; é a próxima candidata e pede teste em aparelho.
+
+Sem Safari, aparelho físico, leitor de tela nem deploy conferidos desta rodada.
+
+### Caderno: grifos, anotações e decorar — 10/11
+
+Branch `claude/melhorias-app-cristao-hio0um`, base `f0dce71`. A barra de seleção da leitura ganhou **Grifar**, **Anotar** e **Decorar**, que valem para os versículos inteiros da seleção e ficam só no aparelho; `/caderno` reúne anotações, grifos, a revisão espaçada do dia e os salvos, com backup validado. "Caderno" substitui "Salvos" no menu; `/salvos` continua. [Regras e limites](CADERNO.md), [evidências e o que não foi verificado](evidence/2026-11-10-caderno.md), direção em `design/README.md` §22.
+
+Validação local no código final: tipos, lint, build com 1.306 testes e `check-dist` em 3.851 páginas, orçamento com `/arcos` em 168.886 B (74 B de margem; eram 72) e 232 verificações no Chromium em 375/1440, Noite e Dia. Para quem mexer na leitura: o Caderno pinta o capítulo por atributos nos `li[data-verse]` a partir de um efeito **passivo**; um efeito de layout num componente filho roda antes de a `ref` do pai voltar quando o roteador mostra de novo uma página oculta (§6, "Páginas escondidas no DOM"). Sem Safari, aparelho físico nem deploy conferidos: não tratar este registro como prova de publicação.
+
 ### Segurança do painel — 01/11
 
 Branch `codex/admin-security`, base `7b36106`: `/admin` oferece **Manter conectado por 30 dias** (oito horas se desmarcado), troca de senha com scrypt e revogação das outras sessões, chaves WebAuthn para Face ID/biometria e campos compatíveis com gerenciadores de senhas. A senha atual continua válida até o próprio administrador concluir a troca; sessões antigas exigem novo login. [Operação e recuperação](SEGURANCA-DO-PAINEL.md), [evidências e portões de publicação](evidence/2026-11-01-admin-security.md). Não confundir autenticador virtual validado com Face ID físico nem inicializar uma chave de teste em produção. Conferir READY e domínio público no registro de entrega.
@@ -182,6 +224,8 @@ Antes disso, no mesmo dia, ele pediu a lista sem fim da leitura: "As conexões a
   - sem GPU: o fundo estático.
 
 ### 4.2 Dados salvos no navegador (buscas, anotações, memórias…)
+
+**Estado atual (10/11):** anotações, grifos e "Decorar" (caixas de Leitner) entregues como o **Caderno**, com backup que leva junto os salvos; resumo no §2 e regras em [`CADERNO.md`](CADERNO.md). A implementação usa `localStorage` numa chave versionada (`bc:caderno:v1`), não IndexedDB nem o módulo único `lib/local/` proposto abaixo. Continuam pendentes: histórico de buscas, diário sem passagem, conversas do companheiro de estudo, "Continuar" na capa e o arquivo único com tudo. O plano original fica abaixo como registro.
 
 Tudo fica no aparelho: sem conta, sem servidor. A frase "Ficam só neste aparelho" já existe em `/salvos`.
 

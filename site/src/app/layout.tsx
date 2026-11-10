@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/header/SiteHeader";
-import { NIGHT_MODE_ONLY, THEME_COLOR, THEME_SCRIPT } from "@/components/header/theme";
+import { FIRST_THEME, THEME_COLOR, THEME_SCRIPT } from "@/components/header/theme";
 import { SearchHost } from "@/components/search/SearchHost";
 import { StudyHost } from "@/components/assistant/StudyHost";
 import { VERSE_INTENT_SCRIPT } from "@/components/assistant/verse-intent-script";
@@ -11,6 +11,7 @@ import { InstallHost } from "@/components/install/InstallHost";
 import { RewardsHost } from "@/components/rewards/RewardsHost";
 import { ReadingProgressHost } from "@/components/reading-progress/ReadingProgressHost";
 import { PAGE_SEARCH_SCRIPT } from "@/components/search/page-search-script";
+import { READER_PREFS_SCRIPT } from "@/lib/reader-prefs";
 import { SiteShell } from "@/components/shell/NavLinks";
 import { SectionRail, TabBar } from "@/components/shell/Navigation";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_SHORT_NAME, SITE_URL } from "@/lib/site-identity";
@@ -57,8 +58,10 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: NIGHT_MODE_ONLY ? THEME_COLOR.noite : THEME_COLOR.dia },
-    { media: "(prefers-color-scheme: dark)", color: THEME_COLOR.noite },
+    // The browser's chrome takes the ground of the theme the page opens in, on a light device and on a dark one;
+    // "sistema" alone gives each scheme its own (the appearance control rewrites these two when the reader chooses).
+    { media: "(prefers-color-scheme: light)", color: FIRST_THEME === "sistema" ? THEME_COLOR.dia : THEME_COLOR[FIRST_THEME] },
+    { media: "(prefers-color-scheme: dark)", color: FIRST_THEME === "sistema" ? THEME_COLOR.noite : THEME_COLOR[FIRST_THEME] },
   ],
   viewportFit: "cover",
 };
@@ -67,7 +70,7 @@ export const viewport: Viewport = {
 // page and its footer; the tab bar on phones. The search palette loads on first use (SearchHost).
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="pt-BR" data-theme={NIGHT_MODE_ONLY ? "noite" : "sistema"} className={`${ui.variable} ${display.variable} ${reading.variable}`} suppressHydrationWarning>
+    <html lang="pt-BR" data-theme={FIRST_THEME} className={`${ui.variable} ${display.variable} ${reading.variable}`} suppressHydrationWarning>
       <head>
         {/* Installation identity is invariant across routes. Keep it in the static shell so
             Safari can discover it before dynamic passage metadata, without bypassing the CDN.
@@ -78,7 +81,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <link rel="apple-touch-icon" href="/icons/apple-touch-icon-180-v2.png" sizes="180x180" type="image/png" />
         <link rel="manifest" href="/manifest.webmanifest" />
-        <script dangerouslySetInnerHTML={{ __html: `${THEME_SCRIPT};${PAGE_SEARCH_SCRIPT};${VERSE_INTENT_SCRIPT}` }} />
+        <script dangerouslySetInnerHTML={{ __html: `${THEME_SCRIPT};${READER_PREFS_SCRIPT};${PAGE_SEARCH_SCRIPT};${VERSE_INTENT_SCRIPT}` }} />
       </head>
       <body className="bc-root">
         <VerseIntentFeedback />

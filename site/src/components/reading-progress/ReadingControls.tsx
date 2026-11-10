@@ -25,9 +25,14 @@ export function VerseReadButton({ path, label }: { path: string; label: string }
   </button>;
 }
 
-export function ChapterReadingControls({ path, label }: { path: string; label: string }) {
+/**
+ * `place`: the reading pages put these controls before the text and again after it; the reader's mode shows one of
+ * the two (components/reader/reader-prefs.css): before the text in Estudo, after it in Leitura, where a chapter read
+ * is marked. Both follow the same stored progress.
+ */
+export function ChapterReadingControls({ path, label, place }: { path: string; label: string; place?: "topo" | "fim" }) {
   const ref = useReadingReady<HTMLElement>(path);
-  return <section ref={ref} className={styles.chapter} aria-label={`Progresso de leitura de ${label}`} data-reading-chapter={path}>
+  return <section ref={ref} className={styles.chapter} aria-label={`Progresso de leitura de ${label}`} data-reading-chapter={path} data-reading-place={place}>
     <div className={styles.chapterLine}>
       <span data-reading-count>Seu progresso neste capítulo</span>
       <Link href="/jornada#leitura" prefetch={false}>Minha leitura <span aria-hidden="true">↗</span></Link>

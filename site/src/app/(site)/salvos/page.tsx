@@ -1,5 +1,6 @@
 import { shareMetadata } from "@/lib/share-metadata";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { SavedList } from "@/components/salvos/SavedList";
 import styles from "@/components/salvos/salvos.module.css";
 
@@ -19,7 +20,8 @@ export default function SalvosPage() {
       <h1 className="bc-display">Salvos</h1>
       <p className="bc-lede">
         Ficam só neste aparelho, guardados pelo navegador. Nada é enviado a um servidor, e limpar os dados do site apaga a
-        lista.
+        lista. Seus grifos, anotações e passagens para decorar ficam no <Link href="/caderno">Caderno</Link>, que também mostra
+        estes trechos.
       </p>
       <SavedList />
     </main>

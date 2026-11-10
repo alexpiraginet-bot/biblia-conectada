@@ -1,0 +1,18 @@
+/* The reader's mode (lib/reader-prefs.ts; the attribute is on <html> before the first paint). The size of the text
+   is not here: its factors are in styles/ds.css, which every page loads, so a list of Scripture has the chosen size
+   whatever page the visit began on. */
+
+/* Leitura: the chapter is its text and its verse numbers. Each verse's actions, its count of links and the pager above
+   the text wait in Estudo; the pager under the text, the panel of the chapter's links and the selection bar stay. */
+html[data-leitor="leitura"] ol[data-reader] [data-verse-actions],
+html[data-leitor="leitura"] ol[data-reader] .bc-verse__links,
+html[data-leitor="leitura"] .bc-pager[data-where="topo"] {
+  display: none;
+}
+
+/* The chapter's reading marks ("Marcar capítulo lido") come before the text in Estudo and after it in Leitura, where a
+   chapter that was read is marked; the page carries both and shows one. */
+html:not([data-leitor="leitura"]) [data-reading-place="fim"],
+html[data-leitor="leitura"] [data-reading-place="topo"] {
+  display: none;
+}

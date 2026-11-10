@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { VerseActions } from "@/components/assistant/VerseActions";
+import { VerseContextLink } from "./VerseContextLink";
 import { BASE } from "@/lib/community/books-client";
 import { loadChapterText, loadVerseLinks } from "@/lib/community/fetchers";
 import { longRef } from "@/lib/community/geometry";
@@ -58,7 +59,10 @@ function Card({ card, max }: { card: FeedCard; max: number }) {
       <p className="bc-conn__text">
         <Scripture text={card.text} />
       </p>
-      <VerseActions path={pathOf(card.gv)} label={longRef(BASE, card.gv)} />
+      <span className={styles.cardActions}>
+        <VerseContextLink path={pathOf(card.gv)} label={longRef(BASE, card.gv)} />
+        <VerseActions path={pathOf(card.gv)} label={longRef(BASE, card.gv)} />
+      </span>
     </li>
   );
 }
@@ -79,7 +83,10 @@ function Hub({ section, titleId }: { section: FeedSection; titleId: string }) {
       <p className={styles.hubText}>
         <Scripture text={section.text} />
       </p>
-      <VerseActions path={pathOf(section.hub)} label={label} />
+      <span className={styles.cardActions}>
+        <VerseContextLink path={pathOf(section.hub)} label={label} />
+        <VerseActions path={pathOf(section.hub)} label={label} />
+      </span>
       <ol className="bc-conns" aria-label={`Ligações de ${label} que ainda não apareceram`}>
         {section.cards.map((c) => (
           <Card key={c.gv} card={c} max={section.cards[0].votes} />

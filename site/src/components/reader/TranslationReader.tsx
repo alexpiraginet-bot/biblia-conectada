@@ -8,6 +8,7 @@ import { getTranslation, translationPath } from "@/lib/translations";
 import { shareMetadata } from "@/lib/share-metadata";
 import { formatInt } from "@/lib/canon/text";
 import { EditionChoice } from "./EditionChoice";
+import { ReaderPrefs } from "./ReaderPrefs";
 import { TranslationNavigator } from "./TranslationNavigator";
 import { TranslationVerseFocus } from "./TranslationVerseFocus";
 import { ChapterReadingControls } from "@/components/reading-progress/ReadingControls";
@@ -58,6 +59,7 @@ export async function TranslationReader({ params }: { params: TranslationParams 
   return <main id="conteudo" className={`site-page ${styles.page}`}>
     <div className={styles.topline}><Link href="/ler/open-nbv">← Todos os livros</Link><a href="#edition-credit">Fonte e licença</a></div>
     <EditionChoice current="open-nbv" slug={book.slug} chapter={chapter} />
+    <ReaderPrefs />
     <header className={styles.heading}>
       <p className={styles.kicker}>Open Nova Bíblia Viva · leitura completa</p>
       <h1 className="bc-display">{book.name} {chapter}</h1>
@@ -69,17 +71,18 @@ export async function TranslationReader({ params }: { params: TranslationParams 
     </details>
     <div className={styles.readingGrid}>
       <article className={styles.scripture} aria-label={`${book.name} ${chapter}, Open Nova Bíblia Viva`}>
-        <ChapterReadingControls path={translationPath("open-nbv", book.slug, chapter)} label={`${book.name} ${chapter}`} />
-        <ol className="bc-scripture" data-translation="open-nbv">
+        <ChapterReadingControls path={translationPath("open-nbv", book.slug, chapter)} label={`${book.name} ${chapter}`} place="topo" />
+        <ol className="bc-scripture" data-translation="open-nbv" data-reader="">
           {text.map((line, i) => <li key={i + 1} id={`v${i + 1}`} className={styles.verse}
             aria-current={verse === i + 1 ? "true" : undefined} data-verse={i + 1}>
             <Link className={styles.verseNumber} prefetch={false} href={`${translationPath("open-nbv", book.slug, chapter, i + 1)}#v${i + 1}`}
               aria-label={`${book.name} ${chapter}:${i + 1}, abrir passagem`}>{i + 1}</Link>
             <div><span data-scripture="" data-reading-ref={translationPath("open-nbv", book.slug, chapter, i + 1)}>{line}</span>
-              <div className={styles.verseActions}><VerseActions path={translationPath("open-nbv", book.slug, chapter, i + 1)} label={`${book.name} ${chapter}:${i + 1}`} /></div>
+              <div className={styles.verseActions} data-verse-actions=""><VerseActions path={translationPath("open-nbv", book.slug, chapter, i + 1)} label={`${book.name} ${chapter}:${i + 1}`} /></div>
             </div>
           </li>)}
         </ol>
+        <ChapterReadingControls path={translationPath("open-nbv", book.slug, chapter)} label={`${book.name} ${chapter}`} place="fim" />
         {pager}
         <footer id="edition-credit" className={styles.credit}>
           <p><strong>{edition.name}</strong></p><p>{edition.credit}</p>

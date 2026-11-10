@@ -3,20 +3,27 @@ import { Icon } from "@/components/icons";
 import type { LivingGraphData } from "@/lib/explore/living-graph";
 import { openingNodes } from "@/lib/explore/opening";
 import { DawnConstellation } from "./DawnConstellation";
+import { HeroSky } from "./HeroSky";
 import styles from "./DawnOpening.module.css";
 
+/**
+ * The cover's opening: the sky of real arcs with the page's title (HeroSky), then the crystal spheres of one real
+ * connection, then the ways in.
+ */
 export function DawnOpening({ graph }: { graph: LivingGraphData }) {
+  const nodes = openingNodes(graph);
   return (
     <section className={styles.opening} aria-labelledby="home-title" data-dawn-opening="">
+      <HeroSky />
       <div className={styles.scene}>
         <div className={styles.backdrop} aria-hidden="true" />
         <div className={styles.inner}>
         <div className={styles.heading}>
-          <p className={styles.eyebrow}><span aria-hidden="true" /> Um encontro com a Palavra</p>
-          <h1 id="home-title">Uma Palavra.<br /><em>Novos caminhos.</em></h1>
-          <p className={styles.lead}>Descubra como cada passagem se conecta à sua vida.</p>
+          <p className={styles.eyebrow}><span aria-hidden="true" /> Toque e siga a luz</p>
+          <h2>Uma passagem<br /><em>leva a outra.</em></h2>
+          <p className={styles.lead}>{nodes[0].label} e capítulos ligados a ele nas referências cruzadas. Toque numa esfera e viaje de uma passagem a outra.</p>
         </div>
-        <DawnConstellation nodes={openingNodes(graph)} />
+        <DawnConstellation nodes={nodes} />
         </div>
       </div>
         <div className={styles.starts}>

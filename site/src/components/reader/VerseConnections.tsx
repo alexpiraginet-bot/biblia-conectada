@@ -5,6 +5,7 @@ import { VerseActions } from "@/components/assistant/VerseActions";
 import { formatInt } from "@/lib/canon/text";
 import { votesLabel } from "@/lib/from-here";
 import { Scripture } from "./Scripture";
+import { VerseContextLink } from "./VerseContextLink";
 import { loadVerseConnections, type VerseConnectionsData } from "./verse-connections-data";
 import styles from "./verse-connections.module.css";
 
@@ -25,12 +26,14 @@ export function VerseConnections({ path }: { path: string }) {
       : !data ? <p role="status">Carregando as conexões e os textos…</p> : <>
         <p className={styles.count} role="status">{formatInt(data.links.length)} {data.links.length === 1 ? "conexão" : "conexões"}<small>na base OpenBible.info · todos os votos</small></p>
         <blockquote className={styles.scripture}><Scripture text={data.text} /><cite>{data.label} · Bíblia Livre</cite></blockquote>
+        <VerseContextLink path={data.path} label={data.label} />{" "}
         <VerseActions path={data.path} label={data.label} connections={false} />
         {data.links.length === 0 ? <p>A base não registra conexões deste versículo com outros. Você pode <a href={data.chapterPath}>ler o capítulo e suas ligações</a>.</p> : <>
           <p className={styles.note}>Das mais votadas às menos votadas. Cada passagem pode abrir outras conexões.</p>
           <ol className={styles.list} aria-label={`Conexões de ${data.label}`}>{data.links.map((link) => <li key={link.path}>
             <div className={styles.reference}><a href={link.path} data-connections-ref={link.path.slice(1)} data-connections-label={link.label} aria-haspopup="dialog" aria-label={`Conexões de ${link.label}`}>{link.label}</a><span>{votesLabel(link.votes)}</span></div>
             <p className={styles.scripture}><Scripture text={link.text} /></p>
+            <VerseContextLink path={link.path} label={link.label} />{" "}
             <VerseActions path={link.path} label={link.label} />
           </li>)}</ol>
         </>}

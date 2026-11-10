@@ -1,0 +1,47 @@
+/* The reading choices in the chapter's header (ReaderPrefs.tsx): one row, the mode on the left and the size of the
+   text on the right. ds.css segmented control and buttons, tokens only. */
+
+.prefs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  margin-block: var(--space-2) var(--space-4);
+}
+
+.modes button {
+  min-height: var(--target);
+  padding: 0 var(--space-5);
+  font-size: 0.9375rem;
+}
+
+.sizes {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* A− and A+: the letter shows which way the size goes; the name for assistive technology is on the button */
+.size.size {
+  min-width: var(--target);
+  padding: 0 var(--space-3);
+  gap: 1px;
+  font-family: var(--font-reading);
+  font-weight: 500;
+}
+
+.small {
+  font-size: 0.875rem;
+}
+
+.large {
+  font-size: 1.25rem;
+}
+
+.says {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--ink-2);
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+}

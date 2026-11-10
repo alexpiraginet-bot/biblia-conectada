@@ -157,7 +157,7 @@
 .verse .vnum {
   grid-column: 1;
   margin: 0;
-  line-height: calc(var(--fs-scripture) * var(--lh-scripture));
+  line-height: calc(var(--fs-scripture) * var(--lh-scripture) * var(--leitor-escala, 1));
   text-align: right;
   vertical-align: baseline;
   user-select: none;
@@ -784,4 +784,84 @@
 .arcsCaption.arcsCaption {
   display: block;
   font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+}
+
+/* ---- the verse's panel: the chosen verse among its neighbours, and the actions of a linked verse */
+
+.context {
+  display: grid;
+  gap: var(--space-2);
+}
+
+/* the verse before and the verse after: two lines of each, a step quieter than the chosen one; the whole context opens
+   from them (the text is never cut without a way to open it, design §10) */
+.peek {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--space-2);
+  min-height: var(--target);
+  align-items: center;
+  padding: var(--space-1) var(--space-2);
+  margin-inline: calc(-1 * var(--space-2));
+  border-radius: var(--radius-md);
+  color: var(--ink-2);
+  font: 400 var(--fs-scripture-sm) / 1.5 var(--font-reading);
+  text-decoration: none;
+}
+
+.peek:hover {
+  background: var(--highlight);
+  color: var(--ink-reading);
+}
+
+.peekNumber {
+  align-self: start;
+  padding-top: 0.3em;
+  font: 500 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  font-variant-numeric: tabular-nums;
+}
+
+.peekText {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+/* the chosen verse's own actions, "Contexto" first, in one line that wraps */
+.headActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 18px;
+}
+
+.rowActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  grid-column: 1 / -1;
+  column-gap: 18px;
+  justify-self: start;
+}
+
+/* the actions of a verse of the list, "Contexto" first */
+.cardActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  grid-column: 1 / -1;
+  column-gap: 18px;
+  justify-self: start;
+}
+
+/* "Contexto" and the verse's other actions are one line of links that wraps: the actions' own box (a span) steps
+   aside, or "Contexto" would take a line to itself on a phone (measured 10/11: three lines of actions instead of
+   two). Only the span: the interlinear link carries the same attribute and must keep its box, its 44px and its
+   focus ring. */
+.headActions > span[data-verse-actions],
+.rowActions > span[data-verse-actions],
+.cardActions > span[data-verse-actions] {
+  display: contents;
 }

@@ -14,7 +14,7 @@ import styles from "./reader.module.css";
 // "Versículo N:" label and the pill stay out of a copy (user-select).
 export function ChapterText({ book, chapter, verses }: { book: Book; chapter: number; verses: VerseData[] }) {
   return (
-    <ol className={`bc-scripture ${styles.verses}`}>
+    <ol className={`bc-scripture ${styles.verses}`} data-reader="">
       {verses.map((v) => {
         const n = v.links.length;
         const label = n === 0 ? "nenhuma ligação" : `${formatInt(n)} ${n === 1 ? "ligação" : "ligações"}`;

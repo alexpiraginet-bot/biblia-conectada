@@ -1,5 +1,10 @@
 import type { MetadataRoute } from "next";
+import { FIRST_THEME, THEME_COLOR } from "@/components/header/theme";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_SHORT_NAME } from "@/lib/site-identity";
+
+// The installed app's splash and title bar: the ground of the theme the app opens in (a manifest cannot follow the
+// reader's choice; "sistema" has no single ground, so it keeps the night's).
+const GROUND = FIRST_THEME === "sistema" ? THEME_COLOR.noite : THEME_COLOR[FIRST_THEME];
 
 export function GET() {
   const manifest: MetadataRoute.Manifest = {
@@ -12,8 +17,8 @@ export function GET() {
     start_url: "/",
     scope: "/",
     display: "standalone",
-    background_color: "#211018",
-    theme_color: "#211018",
+    background_color: GROUND,
+    theme_color: GROUND,
     categories: ["books", "education"],
     icons: [
       { src: "/icons/app-192-v1.png", sizes: "192x192", type: "image/png", purpose: "any" },

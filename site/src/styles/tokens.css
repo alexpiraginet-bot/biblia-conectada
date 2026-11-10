@@ -20,6 +20,10 @@
   --on-accent: #29141e;
   --lit: #f2d6a2;
   --highlight: #442730;
+  --mark-ouro: #4e3a13;
+  --mark-verde: #1b4435;
+  --mark-azul: #233e64;
+  --mark-lilas: #4b3168;
   --cat-texto: #ecc98a;
   --cat-interp: #e7a9ab;
   --cat-tema: #c6b6e5;
@@ -108,6 +112,10 @@
     --on-accent: #fff8ec;
     --lit: #65391e;
     --highlight: #eadbca;
+    --mark-ouro: #f4dd9c;
+    --mark-verde: #cde6c3;
+    --mark-azul: #c9dcf2;
+    --mark-lilas: #e3d4f2;
     --cat-texto: #74491d;
     --cat-interp: #7a2f36;
     --cat-tema: #624372;
@@ -145,6 +153,10 @@
   --on-accent: #fff8ec;
   --lit: #65391e;
   --highlight: #eadbca;
+  --mark-ouro: #f4dd9c;
+  --mark-verde: #cde6c3;
+  --mark-azul: #c9dcf2;
+  --mark-lilas: #e3d4f2;
   --cat-texto: #74491d;
   --cat-interp: #7a2f36;
   --cat-tema: #624372;
@@ -181,6 +193,10 @@
   --on-accent: #29141e;
   --lit: #f2d6a2;
   --highlight: #442730;
+  --mark-ouro: #4e3a13;
+  --mark-verde: #1b4435;
+  --mark-azul: #233e64;
+  --mark-lilas: #4b3168;
   --cat-texto: #ecc98a;
   --cat-interp: #e7a9ab;
   --cat-tema: #c6b6e5;

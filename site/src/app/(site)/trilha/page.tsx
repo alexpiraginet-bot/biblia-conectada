@@ -35,6 +35,10 @@ export default function TrailsPage() {
           </Link>
         </li>
       </ul>
+      <p className={`${styles.prose} ${styles.section}`}>
+        Para ler a Bíblia inteira, ou só os Evangelhos, os Salmos e Provérbios, em porções diárias, veja os{" "}
+        <Link href="/planos">planos de leitura</Link>.
+      </p>
       <CommunityWays current="/trilha" />
     </main>
   );

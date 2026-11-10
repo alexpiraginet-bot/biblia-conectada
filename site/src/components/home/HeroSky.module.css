@@ -1,0 +1,225 @@
+/* The cover's first scene (HeroSky.tsx), inside the opening and with its colours (--dawn-*): a sky of real arcs
+   rising from the valley's horizon, the title under it. The arcs are data; this file only paints and moves them. */
+
+.sky {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding-bottom: 34px;
+  /* the arcs keep the colours of the project's arcs; on a day sky they need more body */
+  --arc-near: .62;
+  --arc-far: .95;
+  --arc-filter: none;
+}
+
+:global([data-theme="dia"]) .sky {
+  --arc-near: .75;
+  --arc-far: 1;
+  --arc-filter: saturate(1.25) brightness(.72);
+}
+
+@media (prefers-color-scheme: light) {
+  :global([data-theme="sistema"]) .sky {
+    --arc-near: .75;
+    --arc-far: 1;
+    --arc-filter: saturate(1.25) brightness(.72);
+  }
+}
+
+.backdrop {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  background: url("/home/dawn-valley-wide-v2.webp") center bottom / cover;
+  filter: var(--dawn-image-filter);
+  pointer-events: none;
+}
+
+/* the sky above the horizon is the ground's colour; the valley shows under it and fades into the next scene */
+.sky::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(
+    var(--dawn-ground) 0,
+    color-mix(in srgb, var(--dawn-ground) 86%, transparent) 30%,
+    color-mix(in srgb, var(--dawn-ground) 42%, transparent) 54%,
+    color-mix(in srgb, var(--dawn-ground) 58%, transparent) 78%,
+    var(--dawn-ground) 100%
+  );
+  pointer-events: none;
+}
+
+.fold {
+  display: grid;
+  align-content: start;
+  min-height: calc(100svh - var(--bar-h));
+}
+
+.dome {
+  position: relative;
+  height: clamp(210px, 35svh, 420px);
+  margin: clamp(12px, 2.6svh, 26px) clamp(10px, 2.4vw, 44px) 0;
+}
+
+/* first light behind the horizon */
+.dome::before {
+  content: "";
+  position: absolute;
+  inset: 35% 6% -1px;
+  background: radial-gradient(ellipse 50% 100% at 50% 100%, color-mix(in srgb, var(--dawn-gold) 26%, transparent), transparent 72%);
+  pointer-events: none;
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: var(--arc-filter);
+  transform-origin: 50% 100%;
+  animation: rise 1.5s cubic-bezier(0.16, 0.84, 0.24, 1) both;
+  will-change: transform, opacity;
+}
+
+.layer path {
+  fill: none;
+  stroke-width: 1px;
+  vector-effect: non-scaling-stroke;
+}
+
+/* near arcs first, the ones that cross the whole Bible last */
+.layer[data-layer="0"] { animation-duration: 1s; animation-delay: 0.1s; }
+.layer[data-layer="0"] path { stroke-opacity: var(--arc-near); }
+.layer[data-layer="1"] { animation-duration: 1.3s; animation-delay: 0.35s; }
+.layer[data-layer="1"] path { stroke-opacity: calc((var(--arc-near) + var(--arc-far)) / 2); }
+.layer[data-layer="2"] { animation-duration: 1.6s; animation-delay: 0.7s; }
+.layer[data-layer="2"] path { stroke-opacity: var(--arc-far); }
+.layer[data-layer="3"] { animation-duration: 1.9s; animation-delay: 1.05s; }
+.layer[data-layer="3"] path { stroke-opacity: var(--arc-far); stroke-width: 1.25px; }
+
+@keyframes rise {
+  from { transform: scaleY(0); opacity: 0; }
+  35% { opacity: 1; }
+  to { transform: scaleY(1); opacity: 1; }
+}
+
+.horizon {
+  position: absolute;
+  inset: auto 0 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--dawn-gold) 10%, var(--dawn-emphasis) 50%, var(--dawn-gold) 90%, transparent);
+  box-shadow: 0 0 22px 3px color-mix(in srgb, var(--dawn-gold) 45%, transparent);
+}
+
+/* the horizon is the Bible in order: its first book, where the New Testament begins, its last book */
+.books {
+  position: absolute;
+  inset: 100% 0 auto;
+  display: flex;
+  justify-content: space-between;
+  margin: 7px 0 0;
+  color: var(--dawn-muted);
+  font: 500 10px/1.4 var(--font-ui);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.testament {
+  position: absolute;
+  right: calc(100% - var(--nt));
+  padding-right: 7px;
+  border-right: 1px solid color-mix(in srgb, var(--dawn-gold) 70%, transparent);
+}
+
+.copy {
+  display: grid;
+  justify-items: center;
+  width: min(100% - 44px, 46rem);
+  margin: clamp(34px, 5svh, 50px) auto 0;
+  text-align: center;
+}
+
+.copy > :global(*) {
+  margin-top: 0;
+}
+
+.copy .title {
+  margin: 0 0 16px;
+  font-family: var(--font-display);
+  font-size: clamp(42px, 5.4vw, 74px);
+  font-weight: 480;
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+  text-shadow: 0 2px 24px color-mix(in srgb, var(--dawn-ground) 70%, transparent);
+}
+
+.title em {
+  color: var(--dawn-emphasis);
+  font-weight: 440;
+}
+
+.lead {
+  max-width: 34rem;
+  margin: 0 0 22px;
+  color: var(--dawn-ink);
+  font: 400 clamp(15px, 1.5vw, 18px) / 1.6 var(--font-ui);
+  text-wrap: pretty;
+  text-shadow: 0 1px 12px var(--dawn-ground);
+}
+
+.ctas {
+  width: min(100%, 420px);
+}
+
+.fold + .copy {
+  margin-top: 0;
+}
+
+.legend {
+  max-width: 34rem;
+  margin: 18px 0 0;
+  color: var(--dawn-muted);
+  font: 400 12px/1.6 var(--font-ui);
+  font-variant-numeric: tabular-nums;
+  text-wrap: pretty;
+  text-shadow: 0 1px 10px var(--dawn-ground);
+}
+
+@media (max-width: 760px) {
+  .backdrop {
+    background-image: url("/home/dawn-valley-mobile-v2.webp");
+  }
+
+  .dome {
+    height: clamp(200px, 37svh, 330px);
+  }
+
+  .copy {
+    margin-top: 40px;
+  }
+
+  .lead {
+    margin-bottom: 18px;
+  }
+
+  .legend {
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layer {
+    animation: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .backdrop,
+  .dome {
+    display: none;
+  }
+}

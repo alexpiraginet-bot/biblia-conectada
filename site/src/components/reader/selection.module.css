@@ -1,5 +1,6 @@
 /* Selection of a passage in the chapter text and its small bar (SelectionBar.tsx): a floating surface (overlay ground,
-   its own ink) with the design system's buttons. Desktop: over the selection. Phones: above the tab bar. */
+   its own ink) with the design system's buttons. Desktop: over the selection. Phones: above the tab bar. Also the
+   marks the reader's notebook leaves on the verses (components/caderno/reader.tsx). */
 
 .scope {
   position: relative;
@@ -43,10 +44,8 @@
   position: absolute;
   right: auto;
   bottom: auto;
-  width: max-content;
-  max-width: 100%;
+  width: min(31rem, 100%);
   transform: translate(-50%, -100%);
-  grid-template-columns: auto auto auto;
 }
 
 .bar[data-float][data-below] {
@@ -64,23 +63,18 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* two rows: the notebook's three verbs, a third of the bar each, then the four that act on the selected words */
 .actions {
   grid-column: 1 / -1;
   grid-row: 2;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: var(--space-1);
-}
-
-.bar[data-float] .actions {
-  grid-column: 2;
-  grid-row: 1;
-  display: flex;
-  margin-left: var(--space-2);
 }
 
 /* the ghost buttons of the bar say what they do in the ink, the icon carries the accent */
 .action.action {
+  grid-column: span 3;
   flex-direction: column;
   gap: var(--space-1);
   min-height: 3.25rem;
@@ -90,14 +84,17 @@
   font-weight: 500;
 }
 
-.action :global(.bc-icon) {
-  color: var(--accent);
+.action.action[data-main] {
+  grid-column: span 4;
+  font-weight: 600;
 }
 
-.bar[data-float] .action.action {
-  flex-direction: row;
-  min-height: var(--target);
-  padding: 0 var(--space-3);
+.action.action[aria-expanded="true"] {
+  background: var(--raised);
+}
+
+.action :global(.bc-icon) {
+  color: var(--accent);
 }
 
 .close {
@@ -105,8 +102,137 @@
   grid-column: 2;
 }
 
-.bar[data-float] .close {
-  grid-column: 3;
+/* the colours of a highlight: each a 44px target around its dot, named for assistive technology and on hover */
+.colours {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2) 0;
+  border-top: 1px solid var(--line);
+}
+
+.swatch {
+  display: inline-grid;
+  place-items: center;
+  width: var(--target);
+  height: var(--target);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  cursor: pointer;
+}
+
+.swatch::before {
+  content: "";
+  width: 1.625rem;
+  height: 1.625rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--grifo);
+}
+
+.swatch[aria-pressed="true"]::before {
+  box-shadow:
+    0 0 0 2px var(--overlay),
+    0 0 0 4px var(--accent);
+}
+
+.swatch[data-cor="ouro"],
+.scope :global(li[data-grifo="ouro"]) {
+  --grifo: var(--mark-ouro);
+}
+
+.swatch[data-cor="verde"],
+.scope :global(li[data-grifo="verde"]) {
+  --grifo: var(--mark-verde);
+}
+
+.swatch[data-cor="azul"],
+.scope :global(li[data-grifo="azul"]) {
+  --grifo: var(--mark-azul);
+}
+
+.swatch[data-cor="lilas"],
+.scope :global(li[data-grifo="lilas"]) {
+  --grifo: var(--mark-lilas);
+}
+
+.unmark.unmark {
+  margin-left: auto;
+  color: var(--ink);
+  font-size: var(--fs-meta);
+}
+
+/* ---- the notebook on the verses. A highlighted verse wears its colour behind the Bible text alone (the number, the
+   count and the actions stay clear), with a fine line under it so the mark never rests on the colour by itself; the
+   shadow widens the band without moving a letter. A verse with a note, or kept to memorise, has a small sign after
+   its text; the section under the chapter says the same in words. */
+.scope :global(li[data-grifo]) [data-scripture] {
+  background-color: var(--grifo);
+  box-shadow:
+    -0.14em 0 0 var(--grifo),
+    0.14em 0 0 var(--grifo);
+  border-radius: 2px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+}
+
+.scope :global(li[data-nota]) [data-scripture]::after,
+.scope :global(li[data-decorar]:not([data-nota])) [data-scripture]::after {
+  content: "";
+  display: inline-block;
+  width: 0.78em;
+  height: 0.78em;
+  margin-left: 0.35em;
+  vertical-align: -0.04em;
+  background-color: var(--accent);
+  /* the pencil of "Anotar" (components/caderno/icons.tsx) */
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 20h3.6L19 8.6a2.1 2.1 0 0 0-3-3L4.6 17v3ZM13.6 8 16.6 11'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 20h3.6L19 8.6a2.1 2.1 0 0 0-3-3L4.6 17v3ZM13.6 8 16.6 11'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* the loop of "Decorar" on a verse that is only kept to memorise */
+.scope :global(li[data-decorar]:not([data-nota])) [data-scripture]::after {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16.5 3.5 20 7l-3.5 3.5M20 7H8.5A4.5 4.5 0 0 0 4 11.5M7.5 20.5 4 17l3.5-3.5M4 17h11.5a4.5 4.5 0 0 0 4.5-4.5'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16.5 3.5 20 7l-3.5 3.5M20 7H8.5A4.5 4.5 0 0 0 4 11.5M7.5 20.5 4 17l3.5-3.5M4 17h11.5a4.5 4.5 0 0 0 4.5-4.5'/%3E%3C/svg%3E");
+}
+
+/* what was done once the bar is gone (a note saved in its dialog): under the top bar, like the reading marks' notice */
+.flash {
+  position: fixed;
+  z-index: 210;
+  top: calc(var(--bar-h) + env(safe-area-inset-top, 0px) + var(--space-2));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: max-content;
+  max-width: min(34rem, calc(100vw - 24px));
+  padding: var(--space-1) var(--space-1) var(--space-1) var(--space-2);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  background: var(--overlay);
+  color: var(--ink);
+  box-shadow: var(--shadow-float);
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+}
+
+.flash .note {
+  margin: 0;
+  padding-left: var(--space-2);
+  color: var(--ink);
+}
+
+.flashClose {
+  flex: none;
 }
 
 .note {
@@ -126,6 +252,21 @@
   min-height: var(--target);
   color: var(--accent);
   font-weight: 600;
+}
+
+.noteAct {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
 }
 
 .noteIcon {

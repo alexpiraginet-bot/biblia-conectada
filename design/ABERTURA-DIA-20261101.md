@@ -1,5 +1,7 @@
 # Uma Palavra. Novos caminhos.
 
+**Atualização de 10/11/2026:** a pedido do Alex ("um hero que vai impressionar qualquer um que entrar"), a primeira tela da capa passou a ser o céu de arcos feito dos dados, sobre o mesmo vale e com o mesmo título. As esferas de cristal descritas abaixo continuam iguais, como a cena seguinte, sob o título "Uma passagem leva a outra.". Direção em [README §25](README.md).
+
 Direção aprovada por Alex em 01/11/2026: Dia deve parecer dia. Céu de amanhecer, vale e nuvens convivem com a assinatura bordô e dourada. A correção mais recente pede **minimalismo premium: controles discretos e leitura protagonista**, mantendo vidro e reflexos suaves. A primeira versão plana foi substituída antes da publicação pela paisagem e pelas esferas de cristal mais próximas do storyboard aprovado.
 
 ## Nesta entrega

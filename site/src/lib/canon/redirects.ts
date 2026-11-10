@@ -8,8 +8,8 @@ import type { Book } from "./types";
 // Top-level segments that are pages, planned pages or public folders (tests/routes.test.ts keeps this list honest).
 export const RESERVED = [
   // pages
-  "ler", "sobre", "apoie", "arcos", "explorar", "conexao", "encontro", "linha-do-tempo", "tema", "palavra", "ponte", "trilha", "mesa",
-  "dados", "salvos", "buscar", "privacidade", "caminhos", "cronologia", "instalar", "coracao", "interlinear", "liturgia", "dia", "jornada", "qr", "admin", ".well-known",
+  "ler", "sobre", "apoie", "arcos", "explorar", "conexao", "encontro", "linha-do-tempo", "tema", "palavra", "ponte", "trilha", "planos", "mesa",
+  "dados", "salvos", "caderno", "buscar", "privacidade", "caminhos", "cronologia", "instalar", "coracao", "interlinear", "liturgia", "dia", "jornada", "qr", "admin", ".well-known",
   // planned (design/README.md §5, HANDOFF §6)
   "grafo", "mapa", "lugar", "pessoa", "evento", "estudo", "assistente", "og",
   // public folders and framework paths

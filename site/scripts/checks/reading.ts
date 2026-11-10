@@ -2,7 +2,8 @@
 // every prerendered chapter and verse page is the one computed from the generated book files (CLAUDE.md rule 3):
 // the books' and chapters' links, the chapter list and pager counts, the meta line, the seal, each verse's links pill,
 // the panel headline and its "Mais ligados" rows; every link of a verse panel carries its whole BLIVRE text; the panel
-// links follow the /conexao and /explorar contracts, the crumbs name the book group, and /salvos ships its static shell.
+// links follow the /conexao and /explorar contracts, the crumbs name the book group, /salvos and /caderno ship
+// their static shells, and every reading plan is prerendered with the portions and figures counted from the canon.
 import { readFileSync } from "node:fs";
 import { join, sep } from "node:path";
 import { createGrid } from "../../src/lib/canon/grid";
@@ -11,6 +12,8 @@ import type { Book } from "../../src/lib/canon/types";
 import { rankLinkedChapters, type LinkedChapter } from "../../src/lib/chapter-rank";
 import { conexaoPath } from "../../src/lib/conexao";
 import { chapterHeadline, chapterMeta, linksLabel, mostLinkedRows, testamentName, verseHeadline, votesLabel } from "../../src/lib/from-here";
+import { planFigures, planPortions, PLANS, portionLabel } from "../../src/lib/planos/model";
+import { neighbours } from "../../src/lib/verse-context";
 import { OUT, SITE } from "../data/sources";
 
 type BookFile = { chapters: { t: string; l: [number, number, number][] }[][] };
@@ -31,7 +34,7 @@ export function checkReading({
 }): string {
   // titles keep a book's number with its name by a no-break space ("1 Tessalonicenses 5", from-here.ts keepBookNumber)
   const textOf = (s: string) => visible(s).replace(/ /g, " ");
-  for (const r of [join("genesis", "1.html"), join("salmos", "119.html"), "salvos.html", "ler.html", "salmos.html"]) {
+  for (const r of [join("genesis", "1.html"), join("salmos", "119.html"), "salvos.html", "caderno.html", "ler.html", "salmos.html"]) {
     if (!html.includes(r)) failures.push(`[reading] ${r} was not prerendered`);
   }
   const books = JSON.parse(readFileSync(join(OUT.generated, "books.json"), "utf8")) as Book[];
@@ -265,6 +268,22 @@ export function checkReading({
         );
         if (!raw.includes(`href="${attr(href)}"`)) failures.push(`${page}: no "Ler lado a lado" link to ${href}`);
       }
+      // the verse among its neighbours: the verse before and the verse after, inside the book, each with its number
+      // and the beginning of its own text, and "Contexto" on the verse and on every linked verse
+      const around = neighbours(book, grid.verseIndex(book, chapter, verse));
+      for (const [side, at] of [["antes", around.before], ["depois", around.after]] as const) {
+        const shown = new RegExp(`<a [^>]*data-peek="${side}"[^>]*>([\\s\\S]*?)</a>`).exec(raw);
+        if (!at) {
+          if (shown) failures.push(`${page}: a verse is shown ${side} at the edge of the book`);
+          continue;
+        }
+        const number = at.chapter === chapter ? String(at.verse) : `${at.chapter}:${at.verse}`;
+        const want = `${number}${nbsp(file(book.slug).chapters[at.chapter - 1][at.verse - 1].t)}`;
+        if (!shown || textOf(shown[1]) !== want) failures.push(`${page}: the verse ${side} is not ${book.name} ${at.chapter}:${at.verse} with its text`);
+      }
+      const contexts = new Set([...raw.matchAll(/data-context-ref="([^"]+)"/g)].map((m) => m[1]));
+      const lacking = [`/${book.slug}/${chapter}/${verse}`, ...wantRows].filter((p) => !contexts.has(p.slice(1))).length;
+      if (lacking) failures.push(`${page}: ${lacking} verses of the panel lack their "Contexto" link`);
       verses++;
     }
   }
@@ -273,6 +292,37 @@ export function checkReading({
 
   const salvos = html.includes("salvos.html") ? textOf(read("salvos.html")) : "";
   if (!salvos.includes("Ficam só neste aparelho")) failures.push("salvos.html: the on-this-device sentence is missing");
+  // the notebook says the same before anything is stored, and its shell names what it keeps
+  const caderno = html.includes("caderno.html") ? textOf(read("caderno.html")) : "";
+  for (const said of ["Ficam só neste aparelho", "grifos", "anotações", "decorar"]) {
+    if (!caderno.includes(said)) failures.push(`caderno.html: "${said}" is missing from the static shell`);
+  }
 
-  return `reading numbers on /ler, ${books_} book pages, ${chapters} chapter and ${verses} verse pages (titles, meta lines, chapter lists, pagers, pills, headlines, rows with their texts and panel links)`;
+  // reading plans: each plan's page has every portion, and each figure is the one counted from the portions
+  const plansIndex = html.includes("planos.html") ? textOf(read("planos.html")) : "";
+  if (!plansIndex) failures.push("[reading] planos.html was not prerendered");
+  let portionsChecked = 0;
+  for (const plan of PLANS) {
+    const rel = join("planos", `${plan.id}.html`);
+    const portions = planPortions(plan, books);
+    const f = planFigures(portions);
+    const line = `${formatInt(f.days)} dias · ${formatInt(f.chapters)} capítulos · cerca de ${formatInt(f.versesPerDay.median)} versículos por dia`;
+    if (plansIndex && (!plansIndex.includes(plan.title) || !plansIndex.includes(line))) failures.push(`planos.html: "${plan.title}" or its figures (${line}) are missing`);
+    if (!html.includes(rel)) {
+      failures.push(`[reading] ${rel} was not prerendered`);
+      continue;
+    }
+    const raw = read(rel);
+    const days = raw.match(/<li[^>]*\sdata-day="\d+"/g)?.length ?? 0;
+    if (days !== plan.days) failures.push(`${rel}: ${days} portions in the page, expected ${plan.days}`);
+    const text = textOf(raw);
+    const figures = `${formatInt(f.days)} porções · ${formatInt(f.chapters)} capítulos de ${formatInt(f.books)} ${f.books === 1 ? "livro" : "livros"} · ${formatInt(f.verses)} versículos · de ${formatInt(f.versesPerDay.min)} a ${formatInt(f.versesPerDay.max)} versículos por dia, com mediana de ${formatInt(f.versesPerDay.median)}`;
+    if (!text.includes(figures)) failures.push(`${rel}: the figures line is not "${figures}"`);
+    for (const p of [portions[0], portions[portions.length >> 1], portions[portions.length - 1]]) {
+      if (!text.includes(portionLabel(p, books))) failures.push(`${rel}: the portion of day ${p.day} (${portionLabel(p, books)}) is missing`);
+    }
+    portionsChecked += days;
+  }
+
+  return `${PLANS.length} reading plans with ${formatInt(portionsChecked)} portions; reading numbers on /ler, ${books_} book pages, ${chapters} chapter and ${verses} verse pages (titles, meta lines, chapter lists, pagers, pills, headlines, rows with their texts and panel links, the verse before and after each verse)`;
 }

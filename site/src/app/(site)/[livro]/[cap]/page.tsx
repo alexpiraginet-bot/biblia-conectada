@@ -156,8 +156,8 @@ export default async function ChapterPage({ params }: PageProps<"/[livro]/[cap]"
           </>
         )}
         <p className={styles.hint}>
-          Abra a contagem no fim de um versículo para ver as ligações dele, ou selecione um trecho para copiar, compartilhar ou
-          salvar.
+          Abra a contagem no fim de um versículo para ver as ligações dele, ou selecione um trecho para grifar, anotar, decorar,
+          copiar, compartilhar ou salvar.
         </p>
         <p className={styles.source}>
           Ligações: OpenBible.info. Os votos de dois capítulos somam os pares de versículos entre eles; um trecho conta pelo

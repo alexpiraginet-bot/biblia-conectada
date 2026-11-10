@@ -149,6 +149,7 @@ export default function ReadingProgressDashboard({ catalog }: { catalog: Reading
         <p>{continueLabel ? <>Último trecho registrado<strong>{continueLabel} · {editionLabel}</strong></> : "Seu próximo capítulo pode começar agora."}</p>
         <Link className={styles.primary} href={continueHref} prefetch={false}>{continueLabel ? "Continuar leitura" : "Escolher uma leitura"}<Icon name="out" /></Link>
       </div>
+      <p className={styles.plans}>Quer um ritmo pronto? Os <Link href="/planos" prefetch={false}>planos de leitura</Link> dividem a Bíblia em porções diárias e avançam com estas marcações.</p>
     </div>
 
     <div className={styles.automatic}>

@@ -31,8 +31,11 @@ export function themeTokens(json = readFileSync(TOKENS, "utf8")): Record<"noite"
 
 /** The contrast rules of design/README.md ("Contraste medido"): [text tokens, grounds, minimum ratio] */
 export const SURFACES = ["--ground", "--surface", "--raised", "--overlay"];
+/** The reader's highlight colours (src/lib/caderno/model.ts MARK_COLORS; tests/caderno-ui.test.ts keeps both in step) */
+export const MARKS = ["--mark-ouro", "--mark-verde", "--mark-azul", "--mark-lilas"];
 export const POLICY: [what: string, fg: string[], bg: string[], min: number][] = [
   ["texto e Escritura", ["--ink", "--ink-reading", "--ink-2"], [...SURFACES, "--highlight"], 7],
+  ["Escritura sobre os grifos do caderno", ["--ink", "--ink-reading", "--ink-2"], MARKS, 7],
   ["notas", ["--ink-3"], SURFACES, 5],
   [
     "acento e categorias como texto",

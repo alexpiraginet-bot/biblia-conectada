@@ -3,7 +3,7 @@
 import { lazy, Suspense, useId, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Icon } from "@/components/icons";
 import { APPEARANCE_CHOICES as CHOICES } from "./appearance-choices";
-import { type Choice, NIGHT_MODE_ONLY, THEME_COLOR, THEME_KEY } from "./theme";
+import { type Choice, FIRST_THEME, NIGHT_MODE_ONLY, THEME_COLOR, THEME_KEY, themeChoice } from "./theme";
 
 const AppearanceMenu = lazy(() => import("./AppearanceMenu"));
 const CHANGE = "bc:appearance";
@@ -11,10 +11,9 @@ const CHANGE = "bc:appearance";
 function stored(): Choice {
   if (NIGHT_MODE_ONLY) return "noite";
   try {
-    const t = localStorage.getItem(THEME_KEY);
-    return t === "dia" || t === "noite" ? t : "sistema";
+    return themeChoice(localStorage.getItem(THEME_KEY));
   } catch {
-    return "sistema";
+    return themeChoice(null);
   }
 }
 
@@ -42,7 +41,7 @@ function subscribe(cb: () => void) {
 }
 
 export function Appearance() {
-  const choice = useSyncExternalStore<Choice>(subscribe, stored, () => NIGHT_MODE_ONLY ? "noite" : "sistema");
+  const choice = useSyncExternalStore<Choice>(subscribe, stored, () => FIRST_THEME);
   const [open, setOpen] = useState(false);
   const id = useId();
   const root = useRef<HTMLDivElement>(null);

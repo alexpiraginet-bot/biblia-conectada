@@ -10,6 +10,7 @@ import { VerseArcs } from "./Arcs";
 import { Featured, MiniMap, PanelHead } from "./FromHere";
 import { LinksFeed } from "./LinksFeed";
 import { Scripture } from "./Scripture";
+import { VerseContextLink } from "./VerseContextLink";
 import { InterlinearStudyLink } from "./InterlinearStudyLink";
 import styles from "./reader.module.css";
 
@@ -45,13 +46,43 @@ function Row({ link, max, text }: { link: VerseLink; max: number; text: string }
       <p className="bc-conn__text">
         <Scripture text={text} />
       </p>
-      <VerseActions path={ref.path} label={ref.label} />
+      {/* a linked verse arrives alone: "Contexto" shows the verses before and after it without leaving this one */}
+      <span className={styles.rowActions}>
+        <VerseContextLink path={ref.path} label={ref.label} />
+        <VerseActions path={ref.path} label={ref.label} />
+      </span>
     </li>
   );
 }
 
 /** A neighbouring verse offered when this one has no links: its number and links. */
 export type NearVerse = { verse: number; links: number };
+/** The verse right before or right after the chosen one, in the same book (lib/verse-context.ts neighbours). */
+export type PeekVerse = { chapter: number; verse: number; text: string };
+
+/**
+ * The verse before or after the chosen one, at a glance: two lines of it, and the whole context one tap away. On a
+ * phone the panel covers the chapter, so this is where the chosen verse is seen among its neighbours.
+ */
+function Peek({ book, chosen, label, peek, side }: { book: Book; chosen: { chapter: number; verse: number }; label: string; peek: PeekVerse; side: "antes" | "depois" }) {
+  const number = peek.chapter === chosen.chapter ? String(peek.verse) : `${peek.chapter}:${peek.verse}`;
+  return (
+    <a
+      className={styles.peek}
+      href={`/${book.slug}/${peek.chapter}#v${peek.verse}`}
+      data-context-ref={`${book.slug}/${chosen.chapter}/${chosen.verse}`}
+      data-context-label={label}
+      data-peek={side}
+      aria-haspopup="dialog"
+      aria-label={`Versículo ${side === "antes" ? "anterior" : "seguinte"}, ${book.name} ${peek.chapter}:${peek.verse}. Abrir o contexto de ${label}`}
+    >
+      <span className={styles.peekNumber}>{number}</span>
+      <span className={styles.peekText}>
+        <Scripture text={peek.text} />
+      </span>
+    </a>
+  );
+}
 
 /**
  * The panel of a verse (/livro/cap/vers): the verse as a quote, the data headline, the mini map and the strongest
@@ -69,6 +100,8 @@ export async function LinksPanel({
   medals,
   chapterLinks,
   near,
+  before = null,
+  after = null,
 }: {
   book: Book;
   chapter: number;
@@ -81,6 +114,9 @@ export async function LinksPanel({
   /** links of the whole chapter, for the empty state */
   chapterLinks: number;
   near: NearVerse[];
+  /** the verses right before and after this one, for the glance at its context */
+  before?: PeekVerse | null;
+  after?: PeekVerse | null;
 }) {
   const label = `${book.name} ${chapter}:${verse}`;
   const texts = await Promise.all(links.map(([gv]) => verseText(gv)));
@@ -96,12 +132,19 @@ export async function LinksPanel({
     <>
       <div className="bc-panel__head">
         <PanelHead title={`Ligações de ${label}`} titleId={titleId} />
-        <blockquote className="bc-quote">
-          <Scripture text={text} />
-          <cite>{label} · Bíblia Livre</cite>
-        </blockquote>
-        <VerseActions path={`/${book.slug}/${chapter}/${verse}`} label={label} connections={false} />
-        {" "}<InterlinearStudyLink path={`/${book.slug}/${chapter}/${verse}`} label={label} />
+        <div className={styles.context} data-verse-peek="">
+          {before && <Peek book={book} chosen={{ chapter, verse }} label={label} peek={before} side="antes" />}
+          <blockquote className="bc-quote">
+            <Scripture text={text} />
+            <cite>{label} · Bíblia Livre</cite>
+          </blockquote>
+          {after && <Peek book={book} chosen={{ chapter, verse }} label={label} peek={after} side="depois" />}
+        </div>
+        <span className={styles.headActions}>
+          <VerseContextLink path={`/${book.slug}/${chapter}/${verse}`} label={label} />
+          <VerseActions path={`/${book.slug}/${chapter}/${verse}`} label={label} connections={false} />
+          <InterlinearStudyLink path={`/${book.slug}/${chapter}/${verse}`} label={label} />
+        </span>
       </div>
 
       {links.length === 0 || !top ? (

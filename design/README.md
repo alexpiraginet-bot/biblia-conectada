@@ -102,9 +102,9 @@ Use sempre o token, nunca a cor. Cada tema dá todos os valores sem apontar um t
 
 ## 3.1 Temas
 
-- **Primeira visita:** segue `prefers-color-scheme` (claro: Dia; escuro ou sem ajuste: Noite). Escolha do Alex em 19/10.
-- **Menu de aparência** na barra superior: Sistema, Dia e Noite (`site/src/components/header/Appearance.tsx`). Dia e Noite ficam guardados no aparelho (`localStorage` `theme`); Sistema apaga a escolha.
-- O tema vai como `data-theme` no `<html>` e no `<body>` e é aplicado antes da primeira pintura (script no `<head>`; nas 404 montadas no navegador, um efeito de layout). Sem escolha, o `<body>` recebe a própria cópia dos valores, então uma troca do ajuste do aparelho também recalcula a página inteira.
+- **Primeira visita:** Dia, para todo mundo, qualquer que seja o ajuste do aparelho. Pedido do Alex em 10/11 (§27). Antes seguia `prefers-color-scheme` (escolha de 19/10) e, sob a trava de 01/11, era Noite para todos.
+- **Menu de aparência** na barra superior: Sistema, Dia e Noite (`site/src/components/header/Appearance.tsx`). A escolha fica guardada no aparelho (`localStorage` `theme`), inclusive Sistema, que segue `prefers-color-scheme`.
+- O tema vai como `data-theme` no `<html>` e no `<body>` e é aplicado antes da primeira pintura (script no `<head>`; nas 404 montadas no navegador, um efeito de layout). Em Sistema, o `<body>` recebe a própria cópia dos valores, então uma troca do ajuste do aparelho também recalcula a página inteira.
 - Todo componente com fundo próprio define a própria cor de texto (folha, busca, menus). Texto não herda cor através de uma superfície flutuante.
 - Medalhões são ouro sobre azul-marinho nos dois temas, como moedas gravadas; no Dia, o anel `line` os assenta no pergaminho.
 
@@ -143,7 +143,7 @@ Três vozes, OFL, servidas pelo próprio site e carregadas no layout raiz (`--fo
   - `/buscar` mostra os versículos de 20 em 20 ("Mais resultados"), com `?q=` no endereço. De 75rem, ao lado, "Como buscar": as cinco regras (referência, livro, palavras, frase, tema), com um exemplo cada. Sem JavaScript a página não mostra resultados (o `?q=` só existe no pedido, e a página é estática); um aviso leva à leitura.
 - **Ler:** escolher um versículo acende a contagem e abre as ligações, ordenadas por votos, com o número sempre em texto. Cada ligação aparece com o texto inteiro da BLIVRE, sem precisar abrir nada, e embaixo delas a lista continua sem fim (§6.2). Cada versículo é uma rota (`/isaias/9/6`) cujo painel vem pronto do servidor; o texto do capítulo fica no layout e não recarrega ao trocar de versículo.
 - **Painel "A partir deste trecho / deste capítulo":** manchete de dados, mini grafo dos até 6 mais votados (a lista é o caminho acessível), a ligação mais forte em destaque com "Ler lado a lado" e "Ver no Explorar". No celular o painel do capítulo fica depois do texto e espia por baixo ("Ligações de Isaías 9", com quantos capítulos estão ligados) até ser alcançado; some enquanto há um trecho selecionado. "Mais ligados" e o Explorar usam a mesma ordem (`site/src/lib/chapter-rank.ts`).
-- **Barra de seleção:** Copiar (com a referência), Compartilhar, Salvar (só no aparelho) e Explorar. Fica acima das abas e da faixa da Ponte no celular.
+- **Barra de seleção:** duas fileiras. Em cima, o Caderno, com um terço da barra cada: Grifar, Anotar e Decorar, que valem para os versículos inteiros da seleção (§22). Embaixo, Copiar (com a referência), Compartilhar, Salvar (só no aparelho) e Explorar, que valem para as palavras selecionadas. Fica acima das abas e da faixa da Ponte no celular; no desktop flutua sobre a seleção, com a mesma grade.
 - **Folha (celular):** diálogo com título, foco preso, Esc e "Fechar" visível; voltar fecha a folha. Opaca, em `overlay`, com texto em `ink`.
 - **Arcos e céu:** escolher capítulo arrastando pela linha de base, pelo seletor livro → capítulo ou pelo teclado (← →, Enter). A seleção entra na URL.
 - **URLs:** toda tela tem link próprio; endereços soltos (`/Isaías/9/6`, `/is 9:6`, `/isaias/9/6)`) levam à página canônica; o resto é a 404 em português.
@@ -520,3 +520,72 @@ A navegação funciona como disclosure antes de JavaScript; depois recebe foco m
 `/jornada` apresenta os checks diários, saldo, constância e um horizonte concreto: Mini Jesus da Bentô 3D Labs, com resgate ainda em preparação. A home convida à participação e à liturgia de hoje. Ouro e bordô seguem os tokens, com progresso discreto e respeito a movimento reduzido. Não se mostra uma fotografia de produto inexistente.
 
 Participação opcional e sem cadastro; saldo confirmado no servidor e espelho local. A interface explica a perda de acesso ao apagar cookies enquanto não houver conta vinculada. Nenhum prêmio por clique ou abertura de tela. Tempo ativo, limites diários, bônus por dias acumulados e meta exigente incentivam constância sem apagar pontos por interrupções. As antigas perguntas da home mantêm suas descobertas salvas, mas deixam de exibir um saldo paralelo que poderia ser confundido com o programa de pontos. Regras e gestão: `docs/JORNADA.md`.
+
+## 22. Caderno: grifos, anotações e decorar (10/11/2026)
+
+O Caderno é o registro pessoal de quem lê, guardado só no aparelho. Regras e limites: [`docs/CADERNO.md`](../docs/CADERNO.md).
+
+- **Grifo:** quatro tokens de cor, `mark-ouro`, `mark-verde`, `mark-azul` e `mark-lilas`, com a regra da Escritura: `ink`, `ink-reading` e `ink-2` com no mínimo 7:1 sobre cada um, nos dois temas (`tests/tokens.test.ts`; a linha "Escritura sobre os grifos do caderno" da tabela de `scripts/contrast-table.ts`). A faixa fica atrás só do texto bíblico; número, contagem e ações do versículo ficam limpos. Um fio de 1px em `line-strong` acompanha o texto, e a cor sempre tem nome (Ouro, Verde, Azul, Lilás) na barra e no Caderno: a cor nunca é a única pista. O grifo é uma marca de quem lê, parada; nada anima sobre a Escritura.
+- **Sinais no versículo:** um lápis pequeno em `accent` depois do texto que tem anotação, e o laço de "Decorar" no que só está na lista de revisão. São os ícones do próprio Caderno (`components/caderno/icons.tsx`), na família de traço único. A seção "Seu caderno neste capítulo", abaixo do texto, diz o mesmo em palavras e lista as anotações.
+- **Diálogo de anotação:** superfície `overlay` com tinta própria, o trecho em Literata com fio lateral, o campo em `raised` com 17px (o celular não dá zoom), ação principal única ("Guardar anotação"). No celular o diálogo começa no topo, para o campo ficar acima do teclado. O diálogo nunca se recusa a fechar: sair sem guardar deixa o texto como rascunho da passagem, com aviso e "Continuar a anotação" (o navegador fecha um diálogo modal no segundo Escape de qualquer jeito; `docs/CADERNO.md`, "Rascunhos"). Apagar pede confirmação, com a palavra junto da cor de perigo.
+- **`/caderno`:** listas em fios, como `/salvos`, sem grade de cards. As quatro partes (Anotações, Grifos, Decorar, Salvos) ficam num controle segmentado que ocupa a largura do celular e que vai para o endereço (`#decorar`). O único bloco emoldurado é a revisão do dia, que é um objeto separado: a referência em Newsreader, a passagem em Literata e duas respostas, "Lembrei" (ação principal) e "Ainda não".
+- **Texto:** verbos que dizem o que acontece ("Grifar", "Anotar", "Decorar", "Tirar grifo", "Guardar anotação") e confirmação no particípio ("2 versículos grifados em ouro, neste aparelho."). Os dias da revisão vêm de `LEITNER_DAYS`; nenhum número do Caderno é digitado.
+- **Navegação:** "Caderno" toma o lugar de "Salvos" no trilho e no menu, com o mesmo ícone; `/salvos` continua existindo e acende o mesmo item.
+
+## 23. Modo Leitura e tamanho do texto (10/11/2026)
+
+Quem lê escolhe entre a página de estudo e a página de leitura, e o tamanho do texto bíblico. Regras: [`docs/LEITURA.md`](../docs/LEITURA.md).
+
+- **Um controle, uma linha:** o segmentado do design system ("Estudo | Leitura") e dois botões "A−" e "A+", no cabeçalho do capítulo, logo abaixo da escolha de tradução. Sem parágrafo de explicação: a descrição de cada modo vai para o leitor de tela e para o `title`. O controle não pode empurrar o primeiro versículo para fora da primeira tela do celular.
+- **Leitura é tirar, não acrescentar:** o modo guarda as ações e a contagem de ligações de cada versículo e o paginador de cima. Não há fundo novo, moldura nem tipografia diferente: a mesma Literata, a mesma coluna, os mesmos números de versículo. Grifos e sinais do Caderno continuam, porque são de quem lê.
+- **"Marcar capítulo lido" muda de lugar:** antes do texto em Estudo, depois do texto em Leitura. A ação fica onde a leitura termina.
+- **Tamanho:** cinco passos sobre o tamanho do design system (0,9 a 1,4), só no texto bíblico. A interface não cresce junto; o número do versículo acompanha a linha. O menor passo não desce de 17px.
+- **Sem salto:** a escolha é aplicada em `<html>` antes da primeira pintura, junto do tema. Uma página que abre num modo não muda de altura depois.
+- **Texto do controle:** substantivos curtos para os modos, e "Tamanho 3 de 5" dito ao leitor de tela a cada mudança. Quando o navegador não guarda a escolha, a frase diz isso e que ela vale só na página.
+
+## 24. Planos de leitura (10/11/2026)
+
+A Bíblia em porções diárias, acompanhadas pelo que a pessoa marca como lido. Regras: [`docs/PLANOS.md`](../docs/PLANOS.md).
+
+- **Página de leitura com uma ação:** o único bloco emoldurado é o cartão do topo, em `raised`, que diz a próxima porção. A porção vai em Newsreader, como um título; a ação principal é "Ler <capítulo>", e "Marcar a porção como lida" é a secundária. O resto da página é uma lista em fios, sem grade de cards.
+- **Capítulos da porção:** pílulas com o nome do capítulo, cada uma um link. Capítulo lido diz "lido" em palavras; a tinta mais leve só repete.
+- **Lista de porções:** número do dia, porção e contagem de versículos, em algarismos tabulares. Dia lido diz "lido"; a próxima diz "próxima". A cor nunca é a única pista.
+- **Sem cobrança:** não há sequência de dias, medalha, contagem regressiva nem vermelho de atraso. O calendário aparece numa frase, e atraso vira "continue de onde parou".
+- **Números:** dias, capítulos, versículos, mínimo, mediana e máximo por dia saem do corte das porções; nenhum é digitado. A frase "do tamanho mais parecido que os capítulos permitem" diz a regra sem prometer dias iguais.
+- **Estável:** o cartão chega do servidor no tamanho do estado inicial e a marca "seguindo", em `/planos`, é uma palavra ao lado do nome. Nada se move quando a página acorda.
+- **Navegação:** "Planos de leitura" entra no menu, em Minha jornada, com o ícone de calendário; não entra no trilho.
+
+## 25. Hero da capa: o céu de arcos (10/11/2026)
+
+Pedido do Alex: "um hero que vai impressionar qualquer um que entrar". A primeira tela da capa passou a ser o céu das ligações da Bíblia, desenhado com os dados, nascendo do horizonte do vale aprovado em 01/11. O título, a frase e os botões são os aprovados; as esferas de cristal vêm logo abaixo, intactas. Código: `components/home/HeroSky.tsx` e `lib/home/hero-arcs.ts`.
+
+- **A imagem é dado, não ilustração.** A linha do horizonte é a Bíblia em ordem, um ponto por capítulo. Cada capítulo ganha um arco até o capítulo com mais versículos ligados a ele (o primeiro da lista de `chapter-links.json`); dois capítulos que se escolhem dividem um arco. A legenda sob os botões diz quantos arcos são e de onde vêm, com números contados.
+- **Cores do céu 3D.** A paleta é a "Dourado e violeta" com que o céu 3D abre (`sculpture/arcs.ts`): ligações próximas em azul e violeta, médias em rosa, as que atravessam a Bíblia em ouro champagne. O hero é a mesma promessa do céu 3D, vista de frente.
+- **Nasce uma vez.** Ao abrir, o céu sobe do horizonte em quatro camadas, das ligações próximas às mais longas, em cerca de três segundos, e para. Sem laço, sem pausa necessária, sem JavaScript; com movimento reduzido, o céu já está inteiro.
+- **Uma ideia por tela.** Céu, título, uma frase, a ação principal ("Começar a ler") e dois caminhos. A legenda dos dados fica logo abaixo da primeira tela. As esferas ("Uma passagem leva a outra.") são a cena seguinte.
+- **Horizonte com nomes:** o primeiro livro, o primeiro do Novo Testamento na posição real dele e o último. Dão sentido à linha sem explicar.
+- **Dia parece dia:** no tema Dia o vale fica claro e os arcos ganham corpo (mais opacos e mais escuros) para se lerem sobre o céu claro; o texto usa a tinta bordô da abertura.
+- **Contraste medido sobre a imagem pintada:** o pior pixel atrás de cada texto contra a cor do texto. Título e frase passam de 4,5:1 nos dois temas, menos a segunda linha do título em Dia a 375 px (4,39:1), que é texto grande e passa a regra de 3:1. Números na evidência.
+- **Custo:** nenhum JavaScript. O desenho vai no HTML da capa, que ficou maior (ver evidência).
+
+## 26. Contexto do versículo (10/11/2026)
+
+O versículo escolhido entre os de antes e os de depois. Regras: [`docs/CONTEXTO.md`](../docs/CONTEXTO.md).
+
+- **No painel, um relance:** o versículo anterior acima e o seguinte abaixo do escolhido, em Literata um degrau menor e em `ink-2`, com no máximo duas linhas. São links com alvo de 44px; o toque abre o contexto inteiro.
+- **No diálogo, uma superfície de leitura:** o escolhido maior e sobre `highlight`, com o número em `accent`; os vizinhos na mesma Literata, um degrau abaixo. Tamanho e caixa dizem qual é o escolhido; a cor só repete.
+- **"Contexto" é a primeira ação** do versículo e de cada versículo ligado, na mesma linha e no mesmo estilo das outras ações.
+- **Mais contexto é uma escolha:** dois botões secundários, "Mostrar versículos anteriores" e "Mostrar versículos seguintes". Nos limites do livro, uma frase toma o lugar do botão.
+- **Sem moldura nova:** o diálogo é o mesmo de Conexões, estudo e compartilhamento, com o sobretítulo "Antes e depois".
+
+## 27. Tema claro como padrão (10/11/2026)
+
+Pedido do Alex: "por padrão o tema claro para o app; escuro só se o cliente mudar". Código: `site/src/components/header/theme.ts`.
+
+- **O app abre em Dia para todo mundo,** inclusive num aparelho configurado para escuro. Antes o padrão seguia o aparelho (escolha de 19/10, §3.1) e, sob a trava de 01/11, era Noite para todos.
+- **Noite e Sistema são escolhas de quem lê,** no controle de aparência, guardadas no aparelho. Quem já tinha escolhido continua com a escolha.
+- **Um lugar só decide:** o primeiro HTML, o script antes da pintura, a página de instalação, as cores da barra do navegador e o manifesto do app instalado usam `DEFAULT_CHOICE`.
+- **A trava continua existindo, desligada:** `NIGHT_MODE_ONLY` volta a Noite para todos numa linha, sem apagar escolhas.
+- **O que continua noturno nos dois temas:** as janelas do céu (§3).
+- **Conferido:** varredura de contraste do tema claro em 35 rotas e nos fluxos das entregas de 10/11; evidência em `docs/evidence/2026-11-10-tema-claro.md`, com o que não foi verificado.
+

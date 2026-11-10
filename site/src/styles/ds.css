@@ -448,13 +448,22 @@
 
 /* ---- scripture: the reading column ------------------------------------------------------------------------ */
 
+/* The size the reader chose for the Bible text (lib/reader-prefs.ts; data-texto is on <html> before the first paint).
+   Here, in the stylesheet every page loads, so .bc-scripture has the same size on a direct visit and after a visit
+   to a chapter. tests/reader-prefs.test.ts keeps these factors equal to TEXT_SCALE. */
+html[data-texto="-1"] { --leitor-escala: 0.9; }
+html[data-texto="1"] { --leitor-escala: 1.12; }
+html[data-texto="2"] { --leitor-escala: 1.25; }
+html[data-texto="3"] { --leitor-escala: 1.4; }
+
 .bc-scripture {
   max-width: var(--column);
   margin: 0;
   padding: 0;
   list-style: none;
   font-family: var(--font-reading);
-  font-size: clamp(1.1875rem, 1.05rem + 0.35vw, 1.3125rem);
+  /* the reader's own size for the Bible text (lib/reader-prefs.ts, reader-prefs.css); 1 when none was chosen */
+  font-size: calc(clamp(1.1875rem, 1.05rem + 0.35vw, 1.3125rem) * var(--leitor-escala, 1));
   line-height: 1.75;
   color: var(--ink-reading);
   font-variant-numeric: proportional-nums;
