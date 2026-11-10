@@ -49,6 +49,18 @@ describe("verse intention before hydration", () => {
     expect(opener.click).toHaveBeenCalledOnce();
   });
 
+  it("keeps an early context click in the reading, and leaves another translation's link alone", () => {
+    const f = fixture(), opener = new f.Link();
+    opener.dataset = { contextRef: "joao/3/16" };
+    opener.href = "/joao/3#v16";
+    expect(f.click(opener).preventDefault).toHaveBeenCalledOnce();
+    f.win.__bcVerse!.fail();
+    expect(f.fallback.href).toBe("/joao/3#v16");
+    const other = fixture(), nbv = new other.Link();
+    nbv.dataset = { contextRef: "ler/open-nbv/joao/3/16" };
+    expect(other.click(nbv).preventDefault).not.toHaveBeenCalled();
+  });
+
   it("does not invent an exact-verse connection for another translation before hydration", () => {
     const f = fixture(), opener = new f.Link();
     opener.dataset = { connectionsRef: "ler/open-nbv/joao/3/16" };

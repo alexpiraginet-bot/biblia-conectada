@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { shareMetadata } from "@/lib/share-metadata";
 import { SITE_URL } from "@/lib/site-identity";
-import { LinksPanel, type NearVerse } from "@/components/reader/LinksPanel";
+import { LinksPanel, type NearVerse, type PeekVerse } from "@/components/reader/LinksPanel";
 import { PanelShell } from "@/components/reader/PanelShell";
 import { graphPartners } from "@/lib/from-here";
 import { medalhaoForBook } from "@/lib/medalhoes";
 import { missingPage, NOT_FOUND_TITLE } from "@/lib/missing";
-import { bookBySlug, chapterNumber, chapterPairs, chapterVerses, verseNumber, versePages, verseRef } from "@/lib/reading";
+import { bookBySlug, chapterNumber, chapterPairs, chapterVerses, grid, verseNumber, versePages, verseRef } from "@/lib/reading";
+import { neighbours } from "@/lib/verse-context";
 
 // The most linked verses are prerendered; the others render on their first request and are kept.
 export function generateStaticParams() {
@@ -59,6 +60,11 @@ export default async function VersePage({ params }: PageProps<"/[livro]/[cap]/[v
     const after = verses.slice(r.verse).find((x) => x.links.length > 0);
     for (const x of [before, after]) if (x) near.push({ verse: x.n, links: x.links.length });
   }
+  // the verse right before and right after, inside the book: the first verse of a chapter looks at the chapter before
+  const around = neighbours(r.book, grid.verseIndex(r.book, r.chapter, r.verse));
+  const peek = async (at: { chapter: number; verse: number } | null): Promise<PeekVerse | null> =>
+    at ? { ...at, text: (at.chapter === r.chapter ? verses : await chapterVerses(r.book, at.chapter))[at.verse - 1].text } : null;
+  const [before, after] = await Promise.all([peek(around.before), peek(around.after)]);
   return (
     <PanelShell chapterPath={`/${r.book.slug}/${r.chapter}`} titleId={titleId} verseId={`v${r.verse}`}>
       <LinksPanel
@@ -71,6 +77,8 @@ export default async function VersePage({ params }: PageProps<"/[livro]/[cap]/[v
         medals={medals}
         chapterLinks={chapterPairs(r.book, r.chapter)}
         near={near}
+        before={before}
+        after={after}
       />
     </PanelShell>
   );

@@ -13,6 +13,7 @@ import { rankLinkedChapters, type LinkedChapter } from "../../src/lib/chapter-ra
 import { conexaoPath } from "../../src/lib/conexao";
 import { chapterHeadline, chapterMeta, linksLabel, mostLinkedRows, testamentName, verseHeadline, votesLabel } from "../../src/lib/from-here";
 import { planFigures, planPortions, PLANS, portionLabel } from "../../src/lib/planos/model";
+import { neighbours } from "../../src/lib/verse-context";
 import { OUT, SITE } from "../data/sources";
 
 type BookFile = { chapters: { t: string; l: [number, number, number][] }[][] };
@@ -267,6 +268,22 @@ export function checkReading({
         );
         if (!raw.includes(`href="${attr(href)}"`)) failures.push(`${page}: no "Ler lado a lado" link to ${href}`);
       }
+      // the verse among its neighbours: the verse before and the verse after, inside the book, each with its number
+      // and the beginning of its own text, and "Contexto" on the verse and on every linked verse
+      const around = neighbours(book, grid.verseIndex(book, chapter, verse));
+      for (const [side, at] of [["antes", around.before], ["depois", around.after]] as const) {
+        const shown = new RegExp(`<a [^>]*data-peek="${side}"[^>]*>([\\s\\S]*?)</a>`).exec(raw);
+        if (!at) {
+          if (shown) failures.push(`${page}: a verse is shown ${side} at the edge of the book`);
+          continue;
+        }
+        const number = at.chapter === chapter ? String(at.verse) : `${at.chapter}:${at.verse}`;
+        const want = `${number}${nbsp(file(book.slug).chapters[at.chapter - 1][at.verse - 1].t)}`;
+        if (!shown || textOf(shown[1]) !== want) failures.push(`${page}: the verse ${side} is not ${book.name} ${at.chapter}:${at.verse} with its text`);
+      }
+      const contexts = new Set([...raw.matchAll(/data-context-ref="([^"]+)"/g)].map((m) => m[1]));
+      const lacking = [`/${book.slug}/${chapter}/${verse}`, ...wantRows].filter((p) => !contexts.has(p.slice(1))).length;
+      if (lacking) failures.push(`${page}: ${lacking} verses of the panel lack their "Contexto" link`);
       verses++;
     }
   }
@@ -307,5 +324,5 @@ export function checkReading({
     portionsChecked += days;
   }
 
-  return `${PLANS.length} reading plans with ${formatInt(portionsChecked)} portions; reading numbers on /ler, ${books_} book pages, ${chapters} chapter and ${verses} verse pages (titles, meta lines, chapter lists, pagers, pills, headlines, rows with their texts and panel links)`;
+  return `${PLANS.length} reading plans with ${formatInt(portionsChecked)} portions; reading numbers on /ler, ${books_} book pages, ${chapters} chapter and ${verses} verse pages (titles, meta lines, chapter lists, pagers, pills, headlines, rows with their texts and panel links, the verse before and after each verse)`;
 }

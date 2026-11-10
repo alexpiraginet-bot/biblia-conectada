@@ -1,0 +1,96 @@
+/* The context of a verse inside the shared verse dialog (VerseContext.tsx): a reading surface. The chosen verse is
+   larger and sits on the highlight; the verses around it are the same Scripture, a step quieter. Tokens only. */
+
+.panel {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-4) var(--space-5) var(--space-5);
+  color: var(--ink);
+  font: 400 var(--fs-ui) / var(--lh-ui) var(--font-ui);
+}
+
+.panel:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -2px;
+}
+
+.more.more {
+  display: flex;
+  width: 100%;
+  margin: var(--space-2) 0;
+}
+
+.edge,
+.note {
+  margin: var(--space-3) 0;
+  color: var(--ink-2);
+  font: 400 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+}
+
+.edge {
+  text-align: center;
+}
+
+.chapter {
+  margin: var(--space-4) 0 var(--space-1);
+  color: var(--ink-2);
+  font: 600 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+}
+
+.verses {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.verse {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  column-gap: var(--space-2);
+  padding: var(--space-2) var(--space-2);
+  border-radius: var(--radius-md);
+  color: var(--ink-reading);
+  /* follows the size the reader chose for the Bible text (components/reader/reader-prefs.css) */
+  font: 400 calc(var(--fs-scripture-sm) * var(--leitor-escala, 1)) / var(--lh-scripture-sm) var(--font-reading);
+  overflow-wrap: anywhere;
+}
+
+.number {
+  padding-top: 0.2em;
+  color: var(--ink-2);
+  font: 500 var(--fs-meta) / var(--lh-meta) var(--font-ui);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+/* the chosen verse: larger, on the highlight, its number in the accent. Size and box say it, not the colour alone. */
+.verse[aria-current="true"] {
+  margin: var(--space-2) 0;
+  padding: var(--space-3) var(--space-2);
+  background: var(--highlight);
+  color: var(--ink);
+  font-size: calc(var(--fs-scripture) * var(--leitor-escala, 1));
+  line-height: var(--lh-scripture);
+}
+
+.verse[aria-current="true"] .number {
+  padding-top: 0.45em;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.reader {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--target);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+@media (max-width: 48rem) {
+  .panel {
+    padding: var(--space-3) var(--space-4) var(--space-4);
+  }
+}

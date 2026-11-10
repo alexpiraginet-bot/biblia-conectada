@@ -55,7 +55,7 @@ export function StudyController() {
   return Dialog ? <Dialog key={`${entry.kind}:${entry.path}`} entry={entry} onClose={() => setEntry(null)} />
     : <div data-verse-opening="" className={styles.status} role={failed ? "alert" : "status"}>{failed
       ? <>Não foi possível abrir. <a href={entry.opener.href}>Abrir em uma página</a></>
-      : entry.kind === "share" ? "Abrindo compartilhamento…" : entry.kind === "connections" ? "Abrindo conexões…" : "Abrindo o estudo…"}
+      : entry.kind === "share" ? "Abrindo compartilhamento…" : entry.kind === "connections" ? "Abrindo conexões…" : entry.kind === "context" ? "Abrindo o contexto…" : "Abrindo o estudo…"}
       <button type="button" aria-label="Fechar aviso" onClick={() => { (entry.returnTo ?? entry.opener).focus({ preventScroll: true }); setEntry(null); }}>×</button>
     </div>;
 }
