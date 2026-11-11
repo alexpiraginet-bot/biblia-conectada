@@ -1,0 +1,105 @@
+{
+ "conta": "Higgsfield, plano ultra em teste grátis; gerações ilimitadas até 2026-11-14T11:30:16Z (uma por vez de cada tipo)",
+ "config_gratis": {
+  "video": {
+   "model": "seedance_2_0",
+   "resolution": "720p",
+   "mode": "std",
+   "duration": 8,
+   "aspect_ratio": "9:16",
+   "generate_audio": true,
+   "use_unlim": true
+  }
+ },
+ "referencia": {
+  "personagem": {
+   "job": "aab922bf-ea1c-485a-be3e-fea044f08fa5",
+   "arquivo": "source/ref/personagem.png",
+   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261111_113617_aab922bf-ea1c-485a-be3e-fea044f08fa5.png"
+  }
+ },
+ "takes": {
+  "mc-pescadores-1": {
+   "job": "b8c205eb-382f-424f-91df-c11fcae4cba8",
+   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261111_122133_b8c205eb-382f-424f-91df-c11fcae4cba8.mp4",
+   "fim": "4cec6672-60f2-43de-ac72-9c877f189078"
+  },
+  "mc-pescadores-2": {
+   "job": "d6940fcd-9edf-451c-9a5a-9ac6ffca8589",
+   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261111_123053_d6940fcd-9edf-451c-9a5a-9ac6ffca8589.mp4",
+   "fim": "42226b57-3818-47dd-91ff-ff3eb6a27dd5"
+  },
+  "mc-pescadores-3": {
+   "job": "52e737b6-e3f9-4717-a742-a986e3c46813",
+   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261111_123735_52e737b6-e3f9-4717-a742-a986e3c46813.mp4"
+  },
+  "mt-aguas-1": {
+   "job": "5849a60b-62b8-4dc3-87d2-7391aa5c98fb"
+  }
+ },
+ "reels": {
+  "mc-pescadores": {
+   "arquivo": "renders/mc-pescadores.mp4",
+   "sha256": "3b398fd6ede0dfbaa550a5491e1e72bd44bc31f931e60d7fd04e0c05da3a7554",
+   "bytes": 27170001,
+   "quadros": 525,
+   "duracao_s": 21.875,
+   "lufs": -14.2,
+   "pico_dbtp": -1.8,
+   "capa": "renders/capa-mc-pescadores.jpg",
+   "entregue": "2026-11-11, ao Alex no chat"
+  }
+ },
+ "primeira_versao": {
+  "nota": "piloto de 09:15 (quadro-chave no gpt_image_2_6 + animação): lento e com cara de pintura; guardado fora do git em source/v1/",
+  "quadros": {
+   "mc-pescadores-1": {
+    "job": "891c184e-9c3b-4686-9524-165153916da5",
+    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261111_113902_891c184e-9c3b-4686-9524-165153916da5.png"
+   },
+   "mc-pescadores-2": {
+    "job": "f01d7a47-f9c9-4d6b-91fe-3cb4f0f69373",
+    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261111_114848_f01d7a47-f9c9-4d6b-91fe-3cb4f0f69373.png"
+   },
+   "mc-pescadores-3": {
+    "job": "4f8e5115-b004-49e5-979e-e881d94a4187",
+    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261111_115111_4f8e5115-b004-49e5-979e-e881d94a4187.png"
+   },
+   "mt-entrada-2": {
+    "job": "882dd728-9ced-439b-bc33-c85bf642a47e",
+    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261111_113753_882dd728-9ced-439b-bc33-c85bf642a47e.png"
+   },
+   "mt-aguas-1": {
+    "job": "a6200627-5e7b-43f6-af9d-4278b040a9c9",
+    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261111_114121_a6200627-5e7b-43f6-af9d-4278b040a9c9.png"
+   },
+   "jo-cana-1": {
+    "job": "b67367e5-a8a5-4ca2-9905-a48ff8ee8048",
+    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261111_114326_b67367e5-a8a5-4ca2-9905-a48ff8ee8048.png"
+   }
+  },
+  "takes": {
+   "mc-pescadores-1": {
+    "job": "ee015e0a-b130-4a23-9d2c-6b99913dc4b8",
+    "quadro": "mc-pescadores-1",
+    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261111_114329_ee015e0a-b130-4a23-9d2c-6b99913dc4b8.mp4"
+   },
+   "mc-pescadores-3": {
+    "job": "adb47bbf-bd05-43f3-b71b-cde490c01cab",
+    "quadro": "mc-pescadores-3",
+    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261111_115505_adb47bbf-bd05-43f3-b71b-cde490c01cab.mp4"
+   },
+   "mt-entrada-a": {
+    "job": "1b8872a5-75c9-4a1f-a0e6-8986833f4e79",
+    "quadro": "mt-entrada-2",
+    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261111_113925_1b8872a5-75c9-4a1f-a0e6-8986833f4e79.mp4"
+   },
+   "jo-cana-a": {
+    "job": "a849d856-0672-42e5-b4bc-955ddeb3017f",
+    "quadro": "jo-cana-1",
+    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261111_115016_a849d856-0672-42e5-b4bc-955ddeb3017f.mp4",
+    "nota": "a fileira de vasos cresce quando a câmera avança (Jo 2:6 diz seis): refazer antes de usar"
+   }
+  }
+ }
+}

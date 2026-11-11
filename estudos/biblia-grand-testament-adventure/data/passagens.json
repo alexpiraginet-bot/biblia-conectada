@@ -1,0 +1,1269 @@
+{
+ "fonte_texto": "Bíblia Livre (BLIVRE), CC BY 4.0 BR",
+ "fonte_lugares": "OpenBible.info Bible Geocoding Data, CC BY 4.0",
+ "passagens": [
+  {
+   "id": "mt-magos",
+   "evangelho": "Mateus",
+   "ref": "Matt.2.1-11",
+   "ref_pt": "Mateus 2:1–11",
+   "titulo": "Os magos e a estrela",
+   "fala": "vimos sua estrela no oriente, e viemos adorá-lo",
+   "fala_ref": "Mateus 2:2",
+   "lugar": "Belém da Judeia",
+   "lugar_ref": "Mt 2:1",
+   "geo": {
+    "id": "Bethlehem 1",
+    "lon": 35.207639,
+    "lat": 31.704306,
+    "moderno": "Bethlehem",
+    "nota": null
+   },
+   "feito": null
+  },
+  {
+   "id": "mt-batismo",
+   "evangelho": "Mateus",
+   "ref": "Matt.3.13-17",
+   "ref_pt": "Mateus 3:13–17",
+   "titulo": "O batismo no Jordão",
+   "fala": "Este é o meu Filho amado, em quem me agrado.",
+   "fala_ref": "Mateus 3:17",
+   "lugar": "Jordão",
+   "lugar_ref": "Mt 3:13",
+   "geo": {
+    "id": "Jordan",
+    "lon": 35.558333,
+    "lat": 31.761389,
+    "moderno": "Jordan River",
+    "nota": null
+   },
+   "feito": null
+  },
+  {
+   "id": "mt-deserto",
+   "evangelho": "Mateus",
+   "ref": "Matt.4.1-11",
+   "ref_pt": "Mateus 4:1–11",
+   "titulo": "A tentação no deserto",
+   "fala": "Não só de pão viverá o ser humano",
+   "fala_ref": "Mateus 4:4",
+   "lugar": "deserto",
+   "lugar_ref": "Mt 4:1",
+   "geo": null,
+   "feito": null
+  },
+  {
+   "id": "mt-sermao",
+   "evangelho": "Mateus",
+   "ref": "Matt.5.1-16",
+   "ref_pt": "Mateus 5:1–16",
+   "titulo": "O sermão do monte",
+   "fala": "Vós sois a luz do mundo",
+   "fala_ref": "Mateus 5:14",
+   "lugar": "Galileia",
+   "lugar_ref": "Mt 4:23",
+   "geo": {
+    "id": "Galilee 1",
+    "lon": 35.527,
+    "lat": 32.76,
+    "moderno": "Galilee",
+    "nota": "Mt 5:1 só diz 'um monte'; Mt 4:23 põe a cena na Galileia (ponto da região, não do monte)"
+   },
+   "feito": null
+  },
+  {
+   "id": "mt-aguas",
+   "evangelho": "Mateus",
+   "ref": "Matt.14.22-33",
+   "ref_pt": "Mateus 14:22–33",
+   "titulo": "Andando sobre o mar",
+   "fala": "Tende coragem! Sou eu, não tenhais medo.",
+   "fala_ref": "Mateus 14:27",
+   "lugar": "mar da Galileia",
+   "lugar_ref": "Mt 4:18",
+   "geo": {
+    "id": "Sea of Galilee",
+    "lon": 35.590033,
+    "lat": 32.818906,
+    "moderno": "Sea of Galilee",
+    "nota": null
+   },
+   "feito": null
+  },
+  {
+   "id": "mt-transfiguracao",
+   "evangelho": "Mateus",
+   "ref": "Matt.17.1-8",
+   "ref_pt": "Mateus 17:1–8",
+   "titulo": "A transfiguração",
+   "fala": "seu rosto brilhou como o sol",
+   "fala_ref": "Mateus 17:2",
+   "lugar": "um monte alto",
+   "lugar_ref": "Mt 17:1",
+   "geo": null,
+   "feito": null
+  },
+  {
+   "id": "mt-entrada",
+   "evangelho": "Mateus",
+   "ref": "Matt.21.1-11",
+   "ref_pt": "Mateus 21:1–11",
+   "titulo": "A entrada em Jerusalém",
+   "fala": "Bendito o que vem no nome do Senhor!",
+   "fala_ref": "Mateus 21:9",
+   "lugar": "monte das Oliveiras",
+   "lugar_ref": "Mt 21:1",
+   "geo": {
+    "id": "Mount of Olives",
+    "lon": 35.245686,
+    "lat": 31.777946,
+    "moderno": "Mount of Olives",
+    "nota": null
+   },
+   "feito": null
+  },
+  {
+   "id": "mt-templo",
+   "evangelho": "Mateus",
+   "ref": "Matt.21.12-13",
+   "ref_pt": "Mateus 21:12–13",
+   "titulo": "As mesas viradas",
+   "fala": "Minha casa será chamada casa de oração",
+   "fala_ref": "Mateus 21:13",
+   "lugar": "Jerusalém",
+   "lugar_ref": "Mt 21:10",
+   "geo": {
+    "id": "Jerusalem",
+    "lon": 35.234167,
+    "lat": 31.776667,
+    "moderno": "Jerusalem",
+    "nota": null
+   },
+   "feito": null
+  },
+  {
+   "id": "mt-getsemani",
+   "evangelho": "Mateus",
+   "ref": "Matt.26.36-46",
+   "ref_pt": "Mateus 26:36–46",
+   "titulo": "Getsêmani",
+   "fala": "não seja como eu quero, mas sim como tu queres",
+   "fala_ref": "Mateus 26:39",
+   "lugar": "Getsêmani",
+   "lugar_ref": "Mt 26:36",
+   "geo": {
+    "id": "Gethsemane",
+    "lon": 35.239425,
+    "lat": 31.779419,
+    "moderno": "Gethsemane",
+    "nota": null
+   },
+   "feito": null
+  },
+  {
+   "id": "mt-tumulo",
+   "evangelho": "Mateus",
+   "ref": "Matt.28.1-8",
+   "ref_pt": "Mateus 28:1–8",
+   "titulo": "O túmulo vazio",
+   "fala": "Ele não está aqui, pois já ressuscitou",
+   "fala_ref": "Mateus 28:6",
+   "lugar": "sepulcro",
+   "lugar_ref": "Mt 28:1",
+   "geo": {
+    "id": "Golgotha",
+    "lon": 35.22975,
+    "lat": 31.778444,
+    "moderno": "Church of the Holy Sepulchre",
+    "nota": "Jo 19:41: o sepulcro ficava no lugar onde ele foi crucificado"
+   },
+   "feito": null
+  },
+  {
+   "id": "mc-pescadores",
+   "evangelho": "Marcos",
+   "ref": "Mark.1.16-20",
+   "ref_pt": "Marcos 1:16–20",
+   "titulo": "Pescadores de gente",
+   "fala": "Vinde após mim, e farei serdes pescadores de gente.",
+   "fala_ref": "Marcos 1:17",
+   "lugar": "mar da Galileia",
+   "lugar_ref": "Mc 1:16",
+   "geo": {
+    "id": "Capernaum",
+    "lon": 35.575,
+    "lat": 32.881111,
+    "moderno": "Tell Hum",
+    "nota": "Mc 1:21: da praia eles entram em Cafarnaum"
+   },
+   "feito": null
+  },
+  {
+   "id": "mc-paralitico",
+   "evangelho": "Marcos",
+   "ref": "Mark.2.1-12",
+   "ref_pt": "Marcos 2:1–12",
+   "titulo": "O buraco no telhado",
+   "fala": "levanta-te, toma o teu leito, e vai para a tua casa",
+   "fala_ref": "Marcos 2:11",
+   "lugar": "Cafarnaum",
+   "lugar_ref": "Mc 2:1",
+   "geo": {
+    "id": "Capernaum",
+    "lon": 35.575,
+    "lat": 32.881111,
+    "moderno": "Tell Hum",
+    "nota": null
+   },
+   "feito": null
+  },
+  {
+   "id": "mc-tempestade",
+   "evangelho": "Marcos",
+   "ref": "Mark.4.35-41",
+   "ref_pt": "Marcos 4:35–41",
+   "titulo": "Paz em meio ao caos",
+   "fala": "Cala-te, aquieta-te!",
+   "fala_ref": "Marcos 4:39",
+   "lugar": "mar",
+   "lugar_ref": "Mc 4:39",
+   "geo": {
+    "id": "Sea of Galilee",
+    "lon": 35.590033,
+    "lat": 32.818906,
+    "moderno": "Sea of Galilee",
+    "nota": null
+   },
+   "feito": "já publicado pelo Alex antes desta leva (releitura moderna, 24 s); não refazer"
+  },
+  {
+   "id": "mc-manto",
+   "evangelho": "Marcos",
+   "ref": "Mark.5.25-34",
+   "ref_pt": "Marcos 5:25–34",
+   "titulo": "Ela tocou a roupa dele",
+   "fala": "Filha, a tua fé te salvou.",
+   "fala_ref": "Marcos 5:34",
+   "lugar": "junto ao mar",
+   "lugar_ref": "Mc 5:21",
+   "geo": null,
+   "feito": null
+  },
+  {
+   "id": "mc-paes",
+   "evangelho": "Marcos",
+   "ref": "Mark.6.30-44",
+   "ref_pt": "Marcos 6:30–44",
+   "titulo": "Cinco pães e dois peixes",
+   "fala": "partiu os pães, e os deu aos seus discípulos",
+   "fala_ref": "Marcos 6:41",
+   "lugar": "um lugar deserto",
+   "lugar_ref": "Mc 6:32",
+   "geo": {
+    "id": "Bethsaida 1",
+    "lon": 35.63096,
+    "lat": 32.91038,
+    "moderno": "At Tell",
+    "nota": "Lc 9:10: 'um lugar deserto de uma cidade chamada Betsaida'"
+   },
+   "feito": null
+  },
+  {
+   "id": "mc-bartimeu",
+   "evangelho": "Marcos",
+   "ref": "Mark.10.46-52",
+   "ref_pt": "Marcos 10:46–52",
+   "titulo": "Mestre, que eu veja",
+   "fala": "Vai; a tua fé te salvou.",
+   "fala_ref": "Marcos 10:52",
+   "lugar": "Jericó",
+   "lugar_ref": "Mc 10:46",
+   "geo": {
+    "id": "Jericho 2",
+    "lon": 35.436238,
+    "lat": 31.851872,
+    "moderno": "Tell el Alayiq",
+    "nota": null
+   },
+   "feito": null
+  },
+  {
+   "id": "mc-viuva",
+   "evangelho": "Marcos",
+   "ref": "Mark.12.41-44",
+   "ref_pt": "Marcos 12:41–44",
+   "titulo": "Duas pequenas moedas",
+   "fala": "esta pobre viúva lançou mais que todos",
+   "fala_ref": "Marcos 12:43",
+   "lugar": "Jerusalém",
+   "lugar_ref": "Mc 11:27",
+   "geo": {
+    "id": "Jerusalem",
+    "lon": 35.234167,
+    "lat": 31.776667,
+    "moderno": "Jerusalem",
+    "nota": null
+   },
+   "feito": null
+  },
+  {
+   "id": "mc-cruz",
+   "evangelho": "Marcos",
+   "ref": "Mark.15.22-39",
+   "ref_pt": "Marcos 15:22–39",
+   "titulo": "O lugar da caveira",
+   "fala": "Verdadeiramente este homem era Filho de Deus.",
+   "fala_ref": "Marcos 15:39",
+   "lugar": "Gólgota",
+   "lugar_ref": "Mc 15:22",
+   "geo": {
+    "id": "Golgotha",
+    "lon": 35.22975,
+    "lat": 31.778444,
+    "moderno": "Church of the Holy Sepulchre",
+    "nota": null
+   },
+   "feito": null
+  },
+  {
+   "id": "lc-pastores",
+   "evangelho": "Lucas",
+   "ref": "Luke.2.8-16",
+   "ref_pt": "Lucas 2:8–16",
+   "titulo": "Os pastores no campo",
+   "fala": "hoje na cidade de Davi vos nasceu o Salvador",
+   "fala_ref": "Lucas 2:11",
+   "lugar": "Belém",
+   "lugar_ref": "Lc 2:15",
+   "geo": {
+    "id": "Bethlehem 1",
+    "lon": 35.207639,
+    "lat": 31.704306,
+    "moderno": "Bethlehem",
+    "nota": null
+   },
+   "feito": null
+  },
+  {
+   "id": "lc-pesca",
+   "evangelho": "Lucas",
+   "ref": "Luke.5.1-11",
+   "ref_pt": "Lucas 5:1–11",
+   "titulo": "A rede se rompendo",
+   "fala": "pela tua palavra lançarei a rede",
+   "fala_ref": "Lucas 5:5",
+   "lugar": "lago de Genesaré",
+   "lugar_ref": "Lc 5:1",
+   "geo": {
+    "id": "Gennesaret",
+    "lon": 35.507222,
+    "lat": 32.860556,
+    "moderno": "El Ghuweir",
+    "nota": null
+   },
+   "feito": null
+  },
+  {
+   "id": "lc-naim",
+   "evangelho": "Lucas",
+   "ref": "Luke.7.11-17",
+   "ref_pt": "Lucas 7:11–17",
+   "titulo": "Jovem, levanta-te",
+   "fala": "Jovem, a ti eu digo: levanta-te.",
+   "fala_ref": "Lucas 7:14",
+   "lugar": "Naim",
+   "lugar_ref": "Lc 7:11",
+   "geo": {
+    "id": "Nain",
+    "lon": 35.350139,
+    "lat": 32.630694,
+    "moderno": "Nein",
+    "nota": null
+   },
+   "feito": null
+  },
+  {
+   "id": "lc-pecadora",
+   "evangelho": "Lucas",
+   "ref": "Luke.7.36-50",
+   "ref_pt": "Lucas 7:36–50",
+   "titulo": "O vaso de alabastro",
+   "fala": "A tua fé te salvou; vai em paz.",
+   "fala_ref": "Lucas 7:50",
+   "lugar": "casa do fariseu",
+   "lugar_ref": "Lc 7:37",
+   "geo": null,
+   "feito": null
+  },
+  {
+   "id": "lc-leprosos",
+   "evangelho": "Lucas",
+   "ref": "Luke.17.11-19",
+   "ref_pt": "Lucas 17:11–19",
+   "titulo": "Onde estão os nove?",
+   "fala": "Não foram os dez limpos? E onde estão os nove?",
+   "fala_ref": "Lucas 17:17",
+   "lugar": "Samaria",
+   "lugar_ref": "Lc 17:11",
+   "geo": null,
+   "feito": null
+  },
+  {
+   "id": "lc-zaqueu",
+   "evangelho": "Lucas",
+   "ref": "Luke.19.1-10",
+   "ref_pt": "Lucas 19:1–10",
+   "titulo": "Zaqueu, desce",
+   "fala": "Zaqueu, apressa-te, e desce",
+   "fala_ref": "Lucas 19:5",
+   "lugar": "Jericó",
+   "lugar_ref": "Lc 19:1",
+   "geo": {
+    "id": "Jericho 2",
+    "lon": 35.436238,
+    "lat": 31.851872,
+    "moderno": "Tell el Alayiq",
+    "nota": null
+   },
+   "feito": null
+  },
+  {
+   "id": "lc-ceia",
+   "evangelho": "Lucas",
+   "ref": "Luke.22.14-20",
+   "ref_pt": "Lucas 22:14–20",
+   "titulo": "A última ceia",
+   "fala": "fazei isto em memória de mim",
+   "fala_ref": "Lucas 22:19",
+   "lugar": "cidade",
+   "lugar_ref": "Lc 22:10",
+   "geo": {
+    "id": "Jerusalem",
+    "lon": 35.234167,
+    "lat": 31.776667,
+    "moderno": "Jerusalem",
+    "nota": "Lc 22:10 só diz 'a cidade'; é Jerusalém (Lc 19:28 em diante)"
+   },
+   "feito": null
+  },
+  {
+   "id": "lc-emaus",
+   "evangelho": "Lucas",
+   "ref": "Luke.24.13-35",
+   "ref_pt": "Lucas 24:13–35",
+   "titulo": "O caminho de Emaús",
+   "fala": "não estava nosso coração ardendo em nós",
+   "fala_ref": "Lucas 24:32",
+   "lugar": "Emaús",
+   "lugar_ref": "Lc 24:13",
+   "geo": {
+    "id": "Emmaus",
+    "lon": 35.16419,
+    "lat": 31.79289,
+    "moderno": "Qalunya",
+    "nota": null
+   },
+   "feito": null
+  },
+  {
+   "id": "lc-ascensao",
+   "evangelho": "Lucas",
+   "ref": "Luke.24.50-53",
+   "ref_pt": "Lucas 24:50–53",
+   "titulo": "A ascensão",
+   "fala": "enquanto os abençoava, ele se afastou deles",
+   "fala_ref": "Lucas 24:51",
+   "lugar": "Betânia",
+   "lugar_ref": "Lc 24:50",
+   "geo": {
+    "id": "Bethany 1",
+    "lon": 35.255903,
+    "lat": 31.771661,
+    "moderno": "Al Eizariya",
+    "nota": null
+   },
+   "feito": null
+  },
+  {
+   "id": "jo-cana",
+   "evangelho": "João",
+   "ref": "John.2.1-11",
+   "ref_pt": "João 2:1–11",
+   "titulo": "Água feita vinho",
+   "fala": "Enchei estes vasos com água.",
+   "fala_ref": "João 2:7",
+   "lugar": "Caná da Galileia",
+   "lugar_ref": "Jo 2:1",
+   "geo": {
+    "id": "Cana",
+    "lon": 35.30269,
+    "lat": 32.8222,
+    "moderno": "Horbat Qana",
+    "nota": null
+   },
+   "feito": null
+  },
+  {
+   "id": "jo-nicodemos",
+   "evangelho": "João",
+   "ref": "John.3.1-16",
+   "ref_pt": "João 3:1–16",
+   "titulo": "De noite, com Nicodemos",
+   "fala": "Porque Deus amou ao mundo de tal maneira",
+   "fala_ref": "João 3:16",
+   "lugar": "Jerusalém",
+   "lugar_ref": "Jo 2:23",
+   "geo": {
+    "id": "Jerusalem",
+    "lon": 35.234167,
+    "lat": 31.776667,
+    "moderno": "Jerusalem",
+    "nota": null
+   },
+   "feito": null
+  },
+  {
+   "id": "jo-samaritana",
+   "evangelho": "João",
+   "ref": "John.4.5-26",
+   "ref_pt": "João 4:5–26",
+   "titulo": "A fonte de Jacó",
+   "fala": "Dá-me de beber.",
+   "fala_ref": "João 4:7",
+   "lugar": "Sicar",
+   "lugar_ref": "Jo 4:5",
+   "geo": {
+    "id": "Sychar",
+    "lon": 35.28897,
+    "lat": 32.21776,
+    "moderno": "Askar",
+    "nota": null
+   },
+   "feito": null
+  },
+  {
+   "id": "jo-betesda",
+   "evangelho": "João",
+   "ref": "John.5.1-9",
+   "ref_pt": "João 5:1–9",
+   "titulo": "O tanque de Betesda",
+   "fala": "Levanta-te, toma teu leito, e anda.",
+   "fala_ref": "João 5:8",
+   "lugar": "Betesda",
+   "lugar_ref": "Jo 5:2",
+   "geo": {
+    "id": "Bethesda",
+    "lon": 35.235833,
+    "lat": 31.781389,
+    "moderno": "Pool of Bethesda",
+    "nota": null
+   },
+   "feito": null
+  },
+  {
+   "id": "jo-adultera",
+   "evangelho": "João",
+   "ref": "John.8.1-11",
+   "ref_pt": "João 8:1–11",
+   "titulo": "Escrito no chão",
+   "fala": "Aquele de vós que está sem pecado, seja o primeiro que atire pedra contra ela.",
+   "fala_ref": "João 8:7",
+   "lugar": "Templo",
+   "lugar_ref": "Jo 8:2",
+   "geo": {
+    "id": "Jerusalem",
+    "lon": 35.234167,
+    "lat": 31.776667,
+    "moderno": "Jerusalem",
+    "nota": null
+   },
+   "feito": null
+  },
+  {
+   "id": "jo-cego",
+   "evangelho": "João",
+   "ref": "John.9.1-7",
+   "ref_pt": "João 9:1–7",
+   "titulo": "O tanque de Siloé",
+   "fala": "Vai, lava-te no tanque de Siloé",
+   "fala_ref": "João 9:7",
+   "lugar": "Siloé",
+   "lugar_ref": "Jo 9:7",
+   "geo": {
+    "id": "Siloam",
+    "lon": 35.235,
+    "lat": 31.770556,
+    "moderno": "Pool of Siloam",
+    "nota": null
+   },
+   "feito": null
+  },
+  {
+   "id": "jo-lazaro",
+   "evangelho": "João",
+   "ref": "John.11.38-44",
+   "ref_pt": "João 11:38–44",
+   "titulo": "Lázaro, sai fora",
+   "fala": "Lázaro, sai fora.",
+   "fala_ref": "João 11:43",
+   "lugar": "Betânia",
+   "lugar_ref": "Jo 11:1",
+   "geo": {
+    "id": "Bethany 1",
+    "lon": 35.255903,
+    "lat": 31.771661,
+    "moderno": "Al Eizariya",
+    "nota": null
+   },
+   "feito": null
+  },
+  {
+   "id": "jo-lavapes",
+   "evangelho": "João",
+   "ref": "John.13.1-17",
+   "ref_pt": "João 13:1–17",
+   "titulo": "O lava-pés",
+   "fala": "também vós deveis lavar vossos pés uns aos outros",
+   "fala_ref": "João 13:14",
+   "lugar": "Jerusalém",
+   "lugar_ref": "Jo 12:12",
+   "geo": {
+    "id": "Jerusalem",
+    "lon": 35.234167,
+    "lat": 31.776667,
+    "moderno": "Jerusalem",
+    "nota": null
+   },
+   "feito": null
+  },
+  {
+   "id": "jo-madalena",
+   "evangelho": "João",
+   "ref": "John.20.11-18",
+   "ref_pt": "João 20:11–18",
+   "titulo": "Mulher, por que choras?",
+   "fala": "Mulher, por que choras? A quem buscas?",
+   "fala_ref": "João 20:15",
+   "lugar": "sepulcro",
+   "lugar_ref": "Jo 20:11",
+   "geo": {
+    "id": "Golgotha",
+    "lon": 35.22975,
+    "lat": 31.778444,
+    "moderno": "Church of the Holy Sepulchre",
+    "nota": "Jo 19:41: o sepulcro ficava no lugar onde ele foi crucificado"
+   },
+   "feito": null
+  },
+  {
+   "id": "jo-tome",
+   "evangelho": "João",
+   "ref": "John.20.24-29",
+   "ref_pt": "João 20:24–29",
+   "titulo": "Tomé",
+   "fala": "bem-aventurados aqueles que não virem, e crerem",
+   "fala_ref": "João 20:29",
+   "lugar": "fechadas já as portas",
+   "lugar_ref": "Jo 20:26",
+   "geo": null,
+   "feito": null
+  },
+  {
+   "id": "jo-brasa",
+   "evangelho": "João",
+   "ref": "John.21.1-14",
+   "ref_pt": "João 21:1–14",
+   "titulo": "Peixe na brasa",
+   "fala": "Vinde, jantai.",
+   "fala_ref": "João 21:12",
+   "lugar": "mar de Tibérias",
+   "lugar_ref": "Jo 21:1",
+   "geo": {
+    "id": "Sea of Galilee",
+    "lon": 35.590033,
+    "lat": 32.818906,
+    "moderno": "Sea of Galilee",
+    "nota": null
+   },
+   "feito": null
+  }
+ ],
+ "lugares": [
+  {
+   "id": "Jerusalem",
+   "nome": "Jerusalém",
+   "ref": "Matt.21.10",
+   "tipo": "t",
+   "lon": 35.234167,
+   "lat": 31.776667
+  },
+  {
+   "id": "Bethany 1",
+   "nome": "Betânia",
+   "ref": "John.11.1",
+   "tipo": "t",
+   "lon": 35.255903,
+   "lat": 31.771661
+  },
+  {
+   "id": "Bethphage",
+   "nome": "Betfagé",
+   "ref": "Matt.21.1",
+   "tipo": "t",
+   "lon": 35.250839,
+   "lat": 31.777619
+  },
+  {
+   "id": "Mount of Olives",
+   "nome": "monte das Oliveiras",
+   "ref": "Matt.21.1",
+   "tipo": "m",
+   "lon": 35.245686,
+   "lat": 31.777946
+  },
+  {
+   "id": "Bethlehem 1",
+   "nome": "Belém",
+   "ref": "Luke.2.15",
+   "tipo": "t",
+   "lon": 35.207639,
+   "lat": 31.704306
+  },
+  {
+   "id": "Emmaus",
+   "nome": "Emaús",
+   "ref": "Luke.24.13",
+   "tipo": "t",
+   "lon": 35.16419,
+   "lat": 31.79289
+  },
+  {
+   "id": "Jericho 2",
+   "nome": "Jericó",
+   "ref": "Luke.19.1",
+   "tipo": "t",
+   "lon": 35.436238,
+   "lat": 31.851872
+  },
+  {
+   "id": "Capernaum",
+   "nome": "Cafarnaum",
+   "ref": "Mark.2.1",
+   "tipo": "t",
+   "lon": 35.575,
+   "lat": 32.881111
+  },
+  {
+   "id": "Bethsaida 1",
+   "nome": "Betsaida",
+   "ref": "Luke.9.10",
+   "tipo": "t",
+   "lon": 35.63096,
+   "lat": 32.91038
+  },
+  {
+   "id": "Tiberias",
+   "nome": "Tibérias",
+   "ref": "John.6.23",
+   "tipo": "t",
+   "lon": 35.544167,
+   "lat": 32.773611
+  },
+  {
+   "id": "Cana",
+   "nome": "Caná",
+   "ref": "John.2.1",
+   "tipo": "t",
+   "lon": 35.30269,
+   "lat": 32.8222
+  },
+  {
+   "id": "Nazareth",
+   "nome": "Nazaré",
+   "ref": "Luke.4.16",
+   "tipo": "t",
+   "lon": 35.29769,
+   "lat": 32.70214
+  },
+  {
+   "id": "Nain",
+   "nome": "Naim",
+   "ref": "Luke.7.11",
+   "tipo": "t",
+   "lon": 35.350139,
+   "lat": 32.630694
+  },
+  {
+   "id": "Sychar",
+   "nome": "Sicar",
+   "ref": "John.4.5",
+   "tipo": "t",
+   "lon": 35.28897,
+   "lat": 32.21776
+  },
+  {
+   "id": "Chorazin",
+   "nome": "Corazim",
+   "ref": "Matt.11.21",
+   "tipo": "t",
+   "lon": 35.563889,
+   "lat": 32.911389
+  },
+  {
+   "id": "Magdala",
+   "nome": "Magdala",
+   "ref": "Matt.15.39",
+   "tipo": "t",
+   "lon": 35.513552,
+   "lat": 32.827069
+  },
+  {
+   "id": "Sea of Galilee",
+   "nome": "mar da Galileia",
+   "ref": "Mark.1.16",
+   "tipo": "w",
+   "lon": 35.590033,
+   "lat": 32.818906
+  },
+  {
+   "id": "Gennesaret",
+   "nome": "Genesaré",
+   "ref": "Luke.5.1",
+   "tipo": "m",
+   "lon": 35.507222,
+   "lat": 32.860556
+  }
+ ],
+ "episodios": {
+  "mc-pescadores": {
+   "raio_km": 9,
+   "ritmo": 1.1,
+   "contador": {
+    "rotulo": "Discípulos",
+    "total": 4
+   },
+   "missoes": [
+    {
+     "take": "mc-pescadores-1.mp4",
+     "objetivo": "Desça até a praia",
+     "fala": null,
+     "rumo": 255,
+     "acao": null,
+     "vel": 1,
+     "conta": 0,
+     "seguidores": 0
+    },
+    {
+     "take": "mc-pescadores-2.mp4",
+     "objetivo": "Chame Simão e André",
+     "fala": {
+      "texto": "Vinde após mim, e farei serdes pescadores de gente.",
+      "ref": "Marcos 1:17"
+     },
+     "rumo": 255,
+     "acao": "Chamar",
+     "vel": 0,
+     "conta": 2,
+     "seguidores": 0
+    },
+    {
+     "take": "mc-pescadores-3.mp4",
+     "objetivo": "Chame Tiago e João",
+     "fala": {
+      "texto": "eles deixaram o seu pai Zebedeu no barco com os empregados, foram após ele.",
+      "ref": "Marcos 1:20"
+     },
+     "rumo": 75,
+     "acao": "Chamar",
+     "vel": 1,
+     "conta": 4,
+     "seguidores": 2
+    }
+   ],
+   "resumo": "Ele desce até a praia de Cafarnaum e chama Simão e André: “Vinde após mim, e farei serdes pescadores de gente.” Eles largam a rede na hora. Mais adiante, Tiago e João deixam o pai no barco e vão atrás.\n\n4 discípulos. Missão concluída."
+  },
+  "mt-aguas": {
+   "raio_km": 12,
+   "ritmo": 1.1,
+   "contador": null,
+   "missoes": [
+    {
+     "take": "mt-aguas-1.mp4",
+     "objetivo": "Alcance o barco",
+     "fala": {
+      "texto": "Tende coragem! Sou eu, não tenhais medo.",
+      "ref": "Mateus 14:27"
+     },
+     "rumo": 300,
+     "acao": null,
+     "vel": 1,
+     "conta": 0,
+     "seguidores": 0
+    },
+    {
+     "take": "mt-aguas-2.mp4",
+     "objetivo": "Chame Pedro",
+     "fala": {
+      "texto": "Vem.",
+      "ref": "Mateus 14:29"
+     },
+     "rumo": 300,
+     "acao": "Chamar",
+     "vel": 0,
+     "conta": 0,
+     "seguidores": 0
+    },
+    {
+     "take": "mt-aguas-3.mp4",
+     "objetivo": "Segure Pedro",
+     "fala": {
+      "texto": "Homem de pouca fé, por que duvidaste?",
+      "ref": "Mateus 14:31"
+     },
+     "rumo": 300,
+     "acao": "Segurar",
+     "vel": 0.4,
+     "conta": 0,
+     "seguidores": 0
+    }
+   ],
+   "resumo": "De noite, no meio da tempestade, ele vai até o barco andando sobre o mar: “Tende coragem! Sou eu, não tenhais medo.” Pedro pede pra ir também, sai do barco, anda, olha o vento e afunda. Ele segura a mão dele: “Homem de pouca fé, por que duvidaste?”"
+  },
+  "jo-cana": {
+   "raio_km": 9,
+   "ritmo": 1.1,
+   "contador": {
+    "rotulo": "Vasos",
+    "total": 6
+   },
+   "missoes": [
+    {
+     "take": "jo-cana-1.mp4",
+     "objetivo": "Entre na festa de casamento",
+     "fala": {
+      "texto": "Não têm vinho.",
+      "ref": "João 2:3"
+     },
+     "rumo": 20,
+     "acao": null,
+     "vel": 0.5,
+     "conta": 0,
+     "seguidores": 0
+    },
+    {
+     "take": "jo-cana-2.mp4",
+     "objetivo": "Mande encher os vasos",
+     "fala": {
+      "texto": "Enchei estes vasos com água.",
+      "ref": "João 2:7"
+     },
+     "rumo": 20,
+     "acao": "Falar",
+     "vel": 0,
+     "conta": 6,
+     "seguidores": 0
+    },
+    {
+     "take": "jo-cana-3.mp4",
+     "objetivo": "Mande servir o mestre de cerimônia",
+     "fala": {
+      "texto": "tu guardaste o bom vinho até agora",
+      "ref": "João 2:10"
+     },
+     "rumo": 20,
+     "acao": null,
+     "vel": 0,
+     "conta": 6,
+     "seguidores": 0
+    }
+   ],
+   "resumo": "Festa de casamento em Caná, e o vinho acaba: “Não têm vinho.” Ele manda encher de água os 6 vasos de pedra: “Enchei estes vasos com água.” Quando o mestre de cerimônia prova, é vinho: “tu guardaste o bom vinho até agora”."
+  },
+  "mt-entrada": {
+   "raio_km": 6,
+   "ritmo": 1.1,
+   "contador": null,
+   "missoes": [
+    {
+     "take": "mt-entrada-1.mp4",
+     "objetivo": "Mande buscar o jumentinho",
+     "fala": {
+      "texto": "achareis uma jumenta amarrada, e um jumentinho com ela",
+      "ref": "Mateus 21:2"
+     },
+     "rumo": 250,
+     "acao": "Enviar",
+     "vel": 0.3,
+     "conta": 0,
+     "seguidores": 0
+    },
+    {
+     "take": "mt-entrada-2.mp4",
+     "objetivo": "Desça o monte das Oliveiras",
+     "fala": {
+      "texto": "Hosana ao Filho de Davi!",
+      "ref": "Mateus 21:9"
+     },
+     "rumo": 265,
+     "acao": null,
+     "vel": 1,
+     "conta": 0,
+     "seguidores": 0
+    },
+    {
+     "take": "mt-entrada-3.mp4",
+     "objetivo": "Entre em Jerusalém",
+     "fala": {
+      "texto": "toda a cidade se alvoroçou, perguntando: Quem é este?",
+      "ref": "Mateus 21:10"
+     },
+     "rumo": 270,
+     "acao": null,
+     "vel": 1,
+     "conta": 0,
+     "seguidores": 0
+    }
+   ],
+   "resumo": "Ele manda buscar um jumentinho, desce o monte das Oliveiras com a multidão estendendo capas e ramos no caminho, “Hosana ao Filho de Davi!”, e entra em Jerusalém: “toda a cidade se alvoroçou, perguntando: Quem é este?”"
+  },
+  "jo-lazaro": {
+   "raio_km": 6,
+   "ritmo": 1.1,
+   "contador": null,
+   "missoes": [
+    {
+     "take": "jo-lazaro-1.mp4",
+     "objetivo": "Vá até a sepultura",
+     "fala": {
+      "texto": "Tirai a pedra.",
+      "ref": "João 11:39"
+     },
+     "rumo": 110,
+     "acao": null,
+     "vel": 1,
+     "conta": 0,
+     "seguidores": 0
+    },
+    {
+     "take": "jo-lazaro-2.mp4",
+     "objetivo": "Chame Lázaro",
+     "fala": {
+      "texto": "Lázaro, sai fora.",
+      "ref": "João 11:43"
+     },
+     "rumo": 110,
+     "acao": "Clamar",
+     "vel": 0,
+     "conta": 0,
+     "seguidores": 0
+    },
+    {
+     "take": "jo-lazaro-3.mp4",
+     "objetivo": "Mande desatá-lo",
+     "fala": {
+      "texto": "Desatai-o, e deixai-o ir.",
+      "ref": "João 11:44"
+     },
+     "rumo": 110,
+     "acao": null,
+     "vel": 0,
+     "conta": 0,
+     "seguidores": 0
+    }
+   ],
+   "resumo": "Em Betânia, diante da sepultura fechada: “Tirai a pedra.” Ele chama em alta voz: “Lázaro, sai fora.” E o morto sai, ainda enrolado em faixas: “Desatai-o, e deixai-o ir.”"
+  },
+  "mc-paes": {
+   "raio_km": 9,
+   "ritmo": 1.1,
+   "contador": {
+    "rotulo": "Cestos",
+    "total": 12
+   },
+   "missoes": [
+    {
+     "take": "mc-paes-1.mp4",
+     "objetivo": "Receba os pães e os peixes",
+     "fala": {
+      "texto": "Quantos pães tendes? Ide ver.",
+      "ref": "Marcos 6:38"
+     },
+     "rumo": 200,
+     "acao": null,
+     "vel": 0.5,
+     "conta": 0,
+     "seguidores": 0
+    },
+    {
+     "take": "mc-paes-2.mp4",
+     "objetivo": "Abençoe e parta os pães",
+     "fala": {
+      "texto": "levantou os olhos ao céu, abençoou, e partiu os pães",
+      "ref": "Marcos 6:41"
+     },
+     "rumo": 200,
+     "acao": "Partir",
+     "vel": 0,
+     "conta": 0,
+     "seguidores": 0
+    },
+    {
+     "take": "mc-paes-3.mp4",
+     "objetivo": "Sirva a multidão",
+     "fala": {
+      "texto": "Todos comeram e se saciaram.",
+      "ref": "Marcos 6:42"
+     },
+     "rumo": 200,
+     "acao": null,
+     "vel": 0.5,
+     "conta": 12,
+     "seguidores": 0
+    }
+   ],
+   "resumo": "Uma multidão sentada na grama e quase nada pra comer: “Quantos pães tendes? Ide ver.” Ele ora, parte os pães e os discípulos servem: “Todos comeram e se saciaram.” Ainda sobram 12 cestos cheios."
+  },
+  "mc-paralitico": {
+   "raio_km": 9,
+   "ritmo": 1.1,
+   "contador": null,
+   "missoes": [
+    {
+     "take": "mc-paralitico-1.mp4",
+     "objetivo": "Entre na casa cheia",
+     "fala": {
+      "texto": "descobriram o telhado onde ele estava, fizeram um buraco",
+      "ref": "Marcos 2:4"
+     },
+     "rumo": 0,
+     "acao": null,
+     "vel": 0.3,
+     "conta": 0,
+     "seguidores": 0
+    },
+    {
+     "take": "mc-paralitico-2.mp4",
+     "objetivo": "Fale ao paralítico",
+     "fala": {
+      "texto": "Filho, os teus pecados te são perdoados.",
+      "ref": "Marcos 2:5"
+     },
+     "rumo": 0,
+     "acao": "Falar",
+     "vel": 0,
+     "conta": 0,
+     "seguidores": 0
+    },
+    {
+     "take": "mc-paralitico-3.mp4",
+     "objetivo": "Mande-o levantar",
+     "fala": {
+      "texto": "levanta-te, toma o teu leito, e vai para a tua casa",
+      "ref": "Marcos 2:11"
+     },
+     "rumo": 0,
+     "acao": null,
+     "vel": 0,
+     "conta": 0,
+     "seguidores": 0
+    }
+   ],
+   "resumo": "A casa em Cafarnaum está tão cheia que os amigos de um paralítico sobem no telhado: “descobriram o telhado onde ele estava, fizeram um buraco” Ele olha pro homem na maca: “Filho, os teus pecados te são perdoados.” E depois: “levanta-te, toma o teu leito, e vai para a tua casa” O homem sai andando."
+  },
+  "lc-zaqueu": {
+   "raio_km": 8,
+   "ritmo": 1.1,
+   "contador": null,
+   "missoes": [
+    {
+     "take": "lc-zaqueu-1.mp4",
+     "objetivo": "Atravesse Jericó",
+     "fala": {
+      "texto": "subiu em uma árvore de frutos que parecem figos, para o ver",
+      "ref": "Lucas 19:4"
+     },
+     "rumo": 270,
+     "acao": null,
+     "vel": 1,
+     "conta": 0,
+     "seguidores": 0
+    },
+    {
+     "take": "lc-zaqueu-2.mp4",
+     "objetivo": "Chame Zaqueu",
+     "fala": {
+      "texto": "Zaqueu, apressa-te, e desce; porque hoje é necessário que eu fique em tua casa.",
+      "ref": "Lucas 19:5"
+     },
+     "rumo": 270,
+     "acao": "Chamar",
+     "vel": 0.4,
+     "conta": 0,
+     "seguidores": 0
+    },
+    {
+     "take": "lc-zaqueu-3.mp4",
+     "objetivo": "Fique na casa de Zaqueu",
+     "fala": {
+      "texto": "Hoje houve salvação nesta casa",
+      "ref": "Lucas 19:9"
+     },
+     "rumo": 270,
+     "acao": null,
+     "vel": 0,
+     "conta": 0,
+     "seguidores": 0
+    }
+   ],
+   "resumo": "Em Jericó, um homem rico e baixinho quer ver quem passa: “subiu em uma árvore de frutos que parecem figos, para o ver” Ele para embaixo da árvore: “Zaqueu, apressa-te, e desce; porque hoje é necessário que eu fique em tua casa.” Na casa de Zaqueu, o dinheiro começa a voltar pros pobres: “Hoje houve salvação nesta casa”."
+  },
+  "jo-samaritana": {
+   "raio_km": 9,
+   "ritmo": 1.1,
+   "contador": null,
+   "missoes": [
+    {
+     "take": "jo-samaritana-1.mp4",
+     "objetivo": "Descanse junto à fonte",
+     "fala": {
+      "texto": "Jesus, cansado do caminho, sentou-se assim junto à fonte",
+      "ref": "João 4:6"
+     },
+     "rumo": 0,
+     "acao": null,
+     "vel": 0.6,
+     "conta": 0,
+     "seguidores": 0
+    },
+    {
+     "take": "jo-samaritana-2.mp4",
+     "objetivo": "Peça água",
+     "fala": {
+      "texto": "Dá-me de beber.",
+      "ref": "João 4:7"
+     },
+     "rumo": 0,
+     "acao": "Pedir",
+     "vel": 0,
+     "conta": 0,
+     "seguidores": 0
+    },
+    {
+     "take": "jo-samaritana-3.mp4",
+     "objetivo": "Fale da água viva",
+     "fala": {
+      "texto": "a água que eu lhe der se fará nele fonte de água, que salte para vida eterna",
+      "ref": "João 4:14"
+     },
+     "rumo": 0,
+     "acao": null,
+     "vel": 0,
+     "conta": 0,
+     "seguidores": 0
+    }
+   ],
+   "resumo": "Meio-dia em Samaria: “Jesus, cansado do caminho, sentou-se assim junto à fonte” Uma mulher vem buscar água e ele pede: “Dá-me de beber.” A conversa vira outra: “a água que eu lhe der se fará nele fonte de água, que salte para vida eterna”. Ela larga o vaso e corre pra cidade."
+  }
+ }
+}

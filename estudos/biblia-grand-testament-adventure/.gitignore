@@ -1,0 +1,13 @@
+# generated media stays out of git: the key frames and takes live in the Higgsfield library (ids in data/geracoes.json),
+# the finished reels are delivered to Alex and uploaded (URLs in data/geracoes.json)
+source/ref/*.png
+source/art/*.png
+source/takes/*.mp4
+renders/.hud/
+renders/*.mp4
+__pycache__/
+source/descartados/
+data/.fila.json
+source/v1/
+source/v2/
+source/frames/
