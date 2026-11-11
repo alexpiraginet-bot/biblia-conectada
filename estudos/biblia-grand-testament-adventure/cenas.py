@@ -105,12 +105,13 @@ CENAS = {
     ]),
     "jo-cana": dict(luz="warm torch and oil-lamp light at dusk under a deep blue sky", missoes=[
         dict(mundo="Setting: a wedding feast in the courtyard of a stone house in the village of Cana of Galilee as an open game world.",
-             a="the gameplay camera follows about 4 metres behind him as he walks up a lamp-lit village lane and through an open gate into a "
-               "crowded courtyard; guests dance in a circle clapping in rhythm, others recline at low tables.",
-             b="the same camera behind him at eye level as his mother, a woman in her late forties with a blue-grey mantle over her hair, "
-               "hurries up to him through the crowd and speaks with a worried face, holding out an empty clay cup turned upside down; at the "
-               "table beside them a servant tips a wineskin over a row of clay cups and not a drop falls, and the guests show each other "
-               "their empty cups.",
+             a="the gameplay camera follows about 4 metres behind him as he walks up a village lane lit by wall torches and through an open "
+               "wooden gate into a crowded courtyard lit only by burning torches on the walls and small clay oil lamps on the tables, with "
+               "nothing hanging overhead; guests dance in a circle clapping in rhythm, others recline at low tables.",
+             b="the same camera, still about 4 metres behind him so that only his back is seen: his mother, a woman in her late forties with "
+               "a blue-grey mantle over her hair, hurries up to him through the crowd with a worried face and points at the long table beside "
+               "them, where every clay cup stands empty and a large wine jar lies overturned on its side, dry; two servants next to it spread "
+               "their empty hands and shrug.",
              som="a festive crowd, rhythmic clapping, footsteps on stone"),
         dict(a="the gameplay camera follows behind him as he walks across the courtyard to six large carved stone water jars standing in a row "
                "against the wall and points at them; two servants run up with clay pitchers.",

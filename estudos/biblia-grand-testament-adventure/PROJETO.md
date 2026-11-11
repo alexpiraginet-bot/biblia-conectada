@@ -109,6 +109,10 @@ python3 -I tools/fila.py publicar          # copia o estado para data/geracoes.j
   `tools/confere.py`, que dá os mesmos 5,78 para a referência e os mesmos 11,56 e 8,30 para os takes 1 e 2, o arquivo
   final do piloto mede 7,49: o HUD parado e as faixas escuras em cima e embaixo baixam a medida dos takes.
 - A fila do Higgsfield ficou mais lenta à tarde: o take pedido às 13:48 só chegou às 14:04 (de manhã, 4,5 a 7 min).
+- Em cena de festa à noite o modelo pendura um varal de lâmpadas e gosta de despejar líquido: o pedido diz de onde vem
+  a luz ("só tochas nas paredes e lamparinas de barro nas mesas, nada pendurado no alto") e mostra a falta do vinho
+  parada (copos vazios, jarro tombado e seco), sem verbo de despejar. "Câmera na altura dos olhos" trouxe o rosto do
+  jogador de perfil: o pedido repete a distância ("ainda 4 metros atrás, só as costas").
 
 ## Estado (11/11, 14:27)
 - Entregue: **Andando sobre o mar** (Mateus 14:22–33), `renders/mt-aguas.mp4`: 1080×1920, 24 fps, 544 quadros
@@ -122,9 +126,11 @@ python3 -I tools/fila.py publicar          # copia o estado para data/geracoes.j
   (21,875 s), 27,16 MB, −14,2 LUFS, pico real −1,8 dBTP, mudança mediana 7,46 (8,9% da luz), cortes em 3,58 s,
   10,67 s e 14,58 s. Comparado com o arquivo entregue às 09:49 (guardado em `source/v2/`, fora do git), a imagem só
   muda no título (0–2,21 s), na barra (6,50–7,29 s e 13,79–14,58 s) e nos créditos (19,38–21,88 s).
-- Na fila (`cenas.py` → `ORDEM`): Água feita vinho (o take 1 foi pedido de novo por volta das 14:20; o primeiro
-  terminava num jarro de barro pingando e foi para `source/descartados/`), A entrada em Jerusalém, Lázaro, Cinco pães
-  e dois peixes, O buraco no telhado, Zaqueu, A fonte de Jacó. As outras 28 passagens ainda não têm cena escrita.
+- Na fila (`cenas.py` → `ORDEM`): Água feita vinho (o take 1 já foi recusado duas vezes à tarde e está no terceiro
+  pedido, das 14:38: o primeiro terminava num jarro de barro pingando; o segundo veio com um varal de lâmpadas de
+  festa no céu, o rosto do jogador de perfil e um servente despejando água; os dois estão em `source/descartados/`),
+  A entrada em Jerusalém, Lázaro, Cinco pães e dois peixes, O buraco no telhado, Zaqueu, A fonte de Jacó. As outras
+  28 passagens ainda não têm cena escrita.
 - `python3 -I tools/fila.py estado` mostra o que existe. `source/v1/` (fora do git) guarda o primeiro piloto.
 
 ## Pendências e riscos
