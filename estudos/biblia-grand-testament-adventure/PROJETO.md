@@ -110,7 +110,7 @@ python3 -I tools/fila.py publicar          # copia o estado para data/geracoes.j
   final do piloto mede 7,49: o HUD parado e as faixas escuras em cima e embaixo baixam a medida dos takes.
 - A fila do Higgsfield ficou mais lenta à tarde: o take pedido às 13:48 só chegou às 14:04 (de manhã, 4,5 a 7 min).
 
-## Estado (11/11, 14:35)
+## Estado (11/11, 14:27)
 - Entregue: **Andando sobre o mar** (Mateus 14:22–33), `renders/mt-aguas.mp4`: 1080×1920, 24 fps, 544 quadros
   (22,667 s), 24,07 MB, −14,0 LUFS, pico real −2,0 dBTP. Medido no arquivo (`tools/confere.py`): mudança mediana por
   quadro 5,08 (8,2% da luz do quadro; a referência do Alex mede 5,78 e 6,3%), cortes em 3,79 s, 10,29 s, 16,71 s e
