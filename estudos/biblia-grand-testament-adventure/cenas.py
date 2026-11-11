@@ -15,6 +15,8 @@ Per episode: luz (the light of the whole episode) and three missions, in story o
   mundo   the setting, said once (first mission)
   a, b    the two shots
   som     the ambience the take should carry (no speech, no soundtrack)
+  heroi   optional: who the player character is in the first frame, when the take before ended on a shot where he is
+          not seen from behind in the lower centre (it replaces HEROI_QUADRO)
 tools/fila.py turns this into the requests, in the order of ORDEM.
 
 Rules that every prompt carries (FIM): first-century Middle Eastern adults, no children (rule 8 of the repo: no
@@ -37,10 +39,17 @@ FIM = ("All people are Middle Eastern adults in first-century tunics, mantles an
 ORDEM = ["mc-pescadores", "mt-aguas", "jo-cana", "mt-entrada", "jo-lazaro", "mc-paes", "mc-paralitico", "lc-zaqueu", "jo-samaritana"]
 
 
-def pedido(ep, k, primeiro):
-    """The prompt of mission k (1-3) of an episode; primeiro = it starts from the character sheet, not from a frame."""
+CONTINUA = ("Continue the same gameplay session as the reference video: the same place, the same people, the same weather and light, the "
+            "same look of the game. ")
+
+
+def pedido(ep, k, primeiro, video=False):
+    """The prompt of mission k (1-3) of an episode. primeiro = it starts from the character sheet only; video = it
+    continues the previous take, given as a video reference next to the character sheet; otherwise it starts from the
+    last frame of the previous take."""
     e = CENAS[ep]; m = e["missoes"][k - 1]
-    return (JOGO.format(luz=e["luz"]) + (HEROI_REF if primeiro else HEROI_QUADRO) + (m.get("mundo", "") + " " if m.get("mundo") else "")
+    hero = HEROI_REF if (primeiro or video) else m.get("heroi", HEROI_QUADRO)
+    return (JOGO.format(luz=e["luz"]) + (CONTINUA if video else "") + hero + (m.get("mundo", "") + " " if m.get("mundo") else "")
             + DOIS.format(a=m["a"], b=m["b"]) + FIM.format(som=m["som"]))
 
 
@@ -76,24 +85,33 @@ CENAS = {
                "wooden fishing boat with a lantern tossed in the distance; the men in the boat point at him in terror.",
              som="howling wind, heavy rain, crashing waves, creaking wood, wordless distant cries"),
         dict(a="the gameplay camera holds about 3 metres behind him as he stops on the waves a few metres from the boat and stretches out his "
-               "right hand; one sturdy bearded fisherman climbs over the side of the boat and lowers himself onto the water.",
-             b="gameplay camera slightly to the side, still behind his shoulder: the fisherman lets go of the hull and takes several unsteady "
-               "steps on the surface toward him, arms out for balance, while the others in the boat watch, gripping the side; a tall wave rises "
-               "beside him and he looks at it in fear.",
+               "right hand; one of the men in the boat, a sturdy fisherman with short curly hair and a short beard, wearing a dark brown "
+               "sleeveless work tunic and no mantle, climbs over the side of the boat and lowers himself onto the water.",
+             b="gameplay camera slightly to the side, still behind the player character's shoulder: the fisherman in the dark brown tunic lets "
+               "go of the hull and takes several unsteady steps on the surface toward the player character, arms out for balance, while the "
+               "others in the boat watch, gripping the side; a tall wave rises beside the fisherman and he looks at it in fear.",
              som="wind, rain, waves slapping the hull, creaking wood"),
-        dict(a="close gameplay camera behind his right shoulder: the fisherman sinks to his chest in the waves, reaching up; the player "
-               "character lunges two steps forward on the water, bends, catches his forearm and pulls him up to stand on the surface again.",
-             b="the gameplay camera follows behind as the two walk the last steps to the boat and climb over the side, helped by the others; at "
-               "once the wind drops, the rain stops, the waves flatten and the clouds open around the moon; the men in the boat kneel.",
+        dict(heroi="The player character is the man at the right edge of the first frame, seen from behind his shoulder: dark wavy "
+                   "shoulder-length hair, off-white wool tunic with rope belt, terracotta-red mantle over the left shoulder, leather sandals; "
+                   "his face is never shown. ",
+             a="the camera stays over the player character's shoulder as in the first frame: the fisherman in the dark brown tunic, standing "
+               "on the water in front of him, suddenly sinks to his chest in the waves and reaches up with one arm; the player character steps "
+               "forward on the water, bends, grips the fisherman's hand and forearm and pulls him up until he stands on the surface again.",
+             b="the gameplay camera is behind the player character, fully visible from behind, as he and the fisherman climb over the side "
+               "into the same wooden boat with the lantern on its mast, pulled in by the men aboard; the moment the two stand on the deck the "
+               "wind drops, the rain stops, the waves flatten to a calm sea and the clouds open around the full moon; the men in the boat "
+               "kneel on the deck in front of him.",
              som="wind and rain dying away to calm, splashing water, wood creaking, quiet"),
     ]),
     "jo-cana": dict(luz="warm torch and oil-lamp light at dusk under a deep blue sky", missoes=[
         dict(mundo="Setting: a wedding feast in the courtyard of a stone house in the village of Cana of Galilee as an open game world.",
              a="the gameplay camera follows about 4 metres behind him as he walks up a lamp-lit village lane and through an open gate into a "
                "crowded courtyard; guests dance in a circle clapping in rhythm, others recline at low tables.",
-             b="the same camera behind him as his mother, a woman in her late forties in a blue-grey mantle, hurries up to him, speaks with a "
-               "worried face and points to a servant who turns an empty clay wine jug upside down over a cup; nothing comes out.",
-             som="a festive crowd, rhythmic clapping, footsteps on stone, a clay jug being set down"),
+             b="the same camera behind him at eye level as his mother, a woman in her late forties with a blue-grey mantle over her hair, "
+               "hurries up to him through the crowd and speaks with a worried face, holding out an empty clay cup turned upside down; at the "
+               "table beside them a servant tips a wineskin over a row of clay cups and not a drop falls, and the guests show each other "
+               "their empty cups.",
+             som="a festive crowd, rhythmic clapping, footsteps on stone"),
         dict(a="the gameplay camera follows behind him as he walks across the courtyard to six large carved stone water jars standing in a row "
                "against the wall and points at them; two servants run up with clay pitchers.",
              b="closer gameplay camera behind his shoulder, not moving forward: the two servants pour water from the pitchers into the jars "

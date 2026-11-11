@@ -34,20 +34,102 @@
    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261111_123735_52e737b6-e3f9-4717-a742-a986e3c46813.mp4"
   },
   "mt-aguas-1": {
-   "job": "5849a60b-62b8-4dc3-87d2-7391aa5c98fb"
+   "job": "5849a60b-62b8-4dc3-87d2-7391aa5c98fb",
+   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261111_124432_5849a60b-62b8-4dc3-87d2-7391aa5c98fb.mp4",
+   "fim": "1a2d51c9-9efe-410a-8971-27554ecc169b"
+  },
+  "mt-aguas-2": {
+   "job": "f5a36a70-849b-4b04-b7c7-280b57cdb788",
+   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261111_130209_f5a36a70-849b-4b04-b7c7-280b57cdb788.mp4",
+   "fim": "4ccb6d22-ad71-4705-a884-e5486f95884e"
+  },
+  "mt-aguas-3": {
+   "job": "7fbcffaa-090f-46a4-9971-63f7585d9aea",
+   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261111_164808_7fbcffaa-090f-46a4-9971-63f7585d9aea.mp4"
+  },
+  "jo-cana-1": {
+   "job": "f90e59b3-0302-46c6-b737-7e25294221b8"
   }
  },
  "reels": {
   "mc-pescadores": {
    "arquivo": "renders/mc-pescadores.mp4",
-   "sha256": "3b398fd6ede0dfbaa550a5491e1e72bd44bc31f931e60d7fd04e0c05da3a7554",
-   "bytes": 27170001,
+   "sha256": "f1910ec1fecd326ebfeeca3984937ea13a1971a37138e9316e621d6c59c7ce15",
+   "bytes": 27155008,
    "quadros": 525,
    "duracao_s": 21.875,
    "lufs": -14.2,
    "pico_dbtp": -1.8,
+   "cortes_s": [
+    3.58,
+    10.67,
+    14.58
+   ],
+   "mudanca_mediana": 7.46,
+   "mudanca_relativa_pct": 8.9,
+   "fala_ouvida": [],
+   "emendas_som": [
+    {
+     "s": 7.29,
+     "antes_db": -29.1,
+     "depois_db": -40.1,
+     "salto": 0.08
+    },
+    {
+     "s": 14.58,
+     "antes_db": -40.7,
+     "depois_db": -41.1,
+     "salto": 0.04
+    }
+   ],
    "capa": "renders/capa-mc-pescadores.jpg",
-   "entregue": "2026-11-11, ao Alex no chat"
+   "entregue": "2026-11-11 09:49 (primeira versão) e 14:31 (barra de progresso corrigida), ao Alex no chat"
+  },
+  "mt-aguas": {
+   "arquivo": "renders/mt-aguas.mp4",
+   "sha256": "b253e18bbec627324e103ec572b812d5813a2d831fa3f62c94a0cf70c32ef020",
+   "bytes": 24069113,
+   "quadros": 544,
+   "duracao_s": 22.667,
+   "lufs": -14.0,
+   "pico_dbtp": -2.0,
+   "cortes_s": [
+    3.79,
+    10.29,
+    16.71,
+    18.0
+   ],
+   "mudanca_mediana": 5.08,
+   "mudanca_relativa_pct": 8.2,
+   "fala_ouvida": [],
+   "emendas_som": [
+    {
+     "s": 7.29,
+     "antes_db": -35.1,
+     "depois_db": -46.3,
+     "salto": 0.05
+    },
+    {
+     "s": 10.29,
+     "antes_db": -30.6,
+     "depois_db": -27.2,
+     "salto": 0.15
+    },
+    {
+     "s": 13.46,
+     "antes_db": -32.6,
+     "depois_db": -42.4,
+     "salto": 0.06
+    },
+    {
+     "s": 20.75,
+     "antes_db": -36.4,
+     "depois_db": -36.3,
+     "salto": 1.1
+    }
+   ],
+   "capa": "renders/capa-mt-aguas.jpg",
+   "entregue": "2026-11-11 14:26, ao Alex no chat"
   }
  },
  "primeira_versao": {
@@ -101,5 +183,9 @@
     "nota": "a fileira de vasos cresce quando a câmera avança (Jo 2:6 diz seis): refazer antes de usar"
    }
   }
+ },
+ "descartados": {
+  "mt-aguas-2 (859938fe-bb35-49ab-aa70-065f1c57e21e)": "teste com video_references: recomeçou da praia em vez de continuar e vestiu o pescador com a roupa do protagonista",
+  "jo-cana-1 (26b2638e-ec1b-41d4-a795-7d879c9627bc)": "um plano só, sem corte; termina num jarro de barro pingando líquido claro ao lado de dois jarros de barro: confunde 'não têm vinho' e atrapalha os seis vasos de pedra da missão 2"
  }
 }

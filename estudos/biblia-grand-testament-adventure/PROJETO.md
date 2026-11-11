@@ -16,6 +16,8 @@ terceira pessoa, na Galileia e na Judeia do século I. Um reel por passagem, sep
   jogando com aventuras reais e tudo mais."
 - 09:30, sobre o segundo teste: "Agora tá no caminho certo! E se existisse um jogo com as missões da vida de Jesus!
   Essa é a pegada!"
+- 10:01, depois do piloto entregue: "Legenda viral".
+- 13:45: "Retome e entregue o episódio 2 também".
 
 ## O que a série não faz
 O letreiro, a sigla e o HUD do jogo em que o pedido se inspira são marca e desenho de outra empresa: não entram aqui.
@@ -26,13 +28,19 @@ descrito (câmera de terceira pessoa, captura de gameplay, mundo aberto).
 ## Formato de um reel
 - Quadro 0: a pergunta da série, o título da missão e a referência, já com o HUD inteiro.
 - 3 missões, uma por take de 8 s; cada take tem 2 planos com corte seco no meio (algo muda a cada ~4 s). O ritmo de
-  cada episódio (`ritmo` em `episodios.py`) acelera os takes; o reel fica em 20–24 s (máximo pedido: 30 s).
+  cada episódio (`ritmo` em `episodios.py`) acelera os takes, e uma missão pode ter ritmo próprio, até por plano: um
+  plano que fica parado demais roda mais rápido. O reel fica em 20–24 s (máximo pedido: 30 s).
 - Em cada missão: a linha de missão (nossa, falada ao jogador), a tecla de ação quando há uma, a fala da passagem como
   legenda (texto literal da Bíblia Livre, com a referência), o contador do que a passagem conta (discípulos chamados,
   vasos, cestos) e, no fim, o visto.
+- A fala entra 1 s depois do começo da missão, ou logo depois do corte do take quando é ali que ela é dita (`fala_de`),
+  e pode sair antes do corte seguinte (`fala_ate`). Na missão 1 ela nunca divide a tela com o cartão de abertura.
 - Radar no canto: mapa do lugar real (relevo e água do modelo de elevação, lugares do OpenBible com o nome que a
-  Bíblia Livre usa), rota, destino, seguidores e a barra de progresso das 3 missões.
-- Fim: "MISSÃO CONCLUÍDA", título, "RECRIAÇÃO · referência" e os créditos das fontes.
+  Bíblia Livre usa), rota, destino, seguidores e a barra de progresso das 3 missões. Quando a missão 1 atravessa a
+  água (`da_margem`), o jogador sai da margem atrás dele, achada no modelo de elevação, e chega ao ponto da passagem.
+- Fim: "MISSÃO CONCLUÍDA", título, "RECRIAÇÃO · referência" e os créditos das fontes, por 2,6 s. Quando o desfecho
+  está nos últimos segundos do take, o último quadro fica parado embaixo do cartão (`pausa`), com um avanço lento de
+  3%, e o cartão cobre menos a ação.
 
 ## Regras de conteúdo
 - Toda fala na tela é fragmento literal da BLIVRE do versículo citado; todo nome de lugar no radar é o que a BLIVRE
@@ -49,14 +57,20 @@ descrito (câmera de terceira pessoa, captura de gameplay, mundo aberto).
    missão 1 parte só da folha de personagem; cada missão seguinte parte do último quadro do take anterior, para o
    lugar, a luz e as pessoas continuarem.
 3. `hud.py`: amplia para 1080×1920, desenha o HUD, junta os takes, soma os sons da interface (sintetizados no
-   próprio script) e nivela o áudio a −14 LUFS.
+   próprio script) e nivela o áudio a −14 LUFS. Grava também `renders/.hud/<episódio>-tempos.json` (o que acontece
+   quando: missões, legendas, emendas do som).
+4. `tools/confere.py`: mede o arquivo que vai ser entregue (tamanho, quadros, duração, bytes, LUFS e pico real, cortes,
+   mudança da imagem por quadro, fala ouvida pelo Whisper, estalo nas emendas do som), falha se algum limite estourar,
+   e gera as folhas de contato com a caixa segura do Reels e a capa.
 
 ```bash
 python3 -I tools/check.py                  # passagens, falas, lugares e contadores contra as fontes -> data/passagens.json
 python3 -I tools/fila.py prox              # o próximo pedido de take (estado em data/.fila.json)
 python3 -I hud.py <episódio> --still 0,10  # confere quadros;  --map mostra o mundo do radar
 python3 -I hud.py <episódio>               # -> renders/<episódio>.mp4
+python3 -I tools/confere.py <episódio>     # medidas, folhas de contato e capa; registra o reel em data/.fila.json
 python3 -I tools/legenda.py                # -> LEGENDAS.md
+python3 -I tools/fila.py publicar          # copia o estado para data/geracoes.json (o que vai para o git)
 ```
 
 ## Higgsfield
@@ -77,14 +91,40 @@ python3 -I tools/legenda.py                # -> LEGENDAS.md
 - O contorno do mar da Galileia do Natural Earth erra a margem em cerca de 1 km nessa escala (Cafarnaum caía na água):
   o radar tira a água do próprio modelo de elevação.
 
-## Estado (11/11, 09:55)
-- Entregue: **Pescadores de gente** (Marcos 1:16–20), `renders/mc-pescadores.mp4`: 1080×1920, 24 fps, 525 quadros
-  (21,875 s), 27,17 MB, −14,2 LUFS, pico real −1,8 dBTP. Medido no arquivo: mudança mediana por quadro 9,28 (a
-  referência tem 5,78), cortes em 3,58 s, 10,67 s e 14,58 s (a passagem da missão 1 para a 2 é contínua, porque o take
-  2 nasce do último quadro do take 1). O Whisper não acha fala no áudio. Capa: `renders/capa-mc-pescadores.jpg`.
-- Na fila (`cenas.py` → `ORDEM`): Andando sobre o mar, Água feita vinho, A entrada em Jerusalém, Lázaro, Cinco pães e
-  dois peixes, O buraco no telhado, Zaqueu, A fonte de Jacó. As outras 28 passagens ainda não têm cena escrita.
-- Em teste: emendar a missão seguinte usando o take anterior como referência de vídeo (sem subir o último quadro).
+## O que aprendi no episódio 2
+- Emendar a missão seguinte dando o take anterior como referência de vídeo não serviu: o take recomeçou da praia e
+  vestiu Pedro com a roupa do protagonista. Vale o que já valia: a missão seguinte parte do último quadro.
+- Quando o take anterior termina por cima do ombro do jogador, o pedido seguinte diz onde ele está no primeiro quadro
+  (`heroi` em `cenas.py`) e chama o outro personagem pela roupa ("o pescador de túnica marrom-escura").
+- A barra de progresso enchia o segmento da missão seguinte nos 0,8 s depois do visto e esvaziava no começo da missão
+  seguinte. Estava no piloto entregue às 09:49; corrigido, e o episódio 1 foi montado de novo.
+- O cartão de "missão concluída" cobria o desfecho (a calmaria e os homens de joelhos são os últimos 2 s do take 3):
+  daí o `pausa`.
+- O plano de "chamar Pedro" ficava 4 s quase parado: ele roda a 1,5x e o resto do take a 1,1x.
+- Título em duas linhas quebra onde a linha mais longa fica mais curta ("ANDANDO / SOBRE O MAR", não "ANDANDO SOBRE O
+  / MAR"). Isso mudou também a abertura do episódio 1 ("PESCADORES / DE GENTE").
+- A medida de mudança da imagem depende da luz: cena noturna mede menos para o mesmo movimento. `tools/confere.py` dá
+  o número absoluto e o relativo à luz do quadro.
+- O número 9,28 que eu tinha registrado para o arquivo final do piloto não se reproduz. Pelo método de
+  `tools/confere.py`, que dá os mesmos 5,78 para a referência e os mesmos 11,56 e 8,30 para os takes 1 e 2, o arquivo
+  final do piloto mede 7,49: o HUD parado e as faixas escuras em cima e embaixo baixam a medida dos takes.
+- A fila do Higgsfield ficou mais lenta à tarde: o take pedido às 13:48 só chegou às 14:04 (de manhã, 4,5 a 7 min).
+
+## Estado (11/11, 14:35)
+- Entregue: **Andando sobre o mar** (Mateus 14:22–33), `renders/mt-aguas.mp4`: 1080×1920, 24 fps, 544 quadros
+  (22,667 s), 24,07 MB, −14,0 LUFS, pico real −2,0 dBTP. Medido no arquivo (`tools/confere.py`): mudança mediana por
+  quadro 5,08 (8,2% da luz do quadro; a referência do Alex mede 5,78 e 6,3%), cortes em 3,79 s, 10,29 s, 16,71 s e
+  18,00 s (as passagens entre missões são contínuas: cada take nasce do último quadro do anterior), nenhuma fala
+  ouvida pelo Whisper com detector de voz, nenhuma emenda de som com estalo. O plano de chamar Pedro roda a 1,5x; o
+  último quadro fica 1,9 s parado embaixo do cartão final. Capa: `renders/capa-mt-aguas.jpg`.
+- Entregue de novo: **Pescadores de gente** (Marcos 1:16–20), `renders/mc-pescadores.mp4`, com a barra de progresso
+  corrigida, o título quebrado em "PESCADORES / DE GENTE" e os créditos do cartão final com contorno: 525 quadros
+  (21,875 s), 27,16 MB, −14,2 LUFS, pico real −1,8 dBTP, mudança mediana 7,46 (8,9% da luz), cortes em 3,58 s,
+  10,67 s e 14,58 s. Comparado com o arquivo entregue às 09:49 (guardado em `source/v2/`, fora do git), a imagem só
+  muda no título (0–2,21 s), na barra (6,50–7,29 s e 13,79–14,58 s) e nos créditos (19,38–21,88 s).
+- Na fila (`cenas.py` → `ORDEM`): Água feita vinho (o take 1 foi pedido de novo por volta das 14:20; o primeiro
+  terminava num jarro de barro pingando e foi para `source/descartados/`), A entrada em Jerusalém, Lázaro, Cinco pães
+  e dois peixes, O buraco no telhado, Zaqueu, A fonte de Jacó. As outras 28 passagens ainda não têm cena escrita.
 - `python3 -I tools/fila.py estado` mostra o que existe. `source/v1/` (fora do git) guarda o primeiro piloto.
 
 ## Pendências e riscos
@@ -94,5 +134,10 @@ python3 -I tools/legenda.py                # -> LEGENDAS.md
   texto antes de montar (no piloto: os quatro discípulos e o pai que fica no barco conferem).
 - O radar é um mapa da região (9 km até a borda): o jogador quase não anda nele, e o ponto de algumas passagens é
   aproximado (marcado com "≈" e explicado em `passagens.py`).
+- Episódio 2, o que a recriação mostra e Mateus 14 não diz: chuva (o texto fala de vento contrário e ondas), um barco
+  grande, com mastro, cordame e lanterna (maior que um barco de pesca da Galileia), e a margem de onde ele sai no
+  radar (a oposta a Genesaré, na linha que passa pelo ponto do lago: suposição a partir de Mt 14:22 e 14:34). O
+  número de homens no barco não é contado (o texto diz "os discípulos"). No último plano o manto aparece no ombro
+  direito (a folha de personagem põe no esquerdo).
 - O nome e a ideia remetem a um jogo de outra empresa. O que está aqui não usa a marca nem o desenho dela; o risco de
   marca na publicação (título, sigla, capa) é decisão do Alex.

@@ -10,8 +10,10 @@ media_confirm). This tool keeps the state and writes the next request, ready to 
   python3 -I tools/fila.py job KEY ID        a request was accepted: remember its job id
   python3 -I tools/fila.py ok KEY URL        a job finished: remember the URL, download the take, save its last frame
   python3 -I tools/fila.py fim KEY MEDIA_ID  the last frame of KEY was uploaded: remember its media id
+  python3 -I tools/fila.py emenda video|quadro   continue each mission from the previous take as a video reference, or from its last frame
   python3 -I tools/fila.py falhou KEY        a job failed or was discarded: forget it, so it is asked again
   python3 -I tools/fila.py estado            what exists, per episode
+  python3 -I tools/fila.py entregue EP TEXTO a reel was handed over (its measures are recorded by tools/confere.py)
   python3 -I tools/fila.py publicar          copy the state into data/geracoes.json (the tracked manifest)
 
 State: data/.fila.json (not tracked: it changes at every job). KEY is <episode>-<mission>, e.g. jo-cana-2.
@@ -32,7 +34,7 @@ LAST = 191                                                       # the takes hav
 def load():
     if STATE.exists(): return json.load(open(STATE, encoding="utf-8"))
     m = json.load(open(MANIFEST, encoding="utf-8"))
-    return {"takes": m.get("takes", {}), "reels": m.get("reels", {})}
+    return {"takes": m.get("takes", {}), "reels": m.get("reels", {}), "descartados": m.get("descartados", {}), "emenda": "quadro"}
 
 
 def save(s):
@@ -50,6 +52,10 @@ def nxt(s):
             if k == 1:
                 return {"key": key, "params": {**VID, "medias": [{"role": "image_references", "value": PERSONAGEM}], "prompt": pedido(ep, 1, True)}}, ""
             prev = s["takes"].get(f"{ep}-{k - 1}", {})
+            if s.get("emenda") == "video":                          # continue from the previous take as a video reference
+                if not prev.get("url"): return None, f"falta terminar {ep}-{k - 1}"
+                return {"key": key, "params": {**VID, "medias": [{"role": "image_references", "value": PERSONAGEM}, {"role": "video_references", "value": prev["job"]}],
+                                               "prompt": pedido(ep, k, False, video=True)}}, ""
             if not prev.get("fim"):
                 return None, f"falta subir o último quadro de {ep}-{k - 1}: source/frames/{ep}-{k - 1}-fim.png  ->  fila.py fim {ep}-{k - 1} MEDIA_ID"
             return {"key": key, "params": {**VID, "medias": [{"role": "start_image", "value": prev["fim"]}], "prompt": pedido(ep, k, False)}}, ""
@@ -72,6 +78,8 @@ def main():
         print("ok", dst, dst.stat().st_size, "bytes | último quadro:", fr)
     elif a[0] == "fim":
         s["takes"][a[1]]["fim"] = a[2]; save(s); print("ok fim", a[1], a[2])
+    elif a[0] == "emenda":                                          # "video" or "quadro": how a mission continues the previous one
+        s["emenda"] = a[1]; save(s); print("emenda:", a[1])
     elif a[0] == "falhou":
         s["takes"].pop(a[1], None); save(s); print("esquecido", a[1])
     elif a[0] == "estado":
@@ -79,8 +87,10 @@ def main():
         for ep in ORDEM:
             print(f"{ep:16s} " + " ".join(f"{k}:{mark(s['takes'].get(f'{ep}-{k}')):2s}" for k in (1, 2, 3)) + ("  reel ok" if ep in s.get("reels", {}) else ""))
         print("takes prontos:", sum(1 for v in s["takes"].values() if v.get("url")), "de", 3 * len(ORDEM))
+    elif a[0] == "entregue":
+        s["reels"][a[1]]["entregue"] = a[2]; save(s); print("entregue", a[1], "|", a[2])
     elif a[0] == "publicar":
-        m = json.load(open(MANIFEST, encoding="utf-8")); m.pop("quadros", None); m.update({"takes": s["takes"], "reels": s.get("reels", {})})
+        m = json.load(open(MANIFEST, encoding="utf-8")); m.pop("quadros", None); m.update({"takes": s["takes"], "reels": s.get("reels", {}), "descartados": s.get("descartados", {})})
         json.dump(m, open(MANIFEST, "w", encoding="utf-8"), ensure_ascii=False, indent=1); print("manifest atualizado")
 
 

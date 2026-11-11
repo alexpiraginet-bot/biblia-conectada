@@ -103,7 +103,15 @@ for eid, e in EPISODIOS.items():
             o, frag = mi["fala"]; need(frag in bl(o), f"episode {eid}, mission {k + 1}: “{frag}” is literal BLIVRE {o}  |  {bl(o)[:160]}")
             fo = o.split("."); fala = {"texto": frag, "ref": f"{EVANGELHOS[fo[0]]} {fo[1]}:{fo[2]}"}
         ms.append({"take": mi["take"], "objetivo": mi["objetivo"], "fala": fala, "rumo": mi["rumo"], "acao": mi.get("acao"), "vel": mi.get("vel", 1),
-                   "conta": mi.get("conta", 0), "seguidores": mi.get("seguidores", 0)})
+                   "conta": mi.get("conta", 0), "seguidores": mi.get("seguidores", 0), "fala_de": mi.get("fala_de"), "fala_ate": mi.get("fala_ate"), "da_margem": bool(mi.get("da_margem")),
+                   "ritmo": [list(x) for x in mi["ritmo"]] if isinstance(mi.get("ritmo"), (list, tuple)) else mi.get("ritmo")})
+        r = ms[-1]["ritmo"]; speeds = [x[1] for x in r] if isinstance(r, list) else [r] if r else []
+        need(all(0.8 <= v <= 2.0 for v in speeds), f"episode {eid}, mission {k + 1}: paces between 0.8x and 2x")
+        need(not isinstance(r, list) or (r[-1][0] is None and all(isinstance(x[0], (int, float)) or re.fullmatch(r"corte\d?", x[0]) for x in r[:-1])),
+             f"episode {eid}, mission {k + 1}: a pace list is (second or cut, speed)... and ends with (None, speed)")
+        for key in ("fala_de", "fala_ate"):
+            need(mi.get(key) is None or isinstance(mi[key], (int, float)) or re.fullmatch(r"corte\d?", mi[key]), f"episode {eid}, mission {k + 1}: {key} is a second, 'corte' or 'corte2'")
+        need(k == 0 or not mi.get("da_margem"), f"episode {eid}, mission {k + 1}: only the first mission starts on the shore")
     cnt = None
     if e.get("contador"):
         prova = e["contador"]["prova"]
@@ -117,7 +125,7 @@ for eid, e in EPISODIOS.items():
     if e.get("resumo"):
         resumo = e["resumo"].format(total=cnt["total"] if cnt else "", **{f"fala{i + 1}": (m["fala"]["texto"] if m["fala"] else "") for i, m in enumerate(ms)})
         need(not re.search(r"\d", re.sub(r"\{[^}]*\}", "", e["resumo"])), f"episode {eid}: the caption's numbers come from the data, not typed")
-    eps[eid] = {"raio_km": e["raio_km"], "ritmo": e.get("ritmo", 1.0), "contador": cnt, "missoes": ms, "resumo": resumo}
+    eps[eid] = {"raio_km": e["raio_km"], "ritmo": e.get("ritmo", 1.0), "contador": cnt, "missoes": ms, "resumo": resumo, "pergunta": e.get("pergunta"), "fim": e.get("fim", 2.6), "pausa": e.get("pausa", 0.0)}
 by = {}
 for o in out: by.setdefault(o["evangelho"], []).append(o["id"])
 if ok:
