@@ -99,7 +99,8 @@
    "fim": "eab40214-5b66-41b6-a160-51a8a5415cc2"
   },
   "procurado-3-3": {
-   "job": "bfe6a506-9e18-46ee-b897-dfddb31b4dcd"
+   "job": "bfe6a506-9e18-46ee-b897-dfddb31b4dcd",
+   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261112_202916_bfe6a506-9e18-46ee-b897-dfddb31b4dcd.mp4"
   }
  },
  "reels": {
@@ -337,6 +338,68 @@
     }
    ],
    "capa": "renders/capa-procurado-2.jpg"
+  },
+  "procurado-3": {
+   "arquivo": "renders/procurado-3.mp4",
+   "sha256": "59eda3ee428fd99add3031f62cb4497ad55bcd63c16ce76bc8afad64002a4bb9",
+   "bytes": 22216006,
+   "quadros": 595,
+   "duracao_s": 24.792,
+   "lufs": -14.0,
+   "pico_dbtp": -2.0,
+   "cortes_s": [
+    3.5,
+    7.46,
+    18.71
+   ],
+   "mudanca_mediana": 3.03,
+   "mudanca_relativa_pct": 5.5,
+   "fala_ouvida": [],
+   "emendas_som": [
+    {
+     "s": 3.51,
+     "antes_db": -20.2,
+     "depois_db": -28.4,
+     "salto": 0.3
+    },
+    {
+     "s": 7.46,
+     "antes_db": -37.0,
+     "depois_db": -58.6,
+     "salto": 0.05
+    },
+    {
+     "s": 11.11,
+     "antes_db": -26.5,
+     "depois_db": -29.7,
+     "salto": 0.37
+    },
+    {
+     "s": 11.12,
+     "antes_db": -25.9,
+     "depois_db": -30.6,
+     "salto": 0.2
+    },
+    {
+     "s": 14.96,
+     "antes_db": -29.0,
+     "depois_db": -50.7,
+     "salto": 0.08
+    },
+    {
+     "s": 18.69,
+     "antes_db": -39.4,
+     "depois_db": -26.1,
+     "salto": 0.02
+    },
+    {
+     "s": 22.79,
+     "antes_db": -23.2,
+     "depois_db": -23.2,
+     "salto": 0.53
+    }
+   ],
+   "capa": "renders/capa-procurado-3.jpg"
   }
  },
  "primeira_versao": {

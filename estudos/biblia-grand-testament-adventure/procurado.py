@@ -74,7 +74,7 @@ PARTES = {
                     ("b", "John.11.53", "Então desde aquele dia se aconselhavam juntos para o matarem.")], motivo="Chamou Lázaro para fora do túmulo",
              estrelas=[("a", 3), ("b", 4)], radar={"a": (0.50, 0.47, 180, 1.0)}),
     ]),
-    "procurado-3": dict(parte=3, gancho=["CINCO ESTRELAS.", "TODO JOGADOR FOGE. ELE NÃO."], fim=["CONTINUA NA PÁSCOA"], ritmo=1.1, pausa=1.2, missoes=[
+    "procurado-3": dict(parte=3, gancho=["CINCO ESTRELAS.", "TODO JOGADOR FOGE. ELE NÃO."], fim=["CONTINUA NA PÁSCOA"], ritmo=1.1, pausa=2.0, missoes=[
         # as in part 2, the opening card leaves shot a of the first mission no room for a line: John 11:57 goes on shot b, where
         # the companion in the hoodie makes his call, and John 18:2 moves to the garden, while he prays
         # the screens turn red and the phones ring at 1.35 s of the take (red pixels 0.6% -> 1.2% at 1.33 s, sound -30 -> -24 dB
@@ -88,7 +88,10 @@ PARTES = {
              corte=4.15, ritmo=[(4.02, 1.1), ("corte", 20.0), (None, 1.0)],
              falas=[("a", "John.18.2", "Judas, o que o traía, conhecia aquele lugar"), ("b", "John.18.3", "veio ali com lanternas, tochas, e armas.")],
              radar={"a": (0.16, 0.74, 90, 0.0)}),
+        # hard cut at 4.29 s; they fall at 5.25-6.25 s of the take, so shot b plays at 0.9x, and the last picture (him standing in
+        # the searchlight, the line on the ground) holds 2 s under the end card so John 18:6 stays up
         dict(take="procurado-3-3.mp4", objetivo="Vá ao encontro deles", lugar={"a": "Parque das oliveiras"}, escolha=("Fugir", "Ir ao encontro"),
+             ritmo=[("corte", 1.15), (None, 0.9)], motivo="Foi ao encontro de quem o procurava",
              falas=[("a", "John.18.4", "A quem buscais?"), ("b", "John.18.6", "Quando pois lhes disse: Eu sou, voltaram para trás, e caíram em terra.")],
              estrelas=[("a", 5)], pisca="ab", radar={"a": (0.17, 0.74, 90, 0.4)}),
     ]),

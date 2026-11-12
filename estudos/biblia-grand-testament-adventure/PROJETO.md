@@ -48,6 +48,15 @@ terceira pessoa, na Galileia e na Judeia do século I. Um reel por passagem, sep
   - a primeira montagem mediu −0,8 dBTP: o limitador passou a trabalhar a 192 kHz, o que segura o pico real (−2,1 dBTP);
   - as legendas quebram as linhas com `wrap_even` (nenhuma palavra sozinha na última linha), em todos os reels a partir daqui.
 
+  Parte 3 entregue por volta das 17:40, e com ela o especial completo. Na parte 3:
+  - a quinta estrela entra quando os telões ficam vermelhos (1,35 s do take 3-1, medido pelos pixels vermelhos e pelo som);
+  - o 1º take do jardim (job a4015ebf) foi descartado: um companheiro de túnica clara, cabelo comprido e barba, igual a
+    ele; o pedido novo descreve os três de jeans, tênis e jaqueta escura;
+  - o 2º take do jardim abre com ele de frente, rezando (o rosto aparece pela primeira vez, como cena de corte), e passa
+    para a câmera atrás com uma transformação de 0,13 s, tocada a 20x (sobra 1 quadro com um leve fantasma de luz);
+  - o último take pede "um passo" em vez de "fala uma palavra": o "Eu sou" de Jo 18:6 é da legenda, e o take não traz voz;
+  - capa no quadro de 1,8 s (telões vermelhos e 5 estrelas), não no de 1,0 s.
+
 ## O que a série não faz
 O letreiro, a sigla e o HUD do jogo em que o pedido se inspira são marca e desenho de outra empresa: não entram aqui.
 O nome por extenso, o letreiro, o radar, a linha de missão e o cartão de "missão concluída" são desenho próprio
