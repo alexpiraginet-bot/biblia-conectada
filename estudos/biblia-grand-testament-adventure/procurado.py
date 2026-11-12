@@ -35,7 +35,8 @@ LIVROS = {"Matt": ("MAT", "Mateus"), "Mark": ("MAR", "Marcos"), "Luke": ("LUK", 
 
 # ------------------------------------------------------------------------------------------------ the three parts
 # Per mission: take, objetivo (shown from `objetivo_de`), lugar per shot (a = before the take's cut, b = after), falas
-# (shot, OSIS verse, literal BLIVRE fragment), estrelas (shot or second of the take, count), acao (key prompt) or escolha
+# (shot, or the second of the take where a shot-a line starts; OSIS verse; literal BLIVRE fragment), corte (the second
+# where shot b starts, for a take without a hard cut), estrelas (shot or second of the take, count), acao (key prompt) or escolha
 # (two keys, the second one pressed), cartao (a centred card at the cut), radar per shot (x, y in 0-1 of the city map,
 # heading in degrees, speed), ritmo (as in hud.py).
 PARTES = {
@@ -61,8 +62,11 @@ PARTES = {
              falas=[("b", "John.8.7", "Aquele de vós que está sem pecado, seja o primeiro que atire pedra contra ela.")],
              motivo="Não deixou apedrejarem a mulher", ritmo=[("corte", 1.2), (None, 1.0)],
              radar={"a": (0.735, 0.56, 90, 0.15)}),
-        dict(take="procurado-2-2.mp4", objetivo="Chame Lázaro para fora", lugar={"a": "Cemitério do morro"}, acao="Chamar",
-             falas=[("a", "John.11.43", "Lázaro, sai fora."), ("b", "John.11.44", "Desatai-o, e deixai-o ir.")],
+        # one continuous shot, no hard cut: he walks up, raises his arms from 2.9 s, and the doorway lights up at 4.6 s
+        # (its mean brightness 9 -> 43 between 4.50 and 4.67 s, measured), so that is where shot b starts
+        dict(take="procurado-2-2.mp4", objetivo="Chame Lázaro para fora", lugar={"a": "Cemitério do morro"}, acao="Chamar", corte=4.6,
+             ritmo=[(2.9, 1.3), ("corte", 0.9), (None, 1.1)],
+             falas=[(2.9, "John.11.43", "Lázaro, sai fora."), ("b", "John.11.44", "Desatai-o, e deixai-o ir.")],
              estrelas=[("a", 3)], radar={"a": (0.22, 0.24, 0, 0.4)}),
         dict(take="procurado-2-3.mp4", objetivo="Siga pela cidade", lugar={"a": "Centro"},
              falas=[("a", "John.11.47", "Que faremos? Porque este homem faz muitos sinais."),
@@ -343,8 +347,11 @@ def build(pid, stills=None):
     SUBS = []
     for k, mi in enumerate(ms):
         for shot, osis, frag in mi["falas"]:
-            a0 = max(0.9, (TCARD + 0.1) if k == 0 else 0.9) if shot == "a" else CUT[k] + 0.12
-            a1 = CUT[k] - 0.08 if shot == "a" else ((end_t - starts[k] - 0.2) if k == n - 1 else BEAT[k] - 0.3)
+            if isinstance(shot, (int, float)):                                         # from a second of the take up to the cut
+                a0, a1 = max(at(k, float(shot)), (TCARD + 0.1) if k == 0 else 0.0), CUT[k] - 0.08
+            else:
+                a0 = max(0.9, (TCARD + 0.1) if k == 0 else 0.9) if shot == "a" else CUT[k] + 0.12
+                a1 = CUT[k] - 0.08 if shot == "a" else ((end_t - starts[k] - 0.2) if k == n - 1 else BEAT[k] - 0.3)
             assert a1 - a0 >= 1.6, f"{pid} mission {k + 1} shot {shot}: the subtitle stays only {a1 - a0:.2f} s"
             SUBS.append((starts[k] + a0, starts[k] + a1, cropped(subtitle({"texto": frag, "ref": refs[(osis, frag)]}))))
             print(f"mission {k + 1} shot {shot}: “{frag[:40]}…” {starts[k] + a0:.2f}–{starts[k] + a1:.2f} s")
