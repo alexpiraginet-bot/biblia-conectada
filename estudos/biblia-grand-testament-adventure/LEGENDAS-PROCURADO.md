@@ -31,7 +31,7 @@ PROCURADO · Parte 2 de 3
 
 E se Jesus vivesse hoje num mundo aberto? Cada sinal que ele faz sobe o nível de procura, do jeito que os evangelhos contam:
 
-⭐⭐⭐ Não deixou apedrejarem a mulher: “Aquele de vós que está sem pecado, seja o primeiro que atire pedra contra ela.” (João 8:7) “Nem eu também te condeno; vai, e não peques mais.” (João 8:11)
+⭐⭐⭐ Não deixou apedrejarem a mulher: “Aquele de vós que está sem pecado, seja o primeiro que atire pedra contra ela.” (João 8:7)
 ⭐⭐⭐⭐ Chamou Lázaro para fora do túmulo: “Que faremos? Porque este homem faz muitos sinais.” (João 11:47) “Então desde aquele dia se aconselhavam juntos para o matarem.” (João 11:53)
 
 Continua na Parte 3 👀

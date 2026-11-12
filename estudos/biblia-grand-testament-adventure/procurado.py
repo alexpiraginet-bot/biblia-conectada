@@ -55,9 +55,11 @@ PARTES = {
              estrelas=[("b", 2)], radar={"a": (0.45, 0.37, 0, 0.5)}),
     ]),
     "procurado-2": dict(parte=2, gancho=["DUAS ESTRELAS POR FAZER O BEM.", "E VAI PIORAR."], fim=["CONTINUA NA PARTE 3"], ritmo=1.1, missoes=[
+        # the opening card covers this mission's first 2.2 s, so shot a (he kneels and writes) has no room for a line; the
+        # line goes on shot b, where he stands up as in John 8:7 and the stones drop; shot b runs at real speed to hold it
         dict(take="procurado-2-1.mp4", objetivo="Escreva na terra", lugar={"a": "Praia"}, acao="Escrever", estrelas=[("a", 2), ("b", 3)],
-             falas=[("a", "John.8.7", "Aquele de vós que está sem pecado, seja o primeiro que atire pedra contra ela."),
-                    ("b", "John.8.11", "Nem eu também te condeno; vai, e não peques mais.")], motivo="Não deixou apedrejarem a mulher",
+             falas=[("b", "John.8.7", "Aquele de vós que está sem pecado, seja o primeiro que atire pedra contra ela.")],
+             motivo="Não deixou apedrejarem a mulher", ritmo=[("corte", 1.2), (None, 1.0)],
              radar={"a": (0.735, 0.56, 90, 0.15)}),
         dict(take="procurado-2-2.mp4", objetivo="Chame Lázaro para fora", lugar={"a": "Cemitério do morro"}, acao="Chamar",
              falas=[("a", "John.11.43", "Lázaro, sai fora."), ("b", "John.11.44", "Desatai-o, e deixai-o ir.")],

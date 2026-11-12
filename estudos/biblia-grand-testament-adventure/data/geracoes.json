@@ -78,7 +78,11 @@
    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261112_191550_8ece366c-9c21-456b-8509-3afd97b436ff.mp4"
   },
   "procurado-2-1": {
-   "job": "b6a4a755-0f42-486d-a5f2-cc32d1e7cd6f"
+   "job": "b6a4a755-0f42-486d-a5f2-cc32d1e7cd6f",
+   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261112_192357_b6a4a755-0f42-486d-a5f2-cc32d1e7cd6f.mp4"
+  },
+  "procurado-2-2": {
+   "job": "9d4f6a6e-2bd5-475d-9e72-c17845401ec1"
   }
  },
  "reels": {
@@ -212,6 +216,47 @@
     }
    ],
    "capa": "renders/capa-mc-legiao.jpg"
+  },
+  "procurado-1": {
+   "arquivo": "renders/procurado-1.mp4",
+   "sha256": "7d23df5295ca3979b0a3bb716b683ca3e388a6f93a9eae3fcfb8cbf98aa76d2c",
+   "bytes": 25383225,
+   "quadros": 561,
+   "duracao_s": 23.375,
+   "lufs": -14.1,
+   "pico_dbtp": -1.0,
+   "cortes_s": [
+    3.54,
+    7.29,
+    10.83,
+    13.29,
+    14.58,
+    17.67
+   ],
+   "mudanca_mediana": 5.84,
+   "mudanca_relativa_pct": 6.6,
+   "fala_ouvida": [],
+   "emendas_som": [
+    {
+     "s": 7.29,
+     "antes_db": -36.4,
+     "depois_db": -55.2,
+     "salto": 0.07
+    },
+    {
+     "s": 14.58,
+     "antes_db": -43.8,
+     "depois_db": -38.0,
+     "salto": 0.03
+    },
+    {
+     "s": 21.88,
+     "antes_db": -36.0,
+     "depois_db": -36.1,
+     "salto": 0.29
+    }
+   ],
+   "capa": "renders/capa-procurado-1.jpg"
   }
  },
  "primeira_versao": {
