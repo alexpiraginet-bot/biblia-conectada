@@ -151,9 +151,13 @@ CENAS = {
              som="first a helicopter, sirens and radio chatter, then waves, traffic, birds and city chatter without clear words"),
         dict(novo=True, luz="bright warm daylight through tall windows",
              mundo="Setting: a packed, bright meeting hall with rows of chairs in a modern city of today.",
-             a="the gameplay camera follows about 3 metres behind him down the middle aisle to a man who stands holding his shrivelled, curled "
-               "right hand against his chest; the player character stops in front of him and gestures; the man slowly stretches out his arm "
-               "and his hand opens, straight and healthy; people around them jump up, gasp and raise their phones.",
+             # first try (job be133dfe) drew the man in a tunic and mantle like the player, far down the aisle: he is now
+             # described in today's clothes and close to the camera
+             a="close gameplay camera about 2 metres behind him as he walks down the middle aisle and stops right in front of a bald "
+               "middle-aged man in a blue denim jacket and jeans who stands in the aisle holding his shrivelled, curled right hand against "
+               "his chest; the player character gestures to him; the man slowly stretches out his arm and his hand opens, straight and "
+               "healthy; the people around them jump up, gasp and raise their phones. The player character is the only person in a tunic "
+               "and mantle in the whole hall.",
              b="the same gameplay camera, behind the player character at the front of the hall, looking toward the back: two men in dark suits "
                "who were watching lower their phones, look at each other and walk out through the back doors; in the corridor outside one "
                "of them presses his phone to his ear while the other glances back.",

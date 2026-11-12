@@ -69,8 +69,8 @@
    "job": "d8697264-c9d8-484f-9d50-18bc6b07ff60",
    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261112_184254_d8697264-c9d8-484f-9d50-18bc6b07ff60.mp4"
   },
-  "procurado-1-2": {
-   "job": "be133dfe-a844-4bca-9b3b-d3ed46aeda5e"
+  "procurado-1-3": {
+   "job": "14e854fa-425a-4721-8c8e-d82703304507"
   }
  },
  "reels": {
@@ -261,6 +261,11 @@
  "descartados": {
   "mt-aguas-2 (859938fe-bb35-49ab-aa70-065f1c57e21e)": "teste com video_references: recomeçou da praia em vez de continuar e vestiu o pescador com a roupa do protagonista",
   "jo-cana-1 (26b2638e-ec1b-41d4-a795-7d879c9627bc)": "um plano só, sem corte; termina num jarro de barro pingando líquido claro ao lado de dois jarros de barro: confunde 'não têm vinho' e atrapalha os seis vasos de pedra da missão 2",
-  "jo-cana-1 (f90e59b3-0302-46c6-b737-7e25294221b8)": "varal de lâmpadas de festa no céu (fora de época), rosto do jogador de perfil em primeiro plano no segundo plano, e um servente despejando água nos copos enquanto a fala é 'não têm vinho'"
+  "jo-cana-1 (f90e59b3-0302-46c6-b737-7e25294221b8)": "varal de lâmpadas de festa no céu (fora de época), rosto do jogador de perfil em primeiro plano no segundo plano, e um servente despejando água nos copos enquanto a fala é 'não têm vinho'",
+  "procurado-1-2-dois-de-tunica": {
+   "job": "be133dfe-a844-4bca-9b3b-d3ed46aeda5e",
+   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261112_185026_be133dfe-a844-4bca-9b3b-d3ed46aeda5e.mp4",
+   "motivo": "o homem da mão definhada saiu de túnica e manto como o jogador (dois Jesus no salão) e longe demais para se ver a mão"
+  }
  }
 }
