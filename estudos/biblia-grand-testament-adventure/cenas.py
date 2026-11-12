@@ -221,9 +221,11 @@ CENAS = {
         dict(luz="night, flashlights and a white helicopter searchlight among olive trees",
              a="the camera stays behind him as he stands up and steps forward out of the trees, alone, toward the wall of flashlights and the "
                "helicopter's white searchlight, his open hands at his sides.",
-             b="the same camera behind him as he speaks one word and the whole line of officers and the crowd in front of him stagger "
-               "backwards and fall to the ground; he stands still in the searchlight, waiting. No weapons drawn, nobody is hurt.",
-             som="helicopter rotor, radio chatter, then a deep rumble and bodies falling on the grass, then only the helicopter"),
+             # his words ("Eu sou", John 18:6) are the subtitle's: the prompt asks for no voice, so the take brings none
+             b="the same camera behind him as he takes one calm step into the searchlight and the whole line of officers and the crowd "
+               "in front of him stagger backwards and fall to the ground; he stands still in the light, waiting. No weapons drawn, "
+               "nobody is hurt.",
+             som="helicopter rotor, radio static, then a deep rumble and bodies falling on the grass, then only the helicopter"),
     ]),
     "jo-cana": dict(luz="warm torch and oil-lamp light at dusk under a deep blue sky", missoes=[
         dict(mundo="Setting: a wedding feast in the courtyard of a stone house in the village of Cana of Galilee as an open game world.",
