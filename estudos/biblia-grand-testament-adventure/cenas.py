@@ -33,10 +33,17 @@ HEROI_QUADRO = ("The player character is the man seen from behind in the first f
                 "with rope belt, terracotta-red mantle over the left shoulder, leather sandals; he stays fully visible from behind in the "
                 "lower centre of the frame. ")
 DOIS = "Two shots with one hard cut. Shot 1 (first 4 seconds): {a} Hard cut. Shot 2 (last 4 seconds): {b} "
-FIM = ("All people are Middle Eastern adults in first-century tunics, mantles and head coverings. No children. Ambient sound only: {som}. "
+POVO = "All people are Middle Eastern adults in first-century tunics, mantles and head coverings."
+FIM = ("{povo} No children. Ambient sound only: {som}. "
        "No soundtrack music, no speech, no HUD, no user interface, no text, no subtitles.")
+# "Procurado" (12/11, Alex: "Pode colocar para gerar"): Jesus in a city of today, so everyone else wears today's clothes.
+POVO_HOJE = ("Everyone else is an adult of today in modern everyday clothes; only the player character wears the first-century tunic "
+             "and mantle.")
+CIDADE = ("Setting: a modern sunny coastal city of today as an open game world: wide avenues, palm trees, glass towers, a beach "
+          "promenade, traffic, buses, people everywhere with phones; on its edge, a park of old olive trees.")
+POLICIA = "police cars with flashing red and blue lights and no lettering"
 
-ORDEM = ["mc-pescadores", "mt-aguas", "mc-legiao", "jo-cana", "mt-entrada", "jo-lazaro", "mc-paes", "mc-paralitico", "lc-zaqueu", "jo-samaritana"]
+ORDEM = ["mc-pescadores", "mt-aguas", "mc-legiao", "procurado-1", "procurado-2", "procurado-3", "jo-cana", "mt-entrada", "jo-lazaro", "mc-paes", "mc-paralitico", "lc-zaqueu", "jo-samaritana"]
 
 
 CONTINUA = ("Continue the same gameplay session as the reference video: the same place, the same people, the same weather and light, the "
@@ -48,9 +55,10 @@ def pedido(ep, k, primeiro, video=False):
     continues the previous take, given as a video reference next to the character sheet; otherwise it starts from the
     last frame of the previous take."""
     e = CENAS[ep]; m = e["missoes"][k - 1]
+    primeiro = primeiro or bool(m.get("novo"))               # novo: a new place, so it starts from the character sheet too
     hero = HEROI_REF if (primeiro or video) else m.get("heroi", HEROI_QUADRO)
-    return (JOGO.format(luz=e["luz"]) + (CONTINUA if video else "") + hero + (m.get("mundo", "") + " " if m.get("mundo") else "")
-            + DOIS.format(a=m["a"], b=m["b"]) + FIM.format(som=m["som"]))
+    return (JOGO.format(luz=m.get("luz", e["luz"])) + (CONTINUA if video else "") + hero + (m.get("mundo", "") + " " if m.get("mundo") else "")
+            + DOIS.format(a=m["a"], b=m["b"]) + FIM.format(som=m["som"], povo=e.get("povo", POVO)))
 
 
 CENAS = {
@@ -127,6 +135,85 @@ CENAS = {
                "dressed in a clean plain tunic, the broken chains lying on the ground; the disciples stand around them; people from the "
                "town come running along the shore and stop at a distance, staring in fear.",
              som="pigs squealing and splashing into the sea, running footsteps, then waves, wind and murmuring voices"),
+    ]),
+    # "Procurado" (12/11): if he lived today in an open world, every sign he gives raises his wanted level, as the Gospels
+    # tell it (Mark 3:6, Mark 11:18, John 8:6, John 11:53, John 11:57), and at five stars he walks toward the lights
+    # (John 18:4-6). Three parts of three takes. The police never draw a weapon and nobody is hurt.
+    "procurado-1": dict(luz="bright clear sunlight", povo=POVO_HOJE, missoes=[
+        dict(luz="the first shot at night under flashing police lights and a helicopter searchlight, the second in bright clear morning sunlight",
+             mundo=CIDADE,
+             a="night, at the edge of the park of old olive trees: the gameplay camera follows about 4 metres behind him as he walks slowly "
+               f"toward a line of {POLICIA} and officers holding flashlights, while a helicopter overhead floods him with a white searchlight; "
+               "he spreads his arms with open, empty hands. No weapons drawn.",
+             b="bright morning: the same gameplay camera follows about 4 metres behind him as he walks briskly along the busy sunny beach "
+               "promenade among joggers, cyclists, palm trees and traffic; people look up from their phones and turn their heads at his tunic, "
+               "a woman films him with her phone.",
+             som="first a helicopter, sirens and radio chatter, then waves, traffic, birds and city chatter without clear words"),
+        dict(novo=True, luz="bright warm daylight through tall windows",
+             mundo="Setting: a packed, bright meeting hall with rows of chairs in a modern city of today.",
+             a="the gameplay camera follows about 3 metres behind him down the middle aisle to a man who stands holding his shrivelled, curled "
+               "right hand against his chest; the player character stops in front of him and gestures; the man slowly stretches out his arm "
+               "and his hand opens, straight and healthy; people around them jump up, gasp and raise their phones.",
+             b="the same gameplay camera, behind the player character at the front of the hall, looking toward the back: two men in dark suits "
+               "who were watching lower their phones, look at each other and walk out through the back doors; in the corridor outside one "
+               "of them presses his phone to his ear while the other glances back.",
+             som="a murmuring crowd, gasps, chairs scraping, then a door closing and footsteps in a corridor"),
+        dict(novo=True, luz="hard bright midday sunlight",
+             mundo="Setting: the huge sunny stone courtyard of the grand old temple of a modern city of today, turned into a market: "
+                   "money-exchange counters with card machines and stacks of banknotes, cages of white doves, souvenir stands.",
+             a="the gameplay camera follows about 4 metres behind him as he strides between the stalls, grabs the edge of a long money table "
+               "and flips it over; coins and banknotes fly, chairs topple, cages burst open and the white doves fly up; the vendors scatter.",
+             b="the gameplay camera stays behind him as he stands among the overturned tables and scattered coins, then tilts up to a balcony "
+               "above the courtyard where men in dark suits and security guards watch; one of them points down at him and speaks into a radio.",
+             som="a crowd shouting without clear words, a table crashing, coins clattering on stone, doves flapping, then radio static"),
+    ]),
+    "procurado-2": dict(luz="bright clear sunlight", povo=POVO_HOJE, missoes=[
+        dict(luz="hard bright noon sunlight on the beach", mundo=CIDADE,
+             a="on the beach promenade at noon a crowd of people pointing their phones surrounds a frightened woman in a plain dress sitting "
+               "on the sand, two men in dark suits accusing her and a man holding a stone; the gameplay camera stays about 3 metres behind the "
+               "player character as he kneels down at the edge of the circle and writes in the sand with his finger.",
+             b="the same camera behind him as he stands up; one by one, the older men first, the people lower their phones and walk away; "
+               "the man drops his stone in the sand; the men in suits leave angrily; only the woman remains, looking up at him.",
+             som="waves, wind, an angry crowd murmuring without clear words, then silence, waves and gulls"),
+        dict(novo=True, luz="golden late-afternoon light",
+             mundo="Setting: a cemetery on a hillside at the edge of a modern city of today.",
+             a="a crowd, news cameras on tripods and two sisters dressed in black stand among the graves; the gameplay camera follows about "
+               "3 metres behind him as he walks up to a tomb cut into the rock whose round stone has been rolled aside, stops in front of the "
+               "dark opening and calls into it with his arms raised.",
+             b="the same camera behind him as out of the dark opening a man wrapped from head to feet in white linen strips, his face "
+               "covered with a white cloth, shuffles into the light; the crowd gasps, people raise their phones, the news cameras swing "
+               "toward him and the two sisters run to him.",
+             som="wind on the hillside, a murmuring crowd, camera shutters, gasps"),
+        dict(novo=True, luz="night city lights, neon signs, wet streets",
+             mundo="Setting: a busy street of a modern city of today at night.",
+             a="the gameplay camera follows about 4 metres behind him as he walks with a small group of companions along the street of neon "
+               "signs; across the street a giant screen on a building shows news footage of a man wrapped in white linen walking out of a "
+               "tomb, and people stop on the pavement to watch it.",
+             b=f"the same camera behind him and his companions as two {POLICIA} drive slowly past them, then make a U-turn and follow them at "
+               "a distance.",
+             som="night traffic, a distant news broadcast without clear words, a short burst of siren, footsteps"),
+    ]),
+    "procurado-3": dict(luz="night", povo=POVO_HOJE, missoes=[
+        dict(luz="night city lights, neon signs, wet streets", mundo=CIDADE,
+             a="night: the gameplay camera follows about 4 metres behind him as he walks with his companions down a crowded street; suddenly "
+               "every phone in people's hands, the big building screens and the bus-stop screens light up red at the same moment with an "
+               "alert showing his picture; people look at their phones, then stare at him as he walks past.",
+             b="the same camera behind him as one of his companions, a man with a short beard in a dark hoodie, slips back into a dark "
+               "doorway, pulls his hood up and raises his phone to his ear, watching the player character walk on.",
+             som="a loud alert tone from many phones at once, murmurs, traffic, then a hushed phone call without clear words"),
+        dict(novo=True, luz="night, moonlight through olive trees, the glow of the city beyond",
+             mundo="Setting: a park of old olive trees at night at the edge of a modern city of today.",
+             a="his companions sleep on the park benches; the gameplay camera stays about 3 metres behind the player character as he kneels "
+               "on the ground among the olive trees and prays.",
+             b="the same camera behind him as a long line of flashlights comes through the olive trees: police officers and a crowd, the man "
+               "in the dark hoodie walking in front of them; his companions wake up in alarm and jump to their feet. No weapons drawn.",
+             som="crickets, wind in the olive leaves, then many footsteps, radios crackling, a helicopter approaching"),
+        dict(luz="night, flashlights and a white helicopter searchlight among olive trees",
+             a="the camera stays behind him as he stands up and steps forward out of the trees, alone, toward the wall of flashlights and the "
+               "helicopter's white searchlight, his open hands at his sides.",
+             b="the same camera behind him as he speaks one word and the whole line of officers and the crowd in front of him stagger "
+               "backwards and fall to the ground; he stands still in the searchlight, waiting. No weapons drawn, nobody is hurt.",
+             som="helicopter rotor, radio chatter, then a deep rumble and bodies falling on the grass, then only the helicopter"),
     ]),
     "jo-cana": dict(luz="warm torch and oil-lamp light at dusk under a deep blue sky", missoes=[
         dict(mundo="Setting: a wedding feast in the courtyard of a stone house in the village of Cana of Galilee as an open game world.",

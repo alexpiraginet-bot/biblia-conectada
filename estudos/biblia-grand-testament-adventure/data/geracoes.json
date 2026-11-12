@@ -64,6 +64,9 @@
   "mc-legiao-3": {
    "job": "f8878cc9-5891-4347-93c1-bcaa965a3fee",
    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261112_114049_f8878cc9-5891-4347-93c1-bcaa965a3fee.mp4"
+  },
+  "procurado-1-1": {
+   "job": "d8697264-c9d8-484f-9d50-18bc6b07ff60"
   }
  },
  "reels": {
@@ -145,6 +148,58 @@
    ],
    "capa": "renders/capa-mt-aguas.jpg",
    "entregue": "2026-11-11 à tarde (arquivo fechado às 14:21), ao Alex no chat"
+  },
+  "mc-legiao": {
+   "arquivo": "renders/mc-legiao.mp4",
+   "sha256": "bfd52af78b2d14874abb6a2b8ff17453735116a9ed05f9dac72d5c26d60c1b90",
+   "bytes": 20241597,
+   "quadros": 530,
+   "duracao_s": 22.083,
+   "lufs": -14.1,
+   "pico_dbtp": -1.7,
+   "cortes_s": [
+    4.17,
+    7.29,
+    10.08,
+    14.04,
+    17.88
+   ],
+   "mudanca_mediana": 1.33,
+   "mudanca_relativa_pct": 1.8,
+   "fala_ouvida": [],
+   "emendas_som": [
+    {
+     "s": 7.29,
+     "antes_db": -29.3,
+     "depois_db": -49.6,
+     "salto": 0.0
+    },
+    {
+     "s": 10.08,
+     "antes_db": -37.2,
+     "depois_db": -35.0,
+     "salto": 0.0
+    },
+    {
+     "s": 14.04,
+     "antes_db": -59.0,
+     "depois_db": -52.5,
+     "salto": 0.02
+    },
+    {
+     "s": 17.87,
+     "antes_db": -27.4,
+     "depois_db": -43.1,
+     "salto": 0.0
+    },
+    {
+     "s": 20.58,
+     "antes_db": -36.4,
+     "depois_db": -37.6,
+     "salto": 1.03
+    }
+   ],
+   "capa": "renders/capa-mc-legiao.jpg"
   }
  },
  "primeira_versao": {

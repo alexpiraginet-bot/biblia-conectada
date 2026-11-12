@@ -49,8 +49,8 @@ def nxt(s):
         for k in (1, 2, 3):
             key = f"{ep}-{k}"
             if key in s["takes"]: continue
-            if k == 1:
-                return {"key": key, "params": {**VID, "medias": [{"role": "image_references", "value": PERSONAGEM}], "prompt": pedido(ep, 1, True)}}, ""
+            if k == 1 or CENAS[ep]["missoes"][k - 1].get("novo"):      # a first mission, or one in a new place: from the character sheet
+                return {"key": key, "params": {**VID, "medias": [{"role": "image_references", "value": PERSONAGEM}], "prompt": pedido(ep, k, True)}}, ""
             prev = s["takes"].get(f"{ep}-{k - 1}", {})
             if s.get("emenda") == "video":                          # continue from the previous take as a video reference
                 if not prev.get("url"): return None, f"falta terminar {ep}-{k - 1}"
