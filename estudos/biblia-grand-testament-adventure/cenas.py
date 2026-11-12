@@ -36,7 +36,7 @@ DOIS = "Two shots with one hard cut. Shot 1 (first 4 seconds): {a} Hard cut. Sho
 FIM = ("All people are Middle Eastern adults in first-century tunics, mantles and head coverings. No children. Ambient sound only: {som}. "
        "No soundtrack music, no speech, no HUD, no user interface, no text, no subtitles.")
 
-ORDEM = ["mc-pescadores", "mt-aguas", "jo-cana", "mt-entrada", "jo-lazaro", "mc-paes", "mc-paralitico", "lc-zaqueu", "jo-samaritana"]
+ORDEM = ["mc-pescadores", "mt-aguas", "mc-legiao", "jo-cana", "mt-entrada", "jo-lazaro", "mc-paes", "mc-paralitico", "lc-zaqueu", "jo-samaritana"]
 
 
 CONTINUA = ("Continue the same gameplay session as the reference video: the same place, the same people, the same weather and light, the "
@@ -102,6 +102,31 @@ CENAS = {
                "wind drops, the rain stops, the waves flatten to a calm sea and the clouds open around the full moon; the men in the boat "
                "kneel on the deck in front of him.",
              som="wind and rain dying away to calm, splashing water, wood creaking, quiet"),
+    ]),
+    # Mark 5:1-20 (asked for by Alex on 12/11: "ele expulsando demônios"). The spirits are shown as dark smoke, never as
+    # creatures with faces; the man is wild but never hurt or bleeding (Mark 5:5 is not shown).
+    "mc-legiao": dict(luz="a stormy grey dawn after the storm, low dark clouds, wet rocks, shafts of cold light breaking through", missoes=[
+        dict(mundo="Setting: the steep eastern shore of the Sea of Galilee in the land of the Gadarenes as an open game world: a rocky "
+                   "beach, a steep green hillside above it full of dark rock-cut tomb openings, a large herd of pigs grazing high on the slope.",
+             a="the gameplay camera follows about 4 metres behind him as he steps from a wooden fishing boat onto the wet rocky beach, his "
+               "disciples climbing out of the boat behind him; the camera swings up toward the hillside of dark tomb openings above them.",
+             b="the same gameplay camera behind him as a wild-haired, bearded man in torn grey rags, with broken iron chains and shackles "
+               "dangling from his wrists, comes running and leaping down the slope from the tombs straight at him, shouting; the disciples "
+               "step back; the man throws himself down on his knees on the rocks in front of him. No wounds, no blood.",
+             som="waves on rocks, wind, chains clanking, a man's wordless shout echoing off the hillside"),
+        dict(a="close gameplay camera behind his shoulder: the man in rags kneels on the rocks in front of him, writhing and shouting up at him, "
+               "while a dark shadow like black smoke boils around the man's body; the player character stretches out his right hand toward him.",
+             b="the same camera as the black smoke tears out of the man in dozens of swirling dark wisps and streams away up the hillside "
+               "toward the large herd of pigs grazing on the slope; the man slumps forward on the rocks, still; the disciples stare. "
+               "The dark wisps are only smoke and shadow, no faces, no creatures.",
+             som="a roaring rushing wind, many overlapping wordless shrieks fading away, chains rattling, then silence and waves"),
+        dict(a="wider gameplay camera behind and above the player character: on the hillside the huge herd of pigs, hundreds of them, panics and "
+               "stampedes down the steep slope and pours over the edge of a cliff into the sea with great white splashes; the swineherds drop "
+               "their staffs and run away along the shore.",
+             b="the gameplay camera behind the player character as he sits on a rock beside the same man, now calm, washed, hair tied back, "
+               "dressed in a clean plain tunic, the broken chains lying on the ground; the disciples stand around them; people from the "
+               "town come running along the shore and stop at a distance, staring in fear.",
+             som="pigs squealing and splashing into the sea, running footsteps, then waves, wind and murmuring voices"),
     ]),
     "jo-cana": dict(luz="warm torch and oil-lamp light at dusk under a deep blue sky", missoes=[
         dict(mundo="Setting: a wedding feast in the courtyard of a stone house in the village of Cana of Galilee as an open game world.",

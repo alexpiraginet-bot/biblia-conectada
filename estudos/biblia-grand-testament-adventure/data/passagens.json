@@ -238,6 +238,25 @@
    "feito": "já publicado pelo Alex antes desta leva (releitura moderna, 24 s); não refazer"
   },
   {
+   "id": "mc-legiao",
+   "evangelho": "Marcos",
+   "ref": "Mark.5.1-20",
+   "ref_pt": "Marcos 5:1–20",
+   "titulo": "Legião",
+   "fala": "Legião é o meu nome, porque somos muitos.",
+   "fala_ref": "Marcos 5:9",
+   "lugar": "terra dos Gadarenos",
+   "lugar_ref": "Mc 5:1",
+   "geo": {
+    "id": "Gergesa",
+    "lon": 35.650378,
+    "lat": 32.826086,
+    "moderno": "Kursi",
+    "nota": "Mc 5:1 diz 'terra dos Gadarenos' e a manada se lança no mar (Mc 5:13): o ponto é a margem leste do mar da Galileia, em Kursi (Gergesa no OpenBible), e não a cidade de Gerasa (Jerash), que o OpenBible liga a Mc 5:1 e fica longe do mar"
+   },
+   "feito": null
+  },
+  {
    "id": "mc-manto",
    "evangelho": "Marcos",
    "ref": "Mark.5.25-34",
@@ -968,6 +987,68 @@
    "pergunta": "Você sairia do barco?",
    "fim": 2.6,
    "pausa": 1.9
+  },
+  "mc-legiao": {
+   "raio_km": 9,
+   "ritmo": 1.1,
+   "contador": null,
+   "missoes": [
+    {
+     "take": "mc-legiao-1.mp4",
+     "objetivo": "Desembarque na terra dos Gadarenos",
+     "fala": {
+      "texto": "Que tenho eu contigo Jesus, Filho do Deus Altíssimo?",
+      "ref": "Marcos 5:7"
+     },
+     "rumo": 135,
+     "acao": null,
+     "vel": 1,
+     "conta": 0,
+     "seguidores": 0,
+     "fala_de": "corte",
+     "fala_ate": null,
+     "da_margem": true,
+     "ritmo": null
+    },
+    {
+     "take": "mc-legiao-2.mp4",
+     "objetivo": "Expulse o espírito imundo",
+     "fala": {
+      "texto": "Legião é o meu nome, porque somos muitos.",
+      "ref": "Marcos 5:9"
+     },
+     "rumo": 90,
+     "acao": "Ordenar",
+     "vel": 0,
+     "conta": 0,
+     "seguidores": 0,
+     "fala_de": null,
+     "fala_ate": null,
+     "da_margem": false,
+     "ritmo": null
+    },
+    {
+     "take": "mc-legiao-3.mp4",
+     "objetivo": "Liberte o homem",
+     "fala": {
+      "texto": "a manada lançou-se abaixo no mar",
+      "ref": "Marcos 5:13"
+     },
+     "rumo": 90,
+     "acao": null,
+     "vel": 0.3,
+     "conta": 0,
+     "seguidores": 0,
+     "fala_de": null,
+     "fala_ate": "corte",
+     "da_margem": false,
+     "ritmo": null
+    }
+   ],
+   "resumo": "Ele desce do barco na terra dos Gadarenos e, das sepulturas, vem correndo um homem que nenhuma corrente segurava: “Que tenho eu contigo Jesus, Filho do Deus Altíssimo?” Ele pergunta o nome: “Legião é o meu nome, porque somos muitos.” Os espíritos imundos saem do homem e entram numa manada de porcos, e “a manada lançou-se abaixo no mar”. Quem chega da cidade encontra o homem sentado, vestido e em paz.\n\nMissão concluída.",
+   "pergunta": "Que corrente ainda te prende?",
+   "fim": 2.6,
+   "pausa": 0.0
   },
   "jo-cana": {
    "raio_km": 9,

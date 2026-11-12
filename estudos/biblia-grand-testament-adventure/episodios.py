@@ -50,6 +50,18 @@ EPISODIOS = {
         dict(take="mt-aguas-3.mp4", objetivo="Segure Pedro", acao="Segurar", fala=("Matt.14.31", "Homem de pouca fé, por que duvidaste?"), fala_de=1.5, fala_ate="corte2",
              rumo=300, vel=0.4),
     ]),
+    "mc-legiao": dict(raio_km=9, ritmo=1.1,
+                      pergunta="Que corrente ainda te prende?",
+                              resumo="Ele desce do barco na terra dos Gadarenos e, das sepulturas, vem correndo um homem que nenhuma corrente segurava: “{fala1}” Ele pergunta o nome: “{fala2}” Os espíritos imundos saem do homem e entram numa manada de porcos, e “{fala3}”. Quem chega da cidade encontra o homem sentado, vestido e em paz.\n\nMissão concluída.",
+                      missoes=[
+        # rumo: from Capernaum across the lake to the eastern shore (the boat comes from the other side, Mark 4:35 and 5:1)
+        dict(take="mc-legiao-1.mp4", objetivo="Desembarque na terra dos Gadarenos", fala=("Mark.5.7", "Que tenho eu contigo Jesus, Filho do Deus Altíssimo?"),
+             fala_de="corte", rumo=131, da_margem=True),     # 131: Cafarnaum -> Kursi, measured on the OpenBible points
+        dict(take="mc-legiao-2.mp4", objetivo="Expulse o espírito imundo", acao="Ordenar", fala=("Mark.5.9", "Legião é o meu nome, porque somos muitos."),
+             rumo=90, vel=0),
+        dict(take="mc-legiao-3.mp4", objetivo="Liberte o homem", fala=("Mark.5.13", "a manada lançou-se abaixo no mar"), fala_ate="corte",
+             rumo=90, vel=0.3),
+    ]),
     "jo-cana": dict(raio_km=9, ritmo=1.1, contador=dict(rotulo="Vasos", prova=[("John.2.6", "seis vasos de pedra")]),
                     pergunta="Você encheria os vasos sem entender o porquê?",
                             resumo="Festa de casamento em Caná, e o vinho acaba: “{fala1}” Ele manda encher de água os {total} vasos de pedra: “{fala2}” Quando o mestre de cerimônia prova, é vinho: “{fala3}”.",

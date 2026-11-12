@@ -18,6 +18,11 @@ terceira pessoa, na Galileia e na Judeia do século I. Um reel por passagem, sep
   Essa é a pegada!"
 - 10:01, depois do piloto entregue: "Legenda viral".
 - 13:45: "Retome e entregue o episódio 2 também".
+- 12/11, 08:20: "Vamos retomar aos vídeos de gta Jesus! Vamos fazer dele expulsando demônios que foi pedido". Episódio 3:
+  **Legião** (Marcos 5:1–20), à frente de Água feita vinho na fila. Os espíritos aparecem como fumaça escura, sem rosto
+  nem criatura; o homem é selvagem, mas nunca ferido (Mc 5:5 não entra). O ponto no radar é Kursi (Gergesa no
+  OpenBible), na margem leste: a BLIVRE diz "terra dos Gadarenos" e a manada cai no mar; o OpenBible liga Mc 5:1 a
+  Gerasa (Jerash), longe do mar. A missão 1 cruza o lago de Cafarnaum até lá (rumo 131°, 9,3 km, medido nos pontos).
 
 ## O que a série não faz
 O letreiro, a sigla e o HUD do jogo em que o pedido se inspira são marca e desenho de outra empresa: não entram aqui.

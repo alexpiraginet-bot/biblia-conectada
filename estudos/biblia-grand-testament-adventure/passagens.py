@@ -49,6 +49,11 @@ PASSAGENS = [
          fala=("Mark.2.11", "levanta-te, toma o teu leito, e vai para a tua casa"), lugar=("Mark.2.1", "Cafarnaum"), geo="Capernaum"),
     dict(id="mc-tempestade", ref="Mark.4.35-41", titulo="Paz em meio ao caos", feito="já publicado pelo Alex antes desta leva (releitura moderna, 24 s); não refazer",
          fala=("Mark.4.39", "Cala-te, aquieta-te!"), lugar=("Mark.4.39", "mar"), geo="Sea of Galilee"),
+    dict(id="mc-legiao", ref="Mark.5.1-20", titulo="Legião",
+         fala=("Mark.5.9", "Legião é o meu nome, porque somos muitos."), lugar=("Mark.5.1", "terra dos Gadarenos"), geo="Gergesa",
+         geo_nota="Mc 5:1 diz 'terra dos Gadarenos' e a manada se lança no mar (Mc 5:13): o ponto é a margem leste do mar da "
+                  "Galileia, em Kursi (Gergesa no OpenBible), e não a cidade de Gerasa (Jerash), que o OpenBible liga a Mc 5:1 e fica "
+                  "longe do mar"),
     dict(id="mc-manto", ref="Mark.5.25-34", titulo="Ela tocou a roupa dele",
          fala=("Mark.5.34", "Filha, a tua fé te salvou."), lugar=("Mark.5.21", "junto ao mar"), geo=None),
     dict(id="mc-paes", ref="Mark.6.30-44", titulo="Cinco pães e dois peixes",
