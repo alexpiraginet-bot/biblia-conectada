@@ -77,9 +77,11 @@ PARTES = {
     "procurado-3": dict(parte=3, gancho=["CINCO ESTRELAS.", "TODO JOGADOR FOGE. ELE NÃO."], fim=["CONTINUA NA PÁSCOA"], ritmo=1.1, pausa=1.2, missoes=[
         # as in part 2, the opening card leaves shot a of the first mission no room for a line: John 11:57 goes on shot b, where
         # the companion in the hoodie makes his call, and John 18:2 moves to the garden, while he prays
-        dict(take="procurado-3-1.mp4", objetivo="Atravesse o centro", lugar={"a": "Centro"}, estrelas=[("a", 4), (2.0, 5)],
+        # the screens turn red and the phones ring at 1.35 s of the take (red pixels 0.6% -> 1.2% at 1.33 s, sound -30 -> -24 dB
+        # RMS at 1.34 s, measured): the fifth star; hard cut at 4.04 s, the call on shot b at real speed
+        dict(take="procurado-3-1.mp4", objetivo="Atravesse o centro", lugar={"a": "Centro"}, estrelas=[("a", 4), (1.35, 5)],
              falas=[("b", "John.11.57", "se alguém soubesse onde ele estava, o denunciasse, para que o pudessem prender.")],
-             motivo="A ordem de procura chegou a todos", radar={"a": (0.48, 0.60, 225, 1.0)}),
+             motivo="A ordem de procura chegou a todos", ritmo=[("corte", 1.15), (None, 1.0)], radar={"a": (0.48, 0.60, 225, 1.0)}),
         dict(take="procurado-3-2.mp4", objetivo="Ore no jardim", lugar={"a": "Parque das oliveiras"}, acao="Orar", estrelas=[("a", 5)],
              falas=[("a", "John.18.2", "Judas, o que o traía, conhecia aquele lugar"), ("b", "John.18.3", "veio ali com lanternas, tochas, e armas.")],
              radar={"a": (0.16, 0.74, 90, 0.0)}),
