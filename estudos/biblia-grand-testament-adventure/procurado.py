@@ -82,7 +82,10 @@ PARTES = {
         dict(take="procurado-3-1.mp4", objetivo="Atravesse o centro", lugar={"a": "Centro"}, estrelas=[("a", 4), (1.35, 5)],
              falas=[("b", "John.11.57", "se alguém soubesse onde ele estava, o denunciasse, para que o pudessem prender.")],
              motivo="A ordem de procura chegou a todos", ritmo=[("corte", 1.15), (None, 1.0)], radar={"a": (0.48, 0.60, 225, 1.0)}),
+        # second try (job 2aa93d04): shot a shows him from the front, kneeling to pray (a cutscene); the change to the camera
+        # behind him is a 0.13 s morph (frames 97-99, both views blended), so it plays at 20x: one clean cut at 4.15 s
         dict(take="procurado-3-2.mp4", objetivo="Ore no jardim", lugar={"a": "Parque das oliveiras"}, acao="Orar", estrelas=[("a", 5)],
+             corte=4.15, ritmo=[(4.02, 1.1), ("corte", 20.0), (None, 1.0)],
              falas=[("a", "John.18.2", "Judas, o que o traía, conhecia aquele lugar"), ("b", "John.18.3", "veio ali com lanternas, tochas, e armas.")],
              radar={"a": (0.16, 0.74, 90, 0.0)}),
         dict(take="procurado-3-3.mp4", objetivo="Vá ao encontro deles", lugar={"a": "Parque das oliveiras"}, escolha=("Fugir", "Ir ao encontro"),
@@ -467,9 +470,10 @@ def build(pid, stills=None):
         else:
             head = f"[{i}:a]asplit={len(sg)}" + "".join(f"[s{i}_{q}]" for q in range(len(sg))) + ";"
             for q, (a, b, v) in enumerate(sg):
-                head += f"[s{i}_{q}]atrim={a:.4f}:{b:.4f},asetpts=PTS-STARTPTS,atempo={v},afade=t=in:d=0.008,afade=t=out:st={(b - a) / v - 0.008:.4f}:d=0.008[p{i}_{q}];"
+                fd = min(0.008, (b - a) / v / 3)                                 # a segment skipped at 20x lasts a few ms
+                head += f"[s{i}_{q}]atrim={a:.4f}:{b:.4f},asetpts=PTS-STARTPTS,atempo={v},afade=t=in:d={fd:.4f},afade=t=out:st={(b - a) / v - fd:.4f}:d={fd:.4f}[p{i}_{q}];"
             head += "".join(f"[p{i}_{q}]" for q in range(len(sg))) + f"concat=n={len(sg)}:v=0:a=1"
-        head += f",atrim=0:{beat:.4f},asetpts=PTS-STARTPTS,afade=t=in:d=0.04"
+        head += f",apad=whole_dur={beat:.4f},atrim=0:{beat:.4f},asetpts=PTS-STARTPTS,afade=t=in:d=0.04"   # exactly the mission's length
         if i == n - 1 and nh:
             fc += (f"{head},asplit[m{i}][x{i}];[x{i}]atrim=start={beat - ph:.4f}:end={beat:.4f},asetpts=PTS-STARTPTS,areverse,"
                    f"afade=t=out:st=0.15:d={ph - 0.15:.4f}[r{i}];[m{i}][r{i}]concat=n=2:v=0:a=1[a{i}];")

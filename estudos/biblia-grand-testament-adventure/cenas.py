@@ -222,8 +222,9 @@ CENAS = {
                "and jump to their feet. No weapons drawn.",
              som="crickets, wind in the olive leaves, then many footsteps, radio static, a helicopter approaching"),
         dict(luz="night, flashlights and a white helicopter searchlight among olive trees",
-             a="the camera stays behind him as he stands up and steps forward out of the trees, alone, toward the wall of flashlights and the "
-               "helicopter's white searchlight, his open hands at his sides.",
+             # take 2 ends with his three companions standing between him and the lights, facing him: they step aside
+             a="the camera stays behind him as he stands up; his three companions in jeans and jackets step aside, and he walks forward "
+               "alone toward the wall of flashlights and the helicopter's white searchlight, his open hands at his sides.",
              # his words ("Eu sou", John 18:6) are the subtitle's: the prompt asks for no voice, so the take brings none
              b="the same camera behind him as he takes one calm step into the searchlight and the whole line of officers and the crowd "
                "in front of him stagger backwards and fall to the ground; he stands still in the light, waiting. No weapons drawn, "
