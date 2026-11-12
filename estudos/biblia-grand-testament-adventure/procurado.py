@@ -40,7 +40,7 @@ LIVROS = {"Matt": ("MAT", "Mateus"), "Mark": ("MAR", "Marcos"), "Luke": ("LUK", 
 # heading in degrees, speed), ritmo (as in hud.py).
 PARTES = {
     "procurado-1": dict(parte=1, gancho=["TODO MUNDO FOGE COM 5 ESTRELAS.", "ELE FOI AO ENCONTRO."], inicio_ate="corte",
-                        fim=["CONTINUA NA PARTE 2"], ritmo=1.1, missoes=[
+                        fim=["CONTINUA NA PARTE 2"], ritmo=1.1, pausa=1.5, missoes=[            # pausa: the balcony shot and its line stay up under the end card
         # this take changes shot with a dissolve, not a hard cut: 3.83-4.25 s (brightness 88 -> 146, measured), so its "cut" is
         # the middle of it, covered by a white flash and the card
         dict(take="procurado-1-1.mp4", corte=4.04, objetivo="Ande pela cidade", objetivo_de="corte", lugar={"a": "Parque das oliveiras", "b": "Calçadão"},
