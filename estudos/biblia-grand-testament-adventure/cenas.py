@@ -213,11 +213,14 @@ CENAS = {
              som="a loud alert tone from many phones at once, murmurs, traffic, then a hushed phone call without clear words"),
         dict(novo=True, luz="night, moonlight through olive trees, the glow of the city beyond",
              mundo="Setting: a park of old olive trees at night at the edge of a modern city of today.",
-             a="his companions sleep on the park benches; the gameplay camera stays about 3 metres behind the player character as he kneels "
-               "on the ground among the olive trees and prays.",
-             b="the same camera behind him as a long line of flashlights comes through the olive trees: police officers and a crowd, the man "
-               "in the dark hoodie walking in front of them; his companions wake up in alarm and jump to their feet. No weapons drawn.",
-             som="crickets, wind in the olive leaves, then many footsteps, radios crackling, a helicopter approaching"),
+             # first try (job a4015ebf) put one companion in a long cream tunic with long hair and beard, like the player, and had
+             # him stand up at the end: the companions' clothes are now spelled out, and he stays on his knees for take 3
+             a="his three companions, short-haired men of today in jeans, sneakers and dark zip jackets, sleep on the park benches; the "
+               "gameplay camera stays about 3 metres behind the player character as he kneels on the ground among the olive trees and prays.",
+             b="the same camera behind him, still on his knees, as a long line of flashlights comes through the olive trees: police officers "
+               "and a crowd, the man in the dark hoodie walking in front of them; his three companions in jeans and jackets wake up in alarm "
+               "and jump to their feet. No weapons drawn.",
+             som="crickets, wind in the olive leaves, then many footsteps, radio static, a helicopter approaching"),
         dict(luz="night, flashlights and a white helicopter searchlight among olive trees",
              a="the camera stays behind him as he stands up and steps forward out of the trees, alone, toward the wall of flashlights and the "
                "helicopter's white searchlight, his open hands at his sides.",
