@@ -163,12 +163,18 @@ CENAS = {
                "of them presses his phone to his ear while the other glances back.",
              som="a murmuring crowd, gasps, chairs scraping, then a door closing and footsteps in a corridor"),
         dict(novo=True, luz="hard bright midday sunlight",
+             # first try (job 14e854fa) drew a carved temple tower of another religion: the temple is now described as the plain
+             # colonnades of a Roman-era temple, with nothing carved and no symbols
              mundo="Setting: the huge sunny stone courtyard of the grand old temple of a modern city of today, turned into a market: "
-                   "money-exchange counters with card machines and stacks of banknotes, cages of white doves, souvenir stands.",
+                   "money-exchange counters with card machines and stacks of banknotes, cages of white doves, souvenir stands. The "
+                   "courtyard is surrounded by long colonnades of plain cream limestone columns, like the porches of an ancient Roman-era "
+                   "temple, with a wide stone staircase and a plain stone balcony above; no towers, no domes, no statues, no carved "
+                   "figures, no religious symbols anywhere.",
              a="the gameplay camera follows about 4 metres behind him as he strides between the stalls, grabs the edge of a long money table "
                "and flips it over; coins and banknotes fly, chairs topple, cages burst open and the white doves fly up; the vendors scatter.",
-             b="the gameplay camera stays behind him as he stands among the overturned tables and scattered coins, then tilts up to a balcony "
-               "above the courtyard where men in dark suits and security guards watch; one of them points down at him and speaks into a radio.",
+             b="the gameplay camera is behind him as he stands among the overturned tables and scattered coins, looking up at the plain "
+               "stone balcony above the courtyard where men in dark suits and unarmed security guards watch; one of them points down at him "
+               "and speaks into a radio.",
              som="a crowd shouting without clear words, a table crashing, coins clattering on stone, doves flapping, then radio static"),
     ]),
     "procurado-2": dict(luz="bright clear sunlight", povo=POVO_HOJE, missoes=[
