@@ -37,6 +37,16 @@ terceira pessoa, na Galileia e na Judeia do século I. Um reel por passagem, sep
   radar, um mapa de cidade fictícia (o mesmo nas 3 partes) e as legendas literais da BLIVRE, conferidas antes de
   desenhar (`python3 -I procurado.py --check`). O take 1 da parte 1 troca de plano com uma fusão (3,83–4,25 s, medida),
   e não com um corte seco: o "corte" dele é o meio da fusão, coberto por um clarão e pelo cartão "12 HORAS ANTES".
+- 12/11, 16:19: "Me entregue como está pronto já com capa e legenda": cada parte é entregue assim que passa no
+  `tools/confere.py`, com a capa (quadro de 1,0 s) e a legenda gerada dos dados (`procurado.py <parte> --legenda`).
+  Parte 1 entregue por volta das 16:30; parte 2 por volta das 17:00. Na parte 2:
+  - o cartão de abertura cobre os primeiros 2,2 s, então a primeira missão das partes 2 e 3 não tem lugar para uma fala
+    no plano a; Jo 8:7 foi para o plano b (ele se levanta) e Jo 8:11 saiu, e na parte 3 Jo 11:57 foi para o plano b e
+    Jo 18:2 para o jardim;
+  - o take do Lázaro saiu num plano só, sem corte: o plano b começa quando a porta do túmulo acende (4,6 s, brilho
+    9 → 43 entre 4,50 e 4,67 s), e uma fala pode começar num segundo do take ("Lázaro, sai fora." em 2,9 s);
+  - a primeira montagem mediu −0,8 dBTP: o limitador passou a trabalhar a 192 kHz, o que segura o pico real (−2,1 dBTP);
+  - as legendas quebram as linhas com `wrap_even` (nenhuma palavra sozinha na última linha), em todos os reels a partir daqui.
 
 ## O que a série não faz
 O letreiro, a sigla e o HUD do jogo em que o pedido se inspira são marca e desenho de outra empresa: não entram aqui.
