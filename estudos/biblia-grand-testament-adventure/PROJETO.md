@@ -29,6 +29,14 @@ terceira pessoa, na Galileia e na Judeia do século I. Um reel por passagem, sep
 - 12/11, 08:53: "Faça um agora reunindo um pouco de tudo e o tema será! 'Agora quero ver se minha mãe não me deixa
   jogar. 🤣🤣'". `compilado.py` corta 10 trechos dos reels entregues (cada um com seu HUD, legenda e marca de
   recriação) sob a frase do Alex numa caixa branca, e grava `renders/compilado-mae.mp4`.
+- 12/11, 14:18: pediu uma ideia viral ("como seria Jesus se ele vivesse hoje no mundo aberto"); 15:37: "Pode colocar
+  para gerar no higgsf". Especial **Procurado**, em 3 partes de 3 takes (`cenas.py`, `procurado-1..3`): numa cidade de
+  hoje, cada sinal sobe o nível de procura, como os evangelhos contam (Mc 3:6, Mc 11:18, Jo 8:6, Jo 11:53, Jo 11:57), e
+  com 5 estrelas ele vai ao encontro das luzes (Jo 18:4–6). Ele mantém a túnica; todo o resto veste roupa de hoje. A
+  polícia nunca saca arma e ninguém se fere. `procurado.py` desenha o HUD próprio do especial: as estrelas ao lado do
+  radar, um mapa de cidade fictícia (o mesmo nas 3 partes) e as legendas literais da BLIVRE, conferidas antes de
+  desenhar (`python3 -I procurado.py --check`). O take 1 da parte 1 troca de plano com uma fusão (3,83–4,25 s, medida),
+  e não com um corte seco: o "corte" dele é o meio da fusão, coberto por um clarão e pelo cartão "12 HORAS ANTES".
 
 ## O que a série não faz
 O letreiro, a sigla e o HUD do jogo em que o pedido se inspira são marca e desenho de outra empresa: não entram aqui.
