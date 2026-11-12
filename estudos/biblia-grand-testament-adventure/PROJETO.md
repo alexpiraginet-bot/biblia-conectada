@@ -23,6 +23,12 @@ terceira pessoa, na Galileia e na Judeia do século I. Um reel por passagem, sep
   nem criatura; o homem é selvagem, mas nunca ferido (Mc 5:5 não entra). O ponto no radar é Kursi (Gergesa no
   OpenBible), na margem leste: a BLIVRE diz "terra dos Gadarenos" e a manada cai no mar; o OpenBible liga Mc 5:1 a
   Gerasa (Jerash), longe do mar. A missão 1 cruza o lago de Cafarnaum até lá (rumo 131°, 9,3 km, medido nos pontos).
+  Entregue `renders/mc-legiao.mp4`: 530 quadros (22,08 s), 20,24 MB, −14,1 LUFS, pico real −1,7 dBTP, nenhuma fala
+  ouvida com detector de voz. Mudança mediana por quadro 1,33 (1,8% da luz): os takes 2 e 3 têm câmera parada (0,98 e
+  0,71 nos takes, contra 6,21 do take 1 e 7 a 11 dos episódios 1 e 2); os planos mais parados rodam a 1,3x e 1,4x.
+- 12/11, 08:53: "Faça um agora reunindo um pouco de tudo e o tema será! 'Agora quero ver se minha mãe não me deixa
+  jogar. 🤣🤣'". `compilado.py` corta 10 trechos dos reels entregues (cada um com seu HUD, legenda e marca de
+  recriação) sob a frase do Alex numa caixa branca, e grava `renders/compilado-mae.mp4`.
 
 ## O que a série não faz
 O letreiro, a sigla e o HUD do jogo em que o pedido se inspira são marca e desenho de outra empresa: não entram aqui.
