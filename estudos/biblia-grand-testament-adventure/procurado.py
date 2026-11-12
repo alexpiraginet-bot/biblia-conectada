@@ -479,9 +479,14 @@ def build(pid, stills=None):
     print(final, f"{total} frames, {total / FPS:.2f} s, {final.stat().st_size / 1e6:.2f} MB, {lufs:.1f} LUFS, true peak {tp:.1f} dBTP")
 
 
+def frase(t):
+    """Sentence case for a hook written in capitals: every sentence opens with a capital letter, the rest goes lower case."""
+    return re.sub(r"(^|[.!?]\s+)(\w)", lambda m: m.group(1) + m.group(2).upper(), t.lower())
+
+
 def legenda(pid):
     """The post's caption, from the data: the hook, the part, each star with what it was for and its literal lines."""
-    refs = check(); p = PARTES[pid]; ms = p["missoes"]; out = [" ".join(p["gancho"]).capitalize().replace("estrelas. ele", "estrelas. Ele") + " 🚨", "",
+    refs = check(); p = PARTES[pid]; ms = p["missoes"]; out = [frase(" ".join(p["gancho"])) + " 🚨", "",
                                                               f"PROCURADO · Parte {p['parte']} de 3", "",
                                                               "E se Jesus vivesse hoje num mundo aberto? Cada sinal que ele faz sobe o nível de procura, do jeito que os evangelhos contam:", ""]
     prev = None

@@ -25,7 +25,7 @@ Recriação feita com IA: é um "e se", não um jogo que existe · Cidade e mapa
 ## procurado-2
 
 ```
-Duas estrelas por fazer o bem. e vai piorar. 🚨
+Duas estrelas por fazer o bem. E vai piorar. 🚨
 
 PROCURADO · Parte 2 de 3
 
@@ -47,7 +47,7 @@ Recriação feita com IA: é um "e se", não um jogo que existe · Cidade e mapa
 ## procurado-3
 
 ```
-Cinco estrelas. todo jogador foge. ele não. 🚨
+Cinco estrelas. Todo jogador foge. Ele não. 🚨
 
 PROCURADO · Parte 3 de 3
 
