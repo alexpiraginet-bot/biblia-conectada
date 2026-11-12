@@ -86,7 +86,11 @@
    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261112_193502_9d4f6a6e-2bd5-475d-9e72-c17845401ec1.mp4"
   },
   "procurado-2-3": {
-   "job": "e46d85af-8450-4bd2-942b-c9e50e2c6e15"
+   "job": "e46d85af-8450-4bd2-942b-c9e50e2c6e15",
+   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261112_194340_e46d85af-8450-4bd2-942b-c9e50e2c6e15.mp4"
+  },
+  "procurado-3-1": {
+   "job": "1e35e264-7ae8-4b66-bd2d-060a8c03ea64"
   }
  },
  "reels": {
@@ -261,6 +265,69 @@
     }
    ],
    "capa": "renders/capa-procurado-1.jpg"
+  },
+  "procurado-2": {
+   "arquivo": "renders/procurado-2.mp4",
+   "sha256": "0e5f1ffb7dba06020577de415e7b5befd4da877ae6689d378a65e8b603064980",
+   "bytes": 22292903,
+   "quadros": 561,
+   "duracao_s": 23.375,
+   "lufs": -14.1,
+   "pico_dbtp": -2.1,
+   "cortes_s": [
+    3.42,
+    7.33,
+    14.54,
+    17.96
+   ],
+   "mudanca_mediana": 2.53,
+   "mudanca_relativa_pct": 3.0,
+   "fala_ouvida": [],
+   "emendas_som": [
+    {
+     "s": 3.4,
+     "antes_db": -26.3,
+     "depois_db": -32.3,
+     "salto": 0.14
+    },
+    {
+     "s": 7.33,
+     "antes_db": -42.3,
+     "depois_db": -46.9,
+     "salto": 0.03
+    },
+    {
+     "s": 9.56,
+     "antes_db": -29.1,
+     "depois_db": -33.0,
+     "salto": 0.17
+    },
+    {
+     "s": 11.45,
+     "antes_db": -40.2,
+     "depois_db": -39.6,
+     "salto": 0.18
+    },
+    {
+     "s": 14.54,
+     "antes_db": -30.2,
+     "depois_db": -23.4,
+     "salto": 0.09
+    },
+    {
+     "s": 17.94,
+     "antes_db": -24.4,
+     "depois_db": -25.1,
+     "salto": 0.54
+    },
+    {
+     "s": 21.88,
+     "antes_db": -15.3,
+     "depois_db": -16.8,
+     "salto": 0.55
+    }
+   ],
+   "capa": "renders/capa-procurado-2.jpg"
   }
  },
  "primeira_versao": {

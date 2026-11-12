@@ -312,7 +312,7 @@ def progress(n, done, frac):
 
 def subtitle(fala):
     im = layer(); d = ImageDraw.Draw(im); f = grot(46, 500); fr = mono(23)
-    lines = wrap("“" + fala["texto"] + "”", f, 860); lh = 58
+    lines = wrap_even("“" + fala["texto"] + "”", f, 860); lh = 58                # balanced: no word alone on the last line
     bottom = 1236; top = bottom - 36 - lh * len(lines)
     for i, l in enumerate(lines): draw_text(d, (540 - tw(l, f) / 2, top + i * lh), l, f, (255, 255, 255, 255), 0, 3)
     t = fala["ref"].upper(); draw_text(d, (540 - tw(t, fr, 2) / 2, bottom - 26), t, fr, GOLD + (255,), 2, 2)

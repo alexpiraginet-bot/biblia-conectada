@@ -55,7 +55,7 @@ PARTES = {
              motivo="Virou as mesas dos cambistas no templo",
              estrelas=[("b", 2)], radar={"a": (0.45, 0.37, 0, 0.5)}),
     ]),
-    "procurado-2": dict(parte=2, gancho=["DUAS ESTRELAS POR FAZER O BEM.", "E VAI PIORAR."], fim=["CONTINUA NA PARTE 3"], ritmo=1.1, missoes=[
+    "procurado-2": dict(parte=2, gancho=["DUAS ESTRELAS POR FAZER O BEM.", "E VAI PIORAR."], fim=["CONTINUA NA PARTE 3"], ritmo=1.1, pausa=1.5, missoes=[
         # the opening card covers this mission's first 2.2 s, so shot a (he kneels and writes) has no room for a line; the
         # line goes on shot b, where he stands up as in John 8:7 and the stones drop; shot b runs at real speed to hold it
         dict(take="procurado-2-1.mp4", objetivo="Escreva na terra", lugar={"a": "Praia"}, acao="Escrever", estrelas=[("a", 2), ("b", 3)],
@@ -68,7 +68,8 @@ PARTES = {
              ritmo=[(2.9, 1.3), ("corte", 0.9), (None, 1.1)],
              falas=[(2.9, "John.11.43", "Lázaro, sai fora."), ("b", "John.11.44", "Desatai-o, e deixai-o ir.")],
              estrelas=[("a", 3)], radar={"a": (0.22, 0.24, 0, 0.4)}),
-        dict(take="procurado-2-3.mp4", objetivo="Siga pela cidade", lugar={"a": "Centro"},
+        # shot b (the police cars follow, hard cut at 4.08 s) plays at real speed so John 11:53 stays up before the end card
+        dict(take="procurado-2-3.mp4", objetivo="Siga pela cidade", lugar={"a": "Centro"}, ritmo=[("corte", 1.2), (None, 1.0)],
              falas=[("a", "John.11.47", "Que faremos? Porque este homem faz muitos sinais."),
                     ("b", "John.11.53", "Então desde aquele dia se aconselhavam juntos para o matarem.")], motivo="Chamou Lázaro para fora do túmulo",
              estrelas=[("a", 3), ("b", 4)], radar={"a": (0.50, 0.47, 180, 1.0)}),
@@ -475,14 +476,18 @@ def build(pid, stills=None):
     fc += f"[{n}:a]aresample=48000[ui];[amb][ui]amix=inputs=2:normalize=0:duration=longest,afade=t=out:st={total / FPS - 0.1:.4f}:d=0.1[a]"
     mixw = out_dir / f"{pid}-mix.wav"
     subprocess.run(["ffmpeg", "-v", "error", "-y", *ins, "-i", str(uiw), "-filter_complex", fc, "-map", "[a]", "-t", f"{total / FPS:.3f}", "-ar", "48000", str(mixw)], check=True)
-    final = ROOT / f"renders/{pid}.mp4"; gain = -14.0 - loudness(mixw)[0]
-    for _ in range(3):
+    # the limiter runs at 4x the sample rate, so it also holds the peaks between samples (the true peak); a pass fixes one
+    # thing at a time: a true peak over -1 dBTP lowers the ceiling, otherwise the gain moves toward -14 LUFS
+    final = ROOT / f"renders/{pid}.mp4"; gain = -14.0 - loudness(mixw)[0]; lim = 0.78           # ceiling, -2.2 dBFS to start
+    for _ in range(8):
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(vid), "-i", str(mixw), "-map", "0:v", "-map", "1:a", "-c:v", "copy",
-                        "-af", f"volume={gain:.2f}dB,alimiter=limit=0.78:attack=3:release=60:level=disabled,aresample=48000",
+                        "-af", f"volume={gain:.2f}dB,aresample=192000,alimiter=limit={lim:.3f}:attack=1:release=60:level=disabled,aresample=48000",
                         "-c:a", "aac", "-b:a", "192k", "-t", f"{total / FPS:.3f}", "-movflags", "+faststart", str(final)], check=True)
         lufs, tp = loudness(final)
-        if abs(lufs + 14.0) <= 0.3: break
-        gain += -14.0 - lufs
+        if abs(lufs + 14.0) <= 0.3 and tp <= -1.0: break
+        if tp > -1.0: lim *= 10 ** ((-1.25 - tp) / 20)
+        else: gain += -14.0 - lufs
+    assert abs(lufs + 14.0) <= 0.3 and tp <= -1.0, f"{pid}: loudness {lufs:.1f} LUFS, true peak {tp:.1f} dBTP after 8 passes"
     seams = [starts[k] for k in range(1, n)] + [starts[k] + at(k, b) for k in range(n) for a, b, v in SEG[k][:-1]] + ([starts[-1] + BEAT[-1]] if nh else [])
     json.dump({"quadros": total, "duracao_s": total / FPS, "missoes_s": starts, "cortes_s": [starts[k] + CUT[k] for k in range(n)], "estrelas": st,
                "emendas_som_s": sorted(seams),

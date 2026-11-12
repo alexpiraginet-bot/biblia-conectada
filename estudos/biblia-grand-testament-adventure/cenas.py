@@ -204,7 +204,7 @@ CENAS = {
              som="night traffic, a distant news broadcast without clear words, a short burst of siren, footsteps"),
     ]),
     "procurado-3": dict(luz="night", povo=POVO_HOJE, missoes=[
-        dict(luz="night city lights, neon signs, wet streets", mundo=CIDADE,
+        dict(luz="night city lights, neon signs, wet streets", mundo="Setting: a busy street of a modern city of today at night.",  # where part 2 ends; CIDADE says "sunny"
              a="night: the gameplay camera follows about 4 metres behind him as he walks with his companions down a crowded street; suddenly "
                "every phone in people's hands, the big building screens and the bus-stop screens light up red at the same moment with an "
                "alert showing his picture; people look at their phones, then stare at him as he walks past.",
