@@ -47,29 +47,30 @@ PARTES = {
              falas=[], estrelas=[("a", 5), ("b", 0)], pisca="a", cartao="12 HORAS ANTES",
              radar={"a": (0.17, 0.74, 90, 0.4), "b": (0.70, 0.44, 0, 1.0)}),
         dict(take="procurado-1-2.mp4", objetivo="Cure o homem da mão definhada", lugar={"a": "Salão do centro"}, acao="Curar",
-             falas=[("a", "Mark.3.5", "Estende a tua mão."), ("b", "Mark.3.6", "para combinarem sobre como o matariam.")],
+             falas=[("a", "Mark.3.5", "Estende a tua mão."), ("b", "Mark.3.6", "para combinarem sobre como o matariam.")], motivo="Curou a mão de um homem no sábado",
              estrelas=[("b", 1)], radar={"a": (0.56, 0.55, 270, 0.3)}),
         dict(take="procurado-1-3.mp4", objetivo="Vire as mesas dos cambistas", lugar={"a": "Templo da cidade"}, acao="Virar a mesa",
              falas=[("a", "John.2.16", "não torneis a casa de meu Pai uma casa de comércio!"), ("b", "Mark.11.18", "buscavam uma maneira de o matar")],
+             motivo="Virou as mesas dos cambistas no templo",
              estrelas=[("b", 2)], radar={"a": (0.45, 0.37, 0, 0.5)}),
     ]),
     "procurado-2": dict(parte=2, gancho=["DUAS ESTRELAS POR FAZER O BEM.", "E VAI PIORAR."], fim=["CONTINUA NA PARTE 3"], ritmo=1.1, missoes=[
         dict(take="procurado-2-1.mp4", objetivo="Escreva na terra", lugar={"a": "Praia"}, acao="Escrever", estrelas=[("a", 2), ("b", 3)],
              falas=[("a", "John.8.7", "Aquele de vós que está sem pecado, seja o primeiro que atire pedra contra ela."),
-                    ("b", "John.8.11", "Nem eu também te condeno; vai, e não peques mais.")],
+                    ("b", "John.8.11", "Nem eu também te condeno; vai, e não peques mais.")], motivo="Não deixou apedrejarem a mulher",
              radar={"a": (0.735, 0.56, 90, 0.15)}),
         dict(take="procurado-2-2.mp4", objetivo="Chame Lázaro para fora", lugar={"a": "Cemitério do morro"}, acao="Chamar",
              falas=[("a", "John.11.43", "Lázaro, sai fora."), ("b", "John.11.44", "Desatai-o, e deixai-o ir.")],
              estrelas=[("a", 3)], radar={"a": (0.22, 0.24, 0, 0.4)}),
         dict(take="procurado-2-3.mp4", objetivo="Siga pela cidade", lugar={"a": "Centro"},
              falas=[("a", "John.11.47", "Que faremos? Porque este homem faz muitos sinais."),
-                    ("b", "John.11.53", "Então desde aquele dia se aconselhavam juntos para o matarem.")],
+                    ("b", "John.11.53", "Então desde aquele dia se aconselhavam juntos para o matarem.")], motivo="Chamou Lázaro para fora do túmulo",
              estrelas=[("a", 3), ("b", 4)], radar={"a": (0.50, 0.47, 180, 1.0)}),
     ]),
     "procurado-3": dict(parte=3, gancho=["CINCO ESTRELAS.", "TODO JOGADOR FOGE. ELE NÃO."], fim=["CONTINUA NA PÁSCOA"], ritmo=1.1, pausa=1.2, missoes=[
         dict(take="procurado-3-1.mp4", objetivo="Atravesse o centro", lugar={"a": "Centro"}, estrelas=[("a", 4), (2.0, 5)],
              falas=[("a", "John.11.57", "se alguém soubesse onde ele estava, o denunciasse, para que o pudessem prender."),
-                    ("b", "John.18.2", "Judas, o que o traía, conhecia aquele lugar")],
+                    ("b", "John.18.2", "Judas, o que o traía, conhecia aquele lugar")], motivo="A ordem de procura chegou a todos",
              radar={"a": (0.48, 0.60, 225, 1.0)}),
         dict(take="procurado-3-2.mp4", objetivo="Ore no jardim", lugar={"a": "Parque das oliveiras"}, acao="Orar", estrelas=[("a", 5)],
              falas=[("b", "John.18.3", "veio ali com lanternas, tochas, e armas.")], radar={"a": (0.16, 0.74, 90, 0.0)}),
@@ -471,9 +472,30 @@ def build(pid, stills=None):
         lufs, tp = loudness(final)
         if abs(lufs + 14.0) <= 0.3: break
         gain += -14.0 - lufs
+    seams = [starts[k] for k in range(1, n)] + [starts[k] + at(k, b) for k in range(n) for a, b, v in SEG[k][:-1]] + ([starts[-1] + BEAT[-1]] if nh else [])
     json.dump({"quadros": total, "duracao_s": total / FPS, "missoes_s": starts, "cortes_s": [starts[k] + CUT[k] for k in range(n)], "estrelas": st,
+               "emendas_som_s": sorted(seams),
                "legendas_s": [[a0, a1] for a0, a1, _ in SUBS], "cartao_final_s": end_t}, open(out_dir / f"{pid}-tempos.json", "w", encoding="utf-8"), indent=1)
     print(final, f"{total} frames, {total / FPS:.2f} s, {final.stat().st_size / 1e6:.2f} MB, {lufs:.1f} LUFS, true peak {tp:.1f} dBTP")
+
+
+def legenda(pid):
+    """The post's caption, from the data: the hook, the part, each star with what it was for and its literal lines."""
+    refs = check(); p = PARTES[pid]; ms = p["missoes"]; out = [" ".join(p["gancho"]).capitalize().replace("estrelas. ele", "estrelas. Ele") + " 🚨", "",
+                                                              f"PROCURADO · Parte {p['parte']} de 3", "",
+                                                              "E se Jesus vivesse hoje num mundo aberto? Cada sinal que ele faz sobe o nível de procura, do jeito que os evangelhos contam:", ""]
+    prev = None
+    for k, mi in enumerate(ms):
+        top = max(c for _, c in mi["estrelas"])
+        if mi.get("motivo"):
+            linhas = " ".join(f"“{frag}” ({refs[(osis, frag)]})" for _, osis, frag in mi["falas"])
+            out.append(f"{'⭐' * top} {mi['motivo']}: {linhas}")
+        prev = top
+    nxt = {1: "Continua na Parte 2 👀", 2: "Continua na Parte 3 👀", 3: "Continua na Páscoa."}[p["parte"]]
+    out += ["", nxt, "", "👇 E você, fugiria ou iria ao encontro? Comenta aí.", "🔁 Manda pra quem tá contando os dias pro dia 19", "",
+            "Recriação feita com IA: é um \"e se\", não um jogo que existe · Cidade e mapa fictícios · Texto: Bíblia Livre (CC BY 4.0 BR)", "",
+            "#jesus #biblia #gameplay #mundoaberto #procurado #games #cristao #fe #esefosseumjogo"]
+    return "\n".join(out)
 
 
 TCARD = 2.2                                                       # the opening card of parts 2 and 3 (part 1 keeps it up to the cut)
@@ -481,6 +503,9 @@ TCARD = 2.2                                                       # the opening 
 if __name__ == "__main__":
     a = sys.argv[1:]
     if "--check" in a: r = check(); print(f"{len(r)} legendas literais da BLIVRE: ok")
+    elif "--legenda" in a:
+        txt = "# Legendas do especial Procurado (geradas por procurado.py --legenda)\n\n" + "\n\n".join(f"## {pid}\n\n```\n{legenda(pid)}\n```" for pid in PARTES)
+        (ROOT / "LEGENDAS-PROCURADO.md").write_text(txt + "\n", encoding="utf-8"); print(legenda(a[0]) if a[0] in PARTES else txt)
     elif "--map" in a: city().resize((CITY // 2, CITY // 2)).save(ROOT / "renders/.hud/procurado-mapa.png"); print(ROOT / "renders/.hud/procurado-mapa.png")
     elif "--still" in a: build(a[0], stills=[float(x) for x in a[a.index("--still") + 1].split(",")])
     else: build(a[0])
