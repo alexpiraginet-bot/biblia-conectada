@@ -1000,7 +1000,7 @@
       "texto": "Que tenho eu contigo Jesus, Filho do Deus Altíssimo?",
       "ref": "Marcos 5:7"
      },
-     "rumo": 135,
+     "rumo": 131,
      "acao": null,
      "vel": 1,
      "conta": 0,
@@ -1025,7 +1025,16 @@
      "fala_de": null,
      "fala_ate": null,
      "da_margem": false,
-     "ritmo": null
+     "ritmo": [
+      [
+       "corte",
+       1.3
+      ],
+      [
+       null,
+       1.1
+      ]
+     ]
     },
     {
      "take": "mc-legiao-3.mp4",
@@ -1042,13 +1051,22 @@
      "fala_de": null,
      "fala_ate": "corte",
      "da_margem": false,
-     "ritmo": null
+     "ritmo": [
+      [
+       "corte",
+       1.1
+      ],
+      [
+       null,
+       1.4
+      ]
+     ]
     }
    ],
    "resumo": "Ele desce do barco na terra dos Gadarenos e, das sepulturas, vem correndo um homem que nenhuma corrente segurava: “Que tenho eu contigo Jesus, Filho do Deus Altíssimo?” Ele pergunta o nome: “Legião é o meu nome, porque somos muitos.” Os espíritos imundos saem do homem e entram numa manada de porcos, e “a manada lançou-se abaixo no mar”. Quem chega da cidade encontra o homem sentado, vestido e em paz.\n\nMissão concluída.",
    "pergunta": "Que corrente ainda te prende?",
    "fim": 2.6,
-   "pausa": 0.0
+   "pausa": 1.5
   },
   "jo-cana": {
    "raio_km": 9,

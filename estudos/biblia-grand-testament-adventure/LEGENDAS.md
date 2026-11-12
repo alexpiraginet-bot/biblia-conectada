@@ -54,6 +54,31 @@ Recriação feita com IA: é um “e se”, não um jogo que existe · Texto: B�
 #jesus #biblia #evangelho #gameplay #games #mundoaberto #cristao #fe #jovemcristao #esefosseumjogo
 ```
 
+## Legião (Marcos 5:1–20)
+
+```
+E se existisse um jogo com as missões da vida de Jesus? 🎮
+
+MISSÃO: LEGIÃO (Marcos 5:1–20)
+
+✅ Desembarque na terra dos Gadarenos
+✅ Expulse o espírito imundo
+✅ Liberte o homem
+
+Ele desce do barco na terra dos Gadarenos e, das sepulturas, vem correndo um homem que nenhuma corrente segurava: “Que tenho eu contigo Jesus, Filho do Deus Altíssimo?” Ele pergunta o nome: “Legião é o meu nome, porque somos muitos.” Os espíritos imundos saem do homem e entram numa manada de porcos, e “a manada lançou-se abaixo no mar”. Quem chega da cidade encontra o homem sentado, vestido e em paz.
+
+Missão concluída.
+
+👇 Que corrente ainda te prende? Responde aqui.
+🎯 Qual passagem tem que virar a próxima missão? Comenta a referência.
+🔁 Manda pra quem zeraria esse jogo
+💾 Salva e lê Marcos 5 hoje
+
+Recriação feita com IA: é um “e se”, não um jogo que existe · Texto: Bíblia Livre (CC BY 4.0 BR) · Lugares do mapa: OpenBible.info (CC BY 4.0) · Relevo: SRTM/GMTED2010 (USGS), ETOPO1 (NOAA), Mapzen
+
+#jesus #biblia #evangelho #gameplay #games #mundoaberto #cristao #fe #jovemcristao #esefosseumjogo
+```
+
 ## Água feita vinho (João 2:1–11)
 
 ```
