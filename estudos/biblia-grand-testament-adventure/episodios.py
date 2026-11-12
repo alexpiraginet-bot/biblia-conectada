@@ -50,7 +50,7 @@ EPISODIOS = {
         dict(take="mt-aguas-3.mp4", objetivo="Segure Pedro", acao="Segurar", fala=("Matt.14.31", "Homem de pouca fé, por que duvidaste?"), fala_de=1.5, fala_ate="corte2",
              rumo=300, vel=0.4),
     ]),
-    "mc-legiao": dict(raio_km=9, ritmo=1.1,
+    "mc-legiao": dict(raio_km=9, ritmo=1.1, pausa=1.5,              # take 3's last shot (the man sitting, clothed) stays in view under the card
                       pergunta="Que corrente ainda te prende?",
                               resumo="Ele desce do barco na terra dos Gadarenos e, das sepulturas, vem correndo um homem que nenhuma corrente segurava: “{fala1}” Ele pergunta o nome: “{fala2}” Os espíritos imundos saem do homem e entram numa manada de porcos, e “{fala3}”. Quem chega da cidade encontra o homem sentado, vestido e em paz.\n\nMissão concluída.",
                       missoes=[
@@ -58,9 +58,9 @@ EPISODIOS = {
         dict(take="mc-legiao-1.mp4", objetivo="Desembarque na terra dos Gadarenos", fala=("Mark.5.7", "Que tenho eu contigo Jesus, Filho do Deus Altíssimo?"),
              fala_de="corte", rumo=131, da_margem=True),     # 131: Cafarnaum -> Kursi, measured on the OpenBible points
         dict(take="mc-legiao-2.mp4", objetivo="Expulse o espírito imundo", acao="Ordenar", fala=("Mark.5.9", "Legião é o meu nome, porque somos muitos."),
-             rumo=90, vel=0),
+             rumo=90, vel=0, ritmo=[("corte", 1.3), (None, 1.1)]),      # the first shot (smoke boiling around the kneeling man) is slow
         dict(take="mc-legiao-3.mp4", objetivo="Liberte o homem", fala=("Mark.5.13", "a manada lançou-se abaixo no mar"), fala_ate="corte",
-             rumo=90, vel=0.3),
+             rumo=90, vel=0.3, ritmo=[("corte", 1.1), (None, 1.4)]),    # the last shot (sitting, the crowd walking up) barely moves
     ]),
     "jo-cana": dict(raio_km=9, ritmo=1.1, contador=dict(rotulo="Vasos", prova=[("John.2.6", "seis vasos de pedra")]),
                     pergunta="Você encheria os vasos sem entender o porquê?",
