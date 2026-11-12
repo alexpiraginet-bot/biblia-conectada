@@ -74,12 +74,14 @@ PARTES = {
              estrelas=[("a", 3), ("b", 4)], radar={"a": (0.50, 0.47, 180, 1.0)}),
     ]),
     "procurado-3": dict(parte=3, gancho=["CINCO ESTRELAS.", "TODO JOGADOR FOGE. ELE NÃO."], fim=["CONTINUA NA PÁSCOA"], ritmo=1.1, pausa=1.2, missoes=[
+        # as in part 2, the opening card leaves shot a of the first mission no room for a line: John 11:57 goes on shot b, where
+        # the companion in the hoodie makes his call, and John 18:2 moves to the garden, while he prays
         dict(take="procurado-3-1.mp4", objetivo="Atravesse o centro", lugar={"a": "Centro"}, estrelas=[("a", 4), (2.0, 5)],
-             falas=[("a", "John.11.57", "se alguém soubesse onde ele estava, o denunciasse, para que o pudessem prender."),
-                    ("b", "John.18.2", "Judas, o que o traía, conhecia aquele lugar")], motivo="A ordem de procura chegou a todos",
-             radar={"a": (0.48, 0.60, 225, 1.0)}),
+             falas=[("b", "John.11.57", "se alguém soubesse onde ele estava, o denunciasse, para que o pudessem prender.")],
+             motivo="A ordem de procura chegou a todos", radar={"a": (0.48, 0.60, 225, 1.0)}),
         dict(take="procurado-3-2.mp4", objetivo="Ore no jardim", lugar={"a": "Parque das oliveiras"}, acao="Orar", estrelas=[("a", 5)],
-             falas=[("b", "John.18.3", "veio ali com lanternas, tochas, e armas.")], radar={"a": (0.16, 0.74, 90, 0.0)}),
+             falas=[("a", "John.18.2", "Judas, o que o traía, conhecia aquele lugar"), ("b", "John.18.3", "veio ali com lanternas, tochas, e armas.")],
+             radar={"a": (0.16, 0.74, 90, 0.0)}),
         dict(take="procurado-3-3.mp4", objetivo="Vá ao encontro deles", lugar={"a": "Parque das oliveiras"}, escolha=("Fugir", "Ir ao encontro"),
              falas=[("a", "John.18.4", "A quem buscais?"), ("b", "John.18.6", "Quando pois lhes disse: Eu sou, voltaram para trás, e caíram em terra.")],
              estrelas=[("a", 5)], pisca="ab", radar={"a": (0.17, 0.74, 90, 0.4)}),

@@ -53,7 +53,7 @@ PROCURADO · Parte 3 de 3
 
 E se Jesus vivesse hoje num mundo aberto? Cada sinal que ele faz sobe o nível de procura, do jeito que os evangelhos contam:
 
-⭐⭐⭐⭐⭐ A ordem de procura chegou a todos: “se alguém soubesse onde ele estava, o denunciasse, para que o pudessem prender.” (João 11:57) “Judas, o que o traía, conhecia aquele lugar” (João 18:2)
+⭐⭐⭐⭐⭐ A ordem de procura chegou a todos: “se alguém soubesse onde ele estava, o denunciasse, para que o pudessem prender.” (João 11:57)
 
 Continua na Páscoa.
 
