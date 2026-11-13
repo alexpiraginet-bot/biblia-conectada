@@ -41,7 +41,7 @@ TCARD = 2.2                                                       # the opening 
 # [(shot, OSIS, literal BLIVRE fragment)] with atraso {"shot": seconds after the shot starts}; contador (label, total,
 # {shot: count}); sinais [(shot, fraction of the shot)] each a sign done; banner (shot, title, quote OSIS, quote fragment)
 # or (shot, title, text); viagem: the fast-travel map at the cut; cena: the shots shown as a cutscene (letterbox, no HUD).
-J = dict(gancho=["A MAIOR MISSÃO DA HISTÓRIA", "EM 50 SEGUNDOS DE GAMEPLAY"], titulo="A jornada", ref="Os quatro evangelhos",
+J = dict(gancho=["A MAIOR MISSÃO DA HISTÓRIA", "EM {s} SEGUNDOS DE GAMEPLAY"],                  # {s}: the reel's length, measured titulo="A jornada", ref="Os quatro evangelhos",
          ritmo=1.15, pausa=2.0, fim_s=2.6, missoes=[
     dict(take="jornada-1.mp4", objetivo="Chame os pescadores", objetivo_de="corte", acoes=[("Chamar", "b")], ritmo=[("corte", 1.3), (None, 0.8)],
          lugar={"a": "mc-pescadores"}, raio=12, contador=("Discípulos", 12, {"b": 2}),
@@ -61,7 +61,7 @@ J = dict(gancho=["A MAIOR MISSÃO DA HISTÓRIA", "EM 50 SEGUNDOS DE GAMEPLAY"], 
          falas=[("a", "Luke.22.19", "Isto é o meu corpo, que é dado por vós"), ("b", "Luke.22.42", "não se faça minha vontade, mas a tua.")]),
     dict(take="jornada-6.mp4", cena="ab", banner=("a", "Fase final", "Redenção"), atraso={"a": 1.55},
          falas=[("a", "John.19.17", "E levando ele sua cruz"), ("b", "John.19.30", "Está consumado")]),
-    dict(take="jornada-7.mp4", cena="a", objetivo="Vá à Galileia", objetivo_de="corte",
+    dict(take="jornada-7.mp4", cena="a", objetivo="Vá à Galileia", objetivo_de="corte", seguidores=11,   # Mt 28:16: os onze
          lugar={"b": ("Galileia", "mt-sermao", "Mateus 28:16")}, raio=12, atraso={"a": 1.55},
          banner=("a", "Terceiro dia", "Matt.16.21", "ser ressuscitado ao terceiro dia"),
          falas=[("a", "Matt.28.6", "Ele não está aqui, pois já ressuscitou"), ("b", "Matt.28.20", "eu estou convosco todos os dias, até o fim dos tempos.")]),
@@ -136,9 +136,9 @@ def plate(name, geo, ref):
 
 
 # ------------------------------------------------------------------------------------------------ interface pieces
-def start_card():
+def start_card(secs):
     im = layer(); d = ImageDraw.Draw(im); fh = grot(40, 700); f = grot(118, 700); y = 600
-    for i, l in enumerate(J["gancho"]): draw_text(d, (540 - tw(l, fh, 2) / 2, 440 + i * 52), l, fh, GOLD + (255,), 2, 3)
+    for i, l in enumerate(g.format(s=secs) for g in J["gancho"]): draw_text(d, (540 - tw(l, fh, 2) / 2, 440 + i * 52), l, fh, GOLD + (255,), 2, 3)
     t = J["titulo"].upper(); draw_text(d, (540 - tw(t, f, 4) / 2, y), t, f, CREAM + (255,), 4, 4)
     d.rectangle([540 - 60, y + 150, 540 + 60, y + 156], fill=GOLD + (255,))
     t = J["ref"].upper(); fr = mono(30); draw_text(d, (540 - tw(t, fr, 3) / 2, y + 176), t, fr, GOLD + (255,), 3, 2)
@@ -177,17 +177,38 @@ def dots(label, total, filled, pop):
     return im
 
 
+def with_sea(img, ppk, lake, geo, radius_km):
+    """hud.world reads the sea only where the elevation is exactly level, which the wide grid's bathymetry is not; a map
+    that reaches the coast also needs the Mediterranean: ground under 1 m joined to the map's western edge (the Jordan rift,
+    also below sea level, is closed off from it by higher ground)."""
+    cx, cy = hud.merc(geo["lon"], geo["lat"]); mpp = 40075016.686 * math.cos(math.radians(geo["lat"])) / (256 * 2 ** 11)
+    half = (R / 2 + hud.PAD) / (R / 2) * radius_km * 1000 / mpp; side = img.size[0]
+    x0, y0 = int(round(cx - half)), int(round(cy - half)); n = int(round(2 * half))
+    h, _, _ = hud.terrain(x0, y0, n)
+    from scipy import ndimage
+    lab, _ = ndimage.label(h < 1.0); west = np.unique(lab[:, 0]); west = west[west > 0]
+    sea = np.asarray(Image.fromarray((np.isin(lab, west) * 255).astype(np.uint8)).resize((side, side), Image.BILINEAR)) > 127
+    a = np.asarray(img, np.float32).copy(); rng = np.random.default_rng(9)                 # hud.world's water, painted afresh: the
+    a[sea] = np.array([226, 205, 164], np.float32) * 0.12 + np.array([112, 140, 146], np.float32) * 0.88   # level patch it had found
+    a[sea] += rng.normal(0, 3.2, (int(sea.sum()), 1))                                                    # inside the sea leaves no seam
+    dist = ndimage.distance_transform_edt(sea)
+    ripple = sea & (dist > 3 * SS) & (dist < 34 * SS) & ((dist / SS) % 9 < 1.3)
+    a[ripple] = a[ripple] * 0.72 + np.array([70, 96, 104], np.float32) * 0.28
+    shore = ndimage.binary_dilation(sea, iterations=SS) & ~sea; a[shore] = np.array(hud.INK, np.float32)
+    return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), "RGB"), ppk, lake | sea
+
+
 def travel_card(a, b, k_frac):
     """The fast-travel map: the relief between two places, the route between them drawn as far as k_frac, the distance
     measured from their coordinates."""
     ga, gb = PASS[a]["geo"], PASS[b]["geo"]; mid = {"lat": (ga["lat"] + gb["lat"]) / 2, "lon": (ga["lon"] + gb["lon"]) / 2, "id": ""}
     key = "_viagem"; PASS[key] = {"geo": mid}
-    if key not in WORLDS: WORLDS[key] = world(key, 0.62 * km(ga, gb))
+    if key not in WORLDS: WORLDS[key] = with_sea(*world(key, 0.62 * km(ga, gb)), mid, 0.62 * km(ga, gb))
     img, ppk, _ = WORLDS[key]; side = img.size[0]; c = side / 2
-    x0, y0 = hud.merc(mid["lon"], mid["lat"]); k = (side / ((R + 2 * hud.PAD) * SS)) * 1.0
+    x0, y0 = hud.merc(mid["lon"], mid["lat"]); kmpp = 40075.016686 * math.cos(math.radians(mid["lat"])) / (256 * 2 ** 11)
 
-    def px(g):
-        x, y = hud.merc(g["lon"], g["lat"]); s = ppk * SS / (40075.016686 * math.cos(math.radians(mid["lat"])) / (256 * 2 ** 11))
+    def px(g):                                                                    # canvas px per DEM px = canvas px per km x km per DEM px
+        x, y = hud.merc(g["lon"], g["lat"]); s = ppk * SS * kmpp
         return c + (x - x0) * s, c + (y - y0) * s
 
     m = img.convert("RGBA"); d = ImageDraw.Draw(m); (ax, ay), (bx, by) = px(ga), px(gb)
@@ -340,7 +361,7 @@ def build(stills=None, rascunho=False):
         return s0, s0 + 0.4
 
     # what happens when, in seconds of the reel
-    TRAVEL = {k: (starts[k] + CUT[k], starts[k] + CUT[k] + 1.15) for k, mi in enumerate(ms) if mi.get("viagem")}
+    TRAVEL = {k: (starts[k] + CUT[k] - 0.5, starts[k] + CUT[k] + 0.65) for k, mi in enumerate(ms) if mi.get("viagem")}   # the map hides the cut
     SUBS = []
     for k, mi in enumerate(ms):
         for shot, osis, frag in mi.get("falas", []):
@@ -350,6 +371,7 @@ def build(stills=None, rascunho=False):
             if k == 0 and shot == "a": a0 = max(a0, TCARD + 0.1)
             a1 = (s1 - 0.08) if shot == "a" else ((end_t - starts[k] - 0.2) if k == n - 1 else BEAT[k] - 0.15)
             if k in TRAVEL and shot == "b": a0 = max(a0, TRAVEL[k][1] - starts[k] + 0.1)
+            if k in TRAVEL and shot == "a": a1 = min(a1, TRAVEL[k][0] - starts[k] - 0.05)
             assert a1 - a0 >= 1.6, f"mission {k + 1} shot {shot}: the subtitle stays only {a1 - a0:.2f} s"
             SUBS.append((starts[k] + a0, starts[k] + a1, cropped(subtitle({"texto": frag, "ref": refs[(osis, frag)]})), cutscene(k, shot)))
             print(f"mission {k + 1} shot {shot}: “{frag[:42]}” {starts[k] + a0:.2f}–{starts[k] + a1:.2f} s ({a1 - a0:.2f} s, {len(frag) / (a1 - a0):.0f} chars/s)")
@@ -372,7 +394,7 @@ def build(stills=None, rascunho=False):
     SCRIM, HEAD = scrims(), hud.header()
     mask = Image.new("L", (R * SS, R * SS), 0); ImageDraw.Draw(mask).rounded_rectangle([0, 0, R * SS - 1, R * SS - 1], radius=9 * SS, fill=255)
     mask = mask.resize((R, R), Image.LANCZOS); FRAME = radar_frame()
-    START = cropped(start_card()); ENDC = cropped(end_card(refs))
+    START = cropped(start_card(round(total / FPS))); ENDC = cropped(end_card(refs))
     OBJ, PLATES = {}, {}
 
     def obj(k, shot, done):
@@ -428,7 +450,7 @@ def build(stills=None, rascunho=False):
                 cx = side / 2 + math.sin(math.radians(head)) * v * (t - t0); cy = side / 2 - math.cos(math.radians(head)) * v * (t - t0)
                 bx, by = int(round(cx - R * SS / 2)), int(round(cy - R * SS / 2))
                 crop = wimg.crop((bx, by, bx + R * SS, by + R * SS)).resize((R, R), Image.LANCZOS).convert("RGBA")
-                cnt = counter_at(g); fol = cnt[2] if (cnt and cnt[0] == "Discípulos") else (12 if k >= 2 else 0)
+                cnt = counter_at(g); fol = mi.get("seguidores", cnt[2] if (cnt and cnt[0] == "Discípulos") else 0)
                 dest_px = min(R / 2 - 16, dist * ppk) if dist else 0
                 crop.alpha_composite(radar_marks(head, dest_px if dist else 13, min(fol, 12), (g * 1.4) % 1.0))
                 im.paste(crop, (MX, MY), mask); im.alpha_composite(FRAME, (MX - 8, MY - 8)); im.alpha_composite(pl)
@@ -534,8 +556,9 @@ def build(stills=None, rascunho=False):
     for k, mi in enumerate(ms):
         for a_txt, sh in mi.get("acoes", []): ev.append(("tick", starts[k] + act_times(k, sh)[1]))
         if not mi.get("cena") and k < n - 1: ev.append(("done", starts[k] + BEAT[k] - 0.8))
+        if isinstance(mi.get("objetivo"), dict): ev.append(("done", starts[k] + CUT[k] - 0.55))        # its first step
         if mi.get("cena") == "ab": ev.append(("boom", starts[k] + 0.1))
-        if mi.get("cena") == "a": ev.append(("dawn", starts[k] + 0.3))
+        if mi.get("cena") == "a": ev += [("dawn", starts[k] + 0.3), ("mission", starts[k] + CUT[k])]      # the HUD comes back
     ev += [("travel", a0) for a0, _ in TRAVEL.values()] + [("end", end_t)]
     ui, sr = ui_sounds(ev, total / FPS); uiw = out_dir / f"{pid}-ui.wav"; sf.write(uiw, ui, sr)
     ins = sum((["-i", str(t)] for t in takes), []); fc = ""; ph = nh / FPS
@@ -581,7 +604,8 @@ def frase(t):
 def legenda():
     """The post's caption, from the data: the hook, the journey mission by mission with its literal lines."""
     refs = check(); ms = J["missoes"]
-    out = [frase(" ".join(J["gancho"])) + " 🎮", "", "GRAND TESTAMENT ADVENTURE · A JORNADA", "",
+    secs = round(json.load(open(ROOT / "renders/.hud/jornada-tempos.json", encoding="utf-8"))["duracao_s"])   # the render's own length
+    out = [frase(" ".join(J["gancho"]).format(s=secs)) + " 🎮", "", "GRAND TESTAMENT ADVENTURE · A JORNADA", "",
            "E se existisse um jogo com as missões da vida de Jesus? Da Galileia ao túmulo vazio, com as palavras dos evangelhos:", ""]
     for k, mi in enumerate(ms):
         o = mi.get("objetivo"); name = ("Fase final" if mi.get("cena") == "ab" else (o if isinstance(o, str) else " / ".join(o.values())) if o else "")

@@ -34,6 +34,8 @@ HEROI_QUADRO = ("The player character is the man seen from behind in the first f
                 "lower centre of the frame. ")
 DOIS = "Two shots with one hard cut. Shot 1 (first 4 seconds): {a} Hard cut. Shot 2 (last 4 seconds): {b} "
 POVO = "All people are Middle Eastern adults in first-century tunics, mantles and head coverings."
+# 13/11: jornada-2 brought a man in the crowd dressed and bearded like the player, and a healed man with his face (two "Jesus"):
+POVO_UNICO = POVO + " Apart from the player character, no man has long hair and nobody wears red."
 FIM = ("{povo} No children. Ambient sound only: {som}. "
        "No soundtrack music, no speech, no HUD, no user interface, no text, no subtitles.")
 # "Procurado" (12/11, Alex: "Pode colocar para gerar"): Jesus in a city of today, so everyone else wears today's clothes.
@@ -58,7 +60,7 @@ def pedido(ep, k, primeiro, video=False):
     primeiro = primeiro or bool(m.get("novo"))               # novo: a new place, so it starts from the character sheet too
     hero = m.get("heroi_ref", HEROI_REF) if (primeiro or video) else m.get("heroi", HEROI_QUADRO)
     return (JOGO.format(luz=m.get("luz", e["luz"])) + (CONTINUA if video else "") + hero + (m.get("mundo", "") + " " if m.get("mundo") else "")
-            + DOIS.format(a=m["a"], b=m["b"]) + FIM.format(som=m["som"], povo=e.get("povo", POVO)))
+            + DOIS.format(a=m["a"], b=m["b"]) + FIM.format(som=m["som"], povo=m.get("povo", e.get("povo", POVO))))
 
 
 CENAS = {
@@ -383,10 +385,10 @@ CENAS["jornada"] = dict(luz="golden sunrise light over the lake, morning mist, v
          a="the gameplay camera follows about 3 metres behind him as he walks between the tables of a wedding feast to six large stone "
            "water jars; servants pour water into them, and as he stops beside them the water in the nearest jar turns deep red wine, "
            "glinting in the light.",
-         b="inside a crowded stone house with an opening in the roof: the same gameplay camera behind him as he stretches out his hand "
-           "toward a man lying on a mat that was lowered on ropes; the man stands up, lifts the mat onto his shoulder, and the crowd "
-           "steps back in astonishment.",
-         som="wedding chatter without clear words, water pouring, then a crowded room murmuring, gasps"),
+         b="inside a crowded stone house, light falling through a hole in the roof where two ropes still hang: the same gameplay camera "
+           "behind him as he stretches out his hand toward an older bald man with a short grey beard lying on a straw mat on the floor; "
+           "the old man gets up, rolls up the mat, lifts it onto his shoulder and walks, and the crowd steps back in astonishment.",
+         som="wedding chatter without clear words, water pouring, then a crowded room murmuring, gasps", povo=POVO_UNICO),
     dict(novo=True, luz="night storm, lightning flashes, dark blue moonlight",
          mundo="Setting: a wooden fishing boat on the Sea of Galilee at night.",
          a="a violent storm, waves breaking over the side, his companions bailing water in panic; the gameplay camera stays about 3 metres "
@@ -395,7 +397,7 @@ CENAS["jornada"] = dict(luz="golden sunrise light over the lake, morning mist, v
          b="later, calm water under the moon: the same gameplay camera behind him as he walks on the surface of the lake toward the "
            "fishing boat, ripples spreading under each step; his companions in the boat stare at him in fear.",
          som="howling wind, crashing waves, thunder, then a sudden calm, gentle lapping water"),
-    dict(novo=True, luz="warm golden sunlight, long soft shadows",
+    dict(novo=True, povo=POVO_UNICO, luz="warm golden sunlight, long soft shadows",
          mundo="Setting: a green hillside above the Sea of Galilee, then the road up to a stone gate of Jerusalem.",
          a="a huge crowd sits in groups on the grass; the gameplay camera follows about 3 metres behind him as he lifts a basket with five "
            "loaves and two fish and hands bread to his companions, and the baskets passing through the crowd keep filling with bread "
@@ -403,14 +405,14 @@ CENAS["jornada"] = dict(luz="golden sunrise light over the lake, morning mist, v
          b="the same gameplay camera behind him as he rides a grey donkey up the road to the city gate while a large crowd waves palm "
            "branches and spreads cloaks on the road in front of him.",
          som="a huge crowd murmuring, wind in the grass, then a cheering crowd without clear words, hooves on stone"),
-    dict(novo=True, luz="warm oil-lamp light at night, then cold moonlight",
+    dict(novo=True, povo=POVO_UNICO, luz="warm oil-lamp light at night, then cold moonlight",
          mundo="Setting: Jerusalem at night: an upper room, then a garden of old olive trees outside the walls.",
          a="an upper room lit by oil lamps: he sits at the centre of a low table with his twelve companions around it; the gameplay camera, "
            "just behind his shoulder, watches as he takes a round loaf of bread, breaks it in two and hands it to the men beside him.",
          b="a garden of old olive trees under the moon: the same gameplay camera behind him as he kneels alone on a rock and prays, his "
            "head bowed; in the distance three of his companions sleep under the trees, and the torches of a crowd come up the hill.",
          som="crackling oil lamps, a quiet room, then crickets, wind in the olive leaves, distant footsteps"),
-    dict(novo=True, luz="overcast grey light that darkens into a black stormy sky at midday",
+    dict(novo=True, povo=POVO_UNICO, luz="overcast grey light that darkens into a black stormy sky at midday",
          heroi_ref=("The player character is the man from the reference image: dark wavy shoulder-length hair, off-white wool tunic with "
                     "rope belt, terracotta-red mantle, leather sandals. In shot 1 he is seen from behind in the lower centre of the frame. "
                     "In shot 2 he is not among the people on the ground. "),
@@ -422,7 +424,7 @@ CENAS["jornada"] = dict(luz="golden sunrise light over the lake, morning mist, v
            "looking up at three crosses in black silhouette against dark clouds; the wind blows dust. Seen only from far away and in "
            "silhouette: no blood, no wounds, no close-up of the crosses.",
          som="a murmuring crowd, slow footsteps, armour clinking, then wind, distant thunder and silence"),
-    dict(novo=True, luz="the first golden light of dawn, soft mist",
+    dict(novo=True, povo=POVO_UNICO, luz="the first golden light of dawn, soft mist",
          heroi_ref=("The player character is the man from the reference image: dark wavy shoulder-length hair, off-white wool tunic with "
                     "rope belt, terracotta-red mantle, leather sandals. In shot 1 he is not in the frame: the tomb is empty. In shot 2 he "
                     "is seen from behind in the lower centre of the frame. "),

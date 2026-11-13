@@ -85,7 +85,8 @@ def main():
     elif a[0] == "estado":
         mark = lambda v: "ok" if v and v.get("url") else ("…" if v else "-")
         for ep in ORDEM:
-            print(f"{ep:16s} " + " ".join(f"{k}:{mark(s['takes'].get(f'{ep}-{k}')):2s}" for k in (1, 2, 3)) + ("  reel ok" if ep in s.get("reels", {}) else ""))
+            print(f"{ep:16s} " + " ".join(f"{k}:{mark(s['takes'].get(f'{ep}-{k}')):2s}" for k in range(1, len(CENAS[ep]["missoes"]) + 1))
+                  + ("  reel ok" if ep in s.get("reels", {}) else ""))
         print("takes prontos:", sum(1 for v in s["takes"].values() if v.get("url")), "de", sum(len(CENAS[e]["missoes"]) for e in ORDEM))
     elif a[0] == "entregue":
         s["reels"][a[1]]["entregue"] = a[2]; save(s); print("entregue", a[1], "|", a[2])
