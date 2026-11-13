@@ -43,7 +43,7 @@ TCARD = 2.2                                                       # the opening 
 # or (shot, title, text); viagem: the fast-travel map at the cut; cena: the shots shown as a cutscene (letterbox, no HUD).
 J = dict(gancho=["A MAIOR MISSÃO DA HISTÓRIA", "EM {s} SEGUNDOS DE GAMEPLAY"],                  # {s}: the reel's length, measured
          titulo="A jornada", ref="Os quatro evangelhos",
-         ritmo=1.15, pausa=1.6, fim_s=2.6, missoes=[
+         ritmo=1.15, pausa=1.3, fim_s=2.3, missoes=[
     dict(take="jornada-1.mp4", objetivo="Chame os pescadores", objetivo_de="corte", acoes=[("Chamar", "b")], ritmo=[("corte", 1.35), (None, 0.72)],
          lugar={"a": "mc-pescadores"}, raio=12, contador=("Discípulos", 12, {"b": 2}),
          banner=("a", "Galileia", "Matt.4.23", "Jesus rodeava toda a Galileia"),
@@ -54,7 +54,9 @@ J = dict(gancho=["A MAIOR MISSÃO DA HISTÓRIA", "EM {s} SEGUNDOS DE GAMEPLAY"],
          # swings to his face), the house from the second (the healed man is an older bald man, nobody else looks like him)
          lugar={"a": "jo-cana", "b": "mc-paralitico"}, raio=14, sinais=[("a", 0.73), ("b", 0.5)],     # the wine; he stands up
          falas=[("a", "John.2.7", "Enchei estes vasos com água."), ("b", "Mark.2.11", "levanta-te, toma o teu leito")]),
-    dict(take="jornada-3.mp4", objetivo="Atravesse o mar", acoes=[("Acalmar", "a"), ("Andar sobre o mar", "b")], ritmo=1.25,
+    dict(take="jornada-3-montado.mp4", objetivo="Atravesse o mar", acoes=[("Acalmar", "a"), ("Andar sobre o mar", "b")], ritmo=1.25,
+         montagem=[("source/descartados/jornada-3-barco.mp4", 0, 98), ("source/descartados/jornada-3-barco.mp4", 98, 193)], corte=98 / FPS,
+         # the storm from the first generation; the walk on the water comes from the redo when it is approved
          lugar={"a": ("mar da Galileia", "mc-tempestade", "Marcos 4:35–41"), "b": "mt-aguas"}, raio=8,   # Mc 4 says only "mar"; Mc 1:16 names it
          sinais=[("a", 0.68), ("b", 0.2)],                                                # the sea goes calm; the first step on it
          falas=[("a", "Mark.4.39", "Cala-te, aquieta-te!"), ("b", "Matt.14.27", "Tende coragem! Sou eu, não tenhais medo.")]),
@@ -71,9 +73,10 @@ J = dict(gancho=["A MAIOR MISSÃO DA HISTÓRIA", "EM {s} SEGUNDOS DE GAMEPLAY"],
          ritmo=[("corte", 0.85), (None, 1.15)], tecla={"a": 0.05}, contador_s=1.3,          # the key comes with the bread breaking
          lugar={"a": ("Jerusalém", "lc-ceia", "Lucas 22:14–20"), "b": "mt-getsemani"}, raio=1.5, contador=("Discípulos", 12, {"a": 12}),
          falas=[("a", "Luke.22.19", "Isto é o meu corpo"), ("b", "Luke.22.42", "não se faça minha vontade, mas a tua.")]),
-    dict(take="jornada-6.mp4", cena="ab", banner=("a", "Fase final", "Redenção"), atraso={"a": 1.55}, ritmo=1.1,
+    dict(take="jornada-6.mp4", cena="ab", banner=("a", "Fase final", "Redenção"), atraso={"a": 1.55}, ritmo=1.15,
          falas=[("a", "John.19.17", "E levando ele sua cruz"), ("b", "John.19.30", "Está consumado")]),
     dict(take="jornada-7.mp4", cena="a", objetivo="Vá à Galileia", objetivo_de="corte", seguidores=11,   # Mt 28:16: os onze
+         corte=98 / FPS, ritmo=[("corte", 1.15), (None, 0.9)],   # the take dissolves from the tomb to the hill (3.79-4.42 s): the cut is its middle
          lugar={"b": ("Galileia", "mt-sermao", "Mateus 28:16")}, raio=12, atraso={"a": 1.4},
          banner=("a", "Terceiro dia", "Ressurreição"),                                   # Alex: "redenção e crucificação e ressurreição"
          falas=[("a", "Matt.28.6", "Ele não está aqui, pois já ressuscitou"), ("b", "Matt.28.20", "eu estou convosco todos os dias, até o fim dos tempos.")]),

@@ -106,10 +106,6 @@
    "job": "979f3db5-671d-4294-9da3-1641556b9752",
    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261113_113746_979f3db5-671d-4294-9da3-1641556b9752.mp4"
   },
-  "jornada-3": {
-   "job": "c4252c4a-d355-43cc-8361-46866867065b",
-   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261113_115442_c4252c4a-d355-43cc-8361-46866867065b.mp4"
-  },
   "jornada-2": {
    "job": "a0db99a1-db09-4285-89ed-0613539113f7",
    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261113_120209_a0db99a1-db09-4285-89ed-0613539113f7.mp4",
@@ -126,7 +122,15 @@
    "montagem": "missão 5 = este take (job c6dbe30b) quadros 0-49, aproximados 1,6x para tirar da imagem o fundo da mesa (lá sentou de novo um homem vestido como ele) + jornada-5-dois-na-ceia (job 40c5e051) quadros 78-192"
   },
   "jornada-6": {
-   "job": "5ab427c2-0f2b-4375-9c5d-d13305a5a434"
+   "job": "5ab427c2-0f2b-4375-9c5d-d13305a5a434",
+   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261113_123937_5ab427c2-0f2b-4375-9c5d-d13305a5a434.mp4"
+  },
+  "jornada-7": {
+   "job": "f0f1a5a7-abf5-42a6-bead-82de617757c5",
+   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261113_124703_f0f1a5a7-abf5-42a6-bead-82de617757c5.mp4"
+  },
+  "jornada-3": {
+   "job": "68f0444a-1dcd-4a9a-9547-339118099b74"
   }
  },
  "reels": {
@@ -513,6 +517,11 @@
    "job": "40c5e051-ad44-4124-8d84-f836d45af5cb",
    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261113_121713_40c5e051-ad44-4124-8d84-f836d45af5cb.mp4",
    "motivo": "na ceia, a câmera fica atrás de um homem de manto vermelho e, do outro lado da mesa, de frente, outro homem igual ao jogador parte o pão (a ceia clássica, com dois dele). O Getsêmani (do corte em 3,25 s ao fim: ajoelhado na pedra, três dormindo, as tochas chegando junto ao muro) ficou bom e fica guardado aqui para a montagem; o Getsêmani (quadros 78 a 192) foi usado no take montado da missão 5"
+  },
+  "jornada-3-barco": {
+   "job": "c4252c4a-d355-43cc-8361-46866867065b",
+   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261113_115442_c4252c4a-d355-43cc-8361-46866867065b.mp4",
+   "motivo": "no andar sobre o mar, ele sai de um píer de madeira e, no barco, um homem de cabelo comprido, barba e manto vermelho como o dele (pedido feito antes da regra de um manto vermelho só). A tempestade (do início ao corte em 4,083 s: ele de pé na proa, o braço erguido, o mar acalmando) ficou boa e fica guardada aqui para a montagem"
   }
  }
 }
