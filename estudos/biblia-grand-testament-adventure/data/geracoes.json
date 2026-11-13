@@ -115,8 +115,8 @@
    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261113_120209_a0db99a1-db09-4285-89ed-0613539113f7.mp4",
    "montagem": "missão 2 = jornada-2-sosias (job 2aba6e6f) quadros 0-78 + este take (job a0db99a1) quadros 88-192"
   },
-  "jornada-4": {
-   "job": "ab987bae-8fce-433d-9616-f36a9d63a27a"
+  "jornada-5": {
+   "job": "40c5e051-ad44-4124-8d84-f836d45af5cb"
   }
  },
  "reels": {
@@ -493,6 +493,11 @@
    "job": "2aba6e6f-8146-4029-ab77-79fc687ba184",
    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261113_114713_2aba6e6f-8146-4029-ab77-79fc687ba184.mp4",
    "motivo": "no plano da casa em Cafarnaum, um homem no meio da multidão saiu de cabelo comprido, barba e manto vermelho como o jogador, e o paralítico curado com o mesmo rosto: três 'Jesus' na cena; e um homem em pé numa tábua pendurada nas cordas. Caná ficou boa (guardada aqui, se a nova falhar); o plano de Caná (quadros 0 a 78) foi aproveitado no take montado da missão 2 (jornada.py, montagem), porque o Caná do 2º pedido veio com dezenas de jarros e um homem de manto avermelhado à mesa"
+  },
+  "jornada-4-tres-iguais": {
+   "job": "ab987bae-8fce-433d-9616-f36a9d63a27a",
+   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261113_120946_ab987bae-8fce-433d-9616-f36a9d63a27a.mp4",
+   "motivo": "no plano dos pães, três homens iguais ao jogador (cabelo comprido, barba, túnica clara e manto vermelho) de frente para a câmera, passando cestos; a câmera não fica atrás dele. A entrada em Jerusalém (do corte em 3,125 s ao fim) ficou boa e fica guardada aqui para a montagem, se o novo pedido não trouxer uma melhor"
   }
  }
 }

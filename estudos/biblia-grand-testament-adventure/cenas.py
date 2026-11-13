@@ -389,19 +389,23 @@ CENAS["jornada"] = dict(luz="golden sunrise light over the lake, morning mist, v
            "behind him as he stretches out his hand toward an older bald man with a short grey beard lying on a straw mat on the floor; "
            "the old man gets up, rolls up the mat, lifts it onto his shoulder and walks, and the crowd steps back in astonishment.",
          som="wedding chatter without clear words, water pouring, then a crowded room murmuring, gasps", povo=POVO_UNICO),
-    dict(novo=True, luz="night storm, lightning flashes, dark blue moonlight",
+    dict(novo=True, povo=POVO_UNICO, luz="night storm, lightning flashes, dark blue moonlight",
          mundo="Setting: a wooden fishing boat on the Sea of Galilee at night.",
          a="a violent storm, waves breaking over the side, his companions bailing water in panic; the gameplay camera stays about 3 metres "
            "behind him as he stands up at the stern and stretches out his arm over the waves, and the wind and the waves die down at once "
            "into a calm, glassy lake.",
-         b="later, calm water under the moon: the same gameplay camera behind him as he walks on the surface of the lake toward the "
-           "fishing boat, ripples spreading under each step; his companions in the boat stare at him in fear.",
+         # 13/11: the first take started him from a wooden pier and put a long-haired man in a red mantle in the boat
+         b="later, calm water under the moon, far from any shore: the same gameplay camera behind him as he walks on the surface of the "
+           "lake toward the fishing boat, ripples spreading under each step; his companions in the boat, short-haired men in plain brown "
+           "tunics, stare at him in fear.",
          som="howling wind, crashing waves, thunder, then a sudden calm, gentle lapping water"),
     dict(novo=True, povo=POVO_UNICO, luz="warm golden sunlight, long soft shadows",
          mundo="Setting: a green hillside above the Sea of Galilee, then the road up to a stone gate of Jerusalem.",
-         a="a huge crowd sits in groups on the grass; the gameplay camera follows about 3 metres behind him as he lifts a basket with five "
-           "loaves and two fish and hands bread to his companions, and the baskets passing through the crowd keep filling with bread "
-           "and fish.",
+         # 13/11: "hands bread to his companions" brought three men like him (long hair, beard, red mantle) facing the camera
+         a="a huge crowd sits in groups on the green grass; the gameplay camera stays about 3 metres behind him, only his back visible, "
+           "as he walks between the groups holding a basket of bread against his chest and hands loaves to the seated people; baskets "
+           "passing from hand to hand through the crowd keep filling with bread and fish; his companions are short-haired men in plain "
+           "brown tunics without mantles.",
          b="the same gameplay camera behind him as he rides a grey donkey up the road to the city gate while a large crowd waves palm "
            "branches and spreads cloaks on the road in front of him.",
          som="a huge crowd murmuring, wind in the grass, then a cheering crowd without clear words, hooves on stone"),
