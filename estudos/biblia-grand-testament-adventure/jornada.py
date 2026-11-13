@@ -48,14 +48,18 @@ J = dict(gancho=["A MAIOR MISSÃO DA HISTÓRIA", "EM {s} SEGUNDOS DE GAMEPLAY"],
          lugar={"a": "mc-pescadores"}, raio=12, contador=("Discípulos", 12, {"b": 2}),
          banner=("a", "Galileia", "Matt.4.23", "Jesus rodeava toda a Galileia"),
          falas=[("b", "Matt.4.19", "Vinde após mim, e eu vos farei pescadores de gente.")]),
-    dict(take="jornada-2.mp4", objetivo="Faça os primeiros sinais", acoes=[("Encher os vasos", "a"), ("Curar", "b")],
-         lugar={"a": "jo-cana", "b": "mc-paralitico"}, raio=14, sinais=[("a", 0.6), ("b", 0.5)],
+    dict(take="jornada-2-montado.mp4", objetivo="Faça os primeiros sinais", acoes=[("Encher os vasos", "a"), ("Curar", "b")],
+         montagem=[("source/descartados/jornada-2-sosias.mp4", 0, 79), ("source/takes/jornada-2.mp4", 88, 193)], corte=79 / FPS,
+         # Caná from the first generation (few jars, nobody in red; it ends before the jar's outside turns red and the camera
+         # swings to his face), the house from the second (the healed man is an older bald man, nobody else looks like him)
+         lugar={"a": "jo-cana", "b": "mc-paralitico"}, raio=14, sinais=[("a", 0.73), ("b", 0.5)],     # the wine; he stands up
          falas=[("a", "John.2.7", "Enchei estes vasos com água."), ("b", "Mark.2.11", "levanta-te, toma o teu leito")]),
     dict(take="jornada-3.mp4", objetivo="Atravesse o mar", acoes=[("Acalmar", "a"), ("Andar sobre o mar", "b")],
-         lugar={"a": ("mar da Galileia", "mc-tempestade", "Marcos 4:35–41"), "b": "mt-aguas"}, raio=8,   # Mc 4 says only "mar"; Mc 1:16 names it sinais=[("a", 0.68), ("b", 0.2)],    # the sea goes calm; the first step on it
+         lugar={"a": ("mar da Galileia", "mc-tempestade", "Marcos 4:35–41"), "b": "mt-aguas"}, raio=8,   # Mc 4 says only "mar"; Mc 1:16 names it
+         sinais=[("a", 0.68), ("b", 0.2)],                                                # the sea goes calm; the first step on it
          falas=[("a", "Mark.4.39", "Cala-te, aquieta-te!"), ("b", "Matt.14.27", "Tende coragem! Sou eu, não tenhais medo.")]),
     dict(take="jornada-4.mp4", objetivo={"a": "Alimente a multidão", "b": "Entre em Jerusalém"}, acoes=[("Repartir", "a")],
-         lugar={"a": "mc-paes", "b": "mt-entrada"}, raio={"a": 8, "b": 2}, sinais=[("a", 0.6)], viagem=True, atraso={"b": 1.25},
+         lugar={"a": "mc-paes", "b": "mt-entrada"}, raio={"a": 8, "b": 2}, sinais=[("a", 0.6)], viagem=True,
          falas=[("a", "Mark.6.42", "Todos comeram e se saciaram."), ("b", "Matt.21.9", "Hosana ao Filho de Davi!")]),
     dict(take="jornada-5.mp4", objetivo={"a": "Celebre a ceia", "b": "Ore no jardim"}, acoes=[("Partir o pão", "a"), ("Orar", "b")],
          lugar={"a": "lc-ceia", "b": "mt-getsemani"}, raio=1.5, contador=("Discípulos", 12, {"a": 12}),
@@ -313,10 +317,34 @@ def ui_sounds(events, length_s):
 WORLDS = {}
 
 
+def frames_of(path):
+    r = subprocess.run(["ffprobe", "-v", "error", "-count_frames", "-select_streams", "v", "-show_entries", "stream=nb_read_frames", "-of", "csv=p=0", str(path)],
+                       capture_output=True, text=True, check=True)
+    return int(r.stdout.strip())
+
+
+def montar(dst, parts):
+    """A mission's take made of shots of different generations: parts = [(file, first frame, end frame)], frame-exact
+    picture, the sound of each part with 8 ms fades at the joins (no click, no change of length)."""
+    ins = sum((["-i", str(ROOT / f)] for f, _, _ in parts), []); fc = ""
+    for i, (f, a, b) in enumerate(parts):
+        d = (b - a) / FPS
+        fc += f"[{i}:v]trim=start_frame={a}:end_frame={b},setpts=PTS-STARTPTS[v{i}];"
+        fc += f"[{i}:a]atrim={a / FPS:.5f}:{b / FPS:.5f},asetpts=PTS-STARTPTS,afade=t=in:d=0.008,afade=t=out:st={d - 0.008:.5f}:d=0.008[a{i}];"
+    fc += "".join(f"[v{i}][a{i}]" for i in range(len(parts))) + f"concat=n={len(parts)}:v=1:a=1[v][a]"
+    subprocess.run(["ffmpeg", "-v", "error", "-y", *ins, "-filter_complex", fc, "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-preset", "veryfast", "-crf", "10",
+                    "-pix_fmt", "yuv420p", "-r", str(FPS), "-c:a", "aac", "-b:a", "320k", str(dst)], check=True)
+    n = frames_of(dst); assert n == sum(b - a for _, a, b in parts), f"{dst}: {n} frames"
+    print("montado", dst.name, n, "quadros")
+
+
 def build(stills=None, rascunho=False):
     refs = check(); ms = J["missoes"]; n = len(ms); pid = "jornada"
     out_dir = ROOT / "renders/.hud"; out_dir.mkdir(parents=True, exist_ok=True)
     takes = [ROOT / "source/takes" / mi["take"] for mi in ms]
+    for k, mi in enumerate(ms):
+        if mi.get("montagem") and all((ROOT / f).exists() for f, _, _ in mi["montagem"]) and (not takes[k].exists() or any(Path(ROOT / f).stat().st_mtime > takes[k].stat().st_mtime for f, _, _ in mi["montagem"])):
+            montar(takes[k], mi["montagem"])
     if rascunho:                                                                    # stills only: a stand-in for takes not generated yet
         stand = out_dir / "jornada-substituto.mp4"
         if not stand.exists():
@@ -326,19 +354,20 @@ def build(stills=None, rascunho=False):
         assert stills is not None, "--rascunho is for stills only"
     missing = [str(t) for t in takes if not t.exists()]
     assert not missing, f"takes not generated yet: {missing}"
+    DUR = [frames_of(t) / FPS for t in takes]                                        # seconds; a mounted take is shorter than 8
     cuts = {}
 
     def cut_of(k):
         if isinstance(ms[k].get("corte"), (int, float)): return float(ms[k]["corte"])
         if k not in cuts: cuts[k] = cut_times(takes[k]) or [4.0]
-        return min(cuts[k], key=lambda c: abs(c - TAKE / 2))                       # the prompt asks for the cut at 4 s; a lightning flash also jumps
+        return min(cuts[k], key=lambda c: abs(c - DUR[k] / 2))                       # the prompt asks for the cut at 4 s; a lightning flash also jumps
 
     def pace(k):
         r = ms[k].get("ritmo") or J.get("ritmo", 1.0)
-        if isinstance(r, (int, float)): return [(0.0, TAKE, float(r))]
+        if isinstance(r, (int, float)): return [(0.0, DUR[k], float(r))]
         segs, s0 = [], 0.0
         for until, speed in r:
-            s1 = TAKE if until is None else cut_of(k) if until == "corte" else float(until); segs.append((s0, s1, float(speed))); s0 = s1
+            s1 = DUR[k] if until is None else cut_of(k) if until == "corte" else float(until); segs.append((s0, s1, float(speed))); s0 = s1
         return segs
 
     SEG = [pace(k) for k in range(n)]
@@ -575,7 +604,7 @@ def build(stills=None, rascunho=False):
     ins = sum((["-i", str(t)] for t in takes), []); fc = ""; ph = nh / FPS
     for i in range(n):
         sg = SEG[i]; beat = BEAT[i]
-        if len(sg) == 1: head = f"[{i}:a]atrim=0:{TAKE},asetpts=PTS-STARTPTS,atempo={sg[0][2]}"
+        if len(sg) == 1: head = f"[{i}:a]atrim=0:{DUR[i]:.4f},asetpts=PTS-STARTPTS,atempo={sg[0][2]}"
         else:
             head = f"[{i}:a]asplit={len(sg)}" + "".join(f"[s{i}_{q}]" for q in range(len(sg))) + ";"
             for q, (a, b, v) in enumerate(sg):
