@@ -13,7 +13,8 @@ It also writes what has to be looked at: contact sheets with the Reels safe box 
 cover (renders/capa-<episode>.jpg, the frame at --capa seconds, with the title card up).
 
 Limits a reel has to respect are checked here and fail loudly: 1080x1920, 24 fps, at most 30 s (asked by Alex on
-11/11), at most 29 MB, -14 LUFS +/- 0.3, true peak at or under -1 dBTP.
+11/11; "A jornada" at most 50.5 s, asked on 13/11: "50s total"), at most 29 MB, -14 LUFS +/- 0.3, true peak at or under
+-1 dBTP.
 """
 import hashlib, json, subprocess, sys
 from pathlib import Path
@@ -25,6 +26,7 @@ sys.path.insert(0, str(ROOT))
 import hud  # noqa: E402
 
 STATE = ROOT / "data/.fila.json"
+MAX_S = {"jornada": 50.5}                                        # seconds; any other episode: 30
 
 
 def probe(f):
@@ -121,7 +123,7 @@ def main():
     bad = []
     if (p["largura"], p["altura"]) != (hud.W, hud.H): bad.append("tamanho")
     if abs(fps - hud.FPS) > 1e-6: bad.append("fps")
-    if r["duracao_s"] > 30: bad.append("mais de 30 s")
+    if r["duracao_s"] > MAX_S.get(ep, 30): bad.append(f"mais de {MAX_S.get(ep, 30):g} s")
     if p["bytes"] > 29e6: bad.append("mais de 29 MB")
     if abs(lufs + 14.0) > 0.3: bad.append("LUFS fora de -14 +/- 0,3")
     if tp > -1.0: bad.append("pico real acima de -1 dBTP")

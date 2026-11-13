@@ -41,7 +41,8 @@ TCARD = 2.2                                                       # the opening 
 # [(shot, OSIS, literal BLIVRE fragment)] with atraso {"shot": seconds after the shot starts}; contador (label, total,
 # {shot: count}); sinais [(shot, fraction of the shot)] each a sign done; banner (shot, title, quote OSIS, quote fragment)
 # or (shot, title, text); viagem: the fast-travel map at the cut; cena: the shots shown as a cutscene (letterbox, no HUD).
-J = dict(gancho=["A MAIOR MISSÃO DA HISTÓRIA", "EM {s} SEGUNDOS DE GAMEPLAY"],                  # {s}: the reel's length, measured titulo="A jornada", ref="Os quatro evangelhos",
+J = dict(gancho=["A MAIOR MISSÃO DA HISTÓRIA", "EM {s} SEGUNDOS DE GAMEPLAY"],                  # {s}: the reel's length, measured
+         titulo="A jornada", ref="Os quatro evangelhos",
          ritmo=1.15, pausa=2.0, fim_s=2.6, missoes=[
     dict(take="jornada-1.mp4", objetivo="Chame os pescadores", objetivo_de="corte", acoes=[("Chamar", "b")], ritmo=[("corte", 1.3), (None, 0.8)],
          lugar={"a": "mc-pescadores"}, raio=12, contador=("Discípulos", 12, {"b": 2}),
@@ -49,21 +50,21 @@ J = dict(gancho=["A MAIOR MISSÃO DA HISTÓRIA", "EM {s} SEGUNDOS DE GAMEPLAY"],
          falas=[("b", "Matt.4.19", "Vinde após mim, e eu vos farei pescadores de gente.")]),
     dict(take="jornada-2.mp4", objetivo="Faça os primeiros sinais", acoes=[("Encher os vasos", "a"), ("Curar", "b")],
          lugar={"a": "jo-cana", "b": "mc-paralitico"}, raio=14, sinais=[("a", 0.6), ("b", 0.5)],
-         falas=[("a", "John.2.7", "Enchei estes vasos com água."), ("b", "Mark.2.11", "levanta-te, toma o teu leito, e vai para a tua casa.")]),
+         falas=[("a", "John.2.7", "Enchei estes vasos com água."), ("b", "Mark.2.11", "levanta-te, toma o teu leito")]),
     dict(take="jornada-3.mp4", objetivo="Atravesse o mar", acoes=[("Acalmar", "a"), ("Andar sobre o mar", "b")],
          lugar={"a": "mc-tempestade", "b": "mt-aguas"}, raio=8, sinais=[("a", 0.6), ("b", 0.4)],
          falas=[("a", "Mark.4.39", "Cala-te, aquieta-te!"), ("b", "Matt.14.27", "Tende coragem! Sou eu, não tenhais medo.")]),
     dict(take="jornada-4.mp4", objetivo={"a": "Alimente a multidão", "b": "Entre em Jerusalém"}, acoes=[("Repartir", "a")],
          lugar={"a": "mc-paes", "b": "mt-entrada"}, raio={"a": 8, "b": 2}, sinais=[("a", 0.6)], viagem=True, atraso={"b": 1.25},
-         falas=[("a", "Mark.6.42", "Todos comeram e se saciaram."), ("b", "John.12.13", "Hosana! Bendito aquele que vem no nome do Senhor")]),
+         falas=[("a", "Mark.6.42", "Todos comeram e se saciaram."), ("b", "Matt.21.9", "Hosana ao Filho de Davi!")]),
     dict(take="jornada-5.mp4", objetivo={"a": "Celebre a ceia", "b": "Ore no jardim"}, acoes=[("Partir o pão", "a"), ("Orar", "b")],
          lugar={"a": "lc-ceia", "b": "mt-getsemani"}, raio=1.5, contador=("Discípulos", 12, {"a": 12}),
          falas=[("a", "Luke.22.19", "Isto é o meu corpo, que é dado por vós"), ("b", "Luke.22.42", "não se faça minha vontade, mas a tua.")]),
     dict(take="jornada-6.mp4", cena="ab", banner=("a", "Fase final", "Redenção"), atraso={"a": 1.55},
          falas=[("a", "John.19.17", "E levando ele sua cruz"), ("b", "John.19.30", "Está consumado")]),
     dict(take="jornada-7.mp4", cena="a", objetivo="Vá à Galileia", objetivo_de="corte", seguidores=11,   # Mt 28:16: os onze
-         lugar={"b": ("Galileia", "mt-sermao", "Mateus 28:16")}, raio=12, atraso={"a": 1.55},
-         banner=("a", "Terceiro dia", "Matt.16.21", "ser ressuscitado ao terceiro dia"),
+         lugar={"b": ("Galileia", "mt-sermao", "Mateus 28:16")}, raio=12, atraso={"a": 1.4},
+         banner=("a", "Terceiro dia", "Ressurreição"),                                   # Alex: "redenção e crucificação e ressurreição"
          falas=[("a", "Matt.28.6", "Ele não está aqui, pois já ressuscitou"), ("b", "Matt.28.20", "eu estou convosco todos os dias, até o fim dos tempos.")]),
 ])
 FIM_QUOTE = ("Luke.24.23", "ele vive")
@@ -391,6 +392,13 @@ def build(stills=None, rascunho=False):
     print(pid, f"{total} frames, {total / FPS:.2f} s; missions at", [f"{s:.2f}" for s in starts], "; cuts at", [f"{starts[k] + CUT[k]:.2f}" for k in range(n)])
     print("signs at", [f"{s:.2f}" for s in SIGNS], "; counters", [(round(t, 2), c) for t, _, _, c, _ in COUNTS])
 
+    CS = []                                                                            # cutscene spans, back-to-back shots merged
+    for kk in range(n):
+        for sh in "ab":
+            if cutscene(kk, sh):
+                c0, c1 = starts[kk] + shot_span(kk, sh)[0], starts[kk] + shot_span(kk, sh)[1]
+                if CS and abs(CS[-1][1] - c0) < 1e-6: CS[-1] = (CS[-1][0], c1)
+                else: CS.append((c0, c1))
     SCRIM, HEAD = scrims(), hud.header()
     mask = Image.new("L", (R * SS, R * SS), 0); ImageDraw.Draw(mask).rounded_rectangle([0, 0, R * SS - 1, R * SS - 1], radius=9 * SS, fill=255)
     mask = mask.resize((R, R), Image.LANCZOS); FRAME = radar_frame()
@@ -473,11 +481,7 @@ def build(stills=None, rascunho=False):
                     if (a_txt, down) not in PROMPTS: PROMPTS[(a_txt, down)] = cropped(key_prompt(a_txt, down))
                     p = PROMPTS[(a_txt, down)]; im.alpha_composite(faded(p[0], o), p[1])
         # cutscene bars: in with the final phase, out on the third day's cut
-        lb = 0.0
-        for kk in range(n):
-            for sh in "ab":
-                if cutscene(kk, sh):
-                    s0, s1 = shot_span(kk, sh); lb = max(lb, ramp(g, starts[kk] + s0, starts[kk] + s1, 0.35))
+        lb = max((ramp(g, c0, c1, 0.35) for c0, c1 in CS), default=0.0)               # no dip where one cutscene shot meets the next
         if lb > 0: im.alpha_composite(letterbox(lb))
         for a0, a1, (img, xy), _ in SUBS:
             o = ramp(g, a0, a1)
@@ -519,11 +523,10 @@ def build(stills=None, rascunho=False):
         return f"setpts='({expr}{')' * (len(sg) - 1)})/TB'"
 
     want = None if stills is None else {int(round(t * FPS)): t for t in stills}
-    enc = None; vid = out_dir / f"{pid}-video.mp4"
-    if want is None:
+    enc = None; vid = out_dir / f"{pid}-video.mp4"; vid_hq = out_dir / f"{pid}-video-hq.mp4"
+    if want is None:                                                                 # near-lossless first; the 29 MB file comes from it in two passes
         enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
-                                "-c:v", "libx264", "-preset", "slow", "-crf", "18", "-maxrate", "9500k", "-bufsize", "19000k", "-pix_fmt", "yuv420p",
-                                "-movflags", "+faststart", str(vid)], stdin=subprocess.PIPE)
+                                "-c:v", "libx264", "-preset", "veryfast", "-crf", "10", "-pix_fmt", "yuv420p", str(vid_hq)], stdin=subprocess.PIPE)
     for k, mi in enumerate(ms):
         nb = NB[k]; hold = nh if k == n - 1 else 0
         if want is not None and not any(F0[k] <= g < F0[k] + nb + hold for g in want): continue
@@ -547,6 +550,12 @@ def build(stills=None, rascunho=False):
         dec.stdout.close(); dec.wait()
     if enc is None: return
     enc.stdin.close(); assert enc.wait() == 0
+    kbps = int((28.0e6 * 8 / (total / FPS) - 200e3) / 1000)                        # 50 s in 29 MB (the chat and the app): about 4.3 Mbit/s
+    for ps in (1, 2):
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(vid_hq), "-c:v", "libx264", "-preset", "slow", "-b:v", f"{kbps}k", "-maxrate", f"{int(kbps * 1.8)}k",
+                        "-bufsize", f"{kbps * 3}k", "-pass", str(ps), "-passlogfile", str(out_dir / f"{pid}-2pass"), "-pix_fmt", "yuv420p", "-an",
+                        *(["-f", "null", "/dev/null"] if ps == 1 else ["-movflags", "+faststart", str(vid)])], check=True, cwd=out_dir)
+    print(f"video: {kbps} kbit/s, {vid.stat().st_size / 1e6:.2f} MB")
     # sound: each take's ambience at its pace, the held frames carry the last take's ambience backwards, plus ours; -14 LUFS
     import soundfile as sf
     ev = [("thump", 0.04)] + [("mission", starts[k]) for k in range(1, n) if not ms[k].get("cena")]
