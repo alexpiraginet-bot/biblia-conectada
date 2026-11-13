@@ -55,10 +55,11 @@ J = dict(gancho=["A MAIOR MISSÃO DA HISTÓRIA", "EM {s} SEGUNDOS DE GAMEPLAY"],
          lugar={"a": "jo-cana", "b": "mc-paralitico"}, raio=14, sinais=[("a", 0.73), ("b", 0.5)],     # the wine; he stands up
          falas=[("a", "John.2.7", "Enchei estes vasos com água."), ("b", "Mark.2.11", "levanta-te, toma o teu leito")]),
     dict(take="jornada-3-montado.mp4", objetivo="Atravesse o mar", acoes=[("Acalmar", "a"), ("Andar sobre o mar", "b")], ritmo=1.25,
-         montagem=[("source/descartados/jornada-3-barco.mp4", 0, 98), ("source/descartados/jornada-3-barco.mp4", 98, 193)], corte=98 / FPS,
-         # the storm from the first generation; the walk on the water comes from the redo when it is approved
+         montagem=[("source/descartados/jornada-3-barco.mp4", 0, 98), ("source/takes/jornada-3.mp4", 98, 193)], corte=98 / FPS,
+         # the storm from the first generation (the sea goes glassy behind him), the walk on the water from the second (no pier;
+         # four short-haired men in brown in the boat)
          lugar={"a": ("mar da Galileia", "mc-tempestade", "Marcos 4:35–41"), "b": "mt-aguas"}, raio=8,   # Mc 4 says only "mar"; Mc 1:16 names it
-         sinais=[("a", 0.68), ("b", 0.2)],                                                # the sea goes calm; the first step on it
+         sinais=[("a", 0.68), ("b", 0.12)],                                               # the sea goes calm; the first steps on it
          falas=[("a", "Mark.4.39", "Cala-te, aquieta-te!"), ("b", "Matt.14.27", "Tende coragem! Sou eu, não tenhais medo.")]),
     dict(take="jornada-4-montado.mp4", objetivo={"a": "Alimente a multidão", "b": "Entre em Jerusalém"}, acoes=[("Repartir", "a")], ritmo=1.3,
          montagem=[("source/takes/jornada-4.mp4", 0, 104), ("source/descartados/jornada-4-tres-iguais.mp4", 75, 193)], corte=104 / FPS,

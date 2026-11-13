@@ -130,7 +130,9 @@
    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261113_124703_f0f1a5a7-abf5-42a6-bead-82de617757c5.mp4"
   },
   "jornada-3": {
-   "job": "68f0444a-1dcd-4a9a-9547-339118099b74"
+   "job": "68f0444a-1dcd-4a9a-9547-339118099b74",
+   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261113_125453_68f0444a-1dcd-4a9a-9547-339118099b74.mp4",
+   "montagem": "missão 3 = jornada-3-barco (job c4252c4a) quadros 0-97 + este take (job 68f0444a) quadros 98-192"
   }
  },
  "reels": {
@@ -521,7 +523,7 @@
   "jornada-3-barco": {
    "job": "c4252c4a-d355-43cc-8361-46866867065b",
    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261113_115442_c4252c4a-d355-43cc-8361-46866867065b.mp4",
-   "motivo": "no andar sobre o mar, ele sai de um píer de madeira e, no barco, um homem de cabelo comprido, barba e manto vermelho como o dele (pedido feito antes da regra de um manto vermelho só). A tempestade (do início ao corte em 4,083 s: ele de pé na proa, o braço erguido, o mar acalmando) ficou boa e fica guardada aqui para a montagem"
+   "motivo": "no andar sobre o mar, ele sai de um píer de madeira e, no barco, um homem de cabelo comprido, barba e manto vermelho como o dele (pedido feito antes da regra de um manto vermelho só). A tempestade (do início ao corte em 4,083 s: ele de pé na proa, o braço erguido, o mar acalmando) ficou boa e fica guardada aqui para a montagem; a tempestade (quadros 0 a 97) foi usada no take montado da missão 3"
   }
  }
 }
