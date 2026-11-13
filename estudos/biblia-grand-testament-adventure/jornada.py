@@ -655,22 +655,42 @@ def frase(t):
     return re.sub(r"(^|[.!?]\s+)(\w)", lambda m: m.group(1) + m.group(2).upper(), t.lower())
 
 
+JOGO = "grand-testament-adventure-lexprojects.vercel.app"              # live on 13/11 (the game's loading screen answered)
+CODIGO = "github.com/alexpiraginet-bot/-grand-testament-adventure"     # code MIT, data CC BY 4.0 (its LICENSE, LICENSE-DATA.md)
+PRIMEIRA = ("Pescadores de gente", "Marcos 1:16–20")                   # what is playable today (the game's README)
+
+
 def legenda():
-    """The post's caption, from the data: the hook, the journey mission by mission with its literal lines."""
+    """The post's caption. 13/11, Alex: say that we are building a game inspired by GTA with the story of Christ, in open
+    source, with everyone; that anyone can play and, playing, send opinions, improvements and quotations, and learn, as we
+    have; that the game is not there yet and the reel is the visual concept of what is in development; and call everyone
+    to play and take part, link in the bio and in the post. Then the reel's missions with their literal lines."""
     refs = check(); ms = J["missoes"]
     secs = round(json.load(open(ROOT / "renders/.hud/jornada-tempos.json", encoding="utf-8"))["duracao_s"])   # the render's own length
-    out = [frase(" ".join(J["gancho"]).format(s=secs)) + " 🎮", "", "GRAND TESTAMENT ADVENTURE · A JORNADA", "",
-           "E se existisse um jogo com as missões da vida de Jesus? Da Galileia ao túmulo vazio, com as palavras dos evangelhos:", ""]
+    out = ["Estamos construindo um jogo inspirado no GTA com a história de Cristo. E você pode jogar e construir junto com a gente 🎮", "",
+           "Esse vídeo é o conceito visual do projeto: é aonde a gente quer chegar. O jogo ainda não está nesse nível, mas já está no "
+           f"ar, em desenvolvimento, começando pela primeira missão, “{PRIMEIRA[0]}” ({PRIMEIRA[1]}), na beira do mar da Galileia.", "",
+           "O código é aberto e a gente vem construindo com a ajuda de quem quiser somar. Desenvolvedor ou não, você joga no navegador e, "
+           "enquanto joga, pode dar opinião, sugerir melhorias e mandar passagens e citações pela área Colabore, dentro do jogo. E vai "
+           "aprendendo junto, como a gente tem aprendido jogando.", "",
+           "🎮 Jogue e participe (link na bio):", JOGO, "",
+           "💻 Código aberto, pra quem é dev:", CODIGO, "",
+           f"No vídeo, {len(ms)} missões em {secs} segundos, com as palavras dos evangelhos:", ""]
     for k, mi in enumerate(ms):
         o = mi.get("objetivo"); b = mi.get("banner")
         name = b[1] if (mi.get("cena") and b) else (o if isinstance(o, str) else " / ".join(o.values()))      # a cutscene goes by its chapter
         lines = " ".join(f"“{frag}” ({refs[(osis, frag)]})" for _, osis, frag in mi.get("falas", []))
         out.append(f"{k + 1}. {name}: {lines}")
     out += ["", f"“…{POST_QUOTE[1]}” ({refs[POST_QUOTE]})", "",
-            "👇 Qual missão você jogaria primeiro? Comenta aí.", "🔁 Manda pra quem tá contando os dias pro dia 19", "",
-            "Recriação feita com IA: é um \"e se\", não um jogo que existe · Lugares e relevo reais (OpenBible.info, SRTM) · Texto: Bíblia Livre (CC BY 4.0 BR)", "",
-            "#jesus #biblia #gameplay #mundoaberto #galileia #ressurreicao #games #cristao #fe #esefosseumjogo"]
-    return "\n".join(out)
+            "👇 Qual missão você quer jogar depois dos pescadores? Comenta aí.", "🔁 Manda pra quem tá contando os dias pro dia 19", "",
+            "Recriação feita com IA: o vídeo é um conceito visual · Projeto independente, sem ligação com a Rockstar Games · "
+            "Texto: Bíblia Livre (CC BY 4.0 BR) · Lugares: OpenBible.info", "",
+            "#jesus #biblia #gameplay #mundoaberto #galileia #ressurreicao #games #gamedev #codigoaberto #cristao #fe"]
+    txt = "\n".join(out)
+    n = len(txt.encode("utf-16-le")) // 2                                              # an emoji counts twice
+    assert n <= 2200, f"{n} caracteres: o Instagram aceita até 2.200"
+    assert txt.count("#") <= 30 and len(out[0]) <= 125, "hashtags ou primeira linha"                  # what shows before "mais"
+    return txt
 
 
 if __name__ == "__main__":

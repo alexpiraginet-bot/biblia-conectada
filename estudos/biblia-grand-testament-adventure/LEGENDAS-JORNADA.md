@@ -1,11 +1,19 @@
 # A jornada: legenda do post
 
 ```
-A maior missão da história em 50 segundos de gameplay 🎮
+Estamos construindo um jogo inspirado no GTA com a história de Cristo. E você pode jogar e construir junto com a gente 🎮
 
-GRAND TESTAMENT ADVENTURE · A JORNADA
+Esse vídeo é o conceito visual do projeto: é aonde a gente quer chegar. O jogo ainda não está nesse nível, mas já está no ar, em desenvolvimento, começando pela primeira missão, “Pescadores de gente” (Marcos 1:16–20), na beira do mar da Galileia.
 
-E se existisse um jogo com as missões da vida de Jesus? Da Galileia ao túmulo vazio, com as palavras dos evangelhos:
+O código é aberto e a gente vem construindo com a ajuda de quem quiser somar. Desenvolvedor ou não, você joga no navegador e, enquanto joga, pode dar opinião, sugerir melhorias e mandar passagens e citações pela área Colabore, dentro do jogo. E vai aprendendo junto, como a gente tem aprendido jogando.
+
+🎮 Jogue e participe (link na bio):
+grand-testament-adventure-lexprojects.vercel.app
+
+💻 Código aberto, pra quem é dev:
+github.com/alexpiraginet-bot/-grand-testament-adventure
+
+No vídeo, 7 missões em 50 segundos, com as palavras dos evangelhos:
 
 1. Chame os pescadores: “Vinde após mim, e eu vos farei pescadores de gente.” (Mateus 4:19)
 2. Faça os primeiros sinais: “Enchei estes vasos com água.” (João 2:7) “levanta-te, toma o teu leito” (Marcos 2:11)
@@ -17,10 +25,10 @@ E se existisse um jogo com as missões da vida de Jesus? Da Galileia ao túmulo 
 
 “…que disseram que ele vive.” (Lucas 24:23)
 
-👇 Qual missão você jogaria primeiro? Comenta aí.
+👇 Qual missão você quer jogar depois dos pescadores? Comenta aí.
 🔁 Manda pra quem tá contando os dias pro dia 19
 
-Recriação feita com IA: é um "e se", não um jogo que existe · Lugares e relevo reais (OpenBible.info, SRTM) · Texto: Bíblia Livre (CC BY 4.0 BR)
+Recriação feita com IA: o vídeo é um conceito visual · Projeto independente, sem ligação com a Rockstar Games · Texto: Bíblia Livre (CC BY 4.0 BR) · Lugares: OpenBible.info
 
-#jesus #biblia #gameplay #mundoaberto #galileia #ressurreicao #games #cristao #fe #esefosseumjogo
+#jesus #biblia #gameplay #mundoaberto #galileia #ressurreicao #games #gamedev #codigoaberto #cristao #fe
 ```

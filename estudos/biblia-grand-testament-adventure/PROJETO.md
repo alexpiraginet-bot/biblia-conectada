@@ -99,6 +99,13 @@ terceira pessoa, na Galileia e na Judeia do século I. Um reel por passagem, sep
     rolada (o pedido dizia "cortado na rocha"); nas missões 6 e 7 há homens de cabelo comprido entre os discípulos (só
     ele de túnica clara com o manto terracota); no monte da Galileia não dá para contar os onze; numa rua da missão 6
     passa uma corda de um prédio a outro, quase toda escondida pelas faixas pretas da cena de corte.
+  - 13/11, 13:52: Alex pediu outra legenda: "Estamos construindo um jogo baseado no GTA, da história de Cristo", de código
+    aberto, construído com todo mundo; qualquer pessoa joga e, jogando, manda opiniões, melhorias e citações, e aprende;
+    o vídeo é o conceito visual do projeto em desenvolvimento; chamada para jogar e participar, link na bio e no post.
+    A legenda (`jornada.py --legenda`) diz "inspirado no GTA" (o jogo não usa nada do GTA) e "Projeto independente, sem
+    ligação com a Rockstar Games"; traz o link do jogo (conferido no ar em 13/11) e o do código (MIT), a primeira missão
+    jogável hoje ("Pescadores de gente", Marcos 1:16–20, do README do jogo) e a área Colabore, que é o nome no jogo
+    publicado. 2.166 caracteres contados como o Instagram conta (emoji vale 2), primeira linha com 120.
 
 ## O que a série não faz
 O letreiro, a sigla e o HUD do jogo em que o pedido se inspira são marca e desenho de outra empresa: não entram aqui.
