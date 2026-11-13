@@ -56,6 +56,27 @@ terceira pessoa, na Galileia e na Judeia do século I. Um reel por passagem, sep
     para a câmera atrás com uma transformação de 0,13 s, tocada a 20x (sobra 1 quadro com um leve fantasma de luz);
   - o último take pede "um passo" em vez de "fala uma palavra": o "Eu sou" de Jo 18:6 é da legenda, e o take não traz voz;
   - capa no quadro de 1,8 s (telões vermelhos e 5 estrelas), não no de 1,0 s.
+- 13/11, 08:32: "Já temos novo episódio? Quero algo novo! De alto nível de jogabilidade! Esse mostrando cenas como se fossem
+  jogadas mesmo! 50s total, mostrando toda Galiléia e vida de Jesus em missões e mundo aberto também" e, 08:33, "Até a
+  fase final, redenção e crucificação e ressurreição". Episódio **A jornada** (`cenas.py` → `jornada`, `jornada.py`):
+  7 takes de 8 s, cada um com dois planos, num reel de 50 s (o limite de 30 s continua para os outros; `tools/confere.py`
+  aceita até 50,5 s só neste). Missões: os pescadores (com a abertura da região, "GALILEIA"), Caná e Cafarnaum, a
+  tempestade e o andar sobre o mar, os pães e a viagem rápida até Jerusalém, a ceia e o Getsêmani, a fase final (a cruz
+  levada, vista de costas, e três cruzes só em silhueta, longe: sem sangue, sem ferida, sem close) e o terceiro dia (o
+  túmulo vazio e o monte na Galileia com os onze, Mt 28:16).
+  - Jogabilidade desenhada pelo `jornada.py`: a tecla [E] aparece, acende quando é "apertada" e a fala entra com ela;
+    contador de discípulos (2 nos pescadores, 12 na ceia, Lc 22:14) e de sinais (Caná, o paralítico, a tempestade, o
+    mar, os pães); faixas de região e de capítulo; o mapa da viagem rápida cobre o corte entre os pães e a entrada, com a
+    distância medida das coordenadas (Betsaida → monte das Oliveiras, 131 km em linha reta); a fase final é uma cena de
+    corte (faixas pretas, sem HUD) que termina no preto, e o HUD volta no monte da Galileia.
+  - O mapa da viagem rápida pega o litoral: a grade larga traz o fundo do mar (batimetria) e não fica plana como o
+    lago, então o Mediterrâneo é pintado à parte (terreno abaixo de 1 m ligado à borda oeste do mapa).
+  - O número do gancho ("EM 50 SEGUNDOS DE GAMEPLAY") é a duração medida do reel, arredondada.
+  - 50 s a 9,5 Mbit/s passariam de 29 MB: o vídeo sai de um master quase sem perda em duas passadas, na taxa que cabe.
+  - O 1º take de Caná e Cafarnaum (job 2aba6e6f) foi descartado: na casa, um homem da multidão com o cabelo, a barba e o
+    manto vermelho do jogador, e o paralítico curado com o mesmo rosto. Os pedidos das missões 2, 4, 5, 6 e 7 dizem
+    agora "fora o jogador, nenhum homem de cabelo comprido e ninguém de vermelho", e o paralítico é um senhor careca de
+    barba grisalha; os pedidos de todos os outros takes ficaram iguais (164 de 164 comparados).
 
 ## O que a série não faz
 O letreiro, a sigla e o HUD do jogo em que o pedido se inspira são marca e desenho de outra empresa: não entram aqui.

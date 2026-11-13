@@ -52,7 +52,7 @@ J = dict(gancho=["A MAIOR MISSÃO DA HISTÓRIA", "EM {s} SEGUNDOS DE GAMEPLAY"],
          lugar={"a": "jo-cana", "b": "mc-paralitico"}, raio=14, sinais=[("a", 0.6), ("b", 0.5)],
          falas=[("a", "John.2.7", "Enchei estes vasos com água."), ("b", "Mark.2.11", "levanta-te, toma o teu leito")]),
     dict(take="jornada-3.mp4", objetivo="Atravesse o mar", acoes=[("Acalmar", "a"), ("Andar sobre o mar", "b")],
-         lugar={"a": "mc-tempestade", "b": "mt-aguas"}, raio=8, sinais=[("a", 0.6), ("b", 0.4)],
+         lugar={"a": ("mar da Galileia", "mc-tempestade", "Marcos 4:35–41"), "b": "mt-aguas"}, raio=8,   # Mc 4 says only "mar"; Mc 1:16 names it sinais=[("a", 0.68), ("b", 0.2)],    # the sea goes calm; the first step on it
          falas=[("a", "Mark.4.39", "Cala-te, aquieta-te!"), ("b", "Matt.14.27", "Tende coragem! Sou eu, não tenhais medo.")]),
     dict(take="jornada-4.mp4", objetivo={"a": "Alimente a multidão", "b": "Entre em Jerusalém"}, acoes=[("Repartir", "a")],
          lugar={"a": "mc-paes", "b": "mt-entrada"}, raio={"a": 8, "b": 2}, sinais=[("a", 0.6)], viagem=True, atraso={"b": 1.25},
@@ -68,6 +68,7 @@ J = dict(gancho=["A MAIOR MISSÃO DA HISTÓRIA", "EM {s} SEGUNDOS DE GAMEPLAY"],
          falas=[("a", "Matt.28.6", "Ele não está aqui, pois já ressuscitou"), ("b", "Matt.28.20", "eu estou convosco todos os dias, até o fim dos tempos.")]),
 ])
 FIM_QUOTE = ("Luke.24.23", "ele vive")
+POST_QUOTE = ("Luke.24.23", "que disseram que ele vive.")                         # the same, longer, for the post's caption
 CREDITOS = ["TEXTO: BÍBLIA LIVRE (CC BY 4.0 BR) · LUGARES: OPENBIBLE.INFO (CC BY 4.0)",
             "RELEVO: SRTM/GMTED2010 (USGS), ETOPO1 (NOAA), MAPZEN · IMAGENS GERADAS POR IA"]
 
@@ -91,6 +92,7 @@ def quotes():
         b = mi.get("banner")
         if b and len(b) == 4: yield f"missão {k + 1} faixa", b[2], b[3]
     yield "cartão final", *FIM_QUOTE
+    yield "legenda do post", *POST_QUOTE
 
 
 def check():
@@ -329,7 +331,7 @@ def build(stills=None, rascunho=False):
     def cut_of(k):
         if isinstance(ms[k].get("corte"), (int, float)): return float(ms[k]["corte"])
         if k not in cuts: cuts[k] = cut_times(takes[k]) or [4.0]
-        return cuts[k][0]
+        return min(cuts[k], key=lambda c: abs(c - TAKE / 2))                       # the prompt asks for the cut at 4 s; a lightning flash also jumps
 
     def pace(k):
         r = ms[k].get("ritmo") or J.get("ritmo", 1.0)
@@ -617,13 +619,14 @@ def legenda():
     out = [frase(" ".join(J["gancho"]).format(s=secs)) + " 🎮", "", "GRAND TESTAMENT ADVENTURE · A JORNADA", "",
            "E se existisse um jogo com as missões da vida de Jesus? Da Galileia ao túmulo vazio, com as palavras dos evangelhos:", ""]
     for k, mi in enumerate(ms):
-        o = mi.get("objetivo"); name = ("Fase final" if mi.get("cena") == "ab" else (o if isinstance(o, str) else " / ".join(o.values())) if o else "")
+        o = mi.get("objetivo"); b = mi.get("banner")
+        name = b[1] if (mi.get("cena") and b) else (o if isinstance(o, str) else " / ".join(o.values()))      # a cutscene goes by its chapter
         lines = " ".join(f"“{frag}” ({refs[(osis, frag)]})" for _, osis, frag in mi.get("falas", []))
         out.append(f"{k + 1}. {name}: {lines}")
-    out += ["", f"“{FIM_QUOTE[1].capitalize()}.” ({refs[FIM_QUOTE]})", "",
+    out += ["", f"“…{POST_QUOTE[1]}” ({refs[POST_QUOTE]})", "",
             "👇 Qual missão você jogaria primeiro? Comenta aí.", "🔁 Manda pra quem tá contando os dias pro dia 19", "",
             "Recriação feita com IA: é um \"e se\", não um jogo que existe · Lugares e relevo reais (OpenBible.info, SRTM) · Texto: Bíblia Livre (CC BY 4.0 BR)", "",
-            "#jesus #biblia #gameplay #mundoaberto #galileia #pascoa #games #cristao #fe #esefosseumjogo"]
+            "#jesus #biblia #gameplay #mundoaberto #galileia #ressurreicao #games #cristao #fe #esefosseumjogo"]
     return "\n".join(out)
 
 
