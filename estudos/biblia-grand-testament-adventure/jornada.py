@@ -43,22 +43,22 @@ TCARD = 2.2                                                       # the opening 
 # or (shot, title, text); viagem: the fast-travel map at the cut; cena: the shots shown as a cutscene (letterbox, no HUD).
 J = dict(gancho=["A MAIOR MISSÃO DA HISTÓRIA", "EM {s} SEGUNDOS DE GAMEPLAY"],                  # {s}: the reel's length, measured
          titulo="A jornada", ref="Os quatro evangelhos",
-         ritmo=1.15, pausa=2.0, fim_s=2.6, missoes=[
-    dict(take="jornada-1.mp4", objetivo="Chame os pescadores", objetivo_de="corte", acoes=[("Chamar", "b")], ritmo=[("corte", 1.3), (None, 0.8)],
+         ritmo=1.15, pausa=1.6, fim_s=2.6, missoes=[
+    dict(take="jornada-1.mp4", objetivo="Chame os pescadores", objetivo_de="corte", acoes=[("Chamar", "b")], ritmo=[("corte", 1.35), (None, 0.72)],
          lugar={"a": "mc-pescadores"}, raio=12, contador=("Discípulos", 12, {"b": 2}),
          banner=("a", "Galileia", "Matt.4.23", "Jesus rodeava toda a Galileia"),
          falas=[("b", "Matt.4.19", "Vinde após mim, e eu vos farei pescadores de gente.")]),
-    dict(take="jornada-2-montado.mp4", objetivo="Faça os primeiros sinais", acoes=[("Encher os vasos", "a"), ("Curar", "b")],
+    dict(take="jornada-2-montado.mp4", objetivo="Faça os primeiros sinais", acoes=[("Encher os vasos", "a"), ("Curar", "b")], ritmo=1.25,
          montagem=[("source/descartados/jornada-2-sosias.mp4", 0, 79), ("source/takes/jornada-2.mp4", 88, 193)], corte=79 / FPS,
          # Caná from the first generation (few jars, nobody in red; it ends before the jar's outside turns red and the camera
          # swings to his face), the house from the second (the healed man is an older bald man, nobody else looks like him)
          lugar={"a": "jo-cana", "b": "mc-paralitico"}, raio=14, sinais=[("a", 0.73), ("b", 0.5)],     # the wine; he stands up
          falas=[("a", "John.2.7", "Enchei estes vasos com água."), ("b", "Mark.2.11", "levanta-te, toma o teu leito")]),
-    dict(take="jornada-3.mp4", objetivo="Atravesse o mar", acoes=[("Acalmar", "a"), ("Andar sobre o mar", "b")],
+    dict(take="jornada-3.mp4", objetivo="Atravesse o mar", acoes=[("Acalmar", "a"), ("Andar sobre o mar", "b")], ritmo=1.25,
          lugar={"a": ("mar da Galileia", "mc-tempestade", "Marcos 4:35–41"), "b": "mt-aguas"}, raio=8,   # Mc 4 says only "mar"; Mc 1:16 names it
          sinais=[("a", 0.68), ("b", 0.2)],                                                # the sea goes calm; the first step on it
          falas=[("a", "Mark.4.39", "Cala-te, aquieta-te!"), ("b", "Matt.14.27", "Tende coragem! Sou eu, não tenhais medo.")]),
-    dict(take="jornada-4-montado.mp4", objetivo={"a": "Alimente a multidão", "b": "Entre em Jerusalém"}, acoes=[("Repartir", "a")],
+    dict(take="jornada-4-montado.mp4", objetivo={"a": "Alimente a multidão", "b": "Entre em Jerusalém"}, acoes=[("Repartir", "a")], ritmo=1.3,
          montagem=[("source/takes/jornada-4.mp4", 0, 104), ("source/descartados/jornada-4-tres-iguais.mp4", 75, 193)], corte=104 / FPS,
          # the bread from the second generation (camera behind him; it ends where its dissolve to the road starts, 4.33 s), the
          # entry from the first (from its cut at 3.125 s: the longer ride, cloaks spread on the road)
@@ -71,7 +71,7 @@ J = dict(gancho=["A MAIOR MISSÃO DA HISTÓRIA", "EM {s} SEGUNDOS DE GAMEPLAY"],
          ritmo=[("corte", 0.85), (None, 1.15)], tecla={"a": 0.05}, contador_s=1.3,          # the key comes with the bread breaking
          lugar={"a": ("Jerusalém", "lc-ceia", "Lucas 22:14–20"), "b": "mt-getsemani"}, raio=1.5, contador=("Discípulos", 12, {"a": 12}),
          falas=[("a", "Luke.22.19", "Isto é o meu corpo"), ("b", "Luke.22.42", "não se faça minha vontade, mas a tua.")]),
-    dict(take="jornada-6.mp4", cena="ab", banner=("a", "Fase final", "Redenção"), atraso={"a": 1.55},
+    dict(take="jornada-6.mp4", cena="ab", banner=("a", "Fase final", "Redenção"), atraso={"a": 1.55}, ritmo=1.1,
          falas=[("a", "John.19.17", "E levando ele sua cruz"), ("b", "John.19.30", "Está consumado")]),
     dict(take="jornada-7.mp4", cena="a", objetivo="Vá à Galileia", objetivo_de="corte", seguidores=11,   # Mt 28:16: os onze
          lugar={"b": ("Galileia", "mt-sermao", "Mateus 28:16")}, raio=12, atraso={"a": 1.4},
@@ -275,7 +275,7 @@ def key_prompt(text, pressed=False):
 
 def letterbox(o):
     """Cutscene bars, sliding in with o (0..1)."""
-    im = layer(); d = ImageDraw.Draw(im); h = int(round(150 * o))
+    im = layer(); d = ImageDraw.Draw(im); h = int(round(190 * o))                    # 190 px: they also hide a wire strung across the street of take 6
     if h: d.rectangle([0, 0, W, h], fill=(4, 4, 4, 255)); d.rectangle([0, H - h, W, H], fill=(4, 4, 4, 255))
     return im
 
@@ -521,7 +521,8 @@ def build(stills=None, rascunho=False):
                     if (a_txt, down) not in PROMPTS: PROMPTS[(a_txt, down)] = cropped(key_prompt(a_txt, down))
                     p = PROMPTS[(a_txt, down)]; im.alpha_composite(faded(p[0], o), p[1])
         # cutscene bars: in with the final phase, out on the third day's cut
-        lb = max((ramp(g, c0, c1, 0.35) for c0, c1 in CS), default=0.0)               # no dip where one cutscene shot meets the next
+        lb = max((min(1.0, (c1 - g) / 0.35) if c0 <= g <= c1 else 0.0 for c0, c1 in CS), default=0.0)   # in at once with the boom, out
+                                                                                       # sliding before the HUD returns; no dip between shots
         if lb > 0: im.alpha_composite(letterbox(lb))
         for a0, a1, (img, xy), _ in SUBS:
             o = ramp(g, a0, a1)
