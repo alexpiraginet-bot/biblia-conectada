@@ -43,7 +43,7 @@ CIDADE = ("Setting: a modern sunny coastal city of today as an open game world: 
           "promenade, traffic, buses, people everywhere with phones; on its edge, a park of old olive trees.")
 POLICIA = "police cars with flashing red and blue lights and no lettering"
 
-ORDEM = ["mc-pescadores", "mt-aguas", "mc-legiao", "procurado-1", "procurado-2", "procurado-3", "jo-cana", "mt-entrada", "jo-lazaro", "mc-paes", "mc-paralitico", "lc-zaqueu", "jo-samaritana"]
+ORDEM = ["mc-pescadores", "mt-aguas", "mc-legiao", "procurado-1", "procurado-2", "procurado-3", "jornada", "jo-cana", "mt-entrada", "jo-lazaro", "mc-paes", "mc-paralitico", "lc-zaqueu", "jo-samaritana"]
 
 
 CONTINUA = ("Continue the same gameplay session as the reference video: the same place, the same people, the same weather and light, the "
@@ -56,7 +56,7 @@ def pedido(ep, k, primeiro, video=False):
     last frame of the previous take."""
     e = CENAS[ep]; m = e["missoes"][k - 1]
     primeiro = primeiro or bool(m.get("novo"))               # novo: a new place, so it starts from the character sheet too
-    hero = HEROI_REF if (primeiro or video) else m.get("heroi", HEROI_QUADRO)
+    hero = m.get("heroi_ref", HEROI_REF) if (primeiro or video) else m.get("heroi", HEROI_QUADRO)
     return (JOGO.format(luz=m.get("luz", e["luz"])) + (CONTINUA if video else "") + hero + (m.get("mundo", "") + " " if m.get("mundo") else "")
             + DOIS.format(a=m["a"], b=m["b"]) + FIM.format(som=m["som"], povo=e.get("povo", POVO)))
 
@@ -363,3 +363,74 @@ CENAS = {
              som="running footsteps on dust, cicadas, hot wind, distant voices from the town"),
     ]),
 }
+
+# "A jornada" (13/11, Alex: "Quero algo novo! De alto nível de jogabilidade! ... 50s total, mostrando toda Galiléia e vida de
+# Jesus em missões e mundo aberto também ... Até a fase final, redenção e crucificação e ressurreição"): seven takes, each
+# in a new place, so each starts from the character sheet (novo). The passion is shown the way a reverent cutscene would:
+# the cross carried from behind, then three crosses far away in silhouette; no blood, no wounds, no close-up.
+GALILEIA = ("Setting: the hills and shore of the Sea of Galilee in the first century as a vast open game world: fishing villages of "
+            "black basalt houses, terraced fields, olive groves, a dirt road along the lake, wooden fishing boats on the water.")
+CENAS["jornada"] = dict(luz="golden sunrise light over the lake, morning mist, vivid natural colours", missoes=[
+    dict(mundo=GALILEIA,
+         a="a high gameplay camera swoops down from above the lake and the hills like an open-world region reveal and settles about 4 "
+           "metres behind him as he walks along the lakeside road at sunrise; villagers with donkeys and baskets pass by, smoke rises from "
+           "the village ahead.",
+         b="the same gameplay camera behind him on the pebble beach as he raises his right arm and beckons two fishermen standing in a "
+           "wooden boat near the shore; they drop their net into the water, jump into the shallows and wade toward him.",
+         som="morning birds, waves on pebbles, distant village sounds, splashing water"),
+    dict(novo=True, luz="warm golden afternoon sunlight, soft dust in the air",
+         mundo="Setting: first-century villages of Galilee: a wedding courtyard in Cana, then a crowded stone house in Capernaum.",
+         a="the gameplay camera follows about 3 metres behind him as he walks between the tables of a wedding feast to six large stone "
+           "water jars; servants pour water into them, and as he stops beside them the water in the nearest jar turns deep red wine, "
+           "glinting in the light.",
+         b="inside a crowded stone house with an opening in the roof: the same gameplay camera behind him as he stretches out his hand "
+           "toward a man lying on a mat that was lowered on ropes; the man stands up, lifts the mat onto his shoulder, and the crowd "
+           "steps back in astonishment.",
+         som="wedding chatter without clear words, water pouring, then a crowded room murmuring, gasps"),
+    dict(novo=True, luz="night storm, lightning flashes, dark blue moonlight",
+         mundo="Setting: a wooden fishing boat on the Sea of Galilee at night.",
+         a="a violent storm, waves breaking over the side, his companions bailing water in panic; the gameplay camera stays about 3 metres "
+           "behind him as he stands up at the stern and stretches out his arm over the waves, and the wind and the waves die down at once "
+           "into a calm, glassy lake.",
+         b="later, calm water under the moon: the same gameplay camera behind him as he walks on the surface of the lake toward the "
+           "fishing boat, ripples spreading under each step; his companions in the boat stare at him in fear.",
+         som="howling wind, crashing waves, thunder, then a sudden calm, gentle lapping water"),
+    dict(novo=True, luz="warm golden sunlight, long soft shadows",
+         mundo="Setting: a green hillside above the Sea of Galilee, then the road up to a stone gate of Jerusalem.",
+         a="a huge crowd sits in groups on the grass; the gameplay camera follows about 3 metres behind him as he lifts a basket with five "
+           "loaves and two fish and hands bread to his companions, and the baskets passing through the crowd keep filling with bread "
+           "and fish.",
+         b="the same gameplay camera behind him as he rides a grey donkey up the road to the city gate while a large crowd waves palm "
+           "branches and spreads cloaks on the road in front of him.",
+         som="a huge crowd murmuring, wind in the grass, then a cheering crowd without clear words, hooves on stone"),
+    dict(novo=True, luz="warm oil-lamp light at night, then cold moonlight",
+         mundo="Setting: Jerusalem at night: an upper room, then a garden of old olive trees outside the walls.",
+         a="an upper room lit by oil lamps: he sits at the centre of a low table with his twelve companions around it; the gameplay camera, "
+           "just behind his shoulder, watches as he takes a round loaf of bread, breaks it in two and hands it to the men beside him.",
+         b="a garden of old olive trees under the moon: the same gameplay camera behind him as he kneels alone on a rock and prays, his "
+           "head bowed; in the distance three of his companions sleep under the trees, and the torches of a crowd come up the hill.",
+         som="crackling oil lamps, a quiet room, then crickets, wind in the olive leaves, distant footsteps"),
+    dict(novo=True, luz="overcast grey light that darkens into a black stormy sky at midday",
+         heroi_ref=("The player character is the man from the reference image: dark wavy shoulder-length hair, off-white wool tunic with "
+                    "rope belt, terracotta-red mantle, leather sandals. In shot 1 he is seen from behind in the lower centre of the frame. "
+                    "In shot 2 he is not among the people on the ground. "),
+         mundo="Setting: Jerusalem and a bare rocky hill outside its walls.",
+         a="a narrow stone street: the gameplay camera follows about 4 metres behind him as he slowly carries a heavy wooden cross on his "
+           "shoulder up the street, Roman soldiers walking beside him with spears held upright, women weeping along the walls. No blood, "
+           "no wounds visible.",
+         b="the camera stays far behind a small group of mourning women and one young man standing still at the foot of the hill, "
+           "looking up at three crosses in black silhouette against dark clouds; the wind blows dust. Seen only from far away and in "
+           "silhouette: no blood, no wounds, no close-up of the crosses.",
+         som="a murmuring crowd, slow footsteps, armour clinking, then wind, distant thunder and silence"),
+    dict(novo=True, luz="the first golden light of dawn, soft mist",
+         heroi_ref=("The player character is the man from the reference image: dark wavy shoulder-length hair, off-white wool tunic with "
+                    "rope belt, terracotta-red mantle, leather sandals. In shot 1 he is not in the frame: the tomb is empty. In shot 2 he "
+                    "is seen from behind in the lower centre of the frame. "),
+         mundo="Setting: a garden with a tomb cut into the rock outside Jerusalem, then a hilltop in Galilee.",
+         a="three women carrying jars of spices walk up the garden path at dawn; the gameplay camera stays about 4 metres behind them as "
+           "they stop in front of the tomb, whose large round stone has been rolled away; warm light pours out of the empty opening onto "
+           "the folded linen cloths inside.",
+         b="the top of a green hill above the Sea of Galilee at sunrise: he stands in the light, seen from behind, with his arms open, "
+           "while his eleven companions kneel and stand around him, the valleys and the lake glowing gold below.",
+         som="dawn birds, soft wind, footsteps on gravel, then wind over the hilltop"),
+])

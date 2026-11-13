@@ -46,7 +46,7 @@ def nxt(s):
     busy = [k for k, v in s["takes"].items() if v.get("job") and not v.get("url")]
     if busy: return None, f"em andamento: {busy[0]} ({s['takes'][busy[0]]['job']})"
     for ep in ORDEM:
-        for k in (1, 2, 3):
+        for k in range(1, len(CENAS[ep]["missoes"]) + 1):
             key = f"{ep}-{k}"
             if key in s["takes"]: continue
             if k == 1 or CENAS[ep]["missoes"][k - 1].get("novo"):      # a first mission, or one in a new place: from the character sheet
@@ -86,7 +86,7 @@ def main():
         mark = lambda v: "ok" if v and v.get("url") else ("…" if v else "-")
         for ep in ORDEM:
             print(f"{ep:16s} " + " ".join(f"{k}:{mark(s['takes'].get(f'{ep}-{k}')):2s}" for k in (1, 2, 3)) + ("  reel ok" if ep in s.get("reels", {}) else ""))
-        print("takes prontos:", sum(1 for v in s["takes"].values() if v.get("url")), "de", 3 * len(ORDEM))
+        print("takes prontos:", sum(1 for v in s["takes"].values() if v.get("url")), "de", sum(len(CENAS[e]["missoes"]) for e in ORDEM))
     elif a[0] == "entregue":
         s["reels"][a[1]]["entregue"] = a[2]; save(s); print("entregue", a[1], "|", a[2])
     elif a[0] == "publicar":
