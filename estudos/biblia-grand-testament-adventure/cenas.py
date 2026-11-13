@@ -411,8 +411,11 @@ CENAS["jornada"] = dict(luz="golden sunrise light over the lake, morning mist, v
          som="a huge crowd murmuring, wind in the grass, then a cheering crowd without clear words, hooves on stone"),
     dict(novo=True, povo=POVO_UNICO, luz="warm oil-lamp light at night, then cold moonlight",
          mundo="Setting: Jerusalem at night: an upper room, then a garden of old olive trees outside the walls.",
-         a="an upper room lit by oil lamps: he sits at the centre of a low table with his twelve companions around it; the gameplay camera, "
-           "just behind his shoulder, watches as he takes a round loaf of bread, breaks it in two and hands it to the men beside him.",
+         # 13/11: the first take drew the classic supper, a second man like him facing the camera at the far side breaking the bread
+         a="an upper room lit by oil lamps: the gameplay camera is just behind him, only his back and shoulders visible in the lower centre "
+           "of the frame, as he sits at the near side of a low table and breaks a round loaf of bread in two with both hands raised in "
+           "front of him; around the table, facing him, sit his twelve companions, short-haired bearded men in plain brown and grey "
+           "tunics without mantles; nobody sits at the far side of the table straight across from him.",
          b="a garden of old olive trees under the moon: the same gameplay camera behind him as he kneels alone on a rock and prays, his "
            "head bowed; in the distance three of his companions sleep under the trees, and the torches of a crowd come up the hill.",
          som="crackling oil lamps, a quiet room, then crickets, wind in the olive leaves, distant footsteps"),
@@ -424,7 +427,7 @@ CENAS["jornada"] = dict(luz="golden sunrise light over the lake, morning mist, v
          a="a narrow stone street: the gameplay camera follows about 4 metres behind him as he slowly carries a heavy wooden cross on his "
            "shoulder up the street, Roman soldiers walking beside him with spears held upright, women weeping along the walls. No blood, "
            "no wounds visible.",
-         b="the camera stays far behind a small group of mourning women and one young man standing still at the foot of the hill, "
+         b="the camera stays far behind a small group of mourning women and one bearded man standing still at the foot of the hill, "
            "looking up at three crosses in black silhouette against dark clouds; the wind blows dust. Seen only from far away and in "
            "silhouette: no blood, no wounds, no close-up of the crosses.",
          som="a murmuring crowd, slow footsteps, armour clinking, then wind, distant thunder and silence"),
@@ -437,6 +440,7 @@ CENAS["jornada"] = dict(luz="golden sunrise light over the lake, morning mist, v
            "they stop in front of the tomb, whose large round stone has been rolled away; warm light pours out of the empty opening onto "
            "the folded linen cloths inside.",
          b="the top of a green hill above the Sea of Galilee at sunrise: he stands in the light, seen from behind, with his arms open, "
-           "while his eleven companions kneel and stand around him, the valleys and the lake glowing gold below.",
+           "while his eleven companions, short-haired bearded men in plain brown and grey tunics without mantles, kneel and stand "
+           "around him, the valleys and the lake glowing gold below.",
          som="dawn birds, soft wind, footsteps on gravel, then wind over the hilltop"),
 ])
