@@ -64,9 +64,13 @@ J = dict(gancho=["A MAIOR MISSÃO DA HISTÓRIA", "EM {s} SEGUNDOS DE GAMEPLAY"],
          # entry from the first (from its cut at 3.125 s: the longer ride, cloaks spread on the road)
          lugar={"a": "mc-paes", "b": "mt-entrada"}, raio={"a": 8, "b": 2}, sinais=[("a", 0.6)], viagem=True,
          falas=[("a", "Mark.6.42", "Todos comeram e se saciaram."), ("b", "Matt.21.9", "Hosana ao Filho de Davi!")]),
-    dict(take="jornada-5.mp4", objetivo={"a": "Celebre a ceia", "b": "Ore no jardim"}, acoes=[("Partir o pão", "a"), ("Orar", "b")],
-         lugar={"a": "lc-ceia", "b": "mt-getsemani"}, raio=1.5, contador=("Discípulos", 12, {"a": 12}),
-         falas=[("a", "Luke.22.19", "Isto é o meu corpo, que é dado por vós"), ("b", "Luke.22.42", "não se faça minha vontade, mas a tua.")]),
+    dict(take="jornada-5-montado.mp4", objetivo={"a": "Celebre a ceia", "b": "Ore no jardim"}, acoes=[("Partir o pão", "a"), ("Orar", "b")],
+         montagem=[("source/takes/jornada-5.mp4", 0, 50, 1.6), ("source/descartados/jornada-5-dois-na-ceia.mp4", 78, 193)], corte=50 / FPS,
+         # the supper from the second generation, pushed in 1.6x so the far end of the table, where a man dressed like him
+         # sits again, stays out; the garden from the first (three asleep under the tree, the torches along the wall)
+         ritmo=[("corte", 0.85), (None, 1.15)], tecla={"a": 0.05}, contador_s=1.3,          # the key comes with the bread breaking
+         lugar={"a": ("Jerusalém", "lc-ceia", "Lucas 22:14–20"), "b": "mt-getsemani"}, raio=1.5, contador=("Discípulos", 12, {"a": 12}),
+         falas=[("a", "Luke.22.19", "Isto é o meu corpo"), ("b", "Luke.22.42", "não se faça minha vontade, mas a tua.")]),
     dict(take="jornada-6.mp4", cena="ab", banner=("a", "Fase final", "Redenção"), atraso={"a": 1.55},
          falas=[("a", "John.19.17", "E levando ele sua cruz"), ("b", "John.19.30", "Está consumado")]),
     dict(take="jornada-7.mp4", cena="a", objetivo="Vá à Galileia", objetivo_de="corte", seguidores=11,   # Mt 28:16: os onze
@@ -327,17 +331,19 @@ def frames_of(path):
 
 
 def montar(dst, parts):
-    """A mission's take made of shots of different generations: parts = [(file, first frame, end frame)], frame-exact
-    picture, the sound of each part with 8 ms fades at the joins (no click, no change of length)."""
-    ins = sum((["-i", str(ROOT / f)] for f, _, _ in parts), []); fc = ""
-    for i, (f, a, b) in enumerate(parts):
-        d = (b - a) / FPS
-        fc += f"[{i}:v]trim=start_frame={a}:end_frame={b},setpts=PTS-STARTPTS[v{i}];"
+    """A mission's take made of shots of different generations: parts = [(file, first frame, end frame[, push-in])],
+    frame-exact picture at the reel's size (a push-in crops toward the bottom centre, where the player is), the sound of
+    each part with 8 ms fades at the joins (no click, no change of length)."""
+    ins = sum((["-i", str(ROOT / pt[0])] for pt in parts), []); fc = ""
+    for i, (f, a, b, *z) in enumerate(parts):
+        d = (b - a) / FPS; z = z[0] if z else 1.0
+        crop = f"crop=iw/{z}:ih/{z}:(iw-iw/{z})/2:ih-ih/{z}," if z != 1.0 else ""
+        fc += f"[{i}:v]trim=start_frame={a}:end_frame={b},setpts=PTS-STARTPTS,{crop}scale={W}:{H}:flags=lanczos,setsar=1[v{i}];"
         fc += f"[{i}:a]atrim={a / FPS:.5f}:{b / FPS:.5f},asetpts=PTS-STARTPTS,afade=t=in:d=0.008,afade=t=out:st={d - 0.008:.5f}:d=0.008[a{i}];"
     fc += "".join(f"[v{i}][a{i}]" for i in range(len(parts))) + f"concat=n={len(parts)}:v=1:a=1[v][a]"
     subprocess.run(["ffmpeg", "-v", "error", "-y", *ins, "-filter_complex", fc, "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-preset", "veryfast", "-crf", "10",
                     "-pix_fmt", "yuv420p", "-r", str(FPS), "-c:a", "aac", "-b:a", "320k", str(dst)], check=True)
-    n = frames_of(dst); assert n == sum(b - a for _, a, b in parts), f"{dst}: {n} frames"
+    n = frames_of(dst); assert n == sum(pt[2] - pt[1] for pt in parts), f"{dst}: {n} frames"
     print("montado", dst.name, n, "quadros")
 
 
@@ -346,7 +352,7 @@ def build(stills=None, rascunho=False):
     out_dir = ROOT / "renders/.hud"; out_dir.mkdir(parents=True, exist_ok=True)
     takes = [ROOT / "source/takes" / mi["take"] for mi in ms]
     for k, mi in enumerate(ms):
-        if mi.get("montagem") and all((ROOT / f).exists() for f, _, _ in mi["montagem"]) and (not takes[k].exists() or any(Path(ROOT / f).stat().st_mtime > takes[k].stat().st_mtime for f, _, _ in mi["montagem"])):
+        if mi.get("montagem") and all((ROOT / pt[0]).exists() for pt in mi["montagem"]) and (not takes[k].exists() or any((ROOT / pt[0]).stat().st_mtime > takes[k].stat().st_mtime for pt in mi["montagem"])):
             montar(takes[k], mi["montagem"])
     if rascunho:                                                                    # stills only: a stand-in for takes not generated yet
         stand = out_dir / "jornada-substituto.mp4"
@@ -391,8 +397,8 @@ def build(stills=None, rascunho=False):
     def act_times(k, sh):
         """(shown, pressed) of a key prompt, in seconds of its mission: in a shot b it comes with the cut, in a shot a
         after the objective has landed; the line it triggers comes with the press."""
-        st = shot_span(k, sh)[0]
-        s0 = st + (TCARD + 0.1 if (k == 0 and sh == "a") else 0.05 if sh == "b" else 0.35)
+        st = shot_span(k, sh)[0]; o = ms[k].get("tecla", {}).get(sh)
+        s0 = st + (o if o is not None else TCARD + 0.1 if (k == 0 and sh == "a") else 0.05 if sh == "b" else 0.35)
         return s0, s0 + 0.4
 
     # what happens when, in seconds of the reel
@@ -415,7 +421,7 @@ def build(stills=None, rascunho=False):
     for k, mi in enumerate(ms):
         if mi.get("contador"):
             lab, tot, by = mi["contador"]
-            for sh, c in by.items(): COUNTS.append((starts[k] + shot_span(k, sh)[0] + (0.6 if sh == "b" else 0.4), lab, tot, c, k))
+            for sh, c in by.items(): COUNTS.append((starts[k] + shot_span(k, sh)[0] + mi.get("contador_s", 0.6 if sh == "b" else 0.4), lab, tot, c, k))
     BANNERS = []
     for k, mi in enumerate(ms):
         b = mi.get("banner")
