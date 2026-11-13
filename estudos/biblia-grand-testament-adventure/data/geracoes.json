@@ -432,6 +432,96 @@
     }
    ],
    "capa": "renders/capa-procurado-3.jpg"
+  },
+  "jornada": {
+   "arquivo": "renders/jornada.mp4",
+   "sha256": "5ec6af3cfd602d40547672b04cb41bae3f536a109f132e4dbe515e5c292ab07b",
+   "bytes": 27877539,
+   "quadros": 1202,
+   "duracao_s": 50.083,
+   "lufs": -14.1,
+   "pico_dbtp": -1.5,
+   "cortes_s": [
+    4.12,
+    7.54,
+    10.17,
+    13.67,
+    13.88,
+    16.92,
+    20.08,
+    22.96,
+    27.21,
+    29.67,
+    33.83,
+    37.38
+   ],
+   "mudanca_mediana": 4.21,
+   "mudanca_relativa_pct": 5.8,
+   "fala_ouvida": [],
+   "emendas_som": [
+    {
+     "s": 4.14,
+     "antes_db": -29.1,
+     "depois_db": -32.3,
+     "salto": 0.33
+    },
+    {
+     "s": 7.54,
+     "antes_db": -45.9,
+     "depois_db": -43.3,
+     "salto": 0.0
+    },
+    {
+     "s": 13.67,
+     "antes_db": -46.1,
+     "depois_db": -60.7,
+     "salto": 0.01
+    },
+    {
+     "s": 20.08,
+     "antes_db": -43.9,
+     "depois_db": -47.0,
+     "salto": 0.07
+    },
+    {
+     "s": 27.21,
+     "antes_db": -33.3,
+     "depois_db": -70.8,
+     "salto": 0.0
+    },
+    {
+     "s": 29.66,
+     "antes_db": -51.2,
+     "depois_db": -45.8,
+     "salto": 1.11
+    },
+    {
+     "s": 33.83,
+     "antes_db": -58.2,
+     "depois_db": -87.7,
+     "salto": 0.0
+    },
+    {
+     "s": 40.83,
+     "antes_db": -39.0,
+     "depois_db": -62.0,
+     "salto": 0.04
+    },
+    {
+     "s": 44.38,
+     "antes_db": -35.6,
+     "depois_db": -71.2,
+     "salto": 0.52
+    },
+    {
+     "s": 48.79,
+     "antes_db": -34.9,
+     "depois_db": -34.9,
+     "salto": 0.0
+    }
+   ],
+   "capa": "renders/capa-jornada.jpg",
+   "entregue": "13/11 ~10:15, com capa (quadro de 1,0 s) e legenda (LEGENDAS-JORNADA.md)"
   }
  },
  "primeira_versao": {

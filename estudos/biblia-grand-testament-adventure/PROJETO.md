@@ -77,6 +77,28 @@ terceira pessoa, na Galileia e na Judeia do século I. Um reel por passagem, sep
     manto vermelho do jogador, e o paralítico curado com o mesmo rosto. Os pedidos das missões 2, 4, 5, 6 e 7 dizem
     agora "fora o jogador, nenhum homem de cabelo comprido e ninguém de vermelho", e o paralítico é um senhor careca de
     barba grisalha; os pedidos de todos os outros takes ficaram iguais (164 de 164 comparados).
+  - Mesmo com essa frase, o modelo voltou a pôr homens iguais a ele em 4 de 7 missões. Em vez de pedir de novo até sair
+    tudo certo num take só, a missão pode ser montada com planos de gerações diferentes (`jornada.py`, `montagem`:
+    quadros exatos, som com 8 ms de transição na emenda, a missão mede o take montado):
+    - missão 2: Caná do 1º pedido (quadros 0–78; o do 2º trouxe dezenas de jarros e um homem de manto avermelhado à
+      mesa) e a casa do 2º (88–192);
+    - missão 3: a tempestade do 1º (0–97, o mar fica espelhado atrás dele) e o andar sobre o mar do 2º (98–192; o 1º saía
+      de um píer e tinha no barco um homem de manto vermelho);
+    - missão 4: os pães do 2º (0–103, até a fusão com a estrada; o 1º tinha três homens iguais a ele de frente) e a
+      entrada em Jerusalém do 1º (75–192);
+    - missão 5: a ceia do 2º, aproximada 1,6x para baixo (0–49), porque no fundo da mesa sentou de novo um homem vestido
+      como ele (no 1º, a ceia clássica com dois dele); o Getsêmani do 1º (78–192).
+    Os quatro takes de onde saíram planos estão em `source/descartados/` e em `descartados` no manifesto, com o motivo.
+  - O take 7 passa do túmulo ao monte numa fusão (3,79–4,42 s, medida); o corte da missão é o meio dela.
+  - Entregue por volta das 10:15: `renders/jornada.mp4`, 1080×1920, 24 fps, 1202 quadros (50,083 s), 27,88 MB
+    (vídeo em duas passadas a 4,27 Mbit/s), −14,1 LUFS, pico real −1,5 dBTP, nenhuma fala ouvida com detector de voz,
+    maior salto nas emendas do som 1,11x o normal em volta, mudança mediana por quadro 4,21 (5,8% da luz). Capa
+    `renders/capa-jornada.jpg` (quadro de 1,0 s: gancho e título sobre a abertura do lago); legenda em
+    `LEGENDAS-JORNADA.md` (`python3 -I jornada.py --legenda`), com 16 linhas da BLIVRE conferidas.
+  - O que a recriação mostra e o texto não diz: o túmulo é uma construção de pedras em abóbada, sem a pedra redonda
+    rolada (o pedido dizia "cortado na rocha"); nas missões 6 e 7 há homens de cabelo comprido entre os discípulos (só
+    ele de túnica clara com o manto terracota); no monte da Galileia não dá para contar os onze; numa rua da missão 6
+    passa uma corda de um prédio a outro, quase toda escondida pelas faixas pretas da cena de corte.
 
 ## O que a série não faz
 O letreiro, a sigla e o HUD do jogo em que o pedido se inspira são marca e desenho de outra empresa: não entram aqui.
