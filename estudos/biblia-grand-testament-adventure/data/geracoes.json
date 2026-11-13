@@ -116,7 +116,12 @@
    "montagem": "missão 2 = jornada-2-sosias (job 2aba6e6f) quadros 0-78 + este take (job a0db99a1) quadros 88-192"
   },
   "jornada-4": {
-   "job": "a9ca8f87-b036-4185-996d-0c3374105a9c"
+   "job": "a9ca8f87-b036-4185-996d-0c3374105a9c",
+   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261113_122440_a9ca8f87-b036-4185-996d-0c3374105a9c.mp4",
+   "montagem": "missão 4 = este take (job a9ca8f87) quadros 0-103 + jornada-4-tres-iguais (job ab987bae) quadros 75-192"
+  },
+  "jornada-5": {
+   "job": "c6dbe30b-6b47-4402-813c-a4cb57a5d7bc"
   }
  },
  "reels": {
@@ -497,7 +502,7 @@
   "jornada-4-tres-iguais": {
    "job": "ab987bae-8fce-433d-9616-f36a9d63a27a",
    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261113_120946_ab987bae-8fce-433d-9616-f36a9d63a27a.mp4",
-   "motivo": "no plano dos pães, três homens iguais ao jogador (cabelo comprido, barba, túnica clara e manto vermelho) de frente para a câmera, passando cestos; a câmera não fica atrás dele. A entrada em Jerusalém (do corte em 3,125 s ao fim) ficou boa e fica guardada aqui para a montagem, se o novo pedido não trouxer uma melhor"
+   "motivo": "no plano dos pães, três homens iguais ao jogador (cabelo comprido, barba, túnica clara e manto vermelho) de frente para a câmera, passando cestos; a câmera não fica atrás dele. A entrada em Jerusalém (do corte em 3,125 s ao fim) ficou boa e fica guardada aqui para a montagem, se o novo pedido não trouxer uma melhor; a entrada (quadros 75 a 192) foi usada no take montado da missão 4"
   },
   "jornada-5-dois-na-ceia": {
    "job": "40c5e051-ad44-4124-8d84-f836d45af5cb",

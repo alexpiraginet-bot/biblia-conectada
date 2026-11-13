@@ -58,7 +58,10 @@ J = dict(gancho=["A MAIOR MISSÃO DA HISTÓRIA", "EM {s} SEGUNDOS DE GAMEPLAY"],
          lugar={"a": ("mar da Galileia", "mc-tempestade", "Marcos 4:35–41"), "b": "mt-aguas"}, raio=8,   # Mc 4 says only "mar"; Mc 1:16 names it
          sinais=[("a", 0.68), ("b", 0.2)],                                                # the sea goes calm; the first step on it
          falas=[("a", "Mark.4.39", "Cala-te, aquieta-te!"), ("b", "Matt.14.27", "Tende coragem! Sou eu, não tenhais medo.")]),
-    dict(take="jornada-4.mp4", objetivo={"a": "Alimente a multidão", "b": "Entre em Jerusalém"}, acoes=[("Repartir", "a")],
+    dict(take="jornada-4-montado.mp4", objetivo={"a": "Alimente a multidão", "b": "Entre em Jerusalém"}, acoes=[("Repartir", "a")],
+         montagem=[("source/takes/jornada-4.mp4", 0, 104), ("source/descartados/jornada-4-tres-iguais.mp4", 75, 193)], corte=104 / FPS,
+         # the bread from the second generation (camera behind him; it ends where its dissolve to the road starts, 4.33 s), the
+         # entry from the first (from its cut at 3.125 s: the longer ride, cloaks spread on the road)
          lugar={"a": "mc-paes", "b": "mt-entrada"}, raio={"a": 8, "b": 2}, sinais=[("a", 0.6)], viagem=True,
          falas=[("a", "Mark.6.42", "Todos comeram e se saciaram."), ("b", "Matt.21.9", "Hosana ao Filho de Davi!")]),
     dict(take="jornada-5.mp4", objetivo={"a": "Celebre a ceia", "b": "Ore no jardim"}, acoes=[("Partir o pão", "a"), ("Orar", "b")],
