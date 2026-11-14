@@ -287,9 +287,11 @@
 .immersive .medallion .nodeLabel { font: 440 21px/1.2 var(--font-display); background: var(--ground); padding: 4px 6px; top: calc(100% + 8px); text-shadow: none; }
 .immersive .nodeLabel small { display: block; color: var(--ink-3); font: 400 11px/1.5 var(--font-ui); letter-spacing: .02em; margin-top: 4px; }
 .immersive .centre .nodeLabel { color: var(--ink); font-size: 27px; }
-.immersive .node:not(.medallion) { opacity: .5; }
-.immersive .node:not(.medallion).active, .immersive .node:not(.medallion).selected { opacity: 1; }
-.immersive .dim { opacity: .22; }
+/* De-emphasize the illustration, never its readable label or keyboard focus ring. */
+.immersive .node:not(.medallion), .immersive .dim { opacity: 1; }
+.immersive .node:not(.medallion) .core { opacity: .5; }
+.immersive .dim .core { opacity: .22; }
+.immersive .node.active .core, .immersive .node.selected .core, .immersive .node:focus-visible .core { opacity: 1; }
 .immersive .hint { bottom: 58px; left: 24px; font-size: 10px; }
 .immersive .controls { border-radius: 30px; background: #2d1722; right: 20px; bottom: 13px; }
 .immersive .controls button { border-radius: 50%; color: #fff3e3; }

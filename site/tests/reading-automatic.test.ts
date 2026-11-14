@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { advanceReadingClock, enoughReadingVisible, requiredReadingMs } from "../src/components/reading-progress/automatic-policy";
+import { advanceReadingClock, enoughReadingVisible, readingViewport, requiredReadingMs } from "../src/components/reading-progress/automatic-policy";
 
 describe("optional reading estimates", () => {
   it("gives even a short verse time and scales with the actual visible text", () => {
@@ -27,5 +27,16 @@ describe("optional reading estimates", () => {
     expect(enoughReadingVisible({ ...rect, top: 700, bottom: 850 }, view)).toBe(false);
     expect(enoughReadingVisible({ ...rect, top: 80, bottom: 1000, height: 920 }, view)).toBe(false);
     expect(enoughReadingVisible({ ...rect, right: 600, width: 580 }, view)).toBe(false);
+  });
+  it("counts visible focus-reader text near the bottom without the hidden site menu deduction", () => {
+    const verse = { left: 20, right: 355, top: 720, bottom: 792, width: 335, height: 72 };
+    expect(enoughReadingVisible(verse, readingViewport(375, 812, 64))).toBe(false);
+    expect(enoughReadingVisible(verse, readingViewport(375, 812, 56, { top: 0, bottom: 812 }))).toBe(true);
+  });
+  it("excludes text under the focus toolbar or clipped by a shorter dialog viewport", () => {
+    const view = readingViewport(375, 812, 80, { top: 20, bottom: 720 });
+    expect(view).toEqual({ width: 375, height: 812, top: 80, bottom: 92 });
+    expect(enoughReadingVisible({ left: 20, right: 355, top: 40, bottom: 140, width: 335, height: 100 }, view)).toBe(false);
+    expect(enoughReadingVisible({ left: 20, right: 355, top: 680, bottom: 780, width: 335, height: 100 }, view)).toBe(false);
   });
 });

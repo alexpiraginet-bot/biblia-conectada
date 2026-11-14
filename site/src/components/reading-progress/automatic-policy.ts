@@ -3,6 +3,16 @@ export const READING_WORDS_PER_MINUTE = 180;
 export const READING_IDLE_MS = 90_000;
 export const READING_VISIBLE_RATIO = 0.85;
 
+type ReadingViewport = { width: number; height: number; top: number; bottom: number };
+/** The focus reader has its own toolbar and no site navigation covering the bottom. */
+export function readingViewport(width: number, height: number, headerBottom: number, focus?: { top: number; bottom: number }): ReadingViewport {
+  return {
+    width, height,
+    top: Math.max(focus ? focus.top : 72, headerBottom),
+    bottom: focus ? Math.max(0, height - focus.bottom) : 100,
+  };
+}
+
 export function requiredReadingMs(text: string): number {
   const words = text.trim().split(/\s+/u).filter(Boolean).length;
   return Math.max(MIN_READING_MS, Math.ceil(words / READING_WORDS_PER_MINUTE * 60_000));
@@ -16,7 +26,7 @@ export function advanceReadingClock(clock: ReadingClock | null, key: string | nu
   return { key, elapsed: clock.elapsed + Math.max(0, now - clock.previous), previous: now };
 }
 
-export function enoughReadingVisible(rect: { top: number; bottom: number; left: number; right: number; width: number; height: number }, viewport: { width: number; height: number; top: number; bottom: number }): boolean {
+export function enoughReadingVisible(rect: { top: number; bottom: number; left: number; right: number; width: number; height: number }, viewport: ReadingViewport): boolean {
   if (rect.width <= 0 || rect.height <= 0 || rect.width > viewport.width) return false;
   const width = Math.max(0, Math.min(rect.right, viewport.width) - Math.max(rect.left, 0));
   const height = Math.max(0, Math.min(rect.bottom, viewport.height - viewport.bottom) - Math.max(rect.top, viewport.top));

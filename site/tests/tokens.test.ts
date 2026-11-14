@@ -31,6 +31,17 @@ describe("design tokens", () => {
     expect(readFileSync(TOKENS_CSS, "utf8")).toBe(tokensCss());
   });
 
+  it("starts light without JavaScript and follows a dark device only for an explicit system choice", () => {
+    const css = tokensCss();
+    const beforeMedia = css.split("@media")[0];
+    expect(beforeMedia).toContain(`--ground: ${themes.dia["--ground"]}`);
+    expect(beforeMedia).toContain("color-scheme: light");
+    const system = css.split("@media (prefers-color-scheme: dark)")[1].split('[data-theme="dia"]')[0];
+    expect(system).toContain(':root[data-theme="sistema"] body');
+    expect(system).toContain(`--ground: ${themes.noite["--ground"]}`);
+    expect(system).not.toContain(':root:not([data-theme])');
+  });
+
   it("colour the browser chrome with each theme's ground", () => {
     expect(THEME_COLOR.noite.toLowerCase()).toBe(themes.noite["--ground"]);
     expect(THEME_COLOR.dia.toLowerCase()).toBe(themes.dia["--ground"]);

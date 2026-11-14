@@ -7,6 +7,8 @@ import { SelectionScope } from "@/components/reader/SelectionBar";
 import { VerseFocus } from "@/components/reader/VerseFocus";
 import { EditionChoice } from "@/components/reader/EditionChoice";
 import { ChapterReadingControls } from "@/components/reading-progress/ReadingControls";
+import { ReadingFocus } from "@/components/reader/ReadingFocus";
+import { getTranslation } from "@/lib/translations";
 import styles from "@/components/reader/reader.module.css";
 import { books } from "@/lib/data";
 import { chapterMeta, keepBookNumber } from "@/lib/from-here";
@@ -66,10 +68,12 @@ export default async function ChapterLayout({ params, children }: LayoutProps<"/
           <EditionChoice current="blivre" slug={book.slug} chapter={chapter} />
           <ChapterReadingControls path={`/${book.slug}/${chapter}`} label={`${book.name} ${chapter}`} />
           <ChapterPager prev={withPairs(prev)} next={withPairs(next)} where="topo" />
+          <ReadingFocus scope={`/${book.slug}/${chapter}`} title={`${book.name} ${chapter}`} edition="Bíblia Livre" credit={getTranslation("blivre")!.credit}>
           <SelectionScope slug={book.slug} bookName={book.name} chapter={chapter}>
             <ChapterText book={book} chapter={chapter} verses={verses} />
           </SelectionScope>
           <ChapterPager prev={withPairs(prev)} next={withPairs(next)} where="fim" />
+          </ReadingFocus>
         </article>
         {children}
       </main>
