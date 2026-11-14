@@ -1,0 +1,8 @@
+{
+  "name": "biblia-conectada-ios-tools",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pinned Mac-only development tools; never bundled into the app or website.",
+  "engines": { "node": ">=22" },
+  "dependencies": { "mobilebuildmcp": "2.7.1" }
+}
