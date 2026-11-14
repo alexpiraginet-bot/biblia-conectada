@@ -1254,7 +1254,7 @@
 .act { font-size: 12px; min-height: 32px; }
 .pill { background: var(--overlay); border-color: var(--line-strong); padding: 7px 11px; font-size: 11px; box-shadow: 0 4px 18px #00000025; }
 .pillMain { background: var(--accent-fill); color: var(--on-accent); font-size: 13px; padding: 9px 14px; }
-.pillAxis { padding: 4px 8px; font-size: 10px; opacity: .75; }
+.pillAxis { padding: 4px 8px; font-size: 10px; }
 .constellationNote { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 5px 12px; font: 500 10px/1.45 var(--font-ui); color: var(--ink-2); padding-bottom: 4px; }
 .constellationNote button { width: fit-content; min-height: 28px; border: 0; padding: 0; background: none; color: var(--accent); font: inherit; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 .cameraTools { position: absolute; z-index: 3; bottom: 28px; left: 50%; display: flex; align-items: center; gap: 2px; padding: 5px; border: 1px solid var(--line-strong); border-radius: 100px; background: var(--overlay); backdrop-filter: blur(16px); transform: translateX(-50%); }

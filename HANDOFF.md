@@ -462,6 +462,8 @@ git clone --depth 1 https://github.com/alexpiraginet-bot/biblia-conectada
 
 ## 12. Registro
 
+- **14/11, Codex, Dia e leitura focada:** branch `codex/daylight-reading-focus`, base `f0dce71`. Dia padrão restaurado com Sistema/Dia/Noite explícitos; correções de contraste no menu, constelação, atlas, eixo do céu e controles da liturgia. Modo leitura nos capítulos BLIVRE/Open NBV e liturgia, papel/sépia/noite, tamanho de fonte, texto sem atalhos de estudo e progresso automático com viewport próprio. Texto/fonte/créditos preservados; sem novos dados, dependências ou alterações nos estudos. Playwright e Agent Browser em sessões isoladas; escopo, resultados e limites em `docs/evidence/2026-11-14-daylight-reading-focus.md`. Publicação será confirmada no PR após build e domínio verificados.
+
 - **01/11, Codex, abertura e travessia aprovadas:** `codex/daylight-home`, base `a7320be`, PR48. Vale de amanhecer e esferas de cristal substituem a primeira versão plana; bordô/dourado discreto e leitura prioritária. Sistema como tema inicial, escolha manual preservada. Pulsos reais nos fios e túnel aprovado de 1 s, Pular/Escape, movimento reduzido e chegada com duas passagens reais. Compartilhamento Stories/Post/capa: vale para versículo/dia e túnel para conexão; marca, fonte e link mantidos. Evidências/testes atualizados em `docs/evidence/2026-11-01-daylight-opening.md`, direção em `design/ABERTURA-DIA-20261101.md`; publicação exige READY e QA pública. Motion do vídeo do Drive delegado por pedido de Alex à sessão `01a196de-9bc6-7550-bee1-95aae555c3d7`, preservando narração/roteiro e sem editar o site.
 
 - **18/10:** vídeo "A Bíblia, conectada" entregue.

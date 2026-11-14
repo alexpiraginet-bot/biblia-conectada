@@ -98,6 +98,7 @@ export function SelectionScope({
       setNote(null);
     };
     const evaluate = () => {
+      if (el.closest("[data-reading-focus-dialog]")) return close();
       const sel = document.getSelection();
       const range = sel && sel.rangeCount > 0 && !sel.isCollapsed ? sel.getRangeAt(0) : null;
       if (!range || !range.intersectsNode(el)) {

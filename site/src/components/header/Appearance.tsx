@@ -3,25 +3,25 @@
 import { lazy, Suspense, useId, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Icon } from "@/components/icons";
 import { APPEARANCE_CHOICES as CHOICES } from "./appearance-choices";
-import { type Choice, NIGHT_MODE_ONLY, THEME_COLOR, THEME_KEY } from "./theme";
+import { appearanceChoice, type Choice, DEFAULT_APPEARANCE, THEME_COLOR, THEME_KEY } from "./theme";
 
 const AppearanceMenu = lazy(() => import("./AppearanceMenu"));
 const CHANGE = "bc:appearance";
+// Blocked storage must not leave the selected control and the painted theme out of sync.
+let visitChoice: Choice | null = null;
 
 function stored(): Choice {
-  if (NIGHT_MODE_ONLY) return "noite";
+  if (visitChoice) return visitChoice;
   try {
-    const t = localStorage.getItem(THEME_KEY);
-    return t === "dia" || t === "noite" ? t : "sistema";
+    return appearanceChoice(localStorage.getItem(THEME_KEY));
   } catch {
-    return "sistema";
+    return DEFAULT_APPEARANCE;
   }
 }
 
 /** The choice goes on <html> and on <body>: the [data-theme] rules then match <body> itself, so the browser recomputes
  *  it and everything that inherits from it, rather than trusting values it inherited before the switch (iPhone, 19/10). */
 function apply(c: Choice) {
-  if (NIGHT_MODE_ONLY) c = "noite";
   for (const el of [document.documentElement, document.body]) {
     el.setAttribute("data-theme", c);
   }
@@ -33,16 +33,24 @@ function apply(c: Choice) {
 }
 
 function subscribe(cb: () => void) {
-  window.addEventListener("storage", cb);
+  const sync = (event: StorageEvent) => {
+    if (event.key !== null && event.key !== THEME_KEY) return;
+    try {
+      if (event.storageArea !== localStorage) return;
+    } catch { return; }
+    visitChoice = null;
+    cb();
+  };
+  window.addEventListener("storage", sync);
   window.addEventListener(CHANGE, cb);
   return () => {
-    window.removeEventListener("storage", cb);
+    window.removeEventListener("storage", sync);
     window.removeEventListener(CHANGE, cb);
   };
 }
 
 export function Appearance() {
-  const choice = useSyncExternalStore<Choice>(subscribe, stored, () => NIGHT_MODE_ONLY ? "noite" : "sistema");
+  const choice = useSyncExternalStore<Choice>(subscribe, stored, () => DEFAULT_APPEARANCE);
   const [open, setOpen] = useState(false);
   const id = useId();
   const root = useRef<HTMLDivElement>(null);
@@ -53,10 +61,10 @@ export function Appearance() {
   useLayoutEffect(() => apply(stored()), [choice]);
 
   const choose = (c: Choice) => {
-    if (NIGHT_MODE_ONLY) return;
     try {
       localStorage.setItem(THEME_KEY, c);
-    } catch {}
+      visitChoice = null;
+    } catch { visitChoice = c; }
     apply(c);
     window.dispatchEvent(new Event(CHANGE));
   };

@@ -3,7 +3,7 @@
 import { useEffect, type RefObject } from "react";
 import { Icon } from "@/components/icons";
 import { APPEARANCE_CHOICES as CHOICES } from "./appearance-choices";
-import { NIGHT_MODE_ONLY, type Choice } from "./theme";
+import { type Choice } from "./theme";
 
 type Props = {
   id: string;
@@ -30,7 +30,6 @@ export default function AppearanceMenu({ id, choice, root, button, choose, close
       document.removeEventListener("keydown", escape);
     };
   }, [root, button, close]);
-  if (NIGHT_MODE_ONLY) return <><p className="appearance__title">Aparência · Noite</p><p className="appearance__note">O modo Noite está ativo enquanto aprimoramos o contraste do tema claro. Sua preferência anterior está guardada.</p></>;
   return <>
     <p className="appearance__title" id={`${id}-t`}>Aparência</p>
     <div className="bc-segmented" role="radiogroup" aria-labelledby={`${id}-t`} onKeyDown={(event) => {
@@ -46,6 +45,6 @@ export default function AppearanceMenu({ id, choice, root, button, choose, close
         <Icon name={item.icon} />{item.label}
       </button>)}
     </div>
-    <p className="appearance__note">{choice === "sistema" ? "Segue o ajuste claro ou escuro do aparelho." : "Guardado neste aparelho."}</p>
+    <p className="appearance__note">{choice === "sistema" ? "Segue o ajuste claro ou escuro do aparelho." : "Preferência de aparência."}</p>
   </>;
 }

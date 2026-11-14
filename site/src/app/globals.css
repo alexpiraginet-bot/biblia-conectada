@@ -206,7 +206,8 @@ input {
 @media (prefers-reduced-transparency: no-preference) and (forced-colors: none) {
   .bc-root .site-tabbar__trigger {
     border-color: color-mix(in srgb, var(--sky-gold) 55%, transparent);
-    background: linear-gradient(165deg, #86394cdb, #4a1229ed 55%, #62283cd9);
+    /* A near-opaque burgundy base keeps the gold label legible over a white page. */
+    background: linear-gradient(165deg, #4b1e31f5, #3d1225f5 55%, #502033f5);
     color: var(--sky-gold);
     box-shadow: inset 0 1px #f6e3c39c, inset 0 -1px #e4bd7e80, 0 5px 18px #4511262b;
     -webkit-backdrop-filter: blur(24px) saturate(160%);

@@ -3,7 +3,7 @@ import openNbv from "@/data/generated/translations/open-nbv-books.json";
 import { parseTranslationPath } from "@/lib/translations";
 import { chapterReadingSummary, isVerseRead, scopeFromCatalog, type ReadingCatalog, type ReadingUndoToken } from "@/lib/reading-progress/model";
 import { getReadingProgressSnapshot, markChapterRead, markVerseRead, setAutomaticReading, subscribeReadingProgress, undoReadingChange } from "@/lib/reading-progress/store";
-import { advanceReadingClock, enoughReadingVisible, READING_IDLE_MS, requiredReadingMs, type ReadingClock } from "./automatic-policy";
+import { advanceReadingClock, enoughReadingVisible, readingViewport, READING_IDLE_MS, requiredReadingMs, type ReadingClock } from "./automatic-policy";
 import type { ReadingFeedback } from "./ReadingProgressHost";
 
 // Edition metadata only; no Scripture text or reference graph is bundled here.
@@ -97,15 +97,17 @@ export function startReadingProgress(notify: (feedback: ReadingFeedback) => void
 
   async function tick() {
     const snapshot = getReadingProgressSnapshot(), now = performance.now();
+    const dialogs = Array.from(document.querySelectorAll<HTMLElement>("[role='dialog'][aria-modal='true'], dialog[open], .site-tabbar__more[open]")).filter(rendered);
+    const focusReader = dialogs.find(dialog => dialog.matches("dialog[open][data-reading-focus-dialog]"));
     if (disposed || saving || snapshot.status !== "ready" || !snapshot.state.automatic || document.visibilityState !== "visible" || !document.hasFocus()
       || !recentActivity || now - recentActivity > READING_IDLE_MS || now - recentScroll < 650
-      || Array.from(document.querySelectorAll("[role='dialog'][aria-modal='true'], dialog[open], .site-tabbar__more[open]")).some(rendered)) { clock = null; return; }
-    const header = document.querySelector(".site-topbar")?.getBoundingClientRect();
-    const viewport = { width: innerWidth, height: innerHeight, top: Math.max(72, header?.bottom ?? 0), bottom: 100 };
+      || dialogs.some(dialog => dialog !== focusReader)) { clock = null; return; }
+    const header = (focusReader ? focusReader.querySelector("[data-reading-focus-toolbar]") : document.querySelector(".site-topbar"))?.getBoundingClientRect();
+    const viewport = readingViewport(innerWidth, innerHeight, header?.bottom ?? 0, focusReader?.getBoundingClientRect());
     let candidate: { node: HTMLElement; path: string; ref: NonNullable<ReturnType<typeof resolve>> } | undefined;
     for (const node of scriptures) {
       const path = node.dataset.readingRef, ref = resolve(path);
-      if (!ref?.verse || !path || !rendered(node) || isVerseRead(snapshot.state, ref.scope, ref.verse)) continue;
+      if (!ref?.verse || !path || (focusReader && !focusReader.contains(node)) || !rendered(node) || isVerseRead(snapshot.state, ref.scope, ref.verse)) continue;
       const rect = node.getBoundingClientRect();
       if (!enoughReadingVisible(rect, viewport)) continue;
       // An inner scrolling reader can clip text even when it is in the viewport.

@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/header/SiteHeader";
-import { NIGHT_MODE_ONLY, THEME_COLOR, THEME_SCRIPT } from "@/components/header/theme";
+import { DEFAULT_APPEARANCE, THEME_COLOR, THEME_SCRIPT } from "@/components/header/theme";
 import { SearchHost } from "@/components/search/SearchHost";
 import { StudyHost } from "@/components/assistant/StudyHost";
 import { VERSE_INTENT_SCRIPT } from "@/components/assistant/verse-intent-script";
@@ -57,8 +57,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: NIGHT_MODE_ONLY ? THEME_COLOR.noite : THEME_COLOR.dia },
-    { media: "(prefers-color-scheme: dark)", color: THEME_COLOR.noite },
+    { media: "(prefers-color-scheme: light)", color: THEME_COLOR.dia },
+    { media: "(prefers-color-scheme: dark)", color: THEME_COLOR.dia },
   ],
   viewportFit: "cover",
 };
@@ -67,7 +67,7 @@ export const viewport: Viewport = {
 // page and its footer; the tab bar on phones. The search palette loads on first use (SearchHost).
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="pt-BR" data-theme={NIGHT_MODE_ONLY ? "noite" : "sistema"} className={`${ui.variable} ${display.variable} ${reading.variable}`} suppressHydrationWarning>
+    <html lang="pt-BR" data-theme={DEFAULT_APPEARANCE} className={`${ui.variable} ${display.variable} ${reading.variable}`} suppressHydrationWarning>
       <head>
         {/* Installation identity is invariant across routes. Keep it in the static shell so
             Safari can discover it before dynamic passage metadata, without bypassing the CDN.
