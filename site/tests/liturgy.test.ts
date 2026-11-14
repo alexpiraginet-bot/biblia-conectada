@@ -103,6 +103,21 @@ describe("lectionary citations mapped conservatively to licensed scripture", () 
       ...Array.from({ length: 12 }, (_, i) => ({ chapter: 53, verse: i + 1 })),
     ]);
   });
+  it("accepts an omitted chapter only for canonical single-chapter books", () => {
+    for (const [reference, osis, verses] of [
+      ["3Jo 5-8", "3John", [5, 6, 7, 8]],
+      ["3Jo 5", "3John", [5]],
+      ["Fm 7–9.20", "Phlm", [7, 8, 9, 20]],
+      ["Jd 20-25", "Jude", [20, 21, 22, 23, 24, 25]],
+    ] as const) {
+      const result = resolveLiturgyReference(reference, books);
+      expect("book" in result && result.book.osis).toBe(osis);
+      expect("coordinates" in result && result.coordinates).toEqual(verses.map((verse) => ({ chapter: 1, verse })));
+    }
+    for (const reference of ["Lc 5-8", "Lc 5", "Sl 5-8", "Dn 5-8", "Est 5-8", "3Jo 0-8", "3Jo 5-99", "3Jo 8-5", "3Jo 2,5-8", "3Jo 5 ou 8"]) {
+      expect(resolveLiturgyReference(reference, books)).toHaveProperty("unavailableReason");
+    }
+  });
   it("uses the explicitly paired Hebrew Psalm chapter and labels the entire Psalm as context", () => {
     const result = resolveLiturgyReference("Sl 41(42),2.3.5bcd", books);
     expect("coordinates" in result && result.coordinates).toHaveLength(11);
@@ -118,6 +133,18 @@ describe("lectionary citations mapped conservatively to licensed scripture", () 
 });
 
 describe("daily liturgy result", () => {
+  it("resolves a single-chapter abbreviation to exact local text", async () => {
+    const source = fixture(); source.leituras.primeiraLeitura[0].referencia = "3Jo 5-8";
+    const result = await createLiturgyResult("2026-10-31", { books, readVerse, metadata: async (date) => extractLiturgyMetadata(source, date), now });
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    const reading = result.readings[0];
+    expect(reading.unavailableReason).toBeUndefined();
+    expect(reading.passages).toHaveLength(1);
+    expect(reading.passages[0].path).toBe("/3-joao/1");
+    expect(reading.passages[0].verses.map((verse) => verse.number)).toEqual([5, 6, 7, 8]);
+    for (const verse of reading.passages[0].verses) expect(verse.text).toBe(await readVerse("3-joao", 1, verse.number));
+  });
   it("returns only exact local BLIVRE verse text and genuine reader links", async () => {
     const result = await createLiturgyResult(undefined, { books, readVerse, metadata, now });
     expect(result.ok).toBe(true);

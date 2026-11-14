@@ -24,6 +24,15 @@ function loadPreferences() {
   catch { /* Keep this session's settings when storage is unavailable. */ }
 }
 
+function visibleReadingAnchor(container: HTMLElement | null, top: number): string | null {
+  const verses = [...(container?.querySelectorAll<HTMLElement>("[data-reading-ref]") ?? [])]
+    .map(node => ({ node, rect: node.getBoundingClientRect() }))
+    .filter(({ rect }) => rect.height > 0 && rect.bottom > top && rect.top < innerHeight);
+  // A clipped tail from the preceding verse should not push the verse being read below the screen on exit.
+  const anchor = verses.find(({ rect }) => rect.top >= top && rect.bottom <= innerHeight) ?? verses[0];
+  return anchor?.node.dataset.readingRef ?? null;
+}
+
 export function ReadingFocus({ scope, title, edition, credit, children }: {
   scope: string; title: string; edition: string; credit: string; children: ReactNode;
 }) {
@@ -37,11 +46,7 @@ export function ReadingFocus({ scope, title, edition, credit, children }: {
   const settingsId = useId();
 
   function open() {
-    const verses = root.current?.querySelectorAll<HTMLElement>("[data-reading-ref]");
-    anchor.current = [...(verses ?? [])].find((node) => {
-      const r = node.getBoundingClientRect();
-      return r.bottom > 80 && r.top < innerHeight;
-    })?.dataset.readingRef ?? null;
+    anchor.current = visibleReadingAnchor(root.current, 80);
     loadPreferences();
     activeScope = scope;
     nextScope = null;
@@ -49,12 +54,8 @@ export function ReadingFocus({ scope, title, edition, credit, children }: {
   }
 
   function close() {
-    const verses = dialog.current?.querySelectorAll<HTMLElement>("[data-reading-ref]");
     const top = dialog.current?.querySelector("[data-reading-focus-toolbar]")?.getBoundingClientRect().bottom ?? 64;
-    anchor.current = [...(verses ?? [])].find((node) => {
-      const r = node.getBoundingClientRect();
-      return r.bottom > top && r.top < innerHeight;
-    })?.dataset.readingRef ?? anchor.current;
+    anchor.current = visibleReadingAnchor(dialog.current, top) ?? anchor.current;
     activeScope = null;
     nextScope = null;
     notify();
