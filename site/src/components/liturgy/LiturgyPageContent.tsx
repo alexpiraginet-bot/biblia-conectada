@@ -11,6 +11,7 @@ import { LiturgyRefresh } from "@/components/liturgy/LiturgyRefresh";
 import { getTranslation, type TranslationId } from "@/lib/translations";
 import { LITURGY_EXTERNAL_EDITIONS, liturgyEditionQuery, parseLiturgyEdition } from "@/lib/liturgy/edition";
 import type { LiturgyPassage } from "@/lib/liturgy/types";
+import { ReadingFocus } from "@/components/reader/ReadingFocus";
 import styles from "@/app/(site)/liturgia/liturgia.module.css";
 
 export type LiturgySearch = Promise<{ date?: string | string[]; edition?: string | string[] }>;
@@ -91,6 +92,7 @@ async function DailyReadings({ searchParams }: { searchParams: LiturgySearch }) 
         <div className={styles.errorActions}>{data.code !== "invalid-edition" && <a className="bc-button bc-button--primary" href={liturgyDayPath(validDate, edition)}>Tentar novamente</a>}<Link href={edition === "open-nbv" ? "/ler/open-nbv" : "/ler"} className="bc-button bc-button--secondary">Abrir a Bíblia</Link></div>
         <p>Você também pode consultar a liturgia no <a href="https://liturgiadiaria.edicoescnbb.com.br/" target="_blank" rel="noreferrer">site da CNBB ↗</a>.</p>
       </section> : <>
+        <ReadingFocus scope={`liturgy-${validDate}-${edition}`} title={`Liturgia · ${dateLabel(validDate, { day: "numeric", month: "long" })}`} edition={data.edition.name} credit={[getTranslation(edition)!.credit, getTranslation(edition)!.sourceNotice, getTranslation(edition)!.trademarkNotice, `${getTranslation(edition)!.license} (${getTranslation(edition)!.licenseUrl})`].filter(Boolean).join(" ")}>
         <div className={styles.editionNote}><span aria-hidden="true" className={styles.editionMark}>✦</span><p><strong>{data.edition.name}.</strong> {edition === "open-nbv" ? "Abra os capítulos abaixo para ler o contexto de cada referência, sem equivalência de versículos presumida." : "Versículos para estudo, em uma tradução diferente do lecionário."}</p></div>
         {data.readings.map((reading, index) => <section key={reading.id} id={reading.id} className={styles.reading} data-liturgy-reading>
           <header className={styles.readingHeader}><span className={styles.readingNumber}>{String(index + 1).padStart(2, "0")}</span><div><p className={styles.sectionLabel}>{reading.label}</p><h2>{reading.reference}</h2></div></header>
@@ -98,6 +100,7 @@ async function DailyReadings({ searchParams }: { searchParams: LiturgySearch }) 
           {reading.unavailableReason && <div className={styles.missingReading}><p>{reading.unavailableReason}</p><a href="https://liturgiadiaria.edicoescnbb.com.br/" target="_blank" rel="noreferrer">Consultar esta leitura na CNBB ↗</a></div>}
           {reading.passages.map((passage, p) => edition === "open-nbv" ? <details key={passage.path} className={styles.contextChapter} open={index === 0 && p === 0}><summary>Ler {passage.reference} <small>Capítulo completo · Open NBV</small></summary><PassageText passage={passage} edition={edition} /></details> : <PassageText key={`${passage.path}-${p}`} passage={passage} edition={edition} />)}
         </section>)}
+        </ReadingFocus>
         <section className={styles.continueReading}><p className={styles.sectionLabel}>Leve a leitura com você</p><h2>O que ficou no seu coração?</h2><p>Continue a reflexão, encontre uma passagem ou descubra como os textos se conectam.</p><Link href="/coracao" prefetch={false}>Abrir meu espaço de reflexão <span aria-hidden="true">↗</span></Link></section>
       </>}
       <footer className={styles.sources}>{edition === "open-nbv" && data.ok && <div className={styles.translationCredit}><p>{getTranslation(edition)!.credit} <a href={getTranslation(edition)!.licenseUrl} target="_blank" rel="noreferrer">{getTranslation(edition)!.license}</a>.</p><p>{getTranslation(edition)!.sourceNotice}</p><p>{getTranslation(edition)!.trademarkNotice}</p></div>}<details><summary>Sobre as leituras e suas fontes</summary><p>As referências seguem o calendário litúrgico católico usado no Brasil, consultado no <a href={data.source.url} target="_blank" rel="noreferrer">{data.source.name} ↗</a>. Este espaço de leitura está aberto a todos. Celebrações locais e opções podem variar.</p><p>Os textos de estudo são da {getTranslation(edition)!.name}. Consulte o <a href={data.source.officialUrl} target="_blank" rel="noreferrer">lecionário na CNBB</a> para a redação litúrgica, os recortes, refrões e orações. Na fonte, escolha a mesma data. <Link href="/sobre">Fontes e créditos</Link>.</p></details></footer>

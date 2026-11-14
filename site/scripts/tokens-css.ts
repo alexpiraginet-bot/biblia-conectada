@@ -1,6 +1,6 @@
 // Writes src/styles/tokens.css from src/styles/tokens.json, the tokens of the "Atlas" design system (the same file the
 // design-system page publishes). Every theme block spells out every colour, so no token of one theme refers to another.
-// Sistema is the default, including without JavaScript. A stored choice
+// Dia is the default, including without JavaScript. A stored choice
 // (data-theme on <html> and <body>) wins either way. <body> gets its own copy of the values whenever <html> has no
 // choice, so a change of the device's setting recomputes it too (the stale colours of 19/10 came from inheritance).
 //   npx tsx scripts/tokens-css.ts            writes the file
@@ -56,16 +56,14 @@ export function tokensCss(t: Tokens = JSON.parse(readFileSync(TOKENS_JSON, "utf8
     "",
     ":root,",
     ":root:not([data-theme]) body {",
-    themed(noite, "  "),
+    themed(dia, "  "),
     ...fixed.map((l) => "  " + l),
     "}",
     "",
-    `@media (prefers-color-scheme: light) {`,
-    `  :root:not([data-theme]),`,
-    `  :root:not([data-theme]) body,`,
+    `@media (prefers-color-scheme: dark) {`,
     `  :root[data-theme="sistema"],`,
     `  :root[data-theme="sistema"] body {`,
-    themed(dia, "    "),
+    themed(noite, "    "),
     "  }",
     "}",
     "",

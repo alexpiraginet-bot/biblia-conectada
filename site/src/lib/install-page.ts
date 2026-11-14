@@ -1,6 +1,6 @@
 import credits from "@/data/generated/credits.json";
 import tokens from "@/styles/tokens.json";
-import { NIGHT_MODE_ONLY, THEME_SCRIPT } from "@/components/header/theme";
+import { DEFAULT_APPEARANCE, THEME_SCRIPT } from "@/components/header/theme";
 import { SITE_NAME, SITE_URL } from "./site-identity";
 import { getTranslation } from "./translations";
 import { safeContentPath } from "./app-links";
@@ -25,7 +25,7 @@ export function installPageHtml(next?: string | null, apps: NativeAppLinks = { i
   const appId = appleStoreId(apps.ios);
   const nbv = getTranslation("open-nbv")!;
   return `<!doctype html>
-<html lang="pt-BR" data-theme="${NIGHT_MODE_ONLY ? "noite" : "sistema"}">
+<html lang="pt-BR" data-theme="${DEFAULT_APPEARANCE}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -40,13 +40,13 @@ ${appId ? `<meta name="apple-itunes-app" content="app-id=${appId}, app-argument=
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="canonical" href="${home}/instalar">
 <meta name="description" content="Leve a ${name} para a Tela de Início no iPhone, iPad ou Android, sem perder o caminho da sua leitura.">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="${tokens.color.tokens.find((token) => token.name === "ground")!.value[NIGHT_MODE_ONLY ? "noite" : "dia"]}">
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="${tokens.color.tokens.find((token) => token.name === "ground")!.value.noite}">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="${tokens.color.tokens.find((token) => token.name === "ground")!.value.dia}">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="${tokens.color.tokens.find((token) => token.name === "ground")!.value.dia}">
 <script>${THEME_SCRIPT}</script>
 <style>
-:root{${colors("noite")};${dimensions};color-scheme:dark}
-:root[data-theme="dia"]{${colors("dia")};color-scheme:light}
-@media(prefers-color-scheme:light){:root[data-theme="sistema"]{${colors("dia")};color-scheme:light}}
+:root{${colors("dia")};${dimensions};color-scheme:light}
+:root[data-theme="noite"]{${colors("noite")};color-scheme:dark}
+@media(prefers-color-scheme:dark){:root[data-theme="sistema"]{${colors("noite")};color-scheme:dark}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--ground);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-text-size-adjust:100%}
 [hidden]{display:none!important}
@@ -137,7 +137,7 @@ var icon=document.getElementById("app-icon"),status=document.getElementById("ico
 function update(){var ready=icon.naturalWidth>0;status.textContent=ready?"Ícone carregado. Confira-o também no Safari.":"Não foi possível carregar o ícone. Recarregue esta página antes de adicionar.";status.dataset.state=ready?"loaded":"error";reload.hidden=ready;}
 icon.addEventListener("load",update);icon.addEventListener("error",update);if(icon.complete)update();
 reload.addEventListener("click",function(){location.reload()});
-function chromeColor(){document.querySelector('meta[name="theme-color"]').content=getComputedStyle(document.documentElement).getPropertyValue("--ground").trim()}
+function chromeColor(){var color=getComputedStyle(document.documentElement).getPropertyValue("--ground").trim();document.querySelectorAll('meta[name="theme-color"]').forEach(function(meta){meta.content=color})}
 chromeColor();if(window.matchMedia)window.matchMedia("(prefers-color-scheme: light)").addEventListener("change",chromeColor);
 })();
 </script>

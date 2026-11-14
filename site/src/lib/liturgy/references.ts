@@ -17,7 +17,8 @@ const UNALIGNED = "A numeração desta passagem não foi alinhada à edição do
 /** Fail closed for unsupported notation; never turn an unparsed citation into a different reading. */
 export function resolveLiturgyReference(reference: string, books: readonly Book[]): LiturgyReference {
   const citation = reference.replace(/\s*\(Forma (?:Longa|Breve)\)\s*$/i, "");
-  const match = /^([1-3]?\s*[^\d,()]+?)\s*(\d{1,3})(?:\s*\((\d{1,3})\))?(?:\s*,\s*(.+))?$/.exec(citation);
+  const match = /^([1-3]?\s*[^\d,()]+?)\s*(\d{1,3})(?:\s*\((\d{1,3})\))?(?:\s*,\s*(.+))?$/.exec(citation)
+    ?? /^([1-3]?\s*[^\d,()]+?)\s*(\d[\d.a-f\s–—-]*)$/.exec(citation);
   if (!match) return { unavailableReason: UNALIGNED };
   const [, name, chapterNumber, parallelNumber, verseExpression] = match;
   const exact = name.trim().toLocaleLowerCase("pt-BR");
@@ -27,7 +28,10 @@ export function resolveLiturgyReference(reference: string, books: readonly Book[
     ?? books.find((candidate) => [candidate.name, candidate.abbr, ...candidate.aliases].some((alias) => normalize(alias) === normalized));
   if (!book) return { unavailableReason: "Este livro não está na edição BLIVRE disponível no app. Leia esta passagem no site da CNBB." };
 
-  const chapter = Number(parallelNumber ?? chapterNumber);
+  // Single-chapter books conventionally omit the chapter: "3Jo 5-8" means 3 John 1:5-8.
+  // The canon, not the spelling of the citation, decides whether that omission is safe.
+  const implicitChapter = book.verses.length === 1 && !parallelNumber && !verseExpression;
+  const chapter = implicitChapter ? 1 : Number(parallelNumber ?? chapterNumber);
   if (parallelNumber && book.osis !== "Ps") return { unavailableReason: UNALIGNED };
   if (!book.verses[chapter - 1]) return { unavailableReason: UNALIGNED };
 
@@ -44,8 +48,9 @@ export function resolveLiturgyReference(reference: string, books: readonly Book[
 
   // Greek additions make a same-number match unsafe without a reviewed versification map.
   if (book.osis === "Esth" || book.osis === "Dan") return { unavailableReason: UNALIGNED };
-  if (!verseExpression) return { unavailableReason: UNALIGNED };
-  const expression = verseExpression.replace(/\s+/g, "").replace(/[–—]/g, "-");
+  const selection = implicitChapter ? chapterNumber : verseExpression;
+  if (!selection) return { unavailableReason: UNALIGNED };
+  const expression = selection.replace(/\s+/g, "").replace(/[–—]/g, "-");
   const coordinates: { chapter: number; verse: number }[] = [];
   let currentChapter = chapter;
   for (const segment of expression.split(".")) {
