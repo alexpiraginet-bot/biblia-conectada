@@ -45,7 +45,7 @@ CIDADE = ("Setting: a modern sunny coastal city of today as an open game world: 
           "promenade, traffic, buses, people everywhere with phones; on its edge, a park of old olive trees.")
 POLICIA = "police cars with flashing red and blue lights and no lettering"
 
-ORDEM = ["mc-pescadores", "mt-aguas", "mc-legiao", "procurado-1", "procurado-2", "procurado-3", "jornada", "jo-cana", "mt-entrada", "jo-lazaro", "mc-paes", "mc-paralitico", "lc-zaqueu", "jo-samaritana"]
+ORDEM = ["mc-pescadores", "mt-aguas", "mc-legiao", "procurado-1", "procurado-2", "procurado-3", "jornada", "fase-final", "jo-cana", "mt-entrada", "jo-lazaro", "mc-paes", "mc-paralitico", "lc-zaqueu", "jo-samaritana"]
 
 
 CONTINUA = ("Continue the same gameplay session as the reference video: the same place, the same people, the same weather and light, the "
@@ -443,4 +443,49 @@ CENAS["jornada"] = dict(luz="golden sunrise light over the lake, morning mist, v
            "while his eleven companions, short-haired bearded men in plain brown and grey tunics without mantles, kneel and stand "
            "around him, the valleys and the lake glowing gold below.",
          som="dawn birds, soft wind, footsteps on gravel, then wind over the hilltop"),
+])
+
+# "Fase final" (21/11, Alex: "Bora fazer um de uma fase final spoiler? Redenção e crucificação"; it ends on the cross, "continua no
+# terceiro dia"). Three places, so every mission starts from the character sheet (novo). The same reverence as A jornada's final
+# phase: the cross carried, seen from behind; the three crosses only in silhouette, far away; no blood, no wounds, no close-up.
+CENAS["fase-final"] = dict(luz="night, cold blue moonlight through old olive trees, then the warm orange glow of approaching torches", povo=POVO_UNICO, missoes=[
+    dict(mundo="Setting: a garden of old olive trees on a hillside outside the walls of first-century Jerusalem at night; the dark city "
+               "walls stand in the distance.",
+         a="the gameplay camera stays about 4 metres behind him, only his back visible, as he kneels alone on a flat rock under the old "
+           "olive trees and prays with his head bowed and his hands resting on the rock; farther down the slope, in the background, three "
+           "of his companions, short-haired bearded men in plain brown and grey tunics without mantles, sleep wrapped in their cloaks "
+           "under a tree; the olive leaves move in the wind.",
+         b="the same gameplay camera, still about 4 metres behind him so that only his back is seen, as he stands up and walks slowly "
+           "toward a line of burning torches coming up the path between the olive trees: a crowd of men in plain tunics carrying torches "
+           "and lanterns, with Roman soldiers in plain helmets holding their spears upright; his empty hands are open at his sides. "
+           "Nobody fights and no weapon is raised.",
+         som="crickets, wind in the olive leaves, a distant dog, then many footsteps on gravel and crackling torches"),
+    dict(novo=True, luz="overcast grey morning light, dust in the air",
+         mundo="Setting: a narrow stone street of first-century Jerusalem leading to a city gate, crowded on both sides.",
+         a="the gameplay camera follows about 4 metres behind him, only his back visible, as he slowly carries a heavy wooden cross on "
+           "his right shoulder up the narrow stone street; Roman soldiers in plain bronze helmets and brown cloaks walk beside him with "
+           "their spears held upright; women in dark mantles weep along the walls as he passes. No blood, no wounds visible; his face is "
+           "never shown.",
+         b="the same gameplay camera behind him: a soldier stops a strong farmer with a shaved head and a short black beard, in a plain "
+           "brown work tunic, coming in from the fields; the farmer lifts the cross onto his own shoulders and follows close behind him "
+           "on the left side of the frame, while the player character walks on in the centre of the frame with empty hands toward the "
+           "open city gate, the crowd following. No blood, no wounds visible.",
+         som="a murmuring crowd without clear words, slow footsteps on stone, armour clinking, women weeping softly"),
+    dict(novo=True, luz="a midday sky turning black, the sun dimming behind heavy clouds, then darkness with a thin band of golden light on "
+                        "the horizon",
+         heroi_ref=("The player character is the man from the reference image: dark wavy shoulder-length hair, off-white wool tunic with "
+                    "rope belt, terracotta-red mantle, leather sandals. In this take he is never seen up close and he is not among the "
+                    "people on the ground. "),
+         mundo="Setting: a bare rocky hill outside the walls of first-century Jerusalem.",
+         # 21/11: the first take (job 9c2754f5) put a crowd there, with a man like him (long hair, light tunic, terracota mantle)
+         # in the middle: shot 1 now has only four women with covered heads and no men near the camera
+         a="the camera stays far behind four women in dark blue and grey mantles that cover their heads, standing still at the foot of "
+           "the hill and seen only from behind, looking up at three crosses in black silhouette on the hilltop against a midday sky that "
+           "turns dark as the sun dims; there are no men on the ground near the camera; the wind blows dust and their mantles. Seen only "
+           "from far away and in silhouette: no blood, no wounds, no close-up of the crosses.",
+         b="a wide, slow shot from even farther away as darkness covers the whole land: the three crosses are small black shapes on the "
+           "hilltop, a Roman officer in a plain helmet stands alone below them and lowers his head; at the end a thin band of golden "
+           "light breaks along the dark horizon behind the hill. Seen only from far away and in silhouette: no blood, no wounds, no "
+           "close-up.",
+         som="wind, distant thunder, then only the wind"),                     # no crowd in the sound either: the first take drew one
 ])

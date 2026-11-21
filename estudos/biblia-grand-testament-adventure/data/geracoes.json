@@ -133,6 +133,17 @@
    "job": "68f0444a-1dcd-4a9a-9547-339118099b74",
    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261113_125453_68f0444a-1dcd-4a9a-9547-339118099b74.mp4",
    "montagem": "missão 3 = jornada-3-barco (job c4252c4a) quadros 0-97 + este take (job 68f0444a) quadros 98-192"
+  },
+  "fase-final-1": {
+   "job": "ff99a605-2a91-4df1-ba44-f73b7c33e818",
+   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261121_191332_ff99a605-2a91-4df1-ba44-f73b7c33e818.mp4"
+  },
+  "fase-final-2": {
+   "job": "d85f7c99-7f3b-470f-bc3c-1aa6137f8251",
+   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261121_191332_d85f7c99-7f3b-470f-bc3c-1aa6137f8251.mp4"
+  },
+  "fase-final-3": {
+   "job": "ad2ce9b0-e8d2-4825-aff9-7b4f22f9f2b2"
   }
  },
  "reels": {
@@ -614,6 +625,11 @@
    "job": "c4252c4a-d355-43cc-8361-46866867065b",
    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261113_115442_c4252c4a-d355-43cc-8361-46866867065b.mp4",
    "motivo": "no andar sobre o mar, ele sai de um píer de madeira e, no barco, um homem de cabelo comprido, barba e manto vermelho como o dele (pedido feito antes da regra de um manto vermelho só). A tempestade (do início ao corte em 4,083 s: ele de pé na proa, o braço erguido, o mar acalmando) ficou boa e fica guardada aqui para a montagem; a tempestade (quadros 0 a 97) foi usada no take montado da missão 3"
+  },
+  "fase-final-3-sosia": {
+   "job": "9c2754f5-f0bf-4a09-9a2f-17509a60a5e0",
+   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KRoZIp0z850Lqh5BtVt8MOU4If/hf_20261121_191332_9c2754f5-f0bf-4a09-9a2f-17509a60a5e0.mp4",
+   "motivo": "no plano 1, em vez de poucas mulheres, uma multidão de costas e, bem no meio, um homem de cabelo comprido, barba, túnica clara e manto terracota como o jogador (e outros de cabelo comprido e manto vermelho). O plano 2 (do fim da fusão, perto de 5,2 s, ao fim: as três cruzes pequenas no alto do morro, a terra escura, o oficial embaixo e o filete de luz dourada no horizonte) ficou bom e fica guardado aqui para a montagem"
   }
  }
 }

@@ -66,7 +66,8 @@ def ref(osis):
 def titulo(ep):
     if ep in PASS: return f"{PASS[ep]['titulo']} ({PASS[ep]['ref_pt']})"
     if ep in procurado.PARTES: return f"Procurado, parte {procurado.PARTES[ep]['parte']} de 3 (especial: ele numa cidade de hoje)"
-    return f"{jornada.J['titulo']} ({jornada.J['ref'].lower()}, {len(jornada.J['missoes'])} missões)"
+    cfg = jornada.ESPECIAIS[ep]; r = cfg["ref"]
+    return f"{cfg['titulo']} ({r[0].lower() + r[1:] if r.startswith('Os ') else r}, {len(cfg['missoes'])} missões)"
 
 
 def inicio(ep, k):
@@ -95,7 +96,7 @@ def hud_de(ep, k):
         out.append("estrelas " + " → ".join(str(c) for _, c in mi["estrelas"]))
         if mi.get("cartao"): out.append(f"cartão “{mi['cartao']}” no corte")
         return " · ".join(out)
-    mi = jornada.J["missoes"][k - 1]; o = mi.get("objetivo"); out = []
+    mi = jornada.ESPECIAIS[ep]["missoes"][k - 1]; o = mi.get("objetivo"); out = []
     if isinstance(o, dict): out.append(" / ".join(f"objetivo (plano {s}) “{t}”" for s, t in o.items()))
     elif o: out.append(f"objetivo “{o}”" + (" (a partir do corte)" if mi.get("objetivo_de") == "corte" else ""))
     out += [f"tecla [E] “{t}” (plano {s})" for t, s in mi.get("acoes", [])]
@@ -228,9 +229,9 @@ def sec_pescadores():
 
 
 def sec_jornada():
-    J = jornada.J; ms = J["missoes"]
+    J = jornada.ESPECIAIS["jornada"]; ms = J["missoes"]
     out = [f"Gancho: “{' / '.join(J['gancho'])}” (`{{s}}` é a duração medida do reel); título “{J['titulo']}”; ritmo {brs(J['ritmo'])}x; "
-           f"último quadro parado {brs(J['pausa'])} s; cartão final {brs(J['fim_s'])} s com “{jornada.FIM_QUOTE[1]}” ({ref(jornada.FIM_QUOTE[0])}).", "",
+           f"último quadro parado {brs(J['pausa'])} s; cartão final {brs(J['fim_s'])} s com “{J['fim_quote'][1]}” ({ref(J['fim_quote'][0])}).", "",
            "| Missão | O que o HUD mostra | Take montado de |", "|---|---|---|"]
     for k, mi in enumerate(ms, 1):
         mont = "; ".join(f"quadros {a}–{b - 1} de `{Path(f).name}`" + (f" (aproximado {br(z[0])}x)" if z else "") for f, a, b, *z in mi["montagem"]) if mi.get("montagem") else "o take inteiro"

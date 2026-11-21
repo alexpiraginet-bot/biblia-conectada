@@ -2,7 +2,7 @@
 
 Gerado por `tools/prompts.py` a partir de `cenas.py`, `tools/fila.py`, `data/passagens.json`, `procurado.py`, `jornada.py` e `data/geracoes.json`. Não edite à mão: mude o código e rode `python3 -I tools/prompts.py`. Como usar, as regras e o porquê de cada bloco estão no `SKILL.md`. O texto é o de hoje em `cenas.py`; cada job listado foi pedido com o texto daquele momento (o histórico está no git de `cenas.py`).
 
-46 takes em 14 episódios, na ordem da fila (`cenas.ORDEM`). Cada bloco `text` é o prompt exato que `python3 -I tools/fila.py prox` manda ao Higgsfield (`generate_video_batch`), sempre com estes parâmetros:
+49 takes em 15 episódios, na ordem da fila (`cenas.ORDEM`). Cada bloco `text` é o prompt exato que `python3 -I tools/fila.py prox` manda ao Higgsfield (`generate_video_batch`), sempre com estes parâmetros:
 
 ```json
 {"model": "seedance_2_0", "aspect_ratio": "9:16", "duration": 8, "resolution": "720p", "mode": "std", "generate_audio": true, "use_unlim": true}
@@ -19,6 +19,7 @@ Gerado por `tools/prompts.py` a partir de `cenas.py`, `tools/fila.py`, `data/pas
 - `procurado-2`: Procurado, parte 2 de 3 (especial: ele numa cidade de hoje), 3 de 3 takes gerados, reel conferido
 - `procurado-3`: Procurado, parte 3 de 3 (especial: ele numa cidade de hoje), 3 de 3 takes gerados, reel conferido
 - `jornada`: A jornada (os quatro evangelhos, 7 missões), 7 de 7 takes gerados, reel conferido
+- `fase-final`: Fase final (Lucas 22–23 · João 19, 3 missões), 2 de 3 takes gerados
 - `jo-cana`: Água feita vinho (João 2:1–11), 1 de 3 takes gerados
 - `mt-entrada`: A entrada em Jerusalém (Mateus 21:1–11), 0 de 3 takes gerados
 - `jo-lazaro`: Lázaro, sai fora (João 11:38–44), 0 de 3 takes gerados
@@ -376,6 +377,47 @@ Gameplay capture of a third-person open-world action-adventure video game on a c
 1688 caracteres.
 
 Medido por `tools/confere.py` no arquivo entregue: `renders/jornada.mp4`: 1202 quadros (50,083 s), 27,88 MB, -14,1 LUFS, pico real -1,5 dBTP, cortes em 4,12 s, 7,54 s, 10,17 s, 13,67 s, 13,88 s, 16,92 s, 20,08 s, 22,96 s, 27,21 s, 29,67 s, 33,83 s, 37,38 s, mudança mediana por quadro 4,21 (5,8% da luz), fala ouvida pelo Whisper: nenhuma; capa `renders/capa-jornada.jpg`. Entregue: 13/11 ~10:15, com capa (quadro de 1,0 s) e legenda (LEGENDAS-JORNADA.md).
+
+## Fase final (Lucas 22–23 · João 19, 3 missões)
+
+Episódio `fase-final` · luz do episódio: “night, cold blue moonlight through old olive trees, then the warm orange glow of approaching torches”
+
+### `fase-final-1` · missão 1 de 3
+
+- Começa de: folha de personagem (`image_references` = `aab922bf-ea1c-485a-be3e-fea044f08fa5`)
+- HUD por cima: objetivo (plano a) “Ore no jardim” / objetivo (plano b) “Entregue-se” · tecla [E] “Orar” (plano a) · tecla [E] “Ir ao encontro” (plano b) · fala (plano a) “não se faça minha vontade, mas a tua.” (Lucas 22:42) · fala (plano b) “A quem buscais?” (João 18:4)
+- Gerado: job `ff99a605-2a91-4df1-ba44-f73b7c33e818`
+
+```text
+Gameplay capture of a third-person open-world action-adventure video game on a current-generation console: real-time 3D graphics, detailed game character models, sharp textures, real-time shadows, night, cold blue moonlight through old olive trees, then the warm orange glow of approaching torches, smooth frame rate, player-controlled camera. The player character is the man from the reference image, always seen from behind, fully visible from head to sandals in the lower centre of the frame: dark wavy shoulder-length hair, off-white wool tunic with rope belt, terracotta-red mantle over the left shoulder, leather sandals. Setting: a garden of old olive trees on a hillside outside the walls of first-century Jerusalem at night; the dark city walls stand in the distance. Two shots with one hard cut. Shot 1 (first 4 seconds): the gameplay camera stays about 4 metres behind him, only his back visible, as he kneels alone on a flat rock under the old olive trees and prays with his head bowed and his hands resting on the rock; farther down the slope, in the background, three of his companions, short-haired bearded men in plain brown and grey tunics without mantles, sleep wrapped in their cloaks under a tree; the olive leaves move in the wind. Hard cut. Shot 2 (last 4 seconds): the same gameplay camera, still about 4 metres behind him so that only his back is seen, as he stands up and walks slowly toward a line of burning torches coming up the path between the olive trees: a crowd of men in plain tunics carrying torches and lanterns, with Roman soldiers in plain helmets holding their spears upright; his empty hands are open at his sides. Nobody fights and no weapon is raised. All people are Middle Eastern adults in first-century tunics, mantles and head coverings. Apart from the player character, no man has long hair and nobody wears red. No children. Ambient sound only: crickets, wind in the olive leaves, a distant dog, then many footsteps on gravel and crackling torches. No soundtrack music, no speech, no HUD, no user interface, no text, no subtitles.
+```
+
+2078 caracteres.
+
+### `fase-final-2` · missão 2 de 3
+
+- Começa de: folha de personagem (`image_references` = `aab922bf-ea1c-485a-be3e-fea044f08fa5`) · lugar novo (`novo`)
+- HUD por cima: objetivo “Carregue a cruz” · tecla [E] “Carregar” (plano a) · fala (plano a) “Filhas de Jerusalém, não choreis por mim” (Lucas 23:28) · fala (plano b) “tomaram a um Simão Cireneu, que vinha do campo” (Lucas 23:26)
+- Gerado: job `d85f7c99-7f3b-470f-bc3c-1aa6137f8251`
+
+```text
+Gameplay capture of a third-person open-world action-adventure video game on a current-generation console: real-time 3D graphics, detailed game character models, sharp textures, real-time shadows, overcast grey morning light, dust in the air, smooth frame rate, player-controlled camera. The player character is the man from the reference image, always seen from behind, fully visible from head to sandals in the lower centre of the frame: dark wavy shoulder-length hair, off-white wool tunic with rope belt, terracotta-red mantle over the left shoulder, leather sandals. Setting: a narrow stone street of first-century Jerusalem leading to a city gate, crowded on both sides. Two shots with one hard cut. Shot 1 (first 4 seconds): the gameplay camera follows about 4 metres behind him, only his back visible, as he slowly carries a heavy wooden cross on his right shoulder up the narrow stone street; Roman soldiers in plain bronze helmets and brown cloaks walk beside him with their spears held upright; women in dark mantles weep along the walls as he passes. No blood, no wounds visible; his face is never shown. Hard cut. Shot 2 (last 4 seconds): the same gameplay camera behind him: a soldier stops a strong farmer with a shaved head and a short black beard, in a plain brown work tunic, coming in from the fields; the farmer lifts the cross onto his own shoulders and follows close behind him on the left side of the frame, while the player character walks on in the centre of the frame with empty hands toward the open city gate, the crowd following. No blood, no wounds visible. All people are Middle Eastern adults in first-century tunics, mantles and head coverings. Apart from the player character, no man has long hair and nobody wears red. No children. Ambient sound only: a murmuring crowd without clear words, slow footsteps on stone, armour clinking, women weeping softly. No soundtrack music, no speech, no HUD, no user interface, no text, no subtitles.
+```
+
+1971 caracteres.
+
+### `fase-final-3` · missão 3 de 3
+
+- Começa de: folha de personagem (`image_references` = `aab922bf-ea1c-485a-be3e-fea044f08fa5`) · lugar novo (`novo`)
+- HUD por cima: fala (plano a) “Pai, perdoa-lhes, porque não sabem o que fazem.” (Lucas 23:34) · fala (plano b) “hoje estarás comigo no paraíso.” (Lucas 23:43) · faixa “REDENÇÃO” / “FASE FINAL” · cena de corte (faixas pretas, sem HUD) no(s) plano(s) a, b
+- Gerado: ainda não gerado
+- Descartado (job `9c2754f5-f0bf-4a09-9a2f-17509a60a5e0`): no plano 1, em vez de poucas mulheres, uma multidão de costas e, bem no meio, um homem de cabelo comprido, barba, túnica clara e manto terracota como o jogador (e outros de cabelo comprido e manto vermelho). O plano 2 (do fim da fusão, perto de 5,2 s, ao fim: as três cruzes pequenas no alto do morro, a terra escura, o oficial embaixo e o filete de luz dourada no horizonte) ficou bom e fica guardado aqui para a montagem
+
+```text
+Gameplay capture of a third-person open-world action-adventure video game on a current-generation console: real-time 3D graphics, detailed game character models, sharp textures, real-time shadows, a midday sky turning black, the sun dimming behind heavy clouds, then darkness with a thin band of golden light on the horizon, smooth frame rate, player-controlled camera. The player character is the man from the reference image: dark wavy shoulder-length hair, off-white wool tunic with rope belt, terracotta-red mantle, leather sandals. In this take he is never seen up close and he is not among the people on the ground. Setting: a bare rocky hill outside the walls of first-century Jerusalem. Two shots with one hard cut. Shot 1 (first 4 seconds): the camera stays far behind four women in dark blue and grey mantles that cover their heads, standing still at the foot of the hill and seen only from behind, looking up at three crosses in black silhouette on the hilltop against a midday sky that turns dark as the sun dims; there are no men on the ground near the camera; the wind blows dust and their mantles. Seen only from far away and in silhouette: no blood, no wounds, no close-up of the crosses. Hard cut. Shot 2 (last 4 seconds): a wide, slow shot from even farther away as darkness covers the whole land: the three crosses are small black shapes on the hilltop, a Roman officer in a plain helmet stands alone below them and lowers his head; at the end a thin band of golden light breaks along the dark horizon behind the hill. Seen only from far away and in silhouette: no blood, no wounds, no close-up. All people are Middle Eastern adults in first-century tunics, mantles and head coverings. Apart from the player character, no man has long hair and nobody wears red. No children. Ambient sound only: wind, distant thunder, then only the wind. No soundtrack music, no speech, no HUD, no user interface, no text, no subtitles.
+```
+
+1938 caracteres.
 
 ## Água feita vinho (João 2:1–11)
 

@@ -18,6 +18,7 @@ letterbox, no radar, no objective, only the words; it comes back on the third da
   python3 -I jornada.py --check         -> every line is literal BLIVRE
   python3 -I jornada.py --legenda       -> the post's caption (LEGENDAS-JORNADA.md)
   add --rascunho to use a stand-in picture for takes not generated yet (stills only)
+  add --ep fase-final to build "Fase final" (FASE below) instead: renders/fase-final.mp4, LEGENDAS-FASE-FINAL.md
 """
 import json, math, re, subprocess, sys, zipfile
 from pathlib import Path
@@ -84,8 +85,34 @@ J = dict(gancho=["A MAIOR MISSÃO DA HISTÓRIA", "EM {s} SEGUNDOS DE GAMEPLAY"],
 ])
 FIM_QUOTE = ("Luke.24.23", "ele vive")
 POST_QUOTE = ("Luke.24.23", "que disseram que ele vive.")                         # the same, longer, for the post's caption
+J.update(fim_quote=FIM_QUOTE, post_quote=POST_QUOTE, legendas="LEGENDAS-JORNADA.md")
 CREDITOS = ["TEXTO: BÍBLIA LIVRE (CC BY 4.0 BR) · LUGARES: OPENBIBLE.INFO (CC BY 4.0)",
             "RELEVO: SRTM/GMTED2010 (USGS), ETOPO1 (NOAA), MAPZEN · IMAGENS GERADAS POR IA"]
+
+# "Fase final" (21/11, Alex: "Bora fazer um de uma fase final spoiler? Redenção e crucificação"; he chose the ending on the
+# cross, with "continua no terceiro dia"). Three takes of cenas.py "fase-final": the garden (he prays, then goes out to the
+# torches), the cross carried and Simon of Cyrene taking it, and the hill as a cutscene (three crosses only in silhouette, far
+# away). Same pieces as A jornada; the end card says "Está consumado" (John 19:30) under "missão concluída".
+FASE = dict(gancho=["SPOILER DA FASE FINAL", "O HERÓI NÃO FOGE"], titulo="Fase final", ref="Lucas 22–23 · João 19",
+            ritmo=1.1, pausa=1.5, fim_s=2.6, fim_quote=("John.19.30", "Está consumado"), continua="Continua no terceiro dia",
+            post_gancho="Spoiler da fase final: o herói não foge.", legendas="LEGENDAS-FASE-FINAL.md", missoes=[
+    dict(take="fase-final-1.mp4", objetivo={"a": "Ore no jardim", "b": "Entregue-se"}, acoes=[("Orar", "a"), ("Ir ao encontro", "b")],
+         lugar={"a": "mt-getsemani"}, raio=1.5, ritmo=[("corte", 0.7), (None, 1.1)],     # the prayer (still, cut at 3.67 s) slowed: its line needs room after the opening card
+         falas=[("a", "Luke.22.42", "não se faça minha vontade, mas a tua."), ("b", "John.18.4", "A quem buscais?")]),
+    dict(take="fase-final-2.mp4", objetivo="Carregue a cruz", acoes=[("Carregar", "a")], lugar={"a": ("Jerusalém", "lc-ceia", "Lucas 23:26")}, raio=1.5,
+         falas=[("a", "Luke.23.28", "Filhas de Jerusalém, não choreis por mim"), ("b", "Luke.23.26", "tomaram a um Simão Cireneu, que vinha do campo")]),
+    dict(take="fase-final-3.mp4", cena="ab", banner=("a", "Redenção", "Fase final"), atraso={"a": 1.55}, lugar={"a": "mc-cruz"}, raio=1.5,
+         ritmo=[("corte", 0.85), (None, 1.0)],                                           # the hill at a slow pace: its two lines need time
+         falas=[("a", "Luke.23.34", "Pai, perdoa-lhes, porque não sabem o que fazem."), ("b", "Luke.23.43", "hoje estarás comigo no paraíso.")]),
+])
+ESPECIAIS = {"jornada": J, "fase-final": FASE}
+PID = "jornada"
+
+
+def usar(ep):
+    """Make one of the specials the one this module builds: J, FIM_QUOTE, POST_QUOTE and PID follow it."""
+    global J, FIM_QUOTE, POST_QUOTE, PID
+    J = ESPECIAIS[ep]; FIM_QUOTE = J["fim_quote"]; POST_QUOTE = J.get("post_quote"); PID = ep
 
 # ------------------------------------------------------------------------------------------------ the BLIVRE
 plain = lambda s: re.sub(r"\s+", " ", s.replace("[", "").replace("]", "")).replace(" ,", ",").replace(" .", ".").strip()
@@ -100,20 +127,20 @@ def blivre():
     return raw
 
 
-def quotes():
-    """Every quoted line: the subtitles, the banners' quotes and the end card's."""
-    for k, mi in enumerate(J["missoes"]):
+def quotes(cfg):
+    """Every quoted line of a special: the subtitles, the banners' quotes, the end card's and the caption's."""
+    for k, mi in enumerate(cfg["missoes"]):
         for shot, osis, frag in mi.get("falas", []): yield f"missão {k + 1} plano {shot}", osis, frag
         b = mi.get("banner")
         if b and len(b) == 4: yield f"missão {k + 1} faixa", b[2], b[3]
-    yield "cartão final", *FIM_QUOTE
-    yield "legenda do post", *POST_QUOTE
+    yield "cartão final", *cfg["fim_quote"]
+    if cfg.get("post_quote"): yield "legenda do post", *cfg["post_quote"]
 
 
 def check():
-    """Every quoted line is a literal fragment of the BLIVRE verse it cites. Returns {(osis, frag): 'Livro c:v'}."""
+    """Every quoted line of every special is a literal fragment of the BLIVRE verse it cites. Returns {(osis, frag): 'Livro c:v'}."""
     raw = blivre(); refs = {}; bad = []
-    for where, osis, frag in quotes():
+    for where, osis, frag in ((f"{ep}, {w}", o, f) for ep, cfg in ESPECIAIS.items() for w, o, f in quotes(cfg)):
         bk, c, v = osis.split("."); verse = plain(raw[(LIVROS[bk][0], int(c), int(v))])
         if frag not in verse: bad.append(f"{where}: “{frag}” não é literal de {osis}: {verse}")
         refs[(osis, frag)] = f"{LIVROS[bk][1]} {c}:{v}"
@@ -261,6 +288,8 @@ def end_card(refs):
     f2 = grot(58, 600); t = f"“{FIM_QUOTE[1].upper()}”"; draw_text(d, (540 - tw(t, f2, 2) / 2, y + 204), t, f2, CREAM + (255,), 2, 3)
     t = refs[FIM_QUOTE].upper(); f3 = mono(24); draw_text(d, (540 - tw(t, f3, 2) / 2, y + 282), t, f3, GOLD + (255,), 2, 2)
     t = f"RECRIAÇÃO · {J['titulo'].upper()} · {J['ref'].upper()}"; f3 = mono(22); draw_text(d, (540 - tw(t, f3, 2) / 2, y + 330), t, f3, CREAM + (235,), 2, 2)
+    if J.get("continua"):                                                          # the next part, the way a game teases it
+        t = J["continua"].upper(); f5 = grot(36, 700); draw_text(d, (540 - tw(t, f5, 3) / 2, y + 400), t, f5, GOLD + (255,), 3, 3)
     f4 = mono(17, False)
     for i, l in enumerate(CREDITOS): draw_text(d, (540 - tw(l, f4) / 2, 1150 + i * 28), l, f4, CREAM + (225,), 0, 2)
     return shadowed(im, 8, (0, 4))
@@ -352,7 +381,7 @@ def montar(dst, parts):
 
 
 def build(stills=None, rascunho=False):
-    refs = check(); ms = J["missoes"]; n = len(ms); pid = "jornada"
+    refs = check(); ms = J["missoes"]; n = len(ms); pid = PID
     out_dir = ROOT / "renders/.hud"; out_dir.mkdir(parents=True, exist_ok=True)
     takes = [ROOT / "source/takes" / mi["take"] for mi in ms]
     for k, mi in enumerate(ms):
@@ -661,6 +690,38 @@ PRIMEIRA = ("Pescadores de gente", "Marcos 1:16–20")                   # what 
 
 
 def legenda():
+    """The caption of the special in use (usar)."""
+    return legenda_jornada() if PID == "jornada" else legenda_fase()
+
+
+def legenda_fase():
+    """The caption of "Fase final": the hook, the three missions with their literal lines, the end card's line and the
+    next part, then the open game (as in A jornada's caption of 13/11) and the credits."""
+    refs = check(); ms = J["missoes"]; fq = J["fim_quote"]
+    out = [J["post_gancho"], "", f"{J['titulo'].upper()} · {J['ref']}", ""]
+    for k, mi in enumerate(ms):
+        o = mi.get("objetivo"); b = mi.get("banner")
+        name = b[1] if (mi.get("cena") and b) else (o if isinstance(o, str) else " / ".join(o.values()))
+        lines = " ".join(f"“{frag}” ({refs[(osis, frag)]})" for _, osis, frag in mi.get("falas", []))
+        out.append(f"{k + 1}. {name}: {lines}")
+    out += ["", f"“{fq[1]}” ({refs[fq]}). Missão concluída. {J['continua']}.", "",
+            "Esse vídeo é o conceito visual da fase final do jogo que a gente está construindo, inspirado no GTA, com a história de "
+            "Cristo: código aberto, feito junto com quem quiser somar. Você joga no navegador e manda opinião, melhoria e passagem "
+            "pela área Colabore.", "",
+            "🎮 Jogue e participe (link na bio):", JOGO, "",
+            "💻 Código aberto, pra quem é dev:", CODIGO, "",
+            "👇 Qual dessas falas mais te pega? Comenta aí.", "🔁 Manda pra quem precisa ver isso hoje", "",
+            "Recriação feita com IA: o vídeo é um conceito visual · Projeto independente, sem ligação com a Rockstar Games · "
+            "Texto: Bíblia Livre (CC BY 4.0 BR) · Lugares: OpenBible.info (CC BY 4.0)", "",
+            "#jesus #biblia #gameplay #mundoaberto #redencao #pascoa #games #gamedev #codigoaberto #cristao #fe"]
+    txt = "\n".join(out)
+    n = len(txt.encode("utf-16-le")) // 2                                              # an emoji counts twice
+    assert n <= 2200, f"{n} caracteres: o Instagram aceita até 2.200"
+    assert txt.count("#") <= 30 and len(out[0]) <= 125, "hashtags ou primeira linha"
+    return txt
+
+
+def legenda_jornada():
     """The post's caption. 13/11, Alex: say that we are building a game inspired by GTA with the story of Christ, in open
     source, with everyone; that anyone can play and, playing, send opinions, improvements and quotations, and learn, as we
     have; that the game is not there yet and the reel is the visual concept of what is in development; and call everyone
@@ -695,8 +756,9 @@ def legenda():
 
 if __name__ == "__main__":
     a = sys.argv[1:]
+    if "--ep" in a: usar(a[a.index("--ep") + 1])                                     # which special: jornada (default) or fase-final
     if "--check" in a: print(len(check()), "linhas conferidas na Bíblia Livre")
     elif "--legenda" in a:
-        txt = legenda(); (ROOT / "LEGENDAS-JORNADA.md").write_text("# A jornada: legenda do post\n\n```\n" + txt + "\n```\n", encoding="utf-8"); print(txt)
+        txt = legenda(); (ROOT / J["legendas"]).write_text(f"# {J['titulo']}: legenda do post\n\n```\n" + txt + "\n```\n", encoding="utf-8"); print(txt)
     elif "--still" in a: build(stills=[float(x) for x in a[a.index("--still") + 1].split(",")], rascunho="--rascunho" in a)
     else: build()

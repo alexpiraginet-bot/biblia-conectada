@@ -137,6 +137,14 @@ mundo aberto em terceira pessoa, na Galileia e na Judeia do século I. Este arqu
 - `compilado.py` corta trechos dos reels entregues (cada um com seu HUD, legenda e marca) sob uma frase do Alex numa
   caixa branca (`renders/compilado-mae.mp4`).
 
+### 4.5 Especial "Fase final" (spoiler: redenção e crucificação, até 30 s)
+- 3 missões montadas pelo mesmo motor de A jornada (`python3 -I jornada.py --ep fase-final`; os dados estão em `FASE`):
+  o Getsêmani (ele ora e vai ao encontro das tochas), a via dolorosa (a cruz carregada vista de costas e o Cireneu que
+  assume) e o Gólgota como cena de corte (três cruzes só em silhueta, de longe, a terra escurece).
+- Gancho próprio ("SPOILER DA FASE FINAL"), faixa "REDENÇÃO" na cena de corte e cartão final com "Está consumado"
+  (João 19:30) e "CONTINUA NO TERCEIRO DIA" (decisão do Alex: a ressurreição fica para o próximo).
+- Cada especial do `jornada.py` é um dicionário em `ESPECIAIS`; `--ep` escolhe qual montar (sem ele, A jornada).
+
 ## 5. Escrever as cenas (os prompts)
 
 ### 5.1 Como o prompt é montado
@@ -400,7 +408,7 @@ take de onde saiu o plano fica em `source/descartados/` e em `descartados`, com 
 1. Antes do vídeo inteiro, confira quadros soltos: `python3 -I hud.py <episódio> --still 0.5,4,10,20`
    (→ `renders/.hud/<episódio>-<t>.jpg`) e `python3 -I hud.py <episódio> --map` (o mundo do radar). Olhe cada imagem.
 2. `python3 -I hud.py <episódio>` → `renders/<episódio>.mp4` e `renders/.hud/<episódio>-tempos.json`. Os especiais:
-   `python3 -I jornada.py` e `python3 -I procurado.py procurado-N`.
+   `python3 -I jornada.py`, `python3 -I jornada.py --ep fase-final` e `python3 -I procurado.py procurado-N`.
 
 ### 9.1 O quadro
 <!-- gerado:medidas -->
@@ -468,7 +476,8 @@ Ninguém ouviu os reels até hoje: o som foi conferido por medida. Se você pude
   literais, a pergunta ao público, a chamada para a próxima passagem, compartilhar, salvar e ler o capítulo, os
   créditos e as hashtags. O exemplo inteiro está na seção 16.
 - A jornada: `python3 -I jornada.py --legenda` (o jogo aberto em construção, o link do jogo e o do código, a chamada
-  para jogar e colaborar; seção 17). Procurado: `python3 -I procurado.py --legenda`.
+  para jogar e colaborar; seção 17). Fase final: `python3 -I jornada.py --ep fase-final --legenda` →
+  `LEGENDAS-FASE-FINAL.md`. Procurado: `python3 -I procurado.py --legenda`.
 - Limites do Instagram: até 2.200 caracteres contados como ele conta (emoji vale 2), primeira linha de até 125 (o que
   aparece antes do "mais"), até 30 hashtags. `jornada.py --legenda` confere sozinho; nas outras, confira.
 - Nunca "sorteio". Nenhum número digitado: duração, contagens e referências saem dos dados.
@@ -533,6 +542,7 @@ Ninguém ouviu os reels até hoje: o som foi conferido por medida. Se você pude
 | `procurado-2` · Procurado, parte 2 de 3 (especial: ele numa cidade de hoje) | 3 de 3 | conferido, 23,38 s |
 | `procurado-3` · Procurado, parte 3 de 3 (especial: ele numa cidade de hoje) | 3 de 3 | conferido, 24,79 s |
 | `jornada` · A jornada (os quatro evangelhos, 7 missões) | 7 de 7 | conferido, 50,08 s |
+| `fase-final` · Fase final (Lucas 22–23 · João 19, 3 missões) | 2 de 3 | — |
 | `jo-cana` · Água feita vinho (João 2:1–11) | 1 de 3 | — |
 | `mt-entrada` · A entrada em Jerusalém (Mateus 21:1–11) | 0 de 3 | — |
 | `jo-lazaro` · Lázaro, sai fora (João 11:38–44) | 0 de 3 | — |
