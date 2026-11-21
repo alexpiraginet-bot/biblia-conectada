@@ -193,9 +193,9 @@ def sec_blocos():
     first = {**VID, "medias": [{"role": "image_references", "value": PERSONAGEM}], "prompt": "<pedido(ep, 1, True)>"}
     nxt = {**VID, "medias": [{"role": "start_image", "value": "<media id do último quadro do take anterior>"}], "prompt": "<pedido(ep, k, False)>"}
     out += ["O pedido que `tools/fila.py prox` escreve (o `requests` de `generate_video_batch`), na missão que parte da folha e na que continua:", "",
-            "```json", json.dumps([{"index": 0, "params": first}], ensure_ascii=False, indent=1), "```", "",
-            "```json", json.dumps([{"index": 0, "params": nxt}], ensure_ascii=False, indent=1), "```", "",
-            f"O último quadro é o nº {LAST} (o take tem 193; esse é o último limpo)."]
+            "```json", json.dumps([{"index": 0, "params": first}], ensure_ascii=False), "```", "",
+            "```json", json.dumps([{"index": 0, "params": nxt}], ensure_ascii=False), "```", "",
+            f"O último quadro que serve de início para a missão seguinte é o nº {LAST} (`LAST` em `tools/fila.py`: o último limpo do take)."]
     return out
 
 

@@ -232,54 +232,14 @@ Continue the same gameplay session as the reference video: the same place, the s
 O pedido que `tools/fila.py prox` escreve (o `requests` de `generate_video_batch`), na missão que parte da folha e na que continua:
 
 ```json
-[
- {
-  "index": 0,
-  "params": {
-   "model": "seedance_2_0",
-   "aspect_ratio": "9:16",
-   "duration": 8,
-   "resolution": "720p",
-   "mode": "std",
-   "generate_audio": true,
-   "use_unlim": true,
-   "medias": [
-    {
-     "role": "image_references",
-     "value": "aab922bf-ea1c-485a-be3e-fea044f08fa5"
-    }
-   ],
-   "prompt": "<pedido(ep, 1, True)>"
-  }
- }
-]
+[{"index": 0, "params": {"model": "seedance_2_0", "aspect_ratio": "9:16", "duration": 8, "resolution": "720p", "mode": "std", "generate_audio": true, "use_unlim": true, "medias": [{"role": "image_references", "value": "aab922bf-ea1c-485a-be3e-fea044f08fa5"}], "prompt": "<pedido(ep, 1, True)>"}}]
 ```
 
 ```json
-[
- {
-  "index": 0,
-  "params": {
-   "model": "seedance_2_0",
-   "aspect_ratio": "9:16",
-   "duration": 8,
-   "resolution": "720p",
-   "mode": "std",
-   "generate_audio": true,
-   "use_unlim": true,
-   "medias": [
-    {
-     "role": "start_image",
-     "value": "<media id do último quadro do take anterior>"
-    }
-   ],
-   "prompt": "<pedido(ep, k, False)>"
-  }
- }
-]
+[{"index": 0, "params": {"model": "seedance_2_0", "aspect_ratio": "9:16", "duration": 8, "resolution": "720p", "mode": "std", "generate_audio": true, "use_unlim": true, "medias": [{"role": "start_image", "value": "<media id do último quadro do take anterior>"}], "prompt": "<pedido(ep, k, False)>"}}]
 ```
 
-O último quadro é o nº 191 (o take tem 193; esse é o último limpo).
+O último quadro que serve de início para a missão seguinte é o nº 191 (`LAST` em `tools/fila.py`: o último limpo do take).
 <!-- /gerado -->
 
 ### 5.2 Os campos de uma cena (`cenas.py` → `CENAS`)
