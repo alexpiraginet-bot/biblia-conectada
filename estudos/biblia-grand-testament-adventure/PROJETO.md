@@ -106,6 +106,16 @@ terceira pessoa, na Galileia e na Judeia do século I. Um reel por passagem, sep
     ligação com a Rockstar Games"; traz o link do jogo (conferido no ar em 13/11) e o do código (MIT), a primeira missão
     jogável hoje ("Pescadores de gente", Marcos 1:16–20, do README do jogo) e a área Colabore, que é o nome no jogo
     publicado. 2.166 caracteres contados como o Instagram conta (emoji vale 2), primeira linha com 120.
+- 21/11, 14:48: "Detalhe em md as skills das criações dos vídeos de Jesus nos vídeos dos pescadores de homens e ele nas
+  missões! Para seguir em outro agente também padrão" e "Prompts e tudo completo". `SKILL.md` é o padrão de produção
+  (regras, personagem, blocos do prompt, fila do Higgsfield, revisão dos takes, HUD, som, conferência, legenda, entrega
+  e o que já deu errado), com os exemplos completos de Pescadores de gente e de A jornada; `PROMPTS.md` traz o prompt
+  exato de todos os takes da fila. Prompts, medidas e estado saem do código (`tools/prompts.py`, que também reprova um
+  prompt que nomeie Jesus, Deus, anjo ou o jogo de outra empresa, ou que perca os dois planos e o bloco final).
+  - O pedido original da folha de personagem não ficou registrado: o `SKILL.md` traz um pedido reconstruído a partir da
+    imagem, marcado como reconstrução.
+  - Conferido no histórico do git de `cenas.py`: nos 26 takes do manifesto, o texto do primeiro commit depois do pedido
+    (ou o de hoje, quando não houve commit depois) é igual ao texto de hoje.
 
 ## O que a série não faz
 O letreiro, a sigla e o HUD do jogo em que o pedido se inspira são marca e desenho de outra empresa: não entram aqui.
@@ -159,7 +169,10 @@ python3 -I hud.py <episódio>               # -> renders/<episódio>.mp4
 python3 -I tools/confere.py <episódio>     # medidas, folhas de contato e capa; registra o reel em data/.fila.json
 python3 -I tools/legenda.py                # -> LEGENDAS.md
 python3 -I tools/fila.py publicar          # copia o estado para data/geracoes.json (o que vai para o git)
+python3 -I tools/prompts.py                # PROMPTS.md e as seções geradas do SKILL.md (--check: desatualizado ou fora da regra)
 ```
+
+O passo a passo completo, para qualquer agente, está no `SKILL.md`.
 
 ## Higgsfield
 - Conta do dia 11/11: plano ultra em teste, 50 créditos; gerações ilimitadas grátis até 14/11 às 08:30 (horário de
