@@ -141,6 +141,38 @@ terceira pessoa, na Galileia e na Judeia do século I. Um reel por passagem, sep
   - O que a recriação mostra e o texto não diz: no jardim, quatro companheiros dormindo (Lc 22:45 não conta); os
     soldados de saiote vermelho; Simão Cireneu de túnica marrom; no Gólgota, um oficial romano sozinho embaixo das
     cruzes (Lc 23:47 fala do centurião, sem dizer onde ele estava).
+- 21/11, 16:36 e 16:40: "Acha que usar o Raea do GitHub para os próximos é interessante para edição e skills de
+  vídeo?" e, com o PC dele ligado à sessão, "Você está conectado a minha gpu bem boa por sinal". Piloto: a missão 1 da
+  Fase final desenhada pelo raea (composições em React/TypeScript renderizadas na GPU) para comparar com a nossa.
+  - O raea 0.1.8 (licença FSL-1.1-ALv2) já estava instalado no PC (RTX 5060 Ti 16 GB, i7-13700F, 64 GB) por outra
+    frente, com o projeto BentoLabs/galileia (rodada R2). O piloto tem projeto próprio, BentoLabs/grand-testament
+    (`D:\BentoLabs\01-Projetos\Raea-Studio\bentolabs\projects\grand-testament`), e não mexe na galileia. Entrada, saída e
+    o LEIA-ME ficam em `D:\BentoLabs\04-Fotos-e-videos\Grand-Testament-Adventure\Raea-Fase-Final-Piloto`.
+  - Nada digitado à mão: `jornada.build(plano=True)` devolve os tempos que ele já calcula, e `tools/raea_export.py
+    fase-final 1` grava o JSON (tempos, falas com a quebra de linha do reel, placa, barra quadro a quadro), o radar de
+    cada plano, o escurecimento, o som da missão e cortes estáticos das fontes. A composição
+    `compositions/fase-final-m1.tsx` só desenha o que o JSON diz, com os tamanhos de `hud.py` e `jornada.py`.
+  - Igual na imagem: nos quadros de 0,50, 2,58, 4,21, 4,79, 5,79 e 8,58 s o HUD está no mesmo lugar e no mesmo estado
+    (topo, objetivo com e sem o visto, tecla E apertada, falas, radar, placa, barra); diferença média de 3,0 a 5,8 por
+    canal, do vídeo ampliado (o nosso passa um realce de nitidez) e do JPEG das nossas provas.
+  - Tempo: 221 quadros em 18,9 s no PC (74,7 ms por quadro, mais lento que o tempo real de 24 fps). O nosso pipeline fez
+    o reel inteiro (637 quadros, do zero) em 145,1 s na nuvem, com 2 vCPUs (228 ms por quadro, com o mapa do radar, os
+    2 passes do vídeo e o som). As máquinas são diferentes: a comparação não isola o motor.
+  - O arquivo do raea não vai direto para o Instagram: H.264 Constrained Baseline pelo OpenH264 (codificador de
+    software, não a NVENC), 15,7 Mbit/s (18,2 MB em 9,2 s; o reel inteiro passaria de 50 MB, acima dos 29 MB), e áudio
+    Opus, quando o Reels pede AAC. Som: −14,0 LUFS e pico real −1,2 dBTP com `<Mix lufs={-14} ceiling={-1.5}>`.
+  - `raea check --shape 9:16 --platform reels` vale como conferência a mais. No piloto: blocos nos tons escuros (5 de 5
+    quadros, pior 6%) e o letreiro do topo (y 92) dentro dos 210 px que a interface do app cobre, o que vale para todos
+    os nossos reels. No `fase-final.mp4` entregue: blocos nos escuros (7 de 13 quadros, pior 5%); picos achatados pelo
+    limitador entre 16 e 20 s (conferido aqui: 105 dos 127 trechos a até 0,5 dB do pico caem nesses 4 s, o estrondo do
+    Gólgota); e o som do fim da missão 1 cai de −10 para −45 dBFS entre 9,16 e 9,18 s, antes do corte de 9,21 s. Sem
+    `--manifest` ele supõe 30 fps: os quadros que cita no nosso reel são a 30 fps.
+  - `raea export capcut` (107 s) monta um rascunho do CapCut com três trilhas (o take, o HUD numa camada transparente de
+    12 MB, o som), mas junta os dois trechos do take (0,7x e 1,1x) num só a 0,87x: no CapCut o corte cairia 1 s antes
+    do HUD. O CapCut não está instalado no PC. A exportação também deixou uma pasta `compositions\out\capcut`.
+  - O envio da nuvem para o PC grava um manifesto C2PA (Content Credentials) dentro de PNG, WAV e MP4 (5,8 KB a mais;
+    no MP4, uma caixa `uuid` antes do `moov`). Por isso a entrada foi num zip, conferido por SHA-256 do outro lado.
+  - Um render nosso refeito do zero não sai idêntico em bytes ao entregue (SHA-256 diferente), com as mesmas medidas.
 
 ## O que a série não faz
 O letreiro, a sigla e o HUD do jogo em que o pedido se inspira são marca e desenho de outra empresa: não entram aqui.
@@ -195,6 +227,7 @@ python3 -I tools/confere.py <episódio>     # medidas, folhas de contato e capa;
 python3 -I tools/legenda.py                # -> LEGENDAS.md
 python3 -I tools/fila.py publicar          # copia o estado para data/geracoes.json (o que vai para o git)
 python3 -I tools/prompts.py                # PROMPTS.md e as seções geradas do SKILL.md (--check: desatualizado ou fora da regra)
+python3 -I tools/raea_export.py fase-final 1   # uma missão de um especial para o raea -> renders/.raea/ (piloto de 21/11)
 ```
 
 O passo a passo completo, para qualquer agente, está no `SKILL.md`.

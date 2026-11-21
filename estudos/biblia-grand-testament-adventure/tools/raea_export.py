@@ -97,7 +97,8 @@ def main(ep, k1, out=None):
         rotulo=f"MISSÃO {k1} DE {n}",
         objetivo={sh: txt(sh).upper() for sh in "ab" if txt(sh)},
         acoes=[dict(texto=a.upper(), plano=sh, mostra_s=st, aperta_s=pr) for a, sh, st, pr in P["acoes"][k]],
-        falas=[dict(texto=f, ref=r.upper(), de_s=a0 - s0, ate_s=a1 - s0, plano=sh) for a0, a1, f, r, kk, sh in P["falas"] if kk == k],
+        falas=[dict(texto=f, ref=r.upper(), de_s=a0 - s0, ate_s=a1 - s0, plano=sh,                      # the lines broken as hud.subtitle() breaks them
+                    linhas=hud.wrap_even("“" + f + "”", hud.grot(46, 500), 860)) for a0, a1, f, r, kk, sh in P["falas"] if kk == k],
         placa={sh: P["placa"](k, sh) for sh in "ab"},
         radar=radar, layout=dict(safe=hud.SAFE, mx=hud.MX, my=hud.MY, r=hud.R),
         cores=dict(creme=hud.CREAM, ouro=hud.GOLD, escuro=hud.DARK),
