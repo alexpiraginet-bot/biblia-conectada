@@ -173,14 +173,19 @@ def bearing(a, b):
     return (math.degrees(math.atan2(y, x)) + 360) % 360
 
 
-def plate(name, geo, ref):
-    """hud.place_plate with the reference given: the place as the BLIVRE writes it, its coordinates ("≈" when the
-    point is the region's, not the spot's), the passage."""
-    im = layer(); d = ImageDraw.Draw(im); x = MX + R + 26; y = MY + R - 104
-    draw_text(d, (x, y), name.upper(), grot(30, 700), CREAM + (255,), 1)
+def plate_lines(name, geo, ref):
+    """The plate's three lines: the place as the BLIVRE writes it, its coordinates ("≈" when the point is the region's,
+    not the spot's), the passage."""
     lat = f"{abs(geo['lat']):.2f}".replace(".", ","); lon = f"{abs(geo['lon']):.2f}".replace(".", ",")
-    draw_text(d, (x, y + 44), ("≈ " if geo.get("nota") else "") + f"{lat}° N · {lon}° L", mono(21), GOLD + (255,), 0, 2)
-    draw_text(d, (x, y + 76), ref.upper(), mono(21), CREAM + (235,), 1, 2)
+    return name.upper(), ("≈ " if geo.get("nota") else "") + f"{lat}° N · {lon}° L", ref.upper()
+
+
+def plate(name, geo, ref):
+    """hud.place_plate with the reference given (plate_lines)."""
+    im = layer(); d = ImageDraw.Draw(im); x = MX + R + 26; y = MY + R - 104; nome, coord, ref_ = plate_lines(name, geo, ref)
+    draw_text(d, (x, y), nome, grot(30, 700), CREAM + (255,), 1)
+    draw_text(d, (x, y + 44), coord, mono(21), GOLD + (255,), 0, 2)
+    draw_text(d, (x, y + 76), ref_, mono(21), CREAM + (235,), 1, 2)
     return shadowed(im, 5, (0, 2))
 
 
@@ -384,7 +389,7 @@ def montar(dst, parts):
     print("montado", dst.name, n, "quadros")
 
 
-def build(stills=None, rascunho=False):
+def build(stills=None, rascunho=False, plano=False):
     refs = check(); ms = J["missoes"]; n = len(ms); pid = PID
     out_dir = ROOT / "renders/.hud"; out_dir.mkdir(parents=True, exist_ok=True)
     takes = [ROOT / "source/takes" / mi["take"] for mi in ms]
@@ -440,7 +445,7 @@ def build(stills=None, rascunho=False):
 
     # what happens when, in seconds of the reel
     TRAVEL = {k: (starts[k] + CUT[k] - 0.5, starts[k] + CUT[k] + 0.65) for k, mi in enumerate(ms) if mi.get("viagem")}   # the map hides the cut
-    SUBS = []
+    SUBS, FALAS = [], []                                                               # FALAS: the same lines as text, for plano
     for k, mi in enumerate(ms):
         for shot, osis, frag in mi.get("falas", []):
             s0, s1 = shot_span(k, shot); lag = mi.get("atraso", {}).get(shot)
@@ -452,6 +457,7 @@ def build(stills=None, rascunho=False):
             if k in TRAVEL and shot == "a": a1 = min(a1, TRAVEL[k][0] - starts[k] - 0.05)
             assert a1 - a0 >= 1.6, f"mission {k + 1} shot {shot}: the subtitle stays only {a1 - a0:.2f} s"
             SUBS.append((starts[k] + a0, starts[k] + a1, cropped(subtitle({"texto": frag, "ref": refs[(osis, frag)]})), cutscene(k, shot)))
+            FALAS.append((starts[k] + a0, starts[k] + a1, frag, refs[(osis, frag)], k, shot))
             print(f"mission {k + 1} shot {shot}: “{frag[:42]}” {starts[k] + a0:.2f}–{starts[k] + a1:.2f} s ({a1 - a0:.2f} s, {len(frag) / (a1 - a0):.0f} chars/s)")
     SIGNS = sorted(starts[k] + shot_span(k, sh)[0] + fr * (shot_span(k, sh)[1] - shot_span(k, sh)[0]) for k, mi in enumerate(ms) for sh, fr in mi.get("sinais", []))
     COUNTS = []                                                                        # (reel second, label, total, count) of the disciples counter
@@ -492,9 +498,12 @@ def build(stills=None, rascunho=False):
         if key not in OBJ: OBJ[key] = objective(k + 1, n, text, done)
         return OBJ[key]
 
+    def spec_of(k, shot):
+        lug = ms[k].get("lugar", {}); return lug.get(shot, lug.get("a"))
+
     def radar_of(k, shot):
         """(world image, px per km, centre geo, heading, km to the next place, plate) of mission k's shot."""
-        lug = ms[k].get("lugar", {}); spec = lug.get(shot, lug.get("a"))
+        spec = spec_of(k, shot)
         if spec is None: return None
         name, geo, ref = geo_of(spec); rr = ms[k].get("raio", 8); rr = rr.get(shot, rr.get("a")) if isinstance(rr, dict) else rr
         wkey = (spec if isinstance(spec, str) else spec[1], rr)
@@ -517,6 +526,27 @@ def build(stills=None, rascunho=False):
             if g >= t: cur = (lab, tot, c, k, t)
         return cur
 
+    def radar_on(im, k, shot, t, g, placa=True):
+        """The radar of mission k's shot at its second t (g in the reel), and its plate, drawn on im."""
+        rd = radar_of(k, shot)
+        if rd is None: return
+        (wimg, ppk, _), geo, head, dist, pl = rd
+        side = wimg.size[0]; t0 = shot_span(k, shot)[0]; v = hud.SPEED * SS * 1.0
+        cx = side / 2 + math.sin(math.radians(head)) * v * (t - t0); cy = side / 2 - math.cos(math.radians(head)) * v * (t - t0)
+        bx, by = int(round(cx - R * SS / 2)), int(round(cy - R * SS / 2))
+        crop = wimg.crop((bx, by, bx + R * SS, by + R * SS)).resize((R, R), Image.LANCZOS).convert("RGBA")
+        cnt = counter_at(g); fol = ms[k].get("seguidores", cnt[2] if (cnt and cnt[0] == "Discípulos") else 0)
+        dest_px = min(R / 2 - 16, dist * ppk) if dist else 0
+        crop.alpha_composite(radar_marks(head, dest_px if dist else 13, min(fol, 12), (g * 1.4) % 1.0))
+        im.paste(crop, (MX, MY), mask); im.alpha_composite(FRAME, (MX - 8, MY - 8))
+        if placa: im.alpha_composite(pl)
+
+    if plano:                                                                          # the schedule and the radar, for another renderer (tools/raea_export.py)
+        return dict(fps=FPS, total=total, starts=starts, beats=BEAT, cuts=CUT, segs=SEG, nb=NB, tcard=TCARD, end_t=end_t, pausa_quadros=nh,
+                    acoes=[[(a_txt, sh, *act_times(k, sh)) for a_txt, sh in mi.get("acoes", [])] for k, mi in enumerate(ms)],
+                    falas=FALAS, cenas=CS, viagens=TRAVEL, faixas=[(a0, a1) for a0, a1, _ in BANNERS], takes=[str(t) for t in takes],
+                    radar_on=radar_on, placa=lambda k, shot: None if spec_of(k, shot) is None else plate_lines(*geo_of(spec_of(k, shot))))
+
     def frame(k, j, src):
         t = j / FPS; g = starts[k] + t; mi = ms[k]; shot = "b" if t >= CUT[k] else "a"; cs = cutscene(k, shot)
         im = src.convert("RGBA")
@@ -529,17 +559,7 @@ def build(stills=None, rascunho=False):
                 if k in TRAVEL and shot == "b" and g < TRAVEL[k][1]: done = True       # the first step stays ticked while travelling
                 ob = obj(k, "a" if (isd and k in TRAVEL and g < TRAVEL[k][1]) else shot, done)
                 if ob is not None: im.alpha_composite(ob)
-            rd = radar_of(k, shot)
-            if rd is not None:
-                (wimg, ppk, _), geo, head, dist, pl = rd
-                side = wimg.size[0]; t0 = shot_span(k, shot)[0]; v = hud.SPEED * SS * 1.0
-                cx = side / 2 + math.sin(math.radians(head)) * v * (t - t0); cy = side / 2 - math.cos(math.radians(head)) * v * (t - t0)
-                bx, by = int(round(cx - R * SS / 2)), int(round(cy - R * SS / 2))
-                crop = wimg.crop((bx, by, bx + R * SS, by + R * SS)).resize((R, R), Image.LANCZOS).convert("RGBA")
-                cnt = counter_at(g); fol = mi.get("seguidores", cnt[2] if (cnt and cnt[0] == "Discípulos") else 0)
-                dest_px = min(R / 2 - 16, dist * ppk) if dist else 0
-                crop.alpha_composite(radar_marks(head, dest_px if dist else 13, min(fol, 12), (g * 1.4) % 1.0))
-                im.paste(crop, (MX, MY), mask); im.alpha_composite(FRAME, (MX - 8, MY - 8)); im.alpha_composite(pl)
+            radar_on(im, k, shot, t, g)
             prog_done = sum(1 for kk in range(n) if starts[kk] + BEAT[kk] - 0.8 <= g) if g < end_t else n
             im.alpha_composite(progress(n, min(prog_done, n), 0.0 if prog_done > k else min(1.0, t / max(0.1, BEAT[k] - 0.8))), (MX, MY + R + 14))
             cnt = counter_at(g)
