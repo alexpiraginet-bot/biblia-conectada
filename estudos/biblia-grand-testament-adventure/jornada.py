@@ -94,15 +94,19 @@ CREDITOS = ["TEXTO: BÍBLIA LIVRE (CC BY 4.0 BR) · LUGARES: OPENBIBLE.INFO (CC 
 # torches), the cross carried and Simon of Cyrene taking it, and the hill as a cutscene (three crosses only in silhouette, far
 # away). Same pieces as A jornada; the end card says "Está consumado" (John 19:30) under "missão concluída".
 FASE = dict(gancho=["SPOILER DA FASE FINAL", "O HERÓI NÃO FOGE"], titulo="Fase final", ref="Lucas 22–23 · João 19",
-            ritmo=1.1, pausa=1.5, fim_s=2.6, fim_quote=("John.19.30", "Está consumado"), continua="Continua no terceiro dia",
+            ritmo=1.1, pausa=2.0, fim_s=2.6, fim_quote=("John.19.30", "Está consumado"), continua="Continua no terceiro dia",
             post_gancho="Spoiler da fase final: o herói não foge.", legendas="LEGENDAS-FASE-FINAL.md", missoes=[
     dict(take="fase-final-1.mp4", objetivo={"a": "Ore no jardim", "b": "Entregue-se"}, acoes=[("Orar", "a"), ("Ir ao encontro", "b")],
          lugar={"a": "mt-getsemani"}, raio=1.5, ritmo=[("corte", 0.7), (None, 1.1)],     # the prayer (still, cut at 3.67 s) slowed: its line needs room after the opening card
          falas=[("a", "Luke.22.42", "não se faça minha vontade, mas a tua."), ("b", "John.18.4", "A quem buscais?")]),
     dict(take="fase-final-2.mp4", objetivo="Carregue a cruz", acoes=[("Carregar", "a")], lugar={"a": ("Jerusalém", "lc-ceia", "Lucas 23:26")}, raio=1.5,
          falas=[("a", "Luke.23.28", "Filhas de Jerusalém, não choreis por mim"), ("b", "Luke.23.26", "tomaram a um Simão Cireneu, que vinha do campo")]),
-    dict(take="fase-final-3.mp4", cena="ab", banner=("a", "Redenção", "Fase final"), atraso={"a": 1.55}, lugar={"a": "mc-cruz"}, raio=1.5,
-         ritmo=[("corte", 0.85), (None, 1.0)],                                           # the hill at a slow pace: its two lines need time
+    dict(take="fase-final-3-montado.mp4", cena="ab", banner=("a", "Redenção", "Fase final"), atraso={"a": 1.55}, lugar={"a": "mc-cruz"}, raio=1.5,
+         montagem=[("source/takes/fase-final-3.mp4", 0, 82), ("source/descartados/fase-final-3-sosia.mp4", 130, 193)], corte=82 / FPS,
+         # the women under the darkening sky from the second generation (its cut at 3.42 s, a jump of 16.4 that hud.cut_times misses
+         # in the dark); the land gone dark with the three crosses against the band of light from the first (its cut at 5.42 s), whose
+         # own shot 1 had a man like him in the crowd. Slowed: its two lines need time
+         ritmo=0.75,
          falas=[("a", "Luke.23.34", "Pai, perdoa-lhes, porque não sabem o que fazem."), ("b", "Luke.23.43", "hoje estarás comigo no paraíso.")]),
 ])
 ESPECIAIS = {"jornada": J, "fase-final": FASE}
@@ -472,6 +476,7 @@ def build(stills=None, rascunho=False):
                 c0, c1 = starts[kk] + shot_span(kk, sh)[0], starts[kk] + shot_span(kk, sh)[1]
                 if CS and abs(CS[-1][1] - c0) < 1e-6: CS[-1] = (CS[-1][0], c1)
                 else: CS.append((c0, c1))
+    if cutscene(n - 1, "b"): CS[-1] = (CS[-1][0], total / FPS + 1)              # a reel that ends in a cutscene keeps its bars under the end card
     SCRIM, HEAD = scrims(), hud.header()
     mask = Image.new("L", (R * SS, R * SS), 0); ImageDraw.Draw(mask).rounded_rectangle([0, 0, R * SS - 1, R * SS - 1], radius=9 * SS, fill=255)
     mask = mask.resize((R, R), Image.LANCZOS); FRAME = radar_frame()
@@ -557,6 +562,7 @@ def build(stills=None, rascunho=False):
         lb = max((min(1.0, (c1 - g) / 0.35) if c0 <= g <= c1 else 0.0 for c0, c1 in CS), default=0.0)   # in at once with the boom, out
                                                                                        # sliding before the HUD returns; no dip between shots
         if lb > 0: im.alpha_composite(letterbox(lb))
+        if cs: im.alpha_composite(HEAD)                                                # the HUD steps back, the "RECRIAÇÃO · IA" mark never does (on the top bar)
         for a0, a1, (img, xy), _ in SUBS:
             o = ramp(g, a0, a1)
             if o > 0: im.alpha_composite(faded(img, o), xy)

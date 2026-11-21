@@ -19,7 +19,7 @@ Gerado por `tools/prompts.py` a partir de `cenas.py`, `tools/fila.py`, `data/pas
 - `procurado-2`: Procurado, parte 2 de 3 (especial: ele numa cidade de hoje), 3 de 3 takes gerados, reel conferido
 - `procurado-3`: Procurado, parte 3 de 3 (especial: ele numa cidade de hoje), 3 de 3 takes gerados, reel conferido
 - `jornada`: A jornada (os quatro evangelhos, 7 missões), 7 de 7 takes gerados, reel conferido
-- `fase-final`: Fase final (Lucas 22–23 · João 19, 3 missões), 2 de 3 takes gerados
+- `fase-final`: Fase final (Lucas 22–23 · João 19, 3 missões), 3 de 3 takes gerados, reel conferido
 - `jo-cana`: Água feita vinho (João 2:1–11), 1 de 3 takes gerados
 - `mt-entrada`: A entrada em Jerusalém (Mateus 21:1–11), 0 de 3 takes gerados
 - `jo-lazaro`: Lázaro, sai fora (João 11:38–44), 0 de 3 takes gerados
@@ -410,7 +410,7 @@ Gameplay capture of a third-person open-world action-adventure video game on a c
 
 - Começa de: folha de personagem (`image_references` = `aab922bf-ea1c-485a-be3e-fea044f08fa5`) · lugar novo (`novo`)
 - HUD por cima: fala (plano a) “Pai, perdoa-lhes, porque não sabem o que fazem.” (Lucas 23:34) · fala (plano b) “hoje estarás comigo no paraíso.” (Lucas 23:43) · faixa “REDENÇÃO” / “FASE FINAL” · cena de corte (faixas pretas, sem HUD) no(s) plano(s) a, b
-- Gerado: ainda não gerado
+- Gerado: job `ad2ce9b0-e8d2-4825-aff9-7b4f22f9f2b2` (usado no take montado da missão 3 = este take (job ad2ce9b0) quadros 0-81 + fase-final-3-sosia (job 9c2754f5) quadros 130-192, ver `jornada.py`, ver `jornada.py`)
 - Descartado (job `9c2754f5-f0bf-4a09-9a2f-17509a60a5e0`): no plano 1, em vez de poucas mulheres, uma multidão de costas e, bem no meio, um homem de cabelo comprido, barba, túnica clara e manto terracota como o jogador (e outros de cabelo comprido e manto vermelho). O plano 2 (do fim da fusão, perto de 5,2 s, ao fim: as três cruzes pequenas no alto do morro, a terra escura, o oficial embaixo e o filete de luz dourada no horizonte) ficou bom e fica guardado aqui para a montagem
 
 ```text
@@ -418,6 +418,8 @@ Gameplay capture of a third-person open-world action-adventure video game on a c
 ```
 
 1938 caracteres.
+
+Medido por `tools/confere.py` no arquivo entregue: `renders/fase-final.mp4`: 637 quadros (26,542 s), 27,57 MB, -14,2 LUFS, pico real -2,1 dBTP, cortes em 5,25 s, 9,21 s, 12,67 s, 13,83 s, 16,50 s, mudança mediana por quadro 1,38 (2,5% da luz), fala ouvida pelo Whisper: nenhuma; capa `renders/capa-fase-final.jpg`. Entregue: 2026-11-21, ao Alex no chat, com capa (quadro de 1,0 s) e legenda (LEGENDAS-FASE-FINAL.md).
 
 ## Água feita vinho (João 2:1–11)
 

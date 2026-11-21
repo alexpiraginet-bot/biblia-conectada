@@ -542,7 +542,7 @@ Ninguém ouviu os reels até hoje: o som foi conferido por medida. Se você pude
 | `procurado-2` · Procurado, parte 2 de 3 (especial: ele numa cidade de hoje) | 3 de 3 | conferido, 23,38 s |
 | `procurado-3` · Procurado, parte 3 de 3 (especial: ele numa cidade de hoje) | 3 de 3 | conferido, 24,79 s |
 | `jornada` · A jornada (os quatro evangelhos, 7 missões) | 7 de 7 | conferido, 50,08 s |
-| `fase-final` · Fase final (Lucas 22–23 · João 19, 3 missões) | 2 de 3 | — |
+| `fase-final` · Fase final (Lucas 22–23 · João 19, 3 missões) | 3 de 3 | conferido, 26,54 s |
 | `jo-cana` · Água feita vinho (João 2:1–11) | 1 de 3 | — |
 | `mt-entrada` · A entrada em Jerusalém (Mateus 21:1–11) | 0 de 3 | — |
 | `jo-lazaro` · Lázaro, sai fora (João 11:38–44) | 0 de 3 | — |

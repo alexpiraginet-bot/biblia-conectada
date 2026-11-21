@@ -116,6 +116,31 @@ terceira pessoa, na Galileia e na Judeia do século I. Um reel por passagem, sep
     imagem, marcado como reconstrução.
   - Conferido no histórico do git de `cenas.py`: nos 26 takes do manifesto, o texto do primeiro commit depois do pedido
     (ou o de hoje, quando não houve commit depois) é igual ao texto de hoje.
+- 21/11, 16:07: "Bora fazer um de uma fase final spoiler? Redenção e crucificação". O Alex escolheu terminar na cruz, com
+  "continua no terceiro dia", e liberou até 250 créditos do Higgsfield (a janela grátis acabou; 36 créditos por take).
+  Especial **Fase final** (`cenas.py` → `fase-final`, montado por `jornada.py --ep fase-final`, dados em `FASE`): o
+  Getsêmani (ele ora; tecla Orar; depois "Entregue-se" e vai de braços abertos ao encontro das tochas), a via dolorosa
+  (a cruz carregada vista de costas; o Cireneu assume e ele segue de mãos vazias) e o Gólgota como cena de corte (faixa
+  "REDENÇÃO", três cruzes só em silhueta, de longe, a terra escurece, um filete de luz no horizonte). Cartão final
+  "MISSÃO CONCLUÍDA" com "Está consumado" (Jo 19:30) e "CONTINUA NO TERCEIRO DIA". Falas: Lc 22:42, Jo 18:4, Lc 23:28,
+  Lc 23:26, Lc 23:34, Lc 23:43, conferidas na BLIVRE.
+  - Os três lugares são novos, então os três takes partiram da folha e foram pedidos juntos. O 1º take do Gólgota (job
+    9c2754f5) trouxe uma multidão com um homem igual a ele no meio: o pedido novo tem só quatro mulheres de manto escuro
+    e nenhum homem perto da câmera, e o som não fala mais em multidão. A missão 3 é montada: as mulheres do 2º pedido
+    (quadros 0–81; o corte em 3,42 s é um salto de 16,4, abaixo do limiar do `hud.cut_times` numa cena escura, por isso
+    o `corte` é dado) e as cruzes contra o filete de luz do 1º (quadros 130–192), que ficaram mais nítidas que as do 2º.
+  - `jornada.py` passou a montar mais de um especial (`ESPECIAIS`, `--ep`); o cartão final pode anunciar a próxima
+    parte; um reel que termina em cena de corte mantém as faixas pretas embaixo do cartão; e a marca
+    "RECRIAÇÃO · IA" (o letreiro do topo) agora aparece também nas cenas de corte, sobre a faixa preta. Em A jornada,
+    já entregue, as cenas de corte das missões 6 e 7 saíram sem a marca.
+  - 4 takes gerados, 144 créditos (saldo de 2.422,9 para 2.278,9).
+  - Entregue: `renders/fase-final.mp4`, 1080×1920, 24 fps, 637 quadros (26,542 s), 27,57 MB, −14,2 LUFS, pico real
+    −2,1 dBTP, nenhuma fala ouvida com detector de voz, maior salto nas emendas do som 1,11x o normal em volta,
+    mudança mediana por quadro 1,38 (2,5% da luz): mais lento que os episódios de ação, de propósito (a oração a 0,7x, o
+    Gólgota a 0,75x). Capa `renders/capa-fase-final.jpg` (quadro de 1,0 s); legenda em `LEGENDAS-FASE-FINAL.md`.
+  - O que a recriação mostra e o texto não diz: no jardim, quatro companheiros dormindo (Lc 22:45 não conta); os
+    soldados de saiote vermelho; Simão Cireneu de túnica marrom; no Gólgota, um oficial romano sozinho embaixo das
+    cruzes (Lc 23:47 fala do centurião, sem dizer onde ele estava).
 
 ## O que a série não faz
 O letreiro, a sigla e o HUD do jogo em que o pedido se inspira são marca e desenho de outra empresa: não entram aqui.
